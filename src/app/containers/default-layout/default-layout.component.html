@@ -1,0 +1,33 @@
+<app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/logo.svg', width: 89, height: 25, alt: 'CoreUI Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
+  [sidebarToggler]="'lg'" [asideMenuToggler]="false">
+  <ul class="nav navbar-nav d-md-down-none mr-auto">
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#">{{identity.name +" "+identity.surname}}</a>
+    </li>
+  </ul>
+  <a class="btn  btn-ghost-link active" [routerLink]="['/logout/1']" tooltip="Cerrar sesion" placement="left"><i
+      class="cui-account-logout icons font-2xl d-block"></i></a>
+
+</app-header>
+<div class="app-body">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
+    (minimizedChange)="toggleMinimize($event)">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <cui-breadcrumb></cui-breadcrumb>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+
+</div>
+<app-footer>
+  <span><a href="http://www.caliexpress.co/">CALIEXPRESS SAS</a> &copy; 2021 .</span>
+</app-footer>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>

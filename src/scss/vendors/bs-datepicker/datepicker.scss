@@ -1,0 +1,19 @@
+// Import variables
+@import '../../style';
+@import '../variables';
+
+.bs-datepicker {
+  background-color: $card-bg !important;
+  .bs-datepicker-body td {
+    color: $input-color !important;
+  }
+  .bs-datepicker-body {
+    border-color: lighten($border-color, 5%) !important;
+  }
+  .bs-datepicker-body table td.disabled span, .bs-datepicker-body table td span.disabled {
+    color: lighten($nav-link-disabled-color, 10%) !important;
+  }
+  .bs-datepicker-body table.days span.in-range:not(.select-start):before {
+    background-color: $body-bg !important;
+  }
+}
