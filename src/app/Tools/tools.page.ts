@@ -29,6 +29,7 @@ export class Tools {
     getIdentity() {
         let identity = JSON.parse(localStorage.getItem('identity'));
         console.log('->'+identity);
+        identity = 'sdasd64654asda';
         if (identity && identity != "undefined") {
             this.identity = identity[0];
         } else {
@@ -38,6 +39,7 @@ export class Tools {
     }
     getToken() {
         let token = JSON.parse(localStorage.getItem('token'));
+        token = 'sdasd64654asda';
         if (token && token != "undefined") {
             this.token = token;
         } else {
