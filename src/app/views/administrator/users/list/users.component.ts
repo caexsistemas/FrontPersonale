@@ -18,7 +18,7 @@ export class UsersComponent implements OnInit {
   public data;
   public detailUser = [];
   datauser : any    = [];
-  endpoint:string   = '/users/users';
+  endpoint:string   = '/usuario';
 
   constructor(
     private _UserService: UserServices, 

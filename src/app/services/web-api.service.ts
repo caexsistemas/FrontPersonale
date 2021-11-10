@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { global } from './global';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { global } from './global';
 export class WebApiService{
   // VARIABLES
   token:string = "";
-  urlKaysenBackend      = global.url;
+  urlKaysenBackend      = environment.url;
 
   // PERMISOS DE APLICACION
   permission = null;
@@ -33,6 +33,7 @@ export class WebApiService{
     params = this.processParams(params)
     let headers = this.setHeaders();
     url = this.urlKaysenBackend+url;
+    console.log('Parametro: '+params+ 'Headers: ' +headers+ 'Url: '+url);
     return this._http.get<any>(url,{headers, params});
   }
   
