@@ -10,15 +10,19 @@ import { global } from './global';
 
 export class UserServices {
        public url: string;
+       
     constructor(public _http: HttpClient,private _tools:Tools) {
         this.url = global.url;
+        console.log(this._tools.getToken());
     }
+   
+
     getAllUser():Observable<any>{
         let reqHeader = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': this._tools.getToken()
           })
-         return this._http.get(this.url+'User',{headers:reqHeader})
+         return this._http.get(this.url+'users/users',{headers:reqHeader})
 
     }
     getOneUser(id):Observable<any>{

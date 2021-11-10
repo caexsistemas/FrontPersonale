@@ -9,23 +9,21 @@
   </ul>
   <a class="btn  btn-ghost-link active" [routerLink]="['/logout/1']" tooltip="Cerrar sesion" placement="left"><i
       class="cui-account-logout icons font-2xl d-block"></i></a>
-
 </app-header>
+
 <div class="app-body">
   <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
     (minimizedChange)="toggleMinimize($event)">
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
-  <!-- Main content -->
+  
   <main class="main">
-    <!-- Breadcrumb -->
     <cui-breadcrumb></cui-breadcrumb>
     <div class="container-fluid">
       <router-outlet></router-outlet>
-    </div><!-- /.container-fluid -->
+    </div>
   </main>
-
 </div>
 <app-footer>
   <span><a href="http://www.caliexpress.co/">CALIEXPRESS SAS</a> &copy; 2021 .</span>
