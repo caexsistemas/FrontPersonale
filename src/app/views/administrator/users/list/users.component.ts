@@ -46,17 +46,21 @@ export class UsersComponent implements OnInit {
 }
 
 sendRequest(){
-  alert('Alerta');
   this.WebApiService.getRequest(this.endpoint,{
   })
   .subscribe(
-    data=>{
+    response=>{
+      console.log('1')
       // this.permissions = this.handler.getPermissions(this.component);
-      if(data.success){
+      if(response.success){
+        console.log(response.data);
         // this.generateTable(data.data);
-        this.datauser = data.data;
+        //this.datauser = data.data;
+        this.data = response.data
       }else{
         this.datauser = [];
+        console.log('Falle');
+
         // this.handler.handlerError(data);
       }
     },
