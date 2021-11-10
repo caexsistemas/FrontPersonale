@@ -16,6 +16,8 @@ import { from } from 'rxjs';
 
 import { UsersComponent } from './users/list/users.component';
 import { UserCreateComponent } from './users/create/user-create.component';
+import { RolesComponent } from './roles/list/roles.component';
+import { RolesCreateComponent } from './roles/create/roles-create.component';
 
 const routes: Routes = [
   {
@@ -49,7 +51,13 @@ const routes: Routes = [
           title: 'Modificar Usuario'
         }
       },
-     
+      {
+        path: 'roles',
+        component: RolesComponent,
+        data: {
+          title: 'Roles'
+        }
+      },
     ]
   }
 ];

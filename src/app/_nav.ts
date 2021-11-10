@@ -17,6 +17,7 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Administrador'
   },
+
   {
     name: 'Administrador',
     url: '/admin',
@@ -26,9 +27,15 @@ export const navItems: INavData[] = [
         name: 'Usuarios',
         url: '/admin/users',
         icon: 'icon-user'
+      },
+      {
+        name: 'Roles',
+        url: '/admin/roles',
+        icon: 'icon-user'
       }
     ]
   },
+
   {
     name: 'Gestion personal',
     url: '/management/gestion',
