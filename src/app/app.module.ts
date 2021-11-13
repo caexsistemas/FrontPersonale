@@ -1,15 +1,3 @@
-/**
-    * @description      : 
-    * @author           : Maricel Jimenez
-    * @group            : 
-    * @created          : 25/06/2021 - 16:01:36
-    * 
-    * MODIFICATION LOG
-    * - Version         : 1.0.0
-    * - Date            : 25/06/2021
-    * - Author          : Maricel Jimenez
-    * - Modification    : 
-**/
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -28,6 +16,9 @@ import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster'
 import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { DataTableModule } from 'angular2-datatable';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -87,6 +78,8 @@ const routes: Routes = [];
     DataTableModule,
     AngularFileUploaderModule,
     NgWizardModule,
+    MatDialogModule,
+    CommonModule,
     RouterModule.forRoot(routes)
     
   ],

@@ -3,6 +3,13 @@ import { Tools } from '../../../../Tools/tools.page';
 import { UserServices } from '../../../../services/user.service';
 import { WebApiService } from '../../../../services/web-api.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { UsersDialog } from '../../../../dialogs/users/users.dialog.component';
+import { HandlerAppService } from '../../../../services/handler-app.service';
+import { MatDialog } from '@angular/material/dialog';
+
+
+
+
 
 
 
@@ -18,17 +25,23 @@ export class UsersComponent implements OnInit {
   public data;
   public detailUser = [];
   datauser : any    = [];
+  loading:boolean = false;
   endpoint:string   = '/usuario';
+
+  permissions:any = null;
 
   constructor(
     private _UserService: UserServices, 
     private _tools: Tools,
-    private WebApiService:WebApiService){}
+    private WebApiService:WebApiService,
+    public handler:HandlerAppService,
+    public dialog:MatDialog){}
    
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
   ngOnInit(): void {
     this.sendRequest();
+    this.permissions = this.handler.permissionsApp;
     // this._UserService.getAllUser().subscribe(response => {
     //   this.data = response
     // },
@@ -54,14 +67,10 @@ sendRequest(){
       // this.permissions = this.handler.getPermissions(this.component);
       if(response.success){
         console.log(response.data);
-        // this.generateTable(data.data);
-        //this.datauser = data.data;
         this.data = response.data
       }else{
         this.datauser = [];
-        console.log('Falle');
-
-        // this.handler.handlerError(data);
+        this.handler.handlerError(response);
       }
     },
     error=>{
@@ -72,7 +81,36 @@ sendRequest(){
   );
 }
 
+option(action,codigo=null){
+  var dialogRef;
+  switch(action){
+    case 'create':
+      this.loading = true;
+      dialogRef = this.dialog.open(UsersDialog,{
+        data: {
+          window: 'create',
+          codigo
+        }
+      });
+      dialogRef.disableClose = true;
+      // LOADING
+      dialogRef.componentInstance.loading.subscribe(val=>{
+        this.loading = val;
+      });
+      // RELOAD
+      dialogRef.componentInstance.reload.subscribe(val=>{
+        this.sendRequest();
+      });
+    break;
+    // case 'active':
+    //   this.updateStatus('active');
+    // break;
+    // case 'inactive':
+    //   this.updateStatus('inactive');
+    // break;
+  }
 
+}
 
   showDetails(item) {
     this.detailUser = item;
