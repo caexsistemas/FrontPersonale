@@ -66,7 +66,6 @@ sendRequest(){
       console.log('1')
       // this.permissions = this.handler.getPermissions(this.component);
       if(response.success){
-        console.log(response.data);
         this.data = response.data
       }else{
         this.datauser = [];

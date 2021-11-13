@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -18,7 +19,9 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { DataTableModule } from 'angular2-datatable';
 
 import { MatDialogModule } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+
+
+
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -55,6 +58,11 @@ import { AngularFileUploaderModule } from "angular-file-uploader";
 import { NgWizardModule } from 'ng-wizard';
 import { Routes, RouterModule } from '@angular/router';
 
+// DIALOG
+
+import { UsersDialog } from './dialogs/users/users.dialog.component';
+
+
 const routes: Routes = []; 
 @NgModule({
   imports: [
@@ -88,13 +96,15 @@ const routes: Routes = [];
     APP_CONTAINERS,
     LoginComponent,
     OnlynumberDirective,
-    AdministratorComponent
+    AdministratorComponent,
+    UsersDialog
 
         
   ],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
+    
   }],
   exports: [
     RouterModule

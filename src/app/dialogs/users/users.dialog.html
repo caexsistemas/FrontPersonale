@@ -13,81 +13,63 @@
             <dd>{{caso.lp_fegreso}}</dd>
         </div>
     </mat-dialog-content>
-</div>
-
-<div *ngIf="view == 'create' || view == 'update'">
-    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
-
-    <h1 class="title-modal-bold" *ngIf="view == 'create' ">{{title}}</h1>
-    <h1 class="title-modal-bold" *ngIf="view == 'update'">{{caso.persona_nombre1}} {{caso.persona_apellido1}} -
-        {{caso.persona_tipodocumento}}:{{caso.persona_dni}}</h1>
-    <mat-dialog-content style="min-height: 210px;">
-        <div *ngIf="f['name'].errors.required">El nombre es requerido</div>
-        <h4 *ngIf="view == 'create'" class="subtitle-1">Información del Paciente</h4>
-        <form *ngIf="view == 'create'" [formGroup]="formPersona">
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="label-mat-form">Tipo DNI <span class="required">*</span></label>
-                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                        <mat-select formControlName="persona_tipodocumento" (selectionChange)="changeTypeDNI()">
-                            <mat-option value="">Seleccione..</mat-option>
-                            <mat-option [value]="tipo.codigo" *ngFor="let tipo of tipoDocumentos">{{tipo.nombre}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <label class="label-mat-form">Documento <span class="required">*</span></label>
-                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                        <input matInput formControlName="persona_dni" (keydown)="searchPacient($event)"
-                            [mask]="maskDNI">
-                        <span class="material-icons input-icons pointer" (click)="searchPacientClick()">search</span>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <label class="label-mat-form">1er. Nombre <span class="required">*</span></label>
-                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                        <input matInput formControlName="persona_nombre1"
-                            oninput="javascript:this.value=this.value.toUpperCase();">
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <label class="label-mat-form">2do. Nombre </label>
-                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                        <input matInput formControlName="persona_nombre2"
-                            oninput="javascript:this.value=this.value.toUpperCase();">
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <label class="label-mat-form">1er. Apellido <span class="required">*</span></label>
-                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                        <input matInput formControlName="persona_apellido1"
-                            oninput="javascript:this.value=this.value.toUpperCase();">
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <label class="label-mat-form">2do. Apellido </label>
-                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                        <input matInput formControlName="persona_apellido2"
-                            oninput="javascript:this.value=this.value.toUpperCase();">
-                    </mat-form-field>
-                </div>
-            </div>
-        </form>
-
-    </mat-dialog-content>
-    <div mat-dialog-actions>
-        <div class="text-center col-12">
-            <button *ngIf="view == 'update'" mat-button class="btn btn-green" style="padding:8px 10px;"
-                (click)="onSubmitUpdate()">Guardar</button>
-            <button *ngIf="view == 'create'" mat-button class="btn btn-green" style="padding:8px 10px;"
-                (click)="onSubmit()">Guardar</button>
-            <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
-        </div>
-    </div>
 </div> -->
 
-<ng-template [ngIf]="view == 'create'"><div>Content to render when condition is
-    true.</div></ng-template>
+<div class="card mt-6">
+    <div *ngIf="view == 'create' || view == 'update'">
+        <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    
+        <div class="card-header">
+            <p class="title-modal-bold" *ngIf="view == 'create' ">{{title}}</p>
+            <p class="title-modal-bold" *ngIf="view == 'update'">Editar</p>
+        </div>
+    
+        <div class="card-body">
+            <mat-dialog-content style="min-height: 210px;">
+                <form *ngIf="view == 'create'" [formGroup]="formPersona">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="col-form-label" for="name">Nombre </label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input class="form-control" id="name" type="text" formControlName="name"
+                                    placeholder="Nombre completo" autocomplete="given-name" required autofocus
+                                />
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <label class="col-form-label">Nombre<span class="required">*</span></label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input matInput formControlName="persona_nombre1"
+                                    oninput="javascript:this.value=this.value.toUpperCase();">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <label class="label-mat-form">Apellido </label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input matInput formControlName="persona_nombre2"
+                                    oninput="javascript:this.value=this.value.toUpperCase();">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+        
+            </mat-dialog-content>
+        </div>
+    
+       
+    
+        <!-- <div mat-dialog-actions>
+            <div class="text-center col-12">
+                <button *ngIf="view == 'update'" mat-button class="btn btn-green" style="padding:8px 10px;"
+                    (click)="onSubmitUpdate()">Guardar</button>
+                <button *ngIf="view == 'create'" mat-button class="btn btn-green" style="padding:8px 10px;"
+                    (click)="onSubmit()">Guardar</button>
+                <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+            </div>
+        </div> -->
+    </div>
+</div>
 
-    <div *ngIf="view == 'create'">JH</div>
+

@@ -1,11 +1,12 @@
 import { MatDialog,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter,OnInit } from '@angular/core';
 import { WebApiService } from '../../services/web-api.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 // import { HandlerAppService } from '../../services/handler-app.service';
 import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -16,9 +17,10 @@ import { CommonModule } from '@angular/common';
     templateUrl: 'users.dialog.html',
 })
 
-export class UsersDialog {
+export class UsersDialog  {
     //variables
     view: string    = null;      // me indica la vista a mostrar
+    vieww: string    = null;      // me indica la vista a mostrar
     caso: any       = [];       // data del complejo que estoy detallando.
     title: string   = null;
     id: number      = null;     // registro a consultar.
@@ -90,17 +92,17 @@ export class UsersDialog {
         this.id = null;
         this.name = null;
         this.dni = null;
-        console.log('Vista'+this.view);
+        this.vieww == 'crear';
         switch (this.view) {
            case 'create':
                 this.initForms();
-                this.title = "Crear caso de lepra ";
+                this.title = "Crear usuario ";
                 break;
         }
     }
 
     initForms() {
-       this.getDataInit();
+      // this.getDataInit();
         this.formPersona = new FormGroup({
             persona_tipodocumento:              new FormControl(""),
             persona_dni:                        new FormControl("", Validators.maxLength(12)),
@@ -114,63 +116,11 @@ export class UsersDialog {
             persona_telefono2:                  new FormControl(""),
             persona_fechanacimiento:            new FormControl(""),
             persona_edad:                       new FormControl(""),
+            name:                               new FormControl("")
         });
-
-        this.formPaciente = new FormGroup({
-
-            paciente_farmacorresistencia:       new FormControl(""),
-            paciente_comorbilidad1:             new FormControl(""),
-            paciente_comorbilidad2:             new FormControl(""),
-            paciente_comorbilidad3:             new FormControl(""),
-            paciente_estado:                    new FormControl(""),
-            paciente_creadopor:                 new FormControl(""),
-            paciente_fcreacion:                 new FormControl(""),
-            paciente_actualizadopor:            new FormControl(""),
-            paciente_factualizacion:            new FormControl("")
-
-        });
-        this.formCaso = new FormGroup({
-            lp_trimestre:                       new FormControl(""),
-            departamento_codigo:                new FormControl(""),
-            ciudad_codigo:                      new FormControl(""),
-            administradora_id:                  new FormControl(""), // este remplaza eapb
-            paciente_direccion:                 new FormControl(""),
-            paciente_etnia:                     new FormControl(""),
-            paciente_puebloindigena:            new FormControl(""),
-            paciente_grupopoblacion:            new FormControl(""),
-            paciente_barrio:                    new FormControl(""),
-            paciente_comuna:                    new FormControl(""),
-            paciente_regimenafiliacion:         new FormControl(""),
-            lp_instituciondiagnostico:          new FormControl(""),
-            paciente_programaporteccionsocial:  new FormControl(""),
-            institucion_id:                     new FormControl(""),
-            paciente_id:                        new FormControl(""),
-            lp_finiciosintomas:                 new FormControl(""),
-            lp_finiciotratamiento:              new FormControl(""),
-            lp_fegreso:                         new FormControl(""),
-            lp_observaciones:                   new FormControl(""),
-            lp_clasificacion:                   new FormControl(""),
-            lp_condicioningreso:                new FormControl(""),
-            lp_resultadobaciloscopia:           new FormControl(""),
-            lp_biopsiaingreso:                  new FormControl(""),
-            lp_resultadobiopsia:                new FormControl(""),
-            lp_numerolesiones:                  new FormControl(""),
-            lp_gradomaximodiscapaciodad:        new FormControl(""),
-            lp_baciloscopiacontrol:             new FormControl(""),
-            lp_condicionegreso:                 new FormControl(""),
-            lp_blisteres:                       new FormControl(""),
-            lp_mesestto:                        new FormControl(""),
-            lp_baciloscopiaegreso:              new FormControl(""),
-            lp_gradodiscapacidadegreso:         new FormControl(""),
-            lp_annodx:                          new FormControl(""),
-            lp_diasretrasodx:                   new FormControl(""),
-            lp_reportesivigila:                 new FormControl(""),
-
-
-        });
-
-
     }
+
+
     dateKeys(event) {
         return false;
     }
