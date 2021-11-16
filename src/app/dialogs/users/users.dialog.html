@@ -52,74 +52,56 @@
         </div>
 
         <div class="card-body">
-            <mat-dialog-content style="min-height: 300px;min-width: 500px;">
+            <mat-dialog-content>
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formUsuario">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="name">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Apellidos</mat-label>
+                                <input matInput formControlName="surname">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Número de identificación</mat-label>
+                                <input matInput formControlName="username">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-sm-4">
-                            <label class="col-form-label" for="name">Nombre </label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="name" type="text" formControlName="name"
-                                    placeholder="Nombre completo" autocomplete="given-name" required autofocus />
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Correo</mat-label>
+                                <input matInput placeholder="caex@example.com" formControlName="email" required>
+                                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="col-form-label">Apellidos<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="surname" type="text" formControlName="surname"
-                                    placeholder="Apellidos" autocomplete="given-name" required autofocus />
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Seleccione un rol</mat-label>
+                                <mat-select formControlName="role">
+                                    <mat-option value="132">Administrador</mat-option>
+                                    <mat-option value="133">Coordinador</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="col-form-label">Correo<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="email" type="text" formControlName="email"
-                                    placeholder="Correo" autocomplete="given-name" required autofocus />
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Teléfono</mat-label>
+                                <input matInput formControlName="phone">
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="col-form-label">Rol<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="role" type="text" formControlName="role"
-                                    placeholder="Rol" autocomplete="given-name" required autofocus />
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="col-form-label">Teléfono<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="phone" type="text" formControlName="phone"
-                                    placeholder="Teléfono" autocomplete="given-name" required autofocus />
-                            </mat-form-field>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="col-form-label">Usuario<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="username" type="text" formControlName="username"
-                                    placeholder="Usuario" autocomplete="given-name" required autofocus />
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="col-form-label">Contraseña<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="password" type="text" formControlName="password"
-                                    placeholder="Contraseña" autocomplete="given-name" required autofocus />
-                            </mat-form-field>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="col-form-label">Confirmar contraseña<span class="required">*</span></label>
-                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input class="form-control" id="email" type="text" formControlName="email"
-                                    placeholder="Confirmar contraseña" autocomplete="given-name" required autofocus />
-                            </mat-form-field>
-                        </div>
+                        
                     </div>
                 </form>
 

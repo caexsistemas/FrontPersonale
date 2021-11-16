@@ -15,13 +15,12 @@ import { OnlynumberDirective } from './Tools/onlynumber.directive';
 
 import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster';
 import { AlertModule } from 'ngx-bootstrap/alert';
-
 import { DataTableModule } from 'angular2-datatable';
 
 import { MatDialogModule } from '@angular/material/dialog';
-
-
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -29,26 +28,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 import { AppComponent } from './app.component';
-
-// Import containers
 import { DefaultLayoutComponent } from './containers';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
 
-import {
-  AppAsideModule,
-  AppBreadcrumbModule,
-  AppHeaderModule,
-  AppFooterModule,
-  AppSidebarModule,
-} from '@coreui/angular';
-
-// Import routing module
+import { AppAsideModule,AppBreadcrumbModule,AppHeaderModule,AppFooterModule,AppSidebarModule,} from '@coreui/angular';
 import { AppRoutingModule } from './app.routing';
-
-// Import 3rd party components
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
@@ -87,6 +74,9 @@ const routes: Routes = [];
     AngularFileUploaderModule,
     NgWizardModule,
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
     CommonModule,
     RouterModule.forRoot(routes)
     
