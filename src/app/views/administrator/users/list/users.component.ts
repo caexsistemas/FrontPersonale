@@ -83,6 +83,24 @@ sendRequest(){
 option(action,codigo=null){
   var dialogRef;
   switch(action){
+    case 'view':
+      this.loading = true;
+      dialogRef = this.dialog.open(UsersDialog,{
+        data: {
+          window: 'view',
+          codigo
+        }
+      });
+      dialogRef.disableClose = true;
+      // LOADING
+      dialogRef.componentInstance.loading.subscribe(val=>{
+        this.loading = val;
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log(result);
+      });
+    break;
     case 'create':
       this.loading = true;
       dialogRef = this.dialog.open(UsersDialog,{
@@ -101,6 +119,24 @@ option(action,codigo=null){
         this.sendRequest();
       });
     break;
+    case 'update':
+        this.loading = true;
+        dialogRef = this.dialog.open(UsersDialog,{
+          data: {
+            window: 'update',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+      break;
     // case 'active':
     //   this.updateStatus('active');
     // break;

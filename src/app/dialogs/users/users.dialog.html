@@ -1,75 +1,141 @@
-<!-- <div *ngIf="view == 'view'">
-    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
-    <h1 class="title-modal-bold">Caso de {{caso.persona_nombre1}} {{caso.persona_apellido1}} -
-        {{caso.persona_tipodocumento}}:{{caso.persona_dni}}</h1>
-    <mat-dialog-content style="min-height: 210px;">
-        <div class="col-md-6">
-            <dt>CONDICIÓN DE EGRESO</dt>
-            <dd>{{caso.lp_condicionegreso}}</dd>
+<div *ngIf="view == 'view'">
+    <div class="modal-header">
+        <h5 class="modal-title">Información de usuario</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <mat-dialog-content style="min-width: 500px;">
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <dt>Nombres</dt>
+                <dd>{{usuario.name}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Apellidos</dt>
+                <dd>{{usuario.surname}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Usuario</dt>
+                <dd>{{usuario.username}}</dd>
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <dt>FECHA DE EGRESO</dt>
-            <dd>{{caso.lp_fegreso}}</dd>
+        <div class="row">
+            <div class="col-md-8">
+                <dt>Correo</dt>
+                <dd>{{usuario.email}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Telefono</dt>
+                <dd>{{usuario.phone}}</dd>
+            </div>
         </div>
     </mat-dialog-content>
-</div> -->
+</div>
 
 <div class="card mt-6">
     <div *ngIf="view == 'create' || view == 'update'">
-        <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
-    
         <div class="card-header">
-            <p class="title-modal-bold" *ngIf="view == 'create' ">{{title}}</p>
-            <p class="title-modal-bold" *ngIf="view == 'update'">Editar</p>
+            <h5 class="modal-title">
+                <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'update'">Editar</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
         </div>
-    
+
         <div class="card-body">
-            <mat-dialog-content style="min-height: 210px;">
-                <form *ngIf="view == 'create'" [formGroup]="formPersona">
+            <mat-dialog-content style="min-height: 300px;min-width: 500px;">
+                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formUsuario">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label class="col-form-label" for="name">Nombre </label>
                             <mat-form-field class="input-full-width col-md-12" appearance="outline">
                                 <input class="form-control" id="name" type="text" formControlName="name"
-                                    placeholder="Nombre completo" autocomplete="given-name" required autofocus
-                                />
+                                    placeholder="Nombre completo" autocomplete="given-name" required autofocus />
                             </mat-form-field>
                         </div>
-        
-                        <div class="col-md-6">
-                            <label class="col-form-label">Nombre<span class="required">*</span></label>
+
+                        <div class="col-md-4">
+                            <label class="col-form-label">Apellidos<span class="required">*</span></label>
                             <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input matInput formControlName="persona_nombre1"
-                                    oninput="javascript:this.value=this.value.toUpperCase();">
+                                <input class="form-control" id="surname" type="text" formControlName="surname"
+                                    placeholder="Apellidos" autocomplete="given-name" required autofocus />
                             </mat-form-field>
                         </div>
-        
-                        <div class="col-md-6">
-                            <label class="label-mat-form">Apellido </label>
+
+                        <div class="col-md-4">
+                            <label class="col-form-label">Correo<span class="required">*</span></label>
                             <mat-form-field class="input-full-width col-md-12" appearance="outline">
-                                <input matInput formControlName="persona_nombre2"
-                                    oninput="javascript:this.value=this.value.toUpperCase();">
+                                <input class="form-control" id="email" type="text" formControlName="email"
+                                    placeholder="Correo" autocomplete="given-name" required autofocus />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="col-form-label">Rol<span class="required">*</span></label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input class="form-control" id="role" type="text" formControlName="role"
+                                    placeholder="Rol" autocomplete="given-name" required autofocus />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-form-label">Teléfono<span class="required">*</span></label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input class="form-control" id="phone" type="text" formControlName="phone"
+                                    placeholder="Teléfono" autocomplete="given-name" required autofocus />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="col-form-label">Usuario<span class="required">*</span></label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input class="form-control" id="username" type="text" formControlName="username"
+                                    placeholder="Usuario" autocomplete="given-name" required autofocus />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="col-form-label">Contraseña<span class="required">*</span></label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input class="form-control" id="password" type="text" formControlName="password"
+                                    placeholder="Contraseña" autocomplete="given-name" required autofocus />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="col-form-label">Confirmar contraseña<span class="required">*</span></label>
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <input class="form-control" id="email" type="text" formControlName="email"
+                                    placeholder="Confirmar contraseña" autocomplete="given-name" required autofocus />
                             </mat-form-field>
                         </div>
                     </div>
                 </form>
-        
+
             </mat-dialog-content>
-        </div>
-    
-       
-    
-        <!-- <div mat-dialog-actions>
-            <div class="text-center col-12">
-                <button *ngIf="view == 'update'" mat-button class="btn btn-green" style="padding:8px 10px;"
-                    (click)="onSubmitUpdate()">Guardar</button>
-                <button *ngIf="view == 'create'" mat-button class="btn btn-green" style="padding:8px 10px;"
-                    (click)="onSubmit()">Guardar</button>
-                <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+            <div mat-dialog-actions>
+                <div class="text-center col-12">
+                    <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+                        (click)="onSubmitUpdate()">Actualizar</button>
+
+                    <button *ngIf="view == 'create'" mat-button class="btn btn-success"
+                        (click)="onSubmit()">Guardar</button>
+
+                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                </div>
             </div>
-        </div> -->
+        </div>
+
     </div>
 </div>
-
-

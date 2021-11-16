@@ -1,111 +1,119 @@
 <div class="animated fadeIn">
-    <div class="card">
-      <div class="card-header">
-        <h1>Usuarios</h1>
-      </div>
-      <div class="card-body">
-        <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right">
-          <a routerLink="/admin/users-create" class="btn btn-primary">
-            <i class="fa fa-plus"></i> Crear Usuario
-          </a>
-          <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
-            <span class="material-icons">add</span>
+  <div class="card">
+    <div class="card-header">
+      <!-- <h1>Usuarios</h1> -->
+    </div>
+    <div class="card-body">
+      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right">
+        <!-- <a routerLink="/admin/users-create" class="btn btn-primary">
+          <i class="fa fa-plus"></i> Crear Usuario
+        </a> -->
+        <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
+          <i class="fa fa-plus"></i> Crear Usuario
         </button>
-        </div>
-        <div class="row mb-3 float-left">
-          <div class="col-md-12">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-search"></i></span>
-              </div>
-              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Buscar por nombre"/>
+      </div>
+      <div class="row mb-3 float-left">
+        <div class="col-md-12">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-search"></i></span>
             </div>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Buscar por nombre" />
           </div>
         </div>
-        <table class="table table-striped table-hover table-responsive-lg" [mfData]="data | datafilter : filterQuery" #mf="mfDataTable"  [mfRowsOnPage]="5">
-          <thead>
-            <tr>
-              <th style="width: 20%">
-                <mfDefaultSorter by="name" #sortName>
-                  Nombre
-                  <span ng-if="sortName.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                  <span ng-if="sortName.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
-                </mfDefaultSorter>
-              </th>
-              <th style="width: 35%">
-                <mfDefaultSorter by="email" #sortEmail>
-                  Correo Electronico
-                  <span ng-if="sortEmail.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                  <span ng-if="sortEmail.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
-                </mfDefaultSorter>
-              </th>
-              <th >
-                <mfDefaultSorter by="username" #sortUsername>
-                  Usuario de sesion
-                  <span ng-if="sortUsername.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                  <span ng-if="sortUsername.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
-                </mfDefaultSorter>
-              </th>
-              <th>
-                <mfDefaultSorter by="phone" #sortPhone>
-                  Telefono
-                  <span ng-if="sortPhone.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                  <span ng-if="sortPhone.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
-                </mfDefaultSorter>
-              </th>
-              <th>
-                  Acciones
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of mf.data">
-                <td>{{item.name}} {{item.surname}}</td>
-                <td>{{item.email}}</td>
-                <td>{{item.username}}</td>
-                <td>{{item.phone}}</td>
-                <td class="row">
-                    <div class="col-md-4">
-                      <a [routerLink]="[ '/admin/edit', item.idUser]"  class="btn btn-ghost-secondary"><i class="fa fa-edit fa-lg"></i></a>
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" class="btn  btn-ghost-secondary" (click)="showDetails(item)"><i class="fa fa-eye fa-lg"></i></button>
-                    </div>
-                </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="5">
-                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
       </div>
+      <table class="table table-striped table-hover table-responsive-lg" [mfData]="data | datafilter : filterQuery"
+        #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+          <tr>
+            <th>
+              Ver
+            </th>
+            <th>
+              <mfDefaultSorter by="name" #sortName>
+                Nombre
+                <span ng-if="sortName.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortName.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="email" #sortEmail>
+                Correo Electronico
+                <span ng-if="sortEmail.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortEmail.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="username" #sortUsername>
+                Usuario de sesion
+                <span ng-if="sortUsername.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortUsername.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="phone" #sortPhone>
+                Telefono
+                <span ng-if="sortPhone.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortPhone.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>
+              <div class="col-md-4">
+                <button type="button" class="btn  btn-ghost-secondary" (click)="option('view',item.idUser)">
+                  <i class="fa fa-eye fa-lg"></i>
+                </button>
+              </div>
+            </td>
+            <td>{{item.name}} {{item.surname}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.username}}</td>
+            <td>{{item.phone}}</td>
+            <td class="row">
+              <button class="btn btn-ghost-secondary" (click)="option('update',item.idUser)" title="Editar">
+                <i class="fa fa-edit fa-lg"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
+</div>
 
-  <!-- Modal -->
-  <div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-info" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Detalle usuario {{detailUser.name +' '+ detailUser.surname}}</h4>
-          <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Correo electronico</strong> {{detailUser.email}}</p>
-          <p><strong>Teléfono </strong> {{detailUser.phone}}</p>
-          <p><strong>Ultima vez que inicio sesion </strong> {{detailUser.lastLogin}}</p>
-          <p><strong>Rol </strong> {{detailUser.NameRole}}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Cerrar</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  
+<!-- Modal -->
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Detalle usuario {{detailUser.name +' '+ detailUser.surname}}</h4>
+        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Correo electronico</strong> {{detailUser.email}}</p>
+        <p><strong>Teléfono </strong> {{detailUser.phone}}</p>
+        <p><strong>Ultima vez que inicio sesion </strong> {{detailUser.lastLogin}}</p>
+        <p><strong>Rol </strong> {{detailUser.NameRole}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
