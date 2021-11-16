@@ -12,6 +12,10 @@ import { Tools } from '../../Tools/tools.page';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ManagementService } from '../../services/management.service';
 import { global } from '../../services/global';
+import { WebApiService } from '../../services/web-api.service';
+import { HandlerAppService } from '../../services/handler-app.service';
+
+
 @Component({
   selector: 'app-management',
   templateUrl: './management.component.html',
@@ -66,14 +70,49 @@ export class ManagementComponent implements OnInit {
   };
 
 
-  constructor(private _managementService: ManagementService, private _tools: Tools) { }
+  endpoint:string   = '/personal';
+
+  permissions:any = null;
+  datapersonale : any    = [];
+
+  constructor(private _managementService: ManagementService, 
+              private _tools: Tools,
+              private WebApiService:WebApiService,
+              public handler:HandlerAppService,) { }
+
+
+
+
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
   @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
   ngOnInit(): void {
-    this.getAllPersonal()
+    this.sendRequest();
+    this.permissions = this.handler.permissionsApp;
+    //this.getAllPersonal();
 
   }
 
+
+  sendRequest(){
+    this.WebApiService.getRequest(this.endpoint,{
+    })
+    .subscribe(
+      response=>{
+        // this.permissions = this.handler.getPermissions(this.component);
+        if(response.success){
+          this.data = response.data
+        }else{
+          this.datapersonale = [];
+          this.handler.handlerError(response);
+        }
+      },
+      error=>{
+        // this.loading = false;
+        // this.permissions = this.handler.getPermissions(this.component);
+        // this.handler.showError();
+      }
+    );
+  }
 
   getAllPersonal() {
     this._managementService.getAllPersonal().subscribe(response => {
