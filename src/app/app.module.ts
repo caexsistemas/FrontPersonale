@@ -48,6 +48,7 @@ import { Routes, RouterModule } from '@angular/router';
 // DIALOG
 
 import { UsersDialog } from './dialogs/users/users.dialog.component';
+import { ManagementDialog } from './dialogs/management/management.dialog.component';
 
 
 const routes: Routes = []; 
@@ -87,7 +88,8 @@ const routes: Routes = [];
     LoginComponent,
     OnlynumberDirective,
     AdministratorComponent,
-    UsersDialog
+    UsersDialog,
+    ManagementDialog
 
         
   ],

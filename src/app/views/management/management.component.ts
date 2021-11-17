@@ -1,12 +1,5 @@
-/**
-    * @description      : 
-    * @author           : Maricel Jimenez
-    * @group            : 
-    * @created          : 09/08/2021 - 14:52:03
-    * 
-    
-**/
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { Tools } from '../../Tools/tools.page';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -14,6 +7,14 @@ import { ManagementService } from '../../services/management.service';
 import { global } from '../../services/global';
 import { WebApiService } from '../../services/web-api.service';
 import { HandlerAppService } from '../../services/handler-app.service';
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { ManagementDialog } from '../../dialogs/management/management.dialog.component';
+
 
 
 @Component({
@@ -74,17 +75,25 @@ export class ManagementComponent implements OnInit {
 
   permissions:any = null;
   datapersonale : any    = [];
+  loading:boolean           = false;
+
+  displayedColumns:any  = [];
+  dataSource:any        = [];
+
+  personaleData : any     = [];
+
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+
+  @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
+  @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
 
   constructor(private _managementService: ManagementService, 
               private _tools: Tools,
               private WebApiService:WebApiService,
-              public handler:HandlerAppService,) { }
-
-
-
-
-  @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
-  @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
+              public handler:HandlerAppService,
+              public dialog: MatDialog) { }
+  
   ngOnInit(): void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
@@ -100,7 +109,9 @@ export class ManagementComponent implements OnInit {
       response=>{
         // this.permissions = this.handler.getPermissions(this.component);
         if(response.success){
-          this.data = response.data
+          this.generateTable(response.data);
+          this.personaleData = response.data
+          this.loading = false;
         }else{
           this.datapersonale = [];
           this.handler.handlerError(response);
@@ -113,6 +124,97 @@ export class ManagementComponent implements OnInit {
       }
     );
   }
+
+  generateTable(data){
+    this.displayedColumns = [
+      'view', 
+      'nombre',
+      'documento',
+      'correo',
+      'telefono',
+      'actions'
+    ];
+    this.dataSource           = new MatTableDataSource(data);
+    this.dataSource.sort      = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if(document.contains(document.querySelector('search-input-table'))){
+      search = document.querySelector('.search-input-table');
+      search.value = "";
+    }
+  }
+
+  applyFilter(search){
+    this.dataSource.filter = search.trim().toLowerCase();
+  }
+
+  option(action,codigo=null){
+    var dialogRef;
+    switch(action){
+      case 'view':
+        this.loading = true;
+        dialogRef = this.dialog.open(ManagementDialog,{
+          data: {
+            window: 'view',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+        });
+      break;
+      case 'create':
+        this.loading = true;
+        dialogRef = this.dialog.open(ManagementDialog,{
+          data: {
+            window: 'create',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+      break;
+      case 'update':
+          this.loading = true;
+          dialogRef = this.dialog.open(ManagementDialog,{
+            data: {
+              window: 'update',
+              codigo
+            }
+          });
+          dialogRef.disableClose = true;
+          // LOADING
+          dialogRef.componentInstance.loading.subscribe(val=>{
+            this.loading = val;
+          });
+          // RELOAD
+          dialogRef.componentInstance.reload.subscribe(val=>{
+            this.sendRequest();
+          });
+        break;
+      // case 'active':
+      //   this.updateStatus('active');
+      // break;
+      // case 'inactive':
+      //   this.updateStatus('inactive');
+      // break;
+    }
+  
+  }
+  
 
   getAllPersonal() {
     this._managementService.getAllPersonal().subscribe(response => {

@@ -1,0 +1,123 @@
+<div *ngIf="view == 'view'">
+    <div class="modal-header">
+        <h5 class="modal-title">Información de usuario</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <mat-dialog-content style="min-width: 500px;">
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <dt>Nombres</dt>
+                <dd>{{usuario.name}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Apellidos</dt>
+                <dd>{{usuario.surname}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Usuario</dt>
+                <dd>{{usuario.username}}</dd>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <dt>Correo</dt>
+                <dd>{{usuario.email}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Telefono</dt>
+                <dd>{{usuario.phone}}</dd>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>
+
+<div class="card mt-6">
+    <div *ngIf="view == 'create' || view == 'update'">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'update'">Editar</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <mat-dialog-content>
+                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formUsuario">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="name">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Apellidos</mat-label>
+                                <input matInput formControlName="surname">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Número de identificación</mat-label>
+                                <input matInput formControlName="username">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Correo</mat-label>
+                                <input matInput placeholder="caex@example.com" formControlName="email" required>
+                                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Seleccione un rol</mat-label>
+                                <mat-select formControlName="role">
+                                    <mat-option value="132">Administrador</mat-option>
+                                    <mat-option value="133">Coordinador</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Teléfono</mat-label>
+                                <input matInput formControlName="phone">
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+                </form>
+
+            </mat-dialog-content>
+            <div mat-dialog-actions>
+                <div class="text-center col-12">
+                    <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+                        (click)="onSubmitUpdate()">Actualizar</button>
+
+                    <button *ngIf="view == 'create'" mat-button class="btn btn-success"
+                        (click)="onSubmit()">Guardar</button>
+
+                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
