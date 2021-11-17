@@ -65,7 +65,6 @@ export class UserCreateComponent implements OnInit {
   get f() { return this.userForm.controls; }
 
   onSubmit() {
-    console.log('Hola');
     this.submitted = true;
     if (!this.idUserParams) {
       this.saveUser()

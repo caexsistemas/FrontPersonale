@@ -17,6 +17,14 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { ManagementCreateComponent } from './create/management-create.component';
 
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule }  from '@angular/material/input';
+
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
 };
@@ -31,7 +39,15 @@ const ngWizardConfig: NgWizardConfig = {
     TabsModule,
     AngularFileUploaderModule,
     FormsModule,
+    MatTableModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig)
   ],

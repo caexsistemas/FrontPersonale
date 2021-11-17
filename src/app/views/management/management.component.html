@@ -1,143 +1,90 @@
-<div class="animated fadeIn">
+<div class="content">
     <div class="card">
         <div class="card-header">
-            <h1>Gestion de personal</h1>
+            Gestion personal
         </div>
-        <div class="card-body">
-            <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right">              
+        <div class="content-table">
+            <div class="toolbar-table" *ngIf="permissions != null">
 
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-primary ">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="successModal.show()" >Importar Archivo</a></li>
-                        <li role="menuitem"><a class="dropdown-item" routerLink="/management/gestion-create">Ingresar nuevo registro</a></li>                        
-                    </ul>
-                </div>
-            </div>
-            <div class="row mb-4 float-left">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="number" id="input2-group2" name="input2-group2" class="form-control"
-                            placeholder="Numero identificación" [(ngModel)]="filters.searchId">
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="cleanfilterId()"><i
-                                    class="fa fa-eraser"></i></button>
-                            <button type="button" class="btn btn-primary" (click)="searchData()"><i
-                                    class="fa fa-search"></i></button>
-                        </span>
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">              
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-primary ">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="successModal.show()" >Importar Archivo</a></li>
+                            <li role="menuitem"><a class="dropdown-item" routerLink="/management/gestion-create">Ingresar nuevo registro</a></li>                        
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <div class="row mb-4 float-left ml-2">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="text" id="input2-group2" name="input2-group2" class="form-control"
-                            placeholder="Nombre" [(ngModel)]="filters.searchName">
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="cleanfilterName()"><i
-                                    class="fa fa-eraser"></i></button>
-                            <button type="button" class="btn btn-primary" (click)="searchData()"><i
-                                    class="fa fa-search"></i></button>
-                        </span>
-                    </div>
+
+                <div class="container">
+                    <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>Buscar..</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                    </mat-form-field>
                 </div>
             </div>
-            <table class="table table-striped table-hover table-responsive-lg" [mfData]="data" #mf="mfDataTable"
-                [mfRowsOnPage]="5">
-                <thead>
-                    <tr>
-                        <th style="width: 20%">
-                            <mfDefaultSorter by="name" #sortName>
-                                Nombre
-                                <span ng-if="sortName.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                                <span ng-if="sortName.isSortedByMeDesc" class="cui-arrow-bottom"
-                                    aria-hidden="true"></span>
-                            </mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="email" #sortEmail>
-                                Correo Electronico
-                                <span ng-if="sortEmail.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                                <span ng-if="sortEmail.isSortedByMeDesc" class="cui-arrow-bottom"
-                                    aria-hidden="true"></span>
-                            </mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="tipodocument" #sortTypeDocument>
-                                Tipo documento
-                                <span ng-if="sortTypeDocument.isSortedByMeAsc" class="cui-arrow-top"
-                                    aria-hidden="true"></span>
-                                <span ng-if="sortTypeDocument.isSortedByMeDesc" class="cui-arrow-bottom"
-                                    aria-hidden="true"></span>
-                            </mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="document" #sortDocument>
-                                Numero documento
-                                <span ng-if="sortDocument.isSortedByMeAsc" class="cui-arrow-top"
-                                    aria-hidden="true"></span>
-                                <span ng-if="sortDocument.isSortedByMeDesc" class="cui-arrow-bottom"
-                                    aria-hidden="true"></span>
-                            </mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="phone" #sortPhone>
-                                Telefono
-                                <span ng-if="sortPhone.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
-                                <span ng-if="sortPhone.isSortedByMeDesc" class="cui-arrow-bottom"
-                                    aria-hidden="true"></span>
-                            </mfDefaultSorter>
-                        </th>
-                        <th>
-                            Estado
-                        </th>
-                        <th>
-                            Acciones
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of mf.data">
-                        <td>{{item.name}}</td>
-                        <td>{{item.email}}</td>
-                        <td>{{item.Tdocument}}</td>
-                        <td>{{item.document}}</td>
-                        <td>{{item.phone}}</td>
-                        <td> <span
-                                class="badge badge-{{item.status=='Activo'?'success':'danger'}}">{{item.status}}</span>
+
+            <div class="section-table first-action">
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="personaleData.length > 0">
+                <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
+
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" (click)="option('view',element.idPersonale)"
+                                title="Ver">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </button>
                         </td>
-                        <td class="row">
-                            <div class="col-md-4">
-                                <a [routerLink]="[ '/admin/edit', item.idUser]"
-                                    class="btn btn-ghost-secondary disabled"><i class="fa fa-edit fa-lg"></i></a>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn  btn-ghost-secondary" (click)="showDetails(item)"><i
-                                        class="fa fa-eye fa-lg"></i></button>
-                            </div>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre completo</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="documento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento</th>
+                        <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="correo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="telefono">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
+                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" (click)="option('update',element.idPersonale)"
+                                title="Editar">
+                                <i class="fa fa-edit fa-lg"></i>
+                            </button>
                         </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="5">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="personaleData.length == 0">
+            <h4 class="no-records">No hay registros...</h4>
+          </div>
         </div>
     </div>
 </div>
-<!-- Modal -->
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>
+
+
 <div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-info modal-lg" role="document">
@@ -476,9 +423,490 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Cerrar</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+</div>
+
+
+<!-- <div class="animated fadeIn">
+    <div class="card">
+        <div class="card-header">
+            <h1>Gestion de personal</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right">              
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-primary ">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="successModal.show()" >Importar Archivo</a></li>
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/management/gestion-create">Ingresar nuevo registro</a></li>                        
+                    </ul>
+                </div>
+            </div>
+            <div class="row mb-4 float-left">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        </div>
+                        <input type="number" id="input2-group2" name="input2-group2" class="form-control"
+                            placeholder="Numero identificación" [(ngModel)]="filters.searchId">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="cleanfilterId()"><i
+                                    class="fa fa-eraser"></i></button>
+                            <button type="button" class="btn btn-primary" (click)="searchData()"><i
+                                    class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4 float-left ml-2">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        </div>
+                        <input type="text" id="input2-group2" name="input2-group2" class="form-control"
+                            placeholder="Nombre" [(ngModel)]="filters.searchName">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="cleanfilterName()"><i
+                                    class="fa fa-eraser"></i></button>
+                            <button type="button" class="btn btn-primary" (click)="searchData()"><i
+                                    class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-responsive-lg" [mfData]="data" #mf="mfDataTable"
+                [mfRowsOnPage]="5">
+                <thead>
+                    <tr>
+                        <th style="width: 20%">
+                            <mfDefaultSorter by="name" #sortName>
+                                Nombre
+                                <span ng-if="sortName.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                                <span ng-if="sortName.isSortedByMeDesc" class="cui-arrow-bottom"
+                                    aria-hidden="true"></span>
+                            </mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="email" #sortEmail>
+                                Correo Electronico
+                                <span ng-if="sortEmail.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                                <span ng-if="sortEmail.isSortedByMeDesc" class="cui-arrow-bottom"
+                                    aria-hidden="true"></span>
+                            </mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="tipodocument" #sortTypeDocument>
+                                Tipo documento
+                                <span ng-if="sortTypeDocument.isSortedByMeAsc" class="cui-arrow-top"
+                                    aria-hidden="true"></span>
+                                <span ng-if="sortTypeDocument.isSortedByMeDesc" class="cui-arrow-bottom"
+                                    aria-hidden="true"></span>
+                            </mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="document" #sortDocument>
+                                Numero documento
+                                <span ng-if="sortDocument.isSortedByMeAsc" class="cui-arrow-top"
+                                    aria-hidden="true"></span>
+                                <span ng-if="sortDocument.isSortedByMeDesc" class="cui-arrow-bottom"
+                                    aria-hidden="true"></span>
+                            </mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="phone" #sortPhone>
+                                Telefono
+                                <span ng-if="sortPhone.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                                <span ng-if="sortPhone.isSortedByMeDesc" class="cui-arrow-bottom"
+                                    aria-hidden="true"></span>
+                            </mfDefaultSorter>
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.name}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.Tdocument}}</td>
+                        <td>{{item.document}}</td>
+                        <td>{{item.phone}}</td>
+                        <td> <span
+                                class="badge badge-{{item.status=='Activo'?'success':'danger'}}">{{item.status}}</span>
+                        </td>
+                        <td class="row">
+                            <div class="col-md-4">
+                                <a [routerLink]="[ '/admin/edit', item.idUser]"
+                                    class="btn btn-ghost-secondary disabled"><i class="fa fa-edit fa-lg"></i></a>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn  btn-ghost-secondary" (click)="showDetails(item)"><i
+                                        class="fa fa-eye fa-lg"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-info modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalle usuario</h4>
+                <span
+                    class="badge badge-{{detailUser.status=='Activo'?'success':'danger'}}">{{detailUser.status}}</span>
+
+                <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <tabset>
+                    <tab>
+                        <ng-template tabHeading><i class="icon-user"></i></ng-template>
+                        <table class="table table-sm table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <td>{{detailUser.name }}</td>
+                                    <th>{{detailUser.Tdocument }}</th>
+                                    <td>{{detailUser.document }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha expedicion</th>
+                                    <td>{{detailUser.expeditionDate }}</td>
+                                    <th>Ciudad de expedicion</th>
+                                    <td>{{detailUser.cityExpd +"/"+ detailUser.estateExpd}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha Nacimiento</th>
+                                    <td>{{detailUser.birthDate }}</td>
+                                    <th>Edad</th>
+                                    <td>{{detailUser.age}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mes Nacimiento</th>
+                                    <td>{{detailUser.month }}</td>
+                                    <th>Grupo etario</th>
+                                    <td>{{grEta}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ciudad Nacimiento</th>
+                                    <td>{{detailUser.cityBirth}}</td>
+                                    <th>Es colombiano</th>
+                                    <td>{{detailUser.isColombian==1?'Sí':'No'}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Correo electronico</th>
+                                    <td>{{detailUser.email }}</td>
+                                    <th>Correo Corporativo</th>
+                                    <td>{{detailUser.businessEmail }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Teléfono</th>
+                                    <td>{{detailUser.phone}}</td>
+                                    <th>Genero</th>
+                                    <td>{{detailUser.gender}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Estado civil</th>
+                                    <td>{{detailUser.maritalStatus}}</td>
+                                    <th>Grupo etnico</th>
+                                    <td>{{detailUser.EthnicGroup}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tiene certificado</th>
+                                    <td>{{detailUser.certificate==1?'Sí':'No'}}</td>
+                                </tr>
+                                <tr class="table-primary">
+                                    <th colspan="4">
+                                        <center>Residencia</center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Dirección</th>
+                                    <td>{{detailUser.address}}</td>
+                                    <th>Barrio</th>
+                                    <td>{{detailUser.neighborhood}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ciudad</th>
+                                    <td>{{detailUser.city}}</td>
+                                    <th>Estrato</th>
+                                    <td>{{detailUser.stratum}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Zona residencial</th>
+                                    <td>{{detailUser.zone}}</td>
+                                    <th>Tipo vivienda</th>
+                                    <td>{{detailUser.houseType}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Situación residencial</th>
+                                    <td>{{detailUser.houseSituation}}</td>
+                                    <th>Tiempo desplazamiento<br> (casa-trabajo)</th>
+                                    <td>{{detailUser.displacementTime}}</td>
+                                </tr>
+                                <tr class="table-primary">
+                                    <th colspan="4">
+                                        <center>Contacto Emergencia</center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <td>{{detailUser.nameContact}}</td>
+                                    <th>Telefono</th>
+                                    <td>{{detailUser.phoneEmergency}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Fecha de la encuesta: </strong>{{detailUser.createAt}}</p>
+                        <p><strong>Fecha de importación: </strong>{{detailUser.admissionDate}}</p>
+                    </tab>
+                    <tab>
+                        <ng-template tabHeading><i class="fa fa-heartbeat"></i></ng-template>
+                        <table class="table table-sm table-borderless" *ngIf="medicalInf.length>0">
+                            <tbody>
+                                <tr>
+                                    <th>Tipo sangre</th>
+                                    <td>{{medicalInf[0].blood}}</td>
+                                    <th>Altura</th>
+                                    <td>{{medicalInf[0].height}} Cms</td>
+                                    <th>Peso</th>
+                                    <td>{{medicalInf[0].weight}} Kg</td>
+                                </tr>
+                                <tr>
+                                    <th>Traumatismos</th>
+                                    <td colspan="2">{{medicalInf[0].trauma}}</td>
+                                    <th>Enfermedades</th>
+                                    <td colspan="2">{{medicalInf[0].diseases}}</td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Tratamientos medicos</th>
+                                    <td colspan="4">{{medicalInf[0].treatment}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>IMC</h4>
+                                <span class="h3 text-{{textImc}}">{{imc}}</span>
+                            </div>
+                            <div class="col-md-8">
+                                <h4>Interpretación IMC</h4>
+                                <span class="h3 text-{{textImc}}">{{imcInf}}</span>
+                            </div>
+                        </div>
+
+                    </tab>
+                    <tab>
+                        <ng-template tabHeading><i class="fa fa-graduation-cap"></i></ng-template>
+                        <table class="table table-sm table-borderless" *ngIf="academicInf.length>0">
+                            <tbody>
+                                <tr>
+                                    <th>Mayor nivel academico alcanzado</th>
+                                    <td>{{academicInf[0].academic}}</td>
+                                    <th>Estudios actuales</th>
+                                    <td>{{academicInf[0].isStudying==1?'Sí':'No'}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Razón de no estudiar</th>
+                                    <td colspan="3">{{academicInf[0].notStudying}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipo de estudio que realiza</th>
+                                    <td colspan="3">{{academicInf[0].typeStudy}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Principal motivación para estudiar</th>
+                                    <td colspan="3">{{academicInf[0].studyMotivation}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </tab>
+                    <tab>
+                        <ng-template tabHeading><i class="fa fa-money"></i></ng-template>
+                        <table class="table table-sm table-borderless" *ngIf="workInf.length>0">
+                            <tbody>
+                                <tr>
+                                    <th>Tipo de contrato</th>
+                                    <td>{{workInf[0].contract}}</td>
+                                    <th>Cargo</th>
+                                    <td>{{workInf[0].position}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Area de trabajo</th>
+                                    <td>{{workInf[0].area}}</td>
+                                    <th>Jefe inmediato</th>
+                                    <td>{{workInf[0].immediateBoss}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Como se entero de la vacante</th>
+                                    <td>{{workInf[0].bringResume}}</td>
+                                    <th>Manera que llego la hoja de vida</th>
+                                    <td>{{workInf[0].vacantInformation}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de ingreso</th>
+                                    <td>{{workInf[0].admissionDate}}</td>
+                                    <th>Fecha de retiro</th>
+                                    <td>{{workInf[0].withdrawalDate}}</td>
+                                </tr>
+                                <tr *ngIf="workInf[0].reason!=null">
+                                    <th>Motivo</th>
+                                    <td colspan="3">{{workInf[0].reason}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Salario</th>
+                                    <td>{{salaryInf[0].salary | number}}</td>
+                                    <th>Auxilio Transporte</th>
+                                    <td>{{salaryInf[0].transportation | number}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Valor nómina</th>
+                                    <td>{{salaryInf[0].nomina | number}}</td>
+                                    <th>Pension</th>
+                                    <td>{{salaryInf[0].pension | number}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Caja de compensación</th>
+                                    <td>{{salaryInf[0].family | number}}</td>
+                                    <th>Arl</th>
+                                    <td>{{salaryInf[0].arl | number}}</td>
+                                </tr>
+                                <tr>
+                                    <th>TOTAL SEGURIDAD SOCIAL</th>
+                                    <td colspan="3">{{salaryInf[0].total | number}}</td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </tab>
+                    <tab>
+                        <ng-template tabHeading><i class="fa fa-users"></i></ng-template>
+                        <table class="table table-sm table-borderless" *ngIf="familyInf.length>0">
+                            <tbody>
+                                <tr>
+                                    <th>Casa propia</th>
+                                    <td>{{familyInf[0].ownHouse}}</td>
+                                    <th>Aporte económico adicional en hogar</th>
+                                    <td>{{familyInf[0].economicContribution}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Dependencia económica</th>
+                                    <td>{{familyInf[0].economicDependence}}</td>
+                                    <th>Número personas convive</th>
+                                    <td>{{familyInf[0].peopleCoexist}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ingresos familiares</th>
+                                    <td>{{familyInf[0].familyIncome}}</td>
+                                    <th>Ingresos cubren gastos mínimos</th>
+                                    <td>{{familyInf[0].incomeExpenses==1?'Sí':'No'}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipo de hogar</th>
+                                    <td>{{familyInf[0].typeHome}}</td>
+                                    <th>Número personas convive<br>(discapacidad)</th>
+                                    <td>{{familyInf[0].familyDisability}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Numero de hijos</th>
+                                    <td>{{familyInf[0].numberChildren}}</td>
+                                    <th>Numero de hijos que dependen economicamente de usted</th>
+                                    <td>{{familyInf[0].childrenDepends}}</td>
+                                </tr>
+                                <tr *ngIf="familyInf[0].children.length>0" class="table-primary">
+                                    <th colspan="4">
+                                        <center>Información Hijos</center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Genero</th>
+                                    <th>Fecha nacimiento</th>
+                                    <th>Edad</th>
+                                </tr>
+                                <tr *ngFor="let item of familyInf[0].children">
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.gender}}</td>
+                                    <td>{{ageChildren(item.birthDate)}}</td>
+                                    <td>{{detailUser.agech}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </tab>
+                    <tab>
+                        <ng-template tabHeading><i class="fa fa-tags"></i></ng-template>
+                        <table class="table table-sm table-borderless" *ngIf="clothingInf.length>0">
+                            <thead>
+                                <th>Categoria</th>
+                                <th>Prenda</th>
+                                <th>Talla</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of clothingInf">
+                                    <td>{{item.clothingType}}</td>
+                                    <td>{{item.clothing}}</td>
+                                    <td>{{item.size}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </tab>
+                    <tab>
+                        <ng-template tabHeading><i class="fa fa-cogs"></i></ng-template>
+                        <table class="table table-sm table-borderless" *ngIf="cosecInf.length>0">
+                            <tbody>
+                                <tr>
+                                    <th>Eps</th>
+                                    <td>{{cosecInf[0].eps}}</td>
+                                    <th>Pension</th>
+                                    <td>{{cosecInf[0].pension}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cesantías</th>
+                                    <td>{{cosecInf[0].severance}}</td>
+                                    <th>Caja de compensación</th>
+                                    <td>{{cosecInf[0].benefit}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cobertura en ARL</th>
+                                    <td colspan="3">{{cosecInf[0].coverageArl}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </tab>
+                </tabset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Cerrar</button>
+            </div>
+        </div>
+</div>
 
 
 <div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -504,6 +932,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cancelar</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div> -->

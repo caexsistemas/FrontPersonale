@@ -63,7 +63,6 @@ sendRequest(){
   })
   .subscribe(
     response=>{
-      console.log('1')
       // this.permissions = this.handler.getPermissions(this.component);
       if(response.success){
         this.data = response.data

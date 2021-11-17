@@ -14,11 +14,11 @@ import { global } from '../../services/global';
 
 
 @Component({
-    selector: 'users-dialog',
-    templateUrl: 'users.dialog.html',
+    selector: 'management-dialog',
+    templateUrl: 'management.dialog.html',
 })
 
-export class UsersDialog {
+export class ManagementDialog {
     // VARIABLES
     view: string = null;
     usuario: any = []; 
@@ -33,14 +33,9 @@ export class UsersDialog {
    
     // registro a consultar.
     endpoint: string = '/usuario';
-<<<<<<< HEAD
-    // maskphone       = config.maskPhone;
-   
-=======
     // maskphone       = global.maskPhone;
     // maskphonehogar  = global.maskPhoneHogar;
     maskDNI         = global.maskDNI;
->>>>>>> ab92984b22610b30ac047f40378b41f03e72fb4c
 
     // FORMULARIOS
     formUsuario: FormGroup;
@@ -58,7 +53,7 @@ export class UsersDialog {
     @Output() reload = new EventEmitter();
 
     constructor(
-        public dialogRef: MatDialogRef<UsersDialog>,
+        public dialogRef: MatDialogRef<ManagementDialog>,
         private WebApiService: WebApiService,
         private handler: HandlerAppService,
         @Inject(MAT_DIALOG_DATA) public data,
@@ -70,6 +65,7 @@ export class UsersDialog {
         this.id = null;
         switch (this.view) {
             case 'view':
+                alert('yu');
                 this.id = this.data.codigo;
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
@@ -129,13 +125,8 @@ export class UsersDialog {
            
             data => {
                 if (data.success == true) {
-<<<<<<< HEAD
-                    let datos = data.data[0];
-                    this.rol                       = datos['tipos_dni'] ? JSON.parse(datos['tipos_dni']) : [];
-=======
                     let datos = data.data;
                     // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
->>>>>>> ab92984b22610b30ac047f40378b41f03e72fb4c
                     this.loading.emit(false);
 
                     if (this.view == 'update') {
