@@ -14,8 +14,8 @@ import { NgWizardConfig, NgWizardService, StepChangedArgs, StepValidationArgs, S
 
 
 @Component({
-  selector: 'app-roles-create',
-  templateUrl: './roles-create.component.html',
+  selector: 'app-lists-create',
+  templateUrl: './roles-lists.component.html',
   /*ManagementService,ValidationFormsService*/
   providers: [Tools]
 })

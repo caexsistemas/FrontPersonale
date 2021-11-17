@@ -29,8 +29,7 @@ export class UsersDialog {
     // registro a consultar.
     endpoint: string = '/usuario';
     // maskphone       = config.maskPhone;
-    // maskphonehogar  = config.maskPhoneHogar;
-    // maskDNI         = config.maskDNI;
+   
 
     // FORMULARIOS
     formUsuario: FormGroup;
@@ -123,9 +122,6 @@ export class UsersDialog {
                 if (data.success == true) {
                     let datos = data.data[0];
                     this.rol                       = datos['tipos_dni'] ? JSON.parse(datos['tipos_dni']) : [];
-                   
-
-
                     this.loading.emit(false);
                     if (this.view == 'update') {
                         //this.getDataUpdate();

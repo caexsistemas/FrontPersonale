@@ -34,6 +34,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { AdministratorRoutingModule } from './administrator-routing.module';
 import { UsersComponent } from './users/list/users.component'
 import { UserCreateComponent } from './users/create/user-create.component';
+import { ListsComponent } from './lists/list/lists.component';
 
 
 // Modal Component
@@ -57,7 +58,8 @@ import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
   declarations: [
     NavbarsComponent,
     UsersComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    ListsComponent
 
 
   ]

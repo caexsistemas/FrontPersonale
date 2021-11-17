@@ -8,11 +8,11 @@ import { environment } from '../../../environments/environment';
 
 
 @Component({
-    selector: 'roles-dialog',
-    templateUrl: 'roles.dialog.html',
+    selector: 'listas-dialog',
+    templateUrl: 'listas.dialog.html',
 })
 
-export class RolesDialog{
+export class ListasDialog{
 
     constructor(
 

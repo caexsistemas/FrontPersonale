@@ -1,0 +1,88 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <!-- <h1>Usuarios</h1> -->
+    </div>
+    <div class="card-body">
+      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right">
+        <!-- <a routerLink="/admin/users-create" class="btn btn-primary">
+          <i class="fa fa-plus"></i> Crear Usuario
+        </a> -->
+        <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
+          <i class="fa fa-plus"></i> Listas
+        </button>
+      </div>
+      <div class="row mb-3 float-left">
+        <div class="col-md-12">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" (keyup)="applyFilter($event)" placeholder="Buscar por nombre" />
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover table-responsive-lg" [mfData]="data"
+        #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+          <tr>
+            <th>
+              Ver
+            </th>
+            <th>
+              <mfDefaultSorter by="name_ing" #sortNameIng>
+                Nombre Ingles
+                <span ng-if="sortNameIng.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortNameIng.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="name_esp" #sortNameEsp>
+                Nobre Espa&ntilde;ol
+                <span ng-if="sortNameEsp.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortNameEsp.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="list_id" #sortIdList>
+                ID Lista
+                <span ng-if="sortIdList.isSortedByMeAsc" class="cui-arrow-top" aria-hidden="true"></span>
+                <span ng-if="sortIdList.isSortedByMeDesc" class="cui-arrow-bottom" aria-hidden="true"></span>
+              </mfDefaultSorter>
+            </th>
+            <th>
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>
+              <div class="col-md-4">
+                <button type="button" class="btn  btn-ghost-secondary" (click)="option('view',item.list_id)">
+                  <i class="fa fa-eye fa-lg"></i>
+                </button>
+              </div>
+            </td>
+            <td>{{item.name_ing}}</td>
+            <td>{{item.name_esp}}</td>
+            <td>{{item.list_id}}</td>
+            <td class="row">
+              <button class="btn btn-ghost-secondary" (click)="option('update',item.list_id)" title="Editar">
+                <i class="fa fa-edit fa-lg"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
