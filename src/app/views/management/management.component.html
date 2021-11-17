@@ -13,7 +13,7 @@
                         </button>
                         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
                             <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="successModal.show()" >Importar Archivo</a></li>
-                            <li role="menuitem"><a class="dropdown-item" routerLink="/management/gestion-create">Ingresar nuevo registro</a></li>                        
+                            <li role="menuitem"><a class="dropdown-item" (click)="option('create')">Ingresar nuevo registro</a></li>                        
                         </ul>
                     </div>
                 </div>
@@ -84,8 +84,34 @@
     <mat-spinner [diameter]="50"></mat-spinner>
 </div>
 
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Importar información</h4>
+                <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-form-label" for="file">Archivo excel</label>
+                        <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar
+                            (ApiResponse)="getAllPersonal()">
+                        </angular-file-uploader>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!-- <div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-info modal-lg" role="document">
         <div class="modal-content">
@@ -424,7 +450,9 @@
                 <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Cerrar</button>
             </div>
         </div>
-</div>
+</div> -->
+
+
 
 
 <!-- <div class="animated fadeIn">

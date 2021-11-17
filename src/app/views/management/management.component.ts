@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ManagementDialog } from '../../dialogs/management/management.dialog.component';
+import { environment } from '../../../environments/environment';
 
 
 
@@ -41,14 +42,33 @@ export class ManagementComponent implements OnInit {
   public grEta: string
 
   public filters = { searchId: "", searchName: "" }
- 
+  
+  endpoint:string   = '/personal';
+  urlKaysenBackend      = environment.url;
 
+  permissions:any = null;
+  datapersonale : any    = [];
+  loading:boolean           = false;
+
+  displayedColumns:any  = [];
+  dataSource:any        = [];
+
+  personaleData : any     = [];
+
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+
+  @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
+  @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
+  url = this.urlKaysenBackend+this.endpoint;
   public afuConfig = {
+    
     multiple: false,
     formatsAllowed: ".xlsx,.xls",
     maxSize: "20",
     uploadAPI: {
-      url: global.url + 'Personale/uploadInformationPersonale',
+      // url: global.url + 'Personale/uploadInformationPersonale',
+      url: this.url,
       method: "POST",
       headers: {
         'Authorization': this._tools.getToken()
@@ -69,24 +89,6 @@ export class ManagementComponent implements OnInit {
       sizeLimit: 'Límite de tamaño'
     }
   };
-
-
-  endpoint:string   = '/personal';
-
-  permissions:any = null;
-  datapersonale : any    = [];
-  loading:boolean           = false;
-
-  displayedColumns:any  = [];
-  dataSource:any        = [];
-
-  personaleData : any     = [];
-
-  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
-  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
-
-  @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
-  @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
 
   constructor(private _managementService: ManagementService, 
               private _tools: Tools,
@@ -215,6 +217,7 @@ export class ManagementComponent implements OnInit {
   
   }
   
+
 
   getAllPersonal() {
     this._managementService.getAllPersonal().subscribe(response => {

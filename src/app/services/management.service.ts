@@ -15,6 +15,7 @@ export class ManagementService {
     this.url = global.url;
   }
   getAllPersonal(): Observable<any> {
+    alert(this.url + 'Personale');
     let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this._tools.getToken()
