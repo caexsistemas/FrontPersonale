@@ -87,6 +87,7 @@ export class ManagementDialog {
                     );
                 break;
             case 'create':
+                alert('Create');
                 this.initForms();
                 this.title = "Crear usuario ";
                 break;

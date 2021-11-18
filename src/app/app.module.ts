@@ -15,6 +15,7 @@ import { OnlynumberDirective } from './Tools/onlynumber.directive';
 
 import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { DataTableModule } from 'angular2-datatable';
 
 import { MatDialogModule } from '@angular/material/dialog';
@@ -79,7 +80,11 @@ const routes: Routes = [];
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
+<<<<<<< HEAD
     MatTableModule,
+=======
+    ModalModule,
+>>>>>>> 6695e3de8e5d0d33b9336b7a1c91fab4c1770ee8
     RouterModule.forRoot(routes)
     
   ],
