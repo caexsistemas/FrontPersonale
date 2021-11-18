@@ -33,17 +33,11 @@ export class UsersDialog {
    
     // registro a consultar.
     endpoint: string = '/usuario';
-<<<<<<< HEAD
 
     // maskphone       = global.maskPhone;
     // maskphonehogar  = global.maskPhoneHogar;
     maskDNI         = global.maskDNI;
 
-=======
-    // maskphone       = global.maskPhone;
-    // maskphonehogar  = global.maskPhoneHogar;
-    maskDNI         = global.maskDNI;
->>>>>>> 6695e3de8e5d0d33b9336b7a1c91fab4c1770ee8
 
     // FORMULARIOS
     formUsuario: FormGroup;
@@ -132,15 +126,10 @@ export class UsersDialog {
            
             data => {
                 if (data.success == true) {
-<<<<<<< HEAD
 
                     let datos = data.data;
                     // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
 
-=======
-                    let datos = data.data;
-                    // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
->>>>>>> 6695e3de8e5d0d33b9336b7a1c91fab4c1770ee8
                     this.loading.emit(false);
 
                     if (this.view == 'update') {

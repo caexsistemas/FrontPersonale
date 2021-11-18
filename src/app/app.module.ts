@@ -80,11 +80,7 @@ const routes: Routes = [];
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
-<<<<<<< HEAD
     MatTableModule,
-=======
-    ModalModule,
->>>>>>> 6695e3de8e5d0d33b9336b7a1c91fab4c1770ee8
     RouterModule.forRoot(routes)
     
   ],
