@@ -44,12 +44,12 @@ import { AdministratorComponent } from './views/administrator/administrator.comp
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { NgWizardModule } from 'ng-wizard';
 import { Routes, RouterModule } from '@angular/router';
-
+import { MatTableModule } from '@angular/material/table';
 // DIALOG
 
 import { UsersDialog } from './dialogs/users/users.dialog.component';
 import { ManagementDialog } from './dialogs/management/management.dialog.component';
-
+import { ListasDialog } from './dialogs/lists/lists.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -79,6 +79,7 @@ const routes: Routes = [];
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
+    MatTableModule,
     RouterModule.forRoot(routes)
     
   ],
@@ -89,8 +90,9 @@ const routes: Routes = [];
     OnlynumberDirective,
     AdministratorComponent,
     UsersDialog,
-    ManagementDialog
-
+    ManagementDialog,
+    ListasDialog
+    
         
   ],
   providers: [{
