@@ -44,6 +44,7 @@ export class ManagementComponent implements OnInit {
   public filters = { searchId: "", searchName: "" }
   
   endpoint:string   = '/personal';
+  endpointup:string   = '/personaleupload';
   urlKaysenBackend      = environment.url;
 
   permissions:any = null;
@@ -60,7 +61,7 @@ export class ManagementComponent implements OnInit {
 
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
   @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
-  url = this.urlKaysenBackend+this.endpoint;
+  url = this.urlKaysenBackend+this.endpointup;
   public afuConfig = {
     
     multiple: false,
@@ -220,21 +221,42 @@ export class ManagementComponent implements OnInit {
 
 
   getAllPersonal() {
-    this._managementService.getAllPersonal().subscribe(response => {
-      this.data = response
-      console.log(response)
-    },
-      error => {
-        //console.log(<any>error)
-        if (<any>error.status == 401) {
-          this._tools.goToPage('login')
-        } else if (<any>error.status == 500) {
-          this._tools.showNotify("error", "GESTIN", "Error Interno")
-        } else if (<any>error.status == 403) {
-          this._tools.goToPage('403')
+
+    this.WebApiService.getRequest(this.endpoint,{
+    })
+    .subscribe(
+      response=>{
+        // this.permissions = this.handler.getPermissions(this.component);
+        if(response.success){
+          console.log('Respuesta correcta'+response.data);
+          this.personaleData = response.data;
+          this.loading = false;
+        }else{
+          this.datapersonale = [];
+          this.handler.handlerError(response);
         }
+      },
+      error=>{
+        // this.loading = false;
+        // this.permissions = this.handler.getPermissions(this.component);
+        // this.handler.showError();
       }
-    )
+    );
+    // this._managementService.getAllPersonal().subscribe(response => {
+    //   this.data = response
+    //   console.log(response)
+    // },
+    //   error => {
+    //     //console.log(<any>error)
+    //     if (<any>error.status == 401) {
+    //       this._tools.goToPage('login')
+    //     } else if (<any>error.status == 500) {
+    //       this._tools.showNotify("error", "GESTIN", "Error Interno")
+    //     } else if (<any>error.status == 403) {
+    //       this._tools.goToPage('403')
+    //     }
+    //   }
+    // )
   }
   searchData() {
     this._managementService.getFiltersUser(this.filters).subscribe(response => {
