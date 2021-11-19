@@ -11,6 +11,10 @@ import { MatSort } from '@angular/material/sort';
 
 export interface PeriodicElement {
     description: string;
+    ls_codvalue: string,
+    statusdes: string,
+    actions: string, 
+    values_id: number
   }
 
 @Component({
@@ -23,6 +27,7 @@ export class ListasDialog{
 
     view: string = null;
     lista: any = []; 
+    valuesub: any = [];
     valoresList: any = []; 
     title: string = null;
     id: number = null;
@@ -32,6 +37,7 @@ export class ListasDialog{
     endpoint: string = '/listas';
     maskDNI         = global.maskDNI;
     formLista: FormGroup;
+    formValList : FormGroup;
 
     status: any = [
         { codigo: '', nombre: 'Seleccione..' },
@@ -88,12 +94,44 @@ export class ListasDialog{
                 this.id = this.data.codigo;
                 this.title = "Editar usuario" + this.id;
                 break;
+            case 'updatesub':
+                this.initFormsub();          
+                this.id = this.data.codigo;
+                this.title = "Editar Valor List: " + this.id;
+            break;
+        }
+    }
+
+
+    optionSubVal(action, codigo=null){
+
+        var dialogRef;
+        switch(action){
+
+            case 'updatesub':
+                this.loading.emit(true);
+                dialogRef = this.dialog.open(ListasDialog,{
+                data: {
+                    window: 'updatesub',
+                    codigo
+                }
+                });
+                this.loading.emit(false);
+                this.closeDialog();
+               
+
+
+            break;
+
         }
     }
 
     generateTable(data){
         this.displayedColumns = [
-          'description'        
+          'description',
+          'ls_codvalue',
+          'statusdes',
+          'actions'    
         ];
         this.valoresList = data;
         this.clickedRows = new Set<PeriodicElement>();
@@ -105,6 +143,104 @@ export class ListasDialog{
             name_ing: new FormControl(""),
             name_esp: new FormControl("")
         });
+    }
+
+    initFormsub() {
+        this.getDataInitsub();
+        this.formValList = new FormGroup({
+            description: new FormControl(""),
+            status: new FormControl("")
+        });
+    }
+
+    getDataInitsub() {
+        this.loading.emit(false);
+        this.id = this.data.codigo;
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'getParamsUpdateSub',
+            idvalist: this.id
+        })
+        .subscribe(
+           
+            data => {
+                if (data.success == true) {
+                    let datos = data.data;
+                    // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
+                    this.loading.emit(false);
+
+                    if (this.view == 'updatesub') {
+
+                      this.getDataUpdatesub(datos);
+                    }
+                } else {
+                    this.handler.handlerError(data);
+                    this.loading.emit(false);
+                }
+            },
+            error => {
+                // console.log(error);
+                this.handler.showError('Se produjo un error');
+                this.loading.emit(false);
+            }
+        );
+    }
+
+    getDataUpdatesub(datos) {
+
+        this.loading.emit(true);
+        try {
+
+            this.valuesub = datos[0];
+            this.formValList.get('description').setValue(this.valuesub.description);
+            this.formValList.get('status').setValue(this.valuesub.status);
+            this.loading.emit(false);
+
+        } catch (error) {
+
+            this.handler.handlerError(datos);
+            this.loading.emit(false);
+            this.closeDialog();
+            this.handler.showError('Se produjo un error');
+            this.loading.emit(false);
+        }
+    }
+
+    onSubmitUpdateSub() {
+
+        if( (this.formValList.valid )){
+
+            let body = {
+                valists:   this.formValList.value,
+            }
+
+            this.loading.emit(true);
+
+            this.WebApiService.getRequest(this.endpoint, {
+                action: 'getUpdateValResult',
+                idvalist: this.id,
+                forma: ""+JSON.stringify({body})
+            })
+            .subscribe(
+
+                data=>{
+                    if(data.success){
+                        this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                    }else{
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }
+                },
+                error=>{
+                    this.handler.showError();
+                    this.loading.emit(false);
+                }
+
+            );
+        }
+
+
     }
 
     getDataInit() {
@@ -146,7 +282,7 @@ export class ListasDialog{
         .subscribe(
             data => {
                 if (data.success) {
-                    this.lista = data.data[0];
+                    this.lista = data.data['listado'][0];
                     
                     this.formLista.get('name_ing').setValue(this.lista.name_ing);
                     this.formLista.get('name_esp').setValue(this.lista.name_esp);

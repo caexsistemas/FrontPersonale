@@ -81,6 +81,7 @@ const routes: Routes = [];
     MatSelectModule,
     CommonModule,
     MatTableModule,
+    ModalModule,
     RouterModule.forRoot(routes)
     
   ],
