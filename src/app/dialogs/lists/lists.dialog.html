@@ -22,6 +22,18 @@
                 <dt>ID Lista</dt>
                 <dd>{{lista.list_id}}</dd>
             </div>
+
+            <div class="col-md-4">
+                <dt>Crear valores</dt>
+                <dd>
+                    <div class="btn-group" dropdown>
+                        <button class="btn btn-primary" (click)="optionSubVal('createsub', lista.list_id, lista.name_esp)" title="Crear">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </dd>             
+            </div>
+
         </div>
     </mat-dialog-content>
 
@@ -52,7 +64,7 @@
                      <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3"> Acciones </th>
                         <td mat-cell *matCellDef="let element" class="p-3">
-                            <button class="btn  btn-ghost-secondary" (click)="optionSubVal('updatesub',element.values_id)"
+                            <button class="btn  btn-ghost-secondary" (click)="optionSubVal('updatesub',element.values_id, lista.name_esp)"
                                 title="Editar">
                                 <i class="fa fa-edit fa-lg"></i>
                             </button>
@@ -127,7 +139,7 @@
     <div *ngIf="view == 'createsub' || view == 'updatesub'">
         <div class="card-header">
             <h5 class="modal-title">
-                <p class="title-modal" *ngIf="view == 'createsub' ">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'createsub' ">Crear Valor de Lista: {{title}} </p>
                 <p class="title-modal" *ngIf="view == 'updatesub'">Editar </p>
                 <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
                     style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
@@ -167,7 +179,7 @@
                         (click)="onSubmitUpdateSub()">Actualizar</button>
 
                     <button *ngIf="view == 'createsub'" mat-button class="btn btn-success"
-                        (click)="onSubmit()">Guardar</button>
+                        (click)="onSubmiSub()">Guardar</button>
 
                     <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                 </div>

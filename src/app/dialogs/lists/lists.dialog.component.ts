@@ -33,6 +33,7 @@ export class ListasDialog{
     id: number = null;
     displayedColumns:any  = [];
     public clickedRows;
+    idList: number;
 
     endpoint: string = '/listas';
     maskDNI         = global.maskDNI;
@@ -63,7 +64,7 @@ export class ListasDialog{
         this.id = null;
         switch (this.view) {
             case 'view':
-                alert('trues');
+                //alert('trues');
                 this.id = this.data.codigo;
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
@@ -97,13 +98,18 @@ export class ListasDialog{
             case 'updatesub':
                 this.initFormsub();          
                 this.id = this.data.codigo;
-                this.title = "Editar Valor List: " + this.id;
+                this.title = "Editar";
+            break;
+            case 'createsub':
+                this.initFormsub();          
+                this.idList = this.data.codigo;
+                this.title = this.data.titlelist;
             break;
         }
     }
 
 
-    optionSubVal(action, codigo=null){
+    optionSubVal(action, codigo=null, titlelist=null){
 
         var dialogRef;
         switch(action){
@@ -119,9 +125,32 @@ export class ListasDialog{
                 this.loading.emit(false);
                 this.closeDialog();
                
+            break;
 
+            case 'view':
+                this.loading.emit(true);
+                dialogRef = this.dialog.open(ListasDialog,{
+                data: {
+                    window: 'view',
+                    codigo,
+                    titlelist
+                }
+                });
+                this.loading.emit(false); 
 
             break;
+
+            case 'createsub':
+                this.loading.emit(true);
+                dialogRef = this.dialog.open(ListasDialog,{
+                data: {
+                    window: 'createsub',
+                    codigo,
+                    titlelist
+                }
+                });
+                this.loading.emit(false);
+                this.closeDialog();
 
         }
     }
@@ -178,7 +207,7 @@ export class ListasDialog{
                 }
             },
             error => {
-                // console.log(error);
+                console.log(error);
                 this.handler.showError('Se produjo un error');
                 this.loading.emit(false);
             }
@@ -193,6 +222,7 @@ export class ListasDialog{
             this.valuesub = datos[0];
             this.formValList.get('description').setValue(this.valuesub.description);
             this.formValList.get('status').setValue(this.valuesub.status);
+            this.idList = this.valuesub.list_id;
             this.loading.emit(false);
 
         } catch (error) {
@@ -227,6 +257,8 @@ export class ListasDialog{
                         this.handler.showSuccess(data.message);
                         this.reload.emit();
                         this.closeDialog();
+                        //console.log(this.idList+"AA");
+                        this.optionSubVal('view', this.idList);
                     }else{
                         this.handler.handlerError(data);
                         this.loading.emit(false);
@@ -238,9 +270,60 @@ export class ListasDialog{
                 }
 
             );
+        }else{
+            this.handler.showError('Complete la información necesaria');
         }
+    }
+
+    onSubmiSub() {
+
+        if( (this.formValList.valid )){
+
+            if( this.formValList.value['description'] != '' ){
+
+                //console.log(this.formValList.value['description']);
+                let body = {
+                    valists:   this.formValList.value,
+                }
+    
+                this.loading.emit(true);
+    
+                this.WebApiService.getRequest(this.endpoint, {
+                    action: 'getInsertValResult',
+                    idvalist: this.idList,
+                    forma: ""+JSON.stringify({body})
+                })
+                .subscribe(
+    
+                    data=>{
+                        if(data.success){
+                            this.handler.showSuccess(data.message);
+                            this.reload.emit();
+                            this.closeDialog();
+                            
+                            this.optionSubVal('view', this.idList);
+                        }else{
+                            this.handler.handlerError(data);
+                            this.loading.emit(false);
+                        }
+                    },
+                    error=>{
+                        this.handler.showError();
+                        this.loading.emit(false);
+                    }
+    
+                );
+            }else{
+
+                this.handler.showError('Complete la información necesaria');
+                this.loading.emit(false);
+            }
 
 
+        }else{
+            this.handler.showError('Complete la información necesaria');
+            this.loading.emit(false);
+        }
     }
 
     getDataInit() {
