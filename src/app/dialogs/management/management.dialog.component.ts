@@ -13,6 +13,7 @@ import { global } from '../../services/global';
 
 
 
+
 @Component({
     selector: 'management-dialog',
     templateUrl: 'management.dialog.html',
@@ -21,18 +22,27 @@ import { global } from '../../services/global';
 export class ManagementDialog {
     // VARIABLES
     view: string = null;
-    usuario: any = []; 
+    personale: any = []; 
+    medical: any = []; 
+    academic: any = []; 
+    working: any = []; 
+    salary: any = []; 
+    family: any = []; 
+    sos : any = [];
+    endowmentData : any = [];
     title: string = null;
     id: number = null;
 
     rol : any = [];
+
+    panelOpenState = false;
 
     email = new FormControl('', [Validators.required, Validators.email]);
     
     
    
     // registro a consultar.
-    endpoint: string = '/usuario';
+    endpoint: string = '/personal';
     // maskphone       = global.maskPhone;
     // maskphonehogar  = global.maskPhoneHogar;
     maskDNI         = global.maskDNI;
@@ -58,21 +68,28 @@ export class ManagementDialog {
         private handler: HandlerAppService,
         @Inject(MAT_DIALOG_DATA) public data,
         public dialog: MatDialog
-
-
     ) {
         this.view = this.data.window;
         this.id = null;
+        
         switch (this.view) {
             case 'view':
-                alert('yu');
                 this.id = this.data.codigo;
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                this.usuario = data.data[0];
+                                this.personale     = data.data[0];
+                                this.medical       = data.data[1];
+                                this.academic      = data.data[2];
+                                this.working       = data.data[3];
+                                this.salary        = data.data[4];
+                                this.family        = data.data[5];
+                                this.sos           = data.data[6];
+                                this.endowmentData = data.data[7];
+
+                                
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -127,7 +144,6 @@ export class ManagementDialog {
             data => {
                 if (data.success == true) {
                     let datos = data.data;
-                    // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
                     this.loading.emit(false);
 
                     if (this.view == 'update') {
@@ -181,14 +197,14 @@ export class ManagementDialog {
         .subscribe(
             data => {
                 if (data.success) {
-                    this.usuario = data.data[0];
+                    // this.usuario = data.data[0];
                     
-                    this.formUsuario.get('name').setValue(this.usuario.name);
-                    this.formUsuario.get('surname').setValue(this.usuario.surname);
-                    this.formUsuario.get('username').setValue(this.usuario.username);
-                    this.formUsuario.get('email').setValue(this.usuario.email);
-                    this.formUsuario.get('phone').setValue(this.usuario.phone);
-                    this.formUsuario.get('role').setValue(this.usuario.role);
+                    // this.formUsuario.get('name').setValue(this.usuario.name);
+                    // this.formUsuario.get('surname').setValue(this.usuario.surname);
+                    // this.formUsuario.get('username').setValue(this.usuario.username);
+                    // this.formUsuario.get('email').setValue(this.usuario.email);
+                    // this.formUsuario.get('phone').setValue(this.usuario.phone);
+                    // this.formUsuario.get('role').setValue(this.usuario.role);
                     this.loading.emit(false);
                 } else {
                     this.handler.handlerError(data);

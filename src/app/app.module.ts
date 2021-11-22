@@ -46,6 +46,7 @@ import { AngularFileUploaderModule } from "angular-file-uploader";
 import { NgWizardModule } from 'ng-wizard';
 import { Routes, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
+import {MatExpansionModule} from '@angular/material/expansion';
 // DIALOG
 
 import { UsersDialog } from './dialogs/users/users.dialog.component';
@@ -82,6 +83,7 @@ const routes: Routes = [];
     CommonModule,
     MatTableModule,
     ModalModule,
+    MatExpansionModule,
     RouterModule.forRoot(routes)
     
   ],
