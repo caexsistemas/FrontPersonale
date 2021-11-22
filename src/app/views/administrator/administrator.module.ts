@@ -43,6 +43,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { StateComponent } from './state/state.component';
 
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -82,7 +83,8 @@ const ngWizardConfig: NgWizardConfig = {
     NavbarsComponent,
     UsersComponent,
     UserCreateComponent,
-    ListsComponent
+    ListsComponent,
+    StateComponent
 
 
   ]

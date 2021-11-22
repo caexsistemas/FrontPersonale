@@ -31,7 +31,12 @@ export const navItems: INavData[] = [
       {
         name: 'Listas',
         url: '/admin/lists',
-        icon: 'icon-user'
+        icon: 'icon-list'
+      },
+      {
+        name: 'Departamentos',
+        url: '/admin/state',
+        icon: 'icon-location-pin'
       }
     ]
   },
