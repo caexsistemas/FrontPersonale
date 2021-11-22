@@ -8,7 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-//import { ListasDialog } from '../../../dialogs/lists/lists.dialog.component';
+import { StateDialog } from '../../../dialogs/state/state.dialog.component';
 
 @Component({
     selector: 'app-state',
@@ -27,6 +27,7 @@ import { MatPaginator } from '@angular/material/paginator';
     dataSource:any        = [];
     displayedColumns:any  = [];
     loading:boolean = false;
+    public detaState = [];
 
      @ViewChildren(MatSort) sort = new QueryList<MatSort>();
      @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -37,6 +38,8 @@ import { MatPaginator } from '@angular/material/paginator';
         private WebApiService:WebApiService,
         public handler:HandlerAppService,
         public dialog:MatDialog){}
+
+    @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
     ngOnInit(): void {
 
@@ -110,8 +113,75 @@ import { MatPaginator } from '@angular/material/paginator';
 
     option(action,codigo=null){
 
+        var dialogRef;
+
+        switch(action){
+
+          case 'view':
+            this.loading = true;
+            dialogRef = this.dialog.open(StateDialog,{
+              data: {
+                window: 'view',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            dialogRef.afterClosed().subscribe(result => {
+              console.log('The dialog was closed');
+              console.log(result);
+            });
+          break;
+
+          case 'create':
+            this.loading = true;
+            dialogRef = this.dialog.open(StateDialog,{
+              data: {
+                window: 'create',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe(val=>{
+              this.sendRequest();
+            });
+          break;
+
+          case 'update':
+            this.loading = true;
+            dialogRef = this.dialog.open(StateDialog,{
+              data: {
+                window: 'update',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe(val=>{
+              this.sendRequest();
+            });
+            break;
+
+        }
+
 
     }
 
+    showDetails(item) {
+        this.detaState = item;
+        this.infoModal.show()
+    }
 
   }

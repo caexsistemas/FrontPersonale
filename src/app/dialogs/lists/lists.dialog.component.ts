@@ -151,6 +151,7 @@ export class ListasDialog{
                 });
                 this.loading.emit(false);
                 this.closeDialog();
+            break;
 
         }
     }

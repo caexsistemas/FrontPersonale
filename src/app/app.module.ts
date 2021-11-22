@@ -51,6 +51,7 @@ import { MatTableModule } from '@angular/material/table';
 import { UsersDialog } from './dialogs/users/users.dialog.component';
 import { ManagementDialog } from './dialogs/management/management.dialog.component';
 import { ListasDialog } from './dialogs/lists/lists.dialog.component';
+import { StateDialog } from './dialogs/state/state.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -93,9 +94,9 @@ const routes: Routes = [];
     AdministratorComponent,
     UsersDialog,
     ManagementDialog,
-    ListasDialog
-    
-        
+    ListasDialog,
+    StateDialog
+      
   ],
   providers: [{
     provide: LocationStrategy,
