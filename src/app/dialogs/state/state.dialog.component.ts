@@ -98,11 +98,11 @@ export class StateDialog{
             case 'updatesub':
                 this.initFormsub();          
                 this.idCity = this.data.codigo;
-                this.title = "Editar";
+                this.title = "Editar Ciudad:";
             break;
             case 'createsub':
                 this.initFormsub();          
-                this.idCity = this.data.codigo;
+                this.idState = this.data.codigo;
                 this.title = this.data.titlelist;
             break;
 
@@ -142,11 +142,11 @@ export class StateDialog{
     getDataInitsub() {
 
         this.loading.emit(false);
-        this.idState = this.data.codigo;
+        this.idCity = this.data.codigo;
 
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamsUpdateCity',
-            idState: this.idState,
+            idCity: this.idCity,
             process: this.view
         })
         .subscribe(
@@ -158,6 +158,7 @@ export class StateDialog{
                         this.city = data.data[0];
                         this.formValState.get('name').setValue(this.city.name);
                         this.idCity = this.city.idCity;
+                        this.idState = this.city.idState;
                     }
                     this.loading.emit(false);
                 } else {
@@ -207,6 +208,48 @@ export class StateDialog{
         );
     }
 
+    onSubmiSub(){
+
+        if( (this.formValState.valid )){
+
+            let body = {
+                valcity:   this.formValState.value,
+            }
+
+            this.loading.emit(true);
+
+            this.WebApiService.getRequest(this.endpoint, {
+                action: 'getInsertValResultCity',
+                forma: ""+JSON.stringify({body}),
+                idState: this.idState
+            })
+            .subscribe(
+
+                data=>{
+                    if(data.success){
+                        this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                        this.optionSubVal('view', this.idState);
+                    }else{
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }
+                },
+                error=>{
+                    this.handler.showError();
+                    this.loading.emit(false);
+                }
+
+            );
+
+        }else{
+
+            this.handler.showError('Complete la información necesaria');
+            this.loading.emit(false);
+        }
+    }
+
     onSubmit(){
 
         if( (this.formState.valid )){
@@ -246,6 +289,49 @@ export class StateDialog{
             this.loading.emit(false);
         }
 
+    }
+
+    onSubmitUpdatesub(){
+
+        if( (this.formValState.valid )){
+
+            let body = {
+                valcity:   this.formValState.value,
+            }
+
+            this.loading.emit(true);
+
+            this.WebApiService.getRequest(this.endpoint, {
+                action: 'getUpdateValResultCity',
+                idCity: this.idCity,
+                forma: ""+JSON.stringify({body})
+
+            })
+            .subscribe(
+
+                data=>{
+                    if(data.success){
+                        this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                        this.optionSubVal('view', this.idState);
+                    }else{
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }
+                },
+                error=>{
+                    this.handler.showError();
+                    this.loading.emit(false);
+                }
+
+            );
+
+        }else{
+
+            this.handler.showError('Complete la información necesaria');
+            this.loading.emit(false);
+        }
     }
 
     onSubmitUpdate(){

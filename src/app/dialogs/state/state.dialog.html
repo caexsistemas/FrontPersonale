@@ -123,7 +123,7 @@
         <div class="card-header">
             <h5 class="modal-title">
                 <p class="title-modal" *ngIf="view == 'createsub' ">Crear Ciudadad para: {{title}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                <p class="title-modal" *ngIf="view == 'updatesub'">Editar </p>
+                <p class="title-modal" *ngIf="view == 'updatesub'">{{title}}</p>
                 <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
                     style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
                     <span aria-hidden="true">&times;</span>
@@ -139,7 +139,7 @@
                         <div class="col-md-8">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombre Ciudad</mat-label>
-                                <input matInput formControlName="name">
+                                <input matInput formControlName="name" required>
                             </mat-form-field>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
             <div mat-dialog-actions>
                 <div class="text-center col-12">
                     <button *ngIf="view == 'updatesub'" mat-button class="btn btn-success"
-                        (click)="onSubmitUpdateSub()">Actualizar</button>
+                        (click)="onSubmitUpdatesub()">Actualizar</button>
 
                     <button *ngIf="view == 'createsub'" mat-button class="btn btn-success"
                         (click)="onSubmiSub()">Guardar</button>
