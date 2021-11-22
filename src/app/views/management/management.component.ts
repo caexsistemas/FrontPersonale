@@ -85,8 +85,8 @@ export class ManagementComponent implements OnInit {
       uploadBtn: 'Subir Archivo',
       attachPinBtn: 'Sube información usuarios',
       hideProgressBar: false,
-      afterUploadMsg_success: 'Subida de archivo Exitosa !',
-      afterUploadMsg_error: 'La subida fallo!',
+      afterUploadMsg_success: 'El archivo se cargo exitosamente !',
+      afterUploadMsg_error: 'Fallo al momento de cargar el archivo!',
       sizeLimit: 'Límite de tamaño'
     }
   };
@@ -221,15 +221,15 @@ export class ManagementComponent implements OnInit {
 
 
   getAllPersonal() {
-
-    this.WebApiService.getRequest(this.endpoint,{
+      this.WebApiService.getRequest(this.endpoint,{
     })
     .subscribe(
       response=>{
         // this.permissions = this.handler.getPermissions(this.component);
         if(response.success){
-          console.log('Respuesta correcta'+response.data);
+          this.handler.showSuccess('El archivo se cargo exitosamente');
           this.personaleData = response.data;
+          
           this.loading = false;
         }else{
           this.datapersonale = [];
@@ -237,12 +237,12 @@ export class ManagementComponent implements OnInit {
         }
       },
       error=>{
-        // this.loading = false;
-        // this.permissions = this.handler.getPermissions(this.component);
-        // this.handler.showError();
+        this.loading = false;
+        //this.permissions = this.handler.getPermissions(this.component);
+        this.handler.showError();
       }
     );
-    // this._managementService.getAllPersonal().subscribe(response => {
+     //this._managementService.getAllPersonal().subscribe(response => {
     //   this.data = response
     //   console.log(response)
     // },
