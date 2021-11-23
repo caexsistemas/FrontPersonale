@@ -1,5 +1,5 @@
 <div *ngIf="view == 'view'">
-    <div class="modal-header">
+    <div class="modal-header button_header">
         <h5 class="modal-title">Información de la lista</h5>
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -121,11 +121,10 @@
 <div class="card mt-8">
     <div *ngIf="view == 'createsub' || view == 'updatesub'">
         <div class="card-header">
-            <h5 class="modal-title">
+            <h5 class="modal-title button_header">
                 <p class="title-modal" *ngIf="view == 'createsub' ">Crear Ciudadad para: {{title}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                 <p class="title-modal" *ngIf="view == 'updatesub'">{{title}}</p>
-                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </h5>

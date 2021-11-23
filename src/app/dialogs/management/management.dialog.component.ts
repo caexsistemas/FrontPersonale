@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } fro
 import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
+import { Console } from 'console';
 
 
 
@@ -24,8 +25,15 @@ export class ManagementDialog {
     usuario: any = []; 
     title: string = null;
     id: number = null;
-
+    typeidentifi: any = []; 
+    typerol: any = [];
+    typegender: any = []; 
+    selSiNo: any = [];
+    typeEtn: any = []; 
+    selSnCer: any = []; 
+    steCilv: any = []; 
     rol : any = [];
+    stuPer: any = [];
 
     email = new FormControl('', [Validators.required, Validators.email]);
     
@@ -108,7 +116,22 @@ export class ManagementDialog {
             email: new FormControl(""),
             phone: new FormControl(""),
             password: new FormControl(""),
-            role: new FormControl("")
+            role: new FormControl(""),
+            idDocumentType: new FormControl(""),
+            expeditionDate: new FormControl(""),
+            idGender: new FormControl(""),
+            birthDate:new FormControl(""),
+            isColombian:new FormControl(""),
+            idEthnicGroup:new FormControl(""),
+            certificate:new FormControl(""),
+            idMarital:new FormControl(""),
+            nameContact:new FormControl(""),
+            businessEmail:new FormControl(""),
+            zone:new FormControl(""),
+            houseType:new FormControl(""),
+            stratum:new FormControl(""),
+            address:new FormControl(""),
+            neighborhood:new FormControl("")
         });
     }
 
@@ -126,9 +149,10 @@ export class ManagementDialog {
            
             data => {
                 if (data.success == true) {
-                    let datos = data.data;
-                    // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
+                    let datos = data.data['values_list'];
+                    this.optionSelect(datos);
                     this.loading.emit(false);
+                    console.log(this.typeidentifi);
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -144,6 +168,46 @@ export class ManagementDialog {
                 this.loading.emit(false);
             }
         );
+    }
+
+    optionSelect(datos){
+
+        for(let val in datos){
+            //Tipo de Identificacion
+            if( datos[val]['list_id'] == 6 ){
+
+                this.typeidentifi.push(datos[val]);
+            }
+            //Tipo de Roll
+            if( datos[val]['list_id'] == 19 ){
+                this.typerol.push(datos[val]);
+            }
+            //Genero
+            if( datos[val]['list_id'] == 9 ){
+                this.typegender.push(datos[val]);
+            }
+            //Colombiano
+            if(datos[val]['list_id'] == 17 ){
+                this.selSiNo.push(datos[val]);
+            }
+            //Grupo Etnico
+            if( datos[val]['list_id'] == 7 ){
+                this.typeEtn.push(datos[val]);
+            }
+            //Sino Certificado
+            if( datos[val]['list_id'] == 18 ){
+                this.selSnCer.push(datos[val]);
+            }
+            //EStado Civil
+            if( datos[val]['list_id'] == 10 ){
+                this.steCilv.push(datos[val]);
+            }
+            //Estado
+            if( datos[val]['list_id'] == 13 ){
+                this.stuPer.push(datos[val]);
+            }
+        }
+
     }
 
     onSubmit() {
@@ -189,6 +253,22 @@ export class ManagementDialog {
                     this.formUsuario.get('email').setValue(this.usuario.email);
                     this.formUsuario.get('phone').setValue(this.usuario.phone);
                     this.formUsuario.get('role').setValue(this.usuario.role);
+                    this.formUsuario.get('idDocumentType').setValue(this.usuario.idDocumentType);
+                    this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate); 
+                    this.formUsuario.get('idGender').setValue(this.usuario.idGender);
+                    this.formUsuario.get('birthDate').setValue(this.usuario.birthDate);
+                    this.formUsuario.get('isColombian').setValue(this.usuario.isColombian);
+                    this.formUsuario.get('idEthnicGroup').setValue(this.usuario.idEthnicGroup);
+                    this.formUsuario.get('certificate').setValue(this.usuario.certificate);
+                    this.formUsuario.get('idMarital').setValue(this.usuario.idMarital);
+                    this.formUsuario.get('nameContact').setValue(this.usuario.nameContact);
+                    this.formUsuario.get('phoneEmergency').setValue(this.usuario.phoneEmergency);
+                    this.formUsuario.get('businessEmail').setValue(this.usuario.businessEmail);
+                    this.formUsuario.get('houseType').setValue(this.usuario.houseType);
+                    this.formUsuario.get('stratum').setValue(this.usuario.stratum);
+                    this.formUsuario.get('address').setValue(this.usuario.address);
+                    this.formUsuario.get('neighborhood').setValue(this.usuario.neighborhood);
+
                     this.loading.emit(false);
                 } else {
                     this.handler.handlerError(data);

@@ -20,6 +20,7 @@ export interface PeriodicElement {
 @Component({
     selector: 'state-dialog',
     templateUrl: 'state.dialog.html',
+    styleUrls: ['./state.dialog.component.css'],
 })
 
 export class StateDialog{

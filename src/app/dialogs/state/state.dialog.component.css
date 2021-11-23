@@ -1,0 +1,7 @@
+.button_header{
+    display: flex;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-content: stretch; 
+}

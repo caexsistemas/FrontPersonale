@@ -86,13 +86,15 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Seleccione un rol</mat-label>
-                                <mat-select formControlName="role">
-                                    <mat-option value="132">Administrador</mat-option>
-                                    <mat-option value="133">Coordinador</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo de Rol:</mat-label>
+                                <select matNativeControl formControlName="role" name="rol">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let rol of typerol" [value]="rol.ls_codvalue">
+                                    {{rol.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field> 
                         </div>
 
                         <div class="col-sm-4">
@@ -103,6 +105,195 @@
                         </div>
                         
                     </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Documento Identidad</mat-label>
+                                <select matNativeControl formControlName="idDocumentType" name="idet">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let idet of typeidentifi" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Fecha Expedicion:</mat-label>
+                                <input matInput formControlName="expeditionDate" type="date">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Genero:</mat-label>
+                                <select matNativeControl formControlName="idGender" name="genr">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let genr of typegender" [value]="genr.ls_codvalue">
+                                    {{genr.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Fecha Cumpleaños:</mat-label>
+                                <input matInput formControlName="birthDate" type="date">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Es Colombiano:</mat-label>
+                                <select matNativeControl formControlName="isColombian" name="colb">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let colb of selSiNo" [value]="colb.ls_codvalue">
+                                    {{colb.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Grupo Etnico:</mat-label>
+                                <select matNativeControl formControlName="idEthnicGroup" name="etn">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let etn of typeEtn" [value]="etn.ls_codvalue">
+                                    {{etn.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Certificado:</mat-label>
+                                <select matNativeControl formControlName="certificate" name="cert">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let cert of selSnCer" [value]="cert.ls_codvalue">
+                                    {{cert.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Estado Civil:</mat-label>
+                                <select matNativeControl formControlName="idMarital" name="sivl">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let sivl of steCilv" [value]="sivl.ls_codvalue">
+                                    {{sivl.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Estado:</mat-label>
+                                <select matNativeControl formControlName="status" name="stat">
+                                  <option value="" selected></option>
+                                  <option *ngFor="let stat of stuPer" [value]="stat.ls_codvalue">
+                                    {{stat.description}}
+                                  </option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre de Contacto: </mat-label>
+                                <input matInput formControlName="nameContact">
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Numero de Emergencia: </mat-label>
+                                <input matInput formControlName="phoneEmergency">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Correo Corporativo: </mat-label>
+                                <input matInput formControlName="businessEmail">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Zona: </mat-label>
+                                <input matInput formControlName="zone">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo de Residecia: </mat-label>
+                                <input matInput formControlName="houseType">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Estracto: </mat-label>
+                                <input matInput formControlName="stratum">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Direcci&oacute;n: </mat-label>
+                                <input matInput formControlName="address">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Barrio: </mat-label>
+                                <input matInput formControlName="neighborhood">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tiempo de desplazamiento: </mat-label>
+                                <input matInput formControlName="displacementTime">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
                 </form>
 
             </mat-dialog-content>
