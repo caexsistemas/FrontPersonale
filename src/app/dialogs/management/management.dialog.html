@@ -1,41 +1,475 @@
 <div *ngIf="view == 'view'">
     <div class="modal-header">
-        <h5 class="modal-title">Información de usuario</h5>
+        <h5 class="modal-title"><strong>{{personale[0].name }}</strong></h5>
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <tabset>
+        <tab>
+            <ng-template tabHeading><i class="icon-user"></i></ng-template>
 
-    <mat-dialog-content style="min-width: 500px;">
-        <div class="row mt-2">
-            <div class="col-md-4">
-                <dt>Nombres</dt>
-                <dd>{{usuario.name}}</dd>
-            </div>
+            <mat-accordion>
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Información personal
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-dialog-content>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <dt>Nombre completo</dt>
+                                <dd>{{personale[0].name}}</dd>
+                            </div>
 
-            <div class="col-md-4">
-                <dt>Apellidos</dt>
-                <dd>{{usuario.surname}}</dd>
-            </div>
+                            <div class="col-md-4">
+                                <dt>Tipo de documento</dt>
+                                <dd>{{personale[0].Tdocument}}</dd>
+                            </div>
 
-            <div class="col-md-4">
-                <dt>Usuario</dt>
-                <dd>{{usuario.username}}</dd>
-            </div>
-        </div>
+                            <div class="col-md-4">
+                                <dt>Número de documento</dt>
+                                <dd>{{personale[0].document}}</dd>
+                            </div>
 
-        <div class="row">
-            <div class="col-md-8">
-                <dt>Correo</dt>
-                <dd>{{usuario.email}}</dd>
-            </div>
+                            <div class="col-md-4">
+                                <dt>Fecha expedicion</dt>
+                                <dd>{{personale[0].expeditionDate}}</dd>
+                            </div>
 
-            <div class="col-md-4">
-                <dt>Telefono</dt>
-                <dd>{{usuario.phone}}</dd>
-            </div>
-        </div>
-    </mat-dialog-content>
+                            <div class="col-md-4">
+                                <dt>Ciudad de expedicion</dt>
+                                <dd>{{personale[0].cityExpd +"/"+ personale[0].estateExpd}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Fecha Nacimiento</dt>
+                                <dd>{{personale[0].birthDate}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Edad</dt>
+                                <dd>{{personale[0].age}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Mes Nacimiento</dt>
+                                <dd>{{personale[0].month }}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Grupo etario</dt>
+                                <dd>{{grEta}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Ciudad Nacimiento</dt>
+                                <dd>{{personale[0].cityBirth}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Es colombiano</dt>
+                                <dd>{{personale[0].isColombian==1?'Sí':'No'}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Correo electronico</dt>
+                                <dd>{{personale[0].email }}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Correo Corporativo</dt>
+                                <dd>{{personale[0].businessEmail }}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Teléfono</dt>
+                                <dd>{{personale[0].phone}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Genero</dt>
+                                <dd>{{personale[0].gender}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Estado civil</dt>
+                                <dd>{{personale[0].maritalStatus}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Grupo etnico</dt>
+                                <dd>{{personale[0].EthnicGroup}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Tiene certificado</dt>
+                                <dd>{{personale[0].certificate==1?'Sí':'No'}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Fecha de la encuesta</dt>
+                                <dd>{{personale[0].createAt}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Fecha de importación</dt>
+                                <dd>{{personale[0].admissionDate}}</dd>
+                            </div>
+                        </div>
+                    </mat-dialog-content>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Residencia
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-dialog-content>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <dt>Dirección</dt>
+                                <dd>{{personale[0].address}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Barrio</dt>
+                                <dd>{{personale[0].neighborhood}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Ciudad</dt>
+                                <dd>{{personale[0].city}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Estrato</dt>
+                                <dd>{{personale[0].stratum}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Zona residencial</dt>
+                                <dd>{{personale[0].zone}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Tipo vivienda</dt>
+                                <dd>{{personale[0].houseType}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Situación residencial</dt>
+                                <dd>{{personale[0].houseSituation}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Tiempo desplazamiento<br> (casa-trabajo)</dt>
+                                <dd>{{personale[0].displacementTime}}</dd>
+                            </div>
+                        </div>
+                    </mat-dialog-content>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Contacto Emergencia
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-dialog-content>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <dt>Nombre</dt>
+                                <dd>{{personale[0].nameContact}}</dd>
+                            </div>
+
+                            <div class="col-md-4">
+                                <dt>Telefono</dt>
+                                <dd>{{personale[0].phoneEmergency}}</dd>
+                            </div>                           
+                        </div>
+                    </mat-dialog-content>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+        </tab>
+        <tab>
+            <ng-template tabHeading><i class="fa fa-heartbeat"></i></ng-template>
+            <mat-dialog-content>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <dt>Tipo sangre</dt>
+                        <dd>{{medical[0].description}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Altura</dt>
+                        <dd>{{medical[0].height}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Peso</dt>
+                        <dd>{{medical[0].weight}}</dd>
+                    </div>
+                </div>
+            </mat-dialog-content>
+            <!-- <div class="row">
+                <div class="col-md-4">
+                    <h4>IMC</h4>
+                    <span class="h3 text-{{textImc}}">{{imc}}</span>
+                </div>
+                <div class="col-md-8">
+                    <h4>Interpretación IMC</h4>
+                    <span class="h3 text-{{textImc}}">{{imcInf}}</span>
+                </div>
+            </div> -->
+
+        </tab>
+        <tab>
+            <ng-template tabHeading><i class="fa fa-graduation-cap"></i></ng-template>
+            <mat-dialog-content>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <dt>Mayor nivel academico alcanzado</dt>
+                        <dd>{{academic[0].levelAcademic}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Estudios actuales</dt>
+                        <dd>{{academic[0].studyng}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Razón de no estudiar</dt>
+                        <dd>{{academic[0].notStudying}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Tipo de estudio que realiza</dt>
+                        <dd>{{academic[0].typeStudy}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Principal motivación para estudiar</dt>
+                        <dd>{{academic[0].studyMotivation}}</dd>
+                    </div>
+                </div>
+            </mat-dialog-content>
+        </tab>
+        <tab>
+            <ng-template tabHeading><i class="fa fa-money"></i></ng-template>
+            <mat-dialog-content>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <dt>Tipo de contrato</dt>
+                        <dd>{{working[0].idContract}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Cargo</dt>
+                        <dd>{{working[0].idPosition}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Area de trabajo</dt>
+                        <dd>{{working[0].idArea}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Jefe inmediato</dt>
+                        <dd>{{working[0].immediateBoss}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Como se entero de la vacante</dt>
+                        <dd>{{working[0].bringResume}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Manera que llego la hoja de vida</dt>
+                        <dd>{{working[0].vacantInformation}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Fecha de ingreso</dt>
+                        <dd>{{working[0].admissionDate}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Fecha de retiro</dt>
+                        <dd>{{working[0].withdrawalDate}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Motivo</dt>
+                        <dd>{{working[0].reason}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Salario</dt>
+                        <dd>{{salary[0].salary | number}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Auxilio Transporte</dt>
+                        <dd>{{salary[0].transportation | number}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Valor nómina</dt>
+                        <dd>{{salary[0].transportation | number}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Pension</dt>
+                        <dd>{{salary[0].pension | number}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Caja de compensación</dt>
+                        <dd>{{salary[0].family | number}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Arl</dt>
+                        <dd>{{salary[0].arl | number}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>TOTAL SEGURIDAD SOCIAL</dt>
+                        <dd>{{salary[0].total | number}}</dd>
+                    </div>
+
+                </div>
+            </mat-dialog-content>
+        </tab>
+        <tab>
+            <ng-template tabHeading><i class="fa fa-users"></i></ng-template>
+            <mat-dialog-content>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <dt>Casa propia</dt>
+                        <dd>{{family[0].ownHouse}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Aporte económico adicional en hogar</dt>
+                        <dd>{{family[0].EconomiCont}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Dependencia económica</dt>
+                        <dd>{{family[0].economicDependence}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Número personas convive</dt>
+                        <dd>{{family[0].peopleCoexist}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Ingresos familiares</dt>
+                        <dd>{{family[0].familyIncome}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Ingresos cubren gastos mínimos</dt>
+                        <dd>{{family[0].Expenses}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Tipo de hogar</dt>
+                        <dd>{{family[0].typeHome}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Número personas convive<br>(discapacidad)</dt>
+                        <dd>{{family[0].familyDisability}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Numero de hijos</dt>
+                        <dd>{{family[0].numberChildren}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Numero de hijos que dependen economicamente de usted</dt>
+                        <dd>{{family[0].childrenDepends}}</dd>
+                    </div>
+                </div>
+            </mat-dialog-content>
+            <table class="table table-sm table-borderless">
+                <tbody>
+                    <!-- <tr>
+                     <tr *ngIf="familyInf[0].children.length>0" class="table-primary">
+                        <th colspan="4">
+                            <center>Información Hijos</center>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Genero</th>
+                        <th>Fecha nacimiento</th>
+                        <th>Edad</th>
+                    </tr>
+                    <tr *ngFor="let item of familyInf[0].children">
+                        <td>{{item.name}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{ageChildren(item.birthDate)}}</td>
+                        <td>{{detailUser.agech}}</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </tab>
+        <tab>
+            <ng-template tabHeading><i class="fa fa-tags"></i></ng-template>
+            <table class="table table-sm table-borderless">
+                <thead>
+                    <th>Categoria</th>
+                    <th>Prenda</th>
+                    <th>Talla</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of endowmentData">
+                        <td>{{item.idClothingType}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.size}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </tab>
+        <tab>
+            <ng-template tabHeading><i class="fa fa-cogs"></i></ng-template>
+            <mat-dialog-content>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <dt>Eps</dt>
+                        <dd>{{sos[0].idEps}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Pension</dt>
+                        <dd>{{sos[0].idPension}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Cesantías</dt>
+                        <dd>{{sos[0].idSeverance}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Caja de compensación</dt>
+                        <dd>{{sos[0].idBenefit}}</dd>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dt>Cobertura en ARL</dt>
+                        <dd>{{sos[0].coverageArl}}</dd>
+                    </div>
+                </div>
+            </mat-dialog-content>
+        </tab>
+    </tabset>
 </div>
 
 <div class="card mt-6">
@@ -69,7 +503,7 @@
                             </mat-form-field>
                         </div>
                         <div class="col-sm-4">
-                            <mat-form-field >
+                            <mat-form-field>
                                 <mat-label>Número de identificación</mat-label>
                                 <input matInput formControlName="username">
                             </mat-form-field>
@@ -78,7 +512,7 @@
 
                     <div class="row">
                         <div class="col-sm-4">
-                            <mat-form-field class="example-full-width" >
+                            <mat-form-field class="example-full-width">
                                 <mat-label>Correo</mat-label>
                                 <input matInput placeholder="caex@example.com" formControlName="email" required>
                                 <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
@@ -98,12 +532,12 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <mat-form-field >
+                            <mat-form-field>
                                 <mat-label>Teléfono</mat-label>
                                 <input matInput formControlName="phone">
                             </mat-form-field>
                         </div>
-                        
+
                     </div>
 
                     <div class="row">

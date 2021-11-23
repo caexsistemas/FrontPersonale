@@ -13,6 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+
 import { ManagementDialog } from '../../dialogs/management/management.dialog.component';
 import { environment } from '../../../environments/environment';
 
@@ -42,33 +43,37 @@ export class ManagementComponent implements OnInit {
   public grEta: string
 
   public filters = { searchId: "", searchName: "" }
-  
-  endpoint:string   = '/personal';
-  endpointup:string   = '/personaleupload';
-  urlKaysenBackend      = environment.url;
 
-  permissions:any = null;
-  datapersonale : any    = [];
-  loading:boolean           = false;
+  endpoint: string = '/personal';
+  endpointup: string = '/personaleupload';
+  urlKaysenBackend = environment.url;
+  url = this.urlKaysenBackend + this.endpointup;
 
-  displayedColumns:any  = [];
-  dataSource:any        = [];
+  permissions: any = null;
+  datapersonale: any = [];
+  loading: boolean = false;
 
-  personaleData : any     = [];
+  displayedColumns: any = [];
+  dataSource: any = [];
+
+  personaleData: any = [];
+
+  modal: 'successModal';
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
   @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
-  url = this.urlKaysenBackend+this.endpointup;
+
+
+
   public afuConfig = {
-    
+
     multiple: false,
     formatsAllowed: ".xlsx,.xls",
     maxSize: "20",
     uploadAPI: {
-      // url: global.url + 'Personale/uploadInformationPersonale',
       url: this.url,
       method: "POST",
       headers: {
@@ -91,72 +96,95 @@ export class ManagementComponent implements OnInit {
     }
   };
 
-  constructor(private _managementService: ManagementService, 
-              private _tools: Tools,
-              private WebApiService:WebApiService,
-              public handler:HandlerAppService,
-              public dialog: MatDialog) { }
-  
+
+  constructor(private _managementService: ManagementService,
+    private _tools: Tools,
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    public dialog: MatDialog) { }
+
+  getAllPersonal() {
+    this.WebApiService.getRequest(this.endpoint, {
+    })
+      .subscribe(
+        response => {
+          // this.permissions = this.handler.getPermissions(this.component);
+          if (response.success) {
+            this.handler.showSuccess('El archivo se cargo exitosamente');
+            this.personaleData = response.data;
+            this.loading = false;
+            this.successModal.hide();
+          } else {
+            this.datapersonale = [];
+            this.handler.handlerError(response);
+          }
+        },
+        error => {
+          this.loading = false;
+          //this.permissions = this.handler.getPermissions(this.component);
+          this.handler.showError();
+        }
+      );
+  }
+
   ngOnInit(): void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
-    //this.getAllPersonal();
-
   }
 
 
-  sendRequest(){
-    this.WebApiService.getRequest(this.endpoint,{
+  sendRequest() {
+    this.WebApiService.getRequest(this.endpoint, {
     })
-    .subscribe(
-      response=>{
-        // this.permissions = this.handler.getPermissions(this.component);
-        if(response.success){
-          this.generateTable(response.data);
-          this.personaleData = response.data
-          this.loading = false;
-        }else{
-          this.datapersonale = [];
-          this.handler.handlerError(response);
+      .subscribe(
+        response => {
+          // this.permissions = this.handler.getPermissions(this.component);
+          if (response.success) {
+            this.generateTable(response.data);
+            this.personaleData = response.data
+            this.loading = false;
+          } else {
+            this.datapersonale = [];
+            this.handler.handlerError(response);
+          }
+        },
+        error => {
+          // this.loading = false;
+          // this.permissions = this.handler.getPermissions(this.component);
+          // this.handler.showError();
         }
-      },
-      error=>{
-        // this.loading = false;
-        // this.permissions = this.handler.getPermissions(this.component);
-        // this.handler.showError();
-      }
-    );
+      );
   }
 
-  generateTable(data){
+  generateTable(data) {
     this.displayedColumns = [
-      'view', 
+      'view',
       'nombre',
       'documento',
       'correo',
       'telefono',
       'actions'
     ];
-    this.dataSource           = new MatTableDataSource(data);
-    this.dataSource.sort      = this.sort.toArray()[0];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];
     let search;
-    if(document.contains(document.querySelector('search-input-table'))){
+    if (document.contains(document.querySelector('search-input-table'))) {
       search = document.querySelector('.search-input-table');
       search.value = "";
     }
   }
 
-  applyFilter(search){
+  applyFilter(search) {
     this.dataSource.filter = search.trim().toLowerCase();
   }
 
-  option(action,codigo=null){
+  option(action, codigo = null) {
     var dialogRef;
-    switch(action){
+    switch (action) {
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(ManagementDialog,{
+        dialogRef = this.dialog.open(ManagementDialog, {
           data: {
             window: 'view',
             codigo
@@ -164,17 +192,17 @@ export class ManagementComponent implements OnInit {
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe(val => {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed');
           console.log(result);
         });
-      break;
+        break;
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(ManagementDialog,{
+        dialogRef = this.dialog.open(ManagementDialog, {
           data: {
             window: 'create',
             codigo
@@ -182,31 +210,31 @@ export class ManagementComponent implements OnInit {
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe(val => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
+        dialogRef.componentInstance.reload.subscribe(val => {
           this.sendRequest();
         });
-      break;
+        break;
       case 'update':
-          this.loading = true;
-          dialogRef = this.dialog.open(ManagementDialog,{
-            data: {
-              window: 'update',
-              codigo
-            }
-          });
-          dialogRef.disableClose = true;
-          // LOADING
-          dialogRef.componentInstance.loading.subscribe(val=>{
-            this.loading = val;
-          });
-          // RELOAD
-          dialogRef.componentInstance.reload.subscribe(val=>{
-            this.sendRequest();
-          });
+        this.loading = true;
+        dialogRef = this.dialog.open(ManagementDialog, {
+          data: {
+            window: 'update',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val => {
+          this.sendRequest();
+        });
         break;
       // case 'active':
       //   this.updateStatus('active');
@@ -215,49 +243,14 @@ export class ManagementComponent implements OnInit {
       //   this.updateStatus('inactive');
       // break;
     }
-  
+
   }
-  
 
 
-  getAllPersonal() {
-      this.WebApiService.getRequest(this.endpoint,{
-    })
-    .subscribe(
-      response=>{
-        // this.permissions = this.handler.getPermissions(this.component);
-        if(response.success){
-          this.handler.showSuccess('El archivo se cargo exitosamente');
-          this.personaleData = response.data;
-          
-          this.loading = false;
-        }else{
-          this.datapersonale = [];
-          this.handler.handlerError(response);
-        }
-      },
-      error=>{
-        this.loading = false;
-        //this.permissions = this.handler.getPermissions(this.component);
-        this.handler.showError();
-      }
-    );
-     //this._managementService.getAllPersonal().subscribe(response => {
-    //   this.data = response
-    //   console.log(response)
-    // },
-    //   error => {
-    //     //console.log(<any>error)
-    //     if (<any>error.status == 401) {
-    //       this._tools.goToPage('login')
-    //     } else if (<any>error.status == 500) {
-    //       this._tools.showNotify("error", "GESTIN", "Error Interno")
-    //     } else if (<any>error.status == 403) {
-    //       this._tools.goToPage('403')
-    //     }
-    //   }
-    // )
-  }
+
+
+
+
   searchData() {
     this._managementService.getFiltersUser(this.filters).subscribe(response => {
       this.data = response
@@ -297,7 +290,7 @@ export class ManagementComponent implements OnInit {
       this.clothingInf = response['clothing']
       this.cosecInf = response['sosec']
       this.location = response['location']
-      this.detailUser['cityBirth']=(this.detailUser['cityBirth']!=null)?this.detailUser['cityBirth']+"/"+this.detailUser['estateBirth']:this.location[0].locationBirth
+      this.detailUser['cityBirth'] = (this.detailUser['cityBirth'] != null) ? this.detailUser['cityBirth'] + "/" + this.detailUser['estateBirth'] : this.location[0].locationBirth
       this.valuesNom()
       this.calculateimc(this.medicalInf[0].height, this.medicalInf[0].weight)
     },
@@ -352,14 +345,14 @@ export class ManagementComponent implements OnInit {
   }
 
   showDetails(item) {
-    this.detailUser = item;   
+    this.detailUser = item;
     this.detailUser['age'] = this._tools.CalculateAge(item.birthDate)
     let month = this._tools.monthDate(item.birthDate)
     this.detailUser['birthDate'] = month[0].date
     this.detailUser['month'] = month[0].month
     this.getInformation(item.idPersonale)
     this.getGroupEta(this.detailUser['age'])
-    this.infoModal.show()     
+    this.infoModal.show()
   }
   getGroupEta(age) {
     if (age >= '18' && age <= '29') {
@@ -378,5 +371,5 @@ export class ManagementComponent implements OnInit {
     let month = this._tools.monthDate(birthDate)
     this.detailUser['agech'] = this._tools.CalculateAge(birthDate)
     return month[0].date
-  } 
+  }
 }
