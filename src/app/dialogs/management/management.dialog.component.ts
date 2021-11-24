@@ -47,7 +47,10 @@ export class ManagementDialog implements AfterContentChecked{
     steCilv: any = []; 
     rol : any = [];
     stuPer: any = [];
+    typeblood: any = [];
+    typeEps: any = [];
     public usuario;
+    public medicalinf;
     panelOpenState = false;
     email = new FormControl('', [Validators.required, Validators.email]);
 
@@ -79,7 +82,8 @@ export class ManagementDialog implements AfterContentChecked{
 
     // FORMULARIOS
     formUsuario: FormGroup;
-
+    formUmedical: FormGroup;
+    formFoncep: FormGroup;
 
 
     status: any = [
@@ -181,7 +185,24 @@ export class ManagementDialog implements AfterContentChecked{
             Departamentexpedition:new FormControl(""),
             expeditionCity:new FormControl(""),
             DepartamentBirth:new FormControl(""),
-            citybBirth:new FormControl("")
+            citybBirth:new FormControl(""),
+            city:new FormControl(""),
+            phoneEmergency:new FormControl("")
+        });  
+        this.formUmedical = new FormGroup({
+            idBlood:new FormControl(""),
+            height:new FormControl(""),
+            weight:new FormControl(""),
+            trauma:new FormControl(""),
+            diseases:new FormControl(""),
+            treatment:new FormControl("")
+        });
+        this.formFoncep = new FormGroup({
+            idEps:new FormControl(""),
+            idPension:new FormControl(""),
+            idSeverance:new FormControl(""),
+            idBenefit:new FormControl(""),
+            coverageArl:new FormControl("")
         });
     }
 
@@ -257,6 +278,14 @@ export class ManagementDialog implements AfterContentChecked{
             //Estado
             if( datos[val]['list_id'] == 13 ){
                 this.stuPer.push(datos[val]);
+            }
+            //Tipo Sangre
+            if( datos[val]['list_id'] == 2 ){
+                this.typeblood.push(datos[val]);
+            }
+            //Eps
+            if( datos[val]['list_id'] == 15 ){
+                this.typeEps.push(datos[val]);
             }
         }
 
@@ -348,7 +377,15 @@ export class ManagementDialog implements AfterContentChecked{
                     //DepartamentBirth
                     this.formUsuario.get('expeditionCity').setValue(this.usuario.expeditionCity);
                     this.formUsuario.get('citybBirth').setValue(this.usuario.citybBirth);
-                                      
+                    this.formUsuario.get('city').setValue(this.usuario.city);
+                    //Informacion Medica
+                    this.medicalinf = data.data[1]; 
+                    this.formUmedical.get('idBlood').setValue(this.medicalinf.idBlood);
+                    this.formUmedical.get('height').setValue(this.medicalinf.height);
+                    this.formUmedical.get('weight').setValue(this.medicalinf.weight);
+                    this.formUmedical.get('trauma').setValue(this.medicalinf.trauma);
+                    this.formUmedical.get('diseases').setValue(this.medicalinf.diseases);
+                    this.formUmedical.get('treatment').setValue(this.medicalinf.treatment);
 
                     this.loading.emit(false);
                 } else {
