@@ -1,6 +1,6 @@
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Component, Inject, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, OnInit, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
 import { WebApiService } from '../../services/web-api.service';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { environment } from '../../../environments/environment';
@@ -8,19 +8,24 @@ import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
 //import { Console } from 'console';
 
+export interface CountryI{
+    idState: number;
+    name: string;
+}
 
-
-
-
-
-
+export interface CityI{
+    idCity: number;
+    name: string;
+    idState: number;
+}
 
 @Component({
     selector: 'management-dialog',
     templateUrl: 'management.dialog.html',
+    styleUrls: ['./management.dialog.component.css'],
 })
 
-export class ManagementDialog {
+export class ManagementDialog implements AfterContentChecked{
     // VARIABLES
     view: string = null;
     personale: any = []; 
@@ -43,12 +48,28 @@ export class ManagementDialog {
     rol : any = [];
     stuPer: any = [];
     public usuario;
-
     panelOpenState = false;
-
     email = new FormControl('', [Validators.required, Validators.email]);
-    
-    
+
+    public selectdCountry: CountryI = {idState: 0, name: ''};
+    public countries: CountryI[];
+    public cities: CityI[];
+    public citiestem: CityI[];
+    public citiesbirth: CityI[];
+    //Acordion
+    step = 0;
+
+    setStep(index: number) {
+        this.step = index;
+    }
+
+    nextStep() {
+        this.step++;
+    }
+
+    prevStep() {
+        this.step--;
+    }
    
     // registro a consultar.
     endpoint: string = '/personal';
@@ -76,7 +97,8 @@ export class ManagementDialog {
         private WebApiService: WebApiService,
         private handler: HandlerAppService,
         @Inject(MAT_DIALOG_DATA) public data,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private cdref: ChangeDetectorRef
     ) {
         this.view = this.data.window;
         this.id = null;
@@ -125,6 +147,11 @@ export class ManagementDialog {
         }
     }
 
+    ngAfterContentChecked() : void {
+        this.cdref.detectChanges();
+        console.log("Repito");
+    }
+
     initForms() {
         this.getDataInit();
         this.formUsuario = new FormGroup({
@@ -149,7 +176,12 @@ export class ManagementDialog {
             houseType:new FormControl(""),
             stratum:new FormControl(""),
             address:new FormControl(""),
-            neighborhood:new FormControl("")
+            neighborhood:new FormControl(""),
+            displacementTime:new FormControl(""),
+            Departamentexpedition:new FormControl(""),
+            expeditionCity:new FormControl(""),
+            DepartamentBirth:new FormControl(""),
+            citybBirth:new FormControl("")
         });
     }
 
@@ -168,9 +200,11 @@ export class ManagementDialog {
             data => {
                 if (data.success == true) {
                     let datos = data.data['values_list'];
+                    this.countries = data.data['states'];
+                    this.cities = data.data['citys'];
                     this.optionSelect(datos);
                     this.loading.emit(false);
-                    console.log(this.typeidentifi);
+                    console.log(this.countries);
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -226,6 +260,29 @@ export class ManagementDialog {
             }
         }
 
+    }
+
+    onSelect(idState:any):void{
+        
+        this.loading.emit(true);
+
+        setTimeout(()=>{        
+            this.citiestem = this.cities.filter(item => item.idState == idState);
+        },3);   
+
+        this.loading.emit(false);
+    }
+
+    onSelectBirth(idState:any):void{
+        
+        this.loading.emit(true);
+
+        setTimeout(()=>{       
+            this.citiesbirth = this.cities.filter(item => item.idState == idState);
+            console.log(this.citiesbirth);
+        },3);   
+
+        this.loading.emit(false);
     }
 
     onSubmit() {
@@ -286,6 +343,12 @@ export class ManagementDialog {
                     this.formUsuario.get('stratum').setValue(this.usuario.stratum);
                     this.formUsuario.get('address').setValue(this.usuario.address);
                     this.formUsuario.get('neighborhood').setValue(this.usuario.neighborhood);
+                    this.formUsuario.get('displacementTime').setValue(this.usuario.displacementTime);
+                    //Departamentexpedition
+                    //DepartamentBirth
+                    this.formUsuario.get('expeditionCity').setValue(this.usuario.expeditionCity);
+                    this.formUsuario.get('citybBirth').setValue(this.usuario.citybBirth);
+                                      
 
                     this.loading.emit(false);
                 } else {

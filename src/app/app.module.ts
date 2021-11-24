@@ -22,6 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -85,7 +87,9 @@ const routes: Routes = [];
     MatTableModule,
     ModalModule,
     MatExpansionModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    MatTabsModule,
+    MatIconModule
     
   ],
   declarations: [

@@ -24,6 +24,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule }  from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -47,6 +50,8 @@ const ngWizardConfig: NgWizardConfig = {
     MatFormFieldModule,
     MatInputModule,
     MatSortModule,
+    MatTabsModule,
+    MatIconModule,
 
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig)
