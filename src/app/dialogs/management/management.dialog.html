@@ -528,15 +528,14 @@
 
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Documento Identidad</mat-label>
-                                            <select matNativeControl formControlName="idDocumentType" name="idet">
-                                              <option value="" selected></option>
-                                              <option *ngFor="let idet of typeidentifi" [value]="idet.ls_codvalue">
+                                            <mat-select formControlName="idDocumentType" >
+                                              <mat-option *ngFor="let idet of typeidentifi" [value]="idet.ls_codvalue">
                                                 {{idet.description}}
-                                              </option>
-                                            </select>
-                                        </mat-form-field> 
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
                                         <mat-form-field >
@@ -554,74 +553,66 @@
 
                                 <div class="row">
                                     <div class="col-sm-4">
-                                       <mat-form-field floatLabel="never"  appearance="fill">
-                                           <mat-label>Departamento Expedicion:</mat-label>
-                                           <select matNativeControl  formControlName="Departamentexpedition" name="dep" 
-                                           (change) = "onSelect($event.target.value)" >
-                                           <option value="" selected></option>
-                                           <option *ngFor="let dep of countries" [value]="dep.idState">
-                                               {{dep.name}}
-                                           </option>
-                                           </select>
-                                       </mat-form-field>
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Departamento Expedicion:</mat-label>
+                                            <mat-select formControlName="Departamentexpedition" name="dep" (selectionChange) = "onSelect($event.value)" >
+                                              <mat-option *ngFor="let dep of countries" [value]="dep.idState">
+                                                {{dep.name}}
+                                              </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
                                     </div>
                                     <div class="col-sm-4"> 
-                                       <mat-form-field floatLabel = "never" appearance="fill">
-                                           <mat-label>Ciudad de Expedicion:</mat-label>
-                                           <select matNativeControl formControlName="expeditionCity" name="cit" placeholder="Other" >
-                                           <option value="" selected></option>
-                                           <option *ngFor="let cit of citiestem" [value]="cit.idCity" >
-                                               {{cit.name}}
-                                           </option>
-                                           </select>
-                                      </mat-form-field>
-                                   
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Ciudad de Expedicion:</mat-label>
+                                            <mat-select formControlName="expeditionCity" name="cit" >
+                                              <mat-option *ngFor="let cit of citiestem" [value]="cit.idCity">
+                                                 {{cit.name}}
+                                              </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Estado Civil:</mat-label>
-                                            <select matNativeControl formControlName="idMarital" name="sivl">
-                                              <option value="" selected></option>
-                                              <option *ngFor="let sivl of steCilv" [value]="sivl.ls_codvalue">
+                                            <mat-select formControlName="idMarital" name="sivl" >
+                                              <mat-option *ngFor="let sivl of steCilv" [value]="sivl.ls_codvalue">
                                                 {{sivl.description}}
-                                              </option>
-                                            </select>
+                                              </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                  </div>
                                  
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Genero:</mat-label>
-                                            <select matNativeControl formControlName="idGender" name="genr">
-                                              <option value="" selected></option>
-                                              <option *ngFor="let genr of typegender" [value]="genr.ls_codvalue">
+                                            <mat-select formControlName="idGender" name="genr" >
+                                              <mat-option *ngFor="let genr of typegender" [value]="genr.ls_codvalue">
                                                 {{genr.description}}
-                                              </option>
-                                            </select>
+                                              </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Grupo Etnico:</mat-label>
-                                            <select matNativeControl formControlName="idEthnicGroup" name="etn">
-                                              <option value="" selected></option>
-                                              <option *ngFor="let etn of typeEtn" [value]="etn.ls_codvalue">
+                                            <mat-select formControlName="idEthnicGroup" name="etn" >
+                                              <mat-option *ngFor="let etn of typeEtn" [value]="etn.ls_codvalue">
                                                 {{etn.description}}
-                                              </option>
-                                            </select>
-                                        </mat-form-field>
+                                              </mat-option>
+                                            </mat-select>
+                                            </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Es Colombiano:</mat-label>
-                                            <select matNativeControl formControlName="isColombian" name="colb">
-                                              <option value="" selected></option>
-                                              <option *ngFor="let colb of selSiNo" [value]="colb.ls_codvalue">
+                                            <mat-select formControlName="isColombian" name="colb" >
+                                              <mat-option *ngFor="let colb of selSiNo" [value]="colb.ls_codvalue">
                                                 {{colb.description}}
-                                              </option>
-                                            </select>
+                                              </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -641,15 +632,13 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
-                                        <mat-form-field floatLabel="never"  appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Departamento Nacimiento:</mat-label>
-                                            <select matNativeControl  formControlName="DepartamentBirth" name="dep" 
-                                            (change) = "onSelectBirth($event.target.value)" >
-                                            <option value="" selected></option>
-                                            <option *ngFor="let dep of countries" [value]="dep.idState">
-                                                {{dep.name}}
-                                            </option>
-                                            </select>
+                                            <mat-select formControlName="Departamentexpedition" name="depbir" (selectionChange) = "onSelectBirth($event.value)" >
+                                              <mat-option *ngFor="let depbir of countries" [value]="depbir.idState">
+                                                {{depbir.name}}
+                                              </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                      </div>
                                      
@@ -657,17 +646,45 @@
 
                                 <div class="row">
                                     <div class="col-sm-4"> 
-                                        <mat-form-field floatLabel = "never" appearance="fill">
+                                        <mat-form-field class="example-full-width">
                                             <mat-label>Ciudad de Nacimiento:</mat-label>
-                                            <select matNativeControl formControlName="citybBirth" name="cit" placeholder="Other" >
-                                            <option value="" selected></option>
-                                            <option *ngFor="let cit of citiesbirth" [value]="cit.idCity" >
-                                                {{cit.name}}
-                                            </option>
-                                            </select>
-                                       </mat-form-field>
-                                    
-                                     </div>                                
+                                            <mat-select formControlName="citybBirth" name="citna" >
+                                              <mat-option *ngFor="let citna of citiesbirth" [value]="citna.idCity">
+                                                {{citna.name}}
+                                              </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>             
+                                     </div>
+                                     <div class="col-sm-4">
+                                        <mat-form-field class="example-full-width">
+                                        <mat-label>Estado:</mat-label>
+                                        <mat-select formControlName="status" name="stat" >
+                                          <mat-option *ngFor="let stat of stuPer" [value]="stat.ls_codvalue">
+                                            {{stat.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                        </mat-form-field>	
+                                    </div> 
+                                    <div class="col-sm-4">
+                                        <mat-form-field class="example-full-width">
+                                        <mat-label>Certificado:</mat-label>
+                                        <mat-select formControlName="idDocumentType" >
+                                          <mat-option *ngFor="let cert of selSnCer" [value]="cert.ls_codvalue">
+                                            {{cert.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                                                   
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Correo Corporativo: </mat-label>
+                                            <input matInput formControlName="businessEmail">
+                                        </mat-form-field>
+                                    </div>
                                 </div>
 
                                   <mat-action-row>
@@ -741,7 +758,7 @@
 
                               
                                   <mat-action-row>
-                                    <button mat-button class="btn btn-warning" (click)="prevStep()">Previous</button>
+                                    <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
                                   </mat-action-row>
                                 </mat-expansion-panel>
@@ -771,12 +788,12 @@
                                                 <input matInput formControlName="phoneEmergency">
                                             </mat-form-field>
                                         </div>
-
+                                            
                                     </div>
   
                                 
                                     <mat-action-row>
-                                      <button mat-button class="btn btn-warning" (click)="prevStep()">Previous</button>
+                                      <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                                       <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
                                     </mat-action-row>
                                   </mat-expansion-panel>
@@ -801,15 +818,14 @@
                         
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <mat-form-field appearance="fill">
+                                    <mat-form-field class="example-full-width">
                                         <mat-label>Tipo Sangre:</mat-label>
-                                        <select matNativeControl formControlName="idBlood" name="blood">
-                                          <option value="" selected></option>
-                                          <option *ngFor="let blood of typeblood" [value]="blood.ls_codvalue">
+                                        <mat-select formControlName="idBlood" name="blood" >
+                                          <mat-option *ngFor="let blood of typeblood" [value]="blood.ls_codvalue">
                                             {{blood.description}}
-                                          </option>
-                                        </select>
-                                    </mat-form-field>
+                                          </mat-option>
+                                        </mat-select>
+                                        </mat-form-field>
                                 </div>
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
@@ -848,10 +864,177 @@
 
                         
                             <mat-action-row>
-                              <button mat-button class="btn btn-warning" (click)="prevStep()">Previous</button>
+                              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
                             </mat-action-row>
                           </mat-expansion-panel>                      
+                    </form>
+
+                    <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formFoncep">
+
+                        <!--{Quinta Seccion Foncep}-->
+                        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Foncep
+                              </mat-panel-title>
+                              <mat-panel-description>
+                                Ingrese Informaci&oacute;n sobre Fondos de Prestaciones Econ&oacute;micas, Cesant&iacute;as y Pensiones
+                                <mat-icon>business_center</mat-icon>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                        
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Eps:</mat-label>
+                                        <mat-select formControlName="idEps" name="eps" >
+                                          <mat-option *ngFor="let eps of typeEps" [value]="eps.ls_codvalue">
+                                            {{eps.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>	
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Pension:</mat-label>
+                                        <mat-select formControlName="idPension" name="pensi" >
+                                          <mat-option *ngFor="let pensi of typePension" [value]="pensi.ls_codvalue">
+                                            {{pensi.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Cesant&iacute;as:</mat-label>
+                                        <mat-select formControlName="idSeverance" name="cesan" >
+                                          <mat-option *ngFor="let cesan of typeCesantias" [value]="cesan.ls_codvalue">
+                                            {{cesan.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Caja Compensaci&oacute;n:</mat-label>
+                                        <mat-select formControlName="idBenefit" name="cajacom" >
+                                          <mat-option *ngFor="let cajacom of typeCajaComp" [value]="cajacom.ls_codvalue">
+                                            {{cajacom.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Cobertura en Arl: </mat-label>
+                                        <input matInput formControlName="coverageArl">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        
+                            <mat-action-row>
+                              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                            </mat-action-row>
+                          </mat-expansion-panel>
+
+                    </form>
+
+                    <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formAcademy">
+                         <!--{Sexta Seccion Academica}-->
+                         <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Datos Academicos
+                              </mat-panel-title>
+                              <mat-panel-description>
+                                Ingrese Informaci&oacute;n Academica
+                                <mat-icon>local_library</mat-icon>
+                              </mat-panel-description>
+                            </mat-expansion-panel-header>
+                        
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Nivel Academico:</mat-label>
+                                        <mat-select formControlName="idAcademicLevel" name="acad" >
+                                          <mat-option *ngFor="let acad of nevAcademy" [value]="acad.ls_codvalue">
+                                            {{acad.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>                            
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Esta Estudiando:</mat-label>
+                                        <mat-select formControlName="isStudying" name="stund" >
+                                          <mat-option *ngFor="let stund of selSiNo" [value]="stund.ls_codvalue">
+                                            {{stund.description}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Razon de no Estudiar: </mat-label>
+                                        <input matInput formControlName="notStudying">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Tipo de Estudio: </mat-label>
+                                        <input matInput formControlName="typeStudy">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Principal Motivaci&oacute;n: </mat-label>
+                                        <input matInput formControlName="studyMotivation">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        
+                            <mat-action-row>
+                              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                            </mat-action-row>
+                          </mat-expansion-panel>
+                    </form>
+
+                    <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formWorking">
+                        <!--{Septima Seccion Working}-->
+                        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            Datos Laborales
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            Ingrese Informaci&oacute;n del Trabajador
+                            <mat-icon>work</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    
+                        <div class="row">
+                            
+                        </div>
+
+                        <div class="row">
+                            
+                        </div>
+                    
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                        </mat-action-row>
+                        </mat-expansion-panel>
                     </form>
 
                 </mat-accordion>           

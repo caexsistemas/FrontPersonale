@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } fro
 import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 //import { Console } from 'console';
 
 export interface CountryI{
@@ -49,6 +50,10 @@ export class ManagementDialog implements AfterContentChecked{
     stuPer: any = [];
     typeblood: any = [];
     typeEps: any = [];
+    typePension: any = [];
+    typeCesantias: any = [];
+    typeCajaComp: any = [];
+    nevAcademy: any = [];
     public usuario;
     public medicalinf;
     panelOpenState = false;
@@ -56,6 +61,7 @@ export class ManagementDialog implements AfterContentChecked{
 
     public selectdCountry: CountryI = {idState: 0, name: ''};
     public countries: CountryI[];
+    public countriesBirt: CountryI[];
     public cities: CityI[];
     public citiestem: CityI[];
     public citiesbirth: CityI[];
@@ -84,6 +90,8 @@ export class ManagementDialog implements AfterContentChecked{
     formUsuario: FormGroup;
     formUmedical: FormGroup;
     formFoncep: FormGroup;
+    formAcademy: FormGroup;
+    formWorking: FormGroup;
 
 
     status: any = [
@@ -153,7 +161,7 @@ export class ManagementDialog implements AfterContentChecked{
 
     ngAfterContentChecked() : void {
         this.cdref.detectChanges();
-        console.log("Repito");
+        //console.log("Repito");
     }
 
     initForms() {
@@ -204,6 +212,26 @@ export class ManagementDialog implements AfterContentChecked{
             idBenefit:new FormControl(""),
             coverageArl:new FormControl("")
         });
+        this.formAcademy = new FormGroup({
+            idAcademicLevel:new FormControl(""),
+            isStudying:new FormControl(""),
+            notStudying:new FormControl(""),
+            typeStudy:new FormControl(""),
+            studyMotivation:new FormControl("")
+        });
+        this.formWorking = new FormGroup({
+            idContract:new FormControl(""),
+            idPosition:new FormControl(""),
+            idArea:new FormControl(""),
+            immediateBoss:new FormControl(""),
+            cityWork:new FormControl(""),
+            vacantInformation:new FormControl(""),
+            bringResume:new FormControl(""),
+            admissionDate:new FormControl(""),
+            withdrawalDate:new FormControl(""),
+            reason:new FormControl(""),
+            date_create:new FormControl("")
+        });
     }
 
 
@@ -222,6 +250,7 @@ export class ManagementDialog implements AfterContentChecked{
                 if (data.success == true) {
                     let datos = data.data['values_list'];
                     this.countries = data.data['states'];
+                    this.countriesBirt = data.data['states'];
                     this.cities = data.data['citys'];
                     this.optionSelect(datos);
                     this.loading.emit(false);
@@ -252,41 +281,31 @@ export class ManagementDialog implements AfterContentChecked{
                 this.typeidentifi.push(datos[val]);
             }
             //Tipo de Roll
-            if( datos[val]['list_id'] == 19 ){
-                this.typerol.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 19 ){this.typerol.push(datos[val]);}
             //Genero
-            if( datos[val]['list_id'] == 9 ){
-                this.typegender.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 9 ){this.typegender.push(datos[val]);}
             //Colombiano
-            if(datos[val]['list_id'] == 17 ){
-                this.selSiNo.push(datos[val]);
-            }
+            if(datos[val]['list_id'] == 17 ){this.selSiNo.push(datos[val]);}
             //Grupo Etnico
-            if( datos[val]['list_id'] == 7 ){
-                this.typeEtn.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 7 ){this.typeEtn.push(datos[val]);}
             //Sino Certificado
-            if( datos[val]['list_id'] == 18 ){
-                this.selSnCer.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 18 ){this.selSnCer.push(datos[val]);}
             //EStado Civil
-            if( datos[val]['list_id'] == 10 ){
-                this.steCilv.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 10 ){this.steCilv.push(datos[val]);}
             //Estado
-            if( datos[val]['list_id'] == 13 ){
-                this.stuPer.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 13 ){this.stuPer.push(datos[val]);}
             //Tipo Sangre
-            if( datos[val]['list_id'] == 2 ){
-                this.typeblood.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 2 ){this.typeblood.push(datos[val]);}
             //Eps
-            if( datos[val]['list_id'] == 15 ){
-                this.typeEps.push(datos[val]);
-            }
+            if( datos[val]['list_id'] == 15 ){this.typeEps.push(datos[val]);}
+            //Pension
+            if( datos[val]['list_id'] == 11 ){this.typePension.push(datos[val]);}
+            //Cesantias
+            if( datos[val]['list_id'] == 12 ){this.typeCesantias.push(datos[val]);}
+            //Caja Compensacion
+            if( datos[val]['list_id'] == 8 ){this.typeCajaComp.push(datos[val]);}
+            //Nivel Academico
+            if( datos[val]['list_id'] == 1 ){this.nevAcademy.push(datos[val]);}
         }
 
     }
@@ -298,7 +317,7 @@ export class ManagementDialog implements AfterContentChecked{
         setTimeout(()=>{        
             this.citiestem = this.cities.filter(item => item.idState == idState);
         },3);   
-
+        console.log(idState);
         this.loading.emit(false);
     }
 
