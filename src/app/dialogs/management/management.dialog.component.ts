@@ -2,7 +2,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Component, Inject, Output, EventEmitter, OnInit, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
 import { WebApiService } from '../../services/web-api.service';
-import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, FormArray } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
@@ -54,6 +54,8 @@ export class ManagementDialog implements AfterContentChecked{
     typeCesantias: any = [];
     typeCajaComp: any = [];
     nevAcademy: any = [];
+    typeContr: any = [];
+    typeArea: any = [];
     public usuario;
     public medicalinf;
     panelOpenState = false;
@@ -65,6 +67,7 @@ export class ManagementDialog implements AfterContentChecked{
     public cities: CityI[];
     public citiestem: CityI[];
     public citiesbirth: CityI[];
+    public citieswork: CityI[];
     //Acordion
     step = 0;
 
@@ -92,6 +95,7 @@ export class ManagementDialog implements AfterContentChecked{
     formFoncep: FormGroup;
     formAcademy: FormGroup;
     formWorking: FormGroup;
+    formChildren: FormGroup;
 
 
     status: any = [
@@ -168,12 +172,12 @@ export class ManagementDialog implements AfterContentChecked{
         this.getDataInit();
         this.formUsuario = new FormGroup({
             name: new FormControl(""),
-            surname: new FormControl(""),
-            username: new FormControl(""),
+            //surname: new FormControl(""),
+            document: new FormControl(""),
             email: new FormControl(""),
             phone: new FormControl(""),
-            password: new FormControl(""),
-            role: new FormControl(""),
+            //password: new FormControl(""),
+            //role: new FormControl(""),
             idDocumentType: new FormControl(""),
             expeditionDate: new FormControl(""),
             idGender: new FormControl(""),
@@ -190,12 +194,13 @@ export class ManagementDialog implements AfterContentChecked{
             address:new FormControl(""),
             neighborhood:new FormControl(""),
             displacementTime:new FormControl(""),
-            Departamentexpedition:new FormControl(""),
+            //Departamentexpedition:new FormControl(""),
             expeditionCity:new FormControl(""),
-            DepartamentBirth:new FormControl(""),
+            //DepartamentBirth:new FormControl(""),
             citybBirth:new FormControl(""),
             city:new FormControl(""),
-            phoneEmergency:new FormControl("")
+            phoneEmergency:new FormControl(""),
+            status:new FormControl("")
         });  
         this.formUmedical = new FormGroup({
             idBlood:new FormControl(""),
@@ -230,7 +235,10 @@ export class ManagementDialog implements AfterContentChecked{
             admissionDate:new FormControl(""),
             withdrawalDate:new FormControl(""),
             reason:new FormControl(""),
-            date_create:new FormControl("")
+            Departamentworking:new FormControl("")
+        });
+        this.formChildren = new FormGroup({
+            lessons: new FormArray([])
         });
     }
 
@@ -306,6 +314,11 @@ export class ManagementDialog implements AfterContentChecked{
             if( datos[val]['list_id'] == 8 ){this.typeCajaComp.push(datos[val]);}
             //Nivel Academico
             if( datos[val]['list_id'] == 1 ){this.nevAcademy.push(datos[val]);}
+            //Tipo de contrato
+            if( datos[val]['list_id'] == 5 ){this.typeContr.push(datos[val]);}
+            //Area
+            if( datos[val]['list_id'] == 14 ){this.typeArea.push(datos[val]);}
+            
         }
 
     }
@@ -333,11 +346,48 @@ export class ManagementDialog implements AfterContentChecked{
         this.loading.emit(false);
     }
 
+    onSelectLabor(idState:any):void{
+        
+        this.loading.emit(true);
+
+        setTimeout(()=>{       
+            this.citieswork = this.cities.filter(item => item.idState == idState);
+            console.log(this.citieswork);
+        },3);   
+
+        this.loading.emit(false);
+    }
+    
+    //Harray Para Hijos
+    get lessons(){
+        return this.formChildren.controls["lessons"] as FormArray;
+    }
+
+    addChildrens(){
+
+        const lessonsForm = new FormGroup({
+            name: new FormControl("", Validators.required),
+            idGender: new FormControl("", Validators.required),
+            birthDate: new FormControl(Date, Validators.required)
+        });
+
+        this.lessons.push(lessonsForm);
+    }
+
+    deleteChildren(chlindrensIndex: number){
+        this.lessons.removeAt(chlindrensIndex);
+    }
+
     onSubmit() {
         if (this.formUsuario.valid) {
             this.loading.emit(true);
             let body = {
                 usuarios: this.formUsuario.value,
+                infomedical: this.formUmedical.value,
+                foncep: this.formFoncep.value,
+                academy: this.formAcademy.value,
+                working: this.formWorking.value,
+                children: this.formChildren.value
             }
             this.WebApiService.postRequest(this.endpoint, body, {})
                 .subscribe(
@@ -394,6 +444,7 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formUsuario.get('displacementTime').setValue(this.usuario.displacementTime);
                     //Departamentexpedition
                     //DepartamentBirth
+                    //Departamentworking
                     this.formUsuario.get('expeditionCity').setValue(this.usuario.expeditionCity);
                     this.formUsuario.get('citybBirth').setValue(this.usuario.citybBirth);
                     this.formUsuario.get('city').setValue(this.usuario.city);

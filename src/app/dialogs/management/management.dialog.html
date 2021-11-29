@@ -508,35 +508,29 @@
                                   <div class="row">
                                     <div class="col-md-4">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Nombres</mat-label>
-                                            <input matInput formControlName="name">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Apellidos</mat-label>
-                                            <input matInput formControlName="surname">
+                                            <mat-label>Nombre Completo:</mat-label>
+                                            <input matInput formControlName="name" required>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
                                         <mat-form-field>
-                                            <mat-label>Número de identificación</mat-label>
-                                            <input matInput formControlName="username">
+                                            <mat-label>Número de identificación:</mat-label>
+                                            <input matInput formControlName="document" type="number" required>
                                         </mat-form-field>
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Documento Identidad</mat-label>
-                                            <mat-select formControlName="idDocumentType" >
+                                            <mat-label>Tipo Docummento:</mat-label>
+                                            <mat-select formControlName="idDocumentType" required>
                                               <mat-option *ngFor="let idet of typeidentifi" [value]="idet.ls_codvalue">
                                                 {{idet.description}}
                                               </mat-option>
                                             </mat-select>
                                           </mat-form-field>
                                     </div>
+                                </div>
+
+                                <div class="row">                
                                     <div class="col-sm-4">
                                         <mat-form-field >
                                             <mat-label>Fecha Expedicion:</mat-label>
@@ -547,6 +541,13 @@
                                         <mat-form-field >
                                             <mat-label>Fecha Cumpleaños:</mat-label>
                                             <input matInput formControlName="birthDate" type="date">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Correo</mat-label>
+                                            <input matInput placeholder="caex@example.com" formControlName="email" required>
+                                            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -575,7 +576,7 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Estado Civil:</mat-label>
-                                            <mat-select formControlName="idMarital" name="sivl" >
+                                            <mat-select formControlName="idMarital" name="sivl" required>
                                               <mat-option *ngFor="let sivl of steCilv" [value]="sivl.ls_codvalue">
                                                 {{sivl.description}}
                                               </mat-option>
@@ -588,7 +589,7 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Genero:</mat-label>
-                                            <mat-select formControlName="idGender" name="genr" >
+                                            <mat-select formControlName="idGender" name="genr" required>
                                               <mat-option *ngFor="let genr of typegender" [value]="genr.ls_codvalue">
                                                 {{genr.description}}
                                               </mat-option>
@@ -598,7 +599,7 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Grupo Etnico:</mat-label>
-                                            <mat-select formControlName="idEthnicGroup" name="etn" >
+                                            <mat-select formControlName="idEthnicGroup" name="etn" required>
                                               <mat-option *ngFor="let etn of typeEtn" [value]="etn.ls_codvalue">
                                                 {{etn.description}}
                                               </mat-option>
@@ -608,7 +609,7 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Es Colombiano:</mat-label>
-                                            <mat-select formControlName="isColombian" name="colb" >
+                                            <mat-select formControlName="isColombian" name="colb" required>
                                               <mat-option *ngFor="let colb of selSiNo" [value]="colb.ls_codvalue">
                                                 {{colb.description}}
                                               </mat-option>
@@ -618,13 +619,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <mat-form-field class="example-full-width">
-                                            <mat-label>Correo</mat-label>
-                                            <input matInput placeholder="caex@example.com" formControlName="email" required>
-                                            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-                                        </mat-form-field>
-                                    </div>
+                                   
                                     <div class="col-sm-4">
                                         <mat-form-field>
                                             <mat-label>Teléfono</mat-label>
@@ -634,18 +629,14 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Departamento Nacimiento:</mat-label>
-                                            <mat-select formControlName="Departamentexpedition" name="depbir" (selectionChange) = "onSelectBirth($event.value)" >
+                                            <mat-select formControlName="DepartamentBirth" name="depbir" (selectionChange) = "onSelectBirth($event.value)" >
                                               <mat-option *ngFor="let depbir of countries" [value]="depbir.idState">
                                                 {{depbir.name}}
                                               </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                      </div>
-                                     
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-4"> 
+                                     <div class="col-sm-4"> 
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Ciudad de Nacimiento:</mat-label>
                                             <mat-select formControlName="citybBirth" name="citna" >
@@ -654,11 +645,15 @@
                                               </mat-option>
                                             </mat-select>
                                         </mat-form-field>             
-                                     </div>
+                                     </div> 
+                                </div>
+
+                                <div class="row">
+                                    
                                      <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                         <mat-label>Estado:</mat-label>
-                                        <mat-select formControlName="status" name="stat" >
+                                        <mat-select formControlName="status" name="stat" required>
                                           <mat-option *ngFor="let stat of stuPer" [value]="stat.ls_codvalue">
                                             {{stat.description}}
                                           </mat-option>
@@ -668,23 +663,19 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                         <mat-label>Certificado:</mat-label>
-                                        <mat-select formControlName="idDocumentType" >
+                                        <mat-select formControlName="certificate" required>
                                           <mat-option *ngFor="let cert of selSnCer" [value]="cert.ls_codvalue">
                                             {{cert.description}}
                                           </mat-option>
                                         </mat-select>
                                         </mat-form-field>
                                     </div>
-                                                                   
-                                </div>
-
-                                <div class="row">
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Correo Corporativo: </mat-label>
                                             <input matInput formControlName="businessEmail">
                                         </mat-form-field>
-                                    </div>
+                                    </div>                               
                                 </div>
 
                                   <mat-action-row>
@@ -714,7 +705,7 @@
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>Estracto: </mat-label>
-                                            <input matInput formControlName="stratum">
+                                            <input matInput formControlName="stratum" required>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
@@ -820,7 +811,7 @@
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Tipo Sangre:</mat-label>
-                                        <mat-select formControlName="idBlood" name="blood" >
+                                        <mat-select formControlName="idBlood" >
                                           <mat-option *ngFor="let blood of typeblood" [value]="blood.ls_codvalue">
                                             {{blood.description}}
                                           </mat-option>
@@ -972,7 +963,7 @@
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Esta Estudiando:</mat-label>
-                                        <mat-select formControlName="isStudying" name="stund" >
+                                        <mat-select formControlName="isStudying" name="stund" required>
                                           <mat-option *ngFor="let stund of selSiNo" [value]="stund.ls_codvalue">
                                             {{stund.description}}
                                           </mat-option>
@@ -1023,11 +1014,98 @@
                         </mat-expansion-panel-header>
                     
                         <div class="row">
-                            
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Tipo de Contrato:</mat-label>
+                                    <mat-select formControlName="idContract" name="contr" >
+                                      <mat-option *ngFor="let contr of typeContr" [value]="contr.ls_codvalue">
+                                        {{contr.description}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>ID Posici&oacute;n: </mat-label>
+                                    <input matInput formControlName="idPosition">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Area:</mat-label>
+                                    <mat-select formControlName="idArea" name="area" >
+                                      <mat-option *ngFor="let area of typeArea" [value]="area.ls_codvalue">
+                                        {{area.description}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                         </div>
 
                         <div class="row">
-                            
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Jefe Inmediato: </mat-label>
+                                    <input matInput formControlName="immediateBoss">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Departamento donde Labora:</mat-label>
+                                    <mat-select formControlName="Departamentworking" name="depbir" (selectionChange) = "onSelectLabor($event.value)" >
+                                      <mat-option *ngFor="let depbir of countries" [value]="depbir.idState">
+                                        {{depbir.name}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>	
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Ciudad donde Labora:</mat-label>
+                                    <mat-select formControlName="cityWork" name="citywork" >
+                                      <mat-option *ngFor="let citna of citieswork" [value]="citna.idCity">
+                                        {{citna.name}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>    
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Vacante ¿Como se Entero?: </mat-label>
+                                    <input matInput formControlName="vacantInformation">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>¿Como Trajo la H.V?: </mat-label>
+                                    <input matInput formControlName="bringResume">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field >
+                                    <mat-label>Fecha Ingreso:</mat-label>
+                                    <input matInput formControlName="admissionDate" type="date">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field >
+                                    <mat-label>Fecha Retiro:</mat-label>
+                                    <input matInput formControlName="withdrawalDate" type="date">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Motivo: </mat-label>
+                                    <input matInput formControlName="reason">
+                                </mat-form-field>
+                            </div>
                         </div>
                     
                         <mat-action-row>
@@ -1036,6 +1114,70 @@
                         </mat-action-row>
                         </mat-expansion-panel>
                     </form>
+
+                    <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formChildren">
+                        <!--{---------- Seccion  ---------}-->
+                     <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle style="margin-bottom: 10px;">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Datos Familiares
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            Ingrese Informaci&oacute;n del los hijos
+                            <mat-icon>child_friendly</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <ng-container formArrayName = "lessons">
+                            <ng-container *ngFor="let lessonsForm of lessons.controls; let i = index">
+                                <div [formGroup]="lessonsForm">
+                                    <div class="row">
+                                        <div class="col-sm-3 mr-3">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Nombre Completo: </mat-label>
+                                                <input matInput formControlName="name">
+                                            </mat-form-field>
+                                        </div>
+            
+                                        <div class="col-sm-3 mr-3">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Genero:</mat-label>
+                                                <mat-select  formControlName="idGender" >
+                                                  <mat-option *ngFor="let genrs of typegender" [value]="genrs.ls_codvalue">
+                                                    {{genrs.description}}
+                                                  </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <mat-form-field >
+                                                <mat-label>Fecha Nacimiento:</mat-label>
+                                                <input matInput  type="date" formControlName="birthDate">
+                                            </mat-form-field>
+                                        </div> 
+                                        <div class="col-sm-1">
+                                            <button mat-mini-fab (click)="deleteChildren(i)" class="btn btn-danger p-1"><mat-icon>delete</mat-icon></button>
+                                        </div>                                    
+                                    </div>
+                                </div> 
+                            </ng-container>
+                        </ng-container>
+
+                        
+
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <button mat-mini-fab (click)="addChildrens()" class="btn btn-success p-2"><mat-icon>group_add</mat-icon></button>
+                            </div>
+                        </div>
+                      
+                          <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+                          </mat-action-row>
+                        </mat-expansion-panel>
+                    </form>
+                     
 
                 </mat-accordion>           
                 
