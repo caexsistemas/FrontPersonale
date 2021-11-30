@@ -151,7 +151,6 @@ export class ManagementDialog implements AfterContentChecked{
                     );
                 break;
             case 'create':
-                alert('Create');
                 this.initForms();
                 this.title = "Crear usuario ";
                 break;
