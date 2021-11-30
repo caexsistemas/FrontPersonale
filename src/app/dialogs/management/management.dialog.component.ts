@@ -96,7 +96,7 @@ export class ManagementDialog implements AfterContentChecked{
     formAcademy: FormGroup;
     formWorking: FormGroup;
     formChildren: FormGroup;
-
+    formFamily: FormGroup; 
 
     status: any = [
         { codigo: '', nombre: 'Seleccione..' },
@@ -194,9 +194,9 @@ export class ManagementDialog implements AfterContentChecked{
             address:new FormControl(""),
             neighborhood:new FormControl(""),
             displacementTime:new FormControl(""),
-            //Departamentexpedition:new FormControl(""),
+            Departamentexpedition:new FormControl(""),
             expeditionCity:new FormControl(""),
-            //DepartamentBirth:new FormControl(""),
+            DepartamentBirth:new FormControl(""),
             citybBirth:new FormControl(""),
             city:new FormControl(""),
             phoneEmergency:new FormControl(""),
@@ -236,6 +236,18 @@ export class ManagementDialog implements AfterContentChecked{
             withdrawalDate:new FormControl(""),
             reason:new FormControl(""),
             Departamentworking:new FormControl("")
+        });
+        this.formFamily = new FormGroup({
+            ownHouse:new FormControl(""),
+            economicContribution:new FormControl(""),
+            economicDependence:new FormControl(""),	
+            peopleCoexist:new FormControl(""),
+            familyIncome:new FormControl(""),	
+            incomeExpenses:new FormControl(""),
+            typeHome:new FormControl(""),
+            familyDisability:new FormControl(""),
+            numberChildren:new FormControl(""),  
+            childrenDepends:new FormControl("")
         });
         this.formChildren = new FormGroup({
             lessons: new FormArray([])
@@ -379,6 +391,9 @@ export class ManagementDialog implements AfterContentChecked{
     }
 
     onSubmit() {
+
+
+
         if (this.formUsuario.valid) {
             this.loading.emit(true);
             let body = {
@@ -387,6 +402,7 @@ export class ManagementDialog implements AfterContentChecked{
                 foncep: this.formFoncep.value,
                 academy: this.formAcademy.value,
                 working: this.formWorking.value,
+                family: this.formFamily.value,
                 children: this.formChildren.value
             }
             this.WebApiService.postRequest(this.endpoint, body, {})

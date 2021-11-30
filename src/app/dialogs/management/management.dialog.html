@@ -698,9 +698,15 @@
                                   <div class="row">
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Tipo de Residecia: </mat-label>
-                                            <input matInput formControlName="houseType">
-                                        </mat-form-field>
+                                            <mat-label>Tipo de Residecia:</mat-label>
+                                            <mat-select formControlName="certificate" required>
+                                              <mat-option [value]="">  </mat-option>
+                                              <mat-option [value]="Apartamento"> Apartamento </mat-option>
+                                              <mat-option [value]="Casa"> Casa </mat-option>
+                                              <mat-option [value]="Apartaestudio"> Apartaestudio </mat-option>
+                                              <mat-option [value]="Habitacion"> Habitación </mat-option>
+                                            </mat-select>
+                                            </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
@@ -1033,7 +1039,7 @@
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>Area:</mat-label>
-                                    <mat-select formControlName="idArea" name="area" >
+                                    <mat-select formControlName="idArea" name="area" required>
                                       <mat-option *ngFor="let area of typeArea" [value]="area.ls_codvalue">
                                         {{area.description}}
                                       </mat-option>
@@ -1115,12 +1121,112 @@
                         </mat-expansion-panel>
                     </form>
 
+                    <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formFamily">
+                        <!--{Septima Seccion Working}-->
+                        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            Datos Familiares
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            Ingrese Informaci&oacute;n del Trabajador
+                            <mat-icon>home</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Casa Propia: </mat-label>
+                                    <input matInput formControlName="ownHouse">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Aporte Adicional Economico:</mat-label>
+                                    <mat-select formControlName="economicContribution" >
+                                      <mat-option *ngFor="let colb of selSiNo" [value]="colb.ls_codvalue">
+                                        {{colb.description}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Dependencia Economica: </mat-label>
+                                    <input matInput formControlName="economicDependence">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>N° de Pers. Que Convive: </mat-label>
+                                    <input matInput formControlName="peopleCoexist">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Ingresos Familiares: </mat-label>
+                                    <input matInput formControlName="familyIncome">
+                                </mat-form-field>             
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Ings. Cubren Gastos:</mat-label>
+                                    <mat-select formControlName="incomeExpenses" >
+                                      <mat-option *ngFor="let colb of selSiNo" [value]="colb.ls_codvalue">
+                                        {{colb.description}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Tipo Hogar: </mat-label>
+                                    <input matInput formControlName="typeHome">
+                                </mat-form-field> 
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>N° de Pers. Que Convive (Discapacidad): </mat-label>
+                                    <input matInput formControlName="familyDisability">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Numero de Hijos: </mat-label>
+                                    <input matInput formControlName="numberChildren">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Hijos Que Depe. Economicamente: </mat-label>
+                                    <input matInput formControlName="childrenDepends">
+                                </mat-form-field> 
+                            </div>
+                        </div>
+                    
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                        </mat-action-row>
+                        </mat-expansion-panel>
+                    </form>
+
                     <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formChildren">
-                        <!--{---------- Seccion  ---------}-->
-                     <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle style="margin-bottom: 10px;">
+                        <!--{Octava Informacion Hijos}-->
+                     <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle style="margin-bottom: 10px;">
                         <mat-expansion-panel-header>
                           <mat-panel-title>
-                            Datos Familiares
+                            Hijos a Cargo
                           </mat-panel-title>
                           <mat-panel-description>
                             Ingrese Informaci&oacute;n del los hijos
