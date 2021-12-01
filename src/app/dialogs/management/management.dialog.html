@@ -698,15 +698,13 @@
                                   <div class="row">
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
-                                            <mat-label>Tipo de Residecia:</mat-label>
-                                            <mat-select formControlName="certificate" required>
-                                              <mat-option [value]="">  </mat-option>
-                                              <mat-option [value]="Apartamento"> Apartamento </mat-option>
-                                              <mat-option [value]="Casa"> Casa </mat-option>
-                                              <mat-option [value]="Apartaestudio"> Apartaestudio </mat-option>
-                                              <mat-option [value]="Habitacion"> Habitación </mat-option>
+                                            <mat-label>Tipo de Residencia:</mat-label>
+                                            <mat-select formControlName="houseType" required>
+                                              <mat-option *ngFor="let hoty of typehouse" [value]="hoty.ls_codvalue">
+                                                {{hoty.description}}
+                                              </mat-option>
                                             </mat-select>
-                                            </mat-form-field>
+                                        </mat-form-field>
                                     </div>
                                     <div class="col-sm-4">
                                         <mat-form-field class="example-full-width">
@@ -817,7 +815,7 @@
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Tipo Sangre:</mat-label>
-                                        <mat-select formControlName="idBlood" >
+                                        <mat-select formControlName="idBlood" required>
                                           <mat-option *ngFor="let blood of typeblood" [value]="blood.ls_codvalue">
                                             {{blood.description}}
                                           </mat-option>

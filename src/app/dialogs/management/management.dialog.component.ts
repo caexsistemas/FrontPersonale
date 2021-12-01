@@ -56,6 +56,13 @@ export class ManagementDialog implements AfterContentChecked{
     nevAcademy: any = [];
     typeContr: any = [];
     typeArea: any = [];
+    typehouse: any = [
+        {ls_codvalue: 'Apartamento', description:'Apartamento'},
+        {ls_codvalue: 'Casa', description:'Casa'},
+        {ls_codvalue: 'Apartaestudio', description:'Apartaestudio'},
+        {ls_codvalue: 'Habitacion', description:'Habitación'}
+    ];
+
     public usuario;
     public medicalinf;
     panelOpenState = false;
