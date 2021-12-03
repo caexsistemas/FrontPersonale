@@ -62,9 +62,14 @@ export class ManagementDialog implements AfterContentChecked{
         {ls_codvalue: 'Apartaestudio', description:'Apartaestudio'},
         {ls_codvalue: 'Habitacion', description:'Habitación'}
     ];
+    typezona: any = [
+        {ls_codvalue:'Urbana', description: 'Urbana'},
+        {ls_codvalue:'Rural', description: 'Rural'}
+    ];
 
     public usuario;
     public medicalinf;
+    public foncepinf;
     panelOpenState = false;
     email = new FormControl('', [Validators.required, Validators.email]);
 
@@ -436,20 +441,24 @@ export class ManagementDialog implements AfterContentChecked{
 
     getDataUpdate() {
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'getParamUpdateSet',
+            id: this.id
+        })
         .subscribe(
             data => {
                 if (data.success) {
                     
-                    this.usuario = data.data[0];              
+                    this.usuario = data.data[0][0];              
                     this.formUsuario.get('name').setValue(this.usuario.name);
-                    this.formUsuario.get('surname').setValue(this.usuario.surname);
-                    this.formUsuario.get('username').setValue(this.usuario.username);
+                    console.log(this.usuario.name);
+                    this.formUsuario.get('document').setValue(this.usuario.document);
+                    this.formUsuario.get('status').setValue(this.usuario.status);
                     this.formUsuario.get('email').setValue(this.usuario.email);
                     this.formUsuario.get('phone').setValue(this.usuario.phone);
-                    this.formUsuario.get('role').setValue(this.usuario.role);
+                    this.formUsuario.get('businessEmail').setValue(this.usuario.businessEmail);
                     this.formUsuario.get('idDocumentType').setValue(this.usuario.idDocumentType);
-                    this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate); 
+                    this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate.split('-').reverse().join('-')); 
                     this.formUsuario.get('idGender').setValue(this.usuario.idGender);
                     this.formUsuario.get('birthDate').setValue(this.usuario.birthDate);
                     this.formUsuario.get('isColombian').setValue(this.usuario.isColombian);
@@ -464,20 +473,32 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formUsuario.get('address').setValue(this.usuario.address);
                     this.formUsuario.get('neighborhood').setValue(this.usuario.neighborhood);
                     this.formUsuario.get('displacementTime').setValue(this.usuario.displacementTime);
+                    this.formUsuario.get('zone').setValue(this.usuario.zone);
                     //Departamentexpedition
-                    //DepartamentBirth
+                    this.formUsuario.get('Departamentexpedition').setValue(this.usuario.idstateexpedition);
+                    this.onSelect(this.usuario.idstateexpedition);
+                    //DepartamentBirth 
+                    this.formUsuario.get('DepartamentBirth').setValue(this.usuario.idstatebirth);
+                    this.onSelectBirth(this.usuario.idstatebirth);
                     //Departamentworking
                     this.formUsuario.get('expeditionCity').setValue(this.usuario.expeditionCity);
                     this.formUsuario.get('citybBirth').setValue(this.usuario.citybBirth);
                     this.formUsuario.get('city').setValue(this.usuario.city);
                     //Informacion Medica
-                    this.medicalinf = data.data[1]; 
+                    this.medicalinf = data.data[1][0]; 
                     this.formUmedical.get('idBlood').setValue(this.medicalinf.idBlood);
                     this.formUmedical.get('height').setValue(this.medicalinf.height);
                     this.formUmedical.get('weight').setValue(this.medicalinf.weight);
                     this.formUmedical.get('trauma').setValue(this.medicalinf.trauma);
                     this.formUmedical.get('diseases').setValue(this.medicalinf.diseases);
                     this.formUmedical.get('treatment').setValue(this.medicalinf.treatment);
+                    //foncep
+                    this.foncepinf = data.data[2][0]; 
+                    this.formFoncep.get('idEps').setValue(this.foncepinf.idEps);
+                    this.formFoncep.get('idPension').setValue(this.foncepinf.idPension);
+                    this.formFoncep.get('idSeverance').setValue(this.foncepinf.idSeverance);
+                    this.formFoncep.get('idBenefit').setValue(this.foncepinf.idBenefit);
+                    this.formFoncep.get('coverageArl').setValue(this.foncepinf.coverageArl);
 
                     this.loading.emit(false);
                 } else {
