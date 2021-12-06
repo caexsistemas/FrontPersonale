@@ -56,6 +56,8 @@ export class ManagementDialog implements AfterContentChecked{
     nevAcademy: any = [];
     typeContr: any = [];
     typeArea: any = [];
+    typeposition: any = [];
+    typefamilyinf: any = [];
     typehouse: any = [
         {ls_codvalue: 'Apartamento', description:'Apartamento'},
         {ls_codvalue: 'Casa', description:'Casa'},
@@ -70,6 +72,9 @@ export class ManagementDialog implements AfterContentChecked{
     public usuario;
     public medicalinf;
     public foncepinf;
+    public academyinf;
+    public workininf;
+    public childrensinf;
     panelOpenState = false;
     email = new FormControl('', [Validators.required, Validators.email]);
 
@@ -175,7 +180,7 @@ export class ManagementDialog implements AfterContentChecked{
     }
 
     ngAfterContentChecked() : void {
-        this.cdref.detectChanges();
+        //this.cdref.detectChanges();
         //console.log("Repito");
     }
 
@@ -341,7 +346,8 @@ export class ManagementDialog implements AfterContentChecked{
             if( datos[val]['list_id'] == 5 ){this.typeContr.push(datos[val]);}
             //Area
             if( datos[val]['list_id'] == 14 ){this.typeArea.push(datos[val]);}
-            
+            //Posicion
+            if( datos[val]['list_id'] == 16 ){this.typeposition.push(datos[val]);}
         }
 
     }
@@ -389,9 +395,10 @@ export class ManagementDialog implements AfterContentChecked{
     addChildrens(){
 
         const lessonsForm = new FormGroup({
-            name: new FormControl("", Validators.required),
-            idGender: new FormControl("", Validators.required),
-            birthDate: new FormControl(Date, Validators.required)
+            idChildren: new FormControl(""),
+            name: new FormControl(""),
+            idGender: new FormControl(""),
+            birthDate: new FormControl("")
         });
 
         this.lessons.push(lessonsForm);
@@ -499,6 +506,55 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formFoncep.get('idSeverance').setValue(this.foncepinf.idSeverance);
                     this.formFoncep.get('idBenefit').setValue(this.foncepinf.idBenefit);
                     this.formFoncep.get('coverageArl').setValue(this.foncepinf.coverageArl);
+                    //Academy
+                    this.academyinf = data.data[3][0]; 
+                    this.formAcademy.get('idAcademicLevel').setValue(this.academyinf.idAcademicLevel);
+                    this.formAcademy.get('isStudying').setValue(this.academyinf.isStudying);
+                    this.formAcademy.get('notStudying').setValue(this.academyinf.notStudying);
+                    this.formAcademy.get('typeStudy').setValue(this.academyinf.typeStudy);
+                    this.formAcademy.get('studyMotivation').setValue(this.academyinf.studyMotivation);
+                    //working
+                    this.workininf = data.data[4][0]; 
+                    this.formWorking.get('idContract').setValue(this.workininf.idContract);
+                    this.formWorking.get('idPosition').setValue(this.workininf.idPosition);
+                    this.formWorking.get('idArea').setValue(this.workininf.idArea);
+                    this.formWorking.get('immediateBoss').setValue(this.workininf.immediateBoss);
+                    //Departamentworking
+                    this.formWorking.get('Departamentworking').setValue(this.workininf.stateidworkin);
+                    this.onSelectLabor(this.workininf.stateidworkin);
+                    this.formWorking.get('cityWork').setValue(this.workininf.cityWork);
+                    this.formWorking.get('vacantInformation').setValue(this.workininf.vacantInformation);
+                    this.formWorking.get('admissionDate').setValue(this.workininf.admissionDate.split('-').reverse().join('-'));
+                    this.formWorking.get('withdrawalDate').setValue(this.workininf.withdrawalDate);
+                    this.formWorking.get('reason').setValue(this.workininf.reason);
+                    this.formWorking.get('bringResume').setValue(this.workininf.bringResume);
+                    //Family
+                    this.typefamilyinf = data.data[5][0]; 
+                    this.formFamily.get('ownHouse').setValue(this.typefamilyinf.ownHouse);
+                    this.formFamily.get('economicContribution').setValue(this.typefamilyinf.economicContribution);
+                    this.formFamily.get('economicDependence').setValue(this.typefamilyinf.economicDependence);
+                    this.formFamily.get('peopleCoexist').setValue(this.typefamilyinf.peopleCoexist);
+                    this.formFamily.get('familyIncome').setValue(this.typefamilyinf.familyIncome);
+                    this.formFamily.get('incomeExpenses').setValue(this.typefamilyinf.incomeExpenses);
+                    this.formFamily.get('typeHome').setValue(this.typefamilyinf.typeHome);
+                    this.formFamily.get('familyDisability').setValue(this.typefamilyinf.familyDisability);
+                    this.formFamily.get('numberChildren').setValue(this.typefamilyinf.numberChildren);
+                    this.formFamily.get('childrenDepends').setValue(this.typefamilyinf.childrenDepends);
+                    //Children
+                    this.childrensinf  = data.data[6]; 
+                    this.childrensinf .forEach(function(obj, index) {
+
+                        const lessonsFormUP = new FormGroup({
+                            idChildren: new FormControl(obj['idChildren']),
+                            name: new FormControl(obj['name']),
+                            idGender: new FormControl(obj['idGender']),
+                            birthDate: new FormControl(obj['birthDate'])
+                        });
+                
+                        this.lessons.push(lessonsFormUP);
+                        
+                    }.bind(this));
+
 
                     this.loading.emit(false);
                 } else {
@@ -518,9 +574,17 @@ export class ManagementDialog implements AfterContentChecked{
         if( (this.formUsuario.valid )){
             let body = {
                 usuario:   this.formUsuario.value,
+                infomedical: this.formUmedical.value,
+                foncep: this.formFoncep.value,
+                academy: this.formAcademy.value,
+                working: this.formWorking.value,
+                family: this.formFamily.value,
+                children: this.formChildren.value
             }
             this.loading.emit(true);
-            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
+                action: 'getParamUpdateData'
+            })
             .subscribe(
                 data=>{
                     if(data.success){
@@ -533,7 +597,7 @@ export class ManagementDialog implements AfterContentChecked{
                     }
                 },
                 error=>{
-                    this.handler.showError();
+                    this.handler.showError(Object.values(error));
                     this.loading.emit(false);
                 }
             );

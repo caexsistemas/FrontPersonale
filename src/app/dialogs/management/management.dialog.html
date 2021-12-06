@@ -1034,9 +1034,13 @@
                             </div>
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
-                                    <mat-label>ID Posici&oacute;n: </mat-label>
-                                    <input matInput formControlName="idPosition">
-                                </mat-form-field>
+                                    <mat-label>ID Posici&oacute;n:</mat-label>
+                                    <mat-select formControlName="idPosition" >
+                                      <mat-option *ngFor="let posi of typeposition" [value]="posi.ls_codvalue">
+                                        {{posi.description}}
+                                      </mat-option>
+                                    </mat-select>
+                                 </mat-form-field>
                             </div>
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
@@ -1104,7 +1108,7 @@
                             <div class="col-sm-4">
                                 <mat-form-field >
                                     <mat-label>Fecha Retiro:</mat-label>
-                                    <input matInput formControlName="withdrawalDate" type="date">
+                                    <input matInput formControlName="withdrawalDate" >
                                 </mat-form-field>
                             </div>
 
@@ -1240,13 +1244,18 @@
                             <ng-container *ngFor="let lessonsForm of lessons.controls; let i = index">
                                 <div [formGroup]="lessonsForm">
                                     <div class="row">
+                                        <div class="col-sm-1">
+                                            <mat-form-field [hidden]="true">
+                                                <mat-label>ID Hijo:</mat-label>
+                                                <input matInput formControlName="idChildren">
+                                            </mat-form-field>
+                                        </div>
                                         <div class="col-sm-3 mr-3">
                                             <mat-form-field class="example-full-width">
                                                 <mat-label>Nombre Completo: </mat-label>
                                                 <input matInput formControlName="name">
                                             </mat-form-field>
                                         </div>
-            
                                         <div class="col-sm-3 mr-3">
                                             <mat-form-field class="example-full-width">
                                                 <mat-label>Genero:</mat-label>
@@ -1257,7 +1266,7 @@
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <mat-form-field >
                                                 <mat-label>Fecha Nacimiento:</mat-label>
                                                 <input matInput  type="date" formControlName="birthDate">
