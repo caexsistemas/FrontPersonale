@@ -290,7 +290,7 @@ export class ManagementDialog implements AfterContentChecked{
                     this.cities = data.data['citys'];
                     this.optionSelect(datos);
                     this.loading.emit(false);
-                    console.log(this.countries);
+                    //console.log(this.countries);
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -359,7 +359,7 @@ export class ManagementDialog implements AfterContentChecked{
         setTimeout(()=>{        
             this.citiestem = this.cities.filter(item => item.idState == idState);
         },3);   
-        console.log(idState);
+        //console.log(idState);
         this.loading.emit(false);
     }
 
@@ -369,7 +369,7 @@ export class ManagementDialog implements AfterContentChecked{
 
         setTimeout(()=>{       
             this.citiesbirth = this.cities.filter(item => item.idState == idState);
-            console.log(this.citiesbirth);
+            //console.log(this.citiesbirth);
         },3);   
 
         this.loading.emit(false);
@@ -381,7 +381,7 @@ export class ManagementDialog implements AfterContentChecked{
 
         setTimeout(()=>{       
             this.citieswork = this.cities.filter(item => item.idState == idState);
-            console.log(this.citieswork);
+            //console.log(this.citieswork);
         },3);   
 
         this.loading.emit(false);
@@ -458,7 +458,7 @@ export class ManagementDialog implements AfterContentChecked{
                     
                     this.usuario = data.data[0][0];              
                     this.formUsuario.get('name').setValue(this.usuario.name);
-                    console.log(this.usuario.name);
+                    //console.log(this.usuario.name);
                     this.formUsuario.get('document').setValue(this.usuario.document);
                     this.formUsuario.get('status').setValue(this.usuario.status);
                     this.formUsuario.get('email').setValue(this.usuario.email);
