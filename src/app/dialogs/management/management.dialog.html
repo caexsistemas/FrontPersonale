@@ -829,13 +829,13 @@
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Estatura: </mat-label>
-                                        <input matInput formControlName="height">
+                                        <input matInput formControlName="height" type = "number">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Peso: </mat-label>
-                                        <input matInput formControlName="weight">
+                                        <input matInput formControlName="weight" type=number>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -887,7 +887,7 @@
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Eps:</mat-label>
-                                        <mat-select formControlName="idEps" name="eps" >
+                                        <mat-select formControlName="idEps" name="eps" required>
                                           <mat-option *ngFor="let eps of typeEps" [value]="eps.ls_codvalue">
                                             {{eps.description}}
                                           </mat-option>
@@ -1099,7 +1099,7 @@
                             <div class="col-sm-4">
                                 <mat-form-field >
                                     <mat-label>Fecha Ingreso:</mat-label>
-                                    <input matInput formControlName="admissionDate" type="date">
+                                    <input matInput formControlName="admissionDate" >
                                 </mat-form-field>
                             </div>
                         </div>
@@ -1144,7 +1144,7 @@
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>Casa Propia: </mat-label>
-                                    <input matInput formControlName="ownHouse">
+                                    <input matInput formControlName="ownHouse" required>
                                 </mat-form-field>
                             </div>
                             <div class="col-sm-4">
@@ -1169,7 +1169,7 @@
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>N° de Pers. Que Convive: </mat-label>
-                                    <input matInput formControlName="peopleCoexist">
+                                    <input matInput formControlName="peopleCoexist" type ="number">
                                 </mat-form-field>
                             </div>
                             <div class="col-sm-4">
@@ -1200,13 +1200,13 @@
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>N° de Pers. Que Convive (Discapacidad): </mat-label>
-                                    <input matInput formControlName="familyDisability">
+                                    <input matInput formControlName="familyDisability" type="number">
                                 </mat-form-field>
                             </div>
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>Numero de Hijos: </mat-label>
-                                    <input matInput formControlName="numberChildren">
+                                    <input matInput formControlName="numberChildren" type="number">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -1215,7 +1215,7 @@
                             <div class="col-sm-4">
                                 <mat-form-field class="example-full-width">
                                     <mat-label>Hijos Que Depe. Economicamente: </mat-label>
-                                    <input matInput formControlName="childrenDepends">
+                                    <input matInput formControlName="childrenDepends" type="number">
                                 </mat-form-field> 
                             </div>
                         </div>

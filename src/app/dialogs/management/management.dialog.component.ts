@@ -465,7 +465,12 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formUsuario.get('phone').setValue(this.usuario.phone);
                     this.formUsuario.get('businessEmail').setValue(this.usuario.businessEmail);
                     this.formUsuario.get('idDocumentType').setValue(this.usuario.idDocumentType);
-                    this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate.split('-').reverse().join('-')); 
+                    //Validar Data
+                    if( this.usuario.expeditionDate !== null ){
+                        this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate.split('-').reverse().join('-')); 
+                    }else{
+                        this.formUsuario.get('expeditionDate').setValue(""); 
+                    }      
                     this.formUsuario.get('idGender').setValue(this.usuario.idGender);
                     this.formUsuario.get('birthDate').setValue(this.usuario.birthDate);
                     this.formUsuario.get('isColombian').setValue(this.usuario.isColombian);
@@ -524,7 +529,12 @@ export class ManagementDialog implements AfterContentChecked{
                     this.onSelectLabor(this.workininf.stateidworkin);
                     this.formWorking.get('cityWork').setValue(this.workininf.cityWork);
                     this.formWorking.get('vacantInformation').setValue(this.workininf.vacantInformation);
-                    this.formWorking.get('admissionDate').setValue(this.workininf.admissionDate.split('-').reverse().join('-'));
+                    //Validar Data
+                    if( this.workininf.admissionDate != null ){
+                        this.formWorking.get('admissionDate').setValue(this.workininf.admissionDate.split('-').reverse().join('-'));
+                    }else{
+                        this.formWorking.get('admissionDate').setValue("");
+                    }    
                     this.formWorking.get('withdrawalDate').setValue(this.workininf.withdrawalDate);
                     this.formWorking.get('reason').setValue(this.workininf.reason);
                     this.formWorking.get('bringResume').setValue(this.workininf.bringResume);
