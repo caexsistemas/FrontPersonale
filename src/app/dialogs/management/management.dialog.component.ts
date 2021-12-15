@@ -56,8 +56,25 @@ export class ManagementDialog implements AfterContentChecked{
     nevAcademy: any = [];
     typeContr: any = [];
     typeArea: any = [];
+    typeposition: any = [];
+    typefamilyinf: any = [];
+    typehouse: any = [
+        {ls_codvalue: 'Apartamento', description:'Apartamento'},
+        {ls_codvalue: 'Casa', description:'Casa'},
+        {ls_codvalue: 'Apartaestudio', description:'Apartaestudio'},
+        {ls_codvalue: 'Habitacion', description:'Habitación'}
+    ];
+    typezona: any = [
+        {ls_codvalue:'Urbana', description: 'Urbana'},
+        {ls_codvalue:'Rural', description: 'Rural'}
+    ];
+
     public usuario;
     public medicalinf;
+    public foncepinf;
+    public academyinf;
+    public workininf;
+    public childrensinf;
     panelOpenState = false;
     email = new FormControl('', [Validators.required, Validators.email]);
 
@@ -163,7 +180,7 @@ export class ManagementDialog implements AfterContentChecked{
     }
 
     ngAfterContentChecked() : void {
-        this.cdref.detectChanges();
+        //this.cdref.detectChanges();
         //console.log("Repito");
     }
 
@@ -273,7 +290,7 @@ export class ManagementDialog implements AfterContentChecked{
                     this.cities = data.data['citys'];
                     this.optionSelect(datos);
                     this.loading.emit(false);
-                    console.log(this.countries);
+                    //console.log(this.countries);
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -329,7 +346,8 @@ export class ManagementDialog implements AfterContentChecked{
             if( datos[val]['list_id'] == 5 ){this.typeContr.push(datos[val]);}
             //Area
             if( datos[val]['list_id'] == 14 ){this.typeArea.push(datos[val]);}
-            
+            //Posicion
+            if( datos[val]['list_id'] == 16 ){this.typeposition.push(datos[val]);}
         }
 
     }
@@ -341,7 +359,7 @@ export class ManagementDialog implements AfterContentChecked{
         setTimeout(()=>{        
             this.citiestem = this.cities.filter(item => item.idState == idState);
         },3);   
-        console.log(idState);
+        //console.log(idState);
         this.loading.emit(false);
     }
 
@@ -351,7 +369,7 @@ export class ManagementDialog implements AfterContentChecked{
 
         setTimeout(()=>{       
             this.citiesbirth = this.cities.filter(item => item.idState == idState);
-            console.log(this.citiesbirth);
+            //console.log(this.citiesbirth);
         },3);   
 
         this.loading.emit(false);
@@ -363,7 +381,7 @@ export class ManagementDialog implements AfterContentChecked{
 
         setTimeout(()=>{       
             this.citieswork = this.cities.filter(item => item.idState == idState);
-            console.log(this.citieswork);
+            //console.log(this.citieswork);
         },3);   
 
         this.loading.emit(false);
@@ -377,9 +395,10 @@ export class ManagementDialog implements AfterContentChecked{
     addChildrens(){
 
         const lessonsForm = new FormGroup({
-            name: new FormControl("", Validators.required),
-            idGender: new FormControl("", Validators.required),
-            birthDate: new FormControl(Date, Validators.required)
+            idChildren: new FormControl(""),
+            name: new FormControl(""),
+            idGender: new FormControl(""),
+            birthDate: new FormControl("")
         });
 
         this.lessons.push(lessonsForm);
@@ -429,20 +448,29 @@ export class ManagementDialog implements AfterContentChecked{
 
     getDataUpdate() {
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'getParamUpdateSet',
+            id: this.id
+        })
         .subscribe(
             data => {
                 if (data.success) {
                     
-                    this.usuario = data.data[0];              
+                    this.usuario = data.data[0][0];              
                     this.formUsuario.get('name').setValue(this.usuario.name);
-                    this.formUsuario.get('surname').setValue(this.usuario.surname);
-                    this.formUsuario.get('username').setValue(this.usuario.username);
+                    //console.log(this.usuario.name);
+                    this.formUsuario.get('document').setValue(this.usuario.document);
+                    this.formUsuario.get('status').setValue(this.usuario.status);
                     this.formUsuario.get('email').setValue(this.usuario.email);
                     this.formUsuario.get('phone').setValue(this.usuario.phone);
-                    this.formUsuario.get('role').setValue(this.usuario.role);
+                    this.formUsuario.get('businessEmail').setValue(this.usuario.businessEmail);
                     this.formUsuario.get('idDocumentType').setValue(this.usuario.idDocumentType);
-                    this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate); 
+                    //Validar Data
+                    if( this.usuario.expeditionDate !== null ){
+                        this.formUsuario.get('expeditionDate').setValue(this.usuario.expeditionDate.split('-').reverse().join('-')); 
+                    }else{
+                        this.formUsuario.get('expeditionDate').setValue(""); 
+                    }      
                     this.formUsuario.get('idGender').setValue(this.usuario.idGender);
                     this.formUsuario.get('birthDate').setValue(this.usuario.birthDate);
                     this.formUsuario.get('isColombian').setValue(this.usuario.isColombian);
@@ -457,20 +485,86 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formUsuario.get('address').setValue(this.usuario.address);
                     this.formUsuario.get('neighborhood').setValue(this.usuario.neighborhood);
                     this.formUsuario.get('displacementTime').setValue(this.usuario.displacementTime);
+                    this.formUsuario.get('zone').setValue(this.usuario.zone);
                     //Departamentexpedition
-                    //DepartamentBirth
+                    this.formUsuario.get('Departamentexpedition').setValue(this.usuario.idstateexpedition);
+                    this.onSelect(this.usuario.idstateexpedition);
+                    //DepartamentBirth 
+                    this.formUsuario.get('DepartamentBirth').setValue(this.usuario.idstatebirth);
+                    this.onSelectBirth(this.usuario.idstatebirth);
                     //Departamentworking
                     this.formUsuario.get('expeditionCity').setValue(this.usuario.expeditionCity);
                     this.formUsuario.get('citybBirth').setValue(this.usuario.citybBirth);
                     this.formUsuario.get('city').setValue(this.usuario.city);
                     //Informacion Medica
-                    this.medicalinf = data.data[1]; 
+                    this.medicalinf = data.data[1][0]; 
                     this.formUmedical.get('idBlood').setValue(this.medicalinf.idBlood);
                     this.formUmedical.get('height').setValue(this.medicalinf.height);
                     this.formUmedical.get('weight').setValue(this.medicalinf.weight);
                     this.formUmedical.get('trauma').setValue(this.medicalinf.trauma);
                     this.formUmedical.get('diseases').setValue(this.medicalinf.diseases);
                     this.formUmedical.get('treatment').setValue(this.medicalinf.treatment);
+                    //foncep
+                    this.foncepinf = data.data[2][0]; 
+                    this.formFoncep.get('idEps').setValue(this.foncepinf.idEps);
+                    this.formFoncep.get('idPension').setValue(this.foncepinf.idPension);
+                    this.formFoncep.get('idSeverance').setValue(this.foncepinf.idSeverance);
+                    this.formFoncep.get('idBenefit').setValue(this.foncepinf.idBenefit);
+                    this.formFoncep.get('coverageArl').setValue(this.foncepinf.coverageArl);
+                    //Academy
+                    this.academyinf = data.data[3][0]; 
+                    this.formAcademy.get('idAcademicLevel').setValue(this.academyinf.idAcademicLevel);
+                    this.formAcademy.get('isStudying').setValue(this.academyinf.isStudying);
+                    this.formAcademy.get('notStudying').setValue(this.academyinf.notStudying);
+                    this.formAcademy.get('typeStudy').setValue(this.academyinf.typeStudy);
+                    this.formAcademy.get('studyMotivation').setValue(this.academyinf.studyMotivation);
+                    //working
+                    this.workininf = data.data[4][0]; 
+                    this.formWorking.get('idContract').setValue(this.workininf.idContract);
+                    this.formWorking.get('idPosition').setValue(this.workininf.idPosition);
+                    this.formWorking.get('idArea').setValue(this.workininf.idArea);
+                    this.formWorking.get('immediateBoss').setValue(this.workininf.immediateBoss);
+                    //Departamentworking
+                    this.formWorking.get('Departamentworking').setValue(this.workininf.stateidworkin);
+                    this.onSelectLabor(this.workininf.stateidworkin);
+                    this.formWorking.get('cityWork').setValue(this.workininf.cityWork);
+                    this.formWorking.get('vacantInformation').setValue(this.workininf.vacantInformation);
+                    //Validar Data
+                    if( this.workininf.admissionDate != null ){
+                        this.formWorking.get('admissionDate').setValue(this.workininf.admissionDate.split('-').reverse().join('-'));
+                    }else{
+                        this.formWorking.get('admissionDate').setValue("");
+                    }    
+                    this.formWorking.get('withdrawalDate').setValue(this.workininf.withdrawalDate);
+                    this.formWorking.get('reason').setValue(this.workininf.reason);
+                    this.formWorking.get('bringResume').setValue(this.workininf.bringResume);
+                    //Family
+                    this.typefamilyinf = data.data[5][0]; 
+                    this.formFamily.get('ownHouse').setValue(this.typefamilyinf.ownHouse);
+                    this.formFamily.get('economicContribution').setValue(this.typefamilyinf.economicContribution);
+                    this.formFamily.get('economicDependence').setValue(this.typefamilyinf.economicDependence);
+                    this.formFamily.get('peopleCoexist').setValue(this.typefamilyinf.peopleCoexist);
+                    this.formFamily.get('familyIncome').setValue(this.typefamilyinf.familyIncome);
+                    this.formFamily.get('incomeExpenses').setValue(this.typefamilyinf.incomeExpenses);
+                    this.formFamily.get('typeHome').setValue(this.typefamilyinf.typeHome);
+                    this.formFamily.get('familyDisability').setValue(this.typefamilyinf.familyDisability);
+                    this.formFamily.get('numberChildren').setValue(this.typefamilyinf.numberChildren);
+                    this.formFamily.get('childrenDepends').setValue(this.typefamilyinf.childrenDepends);
+                    //Children
+                    this.childrensinf  = data.data[6]; 
+                    this.childrensinf .forEach(function(obj, index) {
+
+                        const lessonsFormUP = new FormGroup({
+                            idChildren: new FormControl(obj['idChildren']),
+                            name: new FormControl(obj['name']),
+                            idGender: new FormControl(obj['idGender']),
+                            birthDate: new FormControl(obj['birthDate'])
+                        });
+                
+                        this.lessons.push(lessonsFormUP);
+                        
+                    }.bind(this));
+
 
                     this.loading.emit(false);
                 } else {
@@ -490,9 +584,17 @@ export class ManagementDialog implements AfterContentChecked{
         if( (this.formUsuario.valid )){
             let body = {
                 usuario:   this.formUsuario.value,
+                infomedical: this.formUmedical.value,
+                foncep: this.formFoncep.value,
+                academy: this.formAcademy.value,
+                working: this.formWorking.value,
+                family: this.formFamily.value,
+                children: this.formChildren.value
             }
             this.loading.emit(true);
-            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
+                action: 'getParamUpdateData'
+            })
             .subscribe(
                 data=>{
                     if(data.success){
@@ -505,7 +607,7 @@ export class ManagementDialog implements AfterContentChecked{
                     }
                 },
                 error=>{
-                    this.handler.showError();
+                    this.handler.showError(Object.values(error));
                     this.loading.emit(false);
                 }
             );
