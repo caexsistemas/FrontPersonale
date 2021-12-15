@@ -26,7 +26,7 @@ import { SelectModule } from 'ng-select';
 import { NavbarsComponent } from './navbars/navbars.component';
 
 //dataTables
-import { DataTableModule } from 'angular2-datatable';
+// import { DataTableModule } from 'angular2-datatable';
 
 
 
@@ -60,7 +60,7 @@ const ngWizardConfig: NgWizardConfig = {
     CommonModule,
     FormsModule,
     AdministratorRoutingModule,
-    DataTableModule,
+    // DataTableModule,
     ReactiveFormsModule,
     SelectModule,
     TextMaskModule,

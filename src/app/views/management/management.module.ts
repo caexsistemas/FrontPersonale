@@ -4,7 +4,7 @@ import { ManagementRoutingModule } from './management-routing.module';
 // Ng2-select
 import { SelectModule } from 'ng-select';
 //dataTables
-import { DataTableModule } from 'angular2-datatable';
+// import { DataTableModule } from 'angular2-datatable';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ManagementComponent } from './management.component';
@@ -36,7 +36,7 @@ const ngWizardConfig: NgWizardConfig = {
   imports: [
     CommonModule,
     ManagementRoutingModule,
-    DataTableModule,
+    // DataTableModule,
     SelectModule,
     ModalModule,
     TabsModule,

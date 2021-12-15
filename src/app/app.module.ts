@@ -16,7 +16,7 @@ import { OnlynumberDirective } from './Tools/onlynumber.directive';
 import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { DataTableModule } from 'angular2-datatable';
+// import { DataTableModule } from 'angular2-datatable';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -76,7 +76,7 @@ const routes: Routes = [];
     ReactiveFormsModule,
     ToasterModule.forRoot(),
     AlertModule.forRoot(),
-    DataTableModule,
+    // DataTableModule,
     AngularFileUploaderModule,
     NgWizardModule,
     MatDialogModule,
