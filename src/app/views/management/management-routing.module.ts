@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ManagementCreateComponent } from './create/management-create.component';
 import { ManagementComponent } from './management.component';
 
 
@@ -23,13 +22,6 @@ const routes: Routes = [
                     title: 'Gestion de personal'
                 }
             },
-            {
-                path: 'gestion-create',
-                component:ManagementCreateComponent,
-                data:{
-                    title:'Crear personal'
-                }
-            }
         ]
     }
 ];

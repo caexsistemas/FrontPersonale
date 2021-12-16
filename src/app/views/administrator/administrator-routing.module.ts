@@ -14,11 +14,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { from } from 'rxjs';
 
-import { UsersComponent } from './users/list/users.component';
-import { UserCreateComponent } from './users/create/user-create.component';
-import { ListsComponent } from './lists/list/lists.component';
+import { UsersComponent } from './users/users.component';
+import { ListsComponent } from './lists/lists.component';
 import { StateComponent } from './state/state.component';
-import { RolesCreateComponent } from './lists/create/lists-create.component';
+
 
 const routes: Routes = [
   {
@@ -36,20 +35,6 @@ const routes: Routes = [
         component: UsersComponent,
         data: {
           title: 'Usuarios'
-        }
-      },
-      {
-        path: 'users-create',
-        component: UserCreateComponent,
-        data: {
-          title: 'Crear Usuario'
-        }
-      },
-      {
-        path: 'edit/:idUser',
-        component: UserCreateComponent,
-        data: {
-          title: 'Modificar Usuario'
         }
       },
       {

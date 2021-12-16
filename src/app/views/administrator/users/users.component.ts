@@ -1,17 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Tools } from '../../../../Tools/tools.page';
-import { UserServices } from '../../../../services/user.service';
-import { WebApiService } from '../../../../services/web-api.service';
+import { Component, OnInit, ViewChild,QueryList,ViewChildren } from '@angular/core';
+import { Tools } from '../../../Tools/tools.page';
+import { UserServices } from '../../../services/user.service';
+import { WebApiService } from '../../../services/web-api.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { UsersDialog } from '../../../../dialogs/users/users.dialog.component';
-import { HandlerAppService } from '../../../../services/handler-app.service';
-import { MatDialog } from '@angular/material/dialog';
-
-
-
-
-
-
+import { UsersDialog } from '../../../dialogs/users/users.dialog.component';
+import { HandlerAppService } from '../../../services/handler-app.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users',
@@ -23,12 +20,19 @@ import { MatDialog } from '@angular/material/dialog';
 export class UsersComponent implements OnInit {
   
   public data;
-  public detailUser = [];
-  datauser : any    = [];
+  public detailUser     = [];
+  datauser : any        = [];
+  dataSource:any        = [];
+  displayedColumns:any  = [];
   loading:boolean = false;
+
+
   endpoint:string   = '/usuario';
 
   permissions:any = null;
+
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
     private _UserService: UserServices, 
@@ -42,20 +46,6 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
-    // this._UserService.getAllUser().subscribe(response => {
-    //   this.data = response
-    // },
-    //   error => {
-    //     //console.log(<any>error)
-    //     if (<any>error.status == 401) {
-    //       this._tools.goToPage('login')
-    //     } else if (<any>error.status == 500) {
-    //       this._tools.showNotify("error", "GESTIN", "Error Interno")
-    //     } else if (<any>error.status == 403) {
-    //       this._tools.goToPage('403')
-    //     }
-    //   }
-    // )
 }
 
 sendRequest(){
@@ -65,7 +55,10 @@ sendRequest(){
     response=>{
       // this.permissions = this.handler.getPermissions(this.component);
       if(response.success){
-        this.data = response.data
+        console.log(response)
+        this.generateTable(response.data);
+        this.datauser = response.data
+        this.loading = false;
       }else{
         this.datauser = [];
         this.handler.handlerError(response);
@@ -77,6 +70,28 @@ sendRequest(){
       // this.handler.showError();
     }
   );
+}
+
+generateTable(data){
+  this.displayedColumns = [
+    'view', 
+    'idUser',
+    'name',
+    'email',
+    'actions'
+  ];
+  this.dataSource           = new MatTableDataSource(data);
+  this.dataSource.sort      = this.sort.toArray()[0];
+  this.dataSource.paginator = this.paginator.toArray()[0];
+  let search;
+  if(document.contains(document.querySelector('search-input-table'))){
+    search = document.querySelector('.search-input-table');
+    search.value = "";
+  }
+}
+
+applyFilter(search){
+  this.dataSource.filter = search.trim().toLowerCase();
 }
 
 option(action,codigo=null){
