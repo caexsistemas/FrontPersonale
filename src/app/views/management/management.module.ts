@@ -15,7 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
-import { ManagementCreateComponent } from './create/management-create.component';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -58,7 +57,6 @@ const ngWizardConfig: NgWizardConfig = {
   ],
   declarations: [
     ManagementComponent,
-    ManagementCreateComponent    
   ],
 })
 export class ManagementModule { }
