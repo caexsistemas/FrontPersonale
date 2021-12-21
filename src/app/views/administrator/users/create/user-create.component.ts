@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren,QueryList} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidatorFn, ValidationErrors } from '@angular/forms';
 import { IOption } from 'ng-select';
@@ -7,6 +7,11 @@ import { Tools } from '../../../../Tools/tools.page';
 import { UserServices } from '../../../../services/user.service';
 import { RoleServices } from '../../../../services/role.service';
 import { ValidationFormsService } from '../../../../services/validation-forms.service';
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 import { ActivatedRoute } from '@angular/router';
@@ -34,6 +39,17 @@ export class UserCreateComponent implements OnInit {
   public phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   submitted = false;
 
+  displayedColumns: any = [];
+  dataSource: any = [];
+
+  permissions: any = null;
+
+  personaleData: any = [];
+
+
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+
   constructor(private _userService: UserServices,
     private _tools: Tools,
     private activatedRoute: ActivatedRoute,
@@ -47,6 +63,26 @@ export class UserCreateComponent implements OnInit {
     this.getRoleUser()
     this.createForm()
     this.showOneUser()
+  }
+
+
+  generateTable(data) {
+    this.displayedColumns = [
+      'view',
+      'nombre',
+      'documento',
+      'correo',
+      'telefono',
+      'actions'
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector('search-input-table'))) {
+      search = document.querySelector('.search-input-table');
+      search.value = "";
+    }
   }
 
   createForm() {
