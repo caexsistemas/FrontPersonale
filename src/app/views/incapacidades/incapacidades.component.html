@@ -1,0 +1,84 @@
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            Gestion personal
+        </div>
+        <div class="content-table">
+            <div class="toolbar-table" *ngIf="permissions != null">
+
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">              
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-primary ">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="menuitem"><a class="dropdown-item" (click)="option('create')">Ingresar nuevo registro</a></li>                        
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>Buscar..</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="section-table first-action">
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="personaleData.length > 0">
+                <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
+
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" (click)="option('view',element.idPersonale)"
+                                title="Ver">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="NumeroDocumeto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Numero de Documento</th>
+                        <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaInicioAusencia">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio de Ausencia </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechainicausen}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaFinAusencia">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Fin Ausencia </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fechafinausen}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" (click)="option('update',element.idPersonale)"
+                                title="Editar">
+                                <i class="fa fa-edit fa-lg"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="personaleData.length == 0">
+            <h4 class="no-records">No hay registros...</h4>
+          </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>

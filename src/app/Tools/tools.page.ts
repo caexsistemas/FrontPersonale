@@ -7,6 +7,7 @@ export class Tools {
 
     public identity;
     public token;
+    isLogged : boolean = false;
     // toastr
     private toasterService: ToasterService;
 

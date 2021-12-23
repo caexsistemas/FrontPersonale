@@ -68,6 +68,10 @@ export const routes: Routes = [
       {
         path:'management',
         loadChildren:()=> import('./views/management/management.module').then(m=>m.ManagementModule)
+      },
+      {
+        path:'incapacidades',
+        loadChildren:()=> import('./views/incapacidades/incapacidades.module').then(m=>m.IncapacidadesModule)
       }
     ]
   }

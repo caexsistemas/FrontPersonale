@@ -10,8 +10,11 @@ import { LoginServices } from '../../services/login.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/users';
 import { Tools } from '../../Tools/tools.page'
-
+import { EncryptService } from '../../services/encrypt.service';
+import { WebApiService } from '../../services/web-api.service';
 import { from } from 'rxjs';
+import Swal from 'sweetalert2';
+import { FormGroup,FormControl,Validators } from '@angular/forms';
 
 
 @Component({
@@ -24,26 +27,65 @@ export class LoginComponent {
   public status: string;
   public identity: any;
   public token: any;
+
   public loading : boolean = false;
   validateUser = false;
 
 
+  viewMessage : boolean = false;
+  view : string = 'login';
+
+
+
+  loginForm : FormGroup;
 
   constructor(private _loginService: LoginServices,
     private _router: Router,
     private _route: ActivatedRoute,
     private _tools: Tools,
+    private WebApiService : WebApiService,
+    private Encrypt: EncryptService
   ) {
 
     this.loginData = new User(1, "", "", "", "", "", 0)
   }
+
+
+  ngOnInit(): void {
+  //  this.checkSession();
+  //   si recibo como parametro recuperar contraseña.
+  //   this.route.queryParamMap.subscribe(params=>{
+  //     this.keyRecovery = (params.get('reset-password'))?params.get('reset-password'):"";
+  //     if(this.keyRecovery!= ""){
+  //       this.view = 'recovery';
+  //       this.initForm('recovery');
+  //     }else{
+  //       this.initForm(this.view);
+  //     }
+  //   });
+  this.initForm(this.view);
+  }
+
+  initForm(type:string){
+    switch(type){
+      case 'login':
+        this.loginForm = new FormGroup({
+          fuser:      new FormControl('', [Validators.required]),
+          fpass:      new FormControl('', Validators.required)
+        });
+      break;
+    }
+  }
+
+
+
+
   onSubmit() {
     this.validateUser = true
 
 
     this._loginService.login(this.loginData).subscribe(
       response => {
-        console.log(response)
         this.identity = response.resultado.response;
         this.token = response.resultado.token;
         // PERSISTIR USUARIO
@@ -64,6 +106,53 @@ export class LoginComponent {
       }
     );
   }
+
+  signin(){
+
+    if(this.loginForm.valid){
+      let body = {
+        fuser:  this.loginForm.get('fuser').value.toLowerCase(),
+        fpass:  this.Encrypt.encrypt(this.loginForm.get('fpass').value)
+      }
+      this.loading = true;
+      this.WebApiService.postRequest('/login',body,{
+      })
+      .subscribe(
+        data=>{
+          if(data.success == true){
+            // seteo localstorage.
+            let objData = {
+              token: data.token,
+              user: data.user,
+              username: data.username,
+              action: data.action
+            }
+            localStorage.setItem('currentUser',JSON.stringify(objData));
+            localStorage.setItem('isLogged','true');
+            this.WebApiService.token = data.token;
+            this._tools.isLogged = true;
+            this._router.navigate(['/dashboard']);
+          }else{
+            this.loading = false;
+            this._tools.isLogged = false;
+            Swal.fire({
+              title: '',
+              text: data.message,
+              icon:'warning'
+            })
+          }
+        },
+        error=>{
+          this.loading = false;
+          this._tools.isLogged = false;
+          console.error(error);
+        }
+      )
+    }else{
+      this.viewMessage = true;
+    }
+  }
+
   logout() {
     this._route.params.subscribe(params => {
       let logout = +params['sure'];

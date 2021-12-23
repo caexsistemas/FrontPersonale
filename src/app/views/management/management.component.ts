@@ -37,7 +37,7 @@ export class ManagementComponent implements OnInit {
   public clothingInf = []
   public cosecInf = []
   public location = []
-  public imc: any
+  public imc: any = []
   public imcInf: string
   public textImc: string
   public grEta: string
@@ -158,7 +158,7 @@ export class ManagementComponent implements OnInit {
 
   generateTable(data) {
     this.displayedColumns = [
-      'view',
+      // 'view',
       'nombre',
       'documento',
       'correo',

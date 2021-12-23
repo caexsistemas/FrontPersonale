@@ -55,6 +55,11 @@ import { UsersDialog } from './dialogs/users/users.dialog.component';
 import { ManagementDialog } from './dialogs/management/management.dialog.component';
 import { ListasDialog } from './dialogs/lists/lists.dialog.component';
 import { StateDialog } from './dialogs/state/state.dialog.component';
+import { IncapacidadesDialog } from './dialogs/incapacidades/incapacidades.dialog.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
+
+
 
 const routes: Routes = []; 
 @NgModule({
@@ -89,7 +94,8 @@ const routes: Routes = [];
     MatExpansionModule,
     RouterModule.forRoot(routes),
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
     
   ],
   declarations: [
@@ -101,7 +107,8 @@ const routes: Routes = [];
     UsersDialog,
     ManagementDialog,
     ListasDialog,
-    StateDialog
+    StateDialog,
+    IncapacidadesDialog
       
   ],
   providers: [{
