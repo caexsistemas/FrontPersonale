@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
-import { Tools } from '../../../../Tools/tools.page';
-import { WebApiService } from '../../../../services/web-api.service';
+import { Tools } from '../../../Tools/tools.page';
+import { WebApiService } from '../../../services/web-api.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { HandlerAppService } from '../../../../services/handler-app.service';
-import { global } from '../../../../services/global';
+import { HandlerAppService } from '../../../services/handler-app.service';
+import { global } from '../../../services/global';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ListasDialog } from '../../../../dialogs/lists/lists.dialog.component';
+import { ListasDialog } from '../../../dialogs/lists/lists.dialog.component';
 
 
 

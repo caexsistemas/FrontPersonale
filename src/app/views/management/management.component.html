@@ -98,7 +98,8 @@
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label class="col-form-label" for="file">Archivo excel</label>
-                        <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar
+                        <!-- <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar -->
+                        <angular-file-uploader [config]="afuConfig"
                             (ApiResponse)="getAllPersonal()">
                         </angular-file-uploader>
                     </div>

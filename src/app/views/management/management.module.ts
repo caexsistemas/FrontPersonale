@@ -4,7 +4,7 @@ import { ManagementRoutingModule } from './management-routing.module';
 // Ng2-select
 import { SelectModule } from 'ng-select';
 //dataTables
-import { DataTableModule } from 'angular2-datatable';
+// import { DataTableModule } from 'angular2-datatable';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ManagementComponent } from './management.component';
@@ -15,7 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
-import { ManagementCreateComponent } from './create/management-create.component';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -36,7 +35,7 @@ const ngWizardConfig: NgWizardConfig = {
   imports: [
     CommonModule,
     ManagementRoutingModule,
-    DataTableModule,
+    // DataTableModule,
     SelectModule,
     ModalModule,
     TabsModule,
@@ -58,7 +57,6 @@ const ngWizardConfig: NgWizardConfig = {
   ],
   declarations: [
     ManagementComponent,
-    ManagementCreateComponent    
   ],
 })
 export class ManagementModule { }

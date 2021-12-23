@@ -42,23 +42,8 @@ import { StateDialog } from '../../../dialogs/state/state.dialog.component';
     @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
     ngOnInit(): void {
-
         this.sendRequest();
-        this.permissions = this.handler.permissionsApp;
-        // this._UserService.getAllUser().subscribe(response => {
-        //   this.data = response
-        // },
-        //   error => {
-        //     //console.log(<any>error)
-        //     if (<any>error.status == 401) {
-        //       this._tools.goToPage('login')
-        //     } else if (<any>error.status == 500) {
-        //       this._tools.showNotify("error", "GESTIN", "Error Interno")
-        //     } else if (<any>error.status == 403) {
-        //       this._tools.goToPage('403')
-        //     }
-        //   }
-        // )  
+        this.permissions = this.handler.permissionsApp; 
     }
 
     //Consultar Estados
