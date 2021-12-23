@@ -24,6 +24,7 @@ export class LoginComponent {
   public status: string;
   public identity: any;
   public token: any;
+  public loading : boolean = false;
   validateUser = false;
 
 
