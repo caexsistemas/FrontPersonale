@@ -31,7 +31,7 @@ export const navItems: INavData[] = [
       {
         name: 'Listas',
         url: '/admin/lists',
-        icon: 'icon-list'
+        icon: 'icon-list '
       },
       {
         name: 'Departamentos',
@@ -45,6 +45,13 @@ export const navItems: INavData[] = [
     name: 'Gestion personal',
     url: '/management/gestion',
     icon: 'icon-settings'
+    
+  },
+
+  {
+    name: 'Gestion Incapacidades',
+    url: '/incapacidades/gestion',
+    icon: 'icon-docs'
     
   }
   
