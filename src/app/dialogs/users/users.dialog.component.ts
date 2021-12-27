@@ -123,13 +123,10 @@ export class UsersDialog {
             action: 'getParamsUpdate'
         })
         .subscribe(
-           
             data => {
                 if (data.success == true) {
 
                     let datos = data.data;
-                    // this.rol                       = datos['values_id'] ? JSON.parse(datos['values_id']) : [];
-
                     this.loading.emit(false);
 
                     if (this.view == 'update') {
@@ -141,7 +138,6 @@ export class UsersDialog {
                 }
             },
             error => {
-                // console.log(error);
                 this.handler.showError('Se produjo un error');
                 this.loading.emit(false);
             }

@@ -133,3 +133,26 @@ input[type="checkbox"]:disabled:checked:after,
     background-color: #bbbbbb;
     border-color: transparent
 }
+
+.loading {
+    position: fixed;
+    z-index: 1011;
+    top: 50px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.6);
+}
+.loading mat-spinner {
+    position: absolute;
+    top: calc( 50% - 25px);
+    left: calc( 50% - 25px);
+}
+
+
+.no-records {
+  padding: 10px 30px;
+  color: #bfbfbf;
+  font-weight: 100;
+  text-align: center;
+}

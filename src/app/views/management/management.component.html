@@ -30,7 +30,7 @@
                 <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="personaleData.length > 0">
                 <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
 
-                    <!-- <ng-container matColumnDef="view">
+                    <ng-container matColumnDef="view">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
                         <td mat-cell *matCellDef="let element">
                             <button class="btn  btn-ghost-secondary" (click)="option('view',element.idPersonale)"
@@ -38,7 +38,7 @@
                                 <i class="fa fa-eye fa-lg"></i>
                             </button>
                         </td>
-                    </ng-container> -->
+                    </ng-container>
 
                     <ng-container matColumnDef="nombre">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre completo</th>

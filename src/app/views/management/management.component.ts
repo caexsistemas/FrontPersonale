@@ -158,7 +158,7 @@ export class ManagementComponent implements OnInit {
 
   generateTable(data) {
     this.displayedColumns = [
-      // 'view',
+      'view',
       'nombre',
       'documento',
       'correo',
