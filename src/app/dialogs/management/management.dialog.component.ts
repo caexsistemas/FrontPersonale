@@ -30,6 +30,7 @@ export class ManagementDialog implements AfterContentChecked{
     // VARIABLES
     view: string = null;
     personale: any = []; 
+    per: any = []; 
     medical: any = []; 
     academic: any = []; 
     working: any = []; 
@@ -144,15 +145,17 @@ export class ManagementDialog implements AfterContentChecked{
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                this.personale     = data.data[0];
-                                this.medical       = data.data[1];
-                                this.academic      = data.data[2];
-                                this.working       = data.data[3];
-                                this.salary        = data.data[4];
-                                this.family        = data.data[5];
-                                this.sos           = data.data[6];
-                                this.endowmentData = data.data[7];
-
+                                
+                               
+                                this.personale     = data.data[0][0];
+                                this.medical       = data.data[0][1];
+                                this.academic      = data.data[0][2];
+                                this.working       = data.data[0][3];
+                                this.salary        = data.data[0][4];
+                                this.family        = data.data[0][5];
+                                this.sos           = data.data[0][6];
+                                this.endowmentData = data.data[0][7];
+                               
                                 
                                 this.loading.emit(false);
                             } else {
