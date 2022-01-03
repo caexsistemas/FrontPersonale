@@ -18,6 +18,8 @@ export class DashboardComponent implements OnInit {
     if(this.token==null){
       //this._tools.goToPage('login')
     }
+    
+
 }
 
 }

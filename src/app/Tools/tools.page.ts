@@ -7,6 +7,7 @@ export class Tools {
 
     public identity;
     public token;
+    public cuser : any;
     isLogged : boolean = false;
     // toastr
     private toasterService: ToasterService;
@@ -26,16 +27,20 @@ export class Tools {
     public showNotify(type, title, message) {
         this.toasterService.pop(type, title, message)
     }
+    getLogout(){
+  
 
+    }
     getIdentity() {
-        let identity = JSON.parse(localStorage.getItem('identity'));
-        console.log('->'+identity);
-        identity = 'sdasd64654asda';
-        if (identity && identity != "undefined") {
-            this.identity = identity[0];
-        } else {
-            this.identity = null;
-        }
+        // let identity = JSON.parse(localStorage.getItem('identity'));
+        // console.log('->'+identity);
+        // identity = 'sdasd64654asda';
+        // if (identity && identity != "undefined") {
+        //     this.identity = identity[0];
+        // } else {
+        //     this.identity = null;
+        // }
+        this.identity = JSON.parse(localStorage.getItem('currentUser'));
         return this.identity;
     }
     getToken() {

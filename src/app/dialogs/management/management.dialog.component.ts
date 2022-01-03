@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 //import { Console } from 'console';
 
 export interface CountryI{
@@ -36,6 +37,7 @@ export class ManagementDialog implements AfterContentChecked{
     working: any = []; 
     salary: any = []; 
     family: any = []; 
+    children: any = []; 
     sos : any = [];
     endowmentData : any = [];
     title: string = null;
@@ -145,17 +147,16 @@ export class ManagementDialog implements AfterContentChecked{
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                
-                               
                                 this.personale     = data.data[0][0];
-                                this.medical       = data.data[0][1];
-                                this.academic      = data.data[0][2];
-                                this.working       = data.data[0][3];
-                                this.salary        = data.data[0][4];
-                                this.family        = data.data[0][5];
-                                this.sos           = data.data[0][6];
-                                this.endowmentData = data.data[0][7];
-                               
+                                this.medical       = data.data[1][0];
+                                this.academic      = data.data[2][0];
+                                this.working       = data.data[3][0];
+                                this.salary        = data.data[4][0];
+                                this.family        = data.data[5][0];
+                                this.sos           = data.data[6][0];
+                                this.endowmentData = data.data[7][0];
+                                this.children      = data.data[8];
+                                console.log(this.personale);
                                 
                                 this.loading.emit(false);
                             } else {
