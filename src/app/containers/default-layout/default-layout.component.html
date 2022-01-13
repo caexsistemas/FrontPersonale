@@ -4,11 +4,13 @@
   [sidebarToggler]="'lg'" [asideMenuToggler]="false">
   <ul class="nav navbar-nav d-md-down-none mr-auto">
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">{{identity.name +" "+identity.surname}}</a>
+      <!-- <a class="nav-link" href="#">{{identity.user}}</a> -->
     </li>
   </ul>
-  <a class="btn  btn-ghost-link active" [routerLink]="['/logout/1']" tooltip="Cerrar sesion" placement="left"><i
-      class="cui-account-logout icons font-2xl d-block"></i></a>
+  <!-- <a class="btn  btn-ghost-link active" [routerLink]="['/logout/1']" tooltip="Cerrar sesion" placement="left"><i
+      class="cui-account-logout icons font-2xl d-block"></i></a> -->
+      <a class="btn  btn-ghost-link active" (click)="logout()" tooltip="Cerrar sesion" placement="left"><i
+        class="cui-account-logout icons font-2xl d-block"></i></a>
 </app-header>
 
 <div class="app-body">

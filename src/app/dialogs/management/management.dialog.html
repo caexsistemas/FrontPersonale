@@ -1,16 +1,9 @@
-<div *ngIf="view == 'view'">
-    <div class="card mt-6">
-
+<div class="card mt-6">
+    <div *ngIf="view == 'view' ">
         <div class="card-header">
             <h5 class="modal-title">
-                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <p class="title-modal">{{personale.name}}</p>
             </h5>
-        </div>
-        <div class="modal-header">
-            <h5 class="modal-title"><strong>{{personale[0].name }}</strong></h5>
             <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -18,502 +11,492 @@
 
         <div class="card-body">
             <mat-dialog-content>
-                <mat-accordion class="example-headers-align">
-                    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
 
+
+                <!--{Primera Seccion Informacion Personal}-->
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Datos Personales
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">account_circle</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Nombre completo</dt>
+                                <dd>{{personale.name}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Tipo de documento</dt>
+                                <dd>{{personale.vldocument}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Número de documento</dt>
+                                <dd>{{personale.document}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Email</dt>
+                                <dd>{{personale.email}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Fecha expedicion</dt>
+                                <dd>{{personale.expeditionDate}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Lugar de expedicion</dt>
+                                <dd>{{personale.ciexpeditionCity}}</dd>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Fecha Nacimiento</dt>
+                                <dd>{{personale.birthDate}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Edad</dt>
+                                <dd>{{personale.age}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Estado Civil</dt>
+                                <dd>{{personale.vlmarriage }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Genero</dt>
+                                <dd>{{personale.vlgender }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Grupo Etnico</dt>
+                                <dd>{{personale.vlgroupEthnic }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Es Colombiano</dt>
+                                <dd>{{personale.vlisColombia}}</dd>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Teléfono</dt>
+                                <dd>{{personale.phone }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Departamento Nacimiento</dt>
+                                <dd>{{personale.ststate }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Ciudad de Nacimiento</dt>
+                                <dd>{{personale.cicitybBirth}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Estado</dt>
+                                <dd>{{personale.vlstatus}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Certificado</dt>
+                                <dd>{{personale.vlcertificate}}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Correo Corporativo</dt>
+                                <dd>{{personale.businessEmail }}</dd>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Segunda Seccion Ubicacion}-->
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Ubicaci&oacute;n
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">map</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Tipo de Residencia</dt>
+                                <dd>{{personale.houseType }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Situación de Residencia</dt>
+                                <dd>{{personale.houseSituation }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Estracto</dt>
+                                <dd>{{personale.stratum }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Tiempo de desplazamiento</dt>
+                                <dd>{{personale.displacementTime }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Direcci&oacute;n</dt>
+                                <dd>{{personale.address }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Barrio</dt>
+                                <dd>{{personale.neighborhood }}</dd>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Zona</dt>
+                                <dd>{{personale.zone }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Ciudad</dt>
+                                <dd>{{personale.city }}</dd>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Tecera Seccion Datos de Emergencia}-->
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Contacto de Emergencia
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">local_phone</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Nombre de Contacto: </dt>
+                                <dd>{{personale.nameContact }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Numero de Emergencia: </dt>
+                                <dd>{{personale.phoneEmergency }}</dd>
+                            </div>
+
+                        </div>
+
+
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+
+                    <!--{Cuarta Seccion Informacion Medica}-->
+                    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Datos Medicos
                             </mat-panel-title>
                             <mat-panel-description>
-                                Ingrese Informaci&oacute;n Medica
-                                <mat-icon>local_pharmacy</mat-icon>
+                                <mat-icon class="Iconmanagement">local_pharmacy</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
-                        <!-- <div class="row mt-2">
-                            <div class="col-md-4">
-                                <dt>Nombre completo</dt>
-                                <dd>{{personale[0].name}}</dd>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Tipo Sangre:</dt>
+                                <dd>{{medical.description }}</dd>
                             </div>
-
-                            <div class="col-md-4">
-                                <dt>Tipo de documento</dt>
-                                <dd>{{personale[0].Tdocument}}</dd>
+                            <div class="col-sm-4">
+                                <dt>Estatura: </dt>
+                                <dd>{{medical.height }}</dd>
                             </div>
-
-                            <div class="col-md-4">
-                                <dt>Número de documento</dt>
-                                <dd>{{personale[0].document}}</dd>
+                            <div class="col-sm-4">
+                                <dt>Peso: </dt>
+                                <dd>{{medical.weight }}</dd>
                             </div>
-
-                            <div class="col-md-4">
-                                <dt>Fecha expedicion</dt>
-                                <dd>{{personale[0].expeditionDate}}</dd>
+                            <div class="col-sm-4">
+                                <dt>Traumas: </dt>
+                                <dd>{{medical.trauma }}</dd>
                             </div>
-
-                            <div class="col-md-4">
-                                <dt>Ciudad de expedicion</dt>
-                                <dd>{{personale[0].cityExpd +"/"+ personale[0].estateExpd}}</dd>
+                            <div class="col-sm-4">
+                                <dt>Enfermedades: </dt>
+                                <dd>{{medical.diseases }}</dd>
                             </div>
-
-                            <div class="col-md-4">
-                                <dt>Fecha Nacimiento</dt>
-                                <dd>{{personale[0].birthDate}}</dd>
+                            <div class="col-sm-4">
+                                <dt>Tratamientos Medicos: </dt>
+                                <dd>{{medical.treatment }}</dd>
                             </div>
-
-                            <div class="col-md-4">
-                                <dt>Edad</dt>
-                                <dd>{{personale[0].age}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Mes Nacimiento</dt>
-                                <dd>{{personale[0].month }}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Grupo etario</dt>
-                                <dd>{{grEta}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Ciudad Nacimiento</dt>
-                                <dd>{{personale[0].cityBirth}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Es colombiano</dt>
-                                <dd>{{personale[0].isColombian==1?'Sí':'No'}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Correo electronico</dt>
-                                <dd>{{personale[0].email }}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Correo Corporativo</dt>
-                                <dd>{{personale[0].businessEmail }}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Teléfono</dt>
-                                <dd>{{personale[0].phone}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Genero</dt>
-                                <dd>{{personale[0].gender}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Estado civil</dt>
-                                <dd>{{personale[0].maritalStatus}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Grupo etnico</dt>
-                                <dd>{{personale[0].EthnicGroup}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Tiene certificado</dt>
-                                <dd>{{personale[0].certificate==1?'Sí':'No'}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Fecha de la encuesta</dt>
-                                <dd>{{personale[0].createAt}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Fecha de importación</dt>
-                                <dd>{{personale[0].admissionDate}}</dd>
-                            </div>
-                        </div> -->
-
-
+                        </div>
                         <mat-action-row>
-                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                            <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
                         </mat-action-row>
                     </mat-expansion-panel>
+
+
+
+
+                    <!--{Quinta Seccion Foncep}-->
+                    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Fondos (Prestación economica,cesantias,pensión)
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">business_center</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Eps:</dt>
+                                <dd>{{sos.idEps }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Pension:</dt>
+                                <dd>{{sos.idPension }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Cesant&iacute;as:</dt>
+                                <dd>{{sos.idSeverance }}</dd>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Caja Compensaci&oacute;n:</dt>
+                                <dd>{{sos.idBenefit }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Cobertura en Arl: </dt>
+                                <dd>{{sos.coverageArl }}</dd>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Sexta Seccion Academica}-->
+                    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Datos Academicos
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">local_library</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Nivel Academico:</dt>
+                                <dd>{{academic.levelAcademic }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Esta Estudiando:</dt>
+                                <dd>{{academic.studyng }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Razon de no Estudiar: </dt>
+                                <dd>{{academic.notStudying }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Tipo de Estudio: </dt>
+                                <dd>{{academic.typeStudy }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Principal Motivaci&oacute;n: </dt>
+                                <dd>{{academic.studyMotivation }}</dd>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Septima Seccion Working}-->
+                    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Datos Laborales
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">work</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Tipo de Contrato:</dt>
+                                <dd>{{working.idContract }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>ID Posici&oacute;n:</dt>
+                                <dd>{{working.idPosition }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Area:</dt>
+                                <dd>{{working.idArea }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Jefe Inmediato: </dt>
+                                <dd>{{working.immediateBoss }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Departamento donde Labora:</dt>
+                                <dd>{{working.department }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Ciudad donde Labora:</dt>
+                                <dd>{{working.cityWork }}</dd>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Vacante ¿Como se Entero?: </dt>
+                                <dd>{{working.vacantInformation }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>¿Como Trajo la H.V?: </dt>
+                                <dd>{{working.bringResume }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Fecha Ingreso:</dt>
+                                <dd>{{working.admissionDate }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Fecha Retiro:</dt>
+                                <dd>{{working.withdrawalDate }}</dd>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <dt>Motivo: </dt>
+                                <dd>{{working.reason }}</dd>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Septima Seccion Working}-->
+                    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Datos Familiares
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">home</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Casa Propia: </dt>
+                                <dd>{{family.ownHouse }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Aporte Adicional Economico:</dt>
+                                <dd>{{family.EconomiCont }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Dependencia Economica: </dt>
+                                <dd>{{family.economicDependence }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>N° de Pers. Que Convive: </dt>
+                                <dd>{{family.peopleCoexist }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Ingresos Familiares: </dt>
+                                <dd>{{family.familyIncome }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Ings. Cubren Gastos:</dt>
+                                <dd>{{family.Expenses }}</dd>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Tipo Hogar: </dt>
+                                <dd>{{family.typeHome }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>N° de Pers. Que Convive (Discapacidad): </dt>
+                                <dd>{{family.familyDisability }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Numero de Hijos: </dt>
+                                <dd>{{family.numberChildren }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Hijos Que Depe. Economicamente: </dt>
+                                <dd>{{family.childrenDepends }}</dd>
+                            </div>
+                        </div>
+
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anteriro</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Octava Informacion Hijos}-->
+                    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle
+                        style="margin-bottom: 10px;">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Hijos a Cargo
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">child_friendly</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                                 <div class="row" *ngFor="let children of children">
+                                    <div class="col-sm-4">
+                                        <dt>ID Hijo:</dt>
+                                        <dd>{{children.idChildren }}</dd>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <dt>Nombre Completo: </dt>
+                                        <dd>{{children.name }}</dd>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <dt>Fecha Nacimiento:</dt>
+                                        <dd>{{children.birthDate }}</dd>
+                                    </div>
+                                    
+                                </div> 
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Fin</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+
                 </mat-accordion>
             </mat-dialog-content>
+            <div mat-dialog-actions>
+                <div class="text-center col-12">
+                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
-
-<!-- 
-    <tabset>
-        <tab>
-            <ng-template tabHeading><i class="icon-user"></i></ng-template>
-
-            <mat-accordion>
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Información personal
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-dialog-content>
-                        
-                        </div>
-                    </mat-dialog-content>
-                </mat-expansion-panel>
-
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Residencia
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-dialog-content>
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <dt>Dirección</dt>
-                                <dd>{{personale[0].address}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Barrio</dt>
-                                <dd>{{personale[0].neighborhood}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Ciudad</dt>
-                                <dd>{{personale[0].city}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Estrato</dt>
-                                <dd>{{personale[0].stratum}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Zona residencial</dt>
-                                <dd>{{personale[0].zone}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Tipo vivienda</dt>
-                                <dd>{{personale[0].houseType}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Situación residencial</dt>
-                                <dd>{{personale[0].houseSituation}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Tiempo desplazamiento<br> (casa-trabajo)</dt>
-                                <dd>{{personale[0].displacementTime}}</dd>
-                            </div>
-                        </div>
-                    </mat-dialog-content>
-                </mat-expansion-panel>
-
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Contacto Emergencia
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-dialog-content>
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <dt>Nombre</dt>
-                                <dd>{{personale[0].nameContact}}</dd>
-                            </div>
-
-                            <div class="col-md-4">
-                                <dt>Telefono</dt>
-                                <dd>{{personale[0].phoneEmergency}}</dd>
-                            </div>                           
-                        </div>
-                    </mat-dialog-content>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-        </tab>
-        <tab>
-            <ng-template tabHeading><i class="fa fa-heartbeat"></i></ng-template>
-            <mat-dialog-content>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <dt>Tipo sangre</dt>
-                        <dd>{{medical[0].description}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Altura</dt>
-                        <dd>{{medical[0].height}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Peso</dt>
-                        <dd>{{medical[0].weight}}</dd>
-                    </div>
-                </div>
-            </mat-dialog-content>
-             <div class="row">
-                <div class="col-md-4">
-                    <h4>IMC</h4>
-                    <span class="h3 text-{{textImc}}">{{imc}}</span>
-                </div>
-                <div class="col-md-8">
-                    <h4>Interpretación IMC</h4>
-                    <span class="h3 text-{{textImc}}">{{imcInf}}</span>
-                </div>
-            </div> 
-
-        </tab>
-        <tab>
-            <ng-template tabHeading><i class="fa fa-graduation-cap"></i></ng-template>
-            <mat-dialog-content>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <dt>Mayor nivel academico alcanzado</dt>
-                        <dd>{{academic[0].levelAcademic}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Estudios actuales</dt>
-                        <dd>{{academic[0].studyng}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Razón de no estudiar</dt>
-                        <dd>{{academic[0].notStudying}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Tipo de estudio que realiza</dt>
-                        <dd>{{academic[0].typeStudy}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Principal motivación para estudiar</dt>
-                        <dd>{{academic[0].studyMotivation}}</dd>
-                    </div>
-                </div>
-            </mat-dialog-content>
-        </tab>
-        <tab>
-            <ng-template tabHeading><i class="fa fa-money"></i></ng-template>
-            <mat-dialog-content>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <dt>Tipo de contrato</dt>
-                        <dd>{{working[0].idContract}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Cargo</dt>
-                        <dd>{{working[0].idPosition}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Area de trabajo</dt>
-                        <dd>{{working[0].idArea}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Jefe inmediato</dt>
-                        <dd>{{working[0].immediateBoss}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Como se entero de la vacante</dt>
-                        <dd>{{working[0].bringResume}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Manera que llego la hoja de vida</dt>
-                        <dd>{{working[0].vacantInformation}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Fecha de ingreso</dt>
-                        <dd>{{working[0].admissionDate}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Fecha de retiro</dt>
-                        <dd>{{working[0].withdrawalDate}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Motivo</dt>
-                        <dd>{{working[0].reason}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Salario</dt>
-                        <dd>{{salary[0].salary | number}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Auxilio Transporte</dt>
-                        <dd>{{salary[0].transportation | number}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Valor nómina</dt>
-                        <dd>{{salary[0].transportation | number}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Pension</dt>
-                        <dd>{{salary[0].pension | number}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Caja de compensación</dt>
-                        <dd>{{salary[0].family | number}}</dd>
-                    </div>
-                    <div class="col-md-4">
-                        <dt>Arl</dt>
-                        <dd>{{salary[0].arl | number}}</dd>
-                    </div>
-                    <div class="col-md-4">
-                        <dt>TOTAL SEGURIDAD SOCIAL</dt>
-                        <dd>{{salary[0].total | number}}</dd>
-                    </div>
-
-                </div>
-            </mat-dialog-content>
-        </tab>
-        <tab>
-            <ng-template tabHeading><i class="fa fa-users"></i></ng-template>
-            <mat-dialog-content>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <dt>Casa propia</dt>
-                        <dd>{{family[0].ownHouse}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Aporte económico adicional en hogar</dt>
-                        <dd>{{family[0].EconomiCont}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Dependencia económica</dt>
-                        <dd>{{family[0].economicDependence}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Número personas convive</dt>
-                        <dd>{{family[0].peopleCoexist}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Ingresos familiares</dt>
-                        <dd>{{family[0].familyIncome}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Ingresos cubren gastos mínimos</dt>
-                        <dd>{{family[0].Expenses}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Tipo de hogar</dt>
-                        <dd>{{family[0].typeHome}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Número personas convive<br>(discapacidad)</dt>
-                        <dd>{{family[0].familyDisability}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Numero de hijos</dt>
-                        <dd>{{family[0].numberChildren}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Numero de hijos que dependen economicamente de usted</dt>
-                        <dd>{{family[0].childrenDepends}}</dd>
-                    </div>
-                </div>
-            </mat-dialog-content>
-            <table class="table table-sm table-borderless">
-                <tbody>
-                     <tr>
-                     <tr *ngIf="familyInf[0].children.length>0" class="table-primary">
-                        <th colspan="4">
-                            <center>Información Hijos</center>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Genero</th>
-                        <th>Fecha nacimiento</th>
-                        <th>Edad</th>
-                    </tr>
-                    <tr *ngFor="let item of familyInf[0].children">
-                        <td>{{item.name}}</td>
-                        <td>{{item.gender}}</td>
-                        <td>{{ageChildren(item.birthDate)}}</td>
-                        <td>{{detailUser.agech}}</td>
-                    </tr> 
-                </tbody>
-            </table>
-        </tab>
-        <tab>
-            <ng-template tabHeading><i class="fa fa-tags"></i></ng-template>
-            <table class="table table-sm table-borderless">
-                <thead>
-                    <th>Categoria</th>
-                    <th>Prenda</th>
-                    <th>Talla</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of endowmentData">
-                        <td>{{item.idClothingType}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.size}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </tab>
-        <tab>
-            <ng-template tabHeading><i class="fa fa-cogs"></i></ng-template>
-            <mat-dialog-content>
-                <div class="row mt-2">
-                    <div class="col-md-4">
-                        <dt>Eps</dt>
-                        <dd>{{sos[0].idEps}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Pension</dt>
-                        <dd>{{sos[0].idPension}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Cesantías</dt>
-                        <dd>{{sos[0].idSeverance}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Caja de compensación</dt>
-                        <dd>{{sos[0].idBenefit}}</dd>
-                    </div>
-
-                    <div class="col-md-4">
-                        <dt>Cobertura en ARL</dt>
-                        <dd>{{sos[0].coverageArl}}</dd>
-                    </div>
-                </div>
-            </mat-dialog-content>
-        </tab>
-    </tabset>
--->
-
 
 <div class="card mt-6">
     <div *ngIf="view == 'create' || view == 'update'">
@@ -530,8 +513,6 @@
 
         <div class="card-body">
             <mat-dialog-content>
-
-
                 <!--{Primera Seccion Informacion Personal}-->
                 <mat-accordion class="example-headers-align">
 
@@ -546,13 +527,11 @@
                                     <mat-icon>account_circle</mat-icon>
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
-
-
                             <div class="row">
                                 <div class="col-md-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Nombre Completo:</mat-label>
-                                        <input matInput formControlName="name" required >
+                                        <input matInput formControlName="name" required>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-4">

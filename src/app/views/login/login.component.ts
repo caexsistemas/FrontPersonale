@@ -27,12 +27,18 @@ export class LoginComponent {
   public status: string;
   public identity: any;
   public token: any;
-  public loading : boolean;
+  public isLogged : boolean;
+  public cuser : any;
+
+  public loading : boolean = false;
+  validateUser = false;
+
+
 
   viewMessage : boolean = false;
   view : string = 'login';
 
-  validateUser = false;
+
 
   loginForm : FormGroup;
 
@@ -49,19 +55,22 @@ export class LoginComponent {
 
 
   ngOnInit(): void {
-  //  this.checkSession();
-  //   si recibo como parametro recuperar contraseña.
-  //   this.route.queryParamMap.subscribe(params=>{
-  //     this.keyRecovery = (params.get('reset-password'))?params.get('reset-password'):"";
-  //     if(this.keyRecovery!= ""){
-  //       this.view = 'recovery';
-  //       this.initForm('recovery');
-  //     }else{
-  //       this.initForm(this.view);
-  //     }
-  //   });
-  this.initForm(this.view);
+    this.checkSession();
+    this.initForm(this.view);
   }
+
+  checkSession(){
+    // ejecutar consulta al servidor para verificar si el token es valido aun...
+    this.cuser = JSON.parse(localStorage.getItem('currentUser'));
+    if(this.cuser!= null){
+      this.WebApiService.token = this.cuser.token;
+      if(this.cuser.user != null && this.cuser.token != null && this.cuser.username != null){
+        this._router.navigate(['/dashboard']);
+        this.isLogged = true;
+      }
+    }
+  }
+
 
   initForm(type:string){
     switch(type){
@@ -124,6 +133,7 @@ export class LoginComponent {
               username: data.username,
               action: data.action
             }
+            console.log(objData);
             localStorage.setItem('currentUser',JSON.stringify(objData));
             localStorage.setItem('isLogged','true');
             this.WebApiService.token = data.token;
@@ -150,19 +160,6 @@ export class LoginComponent {
     }
   }
 
-  logout() {
-    this._route.params.subscribe(params => {
-      let logout = +params['sure'];
-      if (logout == 1) {
-        localStorage.removeItem('identity');
-        localStorage.removeItem('token');
 
-        this.identity = null;
-        this.token = null
-        // redrigir pagina
-        this._router.navigate(['./login']);
-      }
-    })
-  }
 
 }
