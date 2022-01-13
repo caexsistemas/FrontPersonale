@@ -172,7 +172,6 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
                         
                     </div>
 
@@ -210,6 +209,160 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Medio de recepci&oacute;n de la incapacidad:</mat-label>
+                                <mat-select formControlName="medrecepin"  >
+                                  <mat-option *ngFor="let idet of medRecepInList" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Es la incapacidad original?:</mat-label>
+                                <mat-select formControlName="incaporiginal"  >
+                                  <mat-option *ngFor="let idet of siNoList" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Anexa historia clínica?:</mat-label>
+                                <mat-select formControlName="anexhistclin"  >
+                                  <mat-option *ngFor="let idet of siNoList" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Fecha de recepci&oacute;n de la incapacidad:</mat-label>
+                                <input matInput formControlName="fecharepinc" type="date" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Fecha de inicio de la ausencia:</mat-label>
+                                <input matInput formControlName="fechainicausen" type="date" (ngModelChange)="onFechaIniChange($event)" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Fecha de terminación de la ausencia:</mat-label>
+                                <input matInput formControlName="fechafinausen" type="date" (ngModelChange)="onFechaFinChange($event)" required>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿No. de quién entrega la incapacidad?:</mat-label>
+                                <input matInput formControlName="idententreinc" type="number" (ngModelChange)="onSelectionJFChange($event)" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-8">
+                            <mat-form-field class="example-full-width ContCamp" >
+                                <mat-label>¿Quién entrega la incapacidad?:</mat-label>
+                                <mat-select formControlName="nombentreinc" required>
+                                  <mat-option *ngFor="let idet of PersonaleInfoJF" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo de incapacidad:</mat-label>
+                                <mat-select formControlName="tipoincap"  >
+                                  <mat-option *ngFor="let idet of tipIncaList" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>No. De D&iacute;as:</mat-label>
+                                <input matInput formControlName="numdiasincap" type="number" >
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>¿Requieres seguimiento m&eacute;dico por d&iacute;as de incapacidad?:</mat-label>
+                                <mat-select formControlName="segincapamed"  >
+                                  <mat-option *ngFor="let idet of siNoList" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Estado de la incapacidad o aislamiento:</mat-label>
+                                <mat-select formControlName="estadincapad"  >
+                                  <mat-option *ngFor="let idet of estIncAis" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>C&oacute;digo del diagn&oacute;stico seg&uacute;n CIE-10:</mat-label>
+                                <input matInput formControlName="codcie" type="text" (ngModelChange)="onCodcieChange($event)" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Nombre del diagn&oacute;stico:</mat-label>
+                                <input matInput formControlName="nomdisgnod" type="text" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Cap&iacute;tulo CIE 10:</mat-label>
+                                <input matInput formControlName="capitcie" type="text" required>
+                            </mat-form-field>
+                        </div>
+
 
                     </div>
 

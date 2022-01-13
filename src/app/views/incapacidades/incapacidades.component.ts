@@ -129,6 +129,24 @@ export class IncapacidadesComponent implements OnInit {
             this.sendRequest();
           });
           break;
+          case 'update':
+            this.loading = true;
+            dialogRef = this.dialog.open(IncapacidadesDialog, {
+              data: {
+                window: 'update',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val => {
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe(val => {
+              this.sendRequest();
+            });
+            break;
     }
 
   }
