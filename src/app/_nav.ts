@@ -7,15 +7,16 @@
 **/
 import { INavData } from '@coreui/angular';
 
+
 export const navItems: INavData[] = [
   {
-    name: 'Dashboard',
+    name: 'TH 360',
     url: '/dashboard',
     icon: 'icon-speedometer',
   },
   {
     title: true,
-    name: 'Administrador'
+    name: ''
   },
   {
     title: true,
@@ -48,7 +49,7 @@ export const navItems: INavData[] = [
   {
     name: 'Gestion personal',
     url: '/management/gestion',
-    icon: 'icon-settings'
+    icon: 'icon-user'
     
   },
 

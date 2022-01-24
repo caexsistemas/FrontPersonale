@@ -62,6 +62,8 @@ export class LoginComponent {
   checkSession(){
     // ejecutar consulta al servidor para verificar si el token es valido aun...
     this.cuser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    console.log(localStorage.getItem('currentUser'));
     if(this.cuser!= null){
       this.WebApiService.token = this.cuser.token;
       if(this.cuser.user != null && this.cuser.token != null && this.cuser.username != null){
@@ -131,9 +133,10 @@ export class LoginComponent {
               token: data.token,
               user: data.user,
               username: data.username,
-              action: data.action
+              action: data.action,
+              userProfile:data.userProfile,
+              role:data.rol
             }
-            console.log(objData);
             localStorage.setItem('currentUser',JSON.stringify(objData));
             localStorage.setItem('isLogged','true');
             this.WebApiService.token = data.token;

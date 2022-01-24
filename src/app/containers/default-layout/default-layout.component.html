@@ -4,7 +4,7 @@
   [sidebarToggler]="'lg'" [asideMenuToggler]="false">
   <ul class="nav navbar-nav d-md-down-none mr-auto">
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">{{identity.user}}</a>
+      <a class="nav-link" href="#" *ngIf="isLogged">{{identity.userProfile}}</a>
     </li>
   </ul>
       <a class="btn  btn-ghost-link active" (click)="logout()" tooltip="Cerrar sesion" placement="left"><i
@@ -12,8 +12,7 @@
 </app-header>
 
 <div class="app-body">
-  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
-    (minimizedChange)="toggleMinimize($event)">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
@@ -29,3 +28,4 @@
   <span><a href="http://www.caliexpress.co/">CALIEXPRESS SAS</a> &copy; 2021 .</span>
 </app-footer>
 <!-- <toaster-container [toasterconfig]="toasterconfig"></toaster-container> -->
+

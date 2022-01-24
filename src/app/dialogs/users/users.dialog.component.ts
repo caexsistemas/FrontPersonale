@@ -180,7 +180,7 @@ export class UsersDialog {
             data => {
                 if (data.success) {
                     this.usuario = data.data[0];
-                    
+                    console.log(this.usuario.role);
                     this.formUsuario.get('name').setValue(this.usuario.name);
                     this.formUsuario.get('surname').setValue(this.usuario.surname);
                     this.formUsuario.get('username').setValue(this.usuario.username);
