@@ -83,7 +83,7 @@ export class IngresoDialog{
 
                     //DataInfo
                     this.PersonaleInfo = data.data['getDataView'];
-                
+                    console.log("::"+this.PersonaleInfo);
                     /*if (this.view == 'update') {
 
                         this.formNomi.get('name_nc').setValue(data.data[0].name_nc);
@@ -105,6 +105,7 @@ export class IngresoDialog{
     
     onSelectionChange(event){
         
+       
         let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
         if( exitsPersonal ){
             this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);

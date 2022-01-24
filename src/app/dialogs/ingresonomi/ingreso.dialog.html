@@ -15,7 +15,7 @@
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formNomi" method="POST">
 
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
                                 <input matInput formControlName="document_nc" (ngModelChange)="onSelectionChange($event)" required>
