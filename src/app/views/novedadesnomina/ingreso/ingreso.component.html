@@ -1,0 +1,81 @@
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+           Novedades Nomina Ingreso
+        </div>
+        <div class="content-table">
+            <div class="toolbar-table" *ngIf="permissions != null">
+  
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">              
+                    <div class="btn-group" dropdown>
+                      <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
+                          <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                </div>
+  
+                <div class="container">
+                    <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>Buscar..</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                    </mat-form-field>
+                </div>
+            </div>
+  
+            <div class="section-table first-action">
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="contenTable.length > 0">
+                <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
+  
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" (click)="option('view',element.id_novedad_nc)"
+                                title="Ver">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="id_novedad_nc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo Generaci&oacute;n</th>
+                        <td mat-cell *matCellDef="let element"> {{element.id_novedad_nc}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="name_nc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Trabajador</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name_nc}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="area_nc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Area Trabajador</th>
+                        <td mat-cell *matCellDef="let element"> {{element.area_nc}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="directboss_nc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Jefe Directo</th>
+                        <td mat-cell *matCellDef="let element"> {{element.directboss_nc}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" (click)="option('update',element.id_novedad_nc)"
+                                title="Editar">
+                                <i class="fa fa-edit fa-lg"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="contenTable.length == 0">
+            <h4 class="no-records">No hay registros...</h4>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>

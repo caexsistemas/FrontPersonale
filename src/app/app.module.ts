@@ -44,6 +44,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { LoginComponent } from './views/login/login.component';
 import { AdministratorComponent } from './views/administrator/administrator.component';
+import { NovedadesnominaComponent } from './views/novedadesnomina/novedadesnomina.component';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { NgWizardModule } from 'ng-wizard';
 import { Routes, RouterModule } from '@angular/router';
@@ -57,6 +58,7 @@ import { ListasDialog } from './dialogs/lists/lists.dialog.component';
 import { StateDialog } from './dialogs/state/state.dialog.component';
 import { IncapacidadesDialog } from './dialogs/incapacidades/incapacidades.dialog.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
 
 
 
@@ -109,7 +111,9 @@ const routes: Routes = [];
     ManagementDialog,
     ListasDialog,
     StateDialog,
-    IncapacidadesDialog
+    IncapacidadesDialog,
+    NovedadesnominaComponent,
+    IngresoDialog
       
   ],
   providers: [{

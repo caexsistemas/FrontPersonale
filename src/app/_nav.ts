@@ -17,6 +17,10 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Administrador'
   },
+  {
+    title: true,
+    name: 'Novedades Nomina'
+  },
 
   {
     name: 'Administrador',
@@ -53,6 +57,21 @@ export const navItems: INavData[] = [
     url: '/incapacidades/gestion',
     icon: 'icon-docs'
     
+  },
+  
+  {
+
+    name: 'Novedades Nomina',
+    url: '/nomi',
+    icon: 'icon-equalizer',
+    children: [
+      {
+        name: 'Ingreso Trabajador',
+        url: '/nomi/ingreso',
+        icon: 'icon-calculator'
+      }
+    ]
+
   }
   
 ];
