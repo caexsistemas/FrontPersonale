@@ -20,6 +20,7 @@ import { FormGroup,FormControl,Validators } from '@angular/forms';
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'login.component.html',
+  styleUrls: ['./login.component.css'],
   providers: [LoginServices, Tools]
 })
 export class LoginComponent {
@@ -29,6 +30,7 @@ export class LoginComponent {
   public token: any;
   public isLogged : boolean;
   public cuser : any;
+  hide = true;
 
   public loading : boolean = false;
   validateUser = false;
@@ -119,7 +121,7 @@ export class LoginComponent {
 
     if(this.loginForm.valid){
       let body = {
-        fuser:  this.loginForm.get('fuser').value.toLowerCase(),
+        fuser:  this.loginForm.get('fuser').value,
         fpass:  this.Encrypt.encrypt(this.loginForm.get('fpass').value)
       }
       this.loading = true;

@@ -1,42 +1,42 @@
 <div class="app-body">
   <main class="main d-flex align-items-center">
     <div class="container">
-      <div class="">
-        <div class="col-12">
-          <div class="card-group">
-            <div class="card">
-              <img src="../../../assets/img/360.jpg" alt="" width="100%" height="100%">
-            </div>
-
-            <div class="card">
-              <div class="card-body text-center mt-5">
-                <form [formGroup]="loginForm">
-
-                  <mat-form-field  class="">
-                    <mat-label>Usuario</mat-label>
-                    <input matInput placeholder="Usuario" formControlName="fuser">
-                  </mat-form-field>
-
-                  <mat-form-field  class="">
-                    <mat-label>Contraseña</mat-label>
-                    <input matInput type="password" placeholder="Contraseña" formControlName="fpass">
-                  </mat-form-field>
-
-                  <span *ngIf="viewMessage" class="text-alert">Completa la información correctamente.</span>
-
-                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" (click)="signin()">Ingresar</button>
-
-                  <div class="text-center">
-                    <!-- <a class="small pr-3" href="#" (click)="changeView('forgotPass')">Olvidaste tu contraseña?</a> -->
-                  </div>
-                </form>
+      <img src="assets/img/brand/logo.png" alt="" width="40%" height="100%">
+      <div class="card-group mt-2">
+        <div class="card">
+          <div class="card-body">
+           <p class="is-title"> 
+             <b>Bienvenido a E360 Software.</b>
+            </p>
+            <p class="is-text">
+              Por favor, inicia sesión con tus datos de empresa.
+            </p>             
+            <form [formGroup]="loginForm">
+              <div class="form-group mt-5">
+                <label for="exampleInputEmail1">Usuario</label>
+                <input type="number" class="form-control" formControlName="fuser" >
+                <small id="emailHelp" class="form-text text-muted">Tu usuario es tu número de identificación</small>
               </div>
-                        </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Contraseña</label>
+                <input type="password" class="form-control" formControlName="fpass"> 
+              </div>
+              <button class="btn btn-primary btn-block mb-2" (click)="signin()">Ingresar</button>
+              <!-- <div class="text-center">
+                 <a class="small pr-3" href="#" (click)="changeView('forgotPass')">Olvidaste tu contraseña?</a> 
+              </div> -->
+            </form>
+
+            <span *ngIf="viewMessage" class="text-alert">Completa la información correctamente.</span>
           </div>
         </div>
+
+        <div class="card">
+          <img src="assets/img/360.jpg" alt="" width="100%" height="100%">
+        </div>
+
       </div>
     </div>
   </main>
 </div>
 <toaster-container></toaster-container>
-

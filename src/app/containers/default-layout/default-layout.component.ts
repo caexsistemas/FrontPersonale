@@ -79,7 +79,6 @@ export class DefaultLayoutComponent {
   ngOnInit(): void {
     this.checkSession();
     this.sendRequest();
-
   }
 
   sendRequest() {
@@ -143,7 +142,6 @@ export class DefaultLayoutComponent {
       }
       option.push(optionItem);
     });
-    console.log(JSON.stringify(option))
     return option;
 
   }
