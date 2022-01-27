@@ -36,6 +36,7 @@ export class IngresoDialog{
         base64textString: null
     }
     ListTipoGes:    any = [];
+    dataNovNi: any = []; 
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -64,6 +65,27 @@ export class IngresoDialog{
                 this.initForms();
                 this.title = "Actualizar Novedad";
                 this.idNomi = this.data.codigo;
+            break;
+            case 'view':
+                this.idNomi = this.data.codigo;
+                this.loading.emit(true);
+                this.WebApiService.getRequest(this.endpoint + '/' + this.idNomi, {})
+                    .subscribe(
+                        data => {
+                            if (data.success == true) {
+                                this.dataNovNi = data.data[0];                         
+                                this.loading.emit(false);
+                            } else {
+                                this.handler.handlerError(data);
+                                this.closeDialog(); 
+                                this.loading.emit(false);
+                            }
+                        },
+                        error => {
+                            this.handler.showError('Se produjo un error');
+                            this.loading.emit(false);
+                        }
+                    );
             break;
         }
 

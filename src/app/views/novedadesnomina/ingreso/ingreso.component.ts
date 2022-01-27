@@ -142,6 +142,24 @@ export class IngresoComponent implements OnInit {
           this.sendRequest();
         });
         break;
+        case 'view':
+          this.loading = true;
+          dialogRef = this.dialog.open(IngresoDialog,{
+            data: {
+              window: 'view',
+              codigo
+            }
+          });
+          dialogRef.disableClose = true;
+          // LOADING
+          dialogRef.componentInstance.loading.subscribe(val=>{
+            this.loading = val;
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            console.log(result);
+          });
+        break;
     }
   }
 

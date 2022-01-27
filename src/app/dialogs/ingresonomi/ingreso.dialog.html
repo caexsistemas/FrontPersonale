@@ -131,3 +131,85 @@
 
     </div>
 </div>
+
+<div *ngIf="view == 'view'">
+    <div class="modal-header button_header">
+        <h5 class="modal-title">Información Detallada de la Novedad</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <mat-dialog-content style="min-width: 500px;">
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <dt>Documento de Identificaci&oacute;n:</dt>
+                <dd>{{dataNovNi.document_nc}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Nombre Completo:</dt>
+                <dd>{{dataNovNi.idPersonale}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Fecha Ingreso:</dt>
+                <dd>{{dataNovNi.daying_nc}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Area:</dt>
+                <dd>{{dataNovNi.area_nc}}</dd>
+            </div>
+
+        </div>
+        <div class="row mt-2">
+
+            <div class="col-md-3">
+                <dt>Documento Jefe Directo:</dt>
+                <dd>{{dataNovNi.directboss_nc_jf}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Jefe Directo</dt>
+                <dd>{{dataNovNi.directboss_nc}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Ciudad:</dt>
+                <dd>{{dataNovNi.city_nc}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Edad:</dt>
+                <dd>{{dataNovNi.edad_nc}}</dd>
+            </div>
+
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-md-3">
+                <dt>Salario: </dt>
+                <dd>{{ dataNovNi.salary_nc| currency: 'USD'| lowercase }}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Tipo Gestion:</dt>
+                <dd>{{dataNovNi.tipoges_nc}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Archivo Actual</dt>
+                <dd><a href="{{dataNovNi.files_nc}}" target="_blank">Download</a></dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt></dt>
+                <dd></dd>
+            </div>
+
+        </div>
+
+    </mat-dialog-content>
+</div>
