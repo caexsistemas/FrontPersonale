@@ -63,6 +63,7 @@ import { StateDialog } from './dialogs/state/state.dialog.component';
 import { IncapacidadesDialog } from './dialogs/incapacidades/incapacidades.dialog.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
+import { NovedadesaludComponent } from './views/novedadesalud/novedadesalud.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -117,7 +118,8 @@ const routes: Routes = [];
     StateDialog,
     IncapacidadesDialog,
     NovedadesnominaComponent,
-    IngresoDialog
+    IngresoDialog,
+    NovedadesaludComponent,
       
   ],
   providers: [{

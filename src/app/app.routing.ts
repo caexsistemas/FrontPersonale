@@ -76,6 +76,10 @@ export const routes: Routes = [
       {
         path:'nomi',
         loadChildren:()=> import('./views/novedadesnomina/novedadesnomina.module').then(m=>m.NovedadesnominaModule)
+      },
+      {
+        path:'procesalud',
+        loadChildren:()=> import('./views/novedadesalud/novedadesalud.module').then(m=>m.NovedadeSaludModule)
       }
     ]
   }
