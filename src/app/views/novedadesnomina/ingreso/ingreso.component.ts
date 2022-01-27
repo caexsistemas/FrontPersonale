@@ -73,7 +73,9 @@ export class IngresoComponent implements OnInit {
     this.displayedColumns = [
       'view', 
       'id_novedad_nc',
-      'name_nc',
+      'daying_nc',
+      'idPersonale',
+      'tipoges_nc',
       'area_nc',
       'directboss_nc',
       'actions'
@@ -122,7 +124,24 @@ export class IngresoComponent implements OnInit {
           this.sendRequest();
         });
       break;
-      
+      case 'update':
+        this.loading = true;
+        dialogRef = this.dialog.open(IngresoDialog,{
+          data: {
+            window: 'update',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+        break;
     }
   }
 

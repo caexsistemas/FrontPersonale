@@ -67,7 +67,7 @@ export const navItems: INavData[] = [
     icon: 'icon-equalizer',
     children: [
       {
-        name: 'Ingreso Trabajador',
+        name: 'Ingreso-Retiro Trabajador',
         url: '/nomi/ingreso',
         icon: 'icon-calculator'
       }

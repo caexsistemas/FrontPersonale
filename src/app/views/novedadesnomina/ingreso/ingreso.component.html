@@ -40,10 +40,20 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo Generaci&oacute;n</th>
                         <td mat-cell *matCellDef="let element"> {{element.id_novedad_nc}} </td>
                     </ng-container>
+
+                    <ng-container matColumnDef="daying_nc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Ingreso</th>
+                        <td mat-cell *matCellDef="let element"> {{element.daying_nc}} </td>
+                    </ng-container>
   
-                    <ng-container matColumnDef="name_nc">
+                    <ng-container matColumnDef="idPersonale">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Trabajador</th>
-                        <td mat-cell *matCellDef="let element"> {{element.name_nc}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.idPersonale}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tipoges_nc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Gestion</th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipoges_nc}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="area_nc">

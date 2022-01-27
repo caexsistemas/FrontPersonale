@@ -50,8 +50,12 @@ import { NgWizardModule } from 'ng-wizard';
 import { Routes, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import {MatExpansionModule} from '@angular/material/expansion';
-// DIALOG
 
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list'
+// DIALOG
 import { UsersDialog } from './dialogs/users/users.dialog.component';
 import { ManagementDialog } from './dialogs/management/management.dialog.component';
 import { ListasDialog } from './dialogs/lists/lists.dialog.component';
@@ -59,12 +63,6 @@ import { StateDialog } from './dialogs/state/state.dialog.component';
 import { IncapacidadesDialog } from './dialogs/incapacidades/incapacidades.dialog.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
-
-
-
-
-
-
 
 const routes: Routes = []; 
 @NgModule({
@@ -100,7 +98,11 @@ const routes: Routes = [];
     RouterModule.forRoot(routes),
     MatTabsModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatGridListModule
     
   ],
   declarations: [

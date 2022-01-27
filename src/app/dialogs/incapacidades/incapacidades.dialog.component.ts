@@ -274,14 +274,17 @@ export class IncapacidadesDialog implements OnInit {
                            this.handler.showSuccess(data.message);
                             this.reload.emit();
                             this.closeDialog();
+                            console.log('vbv');
                         } else {
                             this.handler.handlerError(data);
                             this.loading.emit(false);
+                            console.log('yxy');
                         }
                     },
                     error => {
                         this.handler.showError();
                         this.loading.emit(false);
+                        console.log('fhf');
                     }
                 )
         } else {
