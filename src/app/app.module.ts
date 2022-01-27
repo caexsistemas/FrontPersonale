@@ -24,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -54,7 +55,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import {MatGridListModule} from '@angular/material/grid-list'
 // DIALOG
 import { UsersDialog } from './dialogs/users/users.dialog.component';
 import { ManagementDialog } from './dialogs/management/management.dialog.component';
