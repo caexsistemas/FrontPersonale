@@ -55,6 +55,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 // DIALOG
 import { UsersDialog } from './dialogs/users/users.dialog.component';
 import { ManagementDialog } from './dialogs/management/management.dialog.component';
@@ -102,7 +104,9 @@ const routes: Routes = [];
     MatProgressBarModule,
     MatButtonModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatListModule,
+    MatSidenavModule
     
   ],
   declarations: [
@@ -118,6 +122,7 @@ const routes: Routes = [];
     IncapacidadesDialog,
     NovedadesnominaComponent,
     IngresoDialog
+    
       
   ],
   providers: [{

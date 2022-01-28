@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IngresoDialog } from '../../../dialogs/ingresonomi/ingreso.dialog.component';
+import { FormGroup,FormControl,Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-ingreso',
@@ -15,6 +16,10 @@ import { IngresoDialog } from '../../../dialogs/ingresonomi/ingreso.dialog.compo
   styleUrls: ['./ingreso.component.css'],
   providers: [Tools]
 })
+
+
+
+
 export class IngresoComponent implements OnInit {
 
   endpoint:string   = '/novnomi';
@@ -30,6 +35,7 @@ export class IngresoComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
+  formDownoadIngreso : FormGroup;
 
   constructor(
     private _tools: Tools,
@@ -37,10 +43,20 @@ export class IngresoComponent implements OnInit {
     public handler:HandlerAppService,
     public dialog:MatDialog
   ) { }
+  
+  step = 0;
 
+  setStep(index: number) {
+    this.step = index;
+  }
+  
   ngOnInit(): void {
       this.sendRequest();
       this.permissions = this.handler.permissionsApp; 
+      this.formDownoadIngreso = new FormGroup({
+        fi:      new FormControl('', [Validators.required]),
+        ff:      new FormControl('', Validators.required)
+      });
   }
 
   sendRequest(){
@@ -105,7 +121,6 @@ export class IngresoComponent implements OnInit {
   option(action,codigo=null){
     var dialogRef;
     switch(action){
-
       case 'create':
         this.loading = true;
         dialogRef = this.dialog.open(IngresoDialog,{
@@ -142,6 +157,12 @@ export class IngresoComponent implements OnInit {
           this.sendRequest();
         });
         break;
+        case 'create':
+          this.loading = true;
+         
+        break;
+
+
     }
   }
 

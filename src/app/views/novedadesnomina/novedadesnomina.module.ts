@@ -14,6 +14,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatMenuModule} from '@angular/material/menu';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
@@ -22,6 +27,8 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 //Modulos
 import { NovedadesnominaRoutingModule } from './novedadesnomina-routing.module';
 import { IngresoComponent } from './ingreso/ingreso.component';
+
+import { MatCardModule } from '@angular/material/card';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -47,7 +54,13 @@ const ngWizardConfig: NgWizardConfig = {
     MatInputModule,
     NovedadesnominaRoutingModule,
     BsDropdownModule.forRoot(),
-    NgWizardModule.forRoot(ngWizardConfig)
+    NgWizardModule.forRoot(ngWizardConfig),
+    MatExpansionModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMenuModule,
+    MatCardModule
   ],
   declarations: [
     IngresoComponent
