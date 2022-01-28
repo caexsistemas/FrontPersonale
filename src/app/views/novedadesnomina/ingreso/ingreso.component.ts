@@ -157,14 +157,6 @@ export class IngresoComponent implements OnInit {
           this.sendRequest();
         });
         break;
-<<<<<<< HEAD
-        case 'create':
-          this.loading = true;
-         
-        break;
-
-
-=======
         case 'view':
           this.loading = true;
           dialogRef = this.dialog.open(IngresoDialog,{
@@ -183,7 +175,6 @@ export class IngresoComponent implements OnInit {
             console.log(result);
           });
         break;
->>>>>>> 4a190b646328bbe29daea1eb1dcd2ad060bd550c
     }
   }
 
