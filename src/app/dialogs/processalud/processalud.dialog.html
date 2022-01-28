@@ -12,13 +12,13 @@
 
         <div class="card-body">
             <mat-dialog-content>
-                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formNomi" method="POST">
+                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formProces" method="POST">
 
                     <div class="row">
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
-                                <input matInput formControlName="document_nc" type="number" (ngModelChange)="onSelectionChange($event)" required>
+                                <input matInput formControlName="document_tr" type="number" (ngModelChange)="onSelectionChange($event)" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -33,8 +33,12 @@
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Fecha Ingreso/Retiro:</mat-label>
-                                <input matInput formControlName="daying_nc" type="date" required>
+                                <mat-label>Tipo Gestion:</mat-label>
+                                <mat-select formControlName="tipo_gestion"  required>
+                                  <mat-option *ngFor="let idet of ListTipoGes" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                     </div>
@@ -43,7 +47,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Area de trabajo:</mat-label>
-                                <mat-select formControlName="area_nc"  >
+                                <mat-select formControlName="area"  >
                                   <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -53,13 +57,13 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Identificaci&oacute;n Jefe:</mat-label>
-                                <input matInput formControlName="directboss_nc_jf" type="number" (ngModelChange)="onSelectionJFChange($event)" required>
+                                <input matInput formControlName="document_jf" type="number" (ngModelChange)="onSelectionJFChange($event)" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp" >
                                 <mat-label>Jefe Directo:</mat-label>
-                                <mat-select formControlName="directboss_nc" required>
+                                <mat-select formControlName="nombentreinc" required>
                                   <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                                     {{idet.name}}
                                   </mat-option>
@@ -72,19 +76,19 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Ciudad:</mat-label>
-                                <input matInput formControlName="city_nc" >
+                                <input matInput formControlName="ciudad" >
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Edad:</mat-label>
-                                <input matInput formControlName="edad_nc" type="number">
+                                <input matInput formControlName="edad_tb" type="number">
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Salario:</mat-label>
-                                <input matInput formControlName="salary_nc" type="number" step="any">
+                                <input matInput formControlName="salario" type="number" step="any">
                             </mat-form-field>
                         </div>
                     </div>
@@ -93,19 +97,23 @@
                         
                         <div class="col-md-4">
                             <label>Adjuntar Hoja de vida</label>
-                            <input formControlName="files_nc" class="form-control" type="file" (change)="seleccionarArchivo($event)">
+                            <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)">
                         </div>
-
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Tipo Gestion:</mat-label>
-                                <mat-select formControlName="tipoges_nc"  required>
-                                  <mat-option *ngFor="let idet of ListTipoGes" [value]="idet.ls_codvalue" >
-                                    {{idet.description}}
-                                  </mat-option>
-                                </mat-select>
+                                <mat-label>Fecha Inicio:</mat-label>
+                                <input matInput formControlName="fechainicausen" type="date" required>
+                            </mat-form-field>
+                        </div>                      
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha Fin:</mat-label>
+                                <input matInput formControlName="fechafinausen" type="date" required>
                             </mat-form-field>
                         </div>
+                    </div>
+                    
+                    <div class="row">
 
                         <div class="col-md-4" *ngIf="view == 'update'" >
                             <label>Archivo Actual</label>
@@ -132,6 +140,7 @@
     </div>
 </div>
 
+
 <div *ngIf="view == 'view'">
     <div class="modal-header button_header">
         <h5 class="modal-title">Información Detallada de la Novedad</h5>
@@ -144,7 +153,7 @@
         <div class="row mt-2">
             <div class="col-md-3">
                 <dt>Documento de Identificaci&oacute;n:</dt>
-                <dd>{{dataNovNi.document_nc}}</dd>
+                <dd>{{dataNovNi.document_tr}}</dd>
             </div>
 
             <div class="col-md-3">
@@ -154,12 +163,12 @@
 
             <div class="col-md-3">
                 <dt>Fecha Ingreso:</dt>
-                <dd>{{dataNovNi.daying_nc}}</dd>
+                <dd>{{dataNovNi.fechainicausen}}</dd>
             </div>
 
             <div class="col-md-3">
-                <dt>Area:</dt>
-                <dd>{{dataNovNi.area_nc}}</dd>
+                <dt>Fecha Retiro:</dt>
+                <dd>{{dataNovNi.fechafinausen}}</dd>
             </div>
 
         </div>
@@ -167,22 +176,22 @@
 
             <div class="col-md-3">
                 <dt>Documento Jefe Directo:</dt>
-                <dd>{{dataNovNi.directboss_nc_jf}}</dd>
+                <dd>{{dataNovNi.document_jf}}</dd>
             </div>
 
             <div class="col-md-3">
                 <dt>Jefe Directo</dt>
-                <dd>{{dataNovNi.directboss_nc}}</dd>
+                <dd>{{dataNovNi.nombentreinc}}</dd>
             </div>
 
             <div class="col-md-3">
                 <dt>Ciudad:</dt>
-                <dd>{{dataNovNi.city_nc}}</dd>
+                <dd>{{dataNovNi.ciudad}}</dd>
             </div>
 
             <div class="col-md-3">
                 <dt>Edad:</dt>
-                <dd>{{dataNovNi.edad_nc}}</dd>
+                <dd>{{dataNovNi.edad_tb}}</dd>
             </div>
 
         </div>
@@ -191,22 +200,22 @@
 
             <div class="col-md-3">
                 <dt>Salario: </dt>
-                <dd>{{ dataNovNi.salary_nc| currency: 'USD'| lowercase }}</dd>
+                <dd>{{ dataNovNi.salario| currency: 'USD'| lowercase }}</dd>
             </div>
 
             <div class="col-md-3">
                 <dt>Tipo Gestion:</dt>
-                <dd>{{dataNovNi.tipoges_nc}}</dd>
+                <dd>{{dataNovNi.tipo_gestion}}</dd>
             </div>
 
             <div class="col-md-3">
                 <dt>Archivo Actual</dt>
-                <dd><a href="{{dataNovNi.files_nc}}" target="_blank">Download</a></dd>
+                <dd><a href="{{dataNovNi.file_sp}}" target="_blank">Download</a></dd>
             </div>
 
             <div class="col-md-3">
-                <dt></dt>
-                <dd></dd>
+                <dt>Tipo Area:</dt>
+                <dd>{{dataNovNi.area}}</dd>
             </div>
 
         </div>

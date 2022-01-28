@@ -7,6 +7,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { ProcessaludDialog } from '../../../dialogs/processalud/processalud.dialog.component';
 
 @Component({
   selector: 'app-processalud',
@@ -98,6 +99,67 @@ export class ProcessaludComponent implements OnInit {
   showDetails(item) {
     this.detaNovSal = item;
     this.infoModal.show()
+  }
+
+  option(action,codigo=null){
+    
+      var dialogRef;
+      switch(action){
+          case 'create':
+            this.loading = true;
+            dialogRef = this.dialog.open(ProcessaludDialog,{
+              data: {
+                window: 'create',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe(val=>{
+              this.sendRequest();
+            });
+        break;
+        case 'update':
+            this.loading = true;
+            dialogRef = this.dialog.open(ProcessaludDialog,{
+              data: {
+                window: 'update',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe(val=>{
+              this.sendRequest();
+            });
+          break;
+        case 'view':
+            this.loading = true;
+            dialogRef = this.dialog.open(ProcessaludDialog,{
+              data: {
+                window: 'view',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            dialogRef.afterClosed().subscribe(result => {
+              console.log('The dialog was closed');
+              console.log(result);
+            });
+        break;
+      }
   }
 
 }
