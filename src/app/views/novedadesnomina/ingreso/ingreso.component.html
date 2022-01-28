@@ -1,19 +1,42 @@
 <div class="content">
     <div class="card">
         <div class="card-header">
-           Novedades Nomina Ingreso
+            Novedades Nomina Ingreso
         </div>
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
-  
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">              
+
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                    <button class="btn btn-success" [matMenuTriggerFor]="menu" title="Download">
+                        <i class="fa fa-home"></i>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <form [formGroup]="formDownoadIngreso">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha inicio:</mat-label>
+                                <input matInput formControlName="fi" type="date" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha final:</mat-label>
+                                <input matInput formControlName="ff" type="date" required>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    </mat-menu>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
                     <div class="btn-group" dropdown>
-                      <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
-                          <i class="fa fa-plus"></i>
-                      </button>
+                        <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
+                            title="Crear">
+                            <i class="fa fa-plus"></i>
+                        </button>
                     </div>
                 </div>
-  
+
                 <div class="container">
                     <mat-form-field appearance="standard" style="width: 100%;">
                         <mat-label>Buscar..</mat-label>
@@ -21,11 +44,12 @@
                     </mat-form-field>
                 </div>
             </div>
-  
+
             <div class="section-table first-action">
-                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="contenTable.length > 0">
-                <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
-  
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                    *ngIf="contenTable.length > 0">
+                    <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
+
                     <ng-container matColumnDef="view">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
                         <td mat-cell *matCellDef="let element">
@@ -35,7 +59,7 @@
                             </button>
                         </td>
                     </ng-container>
-  
+
                     <ng-container matColumnDef="id_novedad_nc">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo Generaci&oacute;n</th>
                         <td mat-cell *matCellDef="let element"> {{element.id_novedad_nc}} </td>
@@ -45,7 +69,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Ingreso</th>
                         <td mat-cell *matCellDef="let element"> {{element.daying_nc}} </td>
                     </ng-container>
-  
+
                     <ng-container matColumnDef="idPersonale">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Trabajador</th>
                         <td mat-cell *matCellDef="let element"> {{element.idPersonale}} </td>
@@ -65,7 +89,7 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Jefe Directo</th>
                         <td mat-cell *matCellDef="let element"> {{element.directboss_nc}} </td>
                     </ng-container>
-  
+
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
                         <td mat-cell *matCellDef="let element">
@@ -81,11 +105,11 @@
                 <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
             </div>
             <div *ngIf="contenTable.length == 0">
-            <h4 class="no-records">No hay registros...</h4>
-          </div>
+                <h4 class="no-records">No hay registros...</h4>
+            </div>
         </div>
     </div>
-  </div>
-  <div *ngIf="loading" class="loading">
+</div>
+<div *ngIf="loading" class="loading">
     <mat-spinner [diameter]="50"></mat-spinner>
-  </div>
+</div>
