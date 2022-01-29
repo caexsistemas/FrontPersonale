@@ -114,7 +114,16 @@
                     </div>
                     
                     <div class="row">
-
+                        <div class="col-md-4 p-3">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Cuenta Con Soporte?:</mat-label>
+                                <mat-select formControlName="soporte_nove"  required>
+                                  <mat-option *ngFor="let idet of ListSiNo" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         <div class="col-md-4" *ngIf="view == 'update'" >
                             <label>Archivo Actual</label>
                             <a href="{{archivo.nombre}}" target="_blank">Download</a>
@@ -218,6 +227,13 @@
                 <dd>{{dataNovNi.area}}</dd>
             </div>
 
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <dt>Estado Gestion:</dt>
+                <dd>{{dataNovNi.estado_gs}}</dd>
+            </div>
         </div>
 
     </mat-dialog-content>

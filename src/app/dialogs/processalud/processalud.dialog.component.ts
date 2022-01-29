@@ -32,8 +32,9 @@ export class ProcessaludDialog{
         nombreArchivo: null,
         base64textString: null
     }
-    ListTipoGes:    any = [];
-    dataNovNi: any = []; 
+    ListTipoGes:   any = [];
+    dataNovNi:     any = []; 
+    ListSiNo:      any = [];
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -117,6 +118,7 @@ export class ProcessaludDialog{
                     this.PersonaleInfo = data.data['getDataPersonale'];
                     this.ListArea      = data.data['getDatArea'];
                     this.ListTipoGes   = data.data['getDatTipoGes'];
+                    this.ListSiNo      = data.data['getDatSiNo'];
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -190,7 +192,7 @@ export class ProcessaludDialog{
                 this.formProces.get('document_jf').setValue(data.data['getDataUpda'][0].document_jf);
                 this.formProces.get('fechainicausen').setValue(data.data['getDataUpda'][0].fechainicausen);
                 this.formProces.get('fechafinausen').setValue(data.data['getDataUpda'][0].fechafinausen);
-                this.formProces.get('soporte_nove').setValue(data.data['getDataUpda'][0].salary_nc);
+                this.formProces.get('soporte_nove').setValue(data.data['getDataUpda'][0].soporte_nove);
                 this.formProces.get('edad_tb').setValue(data.data['getDataUpda'][0].edad_tb);
                 this.archivo.nombre = data.data['getDataUpda'][0].file_sp;
                 
