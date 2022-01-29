@@ -66,7 +66,9 @@ import { IncapacidadesDialog } from './dialogs/incapacidades/incapacidades.dialo
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
 import { NovedadesaludComponent } from './views/novedadesalud/novedadesalud.component';
+import { TemplateComponent } from './template/template.component';
 import { ProcessaludDialog } from './dialogs/processalud/processalud.dialog.component';
+
 
 const routes: Routes = []; 
 @NgModule({
@@ -125,6 +127,7 @@ const routes: Routes = [];
     NovedadesnominaComponent,
     IngresoDialog,
     NovedadesaludComponent,
+    TemplateComponent,
     ProcessaludDialog
       
   ],

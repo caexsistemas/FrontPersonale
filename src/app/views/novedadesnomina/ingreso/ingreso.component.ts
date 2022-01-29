@@ -9,6 +9,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IngresoDialog } from '../../../dialogs/ingresonomi/ingreso.dialog.component';
 import { FormGroup,FormControl,Validators } from '@angular/forms';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { TemplateComponent } from '../../../template/template.component';
+
+
 
 @Component({
   selector: 'app-ingreso',
@@ -35,13 +39,14 @@ export class IngresoComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
-  formDownoadIngreso : FormGroup;
+  
 
   constructor(
     private _tools: Tools,
     private WebApiService:WebApiService,
     public handler:HandlerAppService,
-    public dialog:MatDialog
+    public dialog:MatDialog,
+    private matBottomSheet : MatBottomSheet
   ) { }
   
   step = 0;
@@ -49,14 +54,16 @@ export class IngresoComponent implements OnInit {
   setStep(index: number) {
     this.step = index;
   }
+
+  onTriggerSheetClick(){
+    console.log('ES')
+    this.matBottomSheet.open(TemplateComponent)
+  }
   
   ngOnInit(): void {
       this.sendRequest();
       this.permissions = this.handler.permissionsApp; 
-      this.formDownoadIngreso = new FormGroup({
-        fi:      new FormControl('', [Validators.required]),
-        ff:      new FormControl('', Validators.required)
-      });
+      
   }
 
   sendRequest(){
