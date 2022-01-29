@@ -206,12 +206,13 @@ export class IncapacidadesDialog implements OnInit {
                 this.formIncapad.get('fechafinausen').setValue(data.data[0].fechafinausen);
                 this.formIncapad.get('idententreinc').setValue(data.data[0].idententreinc);
                 //this.formIncapad.get('nombentreinc').setValue(data.data[0].nombentreinc);
-               // console.log(data.data[0].nombentreinc+ "tete");
                 this.formIncapad.get('tipoincap').setValue(data.data[0].tipoincap);
                 this.formIncapad.get('numdiasincap').setValue(data.data[0].numdiasincap);
                 this.formIncapad.get('segincapamed').setValue(data.data[0].segincapamed);
                 this.formIncapad.get('estadincapad').setValue(data.data[0].estadincapad);
-                this.formIncapad.get('codcie').setValue(data.data[0].codcie.toUpperCase());
+                if(data.data[0].codcie){
+                    this.formIncapad.get('codcie').setValue(data.data[0].codcie.toUpperCase());
+                }
                 this.formIncapad.get('nomdisgnod').setValue(data.data[0].nomdisgnod);
                 this.formIncapad.get('capitcie').setValue(data.data[0].capitcie);
 
