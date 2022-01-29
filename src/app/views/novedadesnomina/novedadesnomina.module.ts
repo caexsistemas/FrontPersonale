@@ -19,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatMenuModule} from '@angular/material/menu';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
@@ -29,6 +31,7 @@ import { NovedadesnominaRoutingModule } from './novedadesnomina-routing.module';
 import { IngresoComponent } from './ingreso/ingreso.component';
 
 import { MatCardModule } from '@angular/material/card';
+import { TemplateComponent } from '../../template/template.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -60,10 +63,14 @@ const ngWizardConfig: NgWizardConfig = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatMenuModule,
-    MatCardModule
+    MatCardModule,
+    MatBottomSheetModule
   ],
   declarations: [
     IngresoComponent
+  ],
+  entryComponents:[
+    TemplateComponent
   ]
 })
 export class NovedadesnominaModule { }

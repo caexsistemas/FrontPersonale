@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, ComponentFactoryResolver, Injectable } from '@angular/core';
 import { Tools } from '../../Tools/tools.page';
 import { navItems } from '../../_nav';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -79,20 +79,23 @@ export class DefaultLayoutComponent {
   ngOnInit(): void {
     this.checkSession();
     this.sendRequest();
+    console.log('DOS')
   }
 
   sendRequest() {
-
+    console.log('TRES')
     this.WebApiService.postRequest(this.endpoint, this.cuser, {})
       .subscribe(
         response => {
           // this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
+            console.log('CUATRO')
             this.item = response.data[0];
             this.subitem = response.data[1];
             this.navItems = this.checkMenu(this.item, this.subitem)
             this.loading = false;
           } else {
+            console.log('CINCO')
             this.handler.handlerError(response);
           }
         },
@@ -105,6 +108,7 @@ export class DefaultLayoutComponent {
   }
 
   checkMenu(item, subitem) {
+    console.log('UNO')
     var option = [];
 
     var optionItem;

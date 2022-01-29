@@ -6,27 +6,7 @@
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
 
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-                    <button class="btn btn-success" [matMenuTriggerFor]="menu" title="Download">
-                        <i class="fa fa-home"></i>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <form [formGroup]="formDownoadIngreso">
-                        <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Fecha inicio:</mat-label>
-                                <input matInput formControlName="fi" type="date" required>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Fecha final:</mat-label>
-                                <input matInput formControlName="ff" type="date" required>
-                            </mat-form-field>
-                        </div>
-                    </form>
-                    </mat-menu>
-                </div>
+                <button (click)="onTriggerSheetClick()">CL</button>  
 
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
                     <div class="btn-group" dropdown>
