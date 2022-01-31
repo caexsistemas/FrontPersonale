@@ -59,7 +59,7 @@ export class IngresoDialog{
         switch (this.view) {
             case 'create':
                 this.initForms();
-                this.title = "Crear Novedad Ingreso";
+                this.title = "Crear Novedad Ingreso/Retiro";
             break;
             case 'update':
                 this.initForms();

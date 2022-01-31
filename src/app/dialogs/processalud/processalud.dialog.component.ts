@@ -35,6 +35,8 @@ export class ProcessaludDialog{
     ListTipoGes:   any = [];
     dataNovNi:     any = []; 
     ListSiNo:      any = [];
+    fechInicInc: string = "";
+    fechaFinInc: string = "";
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -101,7 +103,8 @@ export class ProcessaludDialog{
             fechafinausen: new FormControl(""),
             file_sp: new FormControl(""),
             soporte_nove: new FormControl(""),
-            edad_tb: new FormControl("")
+            edad_tb: new FormControl(""),
+            numdiasincap: new FormControl("")
         });
     }
 
@@ -261,6 +264,37 @@ export class ProcessaludDialog{
                 this.loading.emit(false);
             }
         );
-}
+    }
+
+    onFechaIniChange(event){
+
+        this.fechInicInc = event;
+        this.calFechaNumReq(this.fechInicInc, this.fechaFinInc);
+     }
+     
+     onFechaFinChange(event){
+         
+         this.fechaFinInc = event;
+         this.calFechaNumReq(this.fechInicInc, this.fechaFinInc);
+     }
+
+    //Rango De Dias 
+     calFechaNumReq(f1, f2){
+
+        //Limite de fecha
+        var aFecha1 = f1.split('-');
+        var aFecha2 = f2.split('-');
+        var fFecha1 = Date.UTC(aFecha1[0],aFecha1[1]-1,aFecha1[2]);
+        var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
+        var dif = fFecha2 - fFecha1;
+        var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+        //Ajuste 30 Dias
+        var total_1 = new Date(aFecha1[0], aFecha1[1]-1, 0).getDate();
+        var total_2 = new Date(aFecha2[0], aFecha2[1]-1, 0).getDate();
+
+        console.log("Rango Mes 1: "+total_1+" / Rango Mes 2: "+total_2);
+
+        this.formProces.get('numdiasincap').setValue(dias);
+    }
 
 }
