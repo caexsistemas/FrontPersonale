@@ -102,19 +102,19 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Inicio:</mat-label>
-                                <input matInput formControlName="fechainicausen" type="date" required>
+                                <input matInput formControlName="fechainicausen" type="date" (ngModelChange)="onFechaIniChange($event)" required>
                             </mat-form-field>
                         </div>                      
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Fin:</mat-label>
-                                <input matInput formControlName="fechafinausen" type="date" required>
+                                <input matInput formControlName="fechafinausen" type="date" (ngModelChange)="onFechaFinChange($event)" required>
                             </mat-form-field>
                         </div>
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-4 p-3">
+                        <div class="col-md-4 p-2">
                             <mat-form-field class="example-full-width">
                                 <mat-label>¿Cuenta Con Soporte?:</mat-label>
                                 <mat-select formControlName="soporte_nove"  required>
@@ -125,8 +125,14 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-4" *ngIf="view == 'update'" >
-                            <label>Archivo Actual</label>
+                            <label>Documentos de Soporte:</label>
                             <a href="{{archivo.nombre}}" target="_blank">Download</a>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>No. De D&iacute;as:</mat-label>
+                                <input matInput formControlName="numdiasincap" type="number" >
+                            </mat-form-field>
                         </div>
                     </div>
 
@@ -176,7 +182,7 @@
             </div>
 
             <div class="col-md-3">
-                <dt>Fecha Retiro:</dt>
+                <dt>Fecha Fin:</dt>
                 <dd>{{dataNovNi.fechafinausen}}</dd>
             </div>
 
@@ -218,12 +224,12 @@
             </div>
 
             <div class="col-md-3">
-                <dt>Archivo Actual</dt>
+                <dt>Documentos de Soporte:</dt>
                 <dd><a href="{{dataNovNi.file_sp}}" target="_blank">Download</a></dd>
             </div>
 
             <div class="col-md-3">
-                <dt>Tipo Area:</dt>
+                <dt>Area de Trabajo:</dt>
                 <dd>{{dataNovNi.area}}</dd>
             </div>
 
@@ -233,6 +239,10 @@
             <div class="col-md-3">
                 <dt>Estado Gestion:</dt>
                 <dd>{{dataNovNi.estado_gs}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>No. De D&iacute;as:</dt>
+                <dd>{{dataNovNi.numdiasincap}}</dd>
             </div>
         </div>
 

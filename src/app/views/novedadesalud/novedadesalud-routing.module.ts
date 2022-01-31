@@ -18,7 +18,7 @@ const routes: Routes = [
           path: 'processalud',
           component: ProcessaludComponent,
           data: {
-            title: 'Novedades Salud'
+            title: 'Novedades Medicas'
           }
         }
       ]
