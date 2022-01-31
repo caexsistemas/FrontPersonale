@@ -12,9 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TemplateComponent implements OnInit {
 
-  endpoint: string = '/reporteingreso';
+  endpoint: string = '/novnomi';
   formDownoadIngreso: FormGroup;
-  loading_:boolean = false;
+  loading_: boolean = false;
 
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
@@ -38,20 +38,22 @@ export class TemplateComponent implements OnInit {
       let body = {
         report: this.formDownoadIngreso.value
       }
-      this.downloadReport(body)
-      // this.WebApiService.postRequest(this.endpoint, body, {})
-      //   .subscribe(
-      //     data => {
-      //       if (data.success) {
-      //         console.log(data)
-      //         this.handler.showSuccess(data.message);
-      //         this.reload.emit();
-      //       } else {
-      //         this.handler.handlerError(data);
-      //         this.loading.emit(false);
-      //       }
-      //     }
-      //   )
+      // this.downloadReport(body)
+      this.WebApiService.postRequest(this.endpoint+"?action=downloadreport", body, {})
+        .subscribe(
+          data => {
+            console.log(data)
+            window.open('192.168.0.10/BackPersonale/reporte_de_excel.xlsx');
+            // if (data.success) {
+            //   console.log(data)
+            //   this.handler.showSuccess(data.message);
+            //   this.reload.emit();
+            // } else {
+            //   this.handler.handlerError(data);
+            //   this.loading.emit(false);
+            // }
+          }
+        )
     } else {
       this.handler.showError('Complete la informacion necesaria');
       this.loading.emit(false);
@@ -60,50 +62,51 @@ export class TemplateComponent implements OnInit {
 
   downloadReport(body) {
     let urlBackend = global.url;
-    var binaryData = [];
-    fetch(urlBackend + this.endpoint,{
+    let blob = new Blob()
+    fetch(urlBackend + this.endpoint + "?action=downloadreport", {
       method: 'POST',
-      mode : 'no-cors',
+      mode: 'no-cors',
       body: JSON.stringify(body),
       headers: {
         // 'Content-Type' : 'application/x-www-form-urlencoded',
         'Authorization': this.WebApiService.token
       }
-    })
-    // .then(response => {
-    //     console.log(response)
+    }).then(res => this.downLoadFile(res));
+    // .catch(error =>{
+    //   console.log(error)
+    //   this.loading_ = false;
+    // })
+    // .then( response => {
+    //   console.log(blob)
+    //   this.loading_ = false;
+    //   var objectURL = URL.createObjectURL(blob);
+    //   let anchor = document.createElement('a');
+    //   anchor.href = objectURL;
+    //   let d = new Date();
+    //   anchor.download = "Reporte-Indicador-de-gestion.xlsx";
+    //   anchor.target = '_blank';
+    //   anchor.classList.add('noview');
+    //   document.getElementsByTagName('body')[0].appendChild(anchor);
+    //   anchor.click();
     // });
-    .then(res => { return res.blob() })
-        .catch(error => {
-        console.log(error)
-        console.log('1_')
-        this.loading_ = false;
-      })
-      .then(response => {
-        console.log('2_')
-        binaryData.push(response);
-        this.loading_ = false;
-        console.log('----');
-        console.log(binaryData);
-        // var objectURL = URL.createObjectURL(response[0]);
-        var objectURL = window.URL.createObjectURL(new Blob(binaryData,{type:"aplication/zip"}))
-        console.log(objectURL)
+
+  }
 
 
 
-        let anchor = document.createElement('a');
-        anchor.href = objectURL;
-        let d = new Date();
-        // anchor.download = "Reporte-"+view+d.getTime()+".xls";
-        anchor.download = "Reporte-" + d.getTime() + ".xlsx";
-        anchor.target = '_blank';
-        anchor.classList.add('noview');
-        document.getElementsByTagName('body')[0].appendChild(anchor);
-        anchor.click();
 
-        // window.open(objectURL);
-      });
-
+  downLoadFile(data: any) {
+    let blob = new Blob([data], { type: 'application/ms-excel' });
+    let objectURL = window.URL.createObjectURL(blob);
+    let anchor = document.createElement('a');
+    anchor.href = objectURL;
+    let d = new Date();
+    // anchor.download = "Reporte-"+view+d.getTime()+".xls";
+    anchor.download = "Reporte.xlsx";
+    anchor.target = '_blank';
+    anchor.classList.add('noview');
+    document.getElementsByTagName('body')[0].appendChild(anchor);
+    anchor.click();
   }
 
 
