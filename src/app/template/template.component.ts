@@ -43,7 +43,7 @@ export class TemplateComponent implements OnInit {
         .subscribe(
           data => {
             console.log(data)
-            window.open('192.168.0.10/BackPersonale/reporte_de_excel.xlsx');
+            window.open('http://127.0.0.1:8000/imagenes/reporte_de_excel.xlsx');
             // if (data.success) {
             //   console.log(data)
             //   this.handler.showSuccess(data.message);
