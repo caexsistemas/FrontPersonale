@@ -92,7 +92,7 @@
                     <div class="row">
                         
                         <div class="col-md-4">
-                            <label>Adjuntar Hoja de vida</label>
+                            <label>Documento de Soporte:</label>
                             <input formControlName="files_nc" class="form-control" type="file" (change)="seleccionarArchivo($event)">
                         </div>
 
@@ -108,7 +108,7 @@
                         </div>
 
                         <div class="col-md-4" *ngIf="view == 'update'" >
-                            <label>Archivo Actual</label>
+                            <label>Documento de Soporte:</label>
                             <a href="{{archivo.nombre}}" target="_blank">Download</a>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
             </div>
 
             <div class="col-md-3">
-                <dt>Archivo Actual</dt>
+                <dt>Documento de Soporte:</dt>
                 <dd><a href="{{dataNovNi.files_nc}}" target="_blank">Download</a></dd>
             </div>
 
