@@ -78,6 +78,7 @@ export class ProcessaludComponent implements OnInit {
       'nombentreinc',
       'fechainicausen',
       'fechafinausen',
+      'estado_gs',
       'actions'
     ];
     this.dataSource           = new MatTableDataSource(data);

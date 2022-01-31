@@ -132,6 +132,16 @@
                 <dd>{{dataIncap.fechageneracion | date: 'medium' }}</dd>
             </div>
 
+            <div class="col-md-3">
+                <dt>Archivo Actual</dt>
+                <dd><a href="{{dataIncap.file_sp}}" target="_blank">Download</a></dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Estado Gestion: </dt>
+                <dd>{{dataIncap.estado_gs}}</dd>
+            </div>
+
         </div>
 
     </mat-dialog-content>
@@ -326,7 +336,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
+                        
                     </div>
 
                     <div class="row">
@@ -356,6 +366,10 @@
                             </mat-form-field>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Cap&iacute;tulo CIE 10:</mat-label>
@@ -363,8 +377,14 @@
                             </mat-form-field>
                         </div>
 
+                        <div class="col-md-4 p-3" *ngIf="view == 'update'" >
+                            <label>Archivo Actual</label>
+                            <a href="{{archivo.nombre}}" target="_blank">Download</a>
+                        </div>
 
                     </div>
+
+                    
 
                 </form>
 

@@ -72,6 +72,7 @@ export class IncapacidadesComponent implements OnInit {
       'Nombre',
       'FechaInicioAusencia',
       'FechaFinAusencia',
+      'estado_gs',
       'actions'
     ];
     this.dataSource = new MatTableDataSource(data);
