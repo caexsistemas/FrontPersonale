@@ -68,6 +68,7 @@ import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
 import { NovedadesaludComponent } from './views/novedadesalud/novedadesalud.component';
 import { TemplateComponent } from './template/template.component';
 import { ProcessaludDialog } from './dialogs/processalud/processalud.dialog.component';
+// import { FileSaverModule } from 'ngx-filesaver';
 
 
 const routes: Routes = []; 
@@ -110,7 +111,8 @@ const routes: Routes = [];
     MatCardModule,
     MatGridListModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    // FileSaverModule
     
   ],
   declarations: [

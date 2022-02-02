@@ -147,6 +147,7 @@ export class ManagementDialog implements AfterContentChecked{
                     .subscribe(
                         data => {
                             if (data.success == true) {
+                                let date = new Date();
                                 this.personale     = data.data[0][0];
                                 this.medical       = data.data[1][0];
                                 this.academic      = data.data[2][0];
@@ -156,7 +157,9 @@ export class ManagementDialog implements AfterContentChecked{
                                 this.sos           = data.data[6][0];
                                 this.endowmentData = data.data[7][0];
                                 this.children      = data.data[8];
-                                console.log(this.personale);
+                                let fn = Date.parse(this.personale['birthDate']);
+                                
+                                console.log(fn);
                                 
                                 this.loading.emit(false);
                             } else {
