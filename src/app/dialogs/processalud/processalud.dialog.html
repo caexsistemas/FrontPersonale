@@ -124,15 +124,24 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4" *ngIf="view == 'update'" >
-                            <label>Documentos de Soporte:</label>
-                            <a href="{{archivo.nombre}}" target="_blank">Download</a>
-                        </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>No. De D&iacute;as:</mat-label>
                                 <input matInput formControlName="numdiasincap" type="number" >
                             </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Observación:</mat-label>
+                                <textarea matInput formControlName="observacion_tb" placeholder=""></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4" *ngIf="view == 'update'" >
+                            <label>Documentos de Soporte:</label>
+                            <a href="{{archivo.nombre}}" target="_blank">Download</a>
                         </div>
                     </div>
 
@@ -244,6 +253,15 @@
                 <dt>No. De D&iacute;as:</dt>
                 <dd>{{dataNovNi.numdiasincap}}</dd>
             </div>
+            <div class="col-md-3">
+                <dt>Cuenta Con Soporte:</dt>
+                <dd>{{dataNovNi.soporte_nove}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Observación:</dt>
+                <dd>{{dataNovNi.observacion_tb}}</dd>
+            </div>
+
         </div>
 
     </mat-dialog-content>

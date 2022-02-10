@@ -45,6 +45,8 @@ export class IncapacidadesDialog implements OnInit {
     fechaFinInc: string = "";
     estIncAis: any = [];
     codDiagSegList: any = [];
+    stadgestionList: any = [];
+
     archivo = {
         nombre: null,
         nombreArchivo: null,
@@ -131,7 +133,8 @@ export class IncapacidadesDialog implements OnInit {
             segincapamed: new FormControl(""),
             estadincapad: new FormControl(""),
             capitcie: new FormControl(""),
-            nomdisgnod: new FormControl("")
+            nomdisgnod: new FormControl(""),
+            estado_gs: new FormControl("")
         });
     }
 
@@ -161,6 +164,7 @@ export class IncapacidadesDialog implements OnInit {
                     this.tipIncaList = data.data['tipincapci']; 
                     this.estIncAis = data.data['etincais']; 
                     this.codDiagSegList = data.data['codiaosct']; 
+                    this.stadgestionList = data.data['stadgestion']; 
                  
                     this.loading.emit(false);
                    
@@ -221,8 +225,7 @@ export class IncapacidadesDialog implements OnInit {
                 this.formIncapad.get('nomdisgnod').setValue(data.data[0].nomdisgnod);
                 this.formIncapad.get('capitcie').setValue(data.data[0].capitcie);
                 this.archivo.nombre = data.data[0].file_sp;
-                
-
+                this.formIncapad.get('estado_gs').setValue(data.data[0].estado_gs);
                 //
             },
             error => {

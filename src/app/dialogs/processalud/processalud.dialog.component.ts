@@ -104,7 +104,8 @@ export class ProcessaludDialog{
             file_sp: new FormControl(""),
             soporte_nove: new FormControl(""),
             edad_tb: new FormControl(""),
-            numdiasincap: new FormControl("")
+            numdiasincap: new FormControl(""),
+            observacion_tb: new FormControl("")
         });
     }
 
@@ -165,6 +166,11 @@ export class ProcessaludDialog{
         let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
         if( exitsPersonal ){
             this.formProces.get('idPersonale').setValue(exitsPersonal.idPersonale);
+            this.formProces.get('area').setValue(exitsPersonal.idArea);
+            this.formProces.get('document_jf').setValue(exitsPersonal.document_jf);    
+            this.formProces.get('ciudad').setValue(exitsPersonal.city); 
+            this.formProces.get('edad_tb').setValue(exitsPersonal.edad); 
+               
         }        
     }
 
@@ -198,7 +204,8 @@ export class ProcessaludDialog{
                 this.formProces.get('soporte_nove').setValue(data.data['getDataUpda'][0].soporte_nove);
                 this.formProces.get('edad_tb').setValue(data.data['getDataUpda'][0].edad_tb);
                 this.archivo.nombre = data.data['getDataUpda'][0].file_sp;
-                
+                this.formProces.get('observacion_tb').setValue(data.data['getDataUpda'][0].observacion_tb);
+                         
             },
             error => {
                 this.handler.showError();
@@ -293,6 +300,10 @@ export class ProcessaludDialog{
         var total_2 = new Date(aFecha2[0], aFecha2[1]-1, 0).getDate();
 
         console.log("Rango Mes 1: "+total_1+" / Rango Mes 2: "+total_2);
+
+        if(dias == 0){
+            dias = dias + 1;
+        }
 
         this.formProces.get('numdiasincap').setValue(dias);
     }

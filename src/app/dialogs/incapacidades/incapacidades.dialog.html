@@ -377,7 +377,18 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4 p-3" *ngIf="view == 'update'" >
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Estado Gestion:</mat-label>
+                                <mat-select formControlName="estado_gs"  >
+                                  <mat-option *ngFor="let idet of stadgestionList" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4 p-2" *ngIf="view == 'update'" >
                             <label>Documentos de Soporte:</label>
                             <a href="{{archivo.nombre}}" target="_blank">Download</a>
                         </div>
