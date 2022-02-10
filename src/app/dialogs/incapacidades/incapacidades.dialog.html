@@ -8,69 +8,74 @@
 
     <mat-dialog-content style="min-width: 500px;">
         <div class="row mt-2">
-            <div class="col-md-3">
+
+            <div class="col-md-4">
                 <dt>Documento de Identificaci&oacute;n</dt>
                 <dd>{{dataIncap.document}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Nombre Completo</dt>
                 <dd>{{dataIncap.name}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Motivo de la ausencia</dt>
                 <dd>{{dataIncap.motausen}}</dd>
             </div>
 
-            <div class="col-md-3">
+        </div>
+        <div class="row mt-2">
+
+            <div class="col-md-4">
                 <dt>Origen</dt>
                 <dd>{{dataIncap.origenausen}}</dd>
             </div>
 
-        </div>
-        <div class="row mt-2">
-
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Descripci&oacute;n del origen</dt>
                 <dd>{{dataIncap.descorigen}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Medio de recepci&oacute;n de la incapacidad</dt>
                 <dd>{{dataIncap.medrecepin}}</dd>
             </div>
+            
+        </div>
 
-            <div class="col-md-3">
+        <div class="row mt-2">
+
+            <div class="col-md-4">
                 <dt>¿Es la incapacidad original?</dt>
                 <dd>{{dataIncap.incaporiginal}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>¿Anexa historia clínica?</dt>
                 <dd>{{dataIncap.anexhistclin}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Fecha de recepción de la incapacidad</dt>
+                <dd>{{dataIncap.fecharepinc}}</dd>
             </div>
 
         </div>
 
         <div class="row mt-2">
 
-            <div class="col-md-3">
-                <dt>Fecha de recepción de la incapacidad</dt>
-                <dd>{{dataIncap.fecharepinc}}</dd>
-            </div>
-
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>¿N&uacute;mero de docuemnto de qui&eacute;n entrega la incapacidad?</dt>
                 <dd>{{dataIncap.idententreinc}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>¿Quién entrega la incapacidad?</dt>
                 <dd>{{dataIncap.nombentreinc}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>¿Fecha de inicio de la ausencia?</dt>
                 <dd>{{dataIncap.fechainicausen}}</dd>
             </div>
@@ -79,67 +84,85 @@
 
         <div class="row mt-2">
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Fecha de terminaci&oacute;n de la ausencia</dt>
                 <dd>{{dataIncap.fechafinausen}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Tipo de incapacidad</dt>
                 <dd>{{dataIncap.tipoincap}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>No. De D&iacute;as</dt>
                 <dd>{{dataIncap.numdiasincap}}</dd>
             </div>
 
-            <div class="col-md-3">
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-md-4">
                 <dt>¿Requieres seguimiento m&eacute;dico por d&iacute;as de incapacidad?</dt>
                 <dd>{{dataIncap.segincapamed}}</dd>
             </div>
 
-        </div>
-
-        <div class="row mt-2">
-
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Estado de la incapacidad o aislamiento</dt>
                 <dd>{{dataIncap.estadincapad}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>C&oacute;digo del diagnóstico seg&uacute;n CIE-10</dt>
                 <dd>{{dataIncap.codcie}}</dd>
-            </div>
-
-            <div class="col-md-3">
-                <dt>Nombre del diagn&oacute;stico</dt>
-                <dd>{{dataIncap.nomdisgnod}}</dd>
-            </div>
-
-            <div class="col-md-3">
-                <dt>Cap&iacute;tulo CIE 10</dt>
-                <dd>{{dataIncap.capitcie}}</dd>
             </div>
 
         </div>
 
         <div class="row mt-2">
+
+            <div class="col-md-4">
+                <dt>Nombre del diagn&oacute;stico</dt>
+                <dd>{{dataIncap.nomdisgnod}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Cap&iacute;tulo CIE 10</dt>
+                <dd>{{dataIncap.capitcie}}</dd>
+            </div>
   
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Fecha Creaci&oacute;n: </dt>
                 <dd>{{dataIncap.fechageneracion | date: 'medium' }}</dd>
             </div>
 
-            <div class="col-md-3">
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-md-4">
                 <dt>Documentos de Soporte:</dt>
                 <dd><a href="{{dataIncap.file_sp}}" target="_blank">Download</a></dd>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <dt>Estado Gestion: </dt>
                 <dd>{{dataIncap.estado_gs}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Observacion:</dt>
+                <dd>{{dataIncap.observacion_tb}}</dd>
+            </div>
+
+        </div>
+
+        <div class="row mt-2">
+            
+            <div class="col-md-4">
+                <dt>Fecha Modificación:</dt>
+                <dd>{{dataIncap.modification_date | date: 'medium'}}</dd>
             </div>
 
         </div>
@@ -388,14 +411,28 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4 p-2" *ngIf="view == 'update'" >
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Observación:</mat-label>
+                                <textarea matInput formControlName="observacion_tb" placeholder=""></textarea>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <label>Adjuntar Documento de Soporte:</label>
+                            <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)">
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'update'" >
                             <label>Documentos de Soporte:</label>
                             <a href="{{archivo.nombre}}" target="_blank">Download</a>
                         </div>
 
                     </div>
-
-                    
 
                 </form>
 

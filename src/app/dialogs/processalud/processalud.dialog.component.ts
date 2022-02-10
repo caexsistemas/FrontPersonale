@@ -101,7 +101,7 @@ export class ProcessaludDialog{
             nombentreinc: new FormControl(""),
             fechainicausen: new FormControl(""),
             fechafinausen: new FormControl(""),
-            file_sp: new FormControl(""),
+            //file_sp: new FormControl(""),
             soporte_nove: new FormControl(""),
             edad_tb: new FormControl(""),
             numdiasincap: new FormControl(""),

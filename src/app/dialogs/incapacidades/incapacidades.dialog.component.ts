@@ -134,7 +134,8 @@ export class IncapacidadesDialog implements OnInit {
             estadincapad: new FormControl(""),
             capitcie: new FormControl(""),
             nomdisgnod: new FormControl(""),
-            estado_gs: new FormControl("")
+            estado_gs: new FormControl(""),
+            observacion_tb: new FormControl("")
         });
     }
 
@@ -226,6 +227,7 @@ export class IncapacidadesDialog implements OnInit {
                 this.formIncapad.get('capitcie').setValue(data.data[0].capitcie);
                 this.archivo.nombre = data.data[0].file_sp;
                 this.formIncapad.get('estado_gs').setValue(data.data[0].estado_gs);
+                this.formIncapad.get('observacion_tb').setValue(data.data[0].observacion_tb);
                 //
             },
             error => {
@@ -240,29 +242,26 @@ export class IncapacidadesDialog implements OnInit {
         if (this.formIncapad.valid) {
             this.loading.emit(true);
             let body = {
-                incapacidades: this.formIncapad.value        
+                incapacidades: this.formIncapad.value,
+                archivoRes: this.archivo        
             }
-            this.WebApiService.getRequest(this.endpoint, {
-                action: 'setParamUpdateData',
-                id: this.id,
-                incapacidades: ""+JSON.stringify({body})
-            })
-                .subscribe(
-                    data => {
-                        if (data.success) {
-                           this.handler.showSuccess(data.message);
-                            this.reload.emit();
-                            this.closeDialog();
-                        } else {
-                            this.handler.handlerError(data);
-                            this.loading.emit(false);
-                        }
-                    },
-                    error => {
-                        this.handler.showError();
+            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+            .subscribe(
+                data=>{
+                    if(data.success){
+                        this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                    }else{
+                        this.handler.handlerError(data);
                         this.loading.emit(false);
                     }
-                )
+                },
+                error=>{
+                    this.handler.showError();
+                    this.loading.emit(false);
+                }
+            );
         } else {
             this.handler.showError('Complete la informacion necesaria');
             this.loading.emit(false);
@@ -274,7 +273,8 @@ export class IncapacidadesDialog implements OnInit {
         if (this.formIncapad.valid) {
             this.loading.emit(true);
             let body = {
-                incapacidades: this.formIncapad.value        
+                incapacidades: this.formIncapad.value,    
+                archivoRes: this.archivo    
             }
             this.WebApiService.postRequest(this.endpoint, body, {})
                 .subscribe(
@@ -365,6 +365,11 @@ export class IncapacidadesDialog implements OnInit {
         var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+
+        if(dias == 0){
+            dias = dias + 1;
+        }
+
         return dias;
     }
 
@@ -441,6 +446,23 @@ export class IncapacidadesDialog implements OnInit {
             }
         }
         this.loading.emit(false);       
+    }
+
+    seleccionarArchivo(event){
+        var files = event.target.files;
+        var file  = files[0];
+        this.archivo.nombreArchivo = file.name;
+
+        if(files && file){
+            var reader = new FileReader();
+            reader.onload = this._handleReaderLoaded.bind(this);
+            reader.readAsBinaryString(file);
+        }
+    }
+
+    _handleReaderLoaded(readerEvent){
+        var binaryString = readerEvent.target.result;
+        this.archivo.base64textString = btoa(binaryString);
     }
 
 }

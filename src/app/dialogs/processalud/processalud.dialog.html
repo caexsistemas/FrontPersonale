@@ -94,11 +94,7 @@
                     </div>
 
                     <div class="row">
-                        
-                        <div class="col-md-4">
-                            <label>Documento de Soporte:</label>
-                            <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)">
-                        </div>
+                                      
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Inicio:</mat-label>
@@ -111,10 +107,7 @@
                                 <input matInput formControlName="fechafinausen" type="date" (ngModelChange)="onFechaFinChange($event)" required>
                             </mat-form-field>
                         </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-4 p-2">
+                        <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>¿Cuenta Con Soporte?:</mat-label>
                                 <mat-select formControlName="soporte_nove"  required>
@@ -124,6 +117,11 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                    </div>
+                    
+                    <div class="row">
+
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>No. De D&iacute;as:</mat-label>
@@ -131,18 +129,13 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                            <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-form-field class="example-full-width" >
                                 <mat-label>Observación:</mat-label>
                                 <textarea matInput formControlName="observacion_tb" placeholder=""></textarea>
                             </mat-form-field>
                         </div>
-                    </div>
+                      
 
-                    <div class="row">
-                        <div class="col-md-4" *ngIf="view == 'update'" >
-                            <label>Documentos de Soporte:</label>
-                            <a href="{{archivo.nombre}}" target="_blank">Download</a>
-                        </div>
                     </div>
 
                 </form>
@@ -233,22 +226,19 @@
             </div>
 
             <div class="col-md-3">
-                <dt>Documentos de Soporte:</dt>
-                <dd><a href="{{dataNovNi.file_sp}}" target="_blank">Download</a></dd>
+                <dt>Area de Trabajo:</dt>
+                <dd>{{dataNovNi.area}}</dd>
             </div>
 
             <div class="col-md-3">
-                <dt>Area de Trabajo:</dt>
-                <dd>{{dataNovNi.area}}</dd>
+                <dt>Estado Gestion:</dt>
+                <dd>{{dataNovNi.estado_gs}}</dd>
             </div>
 
         </div>
 
         <div class="row mt-2">
-            <div class="col-md-3">
-                <dt>Estado Gestion:</dt>
-                <dd>{{dataNovNi.estado_gs}}</dd>
-            </div>
+            
             <div class="col-md-3">
                 <dt>No. De D&iacute;as:</dt>
                 <dd>{{dataNovNi.numdiasincap}}</dd>
