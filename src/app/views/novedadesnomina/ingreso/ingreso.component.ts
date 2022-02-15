@@ -96,6 +96,7 @@ export class IngresoComponent implements OnInit {
     this.displayedColumns = [
       'view', 
       'id_novedad_nc',
+      'document_nc',
       'daying_nc',
       'idPersonale',
       'tipoges_nc',

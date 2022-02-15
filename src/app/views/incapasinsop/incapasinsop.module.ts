@@ -5,7 +5,7 @@ import { IncapasinsopRoutingModule } from './incapasinsop-routing.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { DataTableModule } from 'angular2-datatable';
+//import { DataTableModule } from 'angular2-datatable';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatInputModule }  from '@angular/material/input';
@@ -35,7 +35,7 @@ const ngWizardConfig: NgWizardConfig = {
     IncapasinsopRoutingModule,
     MatPaginatorModule,
     MatTableModule,
-    DataTableModule,
+    //DataTableModule,
     ModalModule,
     TabsModule,
     MatInputModule,

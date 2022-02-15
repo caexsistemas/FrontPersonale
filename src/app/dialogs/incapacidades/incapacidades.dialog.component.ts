@@ -46,6 +46,7 @@ export class IncapacidadesDialog implements OnInit {
     estIncAis: any = [];
     codDiagSegList: any = [];
     stadgestionList: any = [];
+    public sidebarMinimized = false;
 
     archivo = {
         nombre: null,
@@ -228,6 +229,7 @@ export class IncapacidadesDialog implements OnInit {
                 this.archivo.nombre = data.data[0].file_sp;
                 this.formIncapad.get('estado_gs').setValue(data.data[0].estado_gs);
                 this.formIncapad.get('observacion_tb').setValue(data.data[0].observacion_tb);
+                
                 //
             },
             error => {
@@ -464,5 +466,9 @@ export class IncapacidadesDialog implements OnInit {
         var binaryString = readerEvent.target.result;
         this.archivo.base64textString = btoa(binaryString);
     }
+
+    toggleMinimize(e) {
+        this.sidebarMinimized = e;
+      }
 
 }

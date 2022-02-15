@@ -445,7 +445,7 @@
                     <button *ngIf="view == 'create'" mat-button class="btn btn-success"
                         (click)="onSubmit()">Guardar</button>
 
-                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                    <button mat-button class="btn btn-danger" (click)="closeDialog();document.getElementsByClassName('sidebar-minimizer').click();">Cancelar</button>
                 </div>
             </div>
         </div>
