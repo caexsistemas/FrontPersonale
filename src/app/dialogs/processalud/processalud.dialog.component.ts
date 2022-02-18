@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
+
 @Component({
     selector: 'processalud-dialog',
     templateUrl: 'processalud.dialog.html',
@@ -205,6 +206,7 @@ export class ProcessaludDialog{
                 this.formProces.get('edad_tb').setValue(data.data['getDataUpda'][0].edad_tb);
                 this.archivo.nombre = data.data['getDataUpda'][0].file_sp;
                 this.formProces.get('observacion_tb').setValue(data.data['getDataUpda'][0].observacion_tb);
+                this.descargarArchivos();
                          
             },
             error => {
@@ -306,6 +308,50 @@ export class ProcessaludDialog{
         }
 
         this.formProces.get('numdiasincap').setValue(dias);
+    }
+
+    descargarArchivos(){
+
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'downloadFiles'     
+        })
+        .subscribe(
+            data => {
+                console.log(data);
+                if(data.success){
+
+                    /*const link = document.createElement("a");
+                    link.href = data.data.url;
+                    link.download = data.data.file;
+                    link.click();*/ 
+                    var linkElement = document.createElement('a');
+                    var blob = new Blob([data.data.base64], { type: 'application/octet-stream' });
+                    var url = window.URL.createObjectURL(blob);
+                
+                    linkElement.setAttribute('href', url);
+                    linkElement.setAttribute("download", data.data.file);
+                
+                    var clickEvent = new MouseEvent("click", {
+                        "view": window,
+                        "bubbles": true, 
+                        "cancelable": false
+                    });
+                
+                    linkElement.dispatchEvent(clickEvent);
+
+                    this.loading.emit(false);
+                }else{
+                   this.handler.handlerError(data);
+                   this.loading.emit(false);
+                }          
+            },
+            error => {
+                this.handler.showError(error);
+                console.log(error);
+                this.loading.emit(false);
+            }
+        );
     }
 
 }
