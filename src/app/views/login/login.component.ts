@@ -124,6 +124,9 @@ export class LoginComponent {
         fuser:  this.loginForm.get('fuser').value,
         fpass:  this.Encrypt.encrypt(this.loginForm.get('fpass').value)
       }
+
+      console.log(this.Encrypt.encrypt(this.loginForm.get('fpass').value));
+
       this.loading = true;
       this.WebApiService.postRequest('/login',body,{
       })

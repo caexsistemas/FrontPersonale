@@ -188,7 +188,14 @@
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formIncapad" >
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="view == 'update'">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>No. De documento:</mat-label>
+                                <input matInput formControlName="numdocument" type="number" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>No. De documento:</mat-label>
                                 <input matInput formControlName="numdocument" type="number" (ngModelChange)="onSelectionChange($event)" required>
@@ -418,6 +425,35 @@
                             </mat-form-field>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp" >
+                                <mat-label>Centro de Salud:</mat-label>
+                                <mat-select formControlName="idEps" required>
+                                    <mat-option *ngFor="let idet of ListEps" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp" >
+                                <mat-label>Centro de Pensión:</mat-label>
+                                <mat-select formControlName="idPension" required>
+                                    <mat-option *ngFor="let idet of ListPension" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Cobertura Arl:</mat-label>
+                                <input matInput formControlName="coverageArl" >
+                            </mat-form-field>
+                        </div>
                     </div>
 
                     <div class="row">

@@ -15,10 +15,16 @@
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formProces" method="POST">
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4"  *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
                                 <input matInput formControlName="document_tr" type="number" (ngModelChange)="onSelectionChange($event)" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4"  *ngIf="view == 'update'">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                                <input matInput formControlName="document_tr" type="number" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -110,7 +116,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>¿Cuenta Con Soporte?:</mat-label>
-                                <mat-select formControlName="soporte_nove"  required>
+                                <mat-select formControlName="soporte_nove" (ngModelChange)="onSoporteNovChange($event)"  required>
                                   <mat-option *ngFor="let idet of ListSiNo" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -131,11 +137,38 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Observación:</mat-label>
-                                <textarea matInput formControlName="observacion_tb" placeholder=""></textarea>
+                                <textarea matInput formControlName="observacion_tb" placeholder="" required="{{requidSopo}}"></textarea>
                             </mat-form-field>
                         </div>
-                      
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp" >
+                                <mat-label>Centro de Salud:</mat-label>
+                                <mat-select formControlName="idEps" required>
+                                    <mat-option *ngFor="let idet of ListEps" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp" >
+                                <mat-label>Centro de Pensión:</mat-label>
+                                <mat-select formControlName="idPension" required>
+                                    <mat-option *ngFor="let idet of ListPension" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Cobertura Arl:</mat-label>
+                                <input matInput formControlName="coverageArl" >
+                            </mat-form-field>
+                        </div>
                     </div>
 
                 </form>
@@ -251,7 +284,21 @@
                 <dt>Observación:</dt>
                 <dd>{{dataNovNi.observacion_tb}}</dd>
             </div>
+            <div class="col-md-3">
+                <dt>Centro de Salud:</dt>
+                <dd>{{dataNovNi.idEps}}</dd>
+            </div>
+        </div>
 
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <dt>Centro de Pensión:</dt>
+                <dd>{{dataNovNi.idPension}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Cobertura Arl:</dt>
+                <dd>{{dataNovNi.coverageArl}}</dd>
+            </div>
         </div>
 
     </mat-dialog-content>

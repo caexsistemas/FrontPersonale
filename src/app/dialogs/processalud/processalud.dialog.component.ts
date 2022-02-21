@@ -28,6 +28,7 @@ export class ProcessaludDialog{
     PersonaleInfo: any = [];
     ListArea:      any = [];
     selectedFile:  File = null;
+    requidSopo:    boolean = false;
     archivo = {
         nombre: null,
         nombreArchivo: null,
@@ -36,6 +37,8 @@ export class ProcessaludDialog{
     ListTipoGes:   any = [];
     dataNovNi:     any = []; 
     ListSiNo:      any = [];
+    ListEps:       any = [];
+    ListPension:   any = [];
     fechInicInc: string = "";
     fechaFinInc: string = "";
 
@@ -106,7 +109,10 @@ export class ProcessaludDialog{
             soporte_nove: new FormControl(""),
             edad_tb: new FormControl(""),
             numdiasincap: new FormControl(""),
-            observacion_tb: new FormControl("")
+            observacion_tb: new FormControl(""),
+            idEps: new FormControl(""),
+            idPension: new FormControl(""),
+            coverageArl: new FormControl("")
         });
     }
 
@@ -124,6 +130,8 @@ export class ProcessaludDialog{
                     this.ListArea      = data.data['getDatArea'];
                     this.ListTipoGes   = data.data['getDatTipoGes'];
                     this.ListSiNo      = data.data['getDatSiNo'];
+                    this.ListEps       = data.data['getEps'];
+                    this.ListPension   = data.data['getPension'];
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -171,7 +179,9 @@ export class ProcessaludDialog{
             this.formProces.get('document_jf').setValue(exitsPersonal.document_jf);    
             this.formProces.get('ciudad').setValue(exitsPersonal.city); 
             this.formProces.get('edad_tb').setValue(exitsPersonal.edad); 
-               
+            this.formProces.get('idEps').setValue(exitsPersonal.idEps);
+            this.formProces.get('idPension').setValue(exitsPersonal.idPension);
+            this.formProces.get('coverageArl').setValue(exitsPersonal.coverageArl);
         }        
     }
 
@@ -181,6 +191,15 @@ export class ProcessaludDialog{
         if( exitsPersonal ){
             this.formProces.get('nombentreinc').setValue(exitsPersonal.idPersonale);
         }        
+    }
+
+    onSoporteNovChange(event){
+
+        if(event == "17/0"){
+            this.requidSopo = true;
+        }else{
+            this.requidSopo = false;
+        }
     }
 
     
@@ -206,7 +225,11 @@ export class ProcessaludDialog{
                 this.formProces.get('edad_tb').setValue(data.data['getDataUpda'][0].edad_tb);
                 this.archivo.nombre = data.data['getDataUpda'][0].file_sp;
                 this.formProces.get('observacion_tb').setValue(data.data['getDataUpda'][0].observacion_tb);
-                this.descargarArchivos();
+                this.formProces.get('idEps').setValue(data.data['getDataUpda'][0].idEps);
+                this.formProces.get('idPension').setValue(data.data['getDataUpda'][0].idPension);
+                this.formProces.get('coverageArl').setValue(data.data['getDataUpda'][0].coverageArl);
+                this.formProces.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
+                //this.descargarArchivos();
                          
             },
             error => {

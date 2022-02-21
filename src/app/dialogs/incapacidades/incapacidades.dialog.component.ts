@@ -46,6 +46,8 @@ export class IncapacidadesDialog implements OnInit {
     estIncAis: any = [];
     codDiagSegList: any = [];
     stadgestionList: any = [];
+    ListEps:       any = [];
+    ListPension:   any = [];
     public sidebarMinimized = false;
 
     archivo = {
@@ -136,7 +138,10 @@ export class IncapacidadesDialog implements OnInit {
             capitcie: new FormControl(""),
             nomdisgnod: new FormControl(""),
             estado_gs: new FormControl(""),
-            observacion_tb: new FormControl("")
+            observacion_tb: new FormControl(""),
+            idEps: new FormControl(""),
+            idPension: new FormControl(""),
+            coverageArl: new FormControl("")
         });
     }
 
@@ -167,6 +172,8 @@ export class IncapacidadesDialog implements OnInit {
                     this.estIncAis = data.data['etincais']; 
                     this.codDiagSegList = data.data['codiaosct']; 
                     this.stadgestionList = data.data['stadgestion']; 
+                    this.ListEps       = data.data['getEps'];
+                    this.ListPension   = data.data['getPension'];
                  
                     this.loading.emit(false);
                    
@@ -205,7 +212,7 @@ export class IncapacidadesDialog implements OnInit {
             data => {
 
                 this.formIncapad.get('numdocument').setValue(data.data[0].numdocument);
-                //this.formIncapad.get('idPersonale').setValue(data.data[0].idPersonale);
+                this.formIncapad.get('idPersonale').setValue(data.data[0].idPersonale);
                 this.formIncapad.get('motausen').setValue(data.data[0].motausen);
                 this.formIncapad.get('origenausen').setValue(data.data[0].origenausen);
                 this.formIncapad.get('descorigen').setValue(data.data[0].descorigen);
@@ -229,7 +236,9 @@ export class IncapacidadesDialog implements OnInit {
                 this.archivo.nombre = data.data[0].file_sp;
                 this.formIncapad.get('estado_gs').setValue(data.data[0].estado_gs);
                 this.formIncapad.get('observacion_tb').setValue(data.data[0].observacion_tb);
-                
+                this.formIncapad.get('idEps').setValue(data.data[0].idEps);
+                this.formIncapad.get('idPension').setValue(data.data[0].idPension);
+                this.formIncapad.get('coverageArl').setValue(data.data[0].coverageArl);
                 //
             },
             error => {
