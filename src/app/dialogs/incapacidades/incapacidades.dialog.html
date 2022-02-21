@@ -161,10 +161,28 @@
         <div class="row mt-2">
             
             <div class="col-md-4">
+                <dt>Centro de Pensión:</dt>
+                <dd>{{dataIncap.idPension}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Centro de Salud:</dt>
+                <dd>{{dataIncap.idEps}}</dd>
+            </div>
+
+            <div class="col-md-4">
+                <dt>Cobertura Arl:</dt>
+                <dd>{{dataIncap.coverageArl}}</dd>
+            </div>
+
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-md-4">
                 <dt>Fecha Modificación:</dt>
                 <dd>{{dataIncap.modification_date | date: 'medium'}}</dd>
             </div>
-
         </div>
 
     </mat-dialog-content>
