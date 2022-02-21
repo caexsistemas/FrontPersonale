@@ -376,10 +376,8 @@ export class IncapacidadesDialog implements OnInit {
         var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-
-        if(dias == 0){
-            dias = dias + 1;
-        }
+        dias = dias + 1;
+        
 
         return dias;
     }

@@ -320,16 +320,8 @@ export class ProcessaludDialog{
         var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-        //Ajuste 30 Dias
-        var total_1 = new Date(aFecha1[0], aFecha1[1]-1, 0).getDate();
-        var total_2 = new Date(aFecha2[0], aFecha2[1]-1, 0).getDate();
-
-        console.log("Rango Mes 1: "+total_1+" / Rango Mes 2: "+total_2);
-
-        if(dias == 0){
-            dias = dias + 1;
-        }
-
+        dias = dias + 1;
+    
         this.formProces.get('numdiasincap').setValue(dias);
     }
 
