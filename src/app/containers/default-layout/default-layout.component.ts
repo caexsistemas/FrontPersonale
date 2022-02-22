@@ -195,6 +195,7 @@ export class DefaultLayoutComponent {
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
+    console.log('eve'+e);
   }
 
 

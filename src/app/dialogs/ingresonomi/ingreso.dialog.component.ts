@@ -146,6 +146,10 @@ export class IngresoDialog{
         let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
         if( exitsPersonal ){
             this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
+            this.formNomi.get('edad_nc').setValue(exitsPersonal.edad);
+            this.formNomi.get('area_nc').setValue(exitsPersonal.idArea);
+            this.formNomi.get('directboss_nc_jf').setValue(exitsPersonal.document_jf);     
+            this.formNomi.get('city_nc').setValue(exitsPersonal.city); 
         }        
     }
 
@@ -200,7 +204,7 @@ export class IngresoDialog{
                 this.formNomi.get('salary_nc').setValue(data.data['getDataUpda'][0].salary_nc);
                 this.formNomi.get('tipoges_nc').setValue(data.data['getDataUpda'][0].tipoges_nc);
                 this.archivo.nombre = data.data['getDataUpda'][0].files_nc;
-                
+              
             },
             error => {
                 this.handler.showError();

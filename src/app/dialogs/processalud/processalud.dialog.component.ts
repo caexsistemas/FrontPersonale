@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
+
 @Component({
     selector: 'processalud-dialog',
     templateUrl: 'processalud.dialog.html',
@@ -27,6 +28,7 @@ export class ProcessaludDialog{
     PersonaleInfo: any = [];
     ListArea:      any = [];
     selectedFile:  File = null;
+    requidSopo:    boolean = false;
     archivo = {
         nombre: null,
         nombreArchivo: null,
@@ -35,6 +37,8 @@ export class ProcessaludDialog{
     ListTipoGes:   any = [];
     dataNovNi:     any = []; 
     ListSiNo:      any = [];
+    ListEps:       any = [];
+    ListPension:   any = [];
     fechInicInc: string = "";
     fechaFinInc: string = "";
 
@@ -101,10 +105,14 @@ export class ProcessaludDialog{
             nombentreinc: new FormControl(""),
             fechainicausen: new FormControl(""),
             fechafinausen: new FormControl(""),
-            file_sp: new FormControl(""),
+            //file_sp: new FormControl(""),
             soporte_nove: new FormControl(""),
             edad_tb: new FormControl(""),
-            numdiasincap: new FormControl("")
+            numdiasincap: new FormControl(""),
+            observacion_tb: new FormControl(""),
+            idEps: new FormControl(""),
+            idPension: new FormControl(""),
+            coverageArl: new FormControl("")
         });
     }
 
@@ -122,6 +130,8 @@ export class ProcessaludDialog{
                     this.ListArea      = data.data['getDatArea'];
                     this.ListTipoGes   = data.data['getDatTipoGes'];
                     this.ListSiNo      = data.data['getDatSiNo'];
+                    this.ListEps       = data.data['getEps'];
+                    this.ListPension   = data.data['getPension'];
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -165,6 +175,13 @@ export class ProcessaludDialog{
         let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
         if( exitsPersonal ){
             this.formProces.get('idPersonale').setValue(exitsPersonal.idPersonale);
+            this.formProces.get('area').setValue(exitsPersonal.idArea);
+            this.formProces.get('document_jf').setValue(exitsPersonal.document_jf);    
+            this.formProces.get('ciudad').setValue(exitsPersonal.city); 
+            this.formProces.get('edad_tb').setValue(exitsPersonal.edad); 
+            this.formProces.get('idEps').setValue(exitsPersonal.idEps);
+            this.formProces.get('idPension').setValue(exitsPersonal.idPension);
+            this.formProces.get('coverageArl').setValue(exitsPersonal.coverageArl);
         }        
     }
 
@@ -174,6 +191,15 @@ export class ProcessaludDialog{
         if( exitsPersonal ){
             this.formProces.get('nombentreinc').setValue(exitsPersonal.idPersonale);
         }        
+    }
+
+    onSoporteNovChange(event){
+
+        if(event == "17/0"){
+            this.requidSopo = true;
+        }else{
+            this.requidSopo = false;
+        }
     }
 
     
@@ -198,7 +224,13 @@ export class ProcessaludDialog{
                 this.formProces.get('soporte_nove').setValue(data.data['getDataUpda'][0].soporte_nove);
                 this.formProces.get('edad_tb').setValue(data.data['getDataUpda'][0].edad_tb);
                 this.archivo.nombre = data.data['getDataUpda'][0].file_sp;
-                
+                this.formProces.get('observacion_tb').setValue(data.data['getDataUpda'][0].observacion_tb);
+                this.formProces.get('idEps').setValue(data.data['getDataUpda'][0].idEps);
+                this.formProces.get('idPension').setValue(data.data['getDataUpda'][0].idPension);
+                this.formProces.get('coverageArl').setValue(data.data['getDataUpda'][0].coverageArl);
+                this.formProces.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
+                //this.descargarArchivos();
+                         
             },
             error => {
                 this.handler.showError();
@@ -288,13 +320,53 @@ export class ProcessaludDialog{
         var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-        //Ajuste 30 Dias
-        var total_1 = new Date(aFecha1[0], aFecha1[1]-1, 0).getDate();
-        var total_2 = new Date(aFecha2[0], aFecha2[1]-1, 0).getDate();
-
-        console.log("Rango Mes 1: "+total_1+" / Rango Mes 2: "+total_2);
-
+        dias = dias + 1;
+    
         this.formProces.get('numdiasincap').setValue(dias);
+    }
+
+    descargarArchivos(){
+
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'downloadFiles'     
+        })
+        .subscribe(
+            data => {
+                console.log(data);
+                if(data.success){
+
+                    /*const link = document.createElement("a");
+                    link.href = data.data.url;
+                    link.download = data.data.file;
+                    link.click();*/ 
+                    var linkElement = document.createElement('a');
+                    var blob = new Blob([data.data.base64], { type: 'application/octet-stream' });
+                    var url = window.URL.createObjectURL(blob);
+                
+                    linkElement.setAttribute('href', url);
+                    linkElement.setAttribute("download", data.data.file);
+                
+                    var clickEvent = new MouseEvent("click", {
+                        "view": window,
+                        "bubbles": true, 
+                        "cancelable": false
+                    });
+                
+                    linkElement.dispatchEvent(clickEvent);
+
+                    this.loading.emit(false);
+                }else{
+                   this.handler.handlerError(data);
+                   this.loading.emit(false);
+                }          
+            },
+            error => {
+                this.handler.showError(error);
+                console.log(error);
+                this.loading.emit(false);
+            }
+        );
     }
 
 }

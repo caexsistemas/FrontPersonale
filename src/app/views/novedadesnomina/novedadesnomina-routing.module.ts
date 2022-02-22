@@ -18,7 +18,7 @@ const routes: Routes = [
           path: 'ingreso',
           component: IngresoComponent,
           data: {
-            title: 'Ingreso'
+            title: 'Ingreso-Retiro'
           }
         }
       ]

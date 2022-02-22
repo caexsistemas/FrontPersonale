@@ -10,12 +10,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { IncapacidadesDialog } from '../../dialogs/incapacidades/incapacidades.dialog.component';
 
 @Component({
-  selector: 'app-incapacidades',
-  templateUrl: './incapacidades.component.html',
-  styleUrls: ['./incapacidades.component.css'],
-  providers: [Tools]
+  selector: 'app-incapasinsop',
+  templateUrl: './incapasinsop.component.html',
+  styleUrls: ['./incapasinsop.component.css']
 })
-export class IncapacidadesComponent implements OnInit {
+export class IncapasinsopComponent implements OnInit {
 
   endpoint: string = '/inability';
   personaleData: any = [];
@@ -30,7 +29,8 @@ export class IncapacidadesComponent implements OnInit {
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
   @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
 
-  constructor(
+
+  constructor(  
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
@@ -44,6 +44,7 @@ export class IncapacidadesComponent implements OnInit {
 
   sendRequest() {
     this.WebApiService.getRequest(this.endpoint, {
+      action: 'getDataIncaSinSop'
     })
       .subscribe(
         response => {

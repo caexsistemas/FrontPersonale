@@ -120,14 +120,14 @@ export class TemplateComponent implements OnInit {
     }).then(res =>{return res.blob()})
     .catch(error => console.error('Error:', error))
     .then( response => {
-      var objectURL = URL.createObjectURL(response);
+      /*var objectURL = URL.createObjectURL(response);
       let anchor = document.createElement('a');
       anchor.href = objectURL;
       anchor.download = "listado-propiedades-pagos-"+dateString+".xlsx";
       anchor.target = '_blank';
       anchor.classList.add('noview');
       document.getElementsByTagName('body')[0].appendChild(anchor);
-      anchor.click();
+      anchor.click();*/
       // window.open(objectURL);
     });
 

@@ -3,7 +3,7 @@
 </form>
 
 
-<div class="card-body">
+<!--<div class="card-body">
     <mat-dialog-content>
         <form [formGroup]="formDownoadIngreso">
             <div class="row">
@@ -25,8 +25,15 @@
     </mat-dialog-content>
     <div mat-dialog-actions>
         <div class="text-center col-12">
+<<<<<<< HEAD
             <button mat-button class="btn btn-danger" (click)="generateReport()">Descargar</button>
+=======
+           <button *ngIf="view == 'create'" mat-button class="btn btn-success"
+                (click)="onSubmi()">Guardar</button>
+
+            <button mat-button class="btn btn-danger" (click)="generateReport()">Descargar</button>-->
+>>>>>>> 7505d28acc71e8d0c88ef7c0dab2049a17bd6be6
             <!-- <a href="http://127.0.0.1:8000/imagenes/reporte_de_excel.xlsx" target="_blank">Download</a> -->
-        </div>
+        <!--</div>
     </div>
-</div>
+</div>-->

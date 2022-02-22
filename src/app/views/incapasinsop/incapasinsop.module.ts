@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IncapacidadesComponent } from './incapacidades.component';
-import { IncapacidadesRoutingModule } from './incapacidades-routing.module';
+import { IncapasinsopComponent } from './incapasinsop.component';
+import { IncapasinsopRoutingModule } from './incapasinsop-routing.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,10 +29,10 @@ const ngWizardConfig: NgWizardConfig = {
 };
 
 @NgModule({
-  declarations: [IncapacidadesComponent],
+  declarations: [IncapasinsopComponent],
   imports: [
     CommonModule,
-    IncapacidadesRoutingModule,
+    IncapasinsopRoutingModule,
     MatPaginatorModule,
     MatTableModule,
     //DataTableModule,
@@ -53,4 +53,4 @@ const ngWizardConfig: NgWizardConfig = {
 
   ]
 }) 
-export class IncapacidadesModule { }
+export class IncapasinsopModule { }

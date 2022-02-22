@@ -73,6 +73,13 @@ export const navItems: INavData[] = [
       }
     ]
 
+  },
+
+  {
+    name: 'Gestion Incapacidades Sin Soporte',
+    url: '/incapasinsop/gestion',
+    icon: 'icon-docs'
+    
   }
   
 ];

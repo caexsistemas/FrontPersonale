@@ -11,3 +11,9 @@
   .example-full-width {
     width: 100%;
   } 
+
+  @media (max-width: 1285px){
+    .sidebar-minimizer {
+        display: none !important;
+    }
+  }

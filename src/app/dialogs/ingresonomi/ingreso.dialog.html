@@ -15,10 +15,16 @@
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formNomi" method="POST">
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
                                 <input matInput formControlName="document_nc" type="number" (ngModelChange)="onSelectionChange($event)" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" *ngIf="view == 'update'">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                                <input matInput formControlName="document_nc" type="number" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">

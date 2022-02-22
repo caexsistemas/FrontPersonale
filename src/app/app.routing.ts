@@ -80,6 +80,10 @@ export const routes: Routes = [
       {
         path:'procesalud',
         loadChildren:()=> import('./views/novedadesalud/novedadesalud.module').then(m=>m.NovedadeSaludModule)
+      },
+      {
+        path:'incapasinsop',
+        loadChildren:()=> import('./views/incapasinsop/incapasinsop.module').then(m=>m.IncapasinsopModule)
       }
     ]
   }
