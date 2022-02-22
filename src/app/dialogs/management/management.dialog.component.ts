@@ -72,6 +72,7 @@ export class ManagementDialog implements AfterContentChecked{
         {ls_codvalue:'Rural', description: 'Rural'}
     ];
 
+    public age;
     public usuario;
     public medicalinf;
     public foncepinf;
@@ -160,8 +161,7 @@ export class ManagementDialog implements AfterContentChecked{
                                 //Calcular Edad
                                 const convertAge = new Date(this.personale['birthDate']);
                                 const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-                                this.personale.age = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-                                
+                                this.personale.age = Math.floor((timeDiff / (1000 * 3600 * 24))/365);                                
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
