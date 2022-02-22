@@ -23,19 +23,18 @@ export class HandlerAppService {
     foreignCreate:  true
   };
   permissionsApp:any = {
-    view:   true,
-    create: true,
-    update: true,
-    delete: true
+    view:   false,
+    create: false,
+    update: false,
+    delete: false
   };
   constructor(
     public router:Router,
     // private kaysen:KaysenComponent
+    
   ){}
 
   getPermissions(component){
-    // console.log(this.permissions);
-    // console.log(component);
     if(this.permissions != undefined){
       if(this.permissions[component].length > 0){
         this.permissions[component].forEach(permission => {

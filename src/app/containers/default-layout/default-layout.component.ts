@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Injectable } from '@angular/core';
+import { Component, ComponentFactoryResolver, Injectable,OnInit } from '@angular/core';
 import { Tools } from '../../Tools/tools.page';
 import { navItems } from '../../_nav';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   providers: [Tools]
 })
 
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent{
   public sidebarMinimized = false;
   // public navItems = navItems;
   public identity;
@@ -26,6 +26,8 @@ export class DefaultLayoutComponent {
   public item: any;
   public subitem: any;
   endpoint: string = '/menu';
+  public permissions:any[]  = Array();
+
 
 
 
@@ -79,23 +81,21 @@ export class DefaultLayoutComponent {
   ngOnInit(): void {
     this.checkSession();
     this.sendRequest();
-    console.log('DOS')
   }
 
   sendRequest() {
-    console.log('TRES')
     this.WebApiService.postRequest(this.endpoint, this.cuser, {})
       .subscribe(
         response => {
           // this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
-            console.log('CUATRO')
             this.item = response.data[0];
             this.subitem = response.data[1];
-            this.navItems = this.checkMenu(this.item, this.subitem)
+            this.navItems = this.checkMenu(this.item, this.subitem);
+            this.handler.permissions = this.getpermissionsSaved(this.subitem);
+            
             this.loading = false;
           } else {
-            console.log('CINCO')
             this.handler.handlerError(response);
           }
         },
@@ -107,8 +107,19 @@ export class DefaultLayoutComponent {
       );
   }
 
+  getpermissionsSaved(subitem){
+    var permision :any[]  = Array();
+    subitem.forEach(function (row) {
+      let perm = row.perm;
+      perm = perm.split('|');
+      permision[row.url] = perm;
+    });
+    
+    return permision;
+  }
+
   checkMenu(item, subitem) {
-    console.log('UNO')
+    
     var option = [];
 
     var optionItem;
@@ -146,6 +157,7 @@ export class DefaultLayoutComponent {
       }
       option.push(optionItem);
     });
+   
     return option;
 
   }

@@ -26,10 +26,12 @@ export class UsersComponent implements OnInit {
   displayedColumns:any  = [];
   loading:boolean = false;
 
+  component = "/admin/users";
+  permissions:any = null;
 
   endpoint:string   = '/usuario';
 
-  permissions:any = null;
+  
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -45,7 +47,12 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendRequest();
+    // this.permissions = this.handler.permissionsApp;
     this.permissions = this.handler.permissionsApp;
+
+    console.log(this.permissions)
+
+    
 }
 
 sendRequest(){
@@ -53,9 +60,8 @@ sendRequest(){
   })
   .subscribe(
     response=>{
-      // this.permissions = this.handler.getPermissions(this.component);
+       this.permissions = this.handler.getPermissions(this.component);
       if(response.success){
-        console.log(response)
         this.generateTable(response.data);
         this.datauser = response.data
         this.loading = false;
