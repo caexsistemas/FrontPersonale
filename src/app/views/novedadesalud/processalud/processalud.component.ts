@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ProcessaludDialog } from '../../../dialogs/processalud/processalud.dialog.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { TemplateComponent } from '../../../template/template.component';
 
 @Component({
   selector: 'app-processalud',
@@ -33,9 +35,15 @@ export class ProcessaludComponent implements OnInit {
     private _tools: Tools,
     private WebApiService:WebApiService,
     public handler:HandlerAppService,
-    public dialog:MatDialog
+    public dialog:MatDialog,
+    private matBottomSheet : MatBottomSheet
   ) { }
 
+
+  onTriggerSheetClick(){
+    this.matBottomSheet.open(TemplateComponent)
+  }
+  
   ngOnInit(): void {
       this.sendRequest();
       this.permissions = this.handler.permissionsApp;

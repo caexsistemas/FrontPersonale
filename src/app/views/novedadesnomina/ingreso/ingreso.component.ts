@@ -56,7 +56,6 @@ export class IngresoComponent implements OnInit {
   }
 
   onTriggerSheetClick(){
-    console.log('ES')
     this.matBottomSheet.open(TemplateComponent)
   }
   

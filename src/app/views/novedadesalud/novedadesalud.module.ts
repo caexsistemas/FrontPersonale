@@ -22,6 +22,7 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 //Modulos
 import { ProcessaludRoutingModule } from './novedadesalud-routing.module';
 import { ProcessaludComponent } from './processalud/processalud.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -46,6 +47,7 @@ const ngWizardConfig: NgWizardConfig = {
     DatafilterModule,
     MatInputModule,
     ProcessaludRoutingModule,
+    MatBottomSheetModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig)
   ],
