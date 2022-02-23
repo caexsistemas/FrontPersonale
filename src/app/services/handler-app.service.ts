@@ -35,7 +35,17 @@ export class HandlerAppService {
   ){}
 
   getPermissions(component){
+    
+   
+      this.permissionsApp.view   = false,
+      this.permissionsApp.create = false,
+      this.permissionsApp.update = false,
+      this.permissionsApp.delete = false
+   
+
+    
     if(this.permissions != undefined){
+      console.log(this.permissions[component])
       if(this.permissions[component].length > 0){
         this.permissions[component].forEach(permission => {
           switch(permission){

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,QueryList,ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { Tools } from '../../../Tools/tools.page';
 import { UserServices } from '../../../services/user.service';
 import { WebApiService } from '../../../services/web-api.service';
@@ -18,130 +18,128 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 
 export class UsersComponent implements OnInit {
-  
+
   public data;
-  public detailUser     = [];
-  datauser : any        = [];
-  dataSource:any        = [];
-  displayedColumns:any  = [];
-  loading:boolean = false;
+  public detailUser = [];
+  datauser: any = [];
+  dataSource: any = [];
+  displayedColumns: any = [];
+  loading: boolean = false;
 
   component = "/admin/users";
-  permissions:any = null;
+  permissions: any = null;
 
-  endpoint:string   = '/usuario';
+  endpoint: string = '/usuario';
 
-  
+
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
-    private _UserService: UserServices, 
+    private _UserService: UserServices,
     private _tools: Tools,
-    private WebApiService:WebApiService,
-    public handler:HandlerAppService,
-    public dialog:MatDialog){}
-   
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    public dialog: MatDialog) { }
+
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
   ngOnInit(): void {
-    this.sendRequest();
-    // this.permissions = this.handler.permissionsApp;
     this.permissions = this.handler.permissionsApp;
-
-    console.log(this.permissions)
-
     
-}
-
-sendRequest(){
-  this.WebApiService.getRequest(this.endpoint,{
-  })
-  .subscribe(
-    response=>{
-       this.permissions = this.handler.getPermissions(this.component);
-      if(response.success){
-        this.generateTable(response.data);
-        this.datauser = response.data
-        this.loading = false;
-      }else{
-        this.datauser = [];
-        this.handler.handlerError(response);
-      }
-    },
-    error=>{
-      // this.loading = false;
-      // this.permissions = this.handler.getPermissions(this.component);
-      // this.handler.showError();
-    }
-  );
-}
-
-generateTable(data){
-  this.displayedColumns = [
-    'view', 
-    'idUser',
-    'name',
-    'email',
-    'actions'
-  ];
-  this.dataSource           = new MatTableDataSource(data);
-  this.dataSource.sort      = this.sort.toArray()[0];
-  this.dataSource.paginator = this.paginator.toArray()[0];
-  let search;
-  if(document.contains(document.querySelector('search-input-table'))){
-    search = document.querySelector('.search-input-table');
-    search.value = "";
+    this.sendRequest();
   }
-}
 
-applyFilter(search){
-  this.dataSource.filter = search.trim().toLowerCase();
-}
+  sendRequest() {
+    this.WebApiService.getRequest(this.endpoint, {
+    })
+      .subscribe(
+        response => {
+          this.permissions = this.handler.getPermissions(this.component);
+          console.log(1)
+          console.log(this.permissions)
+          if (response.success) {
+            this.generateTable(response.data);
+            this.datauser = response.data
+            this.loading = false;
+          } else {
+            this.datauser = [];
+            this.handler.handlerError(response);
+          }
+        },
+        error => {
+          // this.loading = false;
+          // this.permissions = this.handler.getPermissions(this.component);
+          // this.handler.showError();
+        }
+      );
+  }
 
-option(action,codigo=null){
-  var dialogRef;
-  switch(action){
-    case 'view':
-      this.loading = true;
-      dialogRef = this.dialog.open(UsersDialog,{
-        data: {
-          window: 'view',
-          codigo
-        }
-      });
-      dialogRef.disableClose = true;
-      // LOADING
-      dialogRef.componentInstance.loading.subscribe(val=>{
-        this.loading = val;
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log(result);
-      });
-    break;
-    case 'create':
-      this.loading = true;
-      dialogRef = this.dialog.open(UsersDialog,{
-        data: {
-          window: 'create',
-          codigo
-        }
-      });
-      dialogRef.disableClose = true;
-      // LOADING
-      dialogRef.componentInstance.loading.subscribe(val=>{
-        this.loading = val;
-      });
-      // RELOAD
-      dialogRef.componentInstance.reload.subscribe(val=>{
-        this.sendRequest();
-      });
-    break;
-    case 'update':
+  generateTable(data) {
+    this.displayedColumns = [
+      'view',
+      'idUser',
+      'name',
+      'email',
+      'actions'
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector('search-input-table'))) {
+      search = document.querySelector('.search-input-table');
+      search.value = "";
+    }
+  }
+
+  applyFilter(search) {
+    this.dataSource.filter = search.trim().toLowerCase();
+  }
+
+  option(action, codigo = null) {
+    var dialogRef;
+    switch (action) {
+      case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(UsersDialog,{
+        dialogRef = this.dialog.open(UsersDialog, {
+          data: {
+            window: 'view',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+        });
+        break;
+      case 'create':
+        this.loading = true;
+        dialogRef = this.dialog.open(UsersDialog, {
+          data: {
+            window: 'create',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val => {
+          this.sendRequest();
+        });
+        break;
+      case 'update':
+        this.loading = true;
+        dialogRef = this.dialog.open(UsersDialog, {
           data: {
             window: 'update',
             codigo
@@ -149,23 +147,23 @@ option(action,codigo=null){
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe(val => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
+        dialogRef.componentInstance.reload.subscribe(val => {
           this.sendRequest();
         });
-      break;
-    // case 'active':
-    //   this.updateStatus('active');
-    // break;
-    // case 'inactive':
-    //   this.updateStatus('inactive');
-    // break;
-  }
+        break;
+      // case 'active':
+      //   this.updateStatus('active');
+      // break;
+      // case 'inactive':
+      //   this.updateStatus('inactive');
+      // break;
+    }
 
-}
+  }
 
   showDetails(item) {
     this.detailUser = item;

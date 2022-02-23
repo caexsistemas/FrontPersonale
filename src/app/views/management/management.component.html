@@ -6,7 +6,7 @@
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
 
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">              
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3" *ngIf="permissions.create">              
                     <div class="btn-group" dropdown>
                         <button dropdownToggle type="button" class="btn btn-primary ">
                             <i class="fa fa-plus"></i>
@@ -33,7 +33,7 @@
                     <ng-container matColumnDef="view">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
                         <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" (click)="option('view',element.idPersonale)"
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.idPersonale)"
                                 title="Ver">
                                 <i class="fa fa-eye fa-lg"></i>
                             </button>
@@ -63,7 +63,7 @@
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
                         <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" (click)="option('update',element.idPersonale)"
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',element.idPersonale)"
                                 title="Editar">
                                 <i class="fa fa-edit fa-lg"></i>
                             </button>

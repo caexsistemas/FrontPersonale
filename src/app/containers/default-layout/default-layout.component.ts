@@ -92,8 +92,7 @@ export class DefaultLayoutComponent{
             this.item = response.data[0];
             this.subitem = response.data[1];
             this.navItems = this.checkMenu(this.item, this.subitem);
-            this.handler.permissions = this.getpermissionsSaved(this.subitem);
-            
+            this.handler.permissions = this.getpermissionsSaved(this.subitem);            
             this.loading = false;
           } else {
             this.handler.handlerError(response);
@@ -101,8 +100,7 @@ export class DefaultLayoutComponent{
         },
         error => {
           this.loading = false;
-          // this.permissions = this.handler.getPermissions(this.component);
-          // this.handler.showError();
+          this.handler.showError();
         }
       );
   }

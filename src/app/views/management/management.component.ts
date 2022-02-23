@@ -49,7 +49,7 @@ export class ManagementComponent implements OnInit {
   urlKaysenBackend = environment.url;
   url = this.urlKaysenBackend + this.endpointup;
 
-  permissions: any = null;
+ 
   datapersonale: any = [];
   loading: boolean = false;
 
@@ -59,6 +59,9 @@ export class ManagementComponent implements OnInit {
   personaleData: any = [];
 
   modal: 'successModal';
+
+  component = "/management/gestion";
+  permissions: any = null;
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -138,7 +141,7 @@ export class ManagementComponent implements OnInit {
     })
       .subscribe(
         response => {
-          // this.permissions = this.handler.getPermissions(this.component);
+           this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
             this.generateTable(response.data);
             this.personaleData = response.data
@@ -149,9 +152,9 @@ export class ManagementComponent implements OnInit {
           }
         },
         error => {
-          // this.loading = false;
-          // this.permissions = this.handler.getPermissions(this.component);
-          // this.handler.showError();
+          this.loading = false;
+          this.permissions = this.handler.getPermissions(this.component);
+          this.handler.showError();
         }
       );
   }
