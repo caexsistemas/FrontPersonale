@@ -22,6 +22,8 @@ export class IncapasinsopComponent implements OnInit {
   displayedColumns: any = [];
   dataSource: any = [];
   permissions: any = null;
+  //Control Permisos
+  component = "/incapasinsop/gestion";
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -48,7 +50,7 @@ export class IncapasinsopComponent implements OnInit {
     })
       .subscribe(
         response => {
-          // this.permissions = this.handler.getPermissions(this.component);
+          this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
             this.generateTable(response.data);
             this.personaleData = response.data

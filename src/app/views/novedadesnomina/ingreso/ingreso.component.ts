@@ -34,6 +34,8 @@ export class IngresoComponent implements OnInit {
   displayedColumns:any  = [];
   dataSource:any        = [];
   public detanovNomi = [];
+  //Permisos
+  component = "/nomi/ingreso";
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -72,6 +74,8 @@ export class IngresoComponent implements OnInit {
       .subscribe(
      
         data => {
+          this.permissions = this.handler.getPermissions(this.component);
+          console.log(this.permissions);
             if (data.success == true) {
                 this.generateTable(data.data['getContData']);
                 this.contenTable = data.data['getContData'];
