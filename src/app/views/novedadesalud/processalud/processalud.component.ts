@@ -26,6 +26,8 @@ export class ProcessaludComponent implements OnInit {
   displayedColumns:any  = [];
   dataSource:any        = [];
   public detaNovSal = [];
+  //Control Permiso
+  component = "/procesalud/processalud";
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -56,6 +58,7 @@ export class ProcessaludComponent implements OnInit {
       .subscribe(
      
         data => {
+          this.permissions = this.handler.getPermissions(this.component);
             if (data.success == true) {
                 this.generateTable(data.data['getContData']);
                 this.contenTable = data.data['getContData'];
