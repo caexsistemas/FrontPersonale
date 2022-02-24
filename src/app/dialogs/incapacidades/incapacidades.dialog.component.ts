@@ -6,7 +6,11 @@ import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
 import {Observable} from 'rxjs';
 
-
+export interface PeriodicElement {
+    currentm_user: string,
+    date_move:string,
+    type_move: string
+  }
 
 export interface personale {
     idPersonale: number,
@@ -49,6 +53,10 @@ export class IncapacidadesDialog implements OnInit {
     ListEps:       any = [];
     ListPension:   any = [];
     public sidebarMinimized = false;
+    //History
+    historyMon: any = [];
+    displayedColumns:any  = [];
+    public clickedRows;
 
     archivo = {
         nombre: null,
@@ -81,7 +89,8 @@ export class IncapacidadesDialog implements OnInit {
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                this.dataIncap = data.data[0];                         
+                                this.dataIncap = data.data['getDatIna'][0];   
+                                this.generateTable(data.data['getDatHistory']);                      
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -149,6 +158,16 @@ export class IncapacidadesDialog implements OnInit {
     {
         this.options = [{idPersonale: 1178, name: 'rwer', document: '234234'}];
         this.cdref.detectChanges();
+    }
+
+    generateTable(data){
+        this.displayedColumns = [
+          'currentm_user',
+          'date_move',
+          'type_move'  
+        ];
+        this.historyMon = data;
+        this.clickedRows = new Set<PeriodicElement>();
     }
 
     getDataInit() {

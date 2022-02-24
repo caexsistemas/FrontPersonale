@@ -11,7 +11,11 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { NovedadesnominaServices } from '../../services/novedadesnomina.service';
 
-
+export interface PeriodicElement {
+    currentm_user: string,
+    date_move:string,
+    type_move: string
+  }
 
 @Component({
     selector: 'ingreso-dialog',
@@ -37,6 +41,10 @@ export class IngresoDialog{
     }
     ListTipoGes:    any = [];
     dataNovNi: any = []; 
+    //History
+    historyMon: any = [];
+    displayedColumns:any  = [];
+    public clickedRows;
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -73,7 +81,8 @@ export class IngresoDialog{
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                this.dataNovNi = data.data[0];                         
+                                this.dataNovNi = data.data['getDataNom'][0];       
+                                this.generateTable(data.data['getDatHistory']);                  
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -107,6 +116,16 @@ export class IngresoDialog{
             files_nc: new FormControl(""),
             tipoges_nc: new FormControl("")
         });
+    }
+
+    generateTable(data){
+        this.displayedColumns = [
+          'currentm_user',
+          'date_move',
+          'type_move'  
+        ];
+        this.historyMon = data;
+        this.clickedRows = new Set<PeriodicElement>();
     }
 
     getDataInit(){

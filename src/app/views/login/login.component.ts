@@ -142,6 +142,7 @@ export class LoginComponent {
               userProfile:data.userProfile,
               role:data.rol
             }
+            console.log(data)
             localStorage.setItem('currentUser',JSON.stringify(objData));
             localStorage.setItem('isLogged','true');
             this.WebApiService.token = data.token;

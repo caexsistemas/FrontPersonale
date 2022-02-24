@@ -9,6 +9,13 @@ import { global } from '../../services/global';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+
+export interface PeriodicElement {
+    currentm_user: string,
+    date_move:string,
+    type_move: string
+  }
 
 
 @Component({
@@ -41,6 +48,10 @@ export class ProcessaludDialog{
     ListPension:   any = [];
     fechInicInc: string = "";
     fechaFinInc: string = "";
+    //History
+    historyMon: any = [];
+    displayedColumns:any  = [];
+    public clickedRows;
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -75,7 +86,8 @@ export class ProcessaludDialog{
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                this.dataNovNi = data.data[0];                         
+                                this.dataNovNi = data.data['getDatPer'][0];
+                                this.generateTable(data.data['getDatHistory']);                         
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -90,6 +102,16 @@ export class ProcessaludDialog{
                     );
             break;
         }
+    }
+
+    generateTable(data){
+        this.displayedColumns = [
+          'currentm_user',
+          'date_move',
+          'type_move'  
+        ];
+        this.historyMon = data;
+        this.clickedRows = new Set<PeriodicElement>();
     }
 
     initForms(){
