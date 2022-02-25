@@ -52,6 +52,7 @@ export class ProcessaludDialog{
     historyMon: any = [];
     displayedColumns:any  = [];
     public clickedRows;
+    public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -87,7 +88,7 @@ export class ProcessaludDialog{
                         data => {
                             if (data.success == true) {
                                 this.dataNovNi = data.data['getDatPer'][0];
-                                this.generateTable(data.data['getDatHistory']);                         
+                                this.generateTable(data.data['getDatHistory']);   
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -134,7 +135,8 @@ export class ProcessaludDialog{
             observacion_tb: new FormControl(""),
             idEps: new FormControl(""),
             idPension: new FormControl(""),
-            coverageArl: new FormControl("")
+            coverageArl: new FormControl(""),
+            createUser: new FormControl(this.cuser.iduser)
         });
     }
 

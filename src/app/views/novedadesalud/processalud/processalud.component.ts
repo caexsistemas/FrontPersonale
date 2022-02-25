@@ -28,6 +28,8 @@ export class ProcessaludComponent implements OnInit {
   public detaNovSal = [];
   //Control Permiso
   component = "/procesalud/processalud";
+  //History
+  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -53,7 +55,9 @@ export class ProcessaludComponent implements OnInit {
 
   sendRequest(){
     this.WebApiService.getRequest(this.endpoint, {
-      action: 'getDatanovedad'
+      action: 'getDatanovedad',
+      idUser: this.cuser.iduser,
+      role: this.cuser.role
     })
       .subscribe(
      

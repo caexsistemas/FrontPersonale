@@ -57,6 +57,7 @@ export class IncapacidadesDialog implements OnInit {
     historyMon: any = [];
     displayedColumns:any  = [];
     public clickedRows;
+    public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
     archivo = {
         nombre: null,
@@ -150,7 +151,8 @@ export class IncapacidadesDialog implements OnInit {
             observacion_tb: new FormControl(""),
             idEps: new FormControl(""),
             idPension: new FormControl(""),
-            coverageArl: new FormControl("")
+            coverageArl: new FormControl(""),
+            createUser: new FormControl(this.cuser.iduser)
         });
     }
 
@@ -406,6 +408,9 @@ export class IncapacidadesDialog implements OnInit {
         let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
         if( exitsPersonal ){
             this.formIncapad.get('idPersonale').setValue(exitsPersonal.idPersonale);
+            this.formIncapad.get('idEps').setValue(exitsPersonal.idEps);
+            this.formIncapad.get('idPension').setValue(exitsPersonal.idPension);
+            this.formIncapad.get('coverageArl').setValue(exitsPersonal.coverageArl);
         }        
     }
 

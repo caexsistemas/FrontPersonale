@@ -45,6 +45,7 @@ export class IngresoDialog{
     historyMon: any = [];
     displayedColumns:any  = [];
     public clickedRows;
+    public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -114,7 +115,8 @@ export class IngresoDialog{
             salary_nc: new FormControl(""),
             daying_nc: new FormControl(""),
             files_nc: new FormControl(""),
-            tipoges_nc: new FormControl("")
+            tipoges_nc: new FormControl(""),
+            createUser: new FormControl(this.cuser.iduser)
         });
     }
 

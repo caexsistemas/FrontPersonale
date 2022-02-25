@@ -475,7 +475,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp" >
                                 <mat-label>Centro de Salud:</mat-label>
-                                <mat-select formControlName="idEps" required>
+                                <mat-select formControlName="idEps" >
                                     <mat-option *ngFor="let idet of ListEps" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -485,7 +485,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp" >
                                 <mat-label>Centro de Pensión:</mat-label>
-                                <mat-select formControlName="idPension" required>
+                                <mat-select formControlName="idPension" >
                                     <mat-option *ngFor="let idet of ListPension" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
