@@ -10,6 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ProcessaludDialog } from '../../../dialogs/processalud/processalud.dialog.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TemplateComponent } from '../../../template/template.component';
+import { ReportProcessaludComponent } from '../../../dialogs/reports/processalud/reports-processalud.component';
 
 @Component({
   selector: 'app-processalud',
@@ -45,7 +46,7 @@ export class ProcessaludComponent implements OnInit {
 
 
   onTriggerSheetClick(){
-    this.matBottomSheet.open(TemplateComponent)
+    this.matBottomSheet.open(ReportProcessaludComponent)
   }
   
   ngOnInit(): void {

@@ -68,6 +68,10 @@ import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
 import { NovedadesaludComponent } from './views/novedadesalud/novedadesalud.component';
 import { TemplateComponent } from './template/template.component';
 import { ProcessaludDialog } from './dialogs/processalud/processalud.dialog.component';
+import { ReportProcessaludComponent } from './dialogs/reports/processalud/reports-processalud.component';
+import { ReportIncaapacidadesComponent } from './dialogs/reports/incapacidades/reports-incapacidades.component';
+import { ReportIncapasinsopComponent } from './dialogs/reports/incapasinsop/reports-incapasinsop.component';
+import { ReportIngresoComponent } from './dialogs/reports/ingreso/reports-ingreso.component';
 // import { FileSaverModule } from 'ngx-filesaver';
 
 
@@ -130,7 +134,11 @@ const routes: Routes = [];
     IngresoDialog,
     NovedadesaludComponent,
     TemplateComponent,
-    ProcessaludDialog
+    ProcessaludDialog,
+    ReportProcessaludComponent,
+    ReportIncaapacidadesComponent,
+    ReportIncapasinsopComponent,
+    ReportIngresoComponent
       
   ],
   providers: [{

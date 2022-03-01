@@ -9,8 +9,8 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3"> 
                     
                     <div class="btn-group" dropdown>
-                        <button class="btn btn-success" (click)="onTriggerSheetClick()"
-                            title="Crear">
+                        <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                            title="Reporte Excel">
                             <i class="fa fa-feed"></i>
                         </button>
                     </div>
