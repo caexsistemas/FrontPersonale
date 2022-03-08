@@ -19,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
   //History
   historyMon: any = [];
   displayedColumns:any  = [];
+  ListEstGes: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -31,14 +32,38 @@ import { ActivatedRoute } from '@angular/router';
   ) { }
 
   ngOnInit(): void {
-
+    this.dataIni();
     this.formDownoadIngreso = new FormGroup({
       fi: new FormControl(''),
       ff: new FormControl(''),
       role: new FormControl(this.cuser.role),
-      iduser: new FormControl(this.cuser.iduser)
+      iduser: new FormControl(this.cuser.iduser),
+      tipogesti: new FormControl('')
     });
   }
+
+   dataIni(){
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.ndpoint, {
+        action: 'getParExporInfo',
+        role: this.cuser.role
+    })
+        .subscribe(
+            data => {
+                if (data.success == true) {
+                    this.ListEstGes = data.data['stadgestion'];
+                    this.loading.emit(false);
+                } else {
+                    this.handler.handlerError(data);
+                    this.loading.emit(false);
+                }
+            },
+            error => {
+                this.handler.showError('Se produjo un error');
+                this.loading.emit(false);
+            }
+        );
+   }
 
     descargarArchivos(){
 

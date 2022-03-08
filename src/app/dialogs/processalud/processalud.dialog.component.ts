@@ -206,6 +206,8 @@ export class ProcessaludDialog{
             this.formProces.get('idEps').setValue(exitsPersonal.idEps);
             this.formProces.get('idPension').setValue(exitsPersonal.idPension);
             this.formProces.get('coverageArl').setValue(exitsPersonal.coverageArl);
+            this.formProces.get('salario').setValue(exitsPersonal.salary);
+
         }        
     }
 
@@ -264,30 +266,35 @@ export class ProcessaludDialog{
 
      //Enviar Informacion
      onSubmi(){
-
+        
         if (this.formProces.valid) {
-            this.loading.emit(true);
-            let body = {
-                salud: this.formProces.value, 
-                archivoRes: this.archivo       
-            }
-            this.WebApiService.postRequest(this.endpoint, body, {})
-                .subscribe(
-                    data => {
-                        if (data.success) {
-                           this.handler.showSuccess(data.message);
-                            this.reload.emit();
-                            this.closeDialog();
-                        } else {
-                            this.handler.handlerError(data);
+            if( this.formProces.value.fechainicausen <= this.formProces.value.fechafinausen){
+                this.loading.emit(true);
+                let body = {
+                    salud: this.formProces.value, 
+                    archivoRes: this.archivo       
+                }
+                this.WebApiService.postRequest(this.endpoint, body, {})
+                    .subscribe(
+                        data => {
+                            if (data.success) {
+                            this.handler.showSuccess(data.message);
+                                this.reload.emit();
+                                this.closeDialog();
+                            } else {
+                                this.handler.handlerError(data);
+                                this.loading.emit(false);
+                            }
+                        },
+                        error => {
+                            this.handler.showError();
                             this.loading.emit(false);
                         }
-                    },
-                    error => {
-                        this.handler.showError();
-                        this.loading.emit(false);
-                    }
-                )
+                    );
+            }else {
+                this.handler.showError('Por favor validar el rango de fechas');
+                this.loading.emit(false);
+            }
         } else {
             this.handler.showError('Complete la informacion necesaria');
             this.loading.emit(false);
@@ -301,24 +308,29 @@ export class ProcessaludDialog{
             salud: this.formProces.value,
             archivoRes: this.archivo    
         }
-        this.loading.emit(true);
-        this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{})
-        .subscribe(
-            data=>{
-                if(data.success){
-                    this.handler.showSuccess(data.message);
-                    this.reload.emit();
-                    this.closeDialog();
-                }else{
-                    this.handler.handlerError(data);
+        if( this.formProces.value.fechainicausen <= this.formProces.value.fechafinausen){
+            this.loading.emit(true);
+            this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{})
+            .subscribe(
+                data=>{
+                    if(data.success){
+                        this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                    }else{
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }
+                },
+                error=>{
+                    this.handler.showError();
                     this.loading.emit(false);
                 }
-            },
-            error=>{
-                this.handler.showError();
-                this.loading.emit(false);
-            }
-        );
+            );
+        }else {
+            this.handler.showError('Por favor validar el rango de fechas');
+            this.loading.emit(false);
+        }
     }
 
     onFechaIniChange(event){
@@ -344,8 +356,12 @@ export class ProcessaludDialog{
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
         dias = dias + 1;
-    
-        this.formProces.get('numdiasincap').setValue(dias);
+        if( dias > 0 ){
+            this.formProces.get('numdiasincap').setValue(dias);
+        }else{
+            this.formProces.get('numdiasincap').setValue(0);
+        }
+        
     }
 
 

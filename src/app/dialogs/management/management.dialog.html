@@ -378,7 +378,6 @@
                                 <dt>Fecha Retiro:</dt>
                                 <dd>{{working.withdrawalDate }}</dd>
                             </div>
-
                             <div class="col-sm-4">
                                 <dt>Motivo: </dt>
                                 <dd>{{working.reason }}</dd>
@@ -390,8 +389,41 @@
                         </mat-action-row>
                     </mat-expansion-panel>
 
-                    <!--{Septima Seccion Working}-->
-                    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+
+                     <!--{Septima Seccion Salary}-->
+                     <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Auxilios y Salario
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">money</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <dt>Año:</dt>
+                                <dd>{{salary.year }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Salario:</dt>
+                                <dd>{{salary.salary| currency: 'USD'| lowercase }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Aux Transporte:</dt>
+                                <dd>{{salary.transportation| currency: 'USD'| lowercase }}</dd>
+                            </div>
+                        </div>
+
+                        <mat-action-row>
+                            <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Septima Seccion Family}-->
+                    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Datos Familiares
@@ -454,7 +486,7 @@
                     </mat-expansion-panel>
 
                     <!--{Octava Informacion Hijos}-->
-                    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle
+                    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle
                         style="margin-bottom: 10px;">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -1145,6 +1177,48 @@
                                         <input matInput formControlName="reason">
                                     </mat-form-field>
                                 </div>
+
+                            </div>
+
+                            <mat-action-row>
+                                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                    </form>
+
+                    <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSalary">
+                        <!--{Septima Seccion Working}-->
+                        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Auxilios y Salario
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Ingrese Informaci&oacute;n sobre Bonos, Auxilio de transporte, Salario y etc
+                                    <mat-icon>money</mat-icon>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <mat-form-field>
+                                        <mat-label>Año:</mat-label>
+                                        <input matInput formControlName="year">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Salario: </mat-label>
+                                        <input matInput formControlName="salary" type="number" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Aux Transporte: </mat-label>
+                                        <input matInput formControlName="transportation" type="number">
+                                    </mat-form-field>
+                                </div>
                             </div>
 
                             <mat-action-row>
@@ -1155,8 +1229,8 @@
                     </form>
 
                     <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formFamily">
-                        <!--{Septima Seccion Working}-->
-                        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                        <!--{Septima Seccion family}-->
+                        <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     Datos Familiares
@@ -1256,7 +1330,7 @@
 
                     <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formChildren">
                         <!--{Octava Informacion Hijos}-->
-                        <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle
+                        <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle
                             style="margin-bottom: 10px;">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>

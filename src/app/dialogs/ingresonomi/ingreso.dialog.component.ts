@@ -171,6 +171,7 @@ export class IngresoDialog{
             this.formNomi.get('area_nc').setValue(exitsPersonal.idArea);
             this.formNomi.get('directboss_nc_jf').setValue(exitsPersonal.document_jf);     
             this.formNomi.get('city_nc').setValue(exitsPersonal.city); 
+            this.formNomi.get('salary_nc').setValue(exitsPersonal.salary); 
         }        
     }
 

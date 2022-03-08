@@ -2,16 +2,26 @@
     <mat-dialog-content>
         <form [formGroup]="formDownoadIngreso" method="POST">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Fecha inicio:</mat-label>
                         <input matInput formControlName="fi" type="date" required>
                     </mat-form-field>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Fecha final:</mat-label>
                         <input matInput formControlName="ff" type="date" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Tipo Gestion:</mat-label>
+                        <mat-select formControlName="tipogesti"  required>
+                          <mat-option *ngFor="let idet of ListEstGes" [value]="idet.ls_codvalue" required>
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
             </div>
