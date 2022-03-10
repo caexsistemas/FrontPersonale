@@ -159,11 +159,7 @@ export class ManagementDialog implements AfterContentChecked{
                                 this.family        = data.data[5][0];
                                 this.sos           = data.data[6][0];
                                 this.endowmentData = data.data[7][0];
-                                this.children      = data.data[8];
-                                //Calcular Edad
-                                const convertAge = new Date(this.personale['birthDate']);
-                                const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-                                this.personale.age = Math.floor((timeDiff / (1000 * 3600 * 24))/365);                                
+                                this.children      = data.data[8];       
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);

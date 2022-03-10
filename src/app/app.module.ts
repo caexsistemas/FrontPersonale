@@ -72,6 +72,7 @@ import { ReportProcessaludComponent } from './dialogs/reports/processalud/report
 import { ReportIncaapacidadesComponent } from './dialogs/reports/incapacidades/reports-incapacidades.component';
 import { ReportIncapasinsopComponent } from './dialogs/reports/incapasinsop/reports-incapasinsop.component';
 import { ReportIngresoComponent } from './dialogs/reports/ingreso/reports-ingreso.component';
+import { CallcenterComponent } from './views/callcenter/callcenter.component';
 // import { FileSaverModule } from 'ngx-filesaver';
 
 
@@ -138,7 +139,8 @@ const routes: Routes = [];
     ReportProcessaludComponent,
     ReportIncaapacidadesComponent,
     ReportIncapasinsopComponent,
-    ReportIngresoComponent
+    ReportIngresoComponent,
+    CallcenterComponent
       
   ],
   providers: [{

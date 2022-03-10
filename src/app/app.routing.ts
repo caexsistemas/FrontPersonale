@@ -84,6 +84,10 @@ export const routes: Routes = [
       {
         path:'incapasinsop',
         loadChildren:()=> import('./views/incapasinsop/incapasinsop.module').then(m=>m.IncapasinsopModule)
+      },
+      {
+        path:'callcenter',
+        loadChildren:()=> import('./views/callcenter/callcenter.module').then(m=>m.CallcenterModule)
       }
     ]
   }
