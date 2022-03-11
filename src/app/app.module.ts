@@ -134,8 +134,7 @@ const routes: Routes = [];
     ReportProcessaludComponent,
     ReportIncaapacidadesComponent,
     ReportIncapasinsopComponent,
-    ReportIngresoComponent,
-    CallcenterComponent
+    ReportIngresoComponent
       
   ],
   providers: [{
