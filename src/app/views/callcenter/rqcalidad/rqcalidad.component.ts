@@ -1,14 +1,13 @@
-import { Component, OnInit, Output, ViewChild, QueryList, ViewChildren, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { Tools } from '../../../Tools/tools.page';
 import { WebApiService } from '../../../services/web-api.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { HandlerAppService } from '../../../services/handler-app.service';
+import { global } from '../../../services/global';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ProcessaludDialog } from '../../../dialogs/processalud/processalud.dialog.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-rqcalidad',
@@ -26,7 +25,7 @@ export class RqcalidadComponent implements OnInit {
   dataSource:any        = [];
   public detaNovSal = [];
   //Control Permiso
-  component = "/rqcalidad/rqcalidad";
+  component = "/callcenter/rqcalidad";
   //History
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -36,10 +35,9 @@ export class RqcalidadComponent implements OnInit {
 
   constructor(
     private _tools: Tools,
-    private WebApiService:WebApiService,
-    public handler:HandlerAppService,
-    public dialog:MatDialog,
-    private matBottomSheet : MatBottomSheet
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +47,7 @@ export class RqcalidadComponent implements OnInit {
 
   sendRequest(){
     this.WebApiService.getRequest(this.endpoint, {
-      action: 'getDatanovedad',
+      action: 'getDataCalidad',
       idUser: this.cuser.iduser,
       role: this.cuser.role
     })
@@ -79,14 +77,12 @@ export class RqcalidadComponent implements OnInit {
      generateTable(data){
       this.displayedColumns = [
         'view', 
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
+        'document',
+        'name',
+        'week',
+        'offer',
+        'call_id',
+        'call_date',
         'actions'
       ];
       this.dataSource           = new MatTableDataSource(data);
