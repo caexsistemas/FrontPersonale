@@ -61,6 +61,7 @@ export class ManagementDialog implements AfterContentChecked{
     typeArea: any = [];
     typeposition: any = [];
     typefamilyinf: any = [];
+    typeSalaryinfo: any = [];
     typehouse: any = [
         {ls_codvalue: 'Apartamento', description:'Apartamento'},
         {ls_codvalue: 'Casa', description:'Casa'},
@@ -118,6 +119,7 @@ export class ManagementDialog implements AfterContentChecked{
     formWorking: FormGroup;
     formChildren: FormGroup;
     formFamily: FormGroup; 
+    formSalary:FormGroup;
 
     status: any = [
         { codigo: '', nombre: 'Seleccione..' },
@@ -157,11 +159,7 @@ export class ManagementDialog implements AfterContentChecked{
                                 this.family        = data.data[5][0];
                                 this.sos           = data.data[6][0];
                                 this.endowmentData = data.data[7][0];
-                                this.children      = data.data[8];
-                                //Calcular Edad
-                                const convertAge = new Date(this.personale['birthDate']);
-                                const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-                                this.personale.age = Math.floor((timeDiff / (1000 * 3600 * 24))/365);                                
+                                this.children      = data.data[8];       
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -275,6 +273,11 @@ export class ManagementDialog implements AfterContentChecked{
         });
         this.formChildren = new FormGroup({
             lessons: new FormArray([])
+        });
+        this.formSalary = new FormGroup({
+            year: new FormControl(""),
+            salary: new FormControl(""),
+            transportation: new FormControl("")
         });
     }
 
@@ -418,8 +421,6 @@ export class ManagementDialog implements AfterContentChecked{
 
     onSubmit() {
 
-
-
         if (this.formUsuario.valid) {
             this.loading.emit(true);
             let body = {
@@ -429,7 +430,8 @@ export class ManagementDialog implements AfterContentChecked{
                 academy: this.formAcademy.value,
                 working: this.formWorking.value,
                 family: this.formFamily.value,
-                children: this.formChildren.value
+                children: this.formChildren.value,
+                salary: this.formSalary.value
             }
             this.WebApiService.postRequest(this.endpoint, body, {})
                 .subscribe(
@@ -558,6 +560,11 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formFamily.get('familyDisability').setValue(this.typefamilyinf.familyDisability);
                     this.formFamily.get('numberChildren').setValue(this.typefamilyinf.numberChildren);
                     this.formFamily.get('childrenDepends').setValue(this.typefamilyinf.childrenDepends);
+                    //Salary
+                    this.typeSalaryinfo = data.data[7][0]; 
+                    this.formSalary.get('year').setValue(this.typeSalaryinfo.year);
+                    this.formSalary.get('salary').setValue(this.typeSalaryinfo.salary);
+                    this.formSalary.get('transportation').setValue(this.typeSalaryinfo.transportation);
                     //Children
                     this.childrensinf  = data.data[6]; 
                     this.childrensinf .forEach(function(obj, index) {
@@ -597,7 +604,8 @@ export class ManagementDialog implements AfterContentChecked{
                 academy: this.formAcademy.value,
                 working: this.formWorking.value,
                 family: this.formFamily.value,
-                children: this.formChildren.value
+                children: this.formChildren.value,
+                salary: this.formSalary.value
             }
             this.loading.emit(true);
             this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{

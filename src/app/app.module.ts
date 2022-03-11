@@ -68,7 +68,6 @@ import { IngresoDialog } from './dialogs/ingresonomi/ingreso.dialog.component';
 import { NovedadesaludComponent } from './views/novedadesalud/novedadesalud.component';
 import { TemplateComponent } from './template/template.component';
 import { ProcessaludDialog } from './dialogs/processalud/processalud.dialog.component';
-
 // import { FileSaverModule } from 'ngx-filesaver';
 
 
@@ -131,7 +130,12 @@ const routes: Routes = [];
     IngresoDialog,
     NovedadesaludComponent,
     TemplateComponent,
-    ProcessaludDialog
+    ProcessaludDialog,
+    ReportProcessaludComponent,
+    ReportIncaapacidadesComponent,
+    ReportIncapasinsopComponent,
+    ReportIngresoComponent,
+    CallcenterComponent
       
   ],
   providers: [{

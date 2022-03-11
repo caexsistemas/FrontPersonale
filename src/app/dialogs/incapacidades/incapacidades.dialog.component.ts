@@ -272,28 +272,33 @@ export class IncapacidadesDialog implements OnInit {
     onSubmitUpdate(){
 
         if (this.formIncapad.valid) {
-            this.loading.emit(true);
-            let body = {
-                incapacidades: this.formIncapad.value,
-                archivoRes: this.archivo        
-            }
-            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
-            .subscribe(
-                data=>{
-                    if(data.success){
-                        this.handler.showSuccess(data.message);
-                        this.reload.emit();
-                        this.closeDialog();
-                    }else{
-                        this.handler.handlerError(data);
+            if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
+                this.loading.emit(true);
+                let body = {
+                    incapacidades: this.formIncapad.value,
+                    archivoRes: this.archivo        
+                }
+                this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+                .subscribe(
+                    data=>{
+                        if(data.success){
+                            this.handler.showSuccess(data.message);
+                            this.reload.emit();
+                            this.closeDialog();
+                        }else{
+                            this.handler.handlerError(data);
+                            this.loading.emit(false);
+                        }
+                    },
+                    error=>{
+                        this.handler.showError();
                         this.loading.emit(false);
                     }
-                },
-                error=>{
-                    this.handler.showError();
-                    this.loading.emit(false);
-                }
-            );
+                );
+            }else {
+                this.handler.showError('Por favor validar el rango de fechas');
+                this.loading.emit(false);
+            }
         } else {
             this.handler.showError('Complete la informacion necesaria');
             this.loading.emit(false);
@@ -303,31 +308,36 @@ export class IncapacidadesDialog implements OnInit {
     onSubmit() {
 
         if (this.formIncapad.valid) {
-            this.loading.emit(true);
-            let body = {
-                incapacidades: this.formIncapad.value,    
-                archivoRes: this.archivo    
-            }
-            this.WebApiService.postRequest(this.endpoint, body, {})
-                .subscribe(
-                    data => {
-                        if (data.success) {
-                           this.handler.showSuccess(data.message);
-                            this.reload.emit();
-                            this.closeDialog();
-                            console.log('vbv');
-                        } else {
-                            this.handler.handlerError(data);
+            if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
+                this.loading.emit(true);
+                let body = {
+                    incapacidades: this.formIncapad.value,    
+                    archivoRes: this.archivo    
+                }
+                this.WebApiService.postRequest(this.endpoint, body, {})
+                    .subscribe(
+                        data => {
+                            if (data.success) {
+                            this.handler.showSuccess(data.message);
+                                this.reload.emit();
+                                this.closeDialog();
+                                console.log('vbv');
+                            } else {
+                                this.handler.handlerError(data);
+                                this.loading.emit(false);
+                                console.log('yxy');
+                            }
+                        },
+                        error => {
+                            this.handler.showError();
                             this.loading.emit(false);
-                            console.log('yxy');
+                            console.log('fhf');
                         }
-                    },
-                    error => {
-                        this.handler.showError();
-                        this.loading.emit(false);
-                        console.log('fhf');
-                    }
-                )
+                    );
+            }else {
+                this.handler.showError('Por favor validar el rango de fechas');
+                this.loading.emit(false);
+            }
         } else {
             this.handler.showError('Complete la informacion necesaria');
             this.loading.emit(false);
@@ -398,7 +408,10 @@ export class IncapacidadesDialog implements OnInit {
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
         dias = dias + 1;
-        
+
+        if( dias < 0 ){
+           dias = 0;
+        }
 
         return dias;
     }

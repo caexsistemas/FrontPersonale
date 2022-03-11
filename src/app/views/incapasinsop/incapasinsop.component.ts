@@ -7,7 +7,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { IncapacidadesDialog } from '../../dialogs/incapacidades/incapacidades.dialog.component';
+import { ReportIncapasinsopComponent } from '../../dialogs/reports/incapasinsop/reports-incapasinsop.component';
 
 @Component({
   selector: 'app-incapasinsop',
@@ -36,7 +38,8 @@ export class IncapasinsopComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private matBottomSheet : MatBottomSheet) { }
 
   ngOnInit(): void {
 
@@ -66,6 +69,10 @@ export class IncapasinsopComponent implements OnInit {
           // this.handler.showError();
         }
       );
+  }
+
+  onTriggerSheetClick(){
+    this.matBottomSheet.open(ReportIncapasinsopComponent)
   }
 
   generateTable(data) {

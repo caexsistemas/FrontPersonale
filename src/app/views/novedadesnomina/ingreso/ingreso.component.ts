@@ -11,7 +11,7 @@ import { IngresoDialog } from '../../../dialogs/ingresonomi/ingreso.dialog.compo
 import { FormGroup,FormControl,Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TemplateComponent } from '../../../template/template.component';
-
+import { ReportIngresoComponent } from '../../../dialogs/reports/ingreso/reports-ingreso.component';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class IngresoComponent implements OnInit {
   }
 
   onTriggerSheetClick(){
-    this.matBottomSheet.open(TemplateComponent)
+    this.matBottomSheet.open(ReportIngresoComponent)
   }
   
   ngOnInit(): void {

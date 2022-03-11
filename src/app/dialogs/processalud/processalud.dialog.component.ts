@@ -206,6 +206,8 @@ export class ProcessaludDialog{
             this.formProces.get('idEps').setValue(exitsPersonal.idEps);
             this.formProces.get('idPension').setValue(exitsPersonal.idPension);
             this.formProces.get('coverageArl').setValue(exitsPersonal.coverageArl);
+            this.formProces.get('salario').setValue(exitsPersonal.salary);
+
         }        
     }
 
@@ -253,7 +255,6 @@ export class ProcessaludDialog{
                 this.formProces.get('idPension').setValue(data.data['getDataUpda'][0].idPension);
                 this.formProces.get('coverageArl').setValue(data.data['getDataUpda'][0].coverageArl);
                 this.formProces.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
-                //this.descargarArchivos();
                          
             },
             error => {
@@ -265,30 +266,35 @@ export class ProcessaludDialog{
 
      //Enviar Informacion
      onSubmi(){
-
+        
         if (this.formProces.valid) {
-            this.loading.emit(true);
-            let body = {
-                salud: this.formProces.value, 
-                archivoRes: this.archivo       
-            }
-            this.WebApiService.postRequest(this.endpoint, body, {})
-                .subscribe(
-                    data => {
-                        if (data.success) {
-                           this.handler.showSuccess(data.message);
-                            this.reload.emit();
-                            this.closeDialog();
-                        } else {
-                            this.handler.handlerError(data);
+            if( this.formProces.value.fechainicausen <= this.formProces.value.fechafinausen){
+                this.loading.emit(true);
+                let body = {
+                    salud: this.formProces.value, 
+                    archivoRes: this.archivo       
+                }
+                this.WebApiService.postRequest(this.endpoint, body, {})
+                    .subscribe(
+                        data => {
+                            if (data.success) {
+                            this.handler.showSuccess(data.message);
+                                this.reload.emit();
+                                this.closeDialog();
+                            } else {
+                                this.handler.handlerError(data);
+                                this.loading.emit(false);
+                            }
+                        },
+                        error => {
+                            this.handler.showError();
                             this.loading.emit(false);
                         }
-                    },
-                    error => {
-                        this.handler.showError();
-                        this.loading.emit(false);
-                    }
-                )
+                    );
+            }else {
+                this.handler.showError('Por favor validar el rango de fechas');
+                this.loading.emit(false);
+            }
         } else {
             this.handler.showError('Complete la informacion necesaria');
             this.loading.emit(false);
@@ -302,24 +308,29 @@ export class ProcessaludDialog{
             salud: this.formProces.value,
             archivoRes: this.archivo    
         }
-        this.loading.emit(true);
-        this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{})
-        .subscribe(
-            data=>{
-                if(data.success){
-                    this.handler.showSuccess(data.message);
-                    this.reload.emit();
-                    this.closeDialog();
-                }else{
-                    this.handler.handlerError(data);
+        if( this.formProces.value.fechainicausen <= this.formProces.value.fechafinausen){
+            this.loading.emit(true);
+            this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{})
+            .subscribe(
+                data=>{
+                    if(data.success){
+                        this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                    }else{
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }
+                },
+                error=>{
+                    this.handler.showError();
                     this.loading.emit(false);
                 }
-            },
-            error=>{
-                this.handler.showError();
-                this.loading.emit(false);
-            }
-        );
+            );
+        }else {
+            this.handler.showError('Por favor validar el rango de fechas');
+            this.loading.emit(false);
+        }
     }
 
     onFechaIniChange(event){
@@ -345,52 +356,13 @@ export class ProcessaludDialog{
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
         dias = dias + 1;
-    
-        this.formProces.get('numdiasincap').setValue(dias);
+        if( dias > 0 ){
+            this.formProces.get('numdiasincap').setValue(dias);
+        }else{
+            this.formProces.get('numdiasincap').setValue(0);
+        }
+        
     }
 
-    descargarArchivos(){
-
-        this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint, {
-            action: 'downloadFiles'     
-        })
-        .subscribe(
-            data => {
-                console.log(data);
-                if(data.success){
-
-                    /*const link = document.createElement("a");
-                    link.href = data.data.url;
-                    link.download = data.data.file;
-                    link.click();*/ 
-                    var linkElement = document.createElement('a');
-                    var blob = new Blob([data.data.base64], { type: 'application/octet-stream' });
-                    var url = window.URL.createObjectURL(blob);
-                
-                    linkElement.setAttribute('href', url);
-                    linkElement.setAttribute("download", data.data.file);
-                
-                    var clickEvent = new MouseEvent("click", {
-                        "view": window,
-                        "bubbles": true, 
-                        "cancelable": false
-                    });
-                
-                    linkElement.dispatchEvent(clickEvent);
-
-                    this.loading.emit(false);
-                }else{
-                   this.handler.handlerError(data);
-                   this.loading.emit(false);
-                }          
-            },
-            error => {
-                this.handler.showError(error);
-                console.log(error);
-                this.loading.emit(false);
-            }
-        );
-    }
 
 }

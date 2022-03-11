@@ -18,6 +18,7 @@ import { SelectModule } from 'ng-select';
 import { FormsModule } from '@angular/forms';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
@@ -47,6 +48,7 @@ const ngWizardConfig: NgWizardConfig = {
     SelectModule,
     FormsModule,
     AngularFileUploaderModule,
+    MatBottomSheetModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     MatFormFieldModule
