@@ -25,6 +25,7 @@ export class IncapacidadesComponent implements OnInit {
   displayedColumns: any = [];
   dataSource: any = [];
   permissions: any = null;
+  
   //Permisos
   component = "/incapacidades/gestion";
 
