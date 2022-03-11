@@ -390,8 +390,9 @@ export class IncapacidadesDialog implements OnInit {
         let now = new Date();
         let fechaAct = now.getUTCFullYear()+"-"+(now.getUTCMonth()+1)+"-"+now.getDate(); 
         let procesFecha = this.restaFechas(fechaAct, this.fechaFinInc);
+        console.log('fecha: '+fechaAct+' '+this.fechaFinInc+' Total: '+procesFecha );
         
-        if( procesFecha >= 0){
+        if( procesFecha > 0){
             this.formIncapad.get('estadincapad').setValue('27/1');
         }else{
             this.formIncapad.get('estadincapad').setValue('27/2');
@@ -403,8 +404,8 @@ export class IncapacidadesDialog implements OnInit {
     {
         var aFecha1 = f1.split('-');
         var aFecha2 = f2.split('-');
-        var fFecha1 = Date.UTC(aFecha1[0],aFecha1[1]-1,aFecha1[2]);
-        var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
+        var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]+1,aFecha1[0]);
+        var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]+1,aFecha2[0]);
         var dif = fFecha2 - fFecha1;
         var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
         dias = dias + 1;
