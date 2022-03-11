@@ -28,6 +28,8 @@ import { StateDialog } from '../../../dialogs/state/state.dialog.component';
     displayedColumns:any  = [];
     loading:boolean = false;
     public detaState = [];
+    //Permisos
+    component = "/admin/state";
 
      @ViewChildren(MatSort) sort = new QueryList<MatSort>();
      @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -55,6 +57,7 @@ import { StateDialog } from '../../../dialogs/state/state.dialog.component';
         .subscribe(
            
             data => {
+              this.permissions = this.handler.getPermissions(this.component);
                 if (data.success == true) {
                     this.generateTable(data.data['states']);
                     this.valuestate = data.data['states'];
