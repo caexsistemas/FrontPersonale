@@ -40,6 +40,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
 import { MatInputModule }  from '@angular/material/input';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
+import { RolesComponent } from './roles/roles.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -73,7 +74,8 @@ const ngWizardConfig: NgWizardConfig = {
     NavbarsComponent,
     UsersComponent,
     ListsComponent,
-    StateComponent
+    StateComponent,
+    RolesComponent
 
 
   ]
