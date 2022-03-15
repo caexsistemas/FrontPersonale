@@ -73,6 +73,7 @@ import { ReportIncaapacidadesComponent } from './dialogs/reports/incapacidades/r
 import { ReportIncapasinsopComponent } from './dialogs/reports/incapasinsop/reports-incapasinsop.component';
 import { ReportIngresoComponent } from './dialogs/reports/ingreso/reports-ingreso.component';
 import { CallcenterComponent } from './views/callcenter/callcenter.component';
+import { RqcalidadDialog } from './dialogs/rqcalidad/rqcalidad.dialog.component';
 // import { FileSaverModule } from 'ngx-filesaver';
 
 
@@ -140,7 +141,8 @@ const routes: Routes = [];
     ReportIncaapacidadesComponent,
     ReportIncapasinsopComponent,
     ReportIngresoComponent,
-    CallcenterComponent
+    CallcenterComponent,
+    RqcalidadDialog
       
   ],
   providers: [{

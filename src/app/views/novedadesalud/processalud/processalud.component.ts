@@ -86,6 +86,7 @@ export class ProcessaludComponent implements OnInit {
    generateTable(data){
     this.displayedColumns = [
       'view', 
+      'fechageneracion',
       'document_vs',
       'idPersonale',
       'area',
