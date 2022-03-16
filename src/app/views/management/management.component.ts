@@ -180,8 +180,9 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  applyFilter(search) {
-    this.dataSource.filter = search.trim().toLowerCase();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   option(action, codigo = null) {

@@ -24,16 +24,19 @@ export interface PeriodicElement {
 })
 export class RqcalidadDialog  {
 
-  endpoint:      string = '/procesald';
+  endpoint:      string = '/rqcalidad';
   maskDNI        = global.maskDNI;
   view:          string = null;
   title:         string = null;
   formProces:    FormGroup;
   idPam:         number = null;
   displayedColumns:any  = [];
-  historyMon: any = [];
-  dataCad:     any = []; 
+  historyMon:    any = [];
+  dataCad:       any = []; 
   public clickedRows;
+  lisTipogesCla: any = [];
+  lisTiporedCla: any = [];
+  lisCalifica:   any = [];
 
   archivo = {
     nombre: null,
@@ -197,17 +200,36 @@ export class RqcalidadDialog  {
     this.clickedRows = new Set<PeriodicElement>();
   }
 
+  //Acording
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
   getDataInit(){
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
-        action: 'getParamView',
+        action: 'getParamPrew',
     })
     .subscribe(
        
         data => {
             if (data.success == true) {
                 //DataInfo
+                this.lisTipogesCla = data.data['tipgescla'];
+                this.lisTiporedCla = data.data['tipredcla'];
+                this.lisCalifica   = data.data['califclaro'];
 
+                console.log(data.data);
               if (this.view == 'update') {
                 //this.getDataUpdate();
               }

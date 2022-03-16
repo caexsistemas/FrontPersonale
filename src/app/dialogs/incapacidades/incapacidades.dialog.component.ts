@@ -391,7 +391,7 @@ export class IncapacidadesDialog implements OnInit {
         let now = new Date();
         let fechaAct = now.getUTCFullYear()+"-"+(now.getUTCMonth()+1)+"-"+now.getDate(); 
         let procesFecha = this.restaFechas(fechaAct, this.fechaFinInc);
-        
+
         if( procesFecha > 0){
             this.formIncapad.get('estadincapad').setValue('27/1');
         }else{
