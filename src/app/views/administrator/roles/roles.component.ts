@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { UserServices } from '../../../services/user.service';
+import { RoleDialog } from '../../../dialogs/role/role.dialog.component';
 
 @Component({
   selector: 'app-roles',
@@ -79,6 +80,7 @@ export class RolesComponent implements OnInit {
 
   generateTable(data) {
     this.displayedColumns = [
+      'view',
       'idRole',
       'name',
       'description'
@@ -100,5 +102,33 @@ export class RolesComponent implements OnInit {
   showDetails(item) {
     this.detailRoles = item;
     this.infoModal.show();
+  }
+  option(action,codigo=null){
+
+    var dialogRef;
+    switch(action){
+
+    case 'view':
+            this.loading = true;
+            dialogRef = this.dialog.open(RoleDialog,{
+              data: {
+                window: 'view',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe(val=>{
+              this.loading = val;
+            });
+            dialogRef.afterClosed().subscribe(result => {
+              console.log('The dialog was closed');
+              console.log(result);
+            });
+        break;
+      }
+
+
+
   }
 }
