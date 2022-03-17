@@ -20,10 +20,11 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       Personal data
+                      <mat-icon>account_circle</mat-icon>
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      <mat-icon>account_circle</mat-icon>
+                      
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -155,10 +156,11 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       Atenci&oacute;n 
+                      <mat-icon>phone_in_talk</mat-icon>
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      <mat-icon>compare_arrows</mat-icon>
+                      
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -218,10 +220,11 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                     Habilidad Comercial
+                    <mat-icon>perm_phone_msg</mat-icon>
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      <mat-icon>perm_phone_msg</mat-icon>
+                      
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -272,10 +275,11 @@
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Proceso de Veta
+                        <mat-icon>attach_money</mat-icon>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        <mat-icon>attach_money</mat-icon>
+                        
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
@@ -423,10 +427,11 @@
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Cierre
+                        <mat-icon>phone_missed</mat-icon>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        <mat-icon>close</mat-icon>
+                        
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
@@ -469,7 +474,38 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                  <mat-expansion-panel  [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                    <mat-expansion-panel-header class="example-vismenu-enc">
+                      <mat-panel-title>
+                        Criticos
+                        <mat-icon>report</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Amabilidad:</mat-label>
+                                <mat-select formControlName="cri_ama" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Day of the trip

@@ -8,3 +8,12 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   .example-full-width {
     width: 100%;
   }
+
+  .example-vismenu-enc {
+    background-color: #ff6d6d;
+  }
+
+  .example-vismenu-enc:focus
+  .example-vismenu-enc:hover{
+    background-color: #ff6d6d;
+  }
