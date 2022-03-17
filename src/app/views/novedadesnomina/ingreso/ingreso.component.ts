@@ -98,7 +98,7 @@ export class IngresoComponent implements OnInit {
   generateTable(data){
     this.displayedColumns = [
       'view', 
-      'id_novedad_nc',
+      'regis_date_nc',
       'document_nc',
       'daying_nc',
       'idPersonale',

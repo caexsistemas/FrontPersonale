@@ -111,7 +111,7 @@ export class ManagementComponent implements OnInit {
     })
       .subscribe(
         response => {
-          // this.permissions = this.handler.getPermissions(this.component);
+          this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
             console.log("repo: "+response);
             this.handler.showSuccess('El archivo se cargo exitosamente');
@@ -163,6 +163,7 @@ export class ManagementComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       'view',
+      'createAt',
       'nombre',
       'documento',
       'correo',
@@ -179,8 +180,9 @@ export class ManagementComponent implements OnInit {
     }
   }
 
-  applyFilter(search) {
-    this.dataSource.filter = search.trim().toLowerCase();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   option(action, codigo = null) {

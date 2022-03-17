@@ -1,0 +1,500 @@
+<div class="card mt-6">
+    <div *ngIf="view == 'create' || view == 'update'">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'update'">Editar</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <mat-dialog-content>
+            <mat-accordion class="example-headers-align">
+                <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formProces"> 
+                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Personal data
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <!--{}-->
+                      <mat-icon>account_circle</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo Gesti&oacute;n:</mat-label>
+                                <mat-select formControlName="tipo_gestion" >
+                                    <mat-option *ngFor="let idet of lisTipogesCla" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo Red:</mat-label>
+                                <mat-select formControlName="tipo_red" >
+                                    <mat-option *ngFor="let idet of lisTiporedCla" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Cedula:</mat-label>
+                                <input matInput formControlName="document" type="number" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Login:</mat-label>
+                                <input matInput formControlName="login" type="number" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Nombre Asesor:</mat-label>
+                                <input matInput formControlName="name" type="text" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Coordinador:</mat-label>
+                                <input matInput formControlName="coordinator" type="text" >
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>TMO:</mat-label>
+                                <input matInput formControlName="tmo" type="text" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>ID llamada:</mat-label>
+                                <input matInput formControlName="call_id" type="text" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>N&uacute;mero MIN/Cuenta Hogar:</mat-label>
+                                <input matInput formControlName="min_bill" type="number" >
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Semana:</mat-label>
+                                <input matInput formControlName="week" type="text" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Analista:</mat-label>
+                                <input matInput formControlName="analyst" type="text" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Oferta:</mat-label>
+                                <input matInput formControlName="offer" type="text" >
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Fecha de Monitoreo:</mat-label>
+                                <input matInput formControlName="monitoring_date" type="date" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>Fecha de Llamada:</mat-label>
+                                <input matInput formControlName="call_date" type="date" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="ContCamp">
+                                <mat-label>Nota Fional:</mat-label>
+                                <input matInput formControlName="call_date" type="number">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                  
+                  
+                  <mat-action-row>
+                    <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                  </mat-action-row>
+
+                
+                </mat-expansion-panel>
+              
+                <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Atenci&oacute;n 
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <!--{}-->
+                      <mat-icon>compare_arrows</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Saludo:</mat-label>
+                            <mat-select formControlName="atn_sal" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Contacto Inicial:</mat-label>
+                            <mat-select formControlName="atn_cont_ini" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
+                            <mat-select formControlName="atn_ama_emp" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Gestiona los tiempos de espera:</mat-label>
+                            <mat-select formControlName="atn_gest_tim" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                  </div>
+              
+                  <mat-action-row>
+                    <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                    <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+              
+                <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    Habilidad Comercial
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <!--{}-->
+                      <mat-icon>perm_phone_msg</mat-icon>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
+                            <mat-select formControlName="hab_dej_exp_rea_preg" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Escucha Activa Para Conocer Las Necesidades Del Cliente:</mat-label>
+                            <mat-select formControlName="hab_esc_act_par_con_nec_cli" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Manejo De Objeciones:</mat-label>
+                            <mat-select formControlName="hab_man_de_obj" required>
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                  </div>
+              
+                  <mat-action-row>
+                    <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                    <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Proceso de Veta
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        <mat-icon>attach_money</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información correcta y completa del producto ofertado:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_corr_com_pro_ofer" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información Correcta Campañas Vigentes:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_corr_cam_vig" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información Correcta De Tarifas:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_corr_tar" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información Correcta De Facturación:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_corr_fac" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información correcta y completa De Portabilidad:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_corr_com_port" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información correcta Tiempos de entrega / Activacion en AC:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_corr_tie_ent_act_ac" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda información completa y correcta otras solicitudes:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_com_corr_otr_sol" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Brinda Información de otros procesos:</mat-label>
+                                <mat-select formControlName="proc_brin_inf_otr_pro" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Resalta Beneficios Todo Claro:</mat-label>
+                                <mat-select formControlName="proc_res_ben_tod_cla" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Realiza Ofrecimiento de venta Cruzada:</mat-label>
+                                <mat-select formControlName="proc_rea_ofr_ven_cru" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Realiza resumen de la gestión:</mat-label>
+                                <mat-select formControlName="proc_rea_res_ges" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                      </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Cierre
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        <mat-icon>close</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Cierre Comercial:</mat-label>
+                                <mat-select formControlName="cie_cie_com" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ofrecimientos Adicionales:</mat-label>
+                                <mat-select formControlName="cie_ofr_adi" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Despedida:</mat-label>
+                                <mat-select formControlName="cie_des" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Day of the trip
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Inform the date you wish to travel
+                        <mat-icon>date_range</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+
+              </form> 
+              </mat-accordion>
+            </mat-dialog-content>
+        </div>
+
+    </div>
+</div>

@@ -369,6 +369,7 @@ export class IncapacidadesDialog implements OnInit {
     calFechaNumReq(f1, f2){
 
         //Limite de fecha
+        
         var dias = this.restaFechas(f1, f2);
         if( dias > 0 ){
             
@@ -390,8 +391,8 @@ export class IncapacidadesDialog implements OnInit {
         let now = new Date();
         let fechaAct = now.getUTCFullYear()+"-"+(now.getUTCMonth()+1)+"-"+now.getDate(); 
         let procesFecha = this.restaFechas(fechaAct, this.fechaFinInc);
-        
-        if( procesFecha >= 0){
+
+        if( procesFecha > 0){
             this.formIncapad.get('estadincapad').setValue('27/1');
         }else{
             this.formIncapad.get('estadincapad').setValue('27/2');
@@ -403,11 +404,14 @@ export class IncapacidadesDialog implements OnInit {
     {
         var aFecha1 = f1.split('-');
         var aFecha2 = f2.split('-');
-        var fFecha1 = Date.UTC(aFecha1[0],aFecha1[1]-1,aFecha1[2]);
-        var fFecha2 = Date.UTC(aFecha2[0],aFecha2[1]-1,aFecha2[2]);
-        var dif = fFecha2 - fFecha1;
-        var dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-        dias = dias + 1;
+        var fecha1 = new Date(aFecha1[0]+'-'+aFecha1[1]+'-'+aFecha1[2]).getTime();
+        var fecha2 = new Date(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]).getTime();
+        var diff = fecha2 - fecha1;
+        let dias = 1 + (diff/(1000*60*60*24));
+        console.log(diff/(1000*60*60*24) );
+
+        console.log(aFecha1[0]+'-'+aFecha1[1]+'-'+aFecha1[2]);
+        console.log(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]);
 
         if( dias < 0 ){
            dias = 0;

@@ -28,6 +28,7 @@ export class IncapacidadesComponent implements OnInit {
   
   //Permisos
   component = "/incapacidades/gestion";
+  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -50,6 +51,8 @@ export class IncapacidadesComponent implements OnInit {
 
   sendRequest() {
     this.WebApiService.getRequest(this.endpoint, {
+      idUser: this.cuser.iduser,
+      role: this.cuser.role
     })
       .subscribe(
         response => {
@@ -64,9 +67,9 @@ export class IncapacidadesComponent implements OnInit {
           }
         },
         error => {
-          // this.loading = false;
-          // this.permissions = this.handler.getPermissions(this.component);
-          // this.handler.showError();
+          this.loading = false;
+          this.handler.showError();
+          
         }
       );
   }
@@ -78,6 +81,7 @@ export class IncapacidadesComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       'view',
+      'fechageneracion',
       'NumeroDocumeto',
       'Nombre',
       'FechaInicioAusencia',
