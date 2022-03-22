@@ -37,6 +37,39 @@ export class RqcalidadDialog  {
   lisTipogesCla: any = [];
   lisTiporedCla: any = [];
   lisCalifica:   any = [];
+  istSinoclar:   any = [];
+  listSinomr:    any = [];
+  listEscala:    any = [];
+  //Datos Generales
+  conCumpleGen:     number = 0;
+  conNoCumpGen:     number = 0;
+  conNoACumGen:     number = 0;
+  campGeneralAny:   any = [
+                          'atn_cont_ini',
+                          'atn_gest_tim',
+                          'hab_dej_exp_rea_preg',
+                          'hab_esc_act_par_con_nec_cli',
+                          'hab_man_de_obj',
+                          'proc_rea_ofr_ven_cru'
+                          ];
+  //Datos Procesos
+  conCumplePro:     number = 0;
+  conNoCumpPro:     number = 0;
+  conNoACumPro:     number = 0;
+  campProcesosAny:  any = [
+                          'proc_brin_inf_corr_com_pro_ofer',
+                          'proc_brin_inf_corr_cam_vig',
+                          'proc_brin_inf_corr_tar',
+                          'proc_brin_inf_corr_fac',
+                          'proc_brin_inf_corr_com_port',
+                          'proc_brin_inf_corr_tie_ent_act_ac',
+                          'proc_brin_inf_com_corr_otr_sol',
+                          'proc_brin_inf_otr_pro',
+                          'proc_res_ben_tod_cla',
+                          'proc_rea_res_ges',
+                          'cie_cie_com',
+                          'cie_ofr_adi'
+                          ];
 
   archivo = {
     nombre: null,
@@ -169,24 +202,24 @@ export class RqcalidadDialog  {
       tip_correctamente: new FormControl(""), 
       //Observaciones
       obs_obs: new FormControl(""), 
-      obs_asp_pos: new FormControl(""),
+      obs_asp_pos: new FormControl({ value: "", disabled: true}),
       //Aspectps Positivos
-      asp_pos_sal: new FormControl(""), 
-      asp_pos_des: new FormControl(""), 
-      asp_pos_eti_tel: new FormControl(""), 
-      asp_pos_cre_emp_con_cli: new FormControl(""), 
-      asp_pos_fel: new FormControl(""),
-      asp_pos_rea_cie_cor: new FormControl(""), 
-      asp_pos_per_man_cor: new FormControl(""),
-      asp_pos_men_ben_ofe_tod_cla: new FormControl(""), 
-      asp_pos_sol_reg_dat_tit: new FormControl(""), 
-      asp_pos_es_tol: new FormControl(""), 
-      asp_pos_bue_ton_voz: new FormControl(""), 
-      asp_pos_man_obj_cli_gen_cie: new FormControl(""), 
-      asp_pos_man_con_seg_lla: new FormControl(""), 
-      asp_pos_bri_inf_cor_ser_ofe: new FormControl(""), 
-      asp_pos_rea_lec_cor_con: new FormControl(""), 
-      asp_pos_apl_lin_mod_gana: new FormControl("")
+      asp_pos_sal: new FormControl(false), 
+      asp_pos_des: new FormControl(false), 
+      asp_pos_eti_tel: new FormControl(false), 
+      asp_pos_cre_emp_con_cli: new FormControl(false),
+      asp_pos_fel: new FormControl(false),
+      asp_pos_rea_cie_cor: new FormControl(false),
+      asp_pos_per_man_cor: new FormControl(false),
+      asp_pos_men_ben_ofe_tod_cla: new FormControl(false),
+      asp_pos_sol_reg_dat_tit: new FormControl(false),
+      asp_pos_es_tol: new FormControl(false),
+      asp_pos_bue_ton_voz: new FormControl(false),
+      asp_pos_man_obj_cli_gen_cie: new FormControl(false),
+      asp_pos_man_con_seg_lla: new FormControl(false), 
+      asp_pos_bri_inf_cor_ser_ofe: new FormControl(false),
+      asp_pos_rea_lec_cor_con: new FormControl(false),
+      asp_pos_apl_lin_mod_gana: new FormControl(false)
     });
   }
 
@@ -228,6 +261,9 @@ export class RqcalidadDialog  {
                 this.lisTipogesCla = data.data['tipgescla'];
                 this.lisTiporedCla = data.data['tipredcla'];
                 this.lisCalifica   = data.data['califclaro'];
+                this.istSinoclar   = data.data['snclaro'];
+                this.listSinomr    = data.data['sntipica'];
+                this.listEscala    = data.data['escalaclaro'];
 
                 console.log(data.data);
               if (this.view == 'update') {
@@ -248,6 +284,72 @@ export class RqcalidadDialog  {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  validcheked(){
+
+    this.conCumpleGen = 0;
+    this.conNoCumpGen = 0;
+    this.conNoACumGen = 0;
+    //
+    this.conCumplePro = 0;
+    this.conNoCumpPro = 0;
+    this.conNoACumPro = 0;
+
+    for (const field in this.formProces.controls) { 
+        
+      //Contador General
+      if( this.campGeneralAny.indexOf(field) !== -1 ){
+
+        if( this.formProces.controls[field].value == '34/1'){
+          this.conCumpleGen = this.conCumpleGen + 1;
+        }
+        if( this.formProces.controls[field].value == '34/2'){
+          this.conNoCumpGen = this.conNoCumpGen + 1;
+        }
+        if( this.formProces.controls[field].value == '34/3'){
+          this.conNoACumGen = this.conNoACumGen + 1;
+        }
+      }
+
+      //Contador Procesos
+      if( this.campProcesosAny.indexOf(field) !== -1 ){
+
+        if( this.formProces.controls[field].value == '34/1'){
+          this.conCumplePro = this.conCumplePro + 1;
+        }
+        if( this.formProces.controls[field].value == '34/2'){
+          this.conNoCumpPro = this.conNoCumpPro + 1;
+        }
+        if( this.formProces.controls[field].value == '34/3'){
+          this.conNoACumPro = this.conNoACumPro + 1;
+        }
+      }
+        
+    }
+    //General
+    let totaltrein;
+    let totalfinaGen;
+    totaltrein = this.conCumpleGen / (this.conCumpleGen + this.conNoCumpGen);
+    //Procesos
+    let totaltreproc;
+    let totalfinProc
+    totaltreproc = this.conCumplePro / (this.conCumplePro + this.conNoCumpPro);
+    //Total Puntaje
+    totalfinaGen = totaltrein * 30;
+    totalfinProc = totaltreproc * 70;
+
+    if( totalfinaGen >= 0 && totalfinProc >= 0 ){
+      let TotalPuntaj = totalfinaGen + totalfinProc;
+      this.formProces.get('final_note').setValue(Math.round(TotalPuntaj));
+    }else if( totalfinaGen >= 0 ){
+      this.formProces.get('final_note').setValue(Math.round(totalfinaGen));
+    }else if(totalfinProc >= 0){
+      this.formProces.get('final_note').setValue(Math.round(totalfinProc));
+    }else{
+      this.formProces.get('final_note').setValue(Math.round(0));
+    }      
+
   }
 
 }

@@ -10,10 +10,21 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   }
 
   .example-vismenu-enc {
-    background-color: #ff6d6d;
+    background-color: #ff6d6d !important;
   }
 
-  .example-vismenu-enc:focus
+  .example-vismenu-enc:focus{
+    background-color: #ff6d6d !important;
+  }
+
   .example-vismenu-enc:hover{
-    background-color: #ff6d6d;
+    background-color: #f68b8b !important;
+  }
+
+  .example-section {
+    margin: 12px 0;
+  }
+
+  .pp{
+    white-space: pre-line !important;
   }
