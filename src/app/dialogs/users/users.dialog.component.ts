@@ -74,6 +74,7 @@ export class UsersDialog {
                         data => {
                             if (data.success == true) {
                                 this.usuario = data.data[0];
+                                console.log(this.usuario);
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
