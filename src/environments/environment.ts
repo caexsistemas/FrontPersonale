@@ -8,7 +8,7 @@ export const environment = {
   production: false,
 
      url: 'http://127.0.0.1:8000/api',
-     baseUrl: 'http://localhost:4200',
+     baseUrl: 'http://localhost:4200'
     //url: "http://192.168.0.10/BackPersonale/api"
 
 

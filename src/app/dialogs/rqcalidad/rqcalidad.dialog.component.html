@@ -19,11 +19,12 @@
 
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      Personal data
+                      Personal data  &nbsp; &nbsp;
+                      <mat-icon>account_circle</mat-icon>
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      <mat-icon>account_circle</mat-icon>
+                      
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -137,7 +138,7 @@
                         <div class="col-sm-4">
                             <mat-form-field class="ContCamp">
                                 <mat-label>Nota Fional:</mat-label>
-                                <input matInput formControlName="call_date" type="number">
+                                <input matInput formControlName="final_note" type="number">
                             </mat-form-field>
                         </div>
                     </div>
@@ -154,11 +155,12 @@
                 <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      Atenci&oacute;n 
+                      Atenci&oacute;n   &nbsp; &nbsp;
+                      <mat-icon>phone_in_talk</mat-icon>
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      <mat-icon>compare_arrows</mat-icon>
+                      
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -176,7 +178,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Contacto Inicial:</mat-label>
-                            <mat-select formControlName="atn_cont_ini" required>
+                            <mat-select formControlName="atn_cont_ini" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -186,7 +188,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
-                            <mat-select formControlName="atn_ama_emp" required>
+                            <mat-select formControlName="atn_ama_emp" required >
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -199,7 +201,7 @@
                     <div class="col-sm-12">
                         <mat-form-field class="example-full-width">
                             <mat-label>Gestiona los tiempos de espera:</mat-label>
-                            <mat-select formControlName="atn_gest_tim" required>
+                            <mat-select formControlName="atn_gest_tim" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -217,11 +219,12 @@
                 <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                    Habilidad Comercial
+                    Habilidad Comercial  &nbsp; &nbsp;
+                    <mat-icon>perm_phone_msg</mat-icon>
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      <mat-icon>perm_phone_msg</mat-icon>
+                      
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -229,7 +232,7 @@
                     <div class="col-sm-12">
                         <mat-form-field class="example-full-width">
                             <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
-                            <mat-select formControlName="hab_dej_exp_rea_preg" required>
+                            <mat-select formControlName="hab_dej_exp_rea_preg" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -241,7 +244,7 @@
                     <div class="col-sm-12">
                         <mat-form-field class="example-full-width">
                             <mat-label>Escucha Activa Para Conocer Las Necesidades Del Cliente:</mat-label>
-                            <mat-select formControlName="hab_esc_act_par_con_nec_cli" required>
+                            <mat-select formControlName="hab_esc_act_par_con_nec_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -253,7 +256,7 @@
                     <div class="col-sm-12">
                         <mat-form-field class="example-full-width">
                             <mat-label>Manejo De Objeciones:</mat-label>
-                            <mat-select formControlName="hab_man_de_obj" required>
+                            <mat-select formControlName="hab_man_de_obj" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -271,11 +274,12 @@
                 <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
-                        Proceso de Veta
+                        Proceso de Veta  &nbsp; &nbsp;
+                        <mat-icon>attach_money</mat-icon>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        <mat-icon>attach_money</mat-icon>
+                        
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
@@ -283,7 +287,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información correcta y completa del producto ofertado:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_com_pro_ofer" required>
+                                <mat-select formControlName="proc_brin_inf_corr_com_pro_ofer" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -295,7 +299,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información Correcta Campañas Vigentes:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_cam_vig" required>
+                                <mat-select formControlName="proc_brin_inf_corr_cam_vig" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -307,7 +311,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información Correcta De Tarifas:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_tar" required>
+                                <mat-select formControlName="proc_brin_inf_corr_tar" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -319,7 +323,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información Correcta De Facturación:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_fac" required>
+                                <mat-select formControlName="proc_brin_inf_corr_fac" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -331,7 +335,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información correcta y completa De Portabilidad:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_com_port" required>
+                                <mat-select formControlName="proc_brin_inf_corr_com_port" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -343,7 +347,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información correcta Tiempos de entrega / Activacion en AC:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_tie_ent_act_ac" required>
+                                <mat-select formControlName="proc_brin_inf_corr_tie_ent_act_ac" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -355,7 +359,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información completa y correcta otras solicitudes:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_com_corr_otr_sol" required>
+                                <mat-select formControlName="proc_brin_inf_com_corr_otr_sol" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -367,7 +371,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda Información de otros procesos:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_otr_pro" required>
+                                <mat-select formControlName="proc_brin_inf_otr_pro" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -379,7 +383,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Resalta Beneficios Todo Claro:</mat-label>
-                                <mat-select formControlName="proc_res_ben_tod_cla" required>
+                                <mat-select formControlName="proc_res_ben_tod_cla" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -391,7 +395,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Realiza Ofrecimiento de venta Cruzada:</mat-label>
-                                <mat-select formControlName="proc_rea_ofr_ven_cru" required>
+                                <mat-select formControlName="proc_rea_ofr_ven_cru" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -404,7 +408,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Realiza resumen de la gestión:</mat-label>
-                                <mat-select formControlName="proc_rea_res_ges" required>
+                                <mat-select formControlName="proc_rea_res_ges" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -422,11 +426,12 @@
                   <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
-                        Cierre
+                        Cierre  &nbsp; &nbsp;
+                        <mat-icon>call_end</mat-icon>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        <mat-icon>close</mat-icon>
+                        
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
@@ -434,7 +439,7 @@
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Cierre Comercial:</mat-label>
-                                <mat-select formControlName="cie_cie_com" required>
+                                <mat-select formControlName="cie_cie_com" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -444,7 +449,7 @@
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Ofrecimientos Adicionales:</mat-label>
-                                <mat-select formControlName="cie_ofr_adi" required>
+                                <mat-select formControlName="cie_ofr_adi" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -469,24 +474,387 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
-                    <mat-expansion-panel-header>
+                  <mat-expansion-panel  [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                    <mat-expansion-panel-header class="example-vismenu-enc">
                       <mat-panel-title>
-                        Day of the trip
+                        Criticos &nbsp; &nbsp;
+                        <mat-icon>report</mat-icon>
                       </mat-panel-title>
                       <mat-panel-description>
-                        Inform the date you wish to travel
-                        <mat-icon>date_range</mat-icon>
+                        <!--{}-->
+                        
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
                     <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Amabilidad:</mat-label>
+                                <mat-select formControlName="cri_ama" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Uso correcto Todo Claro:</mat-label>
+                                <mat-select formControlName="cri_uso_corr_tod_cla" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Abandono de llamada:</mat-label>
+                                <mat-select formControlName="cri_aba_lla" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Realiza La Devolución De Llamada:</mat-label>
+                                <mat-select formControlName="cri_rea_dev_lla" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Guion tratamiento de datos:</mat-label>
+                                <mat-select formControlName="cri_gui_tra_dat" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Validación de Titularidad:</mat-label>
+                                <mat-select formControlName="cri_val_tit" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Valida Correctamente Cobertura:</mat-label>
+                                <mat-select formControlName="cri_val_cor_cob" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Falsa Expectativa / Malas Practicas:</mat-label>
+                                <mat-select formControlName="cri_fal_exp_mal_pra" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
 
+                  <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Sim/Afinidad/Escala &nbsp; &nbsp;
+                        <mat-icon>rate_review</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Prepago:</mat-label>
+                                <mat-select formControlName="ns_pre" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Todo Claro:</mat-label>
+                                <mat-select formControlName="ns_tod_cla" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Power:</mat-label>
+                                <mat-select formControlName="ns_pow" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Sim Adquirida:</mat-label>
+                                <mat-select formControlName="ns_sim_adq" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Afinidad Todo Claro:</mat-label>
+                                <mat-select formControlName="ns_afi_tod_cla" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Validacion Identidad:</mat-label>
+                                <mat-select formControlName="ns_val_ide" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Saludo:</mat-label>
+                                <mat-select formControlName="ns_esc_sal" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Amabilidad:</mat-label>
+                                <mat-select formControlName="ns_esc_ama" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Despedida:</mat-label>
+                                <mat-select formControlName="ns_esc_des" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Lectura De Contrato:</mat-label>
+                                <mat-select formControlName="ns_lec_con" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Clausula De Permanencia:</mat-label>
+                                <mat-select formControlName="ns_cla_per" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ofrecimiento Escalonado:</mat-label>
+                                <mat-select formControlName="ns_ofr_esc" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
                 
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                        <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Tipificacion  &nbsp; &nbsp;
+                        <mat-icon>business_center</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipificacion registrada en MIND:</mat-label>
+                                <mat-select formControlName="tip_reg_min" required (selectionChange)="onSelectLabor()">
+                                    <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipificaci&oacute;n  correcta:</mat-label>
+                                <mat-select formControlName="tip_correcta" required (selectionChange)="onSelectLabor()">
+                                    <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width ContCamp">
+                                <mat-label>Tipifica correctamente?:</mat-label>
+                                <mat-select formControlName="tip_correctamente" required>
+                                    <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Observacion/Aspectos Positivos &nbsp; &nbsp;
+                        <mat-icon>assignment</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Observación:</mat-label>
+                                <textarea matInput formControlName="obs_obs" placeholder="" ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <section class="example-section" >
+                                <h6>Aspectos Positivos:</h6>
+                                <p><mat-checkbox formControlName="asp_pos_sal" [color]="'primary'" (change)="validAsPect()">Saludo</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_des" [color]="'primary'" (change)="validAsPect()">Despedida</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_eti_tel" [color]="'primary'" (change)="validAsPect()">Etiqueta telefonica</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_cre_emp_con_cli" [color]="'primary'" (change)="validAsPect()">Crear empatia con <br>el cliente</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_fel" [color]="'primary'" (change)="validAsPect()">Felicitaciones</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_cie_cor" [color]="'primary'" (change)="validAsPect()">Realiza cierres correctos</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_per_man_cor" [color]="'primary'" (change)="validAsPect()">Perfila de manera <br>correcta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" (change)="validAsPect()">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_sol_reg_dat_tit" [color]="'primary'" (change)="validAsPect()">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
+                              </section>
+                        </div>
+                        <div class="col-md-6">
+                            <section class="example-section" >
+                                <h6></h6>
+                                <p><mat-checkbox formControlName="asp_pos_es_tol" [color]="'primary'"(change)="validAsPect()">Es tolerante</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bue_ton_voz" [color]="'primary'" (change)="validAsPect()">Buen tono de voz</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_obj_cli_gen_cie" [color]="'primary'" (change)="validAsPect()">Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_con_seg_lla" [color]="'primary'" (change)="validAsPect()">Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" (change)="validAsPect()">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_lec_cor_con" [color]="'primary'" (change)="validAsPect()">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_apl_lin_mod_gana" [color]="'primary'" (change)="validAsPect()">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
+                              </section>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Aspectos Positivos:</mat-label>
+                                <textarea matInput formControlName="obs_asp_pos" class="color-text-Area" placeholder="" ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="setStep(0)">End</button>
                     </mat-action-row>
                   </mat-expansion-panel>
 

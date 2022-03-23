@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -118,6 +119,7 @@ const routes: Routes = [];
     MatGridListModule,
     MatListModule,
     MatSidenavModule,
+    MatCheckboxModule
     // FileSaverModule
     
   ],
