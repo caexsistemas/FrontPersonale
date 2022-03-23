@@ -75,6 +75,7 @@ import { ReportIncapasinsopComponent } from './dialogs/reports/incapasinsop/repo
 import { ReportIngresoComponent } from './dialogs/reports/ingreso/reports-ingreso.component';
 import { CallcenterComponent } from './views/callcenter/callcenter.component';
 import { RqcalidadDialog } from './dialogs/rqcalidad/rqcalidad.dialog.component';
+
 // import { FileSaverModule } from 'ngx-filesaver';
 
 
