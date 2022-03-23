@@ -25,6 +25,6 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
     margin: 12px 0;
   }
 
-  .pp{
-    white-space: pre-line !important;
+  .color-text-Area{
+    color: rgb(0 0 0 / 89%);
   }

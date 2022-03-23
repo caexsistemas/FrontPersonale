@@ -490,7 +490,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Amabilidad:</mat-label>
-                                <mat-select formControlName="cri_ama" required>
+                                <mat-select formControlName="cri_ama" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -502,7 +502,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Uso correcto Todo Claro:</mat-label>
-                                <mat-select formControlName="cri_uso_corr_tod_cla" required>
+                                <mat-select formControlName="cri_uso_corr_tod_cla" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -514,7 +514,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Abandono de llamada:</mat-label>
-                                <mat-select formControlName="cri_aba_lla" required>
+                                <mat-select formControlName="cri_aba_lla" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -526,7 +526,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Realiza La Devolución De Llamada:</mat-label>
-                                <mat-select formControlName="cri_rea_dev_lla" required>
+                                <mat-select formControlName="cri_rea_dev_lla" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -538,7 +538,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Guion tratamiento de datos:</mat-label>
-                                <mat-select formControlName="cri_gui_tra_dat" required>
+                                <mat-select formControlName="cri_gui_tra_dat" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -550,7 +550,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Validación de Titularidad:</mat-label>
-                                <mat-select formControlName="cri_val_tit" required>
+                                <mat-select formControlName="cri_val_tit" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -562,7 +562,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Valida Correctamente Cobertura:</mat-label>
-                                <mat-select formControlName="cri_val_cor_cob" required>
+                                <mat-select formControlName="cri_val_cor_cob" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -574,7 +574,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Falsa Expectativa / Malas Practicas:</mat-label>
-                                <mat-select formControlName="cri_fal_exp_mal_pra" required>
+                                <mat-select formControlName="cri_fal_exp_mal_pra" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -754,7 +754,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificacion registrada en MIND:</mat-label>
-                                <mat-select formControlName="tip_reg_min" required>
+                                <mat-select formControlName="tip_reg_min" required (selectionChange)="onSelectLabor()">
                                     <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -766,7 +766,7 @@
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificaci&oacute;n  correcta:</mat-label>
-                                <mat-select formControlName="tip_correcta" required>
+                                <mat-select formControlName="tip_correcta" required (selectionChange)="onSelectLabor()">
                                     <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -776,7 +776,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <mat-form-field class="example-full-width">
+                            <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Tipifica correctamente?:</mat-label>
                                 <mat-select formControlName="tip_correctamente" required>
                                     <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
@@ -809,7 +809,7 @@
                         <div class="col-md-12">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Observación:</mat-label>
-                                <textarea matInput formControlName="obs_obs" placeholder="" required="{{requidSopo}}"></textarea>
+                                <textarea matInput formControlName="obs_obs" placeholder="" ></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -818,27 +818,27 @@
                         <div class="col-sm-6">
                             <section class="example-section" >
                                 <h6>Aspectos Positivos:</h6>
-                                <p><mat-checkbox formControlName="asp_pos_sal" [color]="'primary'">Pepperoni</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_des" [color]="'primary'">Despedida</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_eti_tel" [color]="'primary'">Etiqueta telefonica</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_cre_emp_con_cli" [color]="'primary'">Crear empatia con <br>el cliente</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_fel" [color]="'primary'">Felicitaciones</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_rea_cie_cor" [color]="'primary'">Realiza cierres correctos</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_per_man_cor" [color]="'primary'">Perfila de manera <br>correcta</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_men_ben_ofe_tod_cla" [color]="'primary'">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_sol_reg_dat_tit" [color]="'primary'">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
+                                <p><mat-checkbox formControlName="asp_pos_sal" [color]="'primary'" (change)="validAsPect()">Saludo</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_des" [color]="'primary'" (change)="validAsPect()">Despedida</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_eti_tel" [color]="'primary'" (change)="validAsPect()">Etiqueta telefonica</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_cre_emp_con_cli" [color]="'primary'" (change)="validAsPect()">Crear empatia con <br>el cliente</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_fel" [color]="'primary'" (change)="validAsPect()">Felicitaciones</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_cie_cor" [color]="'primary'" (change)="validAsPect()">Realiza cierres correctos</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_per_man_cor" [color]="'primary'" (change)="validAsPect()">Perfila de manera <br>correcta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" (change)="validAsPect()">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_sol_reg_dat_tit" [color]="'primary'" (change)="validAsPect()">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
                               </section>
                         </div>
                         <div class="col-md-6">
                             <section class="example-section" >
                                 <h6></h6>
-                                <p><mat-checkbox formControlName="asp_pos_es_tol" [color]="'primary'">Es tolerante</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_bue_ton_voz" [color]="'primary'">Buen tono de voz</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_man_obj_cli_gen_cie" [color]="'primary'">Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_man_con_seg_lla" [color]="'primary'">Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_rea_lec_cor_con" [color]="'primary'">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_apl_lin_mod_gana" [color]="'primary'">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_es_tol" [color]="'primary'"(change)="validAsPect()">Es tolerante</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bue_ton_voz" [color]="'primary'" (change)="validAsPect()">Buen tono de voz</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_obj_cli_gen_cie" [color]="'primary'" (change)="validAsPect()">Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_con_seg_lla" [color]="'primary'" (change)="validAsPect()">Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" (change)="validAsPect()">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_lec_cor_con" [color]="'primary'" (change)="validAsPect()">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_apl_lin_mod_gana" [color]="'primary'" (change)="validAsPect()">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
                               </section>
                         </div>
                     </div>
@@ -847,7 +847,7 @@
                         <div class="col-md-12">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Aspectos Positivos:</mat-label>
-                                <textarea matInput formControlName="obs_asp_pos" class="ContCamp" placeholder="" ></textarea>
+                                <textarea matInput formControlName="obs_asp_pos" class="color-text-Area" placeholder="" ></textarea>
                             </mat-form-field>
                         </div>
                     </div>

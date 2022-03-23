@@ -70,6 +70,20 @@ export class RqcalidadDialog  {
                           'cie_cie_com',
                           'cie_ofr_adi'
                           ];
+  //Datos Criticos
+  contCriticos:     number = 0;
+  cammpCriticoAny:  any = [
+                          'cri_ama',
+                          'cri_uso_corr_tod_cla',
+                          'cri_aba_lla',
+                          'cri_rea_dev_lla',
+                          'cri_gui_tra_dat',
+                          'cri_val_tit',
+                          'cri_val_cor_cob',
+                          'cri_fal_exp_mal_pra'
+                          ];
+  //Observacion
+  observAspect:     string = "";
 
   archivo = {
     nombre: null,
@@ -132,6 +146,7 @@ export class RqcalidadDialog  {
     this.getDataInit();
     this.formProces = new FormGroup({
       createUser: new FormControl(this.cuser.iduser),
+      matrizarp: new FormControl(""),
       tipo_gestion: new FormControl(""),
       tipo_red: new FormControl(""),
       document: new FormControl(""),
@@ -202,7 +217,7 @@ export class RqcalidadDialog  {
       tip_correctamente: new FormControl(""), 
       //Observaciones
       obs_obs: new FormControl(""), 
-      obs_asp_pos: new FormControl({ value: "", disabled: true}),
+      obs_asp_pos: new FormControl({value:"", disabled:true}),
       //Aspectps Positivos
       asp_pos_sal: new FormControl(false), 
       asp_pos_des: new FormControl(false), 
@@ -287,14 +302,16 @@ export class RqcalidadDialog  {
   }
 
   validcheked(){
-
+    //General
     this.conCumpleGen = 0;
     this.conNoCumpGen = 0;
     this.conNoACumGen = 0;
-    //
+    //Procesos
     this.conCumplePro = 0;
     this.conNoCumpPro = 0;
     this.conNoACumPro = 0;
+    //Criticos
+    this.contCriticos = 0;
 
     for (const field in this.formProces.controls) { 
         
@@ -325,6 +342,14 @@ export class RqcalidadDialog  {
           this.conNoACumPro = this.conNoACumPro + 1;
         }
       }
+
+      //Contador Criticos
+      if( this.cammpCriticoAny.indexOf(field) !== -1 ){
+
+        if( this.formProces.controls[field].value == '34/2'){
+          this.contCriticos = this.contCriticos + 1;
+        }
+      }
         
     }
     //General
@@ -339,7 +364,9 @@ export class RqcalidadDialog  {
     totalfinaGen = totaltrein * 30;
     totalfinProc = totaltreproc * 70;
 
-    if( totalfinaGen >= 0 && totalfinProc >= 0 ){
+    if( this.contCriticos >= 1 ){
+      this.formProces.get('final_note').setValue(Math.round(0));
+    }else if( totalfinaGen >= 0 && totalfinProc >= 0 ){
       let TotalPuntaj = totalfinaGen + totalfinProc;
       this.formProces.get('final_note').setValue(Math.round(TotalPuntaj));
     }else if( totalfinaGen >= 0 ){
@@ -350,6 +377,69 @@ export class RqcalidadDialog  {
       this.formProces.get('final_note').setValue(Math.round(0));
     }      
 
+  }
+
+  onSelectLabor(){
+
+    if( this.formProces.value.tip_reg_min == this.formProces.value.tip_correcta ){
+      this.formProces.get('tip_correctamente').setValue('17/1');
+    }else{
+      this.formProces.get('tip_correctamente').setValue('17/0');
+    }
+  }
+
+  validAsPect(){
+    this.observAspect = "";
+    if(this.formProces.value.asp_pos_sal == true){
+      this.observAspect = this.observAspect + "Realiza saludo de manera correcta. * ";
+    }
+    if(this.formProces.value.asp_pos_des == true){
+      this.observAspect = this.observAspect + "Se despide siguiendo los lineaminetos de la campaña * ";
+    }
+    if(this.formProces.value.asp_pos_eti_tel == true){
+      this.observAspect = this.observAspect + "Hace uso adecuado de etiqueta telefónica y es cortes con el cliente. * ";
+    }
+    if(this.formProces.value.asp_pos_cre_emp_con_cli == true){
+      this.observAspect = this.observAspect + "Crea empatía con el cliente en el trascurso de la llamada. * ";
+    }
+    if(this.formProces.value.asp_pos_fel == true){
+      this.observAspect = this.observAspect + "Felicitaciones por tu buena gestión. * ";
+    }
+    if(this.formProces.value.asp_pos_rea_cie_cor == true){
+      this.observAspect = this.observAspect + "Maneja cierres/precierres comerciales de manera adecuada. * ";
+    }
+    if(this.formProces.value.asp_pos_per_man_cor == true){
+      this.observAspect = this.observAspect + "Perfila de manera correcta al cliente, realizando preguntas filtro que identifique la necesidad * ";
+    }
+    if(this.formProces.value.asp_pos_men_ben_ofe_tod_cla == true){
+      this.observAspect = this.observAspect + "Menciona beneficios de la oferta Todo Claro. * ";
+    }
+    if(this.formProces.value.asp_pos_sol_reg_dat_tit == true){
+      this.observAspect = this.observAspect + "Solicita y registra los datos del titular de manera adecuada. * ";
+    }
+    if(this.formProces.value.asp_pos_es_tol == true){
+      this.observAspect = this.observAspect + "Es tolerante con el cliente en todo momento. * ";
+    }
+    if(this.formProces.value.asp_pos_bue_ton_voz == true){
+      this.observAspect = this.observAspect + "Mantiene un buen tono de voz. * ";
+    }
+    if(this.formProces.value.asp_pos_man_obj_cli_gen_cie == true){
+      this.observAspect = this.observAspect + "Maneja objeciones informando los beneficios y ventajas de los servicios ofertados. * ";
+    }
+    if(this.formProces.value.asp_pos_man_con_seg_lla == true){
+      this.observAspect = this.observAspect + "El asesor mantiene concentración y seguridad en la llamada. * ";
+    }
+    if(this.formProces.value.asp_pos_bri_inf_cor_ser_ofe == true){
+      this.observAspect = this.observAspect + "Suministra información correcta durante la llamada. * ";
+    }
+    if(this.formProces.value.asp_pos_rea_lec_cor_con == true){
+      this.observAspect = this.observAspect + "Realiza la lectura correcta del contrato, sin omitir, abreviar o agregar partes. * ";
+    }
+    if(this.formProces.value.asp_pos_apl_lin_mod_gana == true){
+      this.observAspect = this.observAspect + "Aplica los lineamientos del modelo G.A.N.A. * ";
+    }
+
+    this.formProces.get('obs_asp_pos').setValue(this.observAspect);
   }
 
 }
