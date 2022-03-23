@@ -54,6 +54,8 @@ export class RoleDialog {
   //loading: boolean = false;
   component = "/admin/roles";
   dataSource: any = [];
+  RolInfo: any[];
+  formLista: FormGroup;
 
   role: any = [];
   formRole: FormGroup;
@@ -86,13 +88,16 @@ export class RoleDialog {
     switch (this.view) {
       case "create":
         this.initFormsRole();
-        this.title = "Crear Nuevo Usuario";
-        this.idRol = this.data.codigo;
+        this.title = "Crear Nuevo Rol";
+        // this.idRol = this.data.codigo;
         break;
       case "update":
         this.initFormsRole();
-        this.title = "Actualizar Usuario";
+        //this.title = "Editar usuario";
+        this.title = "Editar usuario";
         this.idRol = this.data.codigo;
+      
+
         break;
       case "view":
         this.idRol = this.data.codigo;
@@ -128,16 +133,14 @@ export class RoleDialog {
       description: new FormControl(""),
     });
   }
-  initFormsRole(){
+  initFormsRole() {
     this.getDataInit();
     this.formCreate = new FormGroup({
       name: new FormControl(""),
-      description: new FormControl("")
+      status: new FormControl(""),
+      createdBy: new FormControl("0"),
     });
   }
-  
-
-
 
   closeDialog() {
     this.dialogRef.close();
@@ -151,60 +154,176 @@ export class RoleDialog {
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getCreate",
-    }).subscribe((data) => {
-      if (data.success == true) {
-        //DataInfo
-        this.idRol = data.data["getCreate"];
+      action: "getParamsUpdateSub",
+    }).subscribe(
+            (data) => {
+              if (data.success == true) {
+                //DataInfo
+                this.RolInfo = data.data["getDataRole"];
+                //console.log(this.RolInfo);
 
-       
-      }
-    });
+                if (this.view == 'update') {
+                    this.getDataUpdate();
+                }
+                this.loading.emit(false);
+              } else {
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+              }
+            },
+            error => {
+              this.handler.showError("Se produjo un error");
+              this.loading.emit(false);
+            }
+          );
   }
-  optionSubVal(action, codigo=null, titlelist=null){
 
-    var dialogRef;
-    switch(action){
+  getDataUpdate() {
+    this.loading.emit(true);
+    // this.WebApiService.getRequest(this.endpoint + '/' + this.idRol, {
+      
+    // })
 
-        case 'update':
-            this.loading.emit(true);
-            dialogRef = this.dialog.open(RoleDialog,{
-            data: {
-                window: 'update',
-                codigo
+    this.WebApiService.getRequest(this.endpoint, {
+      action: 'getParamsUpdate',
+      id: this.idRol
+  })
+    .subscribe(
+        data => {
+            if (data.success) {
+                this.role = data.data[0];
+
+                this.formCreate.get('name').setValue(this.role.name);
+                this.formCreate.get('status').setValue(this.role.status);
+                this.loading.emit(false);
+            } else {
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+                this.closeDialog();
             }
-            });
+        },
+        error => {
+            this.handler.showError();
             this.loading.emit(false);
+        }
+    );
+  }
+  
+  onSubmitUpdate() {
+    if( (this.formCreate.valid )){
+        let body = {
+            listas:   this.formCreate.value,
+        }
+        this.loading.emit(true);
+        this.WebApiService.putRequest(this.endpoint+'/'+this.idRol,body,{})
+        .subscribe(
+            data=>{
+                if(data.success){
+                    this.handler.showSuccess(data.message);
+                    this.reload.emit();
+                    this.closeDialog();
+                }else{
+                    this.handler.handlerError(data);
+                    this.loading.emit(false);
+                }
+            },
+            error=>{
+                this.handler.showError();
+                this.loading.emit(false);
+            }
+        );
+    }else{
+        this.handler.showError('Complete la información necesaria');
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // optionSubVal(action, codigo = null, titlelist = null) {
+  //   var dialogRef;
+  //   switch (action) {
+  //     case "update":
+  //       this.loading.emit(true);
+  //       dialogRef = this.dialog.open(RoleDialog, {
+  //         data: {
+  //           window: "update",
+  //           codigo,
+  //         },
+  //       });
+  //       this.loading.emit(false);
+  //       this.closeDialog();
+
+  //       break;
+
+  //     case "view":
+  //       this.loading.emit(true);
+  //       dialogRef = this.dialog.open(RoleDialog, {
+  //         data: {
+  //           window: "view",
+  //           codigo,
+  //           titlelist,
+  //         },
+  //       });
+  //       this.loading.emit(false);
+
+  //       break;
+
+  //     case "create":
+  //       this.loading.emit(true);
+  //       dialogRef = this.dialog.open(RoleDialog, {
+  //         data: {
+  //           window: "create",
+  //           codigo,
+  //           titlelist,
+  //         },
+  //       });
+  //       this.loading.emit(false);
+  //       this.closeDialog();
+  //       break;
+  //   }
+  // }
+
+  onSubmi() {
+    if (this.formCreate.valid) {
+      this.loading.emit(true);
+      let body = {
+        listas: this.formCreate.value,
+      };
+      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+        (data) => {
+          if (data.success) {
+            this.handler.showSuccess(data.message);
+            this.reload.emit();
             this.closeDialog();
-           
-        break;
-
-        case 'view':
-            this.loading.emit(true);
-            dialogRef = this.dialog.open(RoleDialog,{
-            data: {
-                window: 'view',
-                codigo,
-                titlelist
-            }
-            });
-            this.loading.emit(false); 
-
-        break;
-
-        case 'create':
-            this.loading.emit(true);
-            dialogRef = this.dialog.open(RoleDialog,{
-            data: {
-                window: 'create',
-                codigo,
-                titlelist
-            }
-            });
+          } else {
+            this.handler.handlerError(data);
             this.loading.emit(false);
-            this.closeDialog();
-        break;
-
+          }
+        },
+        (error) => {
+          this.handler.showError();
+          this.loading.emit(false);
+        }
+      );
+    } else {
+      this.handler.showError("Complete la informacion necesaria");
+      this.loading.emit(false);
     }
   }
 }

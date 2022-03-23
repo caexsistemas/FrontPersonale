@@ -52,7 +52,7 @@ export class RolesComponent implements OnInit {
   }
   
   sendRequest() {
-    this.WebApiService.getRequest(this.endpoint, {action:'getPrueba'
+    this.WebApiService.getRequest(this.endpoint, {//action:'getPrueba'
     })
       .subscribe(
         response => {
@@ -83,7 +83,8 @@ export class RolesComponent implements OnInit {
       'view',
       'idRole',
       'name',
-      'description'
+      'description',
+      'actions'
       
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -105,27 +106,64 @@ export class RolesComponent implements OnInit {
   }
   option(action,codigo=null){
 
-    var dialogRef;
-    switch(action){
+            var dialogRef;
+            switch(action){
 
-    case 'view':
-            this.loading = true;
-            dialogRef = this.dialog.open(RoleDialog,{
-              data: {
-                window: 'view',
-                codigo
-              }
-            });
-            dialogRef.disableClose = true;
-            // LOADING
-            dialogRef.componentInstance.loading.subscribe(val=>{
-              this.loading = val;
-            });
-            dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
-              console.log(result);
-            });
-        break;
+            case 'view':
+                    this.loading = true;
+                    dialogRef = this.dialog.open(RoleDialog,{
+                      data: {
+                        window: 'view',
+                        codigo
+                      }
+                    });
+                    dialogRef.disableClose = true;
+                    // LOADING
+                    dialogRef.componentInstance.loading.subscribe(val=>{
+                      this.loading = val;
+                    });
+                    dialogRef.afterClosed().subscribe(result => {
+                      console.log('The dialog was closed');
+                      console.log(result);
+                    });
+                break;
+                case 'create':
+                  this.loading = true;
+                  dialogRef = this.dialog.open(RoleDialog,{
+                    data: {
+                      window: 'create',
+                      codigo
+                    }
+                  });
+                  dialogRef.disableClose = true;
+                  // LOADING
+                  dialogRef.componentInstance.loading.subscribe(val=>{
+                    this.loading = val;
+                  });
+                  // RELOAD
+                  dialogRef.componentInstance.reload.subscribe(val=>{
+                    this.sendRequest();
+                  });
+              break;
+              case 'update':
+                this.loading = true;
+                dialogRef = this.dialog.open(RoleDialog, {
+                  data: {
+                    window: 'update',
+                    codigo
+                  }
+                });
+                dialogRef.disableClose = true;
+                // LOADING
+                dialogRef.componentInstance.loading.subscribe(val => {
+                  this.loading = val;
+                });
+                // RELOAD
+                dialogRef.componentInstance.reload.subscribe(val => {
+                  this.sendRequest();
+                });
+                break;
+
       }
 
 
