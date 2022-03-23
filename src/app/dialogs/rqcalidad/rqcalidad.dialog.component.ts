@@ -282,7 +282,7 @@ export class RqcalidadDialog  {
 
                 console.log(data.data);
               if (this.view == 'update') {
-                //this.getDataUpdate();
+                this.getDataUpdate();
               }
               this.loading.emit(false);
             } else {
@@ -440,6 +440,56 @@ export class RqcalidadDialog  {
     }
 
     this.formProces.get('obs_asp_pos').setValue(this.observAspect);
+  }
+
+  onSubmi(){
+      if (this.formProces.valid) {
+        this.loading.emit(true);
+        let body = {
+            pqcalidad: this.formProces.value             
+        }
+        this.WebApiService.postRequest(this.endpoint, body, {})
+            .subscribe(
+                data => {
+                    if (data.success) {
+                    this.handler.showSuccess(data.message);
+                        this.reload.emit();
+                        this.closeDialog();
+                    } else {
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }
+                },
+                error => {
+                    this.handler.showError();
+                    this.loading.emit(false);
+                }
+            );
+      }else {
+          this.handler.showError('Complete la informacion necesaria');
+          this.loading.emit(false);
+      }
+  }
+
+  getDataUpdate(){
+    
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+        action: 'getParamUpdateSet',
+        id: this.idPam
+    })
+    .subscribe(
+        data => {
+
+            //this.formProces.get('document_tr').setValue(data.data['getDataUpda'][0].document_tr);
+            
+                     
+        },
+        error => {
+            this.handler.showError();
+            this.loading.emit(false);
+        }
+    );
   }
 
 }
