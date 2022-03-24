@@ -78,12 +78,13 @@ export class RqcalidadComponent implements OnInit {
      generateTable(data){
       this.displayedColumns = [
         'view', 
-        'document',
+        'monitoring_date',
+        'login',
         'name',
-        'week',
-        'offer',
-        'call_id',
-        'call_date',
+        'coordinator',
+        'campana',
+        'tipo_gestion',
+        'final_note',
         'actions'
       ];
       this.dataSource           = new MatTableDataSource(data);
