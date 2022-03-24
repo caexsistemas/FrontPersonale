@@ -40,6 +40,7 @@ export class RqcalidadDialog  {
   istSinoclar:   any = [];
   listSinomr:    any = [];
   listEscala:    any = [];
+  listipomatriz: any = [];
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -84,6 +85,8 @@ export class RqcalidadDialog  {
                           ];
   //Observacion
   observAspect:     string = "";
+  //Tipo Matriz
+  tipMatriz:        string = "";
 
   archivo = {
     nombre: null,
@@ -217,7 +220,7 @@ export class RqcalidadDialog  {
       tip_correctamente: new FormControl(""), 
       //Observaciones
       obs_obs: new FormControl(""), 
-      obs_asp_pos: new FormControl({value:"", disabled:true}),
+      obs_asp_pos: new FormControl(""),
       //Aspectps Positivos
       asp_pos_sal: new FormControl(false), 
       asp_pos_des: new FormControl(false), 
@@ -279,8 +282,8 @@ export class RqcalidadDialog  {
                 this.istSinoclar   = data.data['snclaro'];
                 this.listSinomr    = data.data['sntipica'];
                 this.listEscala    = data.data['escalaclaro'];
-
-                console.log(data.data);
+                this.listipomatriz = data.data['tipmatriz'];
+                
               if (this.view == 'update') {
                 this.getDataUpdate();
               }
@@ -502,83 +505,112 @@ export class RqcalidadDialog  {
           //Atencion
           this.formProces.get('atn_sal').setValue(data.data['getDataUpda'][0].atn_sal);
           this.formProces.get('atn_cont_ini').setValue(data.data['getDataUpda'][0].atn_cont_ini);
+          this.formProces.get('atn_ama_emp').setValue(data.data['getDataUpda'][0].atn_ama_emp);
+          this.formProces.get('atn_gest_tim').setValue(data.data['getDataUpda'][0].atn_gest_tim);
+          //Habilidad Comercial
+          this.formProces.get('hab_dej_exp_rea_preg').setValue(data.data['getDataUpda'][0].hab_dej_exp_rea_preg);
+          this.formProces.get('hab_esc_act_par_con_nec_cli').setValue(data.data['getDataUpda'][0].hab_esc_act_par_con_nec_cli);
+          this.formProces.get('hab_man_de_obj').setValue(data.data['getDataUpda'][0].hab_man_de_obj);
+          //Proceso De Venta
+          this.formProces.get('proc_brin_inf_corr_com_pro_ofer').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_com_pro_ofer);
+          this.formProces.get('proc_brin_inf_corr_cam_vig').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_cam_vig);
+          this.formProces.get('proc_brin_inf_corr_tar').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_tar);
+          this.formProces.get('proc_brin_inf_corr_fac').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_fac);
+          this.formProces.get('proc_brin_inf_corr_com_port').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_com_port);
+          this.formProces.get('proc_brin_inf_corr_tie_ent_act_ac').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_tie_ent_act_ac);
+          this.formProces.get('proc_brin_inf_com_corr_otr_sol').setValue(data.data['getDataUpda'][0].proc_brin_inf_com_corr_otr_sol);
+          this.formProces.get('proc_brin_inf_otr_pro').setValue(data.data['getDataUpda'][0].proc_brin_inf_otr_pro);
+          this.formProces.get('proc_res_ben_tod_cla').setValue(data.data['getDataUpda'][0].proc_res_ben_tod_cla);
+          this.formProces.get('proc_rea_ofr_ven_cru').setValue(data.data['getDataUpda'][0].proc_rea_ofr_ven_cru);
+          this.formProces.get('proc_rea_res_ges').setValue(data.data['getDataUpda'][0].proc_rea_res_ges);
+          //Cierre
+          this.formProces.get('cie_cie_com').setValue(data.data['getDataUpda'][0].cie_cie_com);
+          this.formProces.get('cie_ofr_adi').setValue(data.data['getDataUpda'][0].cie_ofr_adi);
+          this.formProces.get('cie_des').setValue(data.data['getDataUpda'][0].cie_des);
+          //Criticos
+          this.formProces.get('cri_ama').setValue(data.data['getDataUpda'][0].cri_ama);
+          this.formProces.get('cri_uso_corr_tod_cla').setValue(data.data['getDataUpda'][0].cri_uso_corr_tod_cla);
+          this.formProces.get('cri_aba_lla').setValue(data.data['getDataUpda'][0].cri_aba_lla);
+          this.formProces.get('cri_rea_dev_lla').setValue(data.data['getDataUpda'][0].cri_rea_dev_lla);
+          this.formProces.get('cri_gui_tra_dat').setValue(data.data['getDataUpda'][0].cri_gui_tra_dat);
+          this.formProces.get('cri_val_tit').setValue(data.data['getDataUpda'][0].cri_val_tit);
+          this.formProces.get('cri_val_cor_cob').setValue(data.data['getDataUpda'][0].cri_val_cor_cob);
+          this.formProces.get('cri_fal_exp_mal_pra').setValue(data.data['getDataUpda'][0].cri_fal_exp_mal_pra);
+          //Fomularios sino Movil
+          if(this.tipMatriz == "40/1"){
 
+            this.formProces.get('ns_pre').setValue(data.data['getDataUpda'][0].ns_pre);
+            this.formProces.get('ns_tod_cla').setValue(data.data['getDataUpda'][0].ns_tod_cla);
+            this.formProces.get('ns_pow').setValue(data.data['getDataUpda'][0].ns_pow);
+            this.formProces.get('ns_sim_adq').setValue(data.data['getDataUpda'][0].ns_sim_adq);
+            this.formProces.get('ns_afi_tod_cla').setValue(data.data['getDataUpda'][0].ns_afi_tod_cla);
+            this.formProces.get('ns_val_ide').setValue(data.data['getDataUpda'][0].ns_val_ide);
+            this.formProces.get('ns_esc_sal').setValue(data.data['getDataUpda'][0].ns_esc_sal);
+            this.formProces.get('ns_esc_ama').setValue(data.data['getDataUpda'][0].ns_esc_ama);
+            this.formProces.get('ns_esc_des').setValue(data.data['getDataUpda'][0].ns_esc_des);
+            this.formProces.get('ns_lec_con').setValue(data.data['getDataUpda'][0].ns_lec_con);
+            this.formProces.get('ns_cla_per').setValue(data.data['getDataUpda'][0].ns_cla_per);
+            this.formProces.get('ns_ofr_esc').setValue(data.data['getDataUpda'][0].ns_ofr_esc);
+          }
 
-      /* 
-      atn_ama_emp: new FormControl(""), 
-      atn_gest_tim: new FormControl(""), 
-      //Habilidad Comercial
-      hab_dej_exp_rea_preg: new FormControl(""), 
-      hab_esc_act_par_con_nec_cli: new FormControl(""), 
-      hab_man_de_obj: new FormControl(""),
-      //Proceso De Venta
-      proc_brin_inf_corr_com_pro_ofer: new FormControl(""), 
-      proc_brin_inf_corr_cam_vig: new FormControl(""), 
-      proc_brin_inf_corr_tar: new FormControl(""), 
-      proc_brin_inf_corr_fac: new FormControl(""), 
-      proc_brin_inf_corr_com_port: new FormControl(""), 
-      proc_brin_inf_corr_tie_ent_act_ac: new FormControl(""), 
-      proc_brin_inf_com_corr_otr_sol: new FormControl(""), 
-      proc_brin_inf_otr_pro: new FormControl(""), 
-      proc_res_ben_tod_cla: new FormControl(""), 
-      proc_rea_ofr_ven_cru: new FormControl(""), 
-      proc_rea_res_ges: new FormControl(""), 
-      //Cierre
-      cie_cie_com: new FormControl(""), 
-      cie_ofr_adi: new FormControl(""), 
-      cie_des: new FormControl(""), 
-      //Criticos
-      cri_ama: new FormControl(""),
-      cri_uso_corr_tod_cla: new FormControl(""), 
-      cri_aba_lla: new FormControl(""), 
-      cri_rea_dev_lla: new FormControl(""), 
-      cri_gui_tra_dat: new FormControl(""), 
-      cri_val_tit: new FormControl(""), 
-      cri_val_cor_cob: new FormControl(""), 
-      cri_fal_exp_mal_pra: new FormControl(""), 
-      //Fomularios sino
-      ns_pre: new FormControl(""), 
-      ns_tod_cla: new FormControl(""), 
-      ns_pow: new FormControl(""), 
-      ns_sim_adq: new FormControl(""), 
-      ns_afi_tod_cla: new FormControl(""), 
-      ns_val_ide: new FormControl(""), 
-      ns_esc_sal: new FormControl(""), 
-      ns_esc_ama: new FormControl(""), 
-      ns_esc_des: new FormControl(""), 
-      ns_lec_con: new FormControl(""), 
-      ns_cla_per: new FormControl(""), 
-      ns_ofr_esc: new FormControl(""), 
-      //Tpipificacion
-      tip_reg_min: new FormControl(""), 
-      tip_correcta: new FormControl(""), 
-      tip_correctamente: new FormControl(""), 
-      //Observaciones
-      obs_obs: new FormControl(""), 
-      obs_asp_pos: new FormControl({value:"", disabled:true}),
-      //Aspectps Positivos
-      asp_pos_sal: new FormControl(false), 
-      asp_pos_des: new FormControl(false), 
-      asp_pos_eti_tel: new FormControl(false), 
-      asp_pos_cre_emp_con_cli: new FormControl(false),
-      asp_pos_fel: new FormControl(false),
-      asp_pos_rea_cie_cor: new FormControl(false),
-      asp_pos_per_man_cor: new FormControl(false),
-      asp_pos_men_ben_ofe_tod_cla: new FormControl(false),
-      asp_pos_sol_reg_dat_tit: new FormControl(false),
-      asp_pos_es_tol: new FormControl(false),
-      asp_pos_bue_ton_voz: new FormControl(false),
-      asp_pos_man_obj_cli_gen_cie: new FormControl(false),
-      asp_pos_man_con_seg_lla: new FormControl(false), 
-      asp_pos_bri_inf_cor_ser_ofe: new FormControl(false),
-      asp_pos_rea_lec_cor_con: new FormControl(false),
-      asp_pos_apl_lin_mod_gana: new FormControl(false)
-             */
-            
+          //Tpipificacion
+          this.formProces.get('tip_reg_min').setValue(data.data['getDataUpda'][0].tip_reg_min);
+          this.formProces.get('tip_correcta').setValue(data.data['getDataUpda'][0].tip_correcta);
+          this.formProces.get('tip_correctamente').setValue(data.data['getDataUpda'][0].tip_correctamente);
+          //Observaciones
+          this.formProces.get('obs_obs').setValue(data.data['getDataUpda'][0].obs_obs);
+          this.formProces.get('obs_asp_pos').setValue(data.data['getDataUpda'][0].obs_asp_pos);
+          //Aspectps Positivos
+          this.formProces.get('asp_pos_sal').setValue(data.data['getDataUpda'][0].asp_pos_sal);
+          this.formProces.get('asp_pos_des').setValue(data.data['getDataUpda'][0].asp_pos_des);
+          this.formProces.get('asp_pos_eti_tel').setValue(data.data['getDataUpda'][0].asp_pos_eti_tel);
+          this.formProces.get('asp_pos_cre_emp_con_cli').setValue(data.data['getDataUpda'][0].asp_pos_cre_emp_con_cli);
+          this.formProces.get('asp_pos_fel').setValue(data.data['getDataUpda'][0].asp_pos_fel);
+          this.formProces.get('asp_pos_rea_cie_cor').setValue(data.data['getDataUpda'][0].asp_pos_rea_cie_cor);
+          this.formProces.get('asp_pos_per_man_cor').setValue(data.data['getDataUpda'][0].asp_pos_per_man_cor);
+          this.formProces.get('asp_pos_men_ben_ofe_tod_cla').setValue(data.data['getDataUpda'][0].asp_pos_men_ben_ofe_tod_cla);
+          this.formProces.get('asp_pos_sol_reg_dat_tit').setValue(data.data['getDataUpda'][0].asp_pos_sol_reg_dat_tit);
+          this.formProces.get('asp_pos_es_tol').setValue(data.data['getDataUpda'][0].asp_pos_es_tol);
+          this.formProces.get('asp_pos_bue_ton_voz').setValue(data.data['getDataUpda'][0].asp_pos_bue_ton_voz);
+          this.formProces.get('asp_pos_man_obj_cli_gen_cie').setValue(data.data['getDataUpda'][0].asp_pos_man_obj_cli_gen_cie);
+          this.formProces.get('asp_pos_man_con_seg_lla').setValue(data.data['getDataUpda'][0].asp_pos_man_con_seg_lla);
+          this.formProces.get('asp_pos_bri_inf_cor_ser_ofe').setValue(data.data['getDataUpda'][0].asp_pos_bri_inf_cor_ser_ofe);
+          this.formProces.get('asp_pos_rea_lec_cor_con').setValue(data.data['getDataUpda'][0].asp_pos_rea_lec_cor_con);
+          this.formProces.get('asp_pos_apl_lin_mod_gana').setValue(data.data['getDataUpda'][0].asp_pos_apl_lin_mod_gana);
                      
         },
         error => {
             this.handler.showError();
+            this.loading.emit(false);
+        }
+    );
+  }
+
+  labelMatriz(event){
+    this.tipMatriz = event;
+  }
+
+  onSubmitUpdate(){
+
+    let body = {
+        salud: this.formProces.value  
+    }
+
+    this.loading.emit(true);
+    this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{})
+    .subscribe(
+        data=>{
+            if(data.success){
+                this.handler.showSuccess(data.message);
+                this.reload.emit();
+                this.closeDialog();
+            }else{
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+            }
+        },
+        error=>{
+            this.handler.showError(error);
             this.loading.emit(false);
         }
     );
