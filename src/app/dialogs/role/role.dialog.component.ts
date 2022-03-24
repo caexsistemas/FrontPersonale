@@ -192,7 +192,7 @@ export class RoleDialog {
         data => {
             if (data.success) {
                 this.role = data.data[0];
-
+                console.log(this.role);
                 this.formCreate.get('name').setValue(this.role.name);
                 this.formCreate.get('status').setValue(this.role.status);
                 this.loading.emit(false);

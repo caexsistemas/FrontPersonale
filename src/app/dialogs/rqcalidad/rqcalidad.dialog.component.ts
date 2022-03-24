@@ -481,7 +481,99 @@ export class RqcalidadDialog  {
     .subscribe(
         data => {
 
-            //this.formProces.get('document_tr').setValue(data.data['getDataUpda'][0].document_tr);
+          this.formProces.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
+          this.formProces.get('tipo_gestion').setValue(data.data['getDataUpda'][0].tipo_gestion);
+          this.formProces.get('tipo_red').setValue(data.data['getDataUpda'][0].tipo_red);
+          this.formProces.get('document').setValue(data.data['getDataUpda'][0].document);
+          this.formProces.get('login').setValue(data.data['getDataUpda'][0].login);
+          this.formProces.get('name').setValue(data.data['getDataUpda'][0].name);
+          this.formProces.get('coordinator').setValue(data.data['getDataUpda'][0].coordinator);
+          this.formProces.get('tmo').setValue(data.data['getDataUpda'][0].tmo);
+          this.formProces.get('call_id').setValue(data.data['getDataUpda'][0].call_id);
+          this.formProces.get('min_bill').setValue(data.data['getDataUpda'][0].min_bill);
+          this.formProces.get('week').setValue(data.data['getDataUpda'][0].week);
+          this.formProces.get('analyst').setValue(data.data['getDataUpda'][0].analyst);
+          this.formProces.get('offer').setValue(data.data['getDataUpda'][0].offer);
+          this.formProces.get('monitoring_date').setValue(data.data['getDataUpda'][0].monitoring_date);
+          this.formProces.get('call_date').setValue(data.data['getDataUpda'][0].call_date);
+          this.formProces.get('all_clear_offer').setValue(data.data['getDataUpda'][0].all_clear_offer);
+          this.formProces.get('final_note').setValue(data.data['getDataUpda'][0].final_note);
+          this.formProces.get('creation_date').setValue(data.data['getDataUpda'][0].creation_date);
+          //Atencion
+          this.formProces.get('atn_sal').setValue(data.data['getDataUpda'][0].atn_sal);
+          this.formProces.get('atn_cont_ini').setValue(data.data['getDataUpda'][0].atn_cont_ini);
+
+
+      /* 
+      atn_ama_emp: new FormControl(""), 
+      atn_gest_tim: new FormControl(""), 
+      //Habilidad Comercial
+      hab_dej_exp_rea_preg: new FormControl(""), 
+      hab_esc_act_par_con_nec_cli: new FormControl(""), 
+      hab_man_de_obj: new FormControl(""),
+      //Proceso De Venta
+      proc_brin_inf_corr_com_pro_ofer: new FormControl(""), 
+      proc_brin_inf_corr_cam_vig: new FormControl(""), 
+      proc_brin_inf_corr_tar: new FormControl(""), 
+      proc_brin_inf_corr_fac: new FormControl(""), 
+      proc_brin_inf_corr_com_port: new FormControl(""), 
+      proc_brin_inf_corr_tie_ent_act_ac: new FormControl(""), 
+      proc_brin_inf_com_corr_otr_sol: new FormControl(""), 
+      proc_brin_inf_otr_pro: new FormControl(""), 
+      proc_res_ben_tod_cla: new FormControl(""), 
+      proc_rea_ofr_ven_cru: new FormControl(""), 
+      proc_rea_res_ges: new FormControl(""), 
+      //Cierre
+      cie_cie_com: new FormControl(""), 
+      cie_ofr_adi: new FormControl(""), 
+      cie_des: new FormControl(""), 
+      //Criticos
+      cri_ama: new FormControl(""),
+      cri_uso_corr_tod_cla: new FormControl(""), 
+      cri_aba_lla: new FormControl(""), 
+      cri_rea_dev_lla: new FormControl(""), 
+      cri_gui_tra_dat: new FormControl(""), 
+      cri_val_tit: new FormControl(""), 
+      cri_val_cor_cob: new FormControl(""), 
+      cri_fal_exp_mal_pra: new FormControl(""), 
+      //Fomularios sino
+      ns_pre: new FormControl(""), 
+      ns_tod_cla: new FormControl(""), 
+      ns_pow: new FormControl(""), 
+      ns_sim_adq: new FormControl(""), 
+      ns_afi_tod_cla: new FormControl(""), 
+      ns_val_ide: new FormControl(""), 
+      ns_esc_sal: new FormControl(""), 
+      ns_esc_ama: new FormControl(""), 
+      ns_esc_des: new FormControl(""), 
+      ns_lec_con: new FormControl(""), 
+      ns_cla_per: new FormControl(""), 
+      ns_ofr_esc: new FormControl(""), 
+      //Tpipificacion
+      tip_reg_min: new FormControl(""), 
+      tip_correcta: new FormControl(""), 
+      tip_correctamente: new FormControl(""), 
+      //Observaciones
+      obs_obs: new FormControl(""), 
+      obs_asp_pos: new FormControl({value:"", disabled:true}),
+      //Aspectps Positivos
+      asp_pos_sal: new FormControl(false), 
+      asp_pos_des: new FormControl(false), 
+      asp_pos_eti_tel: new FormControl(false), 
+      asp_pos_cre_emp_con_cli: new FormControl(false),
+      asp_pos_fel: new FormControl(false),
+      asp_pos_rea_cie_cor: new FormControl(false),
+      asp_pos_per_man_cor: new FormControl(false),
+      asp_pos_men_ben_ofe_tod_cla: new FormControl(false),
+      asp_pos_sol_reg_dat_tit: new FormControl(false),
+      asp_pos_es_tol: new FormControl(false),
+      asp_pos_bue_ton_voz: new FormControl(false),
+      asp_pos_man_obj_cli_gen_cie: new FormControl(false),
+      asp_pos_man_con_seg_lla: new FormControl(false), 
+      asp_pos_bri_inf_cor_ser_ofe: new FormControl(false),
+      asp_pos_rea_lec_cor_con: new FormControl(false),
+      asp_pos_apl_lin_mod_gana: new FormControl(false)
+             */
             
                      
         },
