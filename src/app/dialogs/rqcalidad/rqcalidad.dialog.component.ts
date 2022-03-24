@@ -50,11 +50,13 @@ export class RqcalidadDialog  {
                           'atn_cont_ini',
                           'atn_gest_tim',
                           'hab_dej_exp_rea_preg',
-                          
+                          'hab_esc_act_par_con_nec_cli',
                           'hab_man_de_obj',
                           'proc_rea_ofr_ven_cru',
                           'tyt_hab_com_met_pag',
-                          'tyt_cie_cod'
+                          'tyt_cie_cod',
+                          'tyt_ate_ama_emp' 
+                      
                           ];
   //Datos Procesos
   conCumplePro:     number = 0;
@@ -78,7 +80,9 @@ export class RqcalidadDialog  {
                           'tyt_pro_ven_bri_inf_cor_ben_ban_vig',
                           'tyt_pro_ven_bri_inf_cor_ent_equ',
                           'tyt_cie_rea_res_ges',
-                          'hab_esc_act_par_con_nec_cli'
+                          'tyt_hab_com_esc_act_par_con_nec_cli',
+                          'tyt_hab_com_man_obj'
+                          
                           ];
   //Datos Criticos
   contCriticos:     number = 0;
@@ -182,12 +186,16 @@ export class RqcalidadDialog  {
       atn_cont_ini: new FormControl(""), 
       atn_ama_emp: new FormControl(""), 
       atn_gest_tim: new FormControl(""), 
+      tyt_ate_con_ini: new FormControl(""),
+      tyt_ate_ama_emp: new FormControl(""),
       //Habilidad Comercial
       hab_dej_exp_rea_preg: new FormControl(""), 
       hab_esc_act_par_con_nec_cli: new FormControl(""), 
       hab_man_de_obj: new FormControl(""),
       tyt_hab_com_int_con_nes_cli: new FormControl(""),
       tyt_hab_com_met_pag: new FormControl(""),
+      tyt_hab_com_esc_act_par_con_nec_cli: new FormControl(""),
+      tyt_hab_com_man_obj: new FormControl(""),
       //Proceso De Venta
       proc_brin_inf_corr_com_pro_ofer: new FormControl(""), 
       proc_brin_inf_corr_cam_vig: new FormControl(""), 
@@ -551,13 +559,18 @@ export class RqcalidadDialog  {
           this.formProces.get('atn_cont_ini').setValue(data.data['getDataUpda'][0].atn_cont_ini);
           this.formProces.get('atn_ama_emp').setValue(data.data['getDataUpda'][0].atn_ama_emp);
           this.formProces.get('atn_gest_tim').setValue(data.data['getDataUpda'][0].atn_gest_tim);
+          this.formProces.get('tyt_ate_con_ini').setValue(data.data['getDataUpda'][0].tyt_ate_con_ini);
+          this.formProces.get('tyt_ate_ama_emp').setValue(data.data['getDataUpda'][0].tyt_ate_ama_emp);
+
           //Habilidad Comercial
           this.formProces.get('hab_dej_exp_rea_preg').setValue(data.data['getDataUpda'][0].hab_dej_exp_rea_preg);
           this.formProces.get('hab_esc_act_par_con_nec_cli').setValue(data.data['getDataUpda'][0].hab_esc_act_par_con_nec_cli);
           this.formProces.get('hab_man_de_obj').setValue(data.data['getDataUpda'][0].hab_man_de_obj);
           this.formProces.get('tyt_hab_com_int_con_nes_cli').setValue(data.data['getDataUpda'][0].tyt_hab_com_int_con_nes_cli);
           this.formProces.get('tyt_hab_com_met_pag').setValue(data.data['getDataUpda'][0].tyt_hab_com_met_pag);
-          
+          this.formProces.get('tyt_hab_com_esc_act_par_con_nec_cli').setValue(data.data['getDataUpda'][0].tyt_hab_com_esc_act_par_con_nec_cli);
+          this.formProces.get('tyt_hab_com_man_obj').setValue(data.data['getDataUpda'][0].tyt_hab_com_man_obj);
+
           //Proceso De Venta
           this.formProces.get('proc_brin_inf_corr_com_pro_ofer').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_com_pro_ofer);
           this.formProces.get('proc_brin_inf_corr_cam_vig').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_cam_vig);

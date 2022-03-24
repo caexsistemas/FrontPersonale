@@ -188,7 +188,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
                             <mat-label>Contacto Inicial:</mat-label>
                             <mat-select formControlName="atn_cont_ini" required (ngModelChange)="validcheked()">
@@ -198,10 +198,33 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <!--Campo TYT-->
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Contacto Inicial:</mat-label>
+                            <mat-select formControlName="tyt_ate_con_ini" required (ngModelChange)="validcheked()">
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
                             <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
                             <mat-select formControlName="atn_ama_emp" required >
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
+                            <mat-select formControlName="tyt_ate_ama_emp" required >
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -266,7 +289,7 @@
                   </div>
                   <div class="row">
                       <!--Hogar y Movil-->
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
                             <mat-label>Escucha Activa Para Conocer Las Necesidades Del Cliente:</mat-label>
                             <mat-select formControlName="hab_esc_act_par_con_nec_cli" required (ngModelChange)="validcheked()">
@@ -276,12 +299,34 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Escucha Activa Para Conocer Las Necesidades Del Cliente:</mat-label>
+                            <mat-select formControlName="tyt_hab_com_esc_act_par_con_nec_cli" required (ngModelChange)="validcheked()">
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                   </div>
                   <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
                         <mat-form-field class="example-full-width">
                             <mat-label>Manejo De Objeciones:</mat-label>
                             <mat-select formControlName="hab_man_de_obj" required (ngModelChange)="validcheked()">
+                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'" >
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Manejo De Objeciones:</mat-label>
+                            <mat-select formControlName="tyt_hab_com_man_obj" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
