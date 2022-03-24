@@ -49,9 +49,11 @@ export class RqcalidadDialog  {
                           'atn_cont_ini',
                           'atn_gest_tim',
                           'hab_dej_exp_rea_preg',
-                          'hab_esc_act_par_con_nec_cli',
+                          
                           'hab_man_de_obj',
-                          'proc_rea_ofr_ven_cru'
+                          'proc_rea_ofr_ven_cru',
+                          'tyt_hab_com_met_pag',
+                          'tyt_cie_cod'
                           ];
   //Datos Procesos
   conCumplePro:     number = 0;
@@ -69,7 +71,13 @@ export class RqcalidadDialog  {
                           'proc_res_ben_tod_cla',
                           'proc_rea_res_ges',
                           'cie_cie_com',
-                          'cie_ofr_adi'
+                          'cie_ofr_adi',
+                          'hogar_pro_ven_bri_inf_cor_tie_ins_apr',
+                          'tyt_hab_com_int_con_nes_cli',
+                          'tyt_pro_ven_bri_inf_cor_ben_ban_vig',
+                          'tyt_pro_ven_bri_inf_cor_ent_equ',
+                          'tyt_cie_rea_res_ges',
+                          'hab_esc_act_par_con_nec_cli'
                           ];
   //Datos Criticos
   contCriticos:     number = 0;
@@ -81,7 +89,8 @@ export class RqcalidadDialog  {
                           'cri_gui_tra_dat',
                           'cri_val_tit',
                           'cri_val_cor_cob',
-                          'cri_fal_exp_mal_pra'
+                          'cri_fal_exp_mal_pra',
+                          'tyt_cri_fra_com_seg_pol_fra'
                           ];
   //Observacion
   observAspect:     string = "";
@@ -176,6 +185,8 @@ export class RqcalidadDialog  {
       hab_dej_exp_rea_preg: new FormControl(""), 
       hab_esc_act_par_con_nec_cli: new FormControl(""), 
       hab_man_de_obj: new FormControl(""),
+      tyt_hab_com_int_con_nes_cli: new FormControl(""),
+      tyt_hab_com_met_pag: new FormControl(""),
       //Proceso De Venta
       proc_brin_inf_corr_com_pro_ofer: new FormControl(""), 
       proc_brin_inf_corr_cam_vig: new FormControl(""), 
@@ -188,10 +199,15 @@ export class RqcalidadDialog  {
       proc_res_ben_tod_cla: new FormControl(""), 
       proc_rea_ofr_ven_cru: new FormControl(""), 
       proc_rea_res_ges: new FormControl(""), 
+      hogar_pro_ven_bri_inf_cor_tie_ins_apr: new FormControl(""),
+      tyt_pro_ven_bri_inf_cor_ben_ban_vig: new FormControl(""),
+      tyt_pro_ven_bri_inf_cor_ent_equ: new FormControl(""),
       //Cierre
       cie_cie_com: new FormControl(""), 
       cie_ofr_adi: new FormControl(""), 
       cie_des: new FormControl(""), 
+      tyt_cie_cod: new FormControl(""),
+      tyt_cie_rea_res_ges:new FormControl(""),
       //Criticos
       cri_ama: new FormControl(""),
       cri_uso_corr_tod_cla: new FormControl(""), 
@@ -201,6 +217,7 @@ export class RqcalidadDialog  {
       cri_val_tit: new FormControl(""), 
       cri_val_cor_cob: new FormControl(""), 
       cri_fal_exp_mal_pra: new FormControl(""), 
+      tyt_cri_fra_com_seg_pol_fra:new FormControl(""),
       //Fomularios sino
       ns_pre: new FormControl(""), 
       ns_tod_cla: new FormControl(""), 
@@ -511,6 +528,9 @@ export class RqcalidadDialog  {
           this.formProces.get('hab_dej_exp_rea_preg').setValue(data.data['getDataUpda'][0].hab_dej_exp_rea_preg);
           this.formProces.get('hab_esc_act_par_con_nec_cli').setValue(data.data['getDataUpda'][0].hab_esc_act_par_con_nec_cli);
           this.formProces.get('hab_man_de_obj').setValue(data.data['getDataUpda'][0].hab_man_de_obj);
+          this.formProces.get('tyt_hab_com_int_con_nes_cli').setValue(data.data['getDataUpda'][0].tyt_hab_com_int_con_nes_cli);
+          this.formProces.get('tyt_hab_com_met_pag').setValue(data.data['getDataUpda'][0].tyt_hab_com_met_pag);
+          
           //Proceso De Venta
           this.formProces.get('proc_brin_inf_corr_com_pro_ofer').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_com_pro_ofer);
           this.formProces.get('proc_brin_inf_corr_cam_vig').setValue(data.data['getDataUpda'][0].proc_brin_inf_corr_cam_vig);
@@ -523,10 +543,20 @@ export class RqcalidadDialog  {
           this.formProces.get('proc_res_ben_tod_cla').setValue(data.data['getDataUpda'][0].proc_res_ben_tod_cla);
           this.formProces.get('proc_rea_ofr_ven_cru').setValue(data.data['getDataUpda'][0].proc_rea_ofr_ven_cru);
           this.formProces.get('proc_rea_res_ges').setValue(data.data['getDataUpda'][0].proc_rea_res_ges);
+          this.formProces.get('hogar_pro_ven_bri_inf_cor_tie_ins_apr').setValue(data.data['getDataUpda'][0].hogar_pro_ven_bri_inf_cor_tie_ins_apr);
+          this.formProces.get('tyt_pro_ven_bri_inf_cor_ben_ban_vig').setValue(data.data['getDataUpda'][0].tyt_pro_ven_bri_inf_cor_ben_ban_vig);
+          this.formProces.get('tyt_pro_ven_bri_inf_cor_ent_equ').setValue(data.data['getDataUpda'][0].tyt_pro_ven_bri_inf_cor_ent_equ);
+          
+
+          
           //Cierre
           this.formProces.get('cie_cie_com').setValue(data.data['getDataUpda'][0].cie_cie_com);
           this.formProces.get('cie_ofr_adi').setValue(data.data['getDataUpda'][0].cie_ofr_adi);
           this.formProces.get('cie_des').setValue(data.data['getDataUpda'][0].cie_des);
+          this.formProces.get('tyt_cie_cod').setValue(data.data['getDataUpda'][0].tyt_cie_cod);
+          this.formProces.get('tyt_cie_rea_res_ges').setValue(data.data['getDataUpda'][0].tyt_cie_rea_res_ges);
+          
+          
           //Criticos
           this.formProces.get('cri_ama').setValue(data.data['getDataUpda'][0].cri_ama);
           this.formProces.get('cri_uso_corr_tod_cla').setValue(data.data['getDataUpda'][0].cri_uso_corr_tod_cla);
@@ -536,6 +566,9 @@ export class RqcalidadDialog  {
           this.formProces.get('cri_val_tit').setValue(data.data['getDataUpda'][0].cri_val_tit);
           this.formProces.get('cri_val_cor_cob').setValue(data.data['getDataUpda'][0].cri_val_cor_cob);
           this.formProces.get('cri_fal_exp_mal_pra').setValue(data.data['getDataUpda'][0].cri_fal_exp_mal_pra);
+          this.formProces.get('tyt_cri_fra_com_seg_pol_fra').setValue(data.data['getDataUpda'][0].tyt_cri_fra_com_seg_pol_fra);
+
+          
           //Fomularios sino Movil
           if(this.tipMatriz == "40/1"){
 
