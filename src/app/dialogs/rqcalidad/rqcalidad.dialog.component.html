@@ -736,7 +736,8 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <!--{Campos Matriz Movil Sim/Afinidad/Escala }-->
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/1' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Sim/Afinidad/Escala &nbsp; &nbsp;
@@ -886,6 +887,297 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
+                  <!--{Campos Matriz Hogar Tecnologia/Afinidad/Escala }-->
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Tecnologia/Afinidad/Escala &nbsp; &nbsp;
+                        <mat-icon>rate_review</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                                    
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Venta tecnologia:</mat-label>
+                                <mat-select formControlName="hogar_vent_tec" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Todo Claro:</mat-label>
+                                <mat-select formControlName="hogar_tod_cla" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Television:</mat-label>
+                                <mat-select formControlName="hogar_tv" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Telefonia:</mat-label>
+                                <mat-select formControlName="hogar_tel" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Internet:</mat-label>
+                                <mat-select formControlName="hogar_int" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Validacion Identidad:</mat-label>
+                                <mat-select formControlName="hogar_val_ide" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Saludo:</mat-label>
+                                <mat-select formControlName="hogar_esc_sal" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Amabilidad:</mat-label>
+                                <mat-select formControlName="hogar_esc_ama" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Despedida:</mat-label>
+                                <mat-select formControlName="hogar_esc_des" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Canales Premium:</mat-label>
+                                <mat-select formControlName="hogar_can_pre" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ultra Wifi:</mat-label>
+                                <mat-select formControlName="hogar_ult_wif" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ofrecimiento Escalonado:</mat-label>
+                                <mat-select formControlName="hogar_ofr_esc" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <!--{Campos Matriz TYT Tecnologia/Afinidad/Escala }-->
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/3' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Tecnologia/Afinidad/Escala &nbsp; &nbsp;
+                        <mat-icon>rate_review</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Venta tecnologia:</mat-label>
+                                <mat-select formControlName="tyt_ven_tec" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Todo Claro:</mat-label>
+                                <mat-select formControlName="tyt_tod_cla" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Television:</mat-label>
+                                <mat-select formControlName="tyt_tv" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Telefonia:</mat-label>
+                                <mat-select formControlName="tyt_tel" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Internet:</mat-label>
+                                <mat-select formControlName="tyt_int" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Validacion de Identidad:</mat-label>
+                                <mat-select formControlName="tyt_val_ide" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Saludo:</mat-label>
+                                <mat-select formControlName="tyt_esc_sal" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Amabilidad:</mat-label>
+                                <mat-select formControlName="tyt_esc_ama" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Escala Despedida:</mat-label>
+                                <mat-select formControlName="tyt_esc_des" required>
+                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>CLARO  UP:</mat-label>
+                                <mat-select formControlName="tyt_cla_up" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ultra Wifi:</mat-label>
+                                <mat-select formControlName="tyt_ult_wif" required>
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
                   <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
@@ -903,7 +1195,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificacion registrada en MIND:</mat-label>
                                 <mat-select formControlName="tip_reg_min" >
-                                    <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of Listtipifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
@@ -915,7 +1207,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificaci&oacute;n  correcta:</mat-label>
                                 <mat-select formControlName="tip_correcta" required (selectionChange)="onSelectLabor()">
-                                    <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of Listtipifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
@@ -956,7 +1248,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <mat-form-field class="example-full-width" >
-                                <mat-label>Observación:</mat-label>
+                                <mat-label>Observación/Oportunidades de Mejora:</mat-label>
                                 <textarea matInput formControlName="obs_obs" placeholder="" ></textarea>
                             </mat-form-field>
                         </div>
