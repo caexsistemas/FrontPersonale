@@ -41,6 +41,7 @@ export class RqcalidadDialog  {
   listSinomr:    any = [];
   listEscala:    any = [];
   listipomatriz: any = [];
+  Listtipifica:  any = [];
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -201,7 +202,7 @@ export class RqcalidadDialog  {
       cri_val_tit: new FormControl(""), 
       cri_val_cor_cob: new FormControl(""), 
       cri_fal_exp_mal_pra: new FormControl(""), 
-      //Fomularios sino
+      //Fomularios sino Movil
       ns_pre: new FormControl(""), 
       ns_tod_cla: new FormControl(""), 
       ns_pow: new FormControl(""), 
@@ -214,6 +215,31 @@ export class RqcalidadDialog  {
       ns_lec_con: new FormControl(""), 
       ns_cla_per: new FormControl(""), 
       ns_ofr_esc: new FormControl(""), 
+      //Formulario sino Hogar
+      hogar_vent_tec: new FormControl(""),
+      hogar_tod_cla: new FormControl(""),
+      hogar_tv: new FormControl(""),
+      hogar_tel: new FormControl(""),
+      hogar_int: new FormControl(""),
+      hogar_val_ide: new FormControl(""),
+      hogar_esc_sal: new FormControl(""),
+      hogar_esc_ama: new FormControl(""),
+      hogar_esc_des: new FormControl(""),
+      hogar_can_pre: new FormControl(""),
+      hogar_ult_wif: new FormControl(""),
+      hogar_ofr_esc: new FormControl(""),
+      //Formulario sino TYT
+      tyt_ven_tec: new FormControl(""),
+      tyt_tod_cla: new FormControl(""),
+      tyt_tv: new FormControl(""),
+      tyt_tel: new FormControl(""),
+      tyt_int: new FormControl(""),
+      tyt_val_ide: new FormControl(""),
+      tyt_esc_sal: new FormControl(""),
+      tyt_esc_ama: new FormControl(""),
+      tyt_esc_des: new FormControl(""),
+      tyt_cla_up: new FormControl(""),
+      tyt_ult_wif: new FormControl(""),
       //Tpipificacion
       tip_reg_min: new FormControl(""), 
       tip_correcta: new FormControl(""), 
@@ -283,6 +309,7 @@ export class RqcalidadDialog  {
                 this.listSinomr    = data.data['sntipica'];
                 this.listEscala    = data.data['escalaclaro'];
                 this.listipomatriz = data.data['tipmatriz'];
+                this.Listtipifica  = data.data['tipifica'];   
                 
               if (this.view == 'update') {
                 this.getDataUpdate();
@@ -537,22 +564,43 @@ export class RqcalidadDialog  {
           this.formProces.get('cri_val_cor_cob').setValue(data.data['getDataUpda'][0].cri_val_cor_cob);
           this.formProces.get('cri_fal_exp_mal_pra').setValue(data.data['getDataUpda'][0].cri_fal_exp_mal_pra);
           //Fomularios sino Movil
-          if(this.tipMatriz == "40/1"){
-
-            this.formProces.get('ns_pre').setValue(data.data['getDataUpda'][0].ns_pre);
-            this.formProces.get('ns_tod_cla').setValue(data.data['getDataUpda'][0].ns_tod_cla);
-            this.formProces.get('ns_pow').setValue(data.data['getDataUpda'][0].ns_pow);
-            this.formProces.get('ns_sim_adq').setValue(data.data['getDataUpda'][0].ns_sim_adq);
-            this.formProces.get('ns_afi_tod_cla').setValue(data.data['getDataUpda'][0].ns_afi_tod_cla);
-            this.formProces.get('ns_val_ide').setValue(data.data['getDataUpda'][0].ns_val_ide);
-            this.formProces.get('ns_esc_sal').setValue(data.data['getDataUpda'][0].ns_esc_sal);
-            this.formProces.get('ns_esc_ama').setValue(data.data['getDataUpda'][0].ns_esc_ama);
-            this.formProces.get('ns_esc_des').setValue(data.data['getDataUpda'][0].ns_esc_des);
-            this.formProces.get('ns_lec_con').setValue(data.data['getDataUpda'][0].ns_lec_con);
-            this.formProces.get('ns_cla_per').setValue(data.data['getDataUpda'][0].ns_cla_per);
-            this.formProces.get('ns_ofr_esc').setValue(data.data['getDataUpda'][0].ns_ofr_esc);
-          }
-
+          this.formProces.get('ns_pre').setValue(data.data['getDataUpda'][0].ns_pre);
+          this.formProces.get('ns_tod_cla').setValue(data.data['getDataUpda'][0].ns_tod_cla);
+          this.formProces.get('ns_pow').setValue(data.data['getDataUpda'][0].ns_pow);
+          this.formProces.get('ns_sim_adq').setValue(data.data['getDataUpda'][0].ns_sim_adq);
+          this.formProces.get('ns_afi_tod_cla').setValue(data.data['getDataUpda'][0].ns_afi_tod_cla);
+          this.formProces.get('ns_val_ide').setValue(data.data['getDataUpda'][0].ns_val_ide);
+          this.formProces.get('ns_esc_sal').setValue(data.data['getDataUpda'][0].ns_esc_sal);
+          this.formProces.get('ns_esc_ama').setValue(data.data['getDataUpda'][0].ns_esc_ama);
+          this.formProces.get('ns_esc_des').setValue(data.data['getDataUpda'][0].ns_esc_des);
+          this.formProces.get('ns_lec_con').setValue(data.data['getDataUpda'][0].ns_lec_con);
+          this.formProces.get('ns_cla_per').setValue(data.data['getDataUpda'][0].ns_cla_per);
+          this.formProces.get('ns_ofr_esc').setValue(data.data['getDataUpda'][0].ns_ofr_esc);
+          //Formulario Sino Hogar
+          this.formProces.get('hogar_vent_tec').setValue(data.data['getDataUpda'][0].hogar_vent_tec);
+          this.formProces.get('hogar_tod_cla').setValue(data.data['getDataUpda'][0].hogar_tod_cla);
+          this.formProces.get('hogar_tv').setValue(data.data['getDataUpda'][0].hogar_tv);
+          this.formProces.get('hogar_tel').setValue(data.data['getDataUpda'][0].hogar_tel);
+          this.formProces.get('hogar_int').setValue(data.data['getDataUpda'][0].hogar_int);
+          this.formProces.get('hogar_val_ide').setValue(data.data['getDataUpda'][0].hogar_val_ide);
+          this.formProces.get('hogar_esc_sal').setValue(data.data['getDataUpda'][0].hogar_esc_sal);
+          this.formProces.get('hogar_esc_ama').setValue(data.data['getDataUpda'][0].hogar_esc_ama);
+          this.formProces.get('hogar_esc_des').setValue(data.data['getDataUpda'][0].hogar_esc_des);
+          this.formProces.get('hogar_can_pre').setValue(data.data['getDataUpda'][0].hogar_can_pre);
+          this.formProces.get('hogar_ult_wif').setValue(data.data['getDataUpda'][0].hogar_ult_wif);
+          this.formProces.get('hogar_ofr_esc').setValue(data.data['getDataUpda'][0].hogar_ofr_esc);
+          //Formulario sino TYT
+          this.formProces.get('tyt_ven_tec').setValue(data.data['getDataUpda'][0].tyt_ven_tec);
+          this.formProces.get('tyt_tod_cla').setValue(data.data['getDataUpda'][0].tyt_tod_cla);
+          this.formProces.get('tyt_tv').setValue(data.data['getDataUpda'][0].tyt_tv);
+          this.formProces.get('tyt_tel').setValue(data.data['getDataUpda'][0].tyt_tel);
+          this.formProces.get('tyt_int').setValue(data.data['getDataUpda'][0].tyt_int);
+          this.formProces.get('tyt_val_ide').setValue(data.data['getDataUpda'][0].tyt_val_ide);
+          this.formProces.get('tyt_esc_sal').setValue(data.data['getDataUpda'][0].tyt_esc_sal);
+          this.formProces.get('tyt_esc_ama').setValue(data.data['getDataUpda'][0].tyt_esc_ama);
+          this.formProces.get('tyt_esc_des').setValue(data.data['getDataUpda'][0].tyt_esc_des);
+          this.formProces.get('tyt_cla_up').setValue(data.data['getDataUpda'][0].tyt_cla_up);
+          this.formProces.get('tyt_cla_up').setValue(data.data['getDataUpda'][0].tyt_cla_up);
           //Tpipificacion
           this.formProces.get('tip_reg_min').setValue(data.data['getDataUpda'][0].tip_reg_min);
           this.formProces.get('tip_correcta').setValue(data.data['getDataUpda'][0].tip_correcta);
