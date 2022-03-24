@@ -41,7 +41,9 @@ export class RqcalidadDialog  {
   listSinomr:    any = [];
   listEscala:    any = [];
   listipomatriz: any = [];
-  Listtipifica:  any = [];
+  ListtipificaMovil:  any = [];
+  ListtipificaHogar:  any = [];
+  ListtipificaTYT:  any = [];
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -326,7 +328,9 @@ export class RqcalidadDialog  {
                 this.listSinomr    = data.data['sntipica'];
                 this.listEscala    = data.data['escalaclaro'];
                 this.listipomatriz = data.data['tipmatriz'];
-                this.Listtipifica  = data.data['tipifica'];   
+                this.ListtipificaMovil  = data.data['tipificaMovil'];   
+                this.ListtipificaHogar= data.data['tipificaHogar'];  
+                this.ListtipificaTYT = data.data['tipificaTYT'];  
                 
               if (this.view == 'update') {
                 this.getDataUpdate();

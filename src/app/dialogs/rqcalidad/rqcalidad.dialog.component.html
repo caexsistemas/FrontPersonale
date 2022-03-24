@@ -1195,7 +1195,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificacion registrada en MIND:</mat-label>
                                 <mat-select formControlName="tip_reg_min" >
-                                    <mat-option *ngFor="let idet of Listtipifica" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of ListtipificaMovil" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
@@ -1207,7 +1207,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificaci&oacute;n  correcta:</mat-label>
                                 <mat-select formControlName="tip_correcta" required (selectionChange)="onSelectLabor()">
-                                    <mat-option *ngFor="let idet of Listtipifica" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of ListtipificaMovil" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
