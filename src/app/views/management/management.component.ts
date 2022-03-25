@@ -59,7 +59,7 @@ export class ManagementComponent implements OnInit {
   personaleData: any = [];
 
   modal: 'successModal';
-
+  contaClick:  number = 0;
   component = "/management/gestion";
   permissions: any = null;
 
@@ -138,6 +138,7 @@ export class ManagementComponent implements OnInit {
 
 
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
     })
       .subscribe(
@@ -150,6 +151,7 @@ export class ManagementComponent implements OnInit {
           } else {
             this.datapersonale = [];
             this.handler.handlerError(response);
+            this.loading = false;
           }
         },
         error => {
@@ -164,10 +166,10 @@ export class ManagementComponent implements OnInit {
     this.displayedColumns = [
       'view',
       'createAt',
-      'nombre',
-      'documento',
-      'correo',
-      'telefono',
+      'name',
+      'document',
+      'email',
+      'phone',
       'actions'
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -377,5 +379,12 @@ export class ManagementComponent implements OnInit {
     let month = this._tools.monthDate(birthDate)
     this.detailUser['agech'] = this._tools.CalculateAge(birthDate)
     return month[0].date
+  }
+  
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
   }
 }

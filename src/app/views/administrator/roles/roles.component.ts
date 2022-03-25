@@ -31,7 +31,7 @@ export class RolesComponent implements OnInit {
    
   component = "/admin/roles";
   permissions: any = null;
-
+  contaClick:  number = 0;
   endpoint: string = '/prueba';
 
   
@@ -52,6 +52,7 @@ export class RolesComponent implements OnInit {
   }
   
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {//action:'getPrueba'
     })
       .subscribe(
@@ -66,6 +67,7 @@ export class RolesComponent implements OnInit {
             this.ValorRol = response.data
             this.loading = false;
           } else {
+            this.loading = false;
             this.ValorRol = [];
             this.handler.handlerError(response);
           }
@@ -82,7 +84,7 @@ export class RolesComponent implements OnInit {
     this.displayedColumns = [
       'view',
       'idRole',
-      'name',
+      'surname',
       'description',
       'actions'
       
@@ -168,5 +170,12 @@ export class RolesComponent implements OnInit {
 
 
 
+  }
+  
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
   }
 }

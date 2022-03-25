@@ -338,7 +338,7 @@
                         <div class="col-sm-4">
                             <mat-form-field>
                                 <mat-label>Fecha de recepci&oacute;n de la incapacidad:</mat-label>
-                                <input matInput formControlName="fecharepinc" type="date" required>
+                                <input matInput formControlName="fecharepinc" type="date" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
@@ -429,14 +429,14 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>C&oacute;digo del diagn&oacute;stico seg&uacute;n CIE-10:</mat-label>
-                                <input matInput formControlName="codcie" type="text" (ngModelChange)="onCodcieChange($event)" required>
+                                <input matInput formControlName="codcie" type="text" (ngModelChange)="onCodcieChange($event)" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Nombre del diagn&oacute;stico:</mat-label>
-                                <input matInput formControlName="nomdisgnod" type="text" required>
+                                <input matInput formControlName="nomdisgnod" type="text" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
@@ -447,14 +447,14 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Cap&iacute;tulo CIE 10:</mat-label>
-                                <input matInput formControlName="capitcie" type="text" required>
+                                <input matInput formControlName="capitcie" type="text" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Estado Gestion:</mat-label>
-                                <mat-select formControlName="estado_gs"  >
+                                <mat-select formControlName="estado_gs" (ngModelChange)="validRequid($event)" >
                                   <mat-option *ngFor="let idet of stadgestionList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>

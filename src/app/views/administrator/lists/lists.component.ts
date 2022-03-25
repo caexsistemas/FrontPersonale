@@ -29,7 +29,7 @@ export class ListsComponent implements OnInit {
   dataSource: any = [];
   displayedColumns: any = [];
   valorLista: any = [];
-
+  contaClick:  number = 0;
   component = "/admin/lists";
   permissions: any = null;
 
@@ -53,6 +53,7 @@ export class ListsComponent implements OnInit {
   }
 
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
     })
       .subscribe(
@@ -171,5 +172,11 @@ export class ListsComponent implements OnInit {
     this.infoModal.show()
   }
 
-
+  
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
+  }
 }

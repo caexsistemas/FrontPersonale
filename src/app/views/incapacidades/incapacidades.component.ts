@@ -25,6 +25,7 @@ export class IncapacidadesComponent implements OnInit {
   displayedColumns: any = [];
   dataSource: any = [];
   permissions: any = null;
+  contaClick:  number = 0;
   
   //Permisos
   component = "/incapacidades/gestion";
@@ -50,6 +51,7 @@ export class IncapacidadesComponent implements OnInit {
   }
 
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       idUser: this.cuser.iduser,
       role: this.cuser.role
@@ -82,10 +84,10 @@ export class IncapacidadesComponent implements OnInit {
     this.displayedColumns = [
       'view',
       'fechageneracion',
-      'NumeroDocumeto',
-      'Nombre',
-      'FechaInicioAusencia',
-      'FechaFinAusencia',
+      'document',
+      'name',
+      'fechainicausen',
+      'fechafinausen',
       'estado_gs',
       'actions'
     ];
@@ -166,5 +168,10 @@ export class IncapacidadesComponent implements OnInit {
 
   }
 
-
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
+  }
 }

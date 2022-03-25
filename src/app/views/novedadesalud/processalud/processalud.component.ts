@@ -27,6 +27,7 @@ export class ProcessaludComponent implements OnInit {
   displayedColumns:any  = [];
   dataSource:any        = [];
   public detaNovSal = [];
+  contaClick:  number = 0;
   //Control Permiso
   component = "/procesalud/processalud";
   //History
@@ -55,6 +56,7 @@ export class ProcessaludComponent implements OnInit {
   }
 
   sendRequest(){
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDatanovedad',
       idUser: this.cuser.iduser,
@@ -178,4 +180,11 @@ export class ProcessaludComponent implements OnInit {
       }
   }
 
+  
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
+  }
 }

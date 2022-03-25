@@ -28,7 +28,7 @@
                 <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
 
                     <ng-container matColumnDef="view">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
+                        <th mat-header-cell *matHeaderCellDef > Ver </th>
                         <td mat-cell *matCellDef="let element">
                             <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.idRole)"
                                 title="Ver">
@@ -37,25 +37,24 @@
                         </td>
                     </ng-container>
   
-                   
-  
                     <ng-container matColumnDef="idRole">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Rol</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> ID Rol</th>
                         <td mat-cell *matCellDef="let element"> {{element.idRole}} </td>
                     </ng-container>
   
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <ng-container matColumnDef="surname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre </th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} {{element.surname}}</td>
                     </ng-container>
                     
                     
                     <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Descripcion</th>
                         <td mat-cell *matCellDef="let element"> {{element.description}}</td>
                     </ng-container>
+
                     <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <th mat-header-cell *matHeaderCellDef > Acciones </th>
                         <td mat-cell *matCellDef="let element">
                             <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
                                 (click)="option('update',element.idRole)" 

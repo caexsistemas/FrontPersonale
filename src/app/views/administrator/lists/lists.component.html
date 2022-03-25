@@ -29,7 +29,7 @@
                     <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
 
                     <ng-container matColumnDef="view">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver </th>
+                        <th mat-header-cell *matHeaderCellDef > Ver </th>
                         <td mat-cell *matCellDef="let element">
                             <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
                                 (click)="option('view',element.list_id)" title="Ver">
@@ -39,22 +39,22 @@
                     </ng-container>
 
                     <ng-container matColumnDef="name_ing">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Ingles</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Ingles</th>
                         <td mat-cell *matCellDef="let element"> {{element.name_ing}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="name_esp">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Espa&ntilde;ol</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Espa&ntilde;ol</th>
                         <td mat-cell *matCellDef="let element"> {{element.name_esp}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="list_id">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Lista </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> ID Lista </th>
                         <td mat-cell *matCellDef="let element"> {{element.list_id}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <th mat-header-cell *matHeaderCellDef > Acciones </th>
                         <td mat-cell *matCellDef="let element">
                             <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
                                 (click)="option('update',element.list_id)" title="Editar">
