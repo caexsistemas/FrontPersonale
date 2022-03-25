@@ -54,6 +54,7 @@ export class IncapacidadesDialog implements OnInit {
     ListPension:   any = [];
     public sidebarMinimized = false;
     bluedRequired: boolean = true;
+    textAreRequired: boolean = false;
     //History
     historyMon: any = [];
     displayedColumns:any  = [];
@@ -523,8 +524,10 @@ export class IncapacidadesDialog implements OnInit {
     validRequid(event){
         if( event == '30/3' ){
             this.bluedRequired = false;
+            this.textAreRequired = true;
         }else{
             this.bluedRequired = true;
+            this.textAreRequired = false;
         }
     }
 
