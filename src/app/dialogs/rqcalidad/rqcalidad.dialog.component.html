@@ -799,27 +799,27 @@
                         <div class="col-sm-6">
                             <section class="example-section" >
                                 <h6>Aspectos Positivos:</h6>
-                                <p><mat-checkbox formControlName="asp_pos_sal" [color]="'primary'" (change)="validAsPect()">Saludo</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_des" [color]="'primary'" (change)="validAsPect()">Despedida</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_eti_tel" [color]="'primary'" (change)="validAsPect()">Etiqueta telefonica</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_cre_emp_con_cli" [color]="'primary'" (change)="validAsPect()">Crear empatia con <br>el cliente</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_fel" [color]="'primary'" (change)="validAsPect()">Felicitaciones</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_rea_cie_cor" [color]="'primary'" (change)="validAsPect()">Realiza cierres correctos</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_per_man_cor" [color]="'primary'" (change)="validAsPect()">Perfila de manera <br>correcta</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" (change)="validAsPect()">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_sol_reg_dat_tit" [color]="'primary'" (change)="validAsPect()">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_sal" [color]="'primary'" [disabled]="true">Saludo</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_des" [color]="'primary'" [disabled]="true">Despedida</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_eti_tel" [color]="'primary'" [disabled]="true">Etiqueta telefonica</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_cre_emp_con_cli" [color]="'primary'" [disabled]="true">Crear empatia con <br>el cliente</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_fel" [color]="'primary'" [disabled]="true">Felicitaciones</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_rea_cie_cor" [color]="'primary'" [disabled]="true">Realiza cierres correctos</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_per_man_cor" [color]="'primary'" [disabled]="true">Perfila de manera <br>correcta</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" [disabled]="true">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_sol_reg_dat_tit" [color]="'primary'" [disabled]="true">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
                               </section>
                         </div>
                         <div class="col-md-6">
                             <section class="example-section" >
                                 <h6></h6>
-                                <p><mat-checkbox formControlName="asp_pos_es_tol" [color]="'primary'"(change)="validAsPect()">Es tolerante</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_bue_ton_voz" [color]="'primary'" (change)="validAsPect()">Buen tono de voz</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_man_obj_cli_gen_cie" [color]="'primary'" (change)="validAsPect()">Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_man_con_seg_lla" [color]="'primary'" (change)="validAsPect()">Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" (change)="validAsPect()">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_rea_lec_cor_con" [color]="'primary'" (change)="validAsPect()">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
-                                <p><mat-checkbox formControlName="asp_pos_apl_lin_mod_gana" [color]="'primary'" (change)="validAsPect()">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_es_tol" [color]="'primary'"[disabled]="true">Es tolerante</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_bue_ton_voz" [color]="'primary'" [disabled]="true">Buen tono de voz</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_man_obj_cli_gen_cie" [color]="'primary'" [disabled]="true">Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_man_con_seg_lla" [color]="'primary'" [disabled]="true">Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" [disabled]="true">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_rea_lec_cor_con" [color]="'primary'" [disabled]="true">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_apl_lin_mod_gana" [color]="'primary'" [disabled]="true">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
                               </section>
                         </div>
                     </div>
