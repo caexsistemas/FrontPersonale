@@ -1,4 +1,860 @@
 <div class="card mt-6">
+    <div *ngIf="view == 'view'">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <mat-dialog-content>
+            <mat-accordion class="example-headers-align">
+                <form form *ngIf="view == 'view'" [formGroup]="formProces"> 
+                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Personal data  &nbsp; &nbsp;
+                      <mat-icon>account_circle</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <!--{dataCad}-->
+                      
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Tipo Gesti&oacute;n:</dt>
+                            <dd>{{dataCad.tipo_gestion}}</dd>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Tipo Red:</dt>
+                            <dd>{{dataCad.tipo_red}}</dd>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Cedula:</dt>
+                            <dd>{{dataCad.document}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Login:</dt>
+                            <dd>{{dataCad.login}}</dd>    
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Nombre Asesor:</dt>
+                            <dd>{{dataCad.name}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Coordinador:</dt>
+                            <dd>{{dataCad.coordinator}}</dd> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>TMO:</dt>
+                            <dd>{{dataCad.tmo}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>ID llamada:</dt>
+                            <dd>{{dataCad.call_id}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>N&uacute;mero MIN/Cuenta Hogar:</dt>
+                            <dd>{{dataCad.min_bill}}</dd> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Semana:</dt>
+                            <dd>{{dataCad.week}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Analista:</dt>
+                            <dd>{{dataCad.analyst}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Oferta:</dt>
+                            <dd>{{dataCad.offer}}</dd> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Fecha de Monitoreo:</dt>
+                            <dd>{{dataCad.monitoring_date}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Fecha de Llamada:</dt>
+                            <dd>{{dataCad.call_date}}</dd> 
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>Tipo Matriz:</dt>
+                            <dd>{{dataCad.matrizarp}}</dd> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Nota Fional:</dt>
+                            <dd>{{dataCad.final_note}}</dd>
+                        </div>
+                    </div>
+
+                  <!--**-->
+                  
+                  <mat-action-row>
+                    <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                  </mat-action-row>
+
+                
+                </mat-expansion-panel>
+              
+                <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Atenci&oacute;n   &nbsp; &nbsp;
+                      <mat-icon>phone_in_talk</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <!--{}-->
+                      
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <dt>Saludo:</dt>
+                        <dd>{{dataCad.atn_sal}}</dd>
+                    </div>
+
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                        <dt>Contacto Inicial:</dt>
+                        <dd>{{dataCad.atn_cont_ini}}</dd>
+                    </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
+                        <dt>Contacto Inicial:</dt>
+                        <dd>{{dataCad.tyt_ate_con_ini}}</dd>
+                    </div>
+
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                        <dt>Amabilidad y Empat&iacute;a:</dt>
+                        <dd>{{dataCad.atn_ama_emp}}</dd>
+                    </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
+                        <dt>Amabilidad y Empat&iacute;a:</dt>
+                        <dd>{{dataCad.tyt_ate_ama_emp}}</dd>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <dt>Gestiona los tiempos de espera:</dt>
+                        <dd>{{dataCad.atn_gest_tim}}</dd>
+                    </div>
+                  </div>
+              
+                  <mat-action-row>
+                    <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                    <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+              
+                <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    Habilidad Comercial  &nbsp; &nbsp;
+                    <mat-icon>perm_phone_msg</mat-icon>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <!--{}-->
+                      
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <div class="row">
+                      <!--Campo TYT-->
+                      <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
+                        <dt>Interés por conocer las necesidades del cliente:</dt>
+                        <dd>{{dataCad.tyt_hab_com_int_con_nes_cli}}</dd>
+                    </div>
+
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                        <dt>Deja Expresar O Realizar Preguntas:</dt>
+                        <dd>{{dataCad.hab_dej_exp_rea_preg}}</dd>
+                    </div>     
+                  </div>
+
+                  <div class="row">
+                      <!--Hogar y Movil-->
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                        <dt>Escucha Activa Para Conocer Las Necesidades Del Cliente:</dt>
+                        <dd>{{dataCad.hab_esc_act_par_con_nec_cli}}</dd>
+                    </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                        <dt>Escucha Activa Para Conocer Las Necesidades Del Cliente:</dt>
+                        <dd>{{dataCad.tyt_hab_com_esc_act_par_con_nec_cli}}</dd>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
+                        <dt>Manejo De Objeciones:</dt>
+                        <dd>{{dataCad.hab_man_de_obj}}</dd>
+                    </div>
+
+                    <!--Campo TYT-->
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'" >
+                        <dt>Manejo De Objeciones:</dt>
+                        <dd>{{dataCad.tyt_hab_com_man_obj}}</dd>
+                    </div>
+                    <!--Campo TYT-->
+                    <div class="col-sm-12"  *ngIf=" tipMatriz == '40/3'">
+                        <dt>Metodos de Pago:</dt>
+                        <dd>{{dataCad.tyt_hab_com_met_pag}}</dd>
+                    </div>
+                </div>
+              
+                  <mat-action-row>
+                    <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                    <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Proceso de Veta  &nbsp; &nbsp;
+                        <mat-icon>attach_money</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2' ">
+                            <dt>Brinda información correcta y completa del producto ofertado:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_com_pro_ofer}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>información correcta del producto:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_com_pro_ofer}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Brinda información Correcta Beneficios de  Bancos Vigentes:</dt>
+                            <dd>{{dataCad.tyt_pro_ven_bri_inf_cor_ben_ban_vig}}</dd>
+                        </div>
+                        <!--Campos TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt> Brinda Información Correcta De Entrega de Equipos: </dt>
+                            <dd>{{dataCad.tyt_pro_ven_bri_inf_cor_ent_equ}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
+                            <dt>Brinda información Correcta Campañas Vigentes:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_cam_vig}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Información Correcta Campañas Vigentes:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_cam_vig}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
+                            <dt>Brinda información Correcta De Tarifas:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_tar}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Información Correcta De Tarifas y Facturacion:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_tar}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'" >
+                            <dt>Brinda información Correcta De Facturación:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_fac}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'">
+                            <dt>Brinda información correcta y completa De Portabilidad:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_com_port}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <!--CAMPO DE MOVIL-->
+                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1' ">
+                            <dt>Brinda información correcta Tiempos de entrega / Activacion en AC:</dt>
+                            <dd>{{dataCad.proc_brin_inf_corr_tie_ent_act_ac}}</dd>
+                        </div>
+                        <!--Campo pertence HOGAR-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/2'" >
+                            <dt>Brinda información correcta Tiempos de instalación / Aprovisionamiento:</dt>
+                            <dd>{{dataCad.hogar_pro_ven_bri_inf_cor_tie_ins_apr}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/2'|| tipMatriz=='40/1'" >
+                            <dt>Brinda información completa y correcta otras solicitudes:</dt>
+                            <dd>{{dataCad.proc_brin_inf_com_corr_otr_sol}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf="tipMatriz == '40/3'">
+                            <dt>Brinda información completa y correcta otras solicitudes o Procesos:</dt>
+                            <dd>{{dataCad.proc_brin_inf_com_corr_otr_sol}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <dt>Brinda Información de otros procesos:</dt>
+                            <dd>{{dataCad.proc_brin_inf_otr_pro}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <dt>Resalta Beneficios Todo Claro:</dt>
+                            <dd>{{dataCad.proc_res_ben_tod_cla}}</dd>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <dt>Realiza Ofrecimiento de venta Cruzada:</dt>
+                            <dd>{{dataCad.proc_rea_ofr_ven_cru}}</dd>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <dt>Realiza resumen de la gestión:</dt>
+                            <dd>{{dataCad.proc_rea_res_ges}}</dd>
+                        </div>
+                      </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Cierre  &nbsp; &nbsp;
+                        <mat-icon>call_end</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Cierre Comercial:</dt>
+                            <dd>{{dataCad.cie_cie_com}}</dd>
+                        </div>
+                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+                            <dt>Ofrecimientos Adicionales:</dt>
+                            <dd>{{dataCad.cie_ofr_adi}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Despedida:</dt>
+                            <dd>{{dataCad.cie_des}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Codificación:</dt>
+                            <dd>{{dataCad.tyt_cie_cod}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Realiza Resumen de la Gestión :</dt>
+                            <dd>{{dataCad.tyt_cie_rea_res_ges}}</dd>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' "  [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                    <mat-expansion-panel-header class="example-vismenu-enc">
+                      <mat-panel-title>
+                        Criticos &nbsp; &nbsp;
+                        <mat-icon>report</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Amabilidad :</dt>
+                            <dd>{{dataCad.cri_ama}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
+                            <dt>Uso correcto Todo Claro :</dt>
+                            <dd>{{dataCad.cri_uso_corr_tod_cla}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Abandono de llamada:</dt>
+                            <dd>{{dataCad.cri_aba_lla}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Realiza La Devolución De Llamada:</dt>
+                            <dd>{{dataCad.cri_rea_dev_lla}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                            <dt>Guion tratamiento de datos:</dt>
+                            <dd>{{dataCad.cri_gui_tra_dat}}</dd>
+                        </div>
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Fraudes Comerciales Según Políticas De Fraude:</dt>
+                            <dd>{{dataCad.tyt_cri_fra_com_seg_pol_fra}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Validación de Titularidad:</dt>
+                            <dd>{{dataCad.cri_val_tit}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Valida Correctamente Cobertura:</dt>
+                            <dd>{{dataCad.cri_val_cor_cob}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Falsa Expectativa / Malas Practicas:</dt>
+                            <dd>{{dataCad.cri_fal_exp_mal_pra}}</dd>
+                        </div>
+                    </div>
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <!--{Campos Matriz Movil Sim/Afinidad/Escala }-->
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/1' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Sim/Afinidad/Escala &nbsp; &nbsp;
+                        <mat-icon>rate_review</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Prepago</dt>
+                            <dd>{{dataCad.ns_pre}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Todo Claro:</dt>
+                            <dd>{{dataCad.ns_tod_cla}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Power:</dt>
+                            <dd>{{dataCad.ns_pow}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Sim Adquirida:</dt>
+                            <dd>{{dataCad.ns_sim_adq}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Afinidad Todo Claro:</dt>
+                            <dd>{{dataCad.ns_afi_tod_cla}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Validacion Identidad:</dt>
+                            <dd>{{dataCad.ns_val_ide}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Escala Saludo:</dt>
+                            <dd>{{dataCad.ns_esc_sal}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Escala Amabilidad:</dt>
+                            <dd>{{dataCad.ns_esc_ama}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Escala Despedida:</dt>
+                            <dd>{{dataCad.ns_esc_des}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Lectura De Contrato:</dt>
+                            <dd>{{dataCad.ns_lec_con}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Clausula De Permanencia:</dt>
+                            <dd>{{dataCad.ns_cla_per}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Ofrecimiento Escalonado:</dt>
+                            <dd>{{dataCad.ns_ofr_esc}}</dd>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <!--{Campos Matriz Hogar Tecnologia/Afinidad/Escala }-->
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Tecnologia/Afinidad/Escala &nbsp; &nbsp;
+                        <mat-icon>rate_review</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                                    
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Venta tecnologia:</dt>
+                            <dd>{{dataCad.hogar_vent_tec}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Todo Claro::</dt>
+                            <dd>{{dataCad.hogar_tod_cla}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Television:</dt>
+                            <dd>{{dataCad.hogar_tv}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Telefonia:</dt>
+                            <dd>{{dataCad.hogar_tel}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Internet:</dt>
+                            <dd>{{dataCad.hogar_int}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Validacion Identidad:</dt>
+                            <dd>{{dataCad.hogar_val_ide}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Escala Saludo::</dt>
+                            <dd>{{dataCad.hogar_esc_sal}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Escala Amabilidad:</dt>
+                            <dd>{{dataCad.hogar_esc_ama}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Escala Despedida:</dt>
+                            <dd>{{dataCad.hogar_esc_des}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Canales Premium:</dt>
+                            <dd>{{dataCad.hogar_can_pre}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Ultra Wifi:</dt>
+                            <dd>{{dataCad.hogar_ult_wif}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Ofrecimiento Escalonado:</dt>
+                            <dd>{{dataCad.hogar_ofr_esc}}</dd>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <!--{Campos Matriz TYT Tecnologia/Afinidad/Escala }-->
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/3' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Tecnologia/Afinidad/Escala &nbsp; &nbsp;
+                        <mat-icon>rate_review</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt> Venta tecnologia:</dt>
+                            <dd>{{dataCad.tyt_ven_tec}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Todo Claro:</dt>
+                            <dd>{{dataCad.tyt_tod_cla}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Television:</dt>
+                            <dd>{{dataCad.tyt_tv}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt> Telefonia:</dt>
+                            <dd>{{dataCad.tyt_tel}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Internet:</dt>
+                            <dd>{{dataCad.tyt_int}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Validacion de Identidad:</dt>
+                            <dd>{{dataCad.tyt_val_ide}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt> Escala Saludo:</dt>
+                            <dd>{{dataCad.tyt_esc_sal}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Escala Amabilidad:</dt>
+                            <dd>{{dataCad.tyt_esc_ama}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Escala Despedida:</dt>
+                            <dd>{{dataCad.tyt_esc_des}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt> CLARO  UP:</dt>
+                            <dd>{{dataCad.tyt_cla_up}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt> Ultra Wifi:</dt>
+                            <dd>{{dataCad.tyt_ult_wif}}</dd>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Tipificacion  &nbsp; &nbsp;
+                        <mat-icon>business_center</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row" *ngIf="tipMatriz =='40/1'">
+                        <div class="col-sm-12" >
+                            <dt> Tipificacion registrada en MIND:</dt>
+                            <dd>{{dataCad.tip_reg_min}}</dd>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="tipMatriz =='40/1'">
+                        <div class="col-sm-12">
+                            <dt> Tipificaci&oacute;n  correcta::</dt>
+                            <dd>{{dataCad.tip_correcta}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="tipMatriz =='40/2'">
+                        <div class="col-sm-12">
+                            <dt> Tipificacion registrada en MIND::</dt>
+                            <dd>{{dataCad.tip_reg_min}}</dd>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="tipMatriz =='40/2'">
+                        <div class="col-sm-12">
+                            <dt> Tipificaci&oacute;n  correcta:</dt>
+                            <dd>{{dataCad.tip_correcta}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="tipMatriz =='40/3'">
+                        <div class="col-sm-12">
+                            <dt> Tipificacion registrada en MIND:</dt>
+                            <dd>{{dataCad.tip_reg_min}}</dd>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="tipMatriz =='40/3'">
+                        <div class="col-sm-12">
+                            <dt> Tipificaci&oacute;n  correcta:</dt>
+                            <dd>{{dataCad.tip_correcta}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Tipifica correctamente?:</dt>
+                            <dd>{{dataCad.tip_correctamente}}</dd>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Observacion/Aspectos Positivos &nbsp; &nbsp;
+                        <mat-icon>assignment</mat-icon>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            <dt>Observación/Oportunidades de Mejora:</dt>
+                            <dd>{{dataCad.obs_obs}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <section class="example-section" >
+                                <h6>Aspectos Positivos:</h6>
+                                <p><mat-checkbox formControlName="asp_pos_sal" [color]="'primary'" (change)="validAsPect()">Saludo</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_des" [color]="'primary'" (change)="validAsPect()">Despedida</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_eti_tel" [color]="'primary'" (change)="validAsPect()">Etiqueta telefonica</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_cre_emp_con_cli" [color]="'primary'" (change)="validAsPect()">Crear empatia con <br>el cliente</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_fel" [color]="'primary'" (change)="validAsPect()">Felicitaciones</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_cie_cor" [color]="'primary'" (change)="validAsPect()">Realiza cierres correctos</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_per_man_cor" [color]="'primary'" (change)="validAsPect()">Perfila de manera <br>correcta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" (change)="validAsPect()">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_sol_reg_dat_tit" [color]="'primary'" (change)="validAsPect()">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
+                              </section>
+                        </div>
+                        <div class="col-md-6">
+                            <section class="example-section" >
+                                <h6></h6>
+                                <p><mat-checkbox formControlName="asp_pos_es_tol" [color]="'primary'"(change)="validAsPect()">Es tolerante</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bue_ton_voz" [color]="'primary'" (change)="validAsPect()">Buen tono de voz</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_obj_cli_gen_cie" [color]="'primary'" (change)="validAsPect()">Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_con_seg_lla" [color]="'primary'" (change)="validAsPect()">Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" (change)="validAsPect()">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_lec_cor_con" [color]="'primary'" (change)="validAsPect()">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_apl_lin_mod_gana" [color]="'primary'" (change)="validAsPect()">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
+                              </section>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field class="example-full-width ContCamp" >
+                                <mat-label>Aspectos Positivos:</mat-label>
+                                <textarea matInput formControlName="obs_asp_pos" class="color-text-Area ContCamp-text" placeholder="" ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="setStep(0)">End</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
+
+              </form> 
+              </mat-accordion>
+            </mat-dialog-content>
+            
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- ++++++++++++++++++++++-->
+
+<div class="card mt-6">
     <div *ngIf="view == 'create' || view == 'update'">
         <div class="card-header">
             <h5 class="modal-title">
