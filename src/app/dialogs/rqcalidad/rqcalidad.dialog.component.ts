@@ -143,7 +143,7 @@ export class RqcalidadDialog  {
                         data => {
                             if (data.success == true) {
                                 this.dataCad = data.data['getDatPer'][0];
-                                this.generateTable(data.data['getDatHistory']);   
+                                //this.generateTable(data.data['getDatHistory']);   
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
