@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
   dataSource: any = [];
   displayedColumns: any = [];
   loading: boolean = false;
-
+  contaClick:  number = 0;
   component = "/admin/users";
   permissions: any = null;
 
@@ -52,6 +52,7 @@ export class UsersComponent implements OnInit {
   }
 
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
     })
       .subscribe(
@@ -66,12 +67,13 @@ export class UsersComponent implements OnInit {
           } else {
             this.datauser = [];
             this.handler.handlerError(response);
+            this.loading = false;
           }
         },
         error => {
-          // this.loading = false;
-          // this.permissions = this.handler.getPermissions(this.component);
-          // this.handler.showError();
+          this.loading = false;
+          this.permissions = this.handler.getPermissions(this.component);
+          this.handler.showError(error);
         }
       );
   }
@@ -170,4 +172,11 @@ export class UsersComponent implements OnInit {
     this.infoModal.show()
   }
 
+  
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
+  }
 }

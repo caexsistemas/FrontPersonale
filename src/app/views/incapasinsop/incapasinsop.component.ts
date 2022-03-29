@@ -24,6 +24,7 @@ export class IncapasinsopComponent implements OnInit {
   displayedColumns: any = [];
   dataSource: any = [];
   permissions: any = null;
+  contaClick:  number = 0;
   //Control Permisos
   component = "/incapasinsop/gestion";
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
@@ -49,6 +50,7 @@ export class IncapasinsopComponent implements OnInit {
   }
 
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDataIncaSinSop',
       idUser: this.cuser.iduser,
@@ -81,10 +83,10 @@ export class IncapasinsopComponent implements OnInit {
     this.displayedColumns = [
       'view',
       'fechageneracion',
-      'NumeroDocumeto',
-      'Nombre',
-      'FechaInicioAusencia',
-      'FechaFinAusencia',
+      'document',
+      'name',
+      'fechainicausen',
+      'fechafinausen',
       'estado_gs',
       'actions'
     ];
@@ -165,5 +167,10 @@ export class IncapasinsopComponent implements OnInit {
 
   }
 
-
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
+  }
 }

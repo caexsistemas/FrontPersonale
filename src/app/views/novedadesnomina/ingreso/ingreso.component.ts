@@ -34,6 +34,7 @@ export class IngresoComponent implements OnInit {
   displayedColumns:any  = [];
   dataSource:any        = [];
   public detanovNomi = [];
+  contaClick:  number = 0;
   //Permisos
   component = "/nomi/ingreso";
 
@@ -68,6 +69,7 @@ export class IngresoComponent implements OnInit {
   }
 
   sendRequest(){
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDatanoven'
     })
@@ -189,5 +191,11 @@ export class IngresoComponent implements OnInit {
     }
   }
 
-
+  
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
+  }
 }

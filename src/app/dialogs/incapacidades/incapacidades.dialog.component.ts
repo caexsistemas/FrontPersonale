@@ -53,6 +53,8 @@ export class IncapacidadesDialog implements OnInit {
     ListEps:       any = [];
     ListPension:   any = [];
     public sidebarMinimized = false;
+    bluedRequired: boolean = true;
+    textAreRequired: boolean = false;
     //History
     historyMon: any = [];
     displayedColumns:any  = [];
@@ -518,5 +520,15 @@ export class IncapacidadesDialog implements OnInit {
     toggleMinimize(e) {
         this.sidebarMinimized = e;
       }
+    
+    validRequid(event){
+        if( event == '30/3' ){
+            this.bluedRequired = false;
+            this.textAreRequired = true;
+        }else{
+            this.bluedRequired = true;
+            this.textAreRequired = false;
+        }
+    }
 
 }

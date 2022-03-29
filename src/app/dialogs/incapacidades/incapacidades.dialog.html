@@ -264,7 +264,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Motivo de la ausencia:</mat-label>
-                                <mat-select formControlName="motausen" (ngModelChange)="onMotivoChange($event)" >
+                                <mat-select formControlName="motausen" (ngModelChange)="onMotivoChange($event)" required="{{bluedRequired}}">
                                   <mat-option *ngFor="let idet of motausenList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -275,7 +275,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Origen:</mat-label>
-                                <mat-select formControlName="origenausen" (ngModelChange)="onoPtorigenausen($event)" >
+                                <mat-select formControlName="origenausen" (ngModelChange)="onoPtorigenausen($event)" required="{{bluedRequired}}">
                                   <mat-option *ngFor="let idet of origenausenList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -286,7 +286,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Descripci&oacute;n del origen:</mat-label>
-                                <mat-select formControlName="descorigen"  >
+                                <mat-select formControlName="descorigen"  required="{{bluedRequired}}">
                                   <mat-option *ngFor="let idet of descorigenListTemp" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -301,7 +301,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Medio de recepci&oacute;n de la incapacidad:</mat-label>
-                                <mat-select formControlName="medrecepin"  >
+                                <mat-select formControlName="medrecepin" required="{{bluedRequired}}" >
                                   <mat-option *ngFor="let idet of medRecepInList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -312,7 +312,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>¿Es la incapacidad original?:</mat-label>
-                                <mat-select formControlName="incaporiginal"  >
+                                <mat-select formControlName="incaporiginal"  required="{{bluedRequired}}">
                                   <mat-option *ngFor="let idet of siNoList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -323,7 +323,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>¿Anexa historia clínica?:</mat-label>
-                                <mat-select formControlName="anexhistclin"  >
+                                <mat-select formControlName="anexhistclin" required="{{bluedRequired}}" >
                                   <mat-option *ngFor="let idet of siNoList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -338,7 +338,7 @@
                         <div class="col-sm-4">
                             <mat-form-field>
                                 <mat-label>Fecha de recepci&oacute;n de la incapacidad:</mat-label>
-                                <input matInput formControlName="fecharepinc" type="date" required>
+                                <input matInput formControlName="fecharepinc" type="date" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
@@ -385,7 +385,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipo de incapacidad:</mat-label>
-                                <mat-select formControlName="tipoincap"  >
+                                <mat-select formControlName="tipoincap" required="{{bluedRequired}}" >
                                   <mat-option *ngFor="let idet of tipIncaList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -396,14 +396,14 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>No. De D&iacute;as:</mat-label>
-                                <input matInput formControlName="numdiasincap" type="number" >
+                                <input matInput formControlName="numdiasincap" type="number" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>¿Requieres seguimiento m&eacute;dico por d&iacute;as de incapacidad?:</mat-label>
-                                <mat-select formControlName="segincapamed"  >
+                                <mat-select formControlName="segincapamed" required="{{bluedRequired}}" >
                                   <mat-option *ngFor="let idet of siNoList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -418,7 +418,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Estado de la incapacidad o aislamiento:</mat-label>
-                                <mat-select formControlName="estadincapad"  >
+                                <mat-select formControlName="estadincapad" required="{{bluedRequired}}" >
                                   <mat-option *ngFor="let idet of estIncAis" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -429,14 +429,14 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>C&oacute;digo del diagn&oacute;stico seg&uacute;n CIE-10:</mat-label>
-                                <input matInput formControlName="codcie" type="text" (ngModelChange)="onCodcieChange($event)" required>
+                                <input matInput formControlName="codcie" type="text" (ngModelChange)="onCodcieChange($event)" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Nombre del diagn&oacute;stico:</mat-label>
-                                <input matInput formControlName="nomdisgnod" type="text" required>
+                                <input matInput formControlName="nomdisgnod" type="text" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
@@ -447,14 +447,14 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width ContCamp">
                                 <mat-label>Cap&iacute;tulo CIE 10:</mat-label>
-                                <input matInput formControlName="capitcie" type="text" required>
+                                <input matInput formControlName="capitcie" type="text" required="{{bluedRequired}}">
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Estado Gestion:</mat-label>
-                                <mat-select formControlName="estado_gs"  >
+                                <mat-select formControlName="estado_gs" (ngModelChange)="validRequid($event)" >
                                   <mat-option *ngFor="let idet of stadgestionList" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -465,7 +465,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Observación:</mat-label>
-                                <textarea matInput formControlName="observacion_tb" placeholder=""></textarea>
+                                <textarea matInput formControlName="observacion_tb" placeholder="" required="{{textAreRequired}}"></textarea>
                             </mat-form-field>
                         </div>
 
