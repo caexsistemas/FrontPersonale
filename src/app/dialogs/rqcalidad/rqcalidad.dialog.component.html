@@ -808,6 +808,15 @@
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_per_man_cor" [color]="'primary'" [disabled]="true">Perfila de manera <br>correcta</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" [disabled]="true">Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_sol_reg_dat_tit" [color]="'primary'" [disabled]="true">Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
+                                <p><mat-checkbox formControlName="asp_pos_sal" [color]="'primary'" >Saludo</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_des" [color]="'primary'" >Despedida</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_eti_tel" [color]="'primary'" >Etiqueta telefonica</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_cre_emp_con_cli" [color]="'primary'" >Crear empatia con <br>el cliente</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_fel" [color]="'primary'" >Felicitaciones</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_cie_cor" [color]="'primary'" >Realiza cierres correctos</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_per_man_cor" [color]="'primary'" >Perfila de manera <br>correcta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_men_ben_ofe_tod_cla" [color]="'primary'" >Menciona beneficios de<br> la oferta Todo <br>Claro</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_sol_reg_dat_tit" [color]="'primary'" >Solicita y registra <br>los datos del <br>titular</mat-checkbox></p>        
                               </section>
                         </div>
                         <div class="col-md-6">
@@ -820,16 +829,21 @@
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" [disabled]="true">Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_rea_lec_cor_con" [color]="'primary'" [disabled]="true">Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_apl_lin_mod_gana" [color]="'primary'" [disabled]="true">Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_es_tol" [color]="'primary'">Es tolerante</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bue_ton_voz" [color]="'primary'" >Buen tono de voz</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_obj_cli_gen_cie" [color]="'primary'" >Maneja la objeciones<br> del cliente para <br>generar el cierre</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_man_con_seg_lla" [color]="'primary'" >Mantiene la concentraci&oacute;n<br>y seguridad en <br>la llamada</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_bri_inf_cor_ser_ofe" [color]="'primary'" >Brinda informaci&oacute;n correcta <br>de los servicios <br>oferta</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_rea_lec_cor_con" [color]="'primary'" >Realiza la lectura <br>correcta del contrato</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="asp_pos_apl_lin_mod_gana" [color]="'primary'" >Aplica los lineamientos <br>del modelo G.A.N.A</mat-checkbox></p>
                               </section>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12">
-                            <mat-form-field class="example-full-width ContCamp" >
-                                <mat-label>Aspectos Positivos:</mat-label>
-                                <textarea matInput formControlName="obs_asp_pos" class="color-text-Area ContCamp-text" placeholder="" ></textarea>
-                            </mat-form-field>
+                            <dt>Aspectos Positivos:</dt>
+                            <dd>{{dataCad.obs_asp_pos}}</dd>
                         </div>
                     </div>
                 
@@ -910,7 +924,7 @@
                         <div class="col-sm-4">
                             <mat-form-field>
                                 <mat-label>Cedula:</mat-label>
-                                <input matInput formControlName="document" type="number" required>
+                                <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)" required>
                             </mat-form-field>
                         </div>
                     </div>
@@ -923,15 +937,23 @@
                             </mat-form-field>
                         </div>
                         <div class="col-sm-4">
-                            <mat-form-field>
+                            <mat-form-field class="example-full-width ContCamp" >
                                 <mat-label>Nombre Asesor:</mat-label>
-                                <input matInput formControlName="name" type="text" required>
+                                <mat-select formControlName="name" required>
+                                  <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                  </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="col-sm-4">
-                            <mat-form-field>
+                            <mat-form-field class="example-full-width ContCamp" >
                                 <mat-label>Coordinador:</mat-label>
-                                <input matInput formControlName="coordinator" type="text" >
+                                <mat-select formControlName="coordinator" required>
+                                  <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                  </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                     </div>

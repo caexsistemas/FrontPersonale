@@ -66,6 +66,7 @@ export class IncapacidadesComponent implements OnInit {
           } else {
             this.personaleData = [];
             this.handler.handlerError(response);
+            this.loading = false;
           }
         },
         error => {

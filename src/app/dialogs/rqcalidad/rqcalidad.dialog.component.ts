@@ -44,6 +44,7 @@ export class RqcalidadDialog  {
   ListtipificaMovil:  any = [];
   ListtipificaHogar:  any = [];
   ListtipificaTYT:  any = [];
+  personalData:     any = [];
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -153,7 +154,7 @@ export class RqcalidadDialog  {
                             }
                         },
                         error => {
-                            this.handler.showError('Se produjo un error');
+                            this.handler.showError('Se produjo un error '+error);
                             this.loading.emit(false);
                         }
                     );
@@ -330,16 +331,18 @@ export class RqcalidadDialog  {
         data => {
             if (data.success == true) {
                 //DataInfo
-                this.lisTipogesCla = data.data['tipgescla'];
-                this.lisTiporedCla = data.data['tipredcla'];
-                this.lisCalifica   = data.data['califclaro'];
-                this.istSinoclar   = data.data['snclaro'];
-                this.listSinomr    = data.data['sntipica'];
-                this.listEscala    = data.data['escalaclaro'];
-                this.listipomatriz = data.data['tipmatriz'];
-                this.ListtipificaMovil  = data.data['tipificaMovil'];   
-                this.ListtipificaHogar= data.data['tipificaHogar'];  
-                this.ListtipificaTYT = data.data['tipificaTYT'];  
+                this.lisTipogesCla = data.data['tipgescla']; //32
+                this.lisTiporedCla = data.data['tipredcla']; //33
+                this.lisCalifica   = data.data['califclaro']; //34
+                this.istSinoclar   = data.data['snclaro']; // 35
+                this.listSinomr    = data.data['sntipica']; //17
+                this.listEscala    = data.data['escalaclaro']; //36
+                this.listipomatriz = data.data['tipmatriz']; //40
+                this.ListtipificaMovil  = data.data['tipificaMovil']; //41   
+                this.ListtipificaHogar= data.data['tipificaHogar'];  //42
+                this.ListtipificaTYT = data.data['tipificaTYT'];  //43
+                this.personalData = data.data['getDataPersonal'];  //Data Personal
+
                 
               if (this.view == 'update') {
                 this.getDataUpdate();
@@ -714,5 +717,15 @@ export class RqcalidadDialog  {
         }
     );
   }
+
+  onSelectionChange(event){
+             
+    let exitsPersonal = this.personalData.find(element => element.document == event);
+    if( exitsPersonal ){
+        this.formProces.get('name').setValue(exitsPersonal.idPersonale);
+        this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
+        
+    }        
+}
 
 }
