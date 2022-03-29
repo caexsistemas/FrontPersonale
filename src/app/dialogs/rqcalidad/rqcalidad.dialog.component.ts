@@ -143,6 +143,7 @@ export class RqcalidadDialog  {
                         data => {
                             if (data.success == true) {
                                 this.dataCad = data.data['getDatPer'][0];
+                                this.tipMatriz = this.dataCad.matrizarp_cod;
                                 //this.generateTable(data.data['getDatHistory']);   
                                 this.loading.emit(false);
                             } else {
