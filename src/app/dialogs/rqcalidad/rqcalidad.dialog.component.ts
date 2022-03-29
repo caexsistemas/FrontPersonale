@@ -44,6 +44,7 @@ export class RqcalidadDialog  {
   ListtipificaMovil:  any = [];
   ListtipificaHogar:  any = [];
   ListtipificaTYT:  any = [];
+  personalData:     any = [];
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -340,6 +341,8 @@ export class RqcalidadDialog  {
                 this.ListtipificaMovil  = data.data['tipificaMovil']; //41   
                 this.ListtipificaHogar= data.data['tipificaHogar'];  //42
                 this.ListtipificaTYT = data.data['tipificaTYT'];  //43
+                this.personalData = data.data['getDataPersonal'];  //Data Personal
+
                 
               if (this.view == 'update') {
                 this.getDataUpdate();
@@ -714,5 +717,15 @@ export class RqcalidadDialog  {
         }
     );
   }
+
+  onSelectionChange(event){
+             
+    let exitsPersonal = this.personalData.find(element => element.document == event);
+    if( exitsPersonal ){
+        this.formProces.get('name').setValue(exitsPersonal.idPersonale);
+        this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
+        
+    }        
+}
 
 }
