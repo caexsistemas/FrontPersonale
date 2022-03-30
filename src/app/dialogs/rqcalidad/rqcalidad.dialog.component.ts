@@ -174,6 +174,7 @@ export class RqcalidadDialog  {
       login: new FormControl(""), 
       name: new FormControl(""), 
       coordinator: new FormControl(""), 
+      campana: new FormControl(""),
       tmo: new FormControl(""), 
       call_id: new FormControl(""), 
       min_bill: new FormControl(""), 
@@ -551,6 +552,7 @@ export class RqcalidadDialog  {
           this.formProces.get('login').setValue(data.data['getDataUpda'][0].login);
           this.formProces.get('name').setValue(data.data['getDataUpda'][0].name);
           this.formProces.get('coordinator').setValue(data.data['getDataUpda'][0].coordinator);
+          this.formProces.get('campana').setValue(data.data['getDataUpda'][0].campana);
           this.formProces.get('tmo').setValue(data.data['getDataUpda'][0].tmo);
           this.formProces.get('call_id').setValue(data.data['getDataUpda'][0].call_id);
           this.formProces.get('min_bill').setValue(data.data['getDataUpda'][0].min_bill);
