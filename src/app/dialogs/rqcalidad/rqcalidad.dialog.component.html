@@ -116,6 +116,11 @@
 
                     <div class="row">
                         <div class="col-sm-4">
+                            <dt>Campaña:</dt>
+                            <dd>{{dataCad.campana}}</dd>
+                        </div>
+
+                        <div class="col-sm-4">
                             <dt>Nota Fional:</dt>
                             <dd>{{dataCad.final_note}}</dd>
                         </div>
@@ -800,7 +805,7 @@
                             <section class="example-section" >
                                 <h6>Aspectos Positivos:</h6>
 
-                                <p><mat-checkbox [checked]="dataCad.asp_pos_sal" [color]="'primary'" [disabled]="true">Saludo</mat-checkbox></p>
+                                <p><mat-checkbox [checked]="dataCad.asp_pos_sal" [disabled]="true">Saludo</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_des" [color]="'primary'" [disabled]="true">Despedida</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_eti_tel" [color]="'primary'" [disabled]="true">Etiqueta telefonica</mat-checkbox></p>
                                 <p><mat-checkbox [checked]="dataCad.asp_pos_cre_emp_con_cli" [color]="'primary'" [disabled]="true">Crear empatia con <br>el cliente</mat-checkbox></p>
@@ -1020,6 +1025,13 @@
                             <mat-form-field class="ContCamp">
                                 <mat-label>Nota Fional:</mat-label>
                                 <input matInput formControlName="final_note" type="number">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field >
+                                <mat-label>Campaña:</mat-label>
+                                <input matInput formControlName="campana" type="text">
                             </mat-form-field>
                         </div>
                     </div>
