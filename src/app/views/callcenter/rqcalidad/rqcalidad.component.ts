@@ -25,6 +25,7 @@ export class RqcalidadComponent implements OnInit {
   displayedColumns:any  = [];
   dataSource:any        = [];
   public detaNovSal = [];
+  contaClick:  number = 0;
   //Control Permiso
   component = "/callcenter/rqcalidad";
   //History
@@ -167,6 +168,13 @@ export class RqcalidadComponent implements OnInit {
             });
         break;
       }
+  }
+
+  openc(){
+    if(this.contaClick == 0){
+      this.sendRequest();
+    }    
+    this.contaClick = this.contaClick + 1;
   }
 
 }
