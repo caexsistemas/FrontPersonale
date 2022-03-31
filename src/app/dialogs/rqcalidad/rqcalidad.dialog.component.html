@@ -1008,7 +1008,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Campaña:</mat-label>
-                            <mat-select formControlName="campana" required (ngModelChange)="labelMatriz($event)">
+                            <mat-select formControlName="campana" required>
                                 <mat-option *ngFor="let idet of Listipocampana" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
