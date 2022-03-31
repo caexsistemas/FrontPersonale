@@ -27,7 +27,7 @@ export class DefaultLayoutComponent{
   public subitem: any;
   endpoint: string = '/menu';
   public permissions:any[]  = Array();
-
+  public userLogin: any;
 
 
 
@@ -76,6 +76,7 @@ export class DefaultLayoutComponent{
     this.identity = _tools.getIdentity();
     this.token = _tools.getToken();
     this.cuser = localStorage.getItem('currentUser');
+    this.userLogin = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   ngOnInit(): void {
@@ -163,6 +164,7 @@ export class DefaultLayoutComponent{
   checkSession() {
     // ejecutar consulta al servidor para verificar si el token es valido aun...
     this.cuser = JSON.parse(localStorage.getItem('currentUser'));
+
     if (this.cuser != null) {
       this.WebApiService.token = this.cuser.token;
       if (this.cuser.user != null && this.cuser.token != null && this.cuser.username != null) {

@@ -45,6 +45,7 @@ export class RqcalidadDialog  {
   ListtipificaHogar:  any = [];
   ListtipificaTYT:  any = [];
   personalData:     any = [];
+  Listipocampana:   any = [];
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -342,6 +343,7 @@ export class RqcalidadDialog  {
                 this.ListtipificaMovil  = data.data['tipificaMovil']; //41   
                 this.ListtipificaHogar= data.data['tipificaHogar'];  //42
                 this.ListtipificaTYT = data.data['tipificaTYT'];  //43
+                this.Listipocampana = data.data['tipicampana'];  //44
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
 
                 
@@ -530,7 +532,7 @@ export class RqcalidadDialog  {
                 }
             );
       }else {
-          this.handler.showError('Complete la informacion necesaria');
+          this.handler.showError('Complete la informacion necesaria' + this.formProces.valid);
           this.loading.emit(false);
       }
   }
@@ -550,8 +552,8 @@ export class RqcalidadDialog  {
           this.formProces.get('tipo_red').setValue(data.data['getDataUpda'][0].tipo_red);
           this.formProces.get('document').setValue(data.data['getDataUpda'][0].document);
           this.formProces.get('login').setValue(data.data['getDataUpda'][0].login);
-          this.formProces.get('name').setValue(data.data['getDataUpda'][0].name);
-          this.formProces.get('coordinator').setValue(data.data['getDataUpda'][0].coordinator);
+          //this.formProces.get('name').setValue(data.data['getDataUpda'][0].name);
+          //this.formProces.get('coordinator').setValue(data.data['getDataUpda'][0].coordinator);
           this.formProces.get('campana').setValue(data.data['getDataUpda'][0].campana);
           this.formProces.get('tmo').setValue(data.data['getDataUpda'][0].tmo);
           this.formProces.get('call_id').setValue(data.data['getDataUpda'][0].call_id);
@@ -656,7 +658,8 @@ export class RqcalidadDialog  {
           this.formProces.get('tyt_esc_ama').setValue(data.data['getDataUpda'][0].tyt_esc_ama);
           this.formProces.get('tyt_esc_des').setValue(data.data['getDataUpda'][0].tyt_esc_des);
           this.formProces.get('tyt_cla_up').setValue(data.data['getDataUpda'][0].tyt_cla_up);
-          this.formProces.get('tyt_cla_up').setValue(data.data['getDataUpda'][0].tyt_cla_up);
+          this.formProces.get('tyt_ult_wif').setValue(data.data['getDataUpda'][0].tyt_ult_wif);
+
           //Tpipificacion
           this.formProces.get('tip_reg_min').setValue(data.data['getDataUpda'][0].tip_reg_min);
           this.formProces.get('tip_correcta').setValue(data.data['getDataUpda'][0].tip_correcta);
@@ -699,25 +702,29 @@ export class RqcalidadDialog  {
     let body = {
         salud: this.formProces.value  
     }
-
-    this.loading.emit(true);
-    this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{})
-    .subscribe(
-        data=>{
-            if(data.success){
-                this.handler.showSuccess(data.message);
-                this.reload.emit();
-                this.closeDialog();
-            }else{
-                this.handler.handlerError(data);
-                this.loading.emit(false);
-            }
-        },
-        error=>{
-            this.handler.showError(error);
-            this.loading.emit(false);
-        }
-    );
+    if (this.formProces.valid) {
+      this.loading.emit(true);
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{})
+      .subscribe(
+          data=>{
+              if(data.success){
+                  this.handler.showSuccess(data.message);
+                  this.reload.emit();
+                  this.closeDialog();
+              }else{
+                  this.handler.handlerError(data);
+                  this.loading.emit(false);
+              }
+          },
+          error=>{
+              this.handler.showError(error);
+              this.loading.emit(false);
+          }
+      );
+    }else {
+      this.handler.showError('Complete la informacion necesaria');
+      this.loading.emit(false);
+    }
   }
 
   onSelectionChange(event){

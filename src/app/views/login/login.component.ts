@@ -141,7 +141,7 @@ export class LoginComponent {
               action: data.action,
               userProfile:data.userProfile,
               role:data.rol,
-              iduser:data.iduser
+              iduser:data.iduser,
             }
             console.log(data)
             localStorage.setItem('currentUser',JSON.stringify(objData));

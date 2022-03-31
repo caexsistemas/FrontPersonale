@@ -894,149 +894,150 @@
                   </mat-expansion-panel-header>
               
                   
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Tipo Gesti&oacute;n:</mat-label>
-                                <mat-select formControlName="tipo_gestion" >
-                                    <mat-option *ngFor="let idet of lisTipogesCla" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Tipo Red:</mat-label>
-                                <mat-select formControlName="tipo_red" >
-                                    <mat-option *ngFor="let idet of lisTiporedCla" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Cedula:</mat-label>
-                                <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)" required>
-                            </mat-form-field>
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Tipo Matriz:</mat-label>
+                            <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
+                                <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Login:</mat-label>
-                                <input matInput formControlName="login" type="number" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width ContCamp" >
-                                <mat-label>Nombre Asesor:</mat-label>
-                                <mat-select formControlName="name" required>
-                                  <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
-                                    {{idet.name}}
-                                  </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width ContCamp" >
-                                <mat-label>Coordinador:</mat-label>
-                                <mat-select formControlName="coordinator" required>
-                                  <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
-                                    {{idet.name}}
-                                  </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Tipo Gesti&oacute;n:</mat-label>
+                            <mat-select formControlName="tipo_gestion" required>
+                                <mat-option *ngFor="let idet of lisTipogesCla" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>TMO:</mat-label>
-                                <input matInput formControlName="tmo" type="text" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>ID llamada:</mat-label>
-                                <input matInput formControlName="call_id" type="text" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>N&uacute;mero MIN/Cuenta Hogar:</mat-label>
-                                <input matInput formControlName="min_bill" type="number" >
-                            </mat-form-field>
-                        </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Tipo Red:</mat-label>
+                            <mat-select formControlName="tipo_red" required>
+                                <mat-option *ngFor="let idet of lisTiporedCla" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Semana:</mat-label>
-                                <input matInput formControlName="week" type="text" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Analista:</mat-label>
-                                <input matInput formControlName="analyst" type="text" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Oferta:</mat-label>
-                                <input matInput formControlName="offer" type="text" >
-                            </mat-form-field>
-                        </div>
+                  </div>
+               
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Cedula:</mat-label>
+                            <input matInput formControlName="document" type="number"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" (ngModelChange)="onSelectionChange($event)" required>
+                        </mat-form-field>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Fecha de Monitoreo:</mat-label>
-                                <input matInput formControlName="monitoring_date" type="date" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field>
-                                <mat-label>Fecha de Llamada:</mat-label>
-                                <input matInput formControlName="call_date" type="date" required>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Tipo Matriz:</mat-label>
-                                <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
-                                    <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Login:</mat-label>
+                            <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                        </mat-form-field>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="ContCamp">
-                                <mat-label>Nota Fional:</mat-label>
-                                <input matInput formControlName="final_note" type="number">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <mat-form-field >
-                                <mat-label>Campaña:</mat-label>
-                                <input matInput formControlName="campana" type="text">
-                            </mat-form-field>
-                        </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width ContCamp" >
+                            <mat-label>Nombre Asesor:</mat-label>
+                            <mat-select formControlName="name" required>
+                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                {{idet.name}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
+                  </div>
 
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width ContCamp" >
+                            <mat-label>Coordinador:</mat-label>
+                            <mat-select formControlName="coordinator" required>
+                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                {{idet.name}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>TMO:</mat-label>
+                            <input matInput formControlName="tmo" type="text" >
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>ID llamada:</mat-label>
+                            <input matInput formControlName="call_id" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                        </mat-form-field>
+                    </div>
+                  </div>
                   
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>N&uacute;mero MIN/Cuenta Hogar:</mat-label>
+                            <input matInput formControlName="min_bill" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Semana:</mat-label>
+                            <input matInput formControlName="week" type="text" >
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Analista:</mat-label>
+                            <input matInput formControlName="analyst" type="text" >
+                        </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Oferta:</mat-label>
+                            <input matInput formControlName="offer" type="text" >
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Campaña:</mat-label>
+                            <mat-select formControlName="campana" required (ngModelChange)="labelMatriz($event)">
+                                <mat-option *ngFor="let idet of Listipocampana" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Fecha de Monitoreo:</mat-label>
+                            <input matInput formControlName="monitoring_date" type="date" >
+                        </mat-form-field>
+                    </div>
+                   
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Fecha de Llamada:</mat-label>
+                            <input matInput formControlName="call_date" type="date" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="ContCamp">
+                            <mat-label>Nota Fional:</mat-label>
+                            <input matInput formControlName="final_note" type="number">
+                        </mat-form-field>
+                    </div>
+                  </div>
                   
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>

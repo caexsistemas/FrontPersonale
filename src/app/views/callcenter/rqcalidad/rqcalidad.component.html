@@ -45,7 +45,7 @@
 
                     <ng-container matColumnDef="monitoring_date">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha del Monitoreo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.monitoring_date | date: 'medium'}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.monitoring_date}} </td>
                     </ng-container>
   
                     <ng-container matColumnDef="document">
