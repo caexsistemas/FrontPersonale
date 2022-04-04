@@ -15,9 +15,14 @@
                         </button>
                     </div>
                     <div class="btn-group" dropdown>
-                      <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
-                          <i class="fa fa-plus"></i>
-                      </button>
+                        <button dropdownToggle type="button" class="btn btn-primary ">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/1')">Ingresar Matriz Movil</a></li> 
+                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/2')">Ingresar Matriz Hogar</a></li>
+                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/3')">Ingresar Matriz TYT</a></li>                         
+                        </ul>
                     </div>
                 </div>
   

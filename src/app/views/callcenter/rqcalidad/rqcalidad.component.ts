@@ -109,7 +109,7 @@ export class RqcalidadComponent implements OnInit {
       this.infoModal.show()
     }
 
-    option(action,codigo=null){
+    option(action, codigo = null, tipoMat = null){
     
       var dialogRef;
       switch(action){
@@ -118,7 +118,8 @@ export class RqcalidadComponent implements OnInit {
             dialogRef = this.dialog.open(RqcalidadDialog,{
               data: {
                 window: 'create',
-                codigo
+                codigo,
+                tipoMat
               }
             });
             dialogRef.disableClose = true;

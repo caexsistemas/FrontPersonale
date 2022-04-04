@@ -896,9 +896,9 @@
                   
                   <div class="row">
                     <div class="col-sm-4">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="example-full-width ContCamp">
                             <mat-label>Tipo Matriz:</mat-label>
-                            <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
+                            <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)" >
                                 <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -985,7 +985,7 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
-                        <mat-form-field>
+                        <mat-form-field class="ContCamp">
                             <mat-label>Semana:</mat-label>
                             <input matInput formControlName="week" type="text" >
                         </mat-form-field>
@@ -1018,7 +1018,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Fecha de Monitoreo:</mat-label>
-                            <input matInput formControlName="monitoring_date" type="date" >
+                            <input matInput formControlName="monitoring_date" type="date" (ngModelChange)="getWeekNr($event)" required >
                         </mat-form-field>
                     </div>
                    
@@ -1034,7 +1034,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Fional:</mat-label>
-                            <input matInput formControlName="final_note" type="number">
+                            <input matInput formControlName="final_note" type="number" (keyup)="validcheked()">
                         </mat-form-field>
                     </div>
                   </div>

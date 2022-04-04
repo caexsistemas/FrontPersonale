@@ -46,6 +46,7 @@ export class RqcalidadDialog  {
   ListtipificaTYT:  any = [];
   personalData:     any = [];
   Listipocampana:   any = [];
+  numberOfDays: number = 0;
   //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
@@ -131,6 +132,8 @@ export class RqcalidadDialog  {
             case 'create':
                 this.initForms();
                 this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA ";
+                this.tipMatriz = this.data.tipoMat;
+                this.formProces.get('matrizarp').setValue(this.tipMatriz);
             break;
             case 'update':
                 this.initForms();
@@ -559,7 +562,7 @@ export class RqcalidadDialog  {
           this.formProces.get('tmo').setValue(data.data['getDataUpda'][0].tmo);
           this.formProces.get('call_id').setValue(data.data['getDataUpda'][0].call_id);
           this.formProces.get('min_bill').setValue(data.data['getDataUpda'][0].min_bill);
-          this.formProces.get('week').setValue(data.data['getDataUpda'][0].week);
+          //this.formProces.get('week').setValue(data.data['getDataUpda'][0].week);
           this.formProces.get('analyst').setValue(data.data['getDataUpda'][0].analyst);
           this.formProces.get('offer').setValue(data.data['getDataUpda'][0].offer);
           this.formProces.get('monitoring_date').setValue(data.data['getDataUpda'][0].monitoring_date);
@@ -675,7 +678,6 @@ export class RqcalidadDialog  {
           this.formProces.get('asp_pos_bri_inf_cor_ser_ofe').setValue(data.data['getDataUpda'][0].asp_pos_bri_inf_cor_ser_ofe);
           this.formProces.get('asp_pos_rea_lec_cor_con').setValue(data.data['getDataUpda'][0].asp_pos_rea_lec_cor_con);
           this.formProces.get('asp_pos_apl_lin_mod_gana').setValue(data.data['getDataUpda'][0].asp_pos_apl_lin_mod_gana);
-                     
         },
         error => {
             this.handler.showError();
@@ -726,6 +728,42 @@ export class RqcalidadDialog  {
         this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
         
     }        
-}
+  }
+
+  //Numero de semanas
+  getWeekNr(event){
+
+        var today = new Date(event);
+        var Year = this.takeYear(today);
+        var Month = today.getMonth();
+        var Day = today.getDate();
+        var now = Date.UTC(Year,Month,Day,0,0,0);
+        var Firstday = new Date();
+        Firstday.setFullYear(Year);
+        Firstday.setMonth(0);
+        Firstday.setDate(1);
+        var then = Date.UTC(Year,0,1,0,0,0);
+        var Compensation = Firstday.getDay();
+        if (Compensation > 3) Compensation -= 4;
+        else Compensation += 3;
+        var NumberOfWeek =  Math.round((((now-then)/86400000)+Compensation)/7);
+        this.formProces.get('week').setValue("Semana: "+(NumberOfWeek-1));
+  }
+
+ takeYear(theDate){
+        var x = theDate.getYear();
+        var y = x % 100;
+        y += (y < 38) ? 2000 : 1900;
+        return y;
+  } 
+
+  onKey(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.key === "Tab") {
+        console.log('ole... tab');
+       
+    }
+
+  }
 
 }
