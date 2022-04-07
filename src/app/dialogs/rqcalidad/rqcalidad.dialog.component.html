@@ -897,9 +897,9 @@
                   
                   <div class="row">
                     <div class="col-sm-4">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="example-full-width ContCamp">
                             <mat-label>Tipo Matriz:</mat-label>
-                            <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
+                            <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)" >
                                 <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -986,7 +986,7 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
-                        <mat-form-field>
+                        <mat-form-field class="ContCamp">
                             <mat-label>Semana:</mat-label>
                             <input matInput formControlName="week" type="text" >
                         </mat-form-field>
@@ -1019,7 +1019,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Fecha de Monitoreo:</mat-label>
-                            <input matInput formControlName="monitoring_date" type="date" >
+                            <input matInput formControlName="monitoring_date" type="date" (ngModelChange)="getWeekNr($event)" required >
                         </mat-form-field>
                     </div>
                    
@@ -1035,7 +1035,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Fional:</mat-label>
-                            <input matInput formControlName="final_note" type="number">
+                            <input matInput formControlName="final_note" type="number" (keyup)="validcheked()">
                         </mat-form-field>
                     </div>
                   </div>
@@ -1084,7 +1084,7 @@
                     <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
                         <mat-form-field class="example-full-width">
                             <mat-label>Contacto Inicial:</mat-label>
-                            <mat-select formControlName="tyt_ate_con_ini" required (ngModelChange)="validcheked()">
+                            <mat-select formControlName="tyt_ate_con_ini" required >
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -1106,7 +1106,7 @@
                     <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
                         <mat-form-field class="example-full-width">
                             <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
-                            <mat-select formControlName="tyt_ate_ama_emp" required >
+                            <mat-select formControlName="tyt_ate_ama_emp" required (ngModelChange)="validcheked()" >
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -1512,7 +1512,7 @@
                         <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Codificación:</mat-label>
-                                <mat-select formControlName="tyt_cie_cod" required>
+                                <mat-select formControlName="tyt_cie_cod" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
@@ -1523,7 +1523,7 @@
                         <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Realiza Resumen de la Gestión :</mat-label>
-                                <mat-select formControlName="tyt_cie_rea_res_ges" required>
+                                <mat-select formControlName="tyt_cie_rea_res_ges" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
