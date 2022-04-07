@@ -7,6 +7,7 @@
                     style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                
             </h5>
         </div>
 
@@ -311,7 +312,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
                             <dt>Brinda información correcta y completa De Portabilidad:</dt>
                             <dd>{{dataCad.proc_brin_inf_corr_com_port}}</dd>
                         </div>
@@ -565,7 +566,7 @@
                   </mat-expansion-panel>
 
                   <!--{Campos Matriz Hogar Tecnologia/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2'" [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tecnologia/Afinidad/Escala &nbsp; &nbsp;
@@ -1350,7 +1351,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'">
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Brinda información correcta y completa De Portabilidad:</mat-label>
                                 <mat-select formControlName="proc_brin_inf_corr_com_port" required (ngModelChange)="validcheked()">
