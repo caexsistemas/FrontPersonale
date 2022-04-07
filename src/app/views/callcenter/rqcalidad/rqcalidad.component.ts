@@ -117,7 +117,7 @@ export class RqcalidadComponent implements OnInit {
     this.infoModal.show();
   }
 
-  option(action, codigo = null) {
+  option(action, codigo = null, tipoMat) {
     var dialogRef;
     switch (action) {
       case "create":
@@ -126,6 +126,7 @@ export class RqcalidadComponent implements OnInit {
           data: {
             window: "create",
             codigo,
+            tipoMat: tipoMat
           },
         });
         dialogRef.disableClose = true;

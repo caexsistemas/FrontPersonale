@@ -133,6 +133,7 @@ export class RqcalidadDialog  {
                 this.initForms();
                 this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA ";
                 this.tipMatriz = this.data.tipoMat;
+                console.log("yy:"+this.data.tipoMat);
                 this.formProces.get('matrizarp').setValue(this.tipMatriz);
             break;
             case 'update':
