@@ -138,6 +138,7 @@ export class RqcalidadDialog  {
                 
             break;
             case 'update':
+                this.tipMatriz = this.data.tipoMat;
                 this.initForms();
                 this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA";
                 this.idPam = this.data.codigo;
@@ -548,7 +549,8 @@ export class RqcalidadDialog  {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamUpdateSet',
-        id: this.idPam
+        id: this.idPam,
+        tipMat: this.tipMatriz
     })
     .subscribe(
         data => {

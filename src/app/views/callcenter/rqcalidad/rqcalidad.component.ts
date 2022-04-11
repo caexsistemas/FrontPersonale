@@ -145,6 +145,7 @@ export class RqcalidadComponent implements OnInit {
           data: {
             window: "update",
             codigo,
+            tipoMat: tipoMat
           },
         });
         dialogRef.disableClose = true;
