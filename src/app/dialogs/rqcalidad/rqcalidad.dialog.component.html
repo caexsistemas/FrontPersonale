@@ -1009,7 +1009,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Campaña:</mat-label>
-                            <mat-select formControlName="campana" required>
+                            <mat-select formControlName="campana" required (ngModelChange)="campaHogarDedi($event)">
                                 <mat-option *ngFor="let idet of Listipocampana" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -2147,7 +2147,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificacion registrada en MIND:</mat-label>
                                 <mat-select formControlName="tip_reg_min" required (selectionChange)="onSelectLabor()">
-                                    <mat-option *ngFor="let idet of ListtipificaHogar" [value]="idet.ls_codvalue" >
+                                    <mat-option *ngFor="let idet of ListTipiConsHogar" [value]="idet.ls_codvalue" >
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
@@ -2159,7 +2159,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipificaci&oacute;n  correcta:</mat-label>
                                 <mat-select formControlName="tip_correcta" required (selectionChange)="onSelectLabor()">
-                                    <mat-option *ngFor="let idet of ListtipificaHogar" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of ListTipiConsHogar" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
