@@ -748,7 +748,7 @@ export class RqcalidadDialog  {
         if (Compensation > 3) Compensation -= 4;
         else Compensation += 3;
         var NumberOfWeek =  Math.round((((now-then)/86400000)+Compensation)/7);
-        this.formProces.get('week').setValue("Semana: "+(NumberOfWeek-1));
+        this.formProces.get('week').setValue("Semana: "+(NumberOfWeek));
   }
 
  takeYear(theDate){
