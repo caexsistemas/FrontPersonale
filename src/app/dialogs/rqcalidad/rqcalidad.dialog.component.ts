@@ -46,6 +46,8 @@ export class RqcalidadDialog  {
   ListtipificaTYT:  any = [];
   personalData:     any = [];
   Listipocampana:   any = [];
+  ListipifiHogarDed: any = [];
+  ListTipiConsHogar: any = [];
   numberOfDays: number = 0;
   //Datos Generales
   conCumpleGen:     number = 0;
@@ -130,15 +132,15 @@ export class RqcalidadDialog  {
   
           switch (this.view) {
             case 'create':
+                this.tipMatriz = this.data.tipoMat;
                 this.initForms();
                 this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA ";
-                this.tipMatriz = this.data.tipoMat;
-                console.log("yy:"+this.data.tipoMat);
-                this.formProces.get('matrizarp').setValue(this.tipMatriz);
+                
             break;
             case 'update':
+                this.tipMatriz = this.data.tipoMat;
                 this.initForms();
-                this.title = "Actualizar Novedad Medica";
+                this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA";
                 this.idPam = this.data.codigo;
             break;
             case 'view':
@@ -172,7 +174,7 @@ export class RqcalidadDialog  {
     this.getDataInit();
     this.formProces = new FormGroup({
       createUser: new FormControl(this.cuser.iduser),
-      matrizarp: new FormControl(""),
+      matrizarp: new FormControl(this.tipMatriz),
       tipo_gestion: new FormControl(""),
       tipo_red: new FormControl(""),
       document: new FormControl(""),
@@ -328,9 +330,10 @@ export class RqcalidadDialog  {
   }
 
   getDataInit(){
-    this.loading.emit(false);
+    this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamPrew',
+        tipMat: this.tipMatriz
     })
     .subscribe(
        
@@ -345,12 +348,12 @@ export class RqcalidadDialog  {
                 this.listEscala    = data.data['escalaclaro']; //36
                 this.listipomatriz = data.data['tipmatriz']; //40
                 this.ListtipificaMovil  = data.data['tipificaMovil']; //41   
-                this.ListtipificaHogar= data.data['tipificaHogar'];  //42
+                this.ListtipificaHogar = data.data['tipificaHogar'];  //42
                 this.ListtipificaTYT = data.data['tipificaTYT'];  //43
                 this.Listipocampana = data.data['tipicampana'];  //44
+                this.ListipifiHogarDed = data.data['tipificaHogarDed'];  //45
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
-
-                
+    
               if (this.view == 'update') {
                 this.getDataUpdate();
               }
@@ -546,7 +549,8 @@ export class RqcalidadDialog  {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamUpdateSet',
-        id: this.idPam
+        id: this.idPam,
+        tipMat: this.tipMatriz
     })
     .subscribe(
         data => {
@@ -734,8 +738,14 @@ export class RqcalidadDialog  {
   //Numero de semanas
   getWeekNr(event){
 
-        var today = new Date(event);
-        var Year = this.takeYear(today);
+        //var currentdate  = new Date(event);
+        var now = new Date(event),i=0,f,sem=(new Date(now.getFullYear(), 0,1).getDay()>0)?1:0;
+        while( (f=new Date(now.getFullYear(), 0, ++i)) < now ){
+          if(!f.getDay()){
+            sem++;
+          }
+        }
+        /*var Year = this.takeYear(today);
         var Month = today.getMonth();
         var Day = today.getDate();
         var now = Date.UTC(Year,Month,Day,0,0,0);
@@ -747,8 +757,8 @@ export class RqcalidadDialog  {
         var Compensation = Firstday.getDay();
         if (Compensation > 3) Compensation -= 4;
         else Compensation += 3;
-        var NumberOfWeek =  Math.round((((now-then)/86400000)+Compensation)/7);
-        this.formProces.get('week').setValue("Semana: "+(NumberOfWeek-1));
+        var NumberOfWeek =  Math.round((((now-then)/86400000)+Compensation)/7);*/
+        this.formProces.get('week').setValue("Semana: "+(sem-1));
   }
 
  takeYear(theDate){
@@ -763,6 +773,19 @@ export class RqcalidadDialog  {
     if (event.key === "Tab") {
         console.log('ole... tab');
        
+    }
+
+  }
+
+  campaHogarDedi(event){
+
+    console.log(this.tipMatriz +" / "+ event);
+    if( this.tipMatriz == '40/2' && event == '44/7' ){
+
+      this.ListTipiConsHogar = this.ListipifiHogarDed;
+    }else{
+
+      this.ListTipiConsHogar = this.ListtipificaHogar;
     }
 
   }
