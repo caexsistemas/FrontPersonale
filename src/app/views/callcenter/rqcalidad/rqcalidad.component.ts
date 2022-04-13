@@ -64,6 +64,7 @@ export class RqcalidadComponent implements OnInit {
   }
 
   sendRequest() {
+    this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: "getDataCalidad",
       idUser: this.cuser.iduser,
