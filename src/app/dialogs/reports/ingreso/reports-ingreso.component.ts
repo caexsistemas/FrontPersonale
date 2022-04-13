@@ -4,6 +4,8 @@ import { WebApiService } from '../../../services/web-api.service';
 import { HandlerAppService } from '../../../services/handler-app.service';
 import { global } from '../../../services/global';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @Component({
     selector: 'app-report',
@@ -24,6 +26,7 @@ import { ActivatedRoute } from '@angular/router';
 
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
+  
 
   constructor(
     private WebApiService: WebApiService,

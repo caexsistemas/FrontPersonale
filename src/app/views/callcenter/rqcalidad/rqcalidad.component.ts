@@ -19,6 +19,10 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.component";
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ReportsRqcalidadComponent } from "../../../dialogs/reports/rqcalidad/reports-rqcalidad.component";
+//import { ReportsRqcalidadComponent } from "../../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
+
 
 @Component({
   selector: "app-rqcalidad",
@@ -50,7 +54,8 @@ export class RqcalidadComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private matBottomSheet : MatBottomSheet
   ) {}
 
   ngOnInit(): void {
@@ -215,5 +220,9 @@ export class RqcalidadComponent implements OnInit {
                     this.loading = false;
             }
     );
+  }
+
+  onTriggerSheetClick(){
+    this.matBottomSheet.open(ReportsRqcalidadComponent)
   }
 }

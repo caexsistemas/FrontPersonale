@@ -76,6 +76,9 @@ import { ReportIngresoComponent } from './dialogs/reports/ingreso/reports-ingres
 import { CallcenterComponent } from './views/callcenter/callcenter.component';
 import { RqcalidadDialog } from './dialogs/rqcalidad/rqcalidad.dialog.component';
 import { RoleDialog } from './dialogs/role/role.dialog.component';
+import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
+//import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
+//import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
 
 // import { FileSaverModule } from 'ngx-filesaver';
 
@@ -147,7 +150,10 @@ const routes: Routes = [];
     ReportIngresoComponent,
     CallcenterComponent,
     RqcalidadDialog,
-    RoleDialog      
+    RoleDialog,
+    ReportsRqcalidadComponent
+    
+      
   ],
   providers: [{
     provide: LocationStrategy,

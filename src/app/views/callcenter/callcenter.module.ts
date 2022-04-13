@@ -37,6 +37,9 @@ import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
 import { MatInputModule }  from '@angular/material/input';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+//import { ReportsRqcalidadComponent } from "../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
+
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -62,7 +65,9 @@ const ngWizardConfig: NgWizardConfig = {
     BsDropdownModule,
     TabsModule,
     BsDropdownModule.forRoot(),
-    NgWizardModule.forRoot(ngWizardConfig)
+    NgWizardModule.forRoot(ngWizardConfig),
+    MatBottomSheetModule,
+    
 
   ],
   declarations: [
