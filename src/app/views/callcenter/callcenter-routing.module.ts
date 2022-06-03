@@ -13,6 +13,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { from } from 'rxjs';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
 
 
@@ -32,6 +33,13 @@ const routes: Routes = [
         component: RqcalidadComponent,
         data: {
           title: 'RQ Calidad'
+        }
+      },
+      {
+        path: 'feedback',
+        component: FeedbackComponent,
+        data: {
+          title: 'Feedback'
         }
       },
     ]

@@ -46,6 +46,7 @@ export class Tools {
     getToken() {
         let token = JSON.parse(localStorage.getItem('token'));
         token = 'sdasd64654asda';
+        console.log(token);
         if (token && token != "undefined") {
             this.token = token;
         } else {

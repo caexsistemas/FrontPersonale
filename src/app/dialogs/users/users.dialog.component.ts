@@ -15,7 +15,7 @@ import { global } from '../../services/global';
 
 @Component({
     selector: 'users-dialog',
-    templateUrl: 'users.dialog.html',
+    templateUrl: 'users.dialog.component.html',
 })
 
 export class UsersDialog {
@@ -24,6 +24,7 @@ export class UsersDialog {
     usuario: any = []; 
     title: string = null;
     id: number = null;
+    permissions: any = null;
 
     rol : any = [];
 
@@ -188,6 +189,7 @@ export class UsersDialog {
                     this.formUsuario.get('email').setValue(this.usuario.email);
                     this.formUsuario.get('phone').setValue(this.usuario.phone);
                     this.formUsuario.get('role').setValue(this.usuario.role);
+                    this.formUsuario.get('password').setValue(this.usuario.password);
                     this.loading.emit(false);
                 } else {
                     this.handler.handlerError(data);

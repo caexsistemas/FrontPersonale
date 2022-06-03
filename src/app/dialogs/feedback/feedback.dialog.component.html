@@ -1,0 +1,168 @@
+<div class="card mt-8">
+  <div *ngIf="view == 'create' || view == 'update'">
+    <div class="card-header">
+      <h5 class="modal-title button_header">
+        <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <mat-dialog-content>
+        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formNomi" method="POST">
+
+          
+           
+          
+          <div class="row">
+            <div class="col-md-4" *ngIf="view == 'create'">
+              <mat-form-field class="example-full-width">
+                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                <input matInput formControlName="document" type="number"(ngModelChange)="onSelectionChange($event)" required>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-md-4">
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Nombres y Apellidos</mat-label>
+                <input matInput formControlName="name">
+                {{PersonaleInfo.name}}
+              </mat-form-field>
+            </div> -->
+
+            <!-- <div class="col-md-4">
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                <mat-select formControlName="idPersonale" required>
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                <mat-select formControlName="name" required>
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.name">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Cargo Empleado:</mat-label>
+                <input matInput formControlName="car_trabajo" required>
+                {{PersonaleInfo.car_trabajo}}
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Area de trabajo:</mat-label>
+                <mat-select formControlName="car_trabajo">
+                  <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
+                    {{idet.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+         
+
+          <!-- <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Jefe Directo:</mat-label>
+                <mat-select formControlName="directboss_nc" required>
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="example-full-width ContCamp">
+                  <mat-label>Jefe Directo:</mat-label>
+                  <mat-select formControlName="supervisor" required>
+                    <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.supervisor">
+                      {{idet.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              
+              <!-- <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Enviado por</mat-label>
+                  <input matInput formControlName="supervisor">
+                  <mat-select>
+                    <mat-option *ngFor="let idet of PersonalInfo" [value]="idet.supervisor">
+                      {{idet.name}}</mat-option>
+                  </mat-select>
+                  
+              </mat-form-field>
+              </div> -->
+              
+
+            <!-- <div class="col-md-4">
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Jefe Directo:</mat-label>
+                <mat-select formControlName="supervisor" required>
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Area de trabajo:</mat-label>
+                <mat-select formControlName="car_user">
+                  <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
+                    {{idet.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Cargo:</mat-label>
+                <input matInput formControlName="car_user">
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha:</mat-label>
+                <input matInput formControlName="fecha" type="date">
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <!-- <div class="row">         
+            <div class="col-md-4" *ngIf="view == 'update'">
+              <label>Documento de Soporte:</label>
+              <a href="{{archivo.nombre}}" target="_blank">Download</a>
+            </div>
+          </div> -->
+
+        </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+
+          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <p>angular</p> -->

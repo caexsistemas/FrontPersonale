@@ -126,13 +126,13 @@ export class RoleDialog {
         break;
     }
   }
-  initForms() {
-    this.formRole = new FormGroup({
-      idRol: new FormControl(""),
-      name: new FormControl(""),
-      description: new FormControl(""),
-    });
-  }
+  // initForms() {
+  //   this.formRole = new FormGroup({
+  //     idRol: new FormControl(""),
+  //     name: new FormControl(""),
+  //     description: new FormControl(""),
+  //   });
+  // }
   initFormsRole() {
     this.getDataInit();
     this.formCreate = new FormGroup({

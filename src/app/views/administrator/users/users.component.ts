@@ -47,6 +47,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.permissions = this.handler.permissionsApp;
+    console.log(this.permissions)
     
     this.sendRequest();
   }

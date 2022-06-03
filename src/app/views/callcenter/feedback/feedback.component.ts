@@ -1,0 +1,177 @@
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
+import { Tools } from "../../../Tools/tools.page";
+import { WebApiService } from "../../../services/web-api.service";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { HandlerAppService } from "../../../services/handler-app.service";
+import { global } from "../../../services/global";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator } from "@angular/material/paginator";
+import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.component";
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { FeedbackDialog } from "../../../dialogs/feedback/feedback.dialog.component";
+import { ReportsFeddBackComponent } from "../../../dialogs/reports/feedback/reports-feedback.component";
+
+@Component({
+  selector: 'app-feedback',
+  templateUrl: './feedback.component.html',
+  styleUrls: ['./feedback.component.css']
+})
+export class FeedbackComponent implements OnInit {
+  endpoint: string = "/feedback";
+  id: number = null;
+  permissions: any = null;
+  contenTable: any = [];
+  dataPdf: any = [];
+  loading: boolean = false;
+  displayedColumns: any = [];
+  dataSource: any = [];
+  public detaNovSal = [];
+  contaClick: number = 0;
+  valorFeed :any[];
+  //Control Permiso
+  //History
+  public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
+  // @Output() loading = new EventEmitter();
+  // @Output() reload = new EventEmitter();
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+
+  component = "/callcenter/feedback";
+
+
+  constructor(
+    private _tools: Tools,
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    public dialog: MatDialog,
+    private matBottomSheet : MatBottomSheet
+  ) { }
+
+  ngOnInit(): void {
+    this.sendRequest();
+    this.permissions = this.handler.permissionsApp;
+  }
+  sendRequest() {
+    this.loading = true;
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getfeedback",
+      idUser: this.cuser.iduser,
+      role: this.cuser.role,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        if (data.success == true) {
+          console.log(data);
+          this.generateTable(data.data);
+          console.log(data.data);
+          this.contenTable = data.data;
+         // this.loading = false;
+        } else {
+          // this.handler.handlerError(data);
+          // this.loading = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        // this.handler.showError("Se produjo un error");
+        // this.loading = false;
+      }
+    );
+  }
+
+
+  generateTable(data) {
+    this.displayedColumns = [
+      "view",
+      "fecha",
+      "document",
+      "name",
+      "car_trabajo",
+      "supervisor",
+      "car_user",
+      "actions",
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+
+  option(action,codigo=null){
+    var dialogRef;
+    switch(action){
+      case 'create':
+        this.loading = true;
+        dialogRef = this.dialog.open(FeedbackDialog,{
+          data: {
+            window: 'create',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+      break;
+      }
+    }
+    pdf(id) {
+      console.log('++++');
+      console.log(id);
+      //this.loading.emit(true);
+      this.WebApiService.getRequest(this.endpoint, {
+        action: "pdf",
+        id: id,
+      }).subscribe(
+        (data) => {
+          this.permissions = this.handler.getPermissions(this.component);
+      console.log('***');
+      console.log(data);
+          if (data.success == true) {
+                
+                const link = document.createElement("a");
+                link.href = data.data.url;
+                link.download = data.data.file;
+                link.target = "_blank";
+                link.click();
+                this.handler.showSuccess(data.data.file);
+                this.loading = false;
+          } else {
+                  this.handler.handlerError(data);
+                  this.loading = false;
+          }
+        },
+        (error) => {
+                console.log(error);
+                this.handler.showError("Se produjo un error");
+                this.loading = false;
+        }
+);
+}
+onTriggerSheetClick(){
+  this.matBottomSheet.open(ReportsFeddBackComponent)
+}
+
+}
