@@ -37,9 +37,10 @@ export class FeedbackDialog
     dataSource: any=[];
     PersonaleInfo: any = [];
     feed: any= [];
-    idfeed:any=[];
+    idfeed: number = null;
     ListArea:      any = [];
     selectedFile:  File = null;
+    tipInter: string = "";
     formFeed: FormGroup;
     archivo = {
         nombre: null,
@@ -47,8 +48,11 @@ export class FeedbackDialog
         base64textString: null
     }
     ListTipoGes:    any = [];
+    TipoIntervencion: any = [];
+    listipomatriz: any = [];
     dataNovNi: any = []; 
     feedInfo: any=[];
+    tipMatriz:        string = "";
     //History
     historyMon: any = [];
     displayedColumns:any  = [];
@@ -69,16 +73,23 @@ export class FeedbackDialog
     private uploadFileService: NovedadesnominaServices
   ) { 
     this.view = this.data.window;
-    this.idNomi = null;
-
+    this.idfeed = null;
+  
     switch (this.view) {
         case 'create':
+            this.tipInter = this.data.tipoMat;
+            this.tipMatriz = this.data.tipoMat;
+
             this.initForms();
             this.title = "Crear Retroalimentacion";
         break;
         case 'update':
+          this.tipInter = this.data.tipoMat;
+          this.tipMatriz = this.data.tipoMat;
           this.initForms();
-          this.title = "Actualizar";
+          this.title = "Actualizar Retroalimentacion";
+          this.idfeed = this.data.codigo;
+
           break;
           case "view":
             this.idfeed = this.data.codigo;
@@ -89,11 +100,14 @@ export class FeedbackDialog
             ).subscribe(
               (data) => {
                 if (data.success == true) {
-                  console.log('+++++');
-                  console.log(data);
-                  this.feed = data.data[0];
-                  //  console.log('111111  ');
-                  //console.log(this.role);
+                 
+                  this.feed = data.data['getDataPerson'][0];
+                  this.tipInter = this.feed.matrizarp_cod;
+                  this.tipMatriz = this.feed.matrizarp_cod;
+
+                  this.generateTable(data.data['getDatHistory']);   
+                  console.log('111111  ');
+                  console.log(this.tipInter);
                   this.loading.emit(false);
                 } else {
                   this.handler.handlerError(data);
@@ -119,24 +133,38 @@ closeDialog() {
     this.getDataInit();
     this.formNomi = new FormGroup({
         fecha: new FormControl(""),
-        idPersonale: new FormControl(""),
+        matrizarp: new FormControl(this.cuser.matrizarp),
         document: new FormControl(""),
         name: new FormControl(""),
         car_trabajo: new FormControl(""),
         supervisor: new FormControl(""),
-        directboss_nc: new FormControl(""),
-        directboss_nc_jf: new FormControl(""),
         car_user: new FormControl(""),
+        des_crip: new FormControl(""),
+        com_tra: new FormControl(""),
+        rec_com: new FormControl(""),
+        tipo_intervencion: new FormControl(""),
         create_User: new FormControl(this.cuser.iduser)
 
         
     });
+}
+generateTable(data){
+  this.displayedColumns = [
+    'currentm_user',
+    'date_move',
+    'type_move'  
+  ];
+  this.historyMon = data;
+  this.clickedRows = new Set<PeriodicElement>();
 }
 getDataInit(){
 
   this.loading.emit(false);
   this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
+      matrizarp: this.cuser.matrizarp
+
+
   })
   .subscribe(
      
@@ -145,8 +173,11 @@ getDataInit(){
             console.log(data);
               //DataInfo
               this.PersonaleInfo = data.data['getDataPersonale'];
-               this.ListArea      = data.data['getDatArea'];
-              // this.ListTipoGes   = data.data['getDatTipoGes'];
+              this.ListArea      = data.data['getDatArea'];
+              this.ListTipoGes   = data.data['getDatTipoGes'];
+              this.TipoIntervencion = data.data['tipInter'];
+              this.listipomatriz = data.data['tipmatriz']; //40
+              
 
               if (this.view == 'update') {
                   this.getDataUpdate();
@@ -195,18 +226,11 @@ onSelectionChange(event){
         
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+  console.log(exitsPersonal);
   if( exitsPersonal ){
-      //this.formNomi.get('document').setValue(exitsPersonal.document);
-     // this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
-      //this.formNomi.get('idPersonale').setValue(exitsPersonal.document);
+    
       this.formNomi.get('name').setValue(exitsPersonal.name);
       this.formNomi.get('car_trabajo').setValue(exitsPersonal.idArea);
-     // this.formNomi.get('directboss_nc').setValue(exitsPersonal.document_jf);   
-
-     // this.formNomi.get('directboss_nc_jf').setValue(exitsPersonal.document_jf);     
-      this.formNomi.get('supervisor').setValue(exitsPersonal.name);     
-      //this.formNomi.get('directboss_nc_jf').setValue(exitsPersonal.idPersonale);     
-      //this.formNomi.get('supervisor').setValue(exitsPersonal.document_jf);     
      
   }        
 }
@@ -215,71 +239,90 @@ onSelectionJFChange(event){
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   if( exitsPersonal ){
-      this.formNomi.get('directboss_nc').setValue(exitsPersonal.idPersonale);
+      this.formNomi.get('supervisor').setValue(exitsPersonal.idPersonale);
   }        
 }
-// getDataInit() {
-//   this.loading.emit(false);
-//   this.WebApiService.getRequest(this.endpoint, {
-//     action: "getParamsUpdateSub",
-//   }).subscribe(
-//           (data) => {
-//             if (data.success == true) {
-//               //DataInfo
-//               this.feedInfo = data.data["getDataRole"];
-//               //console.log(this.RolInfo);
+getDataUpdate(){
 
-//               if (this.view == 'update') {
-//                   this.getDataUpdate();
-//               }
-//               this.loading.emit(false);
-//             } else {
-//               this.handler.handlerError(data);
-//               this.loading.emit(false);
-//             }
-//           },
-//           error => {
-//             this.handler.showError("Se produjo un error");
-//             this.loading.emit(false);
-//           }
-//         );
-// }
-// onSubmi(){
+  this.loading.emit(true);
+  this.WebApiService.getRequest(this.endpoint, {
+      action: 'getParamUpdateSet',
+      id: this.idfeed
+  })
+  .subscribe(
+      data => {
 
-//   if (this.formNomi.valid) {
-//       this.loading.emit(true);
-//       let body = {
-//           novedades: this.formNomi.value, 
-//           archivoRes: this.archivo       
-//       }
-//       this.WebApiService.postRequest(this.endpoint, body, {})
-//           .subscribe(
-//               data => {
-//                   if (data.success) {
-//                      this.handler.showSuccess(data.message);
-//                       this.reload.emit();
-//                       this.closeDialog();
-//                   } else {
-//                       this.handler.handlerError(data);
-//                       this.loading.emit(false);
-//                   }
-//               },
-//               error => {
-//                   this.handler.showError();
-//                   this.loading.emit(false);
-//               }
-//           )
-//   } else {
-//       this.handler.showError('Complete la informacion necesaria');
-//       this.loading.emit(false);
-//   }
-// }
-getDataUpdate(){}
+          this.formNomi.get('tipo_intervencion').setValue(data.data['getDataUpda'][0].tipo_intervencion);
+          this.formNomi.get('document').setValue(data.data['getDataUpda'][0].document);
+          this.formNomi.get('name').setValue(data.data['getDataUpda'][0].name);
+          this.formNomi.get('car_trabajo').setValue(data.data['getDataUpda'][0].car_trabajo);
+          this.formNomi.get('supervisor').setValue(data.data['getDataUpda'][0].supervisor);
+          this.formNomi.get('car_user').setValue(data.data['getDataUpda'][0].car_user);
+          this.formNomi.get('fecha').setValue(data.data['getDataUpda'][0].fecha);
+          this.formNomi.get('des_crip').setValue(data.data['getDataUpda'][0].des_crip);
+          this.formNomi.get('com_tra').setValue(data.data['getDataUpda'][0].com_tra);
+          this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
+          this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
+         
+        
+      },
+      error => {
+          this.handler.showError();
+          this.loading.emit(false);
+      }
+  );
+}
+onSubmitUpdate(){
+
+  let body = {
+      listas: this.formNomi.value,  
+      // id: this.idfeed
+  }
+  if (this.formNomi.valid) {
+    this.loading.emit(true);
+    this.WebApiService.putRequest(this.endpoint+'/'+this.idfeed,body,{})
+    .subscribe(
+        data=>{
+            if(data.success){
+              console.log('+++++++++++');
+              console.log(data);
+                this.handler.showSuccess(data.message);
+                this.reload.emit();
+                this.closeDialog();
+            }else{
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+            }
+        },
+        error=>{
+            this.handler.showError(error);
+            this.loading.emit(false);
+        }
+    );
+  }else {
+    this.handler.showError('Complete la informacion necesaria');
+    this.loading.emit(false);
+  }
+}
 
 
+ //Acording
+ step = 0;
 
+ setStep(index: number) {
+   this.step = index;
+ }
 
-  // ngOnInit() {
-  // }
+ nextStep() {
+   this.step++;
+ }
+
+ prevStep() {
+   this.step--;
+ }
+ labelMatriz(event){
+  this.tipMatriz = event;
+}
+
 
 }

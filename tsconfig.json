@@ -16,6 +16,9 @@
     "lib": [
       "esnext",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@angular/*": ["./node_modules/@angular/*"]
+    }
   }
 }

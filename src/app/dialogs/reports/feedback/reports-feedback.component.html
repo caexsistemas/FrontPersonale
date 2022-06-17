@@ -1,20 +1,43 @@
 <div class="card-body">
     <mat-dialog-content>
         <form [formGroup]="formDownoadIngreso" method="POST">
+           
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Fecha inicio:</mat-label>
                         <input matInput formControlName="fi" type="date" required>
                     </mat-form-field>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Fecha final:</mat-label>
                         <input matInput formControlName="ff" type="date" required>
                     </mat-form-field>
                 </div>
+                
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>No Documento</mat-label>
+                        <input matInput formControlName="document" type="number">
+                    </mat-form-field>
+                </div>
+                
+               
             </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field  class="example-full-width">
+                        <mat-label>Tipo Matriz:</mat-label>
+                        <mat-select formControlName="matrizarp" (ngModelChange)="labelMatriz($event)">
+                          <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
         </form>
 
     </mat-dialog-content>

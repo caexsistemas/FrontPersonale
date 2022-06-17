@@ -79,7 +79,8 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
-import { NgSelect2Module } from 'ng-select2';
+
+
 //import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 //import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
 
@@ -127,8 +128,8 @@ const routes: Routes = [];
     MatGridListModule,
     MatListModule,
     MatSidenavModule,
-    MatCheckboxModule,
-    NgSelect2Module
+    MatCheckboxModule
+
     // FileSaverModule
     
   ],

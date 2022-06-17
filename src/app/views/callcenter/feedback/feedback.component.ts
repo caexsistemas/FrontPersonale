@@ -65,29 +65,33 @@ export class FeedbackComponent implements OnInit {
     this.permissions = this.handler.permissionsApp;
   }
   sendRequest() {
+    console.log('hola'+this.cuser.matrizarp);
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getfeedback",
+      action: "getFeedbackAll",
       idUser: this.cuser.iduser,
       role: this.cuser.role,
+      matrizarp: this.cuser.matrizarp
+
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         if (data.success == true) {
           console.log(data);
-          this.generateTable(data.data);
+          this.generateTable(data.data["getContData"]);
+          console.log(data);
           console.log(data.data);
-          this.contenTable = data.data;
-         // this.loading = false;
+          this.contenTable = data.data["getContData"];
+         this.loading = false;
         } else {
-          // this.handler.handlerError(data);
-          // this.loading = false;
+          this.handler.handlerError(data);
+          this.loading = false;
         }
       },
       (error) => {
         console.log(error);
-        // this.handler.showError("Se produjo un error");
-        // this.loading = false;
+        this.handler.showError("Se produjo un error");
+        this.loading = false;
       }
     );
   }
@@ -98,10 +102,9 @@ export class FeedbackComponent implements OnInit {
       "view",
       "fecha",
       "document",
+      "tipo_intervencion",
       "name",
-      "car_trabajo",
       "supervisor",
-      "car_user",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -113,8 +116,12 @@ export class FeedbackComponent implements OnInit {
       search.value = "";
     }
   }
+   //Filtro Tabla
+   applyFilter(search) {
+    this.dataSource.filter = search.trim().toLowerCase();
+  }
 
-  option(action,codigo=null){
+  option(action,codigo=null, tipoMat){
     var dialogRef;
     switch(action){
       case 'create':
@@ -122,6 +129,25 @@ export class FeedbackComponent implements OnInit {
         dialogRef = this.dialog.open(FeedbackDialog,{
           data: {
             window: 'create',
+            codigo,
+            tipoMat: tipoMat
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+      break;
+      case 'update':
+        this.loading = true;
+        dialogRef = this.dialog.open(FeedbackDialog,{
+          data: {
+            window: 'update',
             codigo
           }
         });
@@ -133,6 +159,25 @@ export class FeedbackComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe(val=>{
           this.sendRequest();
+        });
+        break;
+
+      case 'view':
+        this.loading = true;
+        dialogRef = this.dialog.open(FeedbackDialog,{
+          data: {
+            window: 'view',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
         });
       break;
       }
@@ -172,6 +217,12 @@ export class FeedbackComponent implements OnInit {
 }
 onTriggerSheetClick(){
   this.matBottomSheet.open(ReportsFeddBackComponent)
+}
+openc(){
+  if(this.contaClick == 0){
+    this.sendRequest();
+  }    
+  this.contaClick = this.contaClick + 1;
 }
 
 }

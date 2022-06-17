@@ -143,6 +143,8 @@ export class LoginComponent {
               userProfile:data.userProfile,
               role:data.rol,
               iduser:data.iduser,
+              matrizarp:data.matrizarp
+
             }
             console.log(data)
             localStorage.setItem('currentUser',JSON.stringify(objData));

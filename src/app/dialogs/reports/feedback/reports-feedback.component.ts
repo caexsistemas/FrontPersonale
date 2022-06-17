@@ -22,7 +22,12 @@ import {
     loading_: boolean = false;
     //History
     historyMon: any = [];
+    listipomatriz: any = [];
     displayedColumns:any  = [];
+    tipMatriz:        string = "";
+    matrizarp: string="";
+    dataCad : string = "";
+
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   
@@ -36,14 +41,47 @@ import {
     ) { }
   
     ngOnInit(): void {
-  
-      this.formDownoadIngreso = new FormGroup({
+        this.dataIni();
+        this.formDownoadIngreso = new FormGroup({
         fi: new FormControl(''),
         ff: new FormControl(''),
+        matrizarp: new FormControl(this.cuser.matrizarp),
+        document: new FormControl(''),
         role: new FormControl(this.cuser.role),
         iduser: new FormControl(this.cuser.iduser)
       });
     }
+    dataIni() {
+      console.log(this.cuser);
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.ndpoint, {
+          action: 'getParamView',
+          role: this.cuser.role,
+          matrizarp: this.cuser.matrizarp
+        })
+          .subscribe(
+            data => {
+              if (data.success == true) {
+                this.dataCad = data.data['getContData'];
+               console.log( this.dataCad );
+
+               this.listipomatriz = data.data['tipmatriz']; //40
+               this.tipMatriz = this.listipomatriz.matrizarp_cod;
+                console.log('hi')
+                console.log(this.cuser.iduser);
+              
+                this.loading.emit(false);
+              } else {
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+              }
+            },
+            error => {
+              this.handler.showError('Se produjo un error');
+              this.loading.emit(false);
+            }
+          );
+      }
   
       descargarArchivos(){
   
@@ -89,5 +127,9 @@ import {
               this.loading.emit(false);
           }
       }
+      labelMatriz(event){
+        this.tipMatriz = event;
+      }
   
     }
+    

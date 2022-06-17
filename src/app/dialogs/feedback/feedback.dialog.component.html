@@ -1,10 +1,11 @@
-<div class="card mt-8">
+<div class="card mt-6">
   <div *ngIf="view == 'create' || view == 'update'">
     <div class="card-header">
       <h5 class="modal-title button_header">
         <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
         <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
-        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
           <span aria-hidden="true">&times;</span>
         </button>
       </h5>
@@ -12,145 +13,186 @@
 
     <div class="card-body">
       <mat-dialog-content>
-        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formNomi" method="POST">
+        <mat-accordion class="example-headers-align">
+          <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formNomi">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
 
-          
-           
-          
-          <div class="row">
-            <div class="col-md-4" *ngIf="view == 'create'">
-              <mat-form-field class="example-full-width">
-                <mat-label>Numero Identificaci&oacute;n</mat-label>
-                <input matInput formControlName="document" type="number"(ngModelChange)="onSelectionChange($event)" required>
-              </mat-form-field>
-            </div>
-            <!-- <div class="col-md-4">
-              <mat-form-field class="example-full-width ContCamp">
-                <mat-label>Nombres y Apellidos</mat-label>
-                <input matInput formControlName="name">
-                {{PersonaleInfo.name}}
-              </mat-form-field>
-            </div> -->
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Personal data &nbsp; &nbsp;
+                  <mat-icon>account_circle</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!--{}-->
 
-            <!-- <div class="col-md-4">
-              <mat-form-field class="example-full-width ContCamp">
-                <mat-label>Nombre(s) y Apellido(s):</mat-label>
-                <mat-select formControlName="idPersonale" required>
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
-                    {{idet.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div> -->
-            <div class="col-md-4">
-              <mat-form-field class="example-full-width ContCamp">
-                <mat-label>Nombre(s) y Apellido(s):</mat-label>
-                <mat-select formControlName="name" required>
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.name">
-                    {{idet.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <!-- <div class="col-md-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Cargo Empleado:</mat-label>
-                <input matInput formControlName="car_trabajo" required>
-                {{PersonaleInfo.car_trabajo}}
-              </mat-form-field>
-            </div> -->
-            <div class="col-md-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Area de trabajo:</mat-label>
-                <mat-select formControlName="car_trabajo">
-                  <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
-                    {{idet.description}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-         
+                </mat-panel-description>
+              </mat-expansion-panel-header>
 
-          <!-- <div class="row">
-            <div class="col-md-4">
-              <mat-form-field class="example-full-width ContCamp">
-                <mat-label>Jefe Directo:</mat-label>
-                <mat-select formControlName="directboss_nc" required>
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
-                    {{idet.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div> -->
-            <div class="row">
-              <div class="col-md-4">
-                <mat-form-field class="example-full-width ContCamp">
-                  <mat-label>Jefe Directo:</mat-label>
-                  <mat-select formControlName="supervisor" required>
-                    <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.supervisor">
-                      {{idet.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Intervencion:</mat-label>
+                    <mat-select formControlName="tipo_intervencion" required>
+                      <mat-option *ngFor="let idet of TipoIntervencion" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+               
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width" >
+                    <mat-label>Tipo de Matriz:</mat-label>
+                    <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
+                      <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4" *ngIf="view == 'create' || view == 'update'">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Numero Identificaci&oacute;n</mat-label>
+                    <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)"
+                      required>
+                  </mat-form-field>
+                </div>
+
               </div>
-              
-              <!-- <div class="col-md-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Enviado por</mat-label>
-                  <input matInput formControlName="supervisor">
-                  <mat-select>
-                    <mat-option *ngFor="let idet of PersonalInfo" [value]="idet.supervisor">
-                      {{idet.name}}</mat-option>
-                  </mat-select>
-                  
-              </mat-form-field>
-              </div> -->
-              
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width ContCamp">
+                    <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                    <mat-select formControlName="name" required>
+                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.name">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
 
-            <!-- <div class="col-md-4">
-              <mat-form-field class="example-full-width ContCamp">
-                <mat-label>Jefe Directo:</mat-label>
-                <mat-select formControlName="supervisor" required>
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
-                    {{idet.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div> -->
-            <div class="col-md-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Area de trabajo:</mat-label>
-                <mat-select formControlName="car_user">
-                  <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
-                    {{idet.description}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <!-- <div class="col-md-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Cargo:</mat-label>
-                <input matInput formControlName="car_user">
-              </mat-form-field>
-            </div> -->
-            <div class="col-md-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Fecha:</mat-label>
-                <input matInput formControlName="fecha" type="date">
-              </mat-form-field>
-            </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Area de trabajo:</mat-label>
+                    <mat-select formControlName="car_trabajo">
+                      <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
 
-          </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Enviado por:</mat-label>
+                    <mat-select formControlName="supervisor" required>
+                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
 
-          <!-- <div class="row">         
-            <div class="col-md-4" *ngIf="view == 'update'">
-              <label>Documento de Soporte:</label>
-              <a href="{{archivo.nombre}}" target="_blank">Download</a>
-            </div>
-          </div> -->
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Area de trabajo:</mat-label>
+                    <mat-select formControlName="car_user">
+                      <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Fecha:</mat-label>
+                    <input matInput formControlName="fecha" type="datetime-local">
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
 
-        </form>
+            <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Descripcion de la Situacion &nbsp; &nbsp;
+                  <mat-icon>assignment</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!--{}-->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Descripcion de la Situacion:</mat-label>
+                    <textarea matInput formControlName="des_crip" placeholder=""></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Comentarios del Trabajador &nbsp; &nbsp;
+                  <mat-icon>assignment</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!--{}-->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Comentarios del Trabajador:</mat-label>
+                    <textarea matInput formControlName="com_tra" placeholder=""></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Recomendaciones/Compromisos &nbsp; &nbsp;
+                  <mat-icon>assignment</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!--{}-->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Recomendaciones/Compromisos:</mat-label>
+                    <textarea matInput formControlName="rec_com" placeholder=""></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+          </form>
+        </mat-accordion>
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12">
@@ -165,4 +207,177 @@
     </div>
   </div>
 </div>
-<!-- <p>angular</p> -->
+
+<!-- <p>view</p> -->
+<div class="card mt-6">
+  <div *ngIf="view == 'view'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <mat-dialog-content>
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Personal data &nbsp; &nbsp;
+                <mat-icon>account_circle</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <!--{}-->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Fecha Novedad:</dt>
+                <dd>{{feed.fecha}}</dd>
+              </div>
+
+              <div class="col-md-4">
+                <dt>Tipo de Intervencion</dt>
+                <dd>{{feed.tipo_intervencion}}</dd>
+              </div>
+
+              <div class="col-md-4">
+                <dt>Tipo de Matriz</dt>
+                <dd>{{feed.matrizarp}}</dd>
+              </div>
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Documento de Identificaci&oacute;n:</dt>
+                <dd>{{feed.document}}</dd>
+              </div>
+
+              <div class="col-md-4">
+                <dt>Nombre Completo:</dt>
+                <dd>{{feed.name}}</dd>
+              </div>
+
+              <div class="col-md-4">
+                <dt>Area:</dt>
+                <dd>{{feed.car_trabajo}}</dd>
+              </div>
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Elaborado por: </dt>
+                <dd>{{feed.supervisor}}</dd>
+              </div>
+
+              <div class="col-md-4">
+                <dt>Area: </dt>
+                <dd>{{feed.car_user}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Descripcion de la Situacion &nbsp; &nbsp;
+                <mat-icon>assignment</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <!--{}-->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-12">
+                <dt>Descripcion de la Situacion:</dt>
+                <dd>{{feed.des_crip}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Comentarios del Trabajador &nbsp; &nbsp;
+                <mat-icon>assignment</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <!--{}-->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-12">
+                <dt> Comentarios del Trabajador:</dt>
+                <dd>{{feed.com_tra}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Recomendaciones/Compromisos &nbsp; &nbsp;
+                <mat-icon>assignment</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <!--{}-->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-12">
+                <dt> Recomendaciones/Compromisos:</dt>
+                <dd>{{feed.rec_com}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Histórico de Procesos:
+              </div>
+              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="currentm_user">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="type_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>
+  </div>
+</div>
