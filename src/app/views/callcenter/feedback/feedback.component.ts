@@ -148,7 +148,9 @@ export class FeedbackComponent implements OnInit {
         dialogRef = this.dialog.open(FeedbackDialog,{
           data: {
             window: 'update',
-            codigo
+            codigo,
+            tipoMat: tipoMat
+
           }
         });
         dialogRef.disableClose = true;

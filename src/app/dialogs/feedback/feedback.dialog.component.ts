@@ -41,6 +41,8 @@ export class FeedbackDialog
     ListArea:      any = [];
     selectedFile:  File = null;
     tipInter: string = "";
+    fechInicInc: string = "";
+
     formFeed: FormGroup;
     archivo = {
         nombre: null,
@@ -51,6 +53,7 @@ export class FeedbackDialog
     TipoIntervencion: any = [];
     listipomatriz: any = [];
     dataNovNi: any = []; 
+    personalData:     any = [];
     feedInfo: any=[];
     tipMatriz:        string = "";
     //History
@@ -177,6 +180,8 @@ getDataInit(){
               this.ListTipoGes   = data.data['getDatTipoGes'];
               this.TipoIntervencion = data.data['tipInter'];
               this.listipomatriz = data.data['tipmatriz']; //40
+              this.personalData = data.data['getDataPersonal'];  //Data Personal
+
               
 
               if (this.view == 'update') {
@@ -240,6 +245,7 @@ onSelectionJFChange(event){
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   if( exitsPersonal ){
       this.formNomi.get('supervisor').setValue(exitsPersonal.idPersonale);
+      console.log('***'+exitsPersonal.idPersonale);
   }        
 }
 getDataUpdate(){
@@ -247,7 +253,9 @@ getDataUpdate(){
   this.loading.emit(true);
   this.WebApiService.getRequest(this.endpoint, {
       action: 'getParamUpdateSet',
-      id: this.idfeed
+      id: this.idfeed,
+      tipMat: this.tipMatriz
+
   })
   .subscribe(
       data => {
@@ -264,6 +272,8 @@ getDataUpdate(){
           this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
           this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
          
+      console.log('///'+data.data['getDataUpda'][0].supervisor);
+      console.log(data);
         
       },
       error => {
@@ -276,8 +286,11 @@ onSubmitUpdate(){
 
   let body = {
       listas: this.formNomi.value,  
+        salud: this.formNomi.value  ,
+       tipMat: this.tipMatriz
       // id: this.idfeed
   }
+  console.log(body);
   if (this.formNomi.valid) {
     this.loading.emit(true);
     this.WebApiService.putRequest(this.endpoint+'/'+this.idfeed,body,{})
@@ -304,6 +317,18 @@ onSubmitUpdate(){
     this.loading.emit(false);
   }
 }
+getWeekNr(event){
+
+  //var currentdate  = new Date(event);
+  var now = new Date(event),i=0,f,sem=(new Date(now.getFullYear(), 0,1).getDay()>0)?1:0;
+  while( (f=new Date(now.getFullYear(), 0, ++i)) < now ){
+    if(!f.getDay()){
+      sem++;
+    }
+  }
+  
+  // this.formNomi.get('week').setValue("Semana: "+(sem-1));
+}
 
 
  //Acording
@@ -324,5 +349,8 @@ onSubmitUpdate(){
   this.tipMatriz = event;
 }
 
+SendDataonChange(event: any) {
+  console.log(event.target.value);
+  }
 
 }

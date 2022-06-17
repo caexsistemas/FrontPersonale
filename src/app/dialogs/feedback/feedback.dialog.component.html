@@ -84,6 +84,7 @@
                   </mat-form-field>
                 </div>
 
+
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Enviado por:</mat-label>
@@ -107,10 +108,10 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-md-4">
+                <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha:</mat-label>
-                    <input matInput formControlName="fecha" type="datetime-local">
+                    <input matInput formControlName="fecha" type="date" (change)="getWeekNr($event)" required>
                   </mat-form-field>
                 </div>
               </div>
