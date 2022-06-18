@@ -109,8 +109,6 @@ export class FeedbackDialog
                   this.tipMatriz = this.feed.matrizarp_cod;
 
                   this.generateTable(data.data['getDatHistory']);   
-                  console.log('111111  ');
-                  console.log(this.tipInter);
                   this.loading.emit(false);
                 } else {
                   this.handler.handlerError(data);
@@ -138,7 +136,7 @@ closeDialog() {
         fecha: new FormControl(""),
         matrizarp: new FormControl(this.cuser.matrizarp),
         document: new FormControl(""),
-        name: new FormControl(""),
+        idPersonale: new FormControl(""),
         car_trabajo: new FormControl(""),
         supervisor: new FormControl(""),
         car_user: new FormControl(""),
@@ -173,7 +171,6 @@ getDataInit(){
      
       data => {
           if (data.success == true) {
-            console.log(data);
               //DataInfo
               this.PersonaleInfo = data.data['getDataPersonale'];
               this.ListArea      = data.data['getDatArea'];
@@ -231,10 +228,9 @@ onSelectionChange(event){
         
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  console.log(exitsPersonal);
   if( exitsPersonal ){
     
-      this.formNomi.get('name').setValue(exitsPersonal.name);
+      this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
       this.formNomi.get('car_trabajo').setValue(exitsPersonal.idArea);
      
   }        
@@ -245,7 +241,6 @@ onSelectionJFChange(event){
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   if( exitsPersonal ){
       this.formNomi.get('supervisor').setValue(exitsPersonal.idPersonale);
-      console.log('***'+exitsPersonal.idPersonale);
   }        
 }
 getDataUpdate(){
@@ -262,7 +257,7 @@ getDataUpdate(){
 
           this.formNomi.get('tipo_intervencion').setValue(data.data['getDataUpda'][0].tipo_intervencion);
           this.formNomi.get('document').setValue(data.data['getDataUpda'][0].document);
-          this.formNomi.get('name').setValue(data.data['getDataUpda'][0].name);
+          this.formNomi.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
           this.formNomi.get('car_trabajo').setValue(data.data['getDataUpda'][0].car_trabajo);
           this.formNomi.get('supervisor').setValue(data.data['getDataUpda'][0].supervisor);
           this.formNomi.get('car_user').setValue(data.data['getDataUpda'][0].car_user);
@@ -271,10 +266,7 @@ getDataUpdate(){
           this.formNomi.get('com_tra').setValue(data.data['getDataUpda'][0].com_tra);
           this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
           this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
-         
-      console.log('///'+data.data['getDataUpda'][0].supervisor);
-      console.log(data);
-        
+             
       },
       error => {
           this.handler.showError();
@@ -290,15 +282,12 @@ onSubmitUpdate(){
        tipMat: this.tipMatriz
       // id: this.idfeed
   }
-  console.log(body);
   if (this.formNomi.valid) {
     this.loading.emit(true);
     this.WebApiService.putRequest(this.endpoint+'/'+this.idfeed,body,{})
     .subscribe(
         data=>{
             if(data.success){
-              console.log('+++++++++++');
-              console.log(data);
                 this.handler.showSuccess(data.message);
                 this.reload.emit();
                 this.closeDialog();

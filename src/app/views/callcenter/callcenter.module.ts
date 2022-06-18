@@ -39,6 +39,7 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { UnicalldataComponent } from './unicalldata/unicalldata.component';
 //import { ReportsRqcalidadComponent } from "../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
 
 
@@ -73,6 +74,7 @@ const ngWizardConfig: NgWizardConfig = {
   ],
   declarations: [
   RqcalidadComponent,
-  FeedbackComponent]
+  FeedbackComponent,
+  UnicalldataComponent]
 })
 export class CallcenterModule { }
