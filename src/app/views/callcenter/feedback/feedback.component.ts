@@ -65,7 +65,7 @@ export class FeedbackComponent implements OnInit {
     this.permissions = this.handler.permissionsApp;
   }
   sendRequest() {
-    console.log('hola'+this.cuser.matrizarp);
+
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: "getFeedbackAll",
@@ -77,10 +77,8 @@ export class FeedbackComponent implements OnInit {
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         if (data.success == true) {
-          console.log(data);
+
           this.generateTable(data.data["getContData"]);
-          console.log(data);
-          console.log(data.data);
           this.contenTable = data.data["getContData"];
          this.loading = false;
         } else {
@@ -89,7 +87,6 @@ export class FeedbackComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
         this.handler.showError("Se produjo un error");
         this.loading = false;
       }
@@ -185,17 +182,13 @@ export class FeedbackComponent implements OnInit {
       }
     }
     pdf(id) {
-      console.log('++++');
-      console.log(id);
-      //this.loading.emit(true);
+
       this.WebApiService.getRequest(this.endpoint, {
         action: "pdf",
         id: id,
       }).subscribe(
         (data) => {
           this.permissions = this.handler.getPermissions(this.component);
-      console.log('***');
-      console.log(data);
           if (data.success == true) {
                 
                 const link = document.createElement("a");

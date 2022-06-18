@@ -65,8 +65,8 @@
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width ContCamp">
                     <mat-label>Nombre(s) y Apellido(s):</mat-label>
-                    <mat-select formControlName="name" required>
-                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.name">
+                    <mat-select formControlName="idPersonale" required>
+                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                         {{idet.name}}
                       </mat-option>
                     </mat-select>
