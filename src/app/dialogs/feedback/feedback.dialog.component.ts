@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { NovedadesnominaServices } from '../../services/novedadesnomina.service';
+import { DatePipe } from '@angular/common'
 
 export interface PeriodicElement {
   currentm_user: string,
@@ -42,7 +43,7 @@ export class FeedbackDialog
     selectedFile:  File = null;
     tipInter: string = "";
     fechInicInc: string = "";
-
+    public today: number = Date.now();//+
     formFeed: FormGroup;
     archivo = {
         nombre: null,
@@ -56,8 +57,11 @@ export class FeedbackDialog
     personalData:     any = [];
     feedInfo: any=[];
     tipMatriz:        string = "";
+    rol: number;
+    tipRole : string = "";
     //History
     historyMon: any = [];
+    check : 0;
     displayedColumns:any  = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
@@ -77,11 +81,16 @@ export class FeedbackDialog
   ) { 
     this.view = this.data.window;
     this.idfeed = null;
+    this.rol = this.cuser.role;
+    console.log(this.rol);
   
     switch (this.view) {
         case 'create':
             this.tipInter = this.data.tipoMat;
             this.tipMatriz = this.data.tipoMat;
+            this.tipRole = this.data.tipRole;
+            // this.feed = data.data['getDataPerson'][0];
+
 
             this.initForms();
             this.title = "Crear Retroalimentacion";
@@ -91,7 +100,8 @@ export class FeedbackDialog
           this.tipMatriz = this.data.tipoMat;
           this.initForms();
           this.title = "Actualizar Retroalimentacion";
-          this.idfeed = this.data.codigo;
+            this.tipRole = this.data.tipRole;
+            this.idfeed = this.data.codigo;
 
           break;
           case "view":
@@ -105,6 +115,7 @@ export class FeedbackDialog
                 if (data.success == true) {
                  
                   this.feed = data.data['getDataPerson'][0];
+                  console.log(this.feed);
                   this.tipInter = this.feed.matrizarp_cod;
                   this.tipMatriz = this.feed.matrizarp_cod;
 
@@ -131,14 +142,18 @@ closeDialog() {
   this.dialogRef.close();
 }
   initForms() {
+    console.log(this.cuser);
+    // const rememberLoginControl = new FormControl();
+    
     this.getDataInit();
     this.formNomi = new FormGroup({
         fecha: new FormControl(""),
         matrizarp: new FormControl(this.cuser.matrizarp),
         document: new FormControl(""),
         idPersonale: new FormControl(""),
-        car_trabajo: new FormControl(""),
-        supervisor: new FormControl(""),
+        // car_trabajo: new FormControl(""),
+        supervisor: new FormControl(this.cuser.idPersonale),
+        role: new FormControl(this.cuser.role),
         car_user: new FormControl(""),
         des_crip: new FormControl(""),
         com_tra: new FormControl(""),
@@ -150,6 +165,8 @@ closeDialog() {
     });
 }
 generateTable(data){
+// console.log('++');
+// console.log(data);
   this.displayedColumns = [
     'currentm_user',
     'date_move',
@@ -163,7 +180,8 @@ getDataInit(){
   this.loading.emit(false);
   this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      matrizarp: this.cuser.matrizarp
+      matrizarp: this.cuser.matrizarp,
+      tipRole: this.cuser.role
 
 
   })
@@ -178,6 +196,8 @@ getDataInit(){
               this.TipoIntervencion = data.data['tipInter'];
               this.listipomatriz = data.data['tipmatriz']; //40
               this.personalData = data.data['getDataPersonal'];  //Data Personal
+              this.tipRole = data.data['tipRole'];
+              console.log(this.tipRole);
 
               
 
@@ -228,10 +248,13 @@ onSelectionChange(event){
         
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+
+  // console.log('+');
+  // console.log(exitsPersonal);
   if( exitsPersonal ){
     
       this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
-      this.formNomi.get('car_trabajo').setValue(exitsPersonal.idArea);
+      this.formNomi.get('car_user').setValue(exitsPersonal.idArea);
      
   }        
 }
@@ -244,12 +267,14 @@ onSelectionJFChange(event){
   }        
 }
 getDataUpdate(){
+  console.log(this.cuser.role);
 
   this.loading.emit(true);
   this.WebApiService.getRequest(this.endpoint, {
       action: 'getParamUpdateSet',
       id: this.idfeed,
-      tipMat: this.tipMatriz
+      tipMat: this.tipMatriz,
+      tipRole:this.tipRole
 
   })
   .subscribe(
@@ -258,8 +283,9 @@ getDataUpdate(){
           this.formNomi.get('tipo_intervencion').setValue(data.data['getDataUpda'][0].tipo_intervencion);
           this.formNomi.get('document').setValue(data.data['getDataUpda'][0].document);
           this.formNomi.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
-          this.formNomi.get('car_trabajo').setValue(data.data['getDataUpda'][0].car_trabajo);
+          // this.formNomi.get('car_trabajo').setValue(data.data['getDataUpda'][0].car_trabajo);
           this.formNomi.get('supervisor').setValue(data.data['getDataUpda'][0].supervisor);
+          this.formNomi.get('role').setValue(data.data['getDataUpda'][0].role);
           this.formNomi.get('car_user').setValue(data.data['getDataUpda'][0].car_user);
           this.formNomi.get('fecha').setValue(data.data['getDataUpda'][0].fecha);
           this.formNomi.get('des_crip').setValue(data.data['getDataUpda'][0].des_crip);
@@ -278,9 +304,9 @@ onSubmitUpdate(){
 
   let body = {
       listas: this.formNomi.value,  
-        salud: this.formNomi.value  ,
-       tipMat: this.tipMatriz
-      // id: this.idfeed
+        // salud: this.formNomi.value  ,
+       tipMat: this.tipMatriz,
+       id: this.idfeed
   }
   if (this.formNomi.valid) {
     this.loading.emit(true);
@@ -297,6 +323,7 @@ onSubmitUpdate(){
             }
         },
         error=>{
+          console.log(error);
             this.handler.showError(error);
             this.loading.emit(false);
         }
@@ -340,6 +367,51 @@ getWeekNr(event){
 
 SendDataonChange(event: any) {
   console.log(event.target.value);
+  }
+
+  testCheck(){
+    // let check =testCheck();
+    let checkTest = 0;
+    console.log('++');
+    console.log(checkTest);
+
+
+    let body = {
+  //     // check: this.formNomi.value.com_tra,  
+     id: this.idfeed,
+     checkput: checkTest
+
+  }
+    console.log('prueba++++')
+    // var check =this.com_tra;
+    console.log(body);
+    
+  //   this.loading.emit(true);
+  //   this.WebApiService.putRequest(this.endpoint, body, {
+  //       action: 'checkUpdate',
+  //       id: this.idfeed,
+  //       tipMat: this.tipMatriz,
+  //       tipRole:this.tipRole
+  
+  //   })
+  //         .subscribe(
+  //             data => {
+  //                 if (data.success) {
+  //                    this.handler.showSuccess(data.message);
+  //                     this.reload.emit();
+  //                     this.closeDialog();
+  //                 } else {
+  //                     this.handler.handlerError(data);
+  //                     this.loading.emit(false);
+  //                 }
+  //             },
+  //             error => {
+  //                 this.handler.showError();
+  //                 this.loading.emit(false);
+  //             }
+  //         )
+
+  //   console.log('prueba++++')
   }
 
 }

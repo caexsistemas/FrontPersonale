@@ -71,7 +71,8 @@ export class FeedbackComponent implements OnInit {
       action: "getFeedbackAll",
       idUser: this.cuser.iduser,
       role: this.cuser.role,
-      matrizarp: this.cuser.matrizarp
+      matrizarp: this.cuser.matrizarp,
+      idPersonale:this.cuser.idPersonale
 
     }).subscribe(
       (data) => {

@@ -143,6 +143,7 @@ export class LoginComponent {
               userProfile:data.userProfile,
               role:data.rol,
               iduser:data.iduser,
+              idPersonale:data.idPersonale,//+
               matrizarp:data.matrizarp
 
             }
