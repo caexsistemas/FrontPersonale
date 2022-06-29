@@ -65,7 +65,7 @@ export class LoginComponent {
     // ejecutar consulta al servidor para verificar si el token es valido aun...
     this.cuser = JSON.parse(localStorage.getItem('currentUser'));
     
-    console.log(localStorage.getItem('currentUser'));
+    //console.log(localStorage.getItem('currentUser'));
     if(this.cuser!= null){
       this.WebApiService.token = this.cuser.token;
       if(this.cuser.user != null && this.cuser.token != null && this.cuser.username != null){
@@ -106,7 +106,7 @@ export class LoginComponent {
         this._router.navigate(['./dashboard']);
       },
       error => {
-        console.log(error);
+        //console.log(error);
         if (error.status == 500) {
           this._tools.showNotify("error", "PERSONALE", "Error interno")
         }
@@ -124,9 +124,9 @@ export class LoginComponent {
         fuser:  this.loginForm.get('fuser').value,
         fpass:  this.Encrypt.encrypt(this.loginForm.get('fpass').value)
       }
-      console.log('++++++++')
-      console.log(body);
-      console.log(this.Encrypt.encrypt(this.loginForm.get('fpass').value));
+      //console.log('++++++++')
+      //console.log(body);
+      //console.log(this.Encrypt.encrypt(this.loginForm.get('fpass').value));
 
       this.loading = true;
       this.WebApiService.postRequest('/login',body,{
@@ -147,7 +147,7 @@ export class LoginComponent {
               matrizarp:data.matrizarp
 
             }
-            console.log(data)
+            //console.log(data)
             localStorage.setItem('currentUser',JSON.stringify(objData));
             localStorage.setItem('isLogged','true');
             this.WebApiService.token = data.token;
@@ -156,6 +156,7 @@ export class LoginComponent {
           }else{
             this.loading = false;
             this._tools.isLogged = false;
+            this.loginForm.get('fpass').setValue("");
             Swal.fire({
               title: '',
               text: data.message,
@@ -166,7 +167,8 @@ export class LoginComponent {
         error=>{
           this.loading = false;
           this._tools.isLogged = false;
-          console.error(error);
+          this.loginForm.get('fpass').setValue("");
+          //console.error(error);
         }
       )
     }else{
