@@ -30,19 +30,27 @@
 
               <div class="row">
                 <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width" *ngIf="rol == '1'">
                     <mat-label>Tipo de Intervencion:</mat-label>
-                    <mat-select formControlName="tipo_intervencion" required>
+                    <mat-select formControlName="tipo_intervencion" >
                       <mat-option *ngFor="let idet of TipoIntervencion" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
-                    </mat-select>
+                    </mat-select>   
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" *ngIf="rol == '23'">
+                    <mat-label>Tipo de Intervencion:</mat-label>
+                    <mat-select formControlName="tipo_intervencion" >
+                      <mat-option *ngFor="let idet of TipoIntervencion" [value]="idet.ls_codvalue" disabled>
+                        {{idet.description}} 
+                      </mat-option>
+                    </mat-select>   
                   </mat-form-field>
                 </div>
 
-               
+
                 <div class="col-sm-4">
-                  <mat-form-field class="example-full-width" >
+                  <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Matriz:</mat-label>
                     <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
                       <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
@@ -51,18 +59,27 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-                <div class="col-md-4" *ngIf="view == 'create' || view == 'update'">
+                <div class="col-sm-4" *ngIf="rol == '1'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Numero Identificaci&oacute;n</mat-label>
                     <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)"
                       required>
                   </mat-form-field>
                 </div>
+                <div class="col-sm-4" *ngIf="rol == '23'">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Numero Identificaci&oacute;n</mat-label>
+                    <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)" [readonly]="true"
+                      required >
+                  </mat-form-field>
+                </div>
 
               </div>
               <div class="row">
-                <div class="col-md-4">
+
+
+
+                <div class="col-sm-4">
                   <mat-form-field class="example-full-width ContCamp">
                     <mat-label>Nombre(s) y Apellido(s):</mat-label>
                     <mat-select formControlName="idPersonale" required>
@@ -72,23 +89,25 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-                <div class="col-md-4">
+                <div class="col-md-4" *ngIf="view == 'update'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Area de trabajo:</mat-label>
-                    <mat-select formControlName="car_trabajo">
+                    <mat-select formControlName="car_user" *ngIf="rol == '23'">
+                      <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue" disabled>
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-select formControlName="car_user" *ngIf="rol == '1'">
                       <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-
-                <div class="col-md-4">
+                <div class="col-md-4 ContCamp" *ngIf="view == 'update'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Enviado por:</mat-label>
-                    <mat-select formControlName="supervisor" required>
+                    <mat-select formControlName="supervisor">
                       <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                         {{idet.name}}
                       </mat-option>
@@ -96,25 +115,14 @@
                   </mat-form-field>
                 </div>
 
-              </div>
-              <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 ContCamp" *ngIf="view == 'update'">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Area de trabajo:</mat-label>
-                    <mat-select formControlName="car_user">
-                      <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Fecha:</mat-label>
-                    <input matInput formControlName="fecha" type="date" (change)="getWeekNr($event)" required>
+                    <mat-label>Cargo</mat-label>
+                    <input matInput formControlName="role"  value="role">
                   </mat-form-field>
                 </div>
               </div>
+             
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
@@ -132,9 +140,13 @@
               </mat-expansion-panel-header>
               <div class="row">
                 <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width" *ngIf="rol =='23'">
                     <mat-label>Descripcion de la Situacion:</mat-label>
-                    <textarea matInput formControlName="des_crip" placeholder=""></textarea>
+                    <textarea matInput formControlName="des_crip" placeholder="" [readonly]="true" ></textarea>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" *ngIf="rol =='1'">
+                    <mat-label>Descripcion de la Situacion:</mat-label>
+                    <textarea matInput formControlName="des_crip" placeholder="" ></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -154,6 +166,14 @@
                   <!--{}-->
                 </mat-panel-description>
               </mat-expansion-panel-header>
+              <!-- <div class="row"> -->
+                <!-- <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Comentarios del Trabajador:</mat-label>
+                    <textarea matInput formControlName="com_tra" id="com_tra" (click)="testCheck()"></textarea> 
+                  </mat-form-field>
+                </div>
+              </div> -->
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
@@ -179,10 +199,16 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" *ngIf="rol =='1'" >
                   <mat-form-field class="example-full-width">
                     <mat-label>Recomendaciones/Compromisos:</mat-label>
                     <textarea matInput formControlName="rec_com" placeholder=""></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12" *ngIf="rol =='23'" >
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Recomendaciones/Compromisos:</mat-label>
+                    <textarea matInput formControlName="rec_com" placeholder=""  [readonly]="true"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -239,7 +265,7 @@
             <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Fecha Novedad:</dt>
-                <dd>{{feed.fecha}}</dd>
+                <dd>{{ feed.fecha | date }}</dd>
               </div>
 
               <div class="col-md-4">
@@ -266,7 +292,7 @@
 
               <div class="col-md-4">
                 <dt>Area:</dt>
-                <dd>{{feed.car_trabajo}}</dd>
+                <dd>{{feed.car_user}}</dd>
               </div>
 
             </div>
@@ -277,8 +303,8 @@
               </div>
 
               <div class="col-md-4">
-                <dt>Area: </dt>
-                <dd>{{feed.car_user}}</dd>
+                <dt>Perfil: </dt>
+                <dd>{{feed.role}}</dd>
               </div>
             </div>
             <mat-action-row>
