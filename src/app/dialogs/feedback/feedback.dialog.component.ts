@@ -161,8 +161,10 @@ closeDialog() {
         com_tra: new FormControl(""),
         rec_com: new FormControl(""),
         tipo_intervencion: new FormControl(""),
-        create_User: new FormControl(this.cuser.iduser)
-
+        create_User: new FormControl(this.cuser.iduser),
+        checked1: new FormControl(false),
+        checked2: new FormControl(false),
+        checked3: new FormControl(false)
         
     });
 }
@@ -294,6 +296,10 @@ getDataUpdate(){
           this.formNomi.get('com_tra').setValue(data.data['getDataUpda'][0].com_tra);
           this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
           this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
+          //checked
+          this.formNomi.get('checked1').setValue(data.data['getDataUpda'][0].checked1);
+          this.formNomi.get('checked2').setValue(data.data['getDataUpda'][0].checked2);
+          this.formNomi.get('checked3').setValue(data.data['getDataUpda'][0].checked3);
              
       },
       error => {
@@ -354,6 +360,16 @@ getWeekNr(event){
 
  setStep(index: number) {
    this.step = index;
+
+   //Visualizacion Asesor
+   if( this.view == 'update' && this.cuser.role == 23 && this.step == 1 ){
+     this.formNomi.get('checked1').setValue(true); 
+   }else if( this.view == 'update' && this.cuser.role == 23 && this.step == 2 ){
+    this.formNomi.get('checked2').setValue(true); 
+   }else if( this.view == 'update' && this.cuser.role == 23 && this.step == 3 ){
+    this.formNomi.get('checked3').setValue(true); 
+   }
+   
  }
 
  nextStep() {
