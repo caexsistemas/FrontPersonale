@@ -63,6 +63,8 @@ export class FeedbackDialog
     historyMon: any = [];
     check : 0;
     displayedColumns:any  = [];
+    checked = false;
+    disabled = false;
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -370,48 +372,33 @@ SendDataonChange(event: any) {
   }
 
   testCheck(){
-    // let check =testCheck();
-    let checkTest = 0;
-    console.log('++');
-    console.log(checkTest);
+    if (this.formNomi.valid) {
+      this.loading.emit(true);
+      let body = {
+          listas: this.formNomi.value,
+          id: this.idfeed
 
+      }
+      this.WebApiService.postRequest(this.endpoint, body, {})
+          .subscribe(
+              data => {
+                  if (data.success) {
+                     this.handler.showSuccess(data.message);
+                      this.reload.emit();
+                      this.closeDialog();
+                  } else {
+                      this.handler.handlerError(data);
+                      this.loading.emit(false);
+                  }
+              },
+              error => {
+                  this.handler.showError();
+                  this.loading.emit(false);
+              }
+          )
 
-    let body = {
-  //     // check: this.formNomi.value.com_tra,  
-     id: this.idfeed,
-     checkput: checkTest
-
+    // console.log('prueba++++')
   }
-    console.log('prueba++++')
-    // var check =this.com_tra;
-    console.log(body);
-    
-  //   this.loading.emit(true);
-  //   this.WebApiService.putRequest(this.endpoint, body, {
-  //       action: 'checkUpdate',
-  //       id: this.idfeed,
-  //       tipMat: this.tipMatriz,
-  //       tipRole:this.tipRole
-  
-  //   })
-  //         .subscribe(
-  //             data => {
-  //                 if (data.success) {
-  //                    this.handler.showSuccess(data.message);
-  //                     this.reload.emit();
-  //                     this.closeDialog();
-  //                 } else {
-  //                     this.handler.handlerError(data);
-  //                     this.loading.emit(false);
-  //                 }
-  //             },
-  //             error => {
-  //                 this.handler.showError();
-  //                 this.loading.emit(false);
-  //             }
-  //         )
-
-  //   console.log('prueba++++')
-  }
+}
 
 }
