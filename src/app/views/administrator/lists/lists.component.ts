@@ -32,7 +32,8 @@ export class ListsComponent implements OnInit {
   contaClick:  number = 0;
   component = "/admin/lists";
   permissions: any = null;
-
+  public clickedRows;
+  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   public filters = { searchId: "", searchName: "" }
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -55,12 +56,11 @@ export class ListsComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
+      role: this.cuser.role
     })
       .subscribe(
         response => {
           this.permissions = this.handler.getPermissions(this.component);
-          console.log(1)
-          console.log(this.permissions)
           if (response.success) {
             this.generateTable(response.data);
             this.valorLista = response.data

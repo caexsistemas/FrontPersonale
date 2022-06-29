@@ -52,7 +52,8 @@ export class ReportsRqcalidadComponent implements OnInit {
       ff: new FormControl(''),
       role: new FormControl(this.cuser.role),
       iduser: new FormControl(this.cuser.iduser),
-      tipogesti: new FormControl('')
+      tipogesti: new FormControl(''),
+      ident: new FormControl('')
     });
   }
 
@@ -97,8 +98,7 @@ export class ReportsRqcalidadComponent implements OnInit {
                 report:  ""+JSON.stringify({body})
             })
             .subscribe(
-                data => {
-                    console.log(data);
+                data => {                   
                     if(data.success){
                         const link = document.createElement("a");
                         link.href = data.data.url;
@@ -112,7 +112,7 @@ export class ReportsRqcalidadComponent implements OnInit {
                     }          
                 },
                 error => {
-                    this.handler.showError(error);
+                    this.handler.showError('El documento no contiene información.');
                     console.log(error);
                     this.loading.emit(false);
                 }
