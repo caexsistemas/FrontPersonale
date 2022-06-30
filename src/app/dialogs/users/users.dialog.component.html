@@ -34,7 +34,7 @@
                 <dt>Telefono</dt>
                 <dd>{{usuario.phone}}</dd>
             </div>
-           
+
         </div>
     </mat-dialog-content>
 </div>
@@ -69,8 +69,8 @@
                                 <input matInput formControlName="surname">
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-4">
-                            <mat-form-field >
+                        <div class="col-md-4">
+                            <mat-form-field>
                                 <mat-label>Número de identificación</mat-label>
                                 <input matInput formControlName="username">
                             </mat-form-field>
@@ -78,15 +78,15 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width" >
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
                                 <mat-label>Correo</mat-label>
                                 <input matInput placeholder="caex@example.com" formControlName="email" required>
                                 <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                             </mat-form-field>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Seleccione un rol</mat-label>
                                 <mat-select formControlName="role">
@@ -96,22 +96,76 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Teléfono</mat-label>
                                 <input matInput formControlName="phone">
                             </mat-form-field>
                         </div>
-                        
+
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field >
-                                <mat-label>contraseña</mat-label>
-                                <input matInput formControlName="password">
+
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>status</mat-label>
+                                <input matInput formControlName="status">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>lastLogin</mat-label>
+                                <input matInput formControlName="lastLogin">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>matrizarp</mat-label>
+                                <input matInput formControlName="matrizarp">
                             </mat-form-field>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>id_caex</mat-label>
+                                <input matInput formControlName="id_caex">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>campana</mat-label>
+                                <input matInput formControlName="campana">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <mat-label>canal</mat-label>
+                                <input matInput formControlName="canal">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                  <!----  <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>usu_wolk</mat-label>
+                                <input matInput formControlName="usu_wolk">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>usuario</mat-label>
+                                <input matInput formControlName="usuario">
+                            </mat-form-field>
+                        </div> -->
+                        <!-- <div class="col-sm-4">
+                            <mat-form-field>
+                                <mat-label>canal</mat-label>
+                                <input matInput formControlName="canal">
+                            </mat-form-field>
+                        </div> -->
+                    <!-- </div> -->
+                <!-- </div> -->
                 </form>
 
             </mat-dialog-content>
