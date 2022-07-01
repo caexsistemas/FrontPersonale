@@ -39,6 +39,7 @@ export class FeedbackDialog
     PersonaleInfo: any = [];
     feed: any= [];
     idfeed: number = null;
+    retro: boolean = false;
     ListArea:      any = [];
     selectedFile:  File = null;
     tipInter: string = "";
@@ -63,6 +64,8 @@ export class FeedbackDialog
     historyMon: any = [];
     check : 0;
     displayedColumns:any  = [];
+    checked = false;
+    disabled = false;
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -83,24 +86,25 @@ export class FeedbackDialog
     this.idfeed = null;
     this.rol = this.cuser.role;
     console.log(this.rol);
+
   
     switch (this.view) {
         case 'create':
             this.tipInter = this.data.tipoMat;
             this.tipMatriz = this.data.tipoMat;
             this.tipRole = this.data.tipRole;
-            // this.feed = data.data['getDataPerson'][0];
-
-
             this.initForms();
             this.title = "Crear Retroalimentacion";
         break;
         case 'update':
           this.tipInter = this.data.tipoMat;
           this.tipMatriz = this.data.tipoMat;
-          this.initForms();
-          this.title = "Actualizar Retroalimentacion";
-            this.tipRole = this.data.tipRole;
+
+          if( this.rol == 23){
+            this.retro = true;
+            }
+            this.initForms();
+            this.title = "Actualizar Retroalimentacion";
             this.idfeed = this.data.codigo;
 
           break;
@@ -115,7 +119,6 @@ export class FeedbackDialog
                 if (data.success == true) {
                  
                   this.feed = data.data['getDataPerson'][0];
-                  console.log(this.feed);
                   this.tipInter = this.feed.matrizarp_cod;
                   this.tipMatriz = this.feed.matrizarp_cod;
 
@@ -142,16 +145,13 @@ closeDialog() {
   this.dialogRef.close();
 }
   initForms() {
-    console.log(this.cuser);
-    // const rememberLoginControl = new FormControl();
-    
+    // const rememberLoginControl = new FormControl();   
     this.getDataInit();
     this.formNomi = new FormGroup({
         fecha: new FormControl(""),
         matrizarp: new FormControl(this.cuser.matrizarp),
         document: new FormControl(""),
         idPersonale: new FormControl(""),
-        // car_trabajo: new FormControl(""),
         supervisor: new FormControl(this.cuser.idPersonale),
         role: new FormControl(this.cuser.role),
         car_user: new FormControl(""),
@@ -167,8 +167,6 @@ closeDialog() {
     });
 }
 generateTable(data){
-// console.log('++');
-// console.log(data);
   this.displayedColumns = [
     'currentm_user',
     'date_move',
@@ -199,14 +197,11 @@ getDataInit(){
               this.listipomatriz = data.data['tipmatriz']; //40
               this.personalData = data.data['getDataPersonal'];  //Data Personal
               this.tipRole = data.data['tipRole'];
-              console.log(this.tipRole);
 
-              
-
-              if (this.view == 'update') {
-                  this.getDataUpdate();
-              }
-              this.loading.emit(false);
+                  if (this.view == 'update') {
+                      this.getDataUpdate();
+                  }
+                      this.loading.emit(false);
           } else {
               this.handler.handlerError(data);
               this.loading.emit(false);
@@ -250,9 +245,6 @@ onSelectionChange(event){
         
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-
-  // console.log('+');
-  // console.log(exitsPersonal);
   if( exitsPersonal ){
     
       this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
@@ -269,8 +261,6 @@ onSelectionJFChange(event){
   }        
 }
 getDataUpdate(){
-  console.log(this.cuser.role);
-
   this.loading.emit(true);
   this.WebApiService.getRequest(this.endpoint, {
       action: 'getParamUpdateSet',
@@ -285,7 +275,6 @@ getDataUpdate(){
           this.formNomi.get('tipo_intervencion').setValue(data.data['getDataUpda'][0].tipo_intervencion);
           this.formNomi.get('document').setValue(data.data['getDataUpda'][0].document);
           this.formNomi.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
-          // this.formNomi.get('car_trabajo').setValue(data.data['getDataUpda'][0].car_trabajo);
           this.formNomi.get('supervisor').setValue(data.data['getDataUpda'][0].supervisor);
           this.formNomi.get('role').setValue(data.data['getDataUpda'][0].role);
           this.formNomi.get('car_user').setValue(data.data['getDataUpda'][0].car_user);
@@ -310,7 +299,6 @@ onSubmitUpdate(){
 
   let body = {
       listas: this.formNomi.value,  
-        // salud: this.formNomi.value  ,
        tipMat: this.tipMatriz,
        id: this.idfeed
   }
@@ -383,51 +371,6 @@ getWeekNr(event){
 
 SendDataonChange(event: any) {
   console.log(event.target.value);
-  }
-
-  testCheck(){
-    // let check =testCheck();
-    let checkTest = 0;
-    console.log('++');
-    console.log(checkTest);
-
-
-    let body = {
-  //     // check: this.formNomi.value.com_tra,  
-     id: this.idfeed,
-     checkput: checkTest
-
-  }
-    console.log('prueba++++')
-    // var check =this.com_tra;
-    console.log(body);
-    
-  //   this.loading.emit(true);
-  //   this.WebApiService.putRequest(this.endpoint, body, {
-  //       action: 'checkUpdate',
-  //       id: this.idfeed,
-  //       tipMat: this.tipMatriz,
-  //       tipRole:this.tipRole
-  
-  //   })
-  //         .subscribe(
-  //             data => {
-  //                 if (data.success) {
-  //                    this.handler.showSuccess(data.message);
-  //                     this.reload.emit();
-  //                     this.closeDialog();
-  //                 } else {
-  //                     this.handler.handlerError(data);
-  //                     this.loading.emit(false);
-  //                 }
-  //             },
-  //             error => {
-  //                 this.handler.showError();
-  //                 this.loading.emit(false);
-  //             }
-  //         )
-
-  //   console.log('prueba++++')
-  }
+  } 
 
 }
