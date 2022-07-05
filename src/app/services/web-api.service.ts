@@ -33,7 +33,7 @@ export class WebApiService{
     params = this.processParams(params)
     let headers = this.setHeaders();
     url = this.urlKaysenBackend+url;
-    console.log('Parametro: '+params+ 'Headers: ' +headers+ 'Url: '+url);
+    //console.log('Parametro: '+params+ 'Headers: ' +headers+ 'Url: '+url);
     return this._http.get<any>(url,{headers, params});
   }
   
