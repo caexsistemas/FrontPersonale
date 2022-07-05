@@ -79,6 +79,8 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
+import { InventoryComponent } from "./views/inventory/InventoryComponent";
+import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
 
 
 //import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
@@ -158,7 +160,10 @@ const routes: Routes = [];
     RoleDialog,
     ReportsRqcalidadComponent,
     FeedbackDialog,
-    ReportsFeddBackComponent
+    ReportsFeddBackComponent,
+    InventoryComponent,
+    TechnologyDialog
+    
     
       
   ],

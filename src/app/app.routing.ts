@@ -88,6 +88,10 @@ export const routes: Routes = [
       {
         path:'callcenter',
         loadChildren:()=> import('./views/callcenter/callcenter.module').then(m=>m.CallcenterModule)
+      },
+      {
+        path: 'inventory',
+        loadChildren:()=> import('./views/inventory/inventory.module').then(m=>m.InventoryModule)
       }
     ]
   }
