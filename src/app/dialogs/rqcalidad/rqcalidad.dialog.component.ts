@@ -29,6 +29,7 @@ export class RqcalidadDialog  {
   view:          string = null;
   title:         string = null;
   formProces:    FormGroup;
+  dateMoni:      string;
   idPam:         number = null;
   displayedColumns:any  = [];
   historyMon:    any = [];
@@ -49,7 +50,9 @@ export class RqcalidadDialog  {
   ListipifiHogarDed: any = [];
   ListTipiConsHogar: any = [];
   numberOfDays: number = 0;
-  //Datos Generales
+  //String Date
+  dateStrinMoni: String = "";
+ //Datos Generales
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
   conNoACumGen:     number = 0;
@@ -188,7 +191,7 @@ export class RqcalidadDialog  {
       week: new FormControl(""), 
       analyst: new FormControl(""), 
       offer: new FormControl(""), 
-      monitoring_date: new FormControl(""), 
+      monitoring_date: new FormControl(this.dateStrinMoni), 
       call_date: new FormControl(""), 
       all_clear_offer: new FormControl(""), 
       final_note: new FormControl(""), 
@@ -302,6 +305,7 @@ export class RqcalidadDialog  {
       asp_pos_rea_lec_cor_con: new FormControl(false),
       asp_pos_apl_lin_mod_gana: new FormControl(false)
     });
+
   }
 
   generateTable(data){
@@ -330,6 +334,7 @@ export class RqcalidadDialog  {
   }
 
   getDataInit(){
+
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamPrew',
@@ -353,6 +358,10 @@ export class RqcalidadDialog  {
                 this.Listipocampana = data.data['tipicampana'];  //44
                 this.ListipifiHogarDed = data.data['tipificaHogarDed'];  //45
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
+                //Fecha
+                let date = new Date();
+                this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
+                this.formProces.get('monitoring_date').setValue(this.dateStrinMoni);
     
               if (this.view == 'update') {
                 this.getDataUpdate();
