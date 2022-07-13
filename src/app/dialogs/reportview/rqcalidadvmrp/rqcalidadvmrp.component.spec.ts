@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RqcalidadComponent } from './rqcalidad.component';
+import { RqcalidadvmrpComponent } from './rqcalidadvmrp.component';
 
-describe('RqcalidadComponent', () => {
-  let component: RqcalidadComponent;
-  let fixture: ComponentFixture<RqcalidadComponent>;
+describe('RqcalidadvmrpComponent', () => {
+  let component: RqcalidadvmrpComponent;
+  let fixture: ComponentFixture<RqcalidadvmrpComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RqcalidadComponent ]
+      declarations: [ RqcalidadvmrpComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RqcalidadComponent);
+    fixture = TestBed.createComponent(RqcalidadvmrpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

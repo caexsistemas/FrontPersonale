@@ -26,6 +26,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -79,8 +81,7 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
-import { RqcalidadComponent } from './dialogs/reportview/rqcalidad/rqcalidad.component';
-
+import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
 
 //import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 //import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
@@ -129,7 +130,9 @@ const routes: Routes = [];
     MatGridListModule,
     MatListModule,
     MatSidenavModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatSortModule
 
     // FileSaverModule
     
@@ -160,8 +163,7 @@ const routes: Routes = [];
     ReportsRqcalidadComponent,
     FeedbackDialog,
     ReportsFeddBackComponent,
-    RqcalidadComponent
-    
+    RqcalidadvmrpComponent    
       
   ],
   providers: [{

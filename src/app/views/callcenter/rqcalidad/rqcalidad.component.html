@@ -8,12 +8,23 @@
   
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3"> 
                     
-                    <div class="btn-group" dropdown>
+                    <!--{<div class="btn-group" dropdown>
                         <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                            title="Reporte Excel">
+                            title="Reporte Excel Detallado">
                             <i class="fa fa-feed"></i>
                         </button>
+                    </div>}-->
+
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-success">
+                            <i class="fa fa-feed"></i>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer" role="excel">
+                            <li role="excelitem"><a class="dropdown-item" *ngIf="permissions.create" (click)="onTriggerSheetClick()">Reporte Excel Detallado</a></li> 
+                            <li role="excelitem"><a class="dropdown-item" *ngIf="permissions.create" (click)="option('repor1vmrq','')">Reporte Excel Ponderado</a></li>
+                         </ul>
                     </div>
+
                     <div class="btn-group" dropdown>
                         <button dropdownToggle type="button" class="btn btn-primary ">
                             <i class="fa fa-plus"></i>
