@@ -47,7 +47,8 @@ export class RqcalidadvmrpComponent {
   formProces:    FormGroup;
   contaClick:    number = 0;
   fechaInicio:   string = "";
-  fechaFin:   string = "";
+  fechaFin:      string = "";
+  tipogesti:     string = "";
 
  // Informacion Usuario
  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
@@ -72,8 +73,10 @@ export class RqcalidadvmrpComponent {
            this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0');
            this.initForms();
            this.fechaInicio = this.dateStrinMoni+'-01';
-           this.fechaFin = this.dateStrinMoni+'-31'
+           this.fechaFin = this.dateStrinMoni+'-31';
            this.sendRequest(this.fechaInicio, this.fechaFin);
+           this.formProces.get('fecini').setValue(this.fechaInicio);
+           this.formProces.get('fecfin').setValue(this.fechaFin);
            this.title = "PONDERADO";           
        break;
      }
@@ -162,7 +165,7 @@ export class RqcalidadvmrpComponent {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getdataReporVmRp',
-        tipMat: ''
+        tipMat: this.tipogesti 
     })
     .subscribe(
        
@@ -185,9 +188,73 @@ export class RqcalidadvmrpComponent {
 
     openc() {
       if (this.contaClick == 0) {
-        this.sendRequest(this.fechaInicio, this.fechaFin);
+        this.sendRequest(this.fechaInicio, this.fechaFin, this.tipogesti);
       }
       this.contaClick = this.contaClick + 1;
     }
+
+    consFechMati(){
+
+      this.loading.emit(true);
+      if( this.formProces.value.fecini != "" && this.formProces.value.fecfin != "" 
+          && this.formProces.value.fecini < this.formProces.value.fecfin  ){
+
+        this.fechaInicio = this.formProces.value.fecini;
+        this.fechaFin    = this.formProces.value.fecfin;
+        this.tipogesti   = this.formProces.value.tipmatriz;
+        this.sendRequest(this.fechaInicio, this.fechaFin, this.tipogesti);
+        this.loading.emit(false);
+
+      }else{
+        this.handler.showError('Por favor diligenciar todos los campos o validar el rango de consulta.');
+        this.loading.emit(false);
+      }
+
+    }
+
+    descExcelView(){
+
+      if (this.formProces.valid) {
+  
+          if( this.formProces.value.fecini != "" && this.formProces.value.fecfin != "" 
+          && this.formProces.value.fecini < this.formProces.value.fecfin ){
+  
+              let body = {
+                  valest: this.formProces.value,      
+              }
+              this.loading.emit(true);
+              this.WebApiService.getRequest(this.endpoint, {
+                  action: 'downloadFilesViewPm',
+                  report:  ""+JSON.stringify({body})
+              })
+              .subscribe(
+                  data => {                   
+                      if(data.success){
+                          const link = document.createElement("a");
+                          link.href = data.data.url;
+                          link.download = data.data.file;
+                          link.click();
+                          this.handler.showSuccess(data.data.file);
+                          this.loading.emit(false);
+                      }else{
+                          this.handler.handlerError(data);
+                          this.loading.emit(false);
+                      }          
+                  },
+                  error => {
+                      this.handler.showError('El documento no contiene información.');
+                      console.log(error);
+                      this.loading.emit(false);
+                  }
+              );
+          }else{
+              this.handler.showError('Periodo de consulta invalido'); 
+              this.loading.emit(false);
+          }
+      }else {
+          this.handler.showError('Complete la informacion necesaria');
+          this.loading.emit(false);
+      }
+  }
 
 }
