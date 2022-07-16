@@ -26,6 +26,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -79,9 +81,13 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
+<<<<<<< HEAD
 import { InventoryComponent } from "./views/inventory/InventoryComponent";
 import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
 
+=======
+import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
+>>>>>>> 7d8f7f5f8077516520010bc726968488f3cf752e
 
 //import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 //import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
@@ -130,7 +136,9 @@ const routes: Routes = [];
     MatGridListModule,
     MatListModule,
     MatSidenavModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatSortModule
 
     // FileSaverModule
     
@@ -161,10 +169,14 @@ const routes: Routes = [];
     ReportsRqcalidadComponent,
     FeedbackDialog,
     ReportsFeddBackComponent,
+<<<<<<< HEAD
     InventoryComponent,
     TechnologyDialog
     
     
+=======
+    RqcalidadvmrpComponent    
+>>>>>>> 7d8f7f5f8077516520010bc726968488f3cf752e
       
   ],
   providers: [{

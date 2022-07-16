@@ -1050,9 +1050,9 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
-                        <mat-form-field>
+                        <mat-form-field class="example-full-width ContCamp">
                             <mat-label>Fecha de Monitoreo:</mat-label>
-                            <input matInput formControlName="monitoring_date" type="date" (ngModelChange)="getWeekNr($event)" required >
+                            <input [readonly]="true"  matInput formControlName="monitoring_date" type="date" (ngModelChange)="getWeekNr($event)" required  >
                         </mat-form-field>
                     </div>
                    

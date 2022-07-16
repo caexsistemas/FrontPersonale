@@ -21,7 +21,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.component";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsRqcalidadComponent } from "../../../dialogs/reports/rqcalidad/reports-rqcalidad.component";
-//import { ReportsRqcalidadComponent } from "../../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
+import { RqcalidadvmrpComponent } from "../../../dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component";
 
 
 @Component({
@@ -182,6 +182,24 @@ export class RqcalidadComponent implements OnInit {
           console.log(result);
         });
         break;
+        case "repor1vmrq":
+          this.loading = true;
+          dialogRef = this.dialog.open(RqcalidadvmrpComponent, {
+            data: {
+              window: "repor1vmrq",
+              codigo,
+            },
+          });
+          dialogRef.disableClose = true;
+          // LOADING
+          dialogRef.componentInstance.loading.subscribe((val) => {
+            this.loading = val;
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            console.log("The dialog was closed");
+            console.log(result);
+          });
+          break;
     }
   }
 
