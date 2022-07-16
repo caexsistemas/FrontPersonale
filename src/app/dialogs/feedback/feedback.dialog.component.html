@@ -89,14 +89,29 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-                <div class="col-md-4 ContCamp" *ngIf="view == 'update'">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Cargo</mat-label>
-                    <input matInput formControlName="role" value="role">
-                  </mat-form-field>
                 </div>
-              </div>
+                <div class="row">
+                  <div class="col-md-4 ContCamp" *ngIf="view == 'update'">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Cargo</mat-label>
+                      <input matInput formControlName="role" value="role">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Visible para Agente:</mat-label>
+                      <mat-select formControlName="visible">
+                        <mat-option *ngFor="let idet of typeConfir" [value]="idet.ls_codvalue" [disabled] ="retro">
+                          {{idet.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                
+
 
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>

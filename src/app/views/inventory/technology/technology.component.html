@@ -46,25 +46,36 @@
                       </td>
                   </ng-container>
 
-                  <!-- <ng-container matColumnDef="fecha">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha del Monitoreo</th>
-                      <td mat-cell *matCellDef="let element"> {{element.fecha | date}} </td>
+                   <ng-container matColumnDef="fecha_compra">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha</th>
+                      <td mat-cell *matCellDef="let element"> {{element.fecha_compra | date}} </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="tipo_intervencion">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de Intervencion</th>
-                      <td mat-cell *matCellDef="let element"> {{element.tipo_intervencion}} </td>
+                  <ng-container matColumnDef="listActivo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de Activo</th>
+                      <td mat-cell *matCellDef="let element"> {{element.listActivo}} </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="document">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> N&uacute;mero Identificaci&oacute;n
+                  <ng-container matColumnDef="listSub">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">SubTipo de Activo</th>
+                    <td mat-cell *matCellDef="let element"> {{element.listSub}} </td>
+                </ng-container>
+
+                  <ng-container matColumnDef="idPersonale">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Responsable
                       </th>
-                      <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.idPersonale}} </td>
                   </ng-container>
 
+                  <ng-container matColumnDef="sub_sede">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Ubicacion
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.sub_sede}} </td>
+                </ng-container>
 
 
-                  <ng-container matColumnDef="name">
+
+                 <!---- <ng-container matColumnDef="name">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Empleado </th>
                       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                   </ng-container>
@@ -80,7 +91,7 @@
                       <th mat-header-cell *matHeaderCellDef> Acciones </th>
                       <td mat-cell *matCellDef="let element">
                           <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
-                              (click)="option('update',element.fbid,element.matrizarp)" title="Editar">
+                              (click)="option('update',element.tcid)" title="Editar">
                               <i class="fa fa-edit fa-lg"></i>
                           </button>
 

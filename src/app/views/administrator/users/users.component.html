@@ -46,6 +46,11 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre completo</th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} {{element.surname}}</td>
                     </ng-container>
+
+                    <ng-container matColumnDef="role">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Rol</th>
+                        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+                    </ng-container>
                     
                     
                     <ng-container matColumnDef="email">

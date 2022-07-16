@@ -120,6 +120,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   option(action,codigo=null, tipoMat){
+    console.log(tipoMat);
     var dialogRef;
     switch(action){
       case 'create':

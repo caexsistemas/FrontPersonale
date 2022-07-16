@@ -26,7 +26,7 @@ import { TechnologyDialog } from "../../../dialogs/technology/technology.dialog.
 @Component({
   selector: 'app-technology',
   templateUrl: './technology.component.html',
-  styleUrls: ['./technology.component.scss']
+  styleUrls: ['./technology.component.css']
 })
 export class TechnologyComponent implements OnInit {
   contenTable: any = [];
@@ -35,6 +35,7 @@ export class TechnologyComponent implements OnInit {
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
+  contaClick: number = 0;
   
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -89,11 +90,13 @@ export class TechnologyComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "pc_mar",
-      "mon_mar",
-      "cam_mod",
-      "swi_mod",
-      "ser_mod",
+      "fecha_compra",
+      "listActivo",
+      "listSub",
+      "idPersonale",
+      "sub_sede",
+      // "swi_mod",
+      // "ser_mod",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -106,7 +109,7 @@ export class TechnologyComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, tipoMat){
+  option(action,codigo=null, id){
     var dialogRef;
     switch(action){
       case 'create':
@@ -115,7 +118,8 @@ export class TechnologyComponent implements OnInit {
           data: {
             window: 'create',
             codigo,
-            tipoMat: tipoMat
+            id:id
+            // tipoMat: tipoMat
           }
         });
         dialogRef.disableClose = true;
@@ -134,7 +138,8 @@ export class TechnologyComponent implements OnInit {
           data: {
             window: 'update',
             codigo,
-            tipoMat: tipoMat
+            id:id
+            // tipoMat: tipoMat
 
           }
         });
@@ -169,4 +174,11 @@ export class TechnologyComponent implements OnInit {
       break;
       }
     }
+    
+openc(){
+  if(this.contaClick == 0){
+    this.sendRequest();
+  }    
+  this.contaClick = this.contaClick + 1;
+}
 }
