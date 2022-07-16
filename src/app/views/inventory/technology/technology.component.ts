@@ -22,35 +22,27 @@ import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.com
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { FeedbackDialog } from "../../../dialogs/feedback/feedback.dialog.component";
 import { ReportsFeddBackComponent } from "../../../dialogs/reports/feedback/reports-feedback.component";
-
+import { TechnologyDialog } from "../../../dialogs/technology/technology.dialog.component";
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.css']
+  selector: 'app-technology',
+  templateUrl: './technology.component.html',
+  styleUrls: ['./technology.component.css']
 })
-export class FeedbackComponent implements OnInit {
-  endpoint: string = "/feedback";
-  id: number = null;
-  permissions: any = null;
+export class TechnologyComponent implements OnInit {
   contenTable: any = [];
-  dataPdf: any = [];
   loading: boolean = false;
+  endpoint: string = "/technology";
+  permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
-  public detaNovSal = [];
   contaClick: number = 0;
-  valorFeed :any[];
-  //Control Permiso
-  //History
+  
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
-  // @Output() loading = new EventEmitter();
-  // @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/callcenter/feedback";
-
+  component = "/inventory/technology";
 
   constructor(
     private _tools: Tools,
@@ -60,19 +52,21 @@ export class FeedbackComponent implements OnInit {
     private matBottomSheet : MatBottomSheet
   ) { }
 
-  ngOnInit(): void {
+
+  ngOnInit():void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
+    console.log(this.permissions);
+
   }
   sendRequest() {
-
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getFeedbackAll",
+      action: "getTechnologyAll",
       idUser: this.cuser.iduser,
-      role: this.cuser.role,
-      matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale
+      // role: this.cuser.role,
+      // matrizarp: this.cuser.matrizarp,
+      // idPersonale:this.cuser.idPersonale
 
     }).subscribe(
       (data) => {
@@ -93,16 +87,16 @@ export class FeedbackComponent implements OnInit {
       }
     );
   }
-
-
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "fecha",
-      "document",
-      "tipo_intervencion",
-      "name",
-      "supervisor",
+      "fecha_compra",
+      "listActivo",
+      "listSub",
+      "idPersonale",
+      "sub_sede",
+      // "swi_mod",
+      // "ser_mod",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -114,22 +108,18 @@ export class FeedbackComponent implements OnInit {
       search.value = "";
     }
   }
-   //Filtro Tabla
-   applyFilter(search) {
-    this.dataSource.filter = search.trim().toLowerCase();
-  }
 
-  option(action,codigo=null, tipoMat){
-    console.log(tipoMat);
+  option(action,codigo=null, id){
     var dialogRef;
     switch(action){
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(FeedbackDialog,{
+        dialogRef = this.dialog.open(TechnologyDialog,{
           data: {
             window: 'create',
             codigo,
-            tipoMat: tipoMat
+            id:id
+            // tipoMat: tipoMat
           }
         });
         dialogRef.disableClose = true;
@@ -144,11 +134,12 @@ export class FeedbackComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(FeedbackDialog,{
+        dialogRef = this.dialog.open(TechnologyDialog,{
           data: {
             window: 'update',
             codigo,
-            tipoMat: tipoMat
+            id:id
+            // tipoMat: tipoMat
 
           }
         });
@@ -165,7 +156,7 @@ export class FeedbackComponent implements OnInit {
 
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(FeedbackDialog,{
+        dialogRef = this.dialog.open(TechnologyDialog,{
           data: {
             window: 'view',
             codigo
@@ -183,43 +174,11 @@ export class FeedbackComponent implements OnInit {
       break;
       }
     }
-    pdf(id) {
-
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "pdf",
-        id: id,
-      }).subscribe(
-        (data) => {
-          this.permissions = this.handler.getPermissions(this.component);
-          if (data.success == true) {
-                
-                const link = document.createElement("a");
-                link.href = data.data.url;
-                link.download = data.data.file;
-                link.target = "_blank";
-                link.click();
-                this.handler.showSuccess(data.data.file);
-                this.loading = false;
-          } else {
-                  this.handler.handlerError(data);
-                  this.loading = false;
-          }
-        },
-        (error) => {
-                console.log(error);
-                this.handler.showError("Se produjo un error");
-                this.loading = false;
-        }
-);
-}
-onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsFeddBackComponent)
-}
+    
 openc(){
   if(this.contaClick == 0){
     this.sendRequest();
   }    
   this.contaClick = this.contaClick + 1;
 }
-
 }

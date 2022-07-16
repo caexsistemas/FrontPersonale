@@ -58,6 +58,7 @@ export class FeedbackDialog
     personalData:     any = [];
     feedInfo: any=[];
     tipMatriz:        string = "";
+    typeConfir: any = [];
     rol: number;
     tipRole : string = "";
     //History
@@ -106,7 +107,7 @@ export class FeedbackDialog
             this.initForms();
             this.title = "Actualizar Retroalimentacion";
             this.idfeed = this.data.codigo;
-
+            console.log('idfeed=>',this.idfeed);
           break;
           case "view":
             this.idfeed = this.data.codigo;
@@ -162,7 +163,8 @@ closeDialog() {
         create_User: new FormControl(this.cuser.iduser),
         checked1: new FormControl(false),
         checked2: new FormControl(false),
-        checked3: new FormControl(false)
+        checked3: new FormControl(false),
+        visible: new FormControl("")
         
     });
 }
@@ -197,6 +199,7 @@ getDataInit(){
               this.listipomatriz = data.data['tipmatriz']; //40
               this.personalData = data.data['getDataPersonal'];  //Data Personal
               this.tipRole = data.data['tipRole'];
+              this.typeConfir = data.data['typeConfir'];
 
                   if (this.view == 'update') {
                       this.getDataUpdate();
@@ -245,6 +248,8 @@ onSelectionChange(event){
         
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+  console.log(exitsPersonal);
+
   if( exitsPersonal ){
     
       this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
@@ -283,6 +288,7 @@ getDataUpdate(){
           this.formNomi.get('com_tra').setValue(data.data['getDataUpda'][0].com_tra);
           this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
           this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
+          this.formNomi.get('visible').setValue(data.data['getDataUpda'][0].visible);
           //checked
           this.formNomi.get('checked1').setValue(data.data['getDataUpda'][0].checked1);
           this.formNomi.get('checked2').setValue(data.data['getDataUpda'][0].checked2);

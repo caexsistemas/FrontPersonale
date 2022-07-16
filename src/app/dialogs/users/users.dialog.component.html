@@ -44,7 +44,7 @@
         <div class="card-header">
             <h5 class="modal-title">
                 <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
-                <p class="title-modal" *ngIf="view == 'update'">Editar</p>
+                <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
                 <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
                     style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
                     <span aria-hidden="true">&times;</span>
@@ -56,37 +56,117 @@
             <mat-dialog-content>
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formUsuario">
 
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Company</mat-label>
+                        <input matInput disabled value="Cali Express">
+                      </mat-form-field>
                     <div class="row">
+                        <div class="col-md-4">
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name"
+                                #name="ngModel">
+                            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                                Name is required
+                            </div> -->
+                            <mat-form-field class="example-form-field" appearance="fill">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="name" type="text" [(ngModel)]="value"
+                                    [errorStateMatcher]="matcher" placeholder="Nombre">
+                                <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="name.hasError('required')">
+                                    Nombre is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <!-- <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Nombre</mat-label>
+                                <input type="name" matInput formControlName="name" [(ngModel)]="value" type="text" [errorStateMatcher]="matcher"
+                                       placeholder="Nombre">
+                                <mat-error *ngIf="name.hasError('required')">
+                                    Nombre is <strong>required</strong>
+                                </mat-error>
+                              </mat-form-field> -->
+                        </div>
+
+                        <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                            Name is required
+                        </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombre</mat-label>
-                                <input matInput formControlName="name">
-                            </mat-form-field>
-                        </div>
+                                <input matInput formControlName="name" type="text">
+                            </mat-form-field> -->
+
+                        <!-- <small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
+                                El Nombre No es Valido
+                            </small> -->
+                        <!-- </div> -->
+
+
                         <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
+                            <!-- <mat-form-field class="example-full-width">
+                            <mat-label>Apellidos</mat-label>
+                            <input matInput formControlName="surname">
+                        </mat-form-field> -->
+                            <mat-form-field class="example-form-field" appearance="fill">
                                 <mat-label>Apellidos</mat-label>
-                                <input matInput formControlName="surname">
+                                <input matInput formControlName="surname" name="surname" type="text"
+                                    [(ngModel)]="value1" [errorStateMatcher]="matcher">
+                                <button *ngIf="value1" matSuffix mat-icon-button aria-label="Clear" (click)="value1=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="surname.hasError('required')">
+                                    Apellidos is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                            <mat-form-field>
+                            <!-- <mat-form-field>
+                            <mat-label>Número de identificación</mat-label>
+                            <input matInput formControlName="username">
+                        </mat-form-field> -->
+                            <mat-form-field class="example-form-field" appearance="fill">
                                 <mat-label>Número de identificación</mat-label>
-                                <input matInput formControlName="username">
+                                <input matInput formControlName="username" type="number" [(ngModel)]="value2"
+                                    [errorStateMatcher]="matcher">
+                                <!-- <button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear" (click)="value2=''">
+                              <mat-icon>close</mat-icon>
+                            </button> -->
+                                <mat-error *ngIf="username.hasError('required')">
+                                    Identificación is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
+                            <!-- <mat-form-field class="example-full-width">
+                    <mat-label>Correo</mat-label>
+                    <input matInput placeholder="caex@example.com" formControlName="email" required>
+                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field> -->
+                            <mat-form-field class="example-full-width" appearance="fill">
                                 <mat-label>Correo</mat-label>
-                                <input matInput placeholder="caex@example.com" formControlName="email" required>
-                                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                                <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+                                    placeholder="caex@example.com">
+                                <!-- <mat-hint> </mat-hint> -->
+                                <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+                                    Please enter a valid email
+                                </mat-error>
+                                <mat-error *ngIf="email.hasError('required')">
+                                    Email is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Seleccione un rol</mat-label>
                                 <mat-select formControlName="role">
@@ -94,58 +174,123 @@
                                     <mat-option [value]="2">Coordinador</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Teléfono</mat-label>
-                                <input matInput formControlName="phone">
+                            <!-- <mat-form-field class="example-full-width">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput formControlName="phone">
+                </mat-form-field> -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Rol:</mat-label>
+                                <mat-select formControlName="role" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let idet of typeRol" [value]="idet.idRole">
+                                        {{idet.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="role.hasError('required')">
+                                    Rol is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
+                           
                         </div>
-
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <mat-form-field>
                                 <mat-label>status</mat-label>
                                 <input matInput formControlName="status">
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Status:</mat-label>
+                                <mat-select formControlName="status" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let idet of typeStatus" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="status.hasError('required')">
+                                    Status is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+                    <!-- <div class="row"> -->
+
+
+                    <!-- <div class="col-md-4">
                             <mat-form-field>
                                 <mat-label>lastLogin</mat-label>
                                 <input matInput formControlName="lastLogin">
                             </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
+                        </div> -->
+
+                    <!-- </div> -->
+                    <div class="row">
+                        <!-- <div class="col-md-4">
                             <mat-form-field>
-                                <mat-label>matrizarp</mat-label>
+                                <mat-label>matrizarp</mat-label>typeMatriz
                                 <input matInput formControlName="matrizarp">
                             </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
+                        </div> -->
                         <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo de Matriz:</mat-label>
+                                <mat-select formControlName="matrizarp" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="matrizarp.hasError('required')">
+                                    Matriz is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- <div class="col-md-4">
                             <mat-form-field>
                                 <mat-label>id_caex</mat-label>
                                 <input matInput formControlName="id_caex">
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         <div class="col-md-4">
-                            <mat-form-field>
-                                <mat-label>campana</mat-label>
+                            <!-- <mat-form-field>
+                                <mat-label>campaña</mat-label>typeCampaign
                                 <input matInput formControlName="campana">
+                            </mat-form-field> -->
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo de Campaña:</mat-label>
+                                <mat-select formControlName="campana" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let idet of typeCampaign" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="campana.hasError('required')">
+                                    Campaña is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                            <mat-form-field>
+                                <mat-form-field class="example-form-field" appearance="fill">
+                                    <mat-label>Teléfono</mat-label>
+                                    <input matInput formControlName="phone" type="number" [(ngModel)]="value3">
+                                    <button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value3=''">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                            
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
                                 <mat-label>canal</mat-label>
                                 <input matInput formControlName="canal">
                             </mat-form-field>
                         </div>
-                    </div>
-                  <!----  <div class="row">
+                    </div> -->
+                    <!----  <div class="row">
                         <div class="col-sm-4">
                             <mat-form-field>
                                 <mat-label>usu_wolk</mat-label>
@@ -158,14 +303,14 @@
                                 <input matInput formControlName="usuario">
                             </mat-form-field>
                         </div> -->
-                        <!-- <div class="col-sm-4">
+                    <!-- <div class="col-sm-4">
                             <mat-form-field>
                                 <mat-label>canal</mat-label>
                                 <input matInput formControlName="canal">
                             </mat-form-field>
                         </div> -->
                     <!-- </div> -->
-                <!-- </div> -->
+                    <!-- </div> -->
                 </form>
 
             </mat-dialog-content>

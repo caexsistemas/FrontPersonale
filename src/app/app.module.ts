@@ -81,8 +81,17 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
+<<<<<<< HEAD
+import { InventoryComponent } from "./views/inventory/InventoryComponent";
+import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
+
+=======
 import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
+<<<<<<< HEAD
 import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
+=======
+>>>>>>> 7d8f7f5f8077516520010bc726968488f3cf752e
+>>>>>>> 2346eb85a7269268eaf76c4061ddbb0eda8a9fbe
 
 //import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 //import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
@@ -162,8 +171,19 @@ const routes: Routes = [];
     ReportsRqcalidadComponent,
     FeedbackDialog,
     ReportsFeddBackComponent,
+<<<<<<< HEAD
     RqcalidadvmrpComponent,
     AbsenteeismDialog    
+=======
+<<<<<<< HEAD
+    InventoryComponent,
+    TechnologyDialog
+    
+    
+=======
+    RqcalidadvmrpComponent    
+>>>>>>> 7d8f7f5f8077516520010bc726968488f3cf752e
+>>>>>>> 2346eb85a7269268eaf76c4061ddbb0eda8a9fbe
       
   ],
   providers: [{

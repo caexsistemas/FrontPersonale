@@ -55,19 +55,22 @@ export class UsersComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
+      action: "getUserAll",
     })
       .subscribe(
-        response => {
+        (data) => {
+        // response => {
           this.permissions = this.handler.getPermissions(this.component);
           console.log(1)
           console.log(this.permissions)
-          if (response.success) {
-            this.generateTable(response.data);
-            this.datauser = response.data
+          if (data.success) {
+            // this.generateTable(response.data);
+            this.generateTable(data.data['userAll']);
+            this.datauser = data.data
             this.loading = false;
           } else {
             this.datauser = [];
-            this.handler.handlerError(response);
+            this.handler.handlerError(data);
             this.loading = false;
           }
         },
@@ -84,6 +87,7 @@ export class UsersComponent implements OnInit {
       'view',
       'idUser',
       'name',
+      'role',
       'email',
       'actions'
     ];
