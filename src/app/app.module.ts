@@ -82,12 +82,11 @@ import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-r
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
 import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
+import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
 
 //import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 //import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
-
 // import { FileSaverModule } from 'ngx-filesaver';
-
 
 const routes: Routes = []; 
 @NgModule({
@@ -163,7 +162,8 @@ const routes: Routes = [];
     ReportsRqcalidadComponent,
     FeedbackDialog,
     ReportsFeddBackComponent,
-    RqcalidadvmrpComponent    
+    RqcalidadvmrpComponent,
+    AbsenteeismDialog    
       
   ],
   providers: [{

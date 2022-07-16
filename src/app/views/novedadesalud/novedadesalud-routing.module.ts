@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProcessaludComponent } from './processalud/processalud.component';
+import { AbsenteeismComponent } from './absenteeism/absenteeism.component';
 
 const routes: Routes = [
 
@@ -19,6 +20,13 @@ const routes: Routes = [
           component: ProcessaludComponent,
           data: {
             title: 'Novedades Medicas'
+          }
+        },
+        {
+          path: 'absenteeisms',
+          component: AbsenteeismComponent,
+          data: {
+            title: 'Ausentismo'
           }
         }
       ]
