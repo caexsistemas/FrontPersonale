@@ -10,6 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TemplateComponent } from '../../../template/template.component';
 import { AbsenteeismDialog } from '../../../dialogs/absenteeism/absenteeism.dialogs.component';
+import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
 
 @Component({
   selector: 'app-absenteeism',
@@ -43,7 +44,7 @@ export class AbsenteeismComponent implements OnInit {
     private matBottomSheet : MatBottomSheet) { }
 
     onTriggerSheetClick(){
-      //this.matBottomSheet.open(ReportProcessaludComponent)
+      this.matBottomSheet.open(ReportsAbsenteeismComponent)
     }
     
     ngOnInit(): void {
@@ -84,6 +85,7 @@ export class AbsenteeismComponent implements OnInit {
    generateTable(data){
     this.displayedColumns = [
       'view', 
+      'document',
       'fecha_ingreso',
       'name',
       'namejefe',
