@@ -15,12 +15,21 @@
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formProces" method="POST">
 
                     <div class="row">
-                        <div class="col-md-4"  >
+                        <!--{Creacion}-->
+                        <div class="col-md-4"  *ngIf="view == 'create'" >
                             <mat-form-field class="example-full-width">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
                                 <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)" required>
                             </mat-form-field>
                         </div>
+                        <!--{Actualizacion}-->
+                        <div class="col-md-4"  *ngIf="view == 'update'" >
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                                <input matInput formControlName="document" type="number" [readonly]="true" required>
+                            </mat-form-field>
+                        </div>
+
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width readonly-wrapper" >
                                 <mat-label>Nombre(s) y Apellido(s):</mat-label>
@@ -64,21 +73,37 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4">
+                        <!--{Creacion}-->
+                        <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Fecha Ausencia:</mat-label>
+                                <mat-label>Fecha Inicio Ausencia:</mat-label>
                                 <input matInput formControlName="fecha_ausencia" type="date" required>
                             </mat-form-field>
-                        </div>        
+                        </div>       
+                        <!--{Actualizacion}-->
+                        <div class="col-md-4"  *ngIf="view == 'update'" >
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha Inicio Ausencia:</mat-label>
+                                <input matInput formControlName="fecha_ausencia" type="date" [readonly]="true"  required>
+                            </mat-form-field>
+                        </div>     
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4">
+                         <!--{Creacion}-->
+                        <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Fecha Ausencia:</mat-label>
+                                <mat-label>Fecha Fin Ausencia:</mat-label>
                                 <input matInput formControlName="fecha_finausen" type="date" required>
                             </mat-form-field>
                         </div>  
+                        <!--{Actualizacion}-->
+                        <div class="col-md-4"  *ngIf="view == 'update'" >
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha Fin Ausencia:</mat-label>
+                                <input matInput formControlName="fecha_finausen" type="date" [readonly]="true"  required>
+                            </mat-form-field>
+                        </div> 
                     </div>
 
                 </form>
