@@ -57,7 +57,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Motivo:</mat-label>
-                                <mat-select formControlName="motivo"  required>
+                                <mat-select formControlName="motivo" (ngModelChange)="selectProcesald($event)" required>
                                   <mat-option *ngFor="let idet of Listmotivo" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>

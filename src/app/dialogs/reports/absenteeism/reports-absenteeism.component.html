@@ -19,7 +19,7 @@
                 <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Tipo Matriz:</mat-label>
-                        <mat-select formControlName="matrizarp"  required>
+                        <mat-select formControlName="matrizarp" >
                           <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
                             {{idet.description}}
                           </mat-option>

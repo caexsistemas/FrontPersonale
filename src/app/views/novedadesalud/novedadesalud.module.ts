@@ -24,6 +24,7 @@ import { ProcessaludRoutingModule } from './novedadesalud-routing.module';
 import { ProcessaludComponent } from './processalud/processalud.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { AbsenteeismComponent } from './absenteeism/absenteeism.component';
+import { AngularFileUploaderModule } from "angular-file-uploader";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -50,7 +51,8 @@ const ngWizardConfig: NgWizardConfig = {
     ProcessaludRoutingModule,
     MatBottomSheetModule,
     BsDropdownModule.forRoot(),
-    NgWizardModule.forRoot(ngWizardConfig)
+    NgWizardModule.forRoot(ngWizardConfig),
+    AngularFileUploaderModule
   ],
   declarations: [
     ProcessaludComponent,

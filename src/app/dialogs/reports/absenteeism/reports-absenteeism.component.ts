@@ -88,8 +88,7 @@ import {
         if (this.formDowAsentis.valid) {
     
             if( this.formDowAsentis.value['fi'] <= this.formDowAsentis.value['ff'] 
-                && this.formDowAsentis.value['fi'] != '' && this.formDowAsentis.value['ff'] != '' 
-                && this.formDowAsentis.value['matrizarp'] != "" ){
+                && this.formDowAsentis.value['fi'] != '' && this.formDowAsentis.value['ff'] != '' ){
     
                 let body = {
                     valest: this.formDowAsentis.value,      
