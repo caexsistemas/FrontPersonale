@@ -92,6 +92,7 @@ export class ProcessaludComponent implements OnInit {
       'document_vs',
       'idPersonale',
       'area',
+      'soporte_nove',
       'tipo_gestion',
       'fechainicausen',
       'fechafinausen',

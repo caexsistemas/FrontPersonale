@@ -10,6 +10,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TemplateComponent } from '../../../template/template.component';
 import { AbsenteeismDialog } from '../../../dialogs/absenteeism/absenteeism.dialogs.component';
+import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-absenteeism',
@@ -27,6 +29,13 @@ export class AbsenteeismComponent implements OnInit {
   dataSource:any        = [];
   public detaNovSal = [];
   contaClick:  number = 0;
+  //Variables Excel
+  endpointup: string = '/absenteeismsupload';
+  urlKaysenBackend = environment.url;
+  url = this.urlKaysenBackend + this.endpointup;
+  personaleData: any = [];
+  datapersonale: any = [];
+  modal: 'successModal';
   //Control Permiso
   component = "/procesalud/absenteeisms";
   //History
@@ -35,6 +44,35 @@ export class AbsenteeismComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
+  @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
+
+  public afuConfig = {
+
+    multiple: false,
+    formatsAllowed: ".xlsx,.xls",
+    maxSize: "20",
+    uploadAPI: {
+      url: this.url,
+      method: "POST",
+      headers: {
+        'Authorization': this._tools.getToken()
+      },
+    },
+    theme: "dragNDrop",
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    replaceTexts: {
+      selectFileBtn: 'Seleccione Archivo',
+      resetBtn: 'Limpiar',
+      uploadBtn: 'Subir Archivo',
+      attachPinBtn: 'Sube información usuarios',
+      hideProgressBar: false,
+      afterUploadMsg_success: '',
+      afterUploadMsg_error: 'Fallo al momento de cargar el archivo!',
+      sizeLimit: 'Límite de tamaño'
+    }
+  };
 
   constructor(    private _tools: Tools,
     private WebApiService:WebApiService,
@@ -43,7 +81,7 @@ export class AbsenteeismComponent implements OnInit {
     private matBottomSheet : MatBottomSheet) { }
 
     onTriggerSheetClick(){
-      //this.matBottomSheet.open(ReportProcessaludComponent)
+      this.matBottomSheet.open(ReportsAbsenteeismComponent)
     }
     
     ngOnInit(): void {
@@ -56,7 +94,8 @@ export class AbsenteeismComponent implements OnInit {
       this.WebApiService.getRequest(this.endpoint, {
         action: 'getDatanovedadAll',
         idUser: this.cuser.iduser,
-        role: this.cuser.role
+        role: this.cuser.role,
+        matrizarp: this.cuser.matrizarp
       })
         .subscribe(
        
@@ -84,6 +123,7 @@ export class AbsenteeismComponent implements OnInit {
    generateTable(data){
     this.displayedColumns = [
       'view', 
+      'document',
       'fecha_ingreso',
       'name',
       'namejefe',
@@ -178,6 +218,34 @@ export class AbsenteeismComponent implements OnInit {
             });
         break;
       }
+  }
+
+  getAllPersonal() {
+    this.WebApiService.getRequest(this.endpoint, {
+      action: 'getDatUpload',
+      idUser: this.cuser.iduser
+    })
+      .subscribe(
+        response => {
+          this.permissions = this.handler.getPermissions(this.component);
+          if (response.success) {
+            console.log("repo: "+response);
+            this.handler.showSuccess('El archivo se cargo exitosamente');
+            this.personaleData = response.data;
+            this.loading = false;
+            this.successModal.hide();
+            this.sendRequest();
+          } else {
+            this.datapersonale = [];
+            this.handler.handlerError(response);
+          }
+        },
+        error => {
+          this.loading = false;
+          //this.permissions = this.handler.getPermissions(this.component);
+          this.handler.showError();
+        }
+      );
   }
 
 }

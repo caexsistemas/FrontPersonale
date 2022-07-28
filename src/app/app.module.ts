@@ -82,10 +82,18 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
+<<<<<<< HEAD
 
 import { InventoryComponent } from "./views/inventory/InventoryComponent";
 import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
 
+=======
+import { InventoryComponent } from "./views/inventory/InventoryComponent";
+import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
+import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
+import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
+import { ReportsAbsenteeismComponent } from './dialogs/reports/absenteeism/reports-absenteeism.component';
+>>>>>>> b9dda3b78274a9ad5bbebaf30a64da927afdae23
 
 import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
 
@@ -182,6 +190,7 @@ const routes: Routes = [];
     FeedbackDialog,
     ReportsFeddBackComponent,
     RqcalidadvmrpComponent,
+<<<<<<< HEAD
     AbsenteeismDialog,   
     InventoryComponent,
     TechnologyDialog,
@@ -195,6 +204,14 @@ const routes: Routes = [];
     DeclineDialog,
     Pending,
     TrainingComponent     
+=======
+    AbsenteeismDialog,    
+    InventoryComponent,
+    TechnologyDialog,
+    RqcalidadvmrpComponent,
+    ReportsAbsenteeismComponent    
+  
+>>>>>>> b9dda3b78274a9ad5bbebaf30a64da927afdae23
   ],
   providers: [{
     

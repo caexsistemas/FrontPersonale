@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { ProcessaludDialog } from '../../dialogs/processalud/processalud.dialog.component';
 
 export interface PeriodicElement {
     currentm_user: string,
@@ -31,6 +32,7 @@ export class AbsenteeismDialog {
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   //OUTPUTS
   @Output() loading = new EventEmitter();
+  @Output() loadingtwo = new EventEmitter();
   @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   //VARIABLES
@@ -248,6 +250,29 @@ export class AbsenteeismDialog {
     ];
     this.historyMon = data;
     this.clickedRows = new Set<PeriodicElement>();
+  }
+
+  optionOtr(action, codigo=null){
+    var dialogRef;
+    this.loadingtwo.emit(true);
+    switch(action){
+        case 'createIncapa':
+            dialogRef = this.dialog.open(ProcessaludDialog,{
+              data: {
+                window: 'create',
+                codigo
+              }
+            });
+            dialogRef.disableClose = true;
+        break;
+    }
+    this.loadingtwo.emit(false);
+  }
+
+  selectProcesald(event){
+    if( (event == '60/2' || event == '60/3') ){
+        this.optionOtr('createIncapa');
+    }     
   }
 
 }
