@@ -12,8 +12,7 @@ import { TemplateComponent } from '../../../template/template.component';
 import { AbsenteeismDialog } from '../../../dialogs/absenteeism/absenteeism.dialogs.component';
 import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
 import { environment } from '../../../../environments/environment';
-import * as internal from 'stream';
-import { MatCheckbox } from '@angular/material/checkbox';
+
 
 
 @Component({
@@ -138,6 +137,7 @@ export class AbsenteeismComponent implements OnInit {
       'matrizarp',
       'motivo',
       'fecha_ausencia',
+      'fecha_finausen',
       'actions'
     ];
     this.dataSource           = new MatTableDataSource(data);
