@@ -83,7 +83,7 @@ export class TechnologyDialog {
   typeCampusCambu: any = [];
   typeCampusCedro: any = [];
   typeflat: any = [];
-
+  typeDisk: any = [];
   activo: any = [];
   product: any = [];
   attribute: any =[];
@@ -99,12 +99,6 @@ export class TechnologyDialog {
   disabled = false;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
-
-  // foods: Food[] = [
-  //   {value: 'steak-0', viewValue: 'Steak'},
-  //   {value: 'pizza-1', viewValue: 'SI'},
-  //   {value: 'tacos-2', viewValue: 'NO'},
-  // ];
 
   //OUTPUTS
   @Output() loading = new EventEmitter();
@@ -125,9 +119,6 @@ export class TechnologyDialog {
 
     switch (this.view) {
       case "create":
-        // if( this.listSub == '48/1'){
-        //   this.select = true;
-        //   }
         this.initForms();
         this.title = "Crear Activos";
         break;
@@ -135,11 +126,9 @@ export class TechnologyDialog {
         this.idTec = this.data.codigo;
         this.initForms();
         this.title = "Actualizar Activos";
-        console.log('idupdate=>',this.idTec);
         break;
       case "view":
         this.idTec = this.data.codigo;
-        console.log('idview=>',this.idTec);
         this.loading.emit(true);
         this.WebApiService.getRequest(
           this.endpoint + "/" + this.idTec,
@@ -150,16 +139,7 @@ export class TechnologyDialog {
               this.techno = data.data["getDataTechno"][0];
               this.acti = data.data['getSubActivo'];
               this.list = data.data['getSubActivo'];
-              console.log('tecno=>',this.techno);
-              // this.prue = this.list;
-              // console.log('data=>',this.list);
               this.sub = this.techno.listSub;
-              // console.log('sub=>',this.sub);
-              // this.sub = this.list;
-              // console.log('list=>',this.sub);
-              // this.tipInter = this.feed.matrizarp_cod;
-              // this.tipMatriz = this.feed.matrizarp_cod;
-
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -194,6 +174,7 @@ export class TechnologyDialog {
       pc_tam_dis: new FormControl(""),
       pc_car: new FormControl(""),
       pc_tam_pan: new FormControl(""),
+      pc_tip_dis: new FormControl(""),
       //monitor
       mon_mar: new FormControl(""),
       mon_mod: new FormControl(""),
@@ -281,7 +262,6 @@ export class TechnologyDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      // matrizarp: this.cuser.matrizarp,
       // tipRole: this.cuser.role,
       idTec: this.data.codigo
 
@@ -289,7 +269,6 @@ export class TechnologyDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          // this.PersonaleInfo = data.data['getDataPersonale']; getSubActivo
               this.listActivo = data.data["getTipoActivo"];
               this.listSub = data.data["getSubActivo"];
               this.PersonaleInfo = data.data['getDataPersonale'];
@@ -303,37 +282,12 @@ export class TechnologyDialog {
               this.typeHeadbands = data.data['getTipHeadbands'];
               this.typeAir = data.data['getTipAir'];
               this.typeCampus = data.data['typeCampus'];
-              // this.typeCampus2 = data.data['typeCampus2'];
+              this.typeDisk = data.data['getTypeDisk'];
               this.typeCampusCambu = data.data['getCampusCambu'];
               this.typeCampusCedro = data.data['getCampusCedro'];
-             this.techno = data.data["getDataTechno"];
-             // console.log('++++++');
-          console.log(this.listActivo);
-          console.log(this.listSub);
-          console.log(this.typeCampus);
-
-          //  if(data.listActivo == true){
-          //  }
-          //  this.producto = this.listSub.slice(0,2);
-
-          // this.producto = this.listSub[1];
-          // console.log(this.formNomi[0]);
-          // if( this.producto[0] ) {
-          //     // this.activo =
-          //     this.formNomi.get('listSub').setValue(data.data['getSubActivo'][0].listSub);
-          //     this.formNomi.get('listSub').setValue(data.data['getSubActivo'][1].listSub);
-
-          // this.activo = this.listSub[1];
-
-          // this.ListTipoGes   = data.data['getDatTipoGes'];
-          // this.TipoIntervencion = data.data['tipInter'];
-          // this.listipomatriz = data.data['tipmatriz']; //40
-          // this.personalData = data.data['getDataPersonal'];  //Data Personal
-          // this.tipRole = data.data['tipRole'];
-
-          if (this.view == 'update') {
             //  this.techno = data.data["getDataTechno"];
 
+          if (this.view == 'update') {
               this.getDataUpdate();
           }
           this.loading.emit(false);
@@ -376,15 +330,11 @@ export class TechnologyDialog {
     }
   }
   getDataUpdate() {
-    // this.idTec= this.data.codigo
-
-    console.log('update=>',this.idTec);
 
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
       id: this.idTec,
-      // tipMat: this.tipMatriz,
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -396,6 +346,7 @@ export class TechnologyDialog {
         this.formNomi.get("pc_ram").setValue(data.data["getDataUpda"][0].pc_ram);
         this.formNomi.get("pc_pro").setValue(data.data["getDataUpda"][0].pc_pro);
         this.formNomi.get("pc_tam_dis").setValue(data.data["getDataUpda"][0].pc_tam_dis);
+        this.formNomi.get("pc_tip_dis").setValue(data.data["getDataUpda"][0].pc_tip_dis);
         this.formNomi.get("pc_car").setValue(data.data["getDataUpda"][0].pc_car);
         this.formNomi.get("pc_tam_pan").setValue(data.data["getDataUpda"][0].pc_tam_pan);
         this.formNomi.get("mon_mar").setValue(data.data["getDataUpda"][0].mon_mar);
@@ -455,12 +406,7 @@ export class TechnologyDialog {
         this.formNomi.get("idPersonale").setValue(data.data["getDataUpda"][0].idPersonale);
         this.formNomi.get("sub_ubi").setValue(data.data["getDataUpda"][0].sub_ubi);
         this.formNomi.get("sub_sede").setValue(data.data["getDataUpda"][0].sub_sede);
-        this.formNomi.get("create_User").setValue(data.data["getDataUpda"][0].create_User);
-        // this.formNomi.get("sub_sede").setValue(58);
-        
-        console.log('****')
-        // console.log(data.data["getDataUpda"][0].sub_sede)
-        // this.formNomi.get("idPersonale").setValue(data.data["getDataUpda"][0].idPersonale);
+        this.formNomi.get("create_User").setValue(data.data["getDataUpda"][0].create_User);          
       },
       (error) => {
         this.handler.showError();
@@ -472,7 +418,6 @@ export class TechnologyDialog {
 
     let body = {
         listas: this.formNomi.value,  
-        //  tipMat: this.tipMatriz,
         //  id: this.idfeed
     }
     if (this.formNomi.valid) {
@@ -521,13 +466,12 @@ export class TechnologyDialog {
       this.product = this.listSub.slice(17, 21);
     }
 
-    console.log("id=>", idet);
+    // console.log("id=>", idet);
     
   }
   onSelectionAttributes(idet){
-      console.log("idSub=>", idet);
-      // this.attribute = this.listSub;
-      // console.log(this.attribute);
+      // console.log("idSub=>", idet);
+     
       for(let i = idet; i>='48/1'; i++ ){
 
          this.attribute = idet ;
@@ -543,28 +487,22 @@ export class TechnologyDialog {
   }
   onSelectCampus(idet){ 
     
-    console.log('sede=>',idet);
+    // console.log('sede=>',idet);
     if( idet == '58'){
       this.typeflat = this.typeCampusCambu;
       // this.typeflat = this.typeCampus;
-      console.log('sede 1=>',this.typeflat);
+      // console.log('sede 1=>',this.typeflat);
       return this.typeflat;
 
     }else if(idet == '59'){
       this.typeflat= this.typeCampusCedro;
       // this.typeflat= this.typeCampus;
-      console.log('sede 2=>',this.typeflat);
+      // console.log('sede 2=>',this.typeflat);
       return this.typeflat;
     }
 
   }
 
-  // ciudades = [];
-  // cambioRegion(dato) {
-  //   //Aqui va tu logica de consulta a la BD
-
-  //   this.ciudades = this.activo;
-  // }
   generateTable(data) {
     this.displayedColumns = ["currentm_user", "date_move", "type_move"];
     this.historyMon = data;
@@ -581,5 +519,8 @@ export class TechnologyDialog {
   }
   nextStep() {
     this.step++;
+  }
+  prevStep() {
+    this.step--;
   }
 }

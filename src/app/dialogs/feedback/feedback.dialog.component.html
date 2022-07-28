@@ -101,7 +101,7 @@
                   <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                       <mat-label>Visible para Agente:</mat-label>
-                      <mat-select formControlName="visible">
+                      <mat-select formControlName="visible" required>
                         <mat-option *ngFor="let idet of typeConfir" [value]="idet.ls_codvalue" [disabled] ="retro">
                           {{idet.description}}
                         </mat-option>
@@ -109,10 +109,6 @@
                     </mat-form-field>
                   </div>
                 </div>
-
-                
-
-
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
@@ -193,7 +189,6 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
               </mat-action-row>
             </mat-expansion-panel>
-
           </form>
         </mat-accordion>
       </mat-dialog-content>

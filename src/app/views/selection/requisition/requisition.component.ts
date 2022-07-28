@@ -17,22 +17,22 @@ import {
 } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { MatPaginator } from "@angular/material/paginator";
-import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.component";
+import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { FeedbackDialog } from "../../../dialogs/feedback/feedback.dialog.component";
-import { ReportsFeddBackComponent } from "../../../dialogs/reports/feedback/reports-feedback.component";
-import { TechnologyDialog } from "../../../dialogs/technology/technology.dialog.component";
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
+import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
+
+
 @Component({
-  selector: 'app-technology',
-  templateUrl: './technology.component.html',
-  styleUrls: ['./technology.component.css']
+  selector: 'app-requisition',
+  templateUrl: './requisition.component.html',
+  styleUrls: ['./requisition.component.css']
 })
-export class TechnologyComponent implements OnInit {
+export class RequisitionComponent implements OnInit {
+
   contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/technology";
+  endpoint: string = "/requisition";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
@@ -43,7 +43,7 @@ export class TechnologyComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/inventory/technology";
+  component = "/selection/requisition";
 
   constructor(
     private _tools: Tools,
@@ -62,7 +62,7 @@ export class TechnologyComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getTechnologyAll",
+      action: "getSelection",
       idUser: this.cuser.iduser,
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
@@ -71,11 +71,13 @@ export class TechnologyComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
+        console.log(this.permissions);
         console.log(data);
+
         if (data.success == true) {
 
-          this.generateTable(data.data["getContData"]);
-          this.contenTable = data.data["getContData"];
+          this.generateTable(data.data["getSelectData"]);
+          this.contenTable = data.data["getSelectData"];
          this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -92,10 +94,10 @@ export class TechnologyComponent implements OnInit {
     this.displayedColumns = [
       "view",
       // "fecha_compra",
-      "listActivo",
-      "listSub",
-      "idPersonale",
-      "sub_sede",
+      "car_sol",
+      "tip_req",
+      "salary",
+      "num_vac",
       // "swi_mod",
       // "ser_mod",
       "actions",
@@ -115,7 +117,7 @@ export class TechnologyComponent implements OnInit {
     switch(action){
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(TechnologyDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog,{
           data: {
             window: 'create',
             codigo,
@@ -135,7 +137,7 @@ export class TechnologyComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(TechnologyDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog,{
           data: {
             window: 'update',
             codigo,
@@ -157,7 +159,7 @@ export class TechnologyComponent implements OnInit {
 
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(TechnologyDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog,{
           data: {
             window: 'view',
             codigo

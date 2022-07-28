@@ -25,12 +25,17 @@ export class UsersDialog {
     usuario: any = []; 
     title: string = null;
     id: number = null;
+    user: any = [];
+    ape: any = [];
     permissions: any = null;
     typeStatus: any = [];
     typeMatriz: any = [];
     typeCampaign: any = [];
     typeRol: any = [];
+    typeRolAsesor: any = [];
+    person: any = [];
     rol : any = [];
+
     // name: any =[];
     touched: any = [];
     email = new FormControl('', [Validators.required, Validators.email]);
@@ -65,6 +70,7 @@ export class UsersDialog {
     //     { codigo: 0, nombre: 'Inactivo' }
     // ];
 
+    public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
     // // OUTPUTS
     @Output() loading = new EventEmitter();
     @Output() reload = new EventEmitter();
@@ -79,18 +85,17 @@ export class UsersDialog {
 
     ) {
         this.view = this.data.window;
+        this.rol = this.cuser.role;
         this.id = null;
         switch (this.view) {
             case 'view':
                 this.id = this.data.codigo;
-                console.log('idUser=>',this.id);
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
                     .subscribe(
                         data => {
                             if (data.success == true) {
                                 this.usuario = data.data[0];
-                                console.log(this.usuario);
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -105,14 +110,16 @@ export class UsersDialog {
                     );
                 break;
             case 'create':
+                
                 this.initForms();
                 this.title = "Crear Usuario ";
                 break;
             case 'update':
-                // this.title = "Editar Usuario ";
+               
                 this.initForms();
                 this.id = this.data.codigo;
-                this.title = "Editar Usuario" + " " + this.id;
+                // this.title = "Editar Usuario" + " " + this.id;
+                this.title = "Editar Usuario";
                 break;
         }
     }
@@ -149,7 +156,8 @@ export class UsersDialog {
     getDataInit() {
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
-            action: 'getParamsUpdate'
+            action: 'getParamsUpdate',
+            id: this.data.codigo
         })
         .subscribe(
             data => {
@@ -158,6 +166,9 @@ export class UsersDialog {
                     this.typeMatriz = data.data['matriz'];
                     this.typeCampaign = data.data['campaign'];
                     this.typeRol = data.data['typeRol'];
+                    this.typeRolAsesor = data.data['typeRolAsesor'];
+                    this.person = data.data['personale'];
+
                     let datos = data.data;
                     this.loading.emit(false);
 
@@ -182,8 +193,6 @@ export class UsersDialog {
             let body = {
                 usuarios: this.formUsuario.value,
             }
-            console.log('user*');
-            console.log(body);
             this.WebApiService.postRequest(this.endpoint, body, {})
                 .subscribe(
                     data => {
@@ -208,20 +217,20 @@ export class UsersDialog {
     }
 
     getDataUpdate() {
+
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint,{
             action: "getParamUpdateSet",
-            id: this.data.codigo
+            id: this.data.codigo,
                 // id: this.idTec,
             // this.id 
         })
         .subscribe(
             data => {
                 if (data.success) {
-                    // this.usuario = data.data[0];
-                    // console.log(this.usuario);
-                    // console.log(this.usuario.role);
-                    // this.formUsuario.get("listActivo").setValue(data.data["getDataUpda"][0].listActivo);
+                     this.user = data.data["getDataUpda"][0].name;
+                     this.ape = data.data["getDataUpda"][0].surname;
+                
                     // this.formUsuario.get('name').setValue(this.usuario.name);
                     this.formUsuario.get('name').setValue(data.data["getDataUpda"][0].name);
                     this.formUsuario.get('surname').setValue(data.data["getDataUpda"][0].surname);
@@ -237,13 +246,6 @@ export class UsersDialog {
                     this.formUsuario.get('canal').setValue(data.data["getDataUpda"][0].canal);
                     this.formUsuario.get('usu_wolk').setValue(data.data["getDataUpda"][0].usu_wolk);
                     this.formUsuario.get('idPersonale').setValue(data.data["getDataUpda"][0].idPersonale);
-                    // this.formUsuario.get('name').setValue(data.data["getDataUpda"][0].name);
-                    // this.formUsuario.get('surname').setValue(this.usuario.surname);
-                    // this.formUsuario.get('username').setValue(this.usuario.username);
-                    // this.formUsuario.get('email').setValue(this.usuario.email);
-                    // this.formUsuario.get('phone').setValue(this.usuario.phone);
-                    // this.formUsuario.get('role').setValue(this.usuario.role);
-                    // this.formUsuario.get('password').setValue(this.usuario.password);
                     this.loading.emit(false);
                 } else {
                     this.handler.handlerError(data);
@@ -289,6 +291,16 @@ export class UsersDialog {
     closeDialog() {
         this.dialogRef.close();
     }
+    onSelectionPerson(event){
+        let exitsPersonal = this.person.find(element => element.document == event);
+      
+        if( exitsPersonal ){
+            this.formUsuario.get('idPersonale').setValue(exitsPersonal.idPersonale);       
+        }        
+      }
+    // mayus(e) {
+    //     e.value = e.value.toUpperCase();
+    // }
 
     // getErrorMessage() {
     //     if (this.email.hasError('required')) {

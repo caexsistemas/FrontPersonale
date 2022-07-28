@@ -80,6 +80,7 @@ export const navItems: INavData[] = [
     url: '/incapasinsop/gestion',
     icon: 'icon-docs'
     
-  }
+  },
+  
   
 ];

@@ -9,12 +9,15 @@ import {
   import { WebApiService } from '../../../services/web-api.service';
   import { HandlerAppService } from '../../../services/handler-app.service';
   import { FormGroup, FormControl } from '@angular/forms';
+import { DatePipe } from "@angular/common";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
   
   
   @Component({
     selector: 'app-report',
     templateUrl: './reports-feedback.component.html',
-    styleUrls: ['./reports-feedback.component.css']
+    styleUrls: ['./reports-feedback.component.css'],
+   
   })
   export class ReportsFeddBackComponent implements OnInit {
     ndpoint: string = '/feedback';
@@ -27,7 +30,8 @@ import {
     tipMatriz:        string = "";
     matrizarp: string="";
     dataCad : string = "";
-
+    today: Date = new Date();
+    pipe = new DatePipe('en-US');
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   
@@ -41,6 +45,9 @@ import {
     ) { }
   
     ngOnInit(): void {
+      let fi = null;
+      fi = this.pipe.transform(Date.now(), 'dd/MM/yyyy');
+
         this.dataIni();
         this.formDownoadIngreso = new FormGroup({
         fi: new FormControl(''),
@@ -52,7 +59,6 @@ import {
       });
     }
     dataIni() {
-      console.log(this.cuser);
         this.loading.emit(true);
         this.WebApiService.getRequest(this.ndpoint, {
           action: 'getParamView',
@@ -63,13 +69,9 @@ import {
             data => {
               if (data.success == true) {
                 this.dataCad = data.data['getContData'];
-               console.log( this.dataCad );
 
                this.listipomatriz = data.data['tipmatriz']; //40
-               this.tipMatriz = this.listipomatriz.matrizarp_cod;
-                console.log('hi')
-                console.log(this.cuser.iduser);
-              
+               this.tipMatriz = this.listipomatriz.matrizarp_cod; 
                 this.loading.emit(false);
               } else {
                 this.handler.handlerError(data);
@@ -84,14 +86,29 @@ import {
       }
   
       descargarArchivos(){
-  
+        // console.log('body=>',this.formDownoadIngreso.value );
+
+        //    this.formDownoadIngreso.value['fi'];
+        //    let fecha1 = this.pipe.transform(this.formDownoadIngreso.value['fi'], 'dd/MM/yyyy');
+        //   console.log('FI=>', fecha1);
+        //    this.formDownoadIngreso.value['ff'];
+        //   let fecha2 = this.pipe.transform( this.formDownoadIngreso.value['ff'], 'dd/MM/yyyy');
+        //   console.log('Ff=>', fecha2);
+
           if (this.formDownoadIngreso.valid) {
   
-              if( this.formDownoadIngreso.value['fi'] <= this.formDownoadIngreso.value['ff'] && this.formDownoadIngreso.value['fi'] != '' && this.formDownoadIngreso.value['ff'] != '' ){
-  
-                  let body = {
-                      valest: this.formDownoadIngreso.value,      
+              // if( fecha1 <= fecha2 && fecha1 != '' && fecha2 != '' ){
+                if( this.formDownoadIngreso.value['fi'] <= this.formDownoadIngreso.value['ff'] && this.formDownoadIngreso.value['fi'] != '' && this.formDownoadIngreso.value['ff'] != '' ){
+                  // if( this.pipe.transform(this.formDownoadIngreso.value['fi'], 'dd/MM/yyyy') <= this.pipe.transform( this.formDownoadIngreso.value['ff'], 'dd/MM/yyyy') && this.pipe.transform(this.formDownoadIngreso.value['fi'], 'dd/MM/yyyy') != '' && this.pipe.transform(this.formDownoadIngreso.value['ff'], 'dd/MM/yyyy') != '' ){
+                    
+                    
+                  let body =  {
+                    valest:this.formDownoadIngreso.value
+                         
                   }
+                   
+                    
+                  
                   this.loading.emit(true);
                   this.WebApiService.getRequest(this.ndpoint, {
                       action: 'downloadFiles',
@@ -99,7 +116,7 @@ import {
                   })
                   .subscribe(
                       data => {
-                          console.log(data);
+                          // console.log(data);
                           if(data.success){
                               const link = document.createElement("a");
                               link.href = data.data.url;
@@ -125,11 +142,17 @@ import {
           }else {
               this.handler.showError('Complete la informacion necesaria');
               this.loading.emit(false);
-          }
+           }
+          
       }
+                
+             
       labelMatriz(event){
         this.tipMatriz = event;
       }
+                  
+          
+        
   
     }
     

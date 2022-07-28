@@ -90,21 +90,21 @@
                     </mat-select>
                   </mat-form-field>
                 </div> -->
-                
-                
+
+
 
                 <div class="col-sm-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Activo:</mat-label>
                     <mat-select formControlName="listActivo" (ngModelChange)="onSelectionChange($event)">
-                      <mat-option *ngFor="let idet of listActivo" [value]="idet.ls_codvalue" >
+                      <mat-option *ngFor="let idet of listActivo" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-6">
-                  <mat-form-field class="example-full-width" >
+                  <mat-form-field class="example-full-width">
                     <mat-label>Subtipo de Activo:</mat-label>
                     <mat-select formControlName="listSub" (ngModelChange)="onSelectionAttributes($event)">
                       <mat-option *ngFor="let idet of product" [value]="idet.ls_codvalue">
@@ -113,7 +113,7 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-               
+
 
                 <!-- <div class="col-md-4 ">
                   <mat-form-field class="example-full-width">
@@ -135,7 +135,7 @@
                     <input matInput formControlName="pc_mar" value="pc_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/1'|| attribute == '48/2'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Modelo</mat-label>
                     <input matInput formControlName="pc_mod" value="pc_mod">
@@ -149,11 +149,29 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4"  *ngIf="attribute == '48/1'|| attribute == '48/2'">
+                <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Procesador</mat-label>
                     <input matInput formControlName="pc_pro" value="pc_pro">
                   </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
+                  <!-- <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Disco:</mat-label>
+                  <mat-select formControlName="pc_tip_dis">
+                    <mat-option *ngFor="let idet of typeDisk" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                  </mat-form-field> -->
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Disco:</mat-label>
+                  <mat-select formControlName="pc_tip_dis">
+                    <mat-option *ngFor="let idet of typeDisk" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
                 </div>
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
@@ -161,7 +179,7 @@
                     <input matInput formControlName="pc_tam_dis" type="number" value="pc_tam_dis">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4"  *ngIf="attribute == '48/1'|| attribute == '48/2'">
+                <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Cargador</mat-label>
                     <input matInput formControlName="pc_car" value="pc_car">
@@ -185,7 +203,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4"  *ngIf="attribute == '48/2'">
+                <div class="col-md-4" *ngIf="attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tamaño Pantalla</mat-label>
                     <input matInput formControlName="pc_tam_pan" value="pc_tam_pan">
@@ -201,13 +219,13 @@
                     <input matInput formControlName="mon_mar" value="mon_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/3'|| attribute == '48/4'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/3'|| attribute == '48/4'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Modelo</mat-label>
                     <input matInput formControlName="mon_mod" value="mon_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/3'|| attribute == '48/4'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/3'|| attribute == '48/4'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tamaño</mat-label>
                     <input matInput formControlName="mon_tam" type="number" value="mon_tam">
@@ -223,13 +241,13 @@
                     <input matInput formControlName="cam_mod" value="cam_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/5'|| attribute == '48/6'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/5'|| attribute == '48/6'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="cam_mar" value="cam_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/5'|| attribute == '48/6'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/5'|| attribute == '48/6'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Resolucion</mat-label>
                     <input matInput formControlName="cam_res" value="cam_res">
@@ -237,7 +255,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4"  *ngIf="attribute == '48/5'|| attribute == '48/6'">
+                <div class="col-md-4" *ngIf="attribute == '48/5'|| attribute == '48/6'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="cam_tip" value="cam_tip">
@@ -251,28 +269,28 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-md-4"  *ngIf="attribute == '48/6'">
+                <div class="col-md-4" *ngIf="attribute == '48/6'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Canales</mat-label>
                     <input matInput formControlName="cam_can" type="number" value="cam_can">
                   </mat-form-field>
                 </div>
               </div>
-               <!-- control -->
-               <div class="row">
+              <!-- control -->
+              <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
                   <mat-form-field class="example-full-width">
-                    <mat-label>  Marca</mat-label>
+                    <mat-label> Marca</mat-label>
                     <input matInput formControlName="cont_acc_marc" value="cont_acc_marc">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/7'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Modelo</mat-label>
                     <input matInput formControlName="cont_acc_mod" value="cont_acc_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/7'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="cont_acc_tip" value="cont_acc_tip">
@@ -291,38 +309,38 @@
               <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/8'">
                   <mat-form-field class="example-full-width">
-                    <mat-label>   Modelo</mat-label>
+                    <mat-label> Modelo</mat-label>
                     <input matInput formControlName="swi_mod" value="swi_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/8'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/8'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="swi_mar" value="swi_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/8'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/8'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Puertos</mat-label>
                     <input matInput formControlName="swi_pue" type="number" value="swi_pue">
                   </mat-form-field>
                 </div>
               </div>
-               <!-- servidores -->
-               <div class="row">
+              <!-- servidores -->
+              <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
-                    <mat-label>  Modelo</mat-label>
+                    <mat-label> Modelo</mat-label>
                     <input matInput formControlName="ser_mod" value="ser_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/9'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="ser_mar" value="ser_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/9'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Ram</mat-label>
                     <input matInput formControlName="ser_ram" type="number" value="ser_ram">
@@ -336,13 +354,13 @@
                     <input matInput formControlName="ser_pro" value="ser_pro">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4"   *ngIf="attribute == '48/9'">
+                <div class="col-md-4" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Almacenamiento</mat-label>
                     <input matInput formControlName="ser_alm" type="number" value="ser_alm">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4"  *ngIf="attribute == '48/9'">
+                <div class="col-md-4" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad Fuente</mat-label>
                     <input matInput formControlName="ser_cap_fue" type="number" value="ser_cap_fue">
@@ -350,7 +368,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4"  *ngIf="attribute == '48/9'"> 
+                <div class="col-md-4" *ngIf="attribute == '48/9'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="ser_tip" value="ser_tip">
@@ -379,7 +397,7 @@
                     <input matInput formControlName="tel_mar" value="tel_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/10'"> 
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/10'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="tel_tip" value="tel_tip">
@@ -394,8 +412,8 @@
                   </mat-form-field>
                 </div>
               </div>
-               <!-- AP/Router -->
-               <div class="row">
+              <!-- AP/Router -->
+              <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/11' || attribute == '48/12'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
@@ -407,23 +425,23 @@
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="ap_rou_mar" value="ap_rou_mar">
                   </mat-form-field>
-                </div>      
+                </div>
               </div>
-               <!-- Impresoras  -->
-               <div class="row">
+              <!-- Impresoras  -->
+              <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
                     <input matInput formControlName="imp_mod" value="imp_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/13'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="imp_mar" value="imp_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/13'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="imp_tip" value="imp_tip">
@@ -475,13 +493,13 @@
                     <input matInput formControlName="diad_mod" value="diad_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/16'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/16'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="diad_mar" value="diad_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/16'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/16'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="diad_tip" value="diad_tip">
@@ -496,43 +514,43 @@
                   </mat-form-field>
                 </div>
               </div>
-               <!-- UPS  -->
-               <div class="row">
+              <!-- UPS  -->
+              <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/17'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
                     <input matInput formControlName="ups_mod" value="ups_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/17'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/17'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="ups_mar" value="ups_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/17'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/17'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad</mat-label>
                     <input matInput formControlName="ups_cap" type="number" value="ups_cap">
                   </mat-form-field>
                 </div>
               </div>
-              
-               <!-- Planta Electrica  -->
-               <div class="row">
+
+              <!-- Planta Electrica  -->
+              <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/18'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
                     <input matInput formControlName="plan_elec_mod" value="plan_elec_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/18'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/18'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="plan_elec_mar" value="plan_elec_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/18'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/18'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad</mat-label>
                     <input matInput formControlName="plan_elec_cap" type="number" value="plan_elec_cap">
@@ -547,13 +565,13 @@
                     <input matInput formControlName="tran_for_ele_mod" value="tran_for_ele_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/19'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/19'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="tran_for_ele_mar" value="tran_for_ele_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/19'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/19'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad</mat-label>
                     <input matInput formControlName="tran_for_ele_cap" type="number" value="tran_for_ele_cap">
@@ -568,13 +586,13 @@
                     <input matInput formControlName="air_mod" value="air_mod">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"   *ngIf="attribute == '48/20'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/20'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
                     <input matInput formControlName="air_mar" value="air_mar">
                   </mat-form-field>
                 </div>
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/20'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/20'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad</mat-label>
                     <input matInput formControlName="air_cap" type="number" value="air_cap">
@@ -582,7 +600,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4"  *ngIf="attribute == '48/20'">
+                <div class="col-md-4" *ngIf="attribute == '48/20'">
                   <!-- <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <input matInput formControlName="air_tip" value="air_tip">
@@ -599,7 +617,7 @@
               </div>
               <!-- racks -->
               <div class="row">
-                <div class="col-md-4 mt-3"  *ngIf="attribute == '48/21'">
+                <div class="col-md-4 mt-3" *ngIf="attribute == '48/21'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tamaño</mat-label>
                     <input matInput formControlName="rac_tam" value="rac_tam">
@@ -608,8 +626,8 @@
               </div>
               <br>
 
-               <!-- valores subtipos general  -->
-               
+              <!-- valores subtipos general  -->
+
               <!-- <div class="row">
                 <div class="col">
                   <mat-form-field appearance="fill">
@@ -632,16 +650,16 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel  [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Facturacion &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                   Detalle Factura
+                  Detalle Factura
                 </mat-panel-description>
-                  <mat-icon>attach_money</mat-icon>
-                </mat-expansion-panel-header>
+                <mat-icon>attach_money</mat-icon>
+              </mat-expansion-panel-header>
               <!--  -->
               <div class="row">
                 <div class="col-md-4">
@@ -662,7 +680,7 @@
                     <input matInput formControlName="sub_prec" type="number" value="sub_prec">
                   </mat-form-field>
                 </div>
-                
+
               </div>
               <div class="row">
                 <div class="col-md-4">
@@ -684,52 +702,52 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel  [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Responsable     
+                  Responsable
                 </mat-panel-title>
                 <mat-panel-description>
                   Información Detallada
                 </mat-panel-description>
-                 <mat-icon>account_box</mat-icon>
-                </mat-expansion-panel-header>
+                <mat-icon>account_box</mat-icon>
+              </mat-expansion-panel-header>
               <!--  -->
-             <div class="row">
+              <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Numero Identificaci&oacute;n</mat-label>
                     <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionPerson($event)"
-                     required>
+                      required>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width ContCamp">
                     <mat-label>Responsable:</mat-label>
-                    <mat-select formControlName="idPersonale" required >
+                    <mat-select formControlName="idPersonale" required>
                       <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                         {{idet.name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                </div>
+              </div>
               <div class="row">
                 <div class="col-md-4">
                   <!-- <mat-form-field class="example-full-width">typeCampus
                   <mat-label>Ubicación</mat-label>
                   <input matInput formControlName="sub_ubi" value="sub_ubi">
                 </mat-form-field> -->
-                <mat-form-field class="example-full-width">
-                  <mat-label>Sede</mat-label>
-                  <mat-select formControlName="sub_sede" (ngModelChange)="onSelectCampus($event)" required>
-                    <mat-option *ngFor="let idet of typeCampus" [value]="idet.list_id">
-                      {{idet.name_esp}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-                  <!-- <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Sede</mat-label>
+                    <mat-select formControlName="sub_sede" (ngModelChange)="onSelectCampus($event)" required>
+                      <mat-option *ngFor="let idet of typeCampus" [value]="idet.list_id">
+                        {{idet.name_esp}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                       <mat-label>S</mat-label>
                       <mat-select formControlName="sub_sede">
@@ -740,17 +758,17 @@
                     </mat-form-field>
                   </div> -->
 
-                  <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Ubicacion</mat-label>
-                      <mat-select formControlName="sub_ubi">
-                        <mat-option *ngFor="let idet of typeflat" [value]="idet.ls_codvalue" required>
-                          {{idet.description}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Ubicacion</mat-label>
+                    <mat-select formControlName="sub_ubi">
+                      <mat-option *ngFor="let idet of typeflat" [value]="idet.ls_codvalue" required>
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
+              </div>
 
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -814,299 +832,306 @@
               </div>
             </div>
             <!--  -->
-            <div class="row mt-2"> 
-              <div class="col-md-4"*ngIf="sub == '48/1'">
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/1'">
                 <dt>Marca</dt>
                 <dd>{{techno.pc_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/2'">
+              <div class="col-md-4" *ngIf="sub == '48/2'">
                 <dt>Marca</dt>
                 <dd>{{techno.pc_mar}}</dd>
               </div>
 
-              <div class="col-md-4"*ngIf="sub == '48/1'|| sub == '48/2'">
+              <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
                 <dt>Modelo:</dt>
                 <dd>{{techno.pc_mod}}</dd>
               </div>
 
-              <div class="col-md-4"*ngIf="sub == '48/1'|| sub == '48/2'">
+              <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
                 <dt>RAM:</dt>
                 <dd>{{techno.pc_ram}}</dd>
               </div>
             </div>
             <!--  -->
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/1'|| sub == '48/2'">
+              <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
                 <dt>Procesador: </dt>
                 <dd>{{techno.pc_pro}}</dd>
               </div>
 
-              <div class="col-md-4"*ngIf="sub == '48/1'|| sub == '48/2'">
+              <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
+                <dt>Tipo de Disco: </dt>
+                <dd>{{techno.disk}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
                 <dt>Tamaño de Disco: </dt>
                 <dd>{{techno.pc_tam_dis}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/1'|| sub == '48/2'">
+              
+            </div>
+            <div class="row">
+              <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
                 <dt>Cargador: </dt>
                 <dd>{{techno.car}}</dd>
               </div>
             </div>
             <!--  -->
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/2'">
+              <div class="col-md-4" *ngIf="sub == '48/2'">
                 <dt>Tamaño de Pantalla: </dt>
                 <dd>{{techno.pc_tam_pan}}</dd>
               </div>
               <!--  -->
-              <div class="col-md-4"*ngIf="sub == '48/3'|| sub == '48/4'">
+              <div class="col-md-4" *ngIf="sub == '48/3'|| sub == '48/4'">
                 <dt>Marca Monitor: </dt>
                 <dd>{{techno.mon_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/3'|| sub == '48/4'">
+              <div class="col-md-4" *ngIf="sub == '48/3'|| sub == '48/4'">
                 <dt>Modelo Monitor: </dt>
                 <dd>{{techno.mon_mod}}</dd>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/3'|| sub == '48/4'">
+              <div class="col-md-4" *ngIf="sub == '48/3'|| sub == '48/4'">
                 <dt>Tamaño de Monitor: </dt>
                 <dd>{{techno.mon_tam}}</dd>
               </div>
-            <!--  -->
-              <div class="col-md-4"*ngIf="sub == '48/5'|| sub == '48/6'">
+              <!--  -->
+              <div class="col-md-4" *ngIf="sub == '48/5'|| sub == '48/6'">
                 <dt>Modelo Camara : </dt>
                 <dd>{{techno.cam_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/5'|| sub == '48/6'">
+              <div class="col-md-4" *ngIf="sub == '48/5'|| sub == '48/6'">
                 <dt>Marca Camara: </dt>
                 <dd>{{techno.cam_mar}}</dd>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/5'|| sub == '48/6'">
+              <div class="col-md-4" *ngIf="sub == '48/5'|| sub == '48/6'">
                 <dt>Resolucion de Camara: </dt>
                 <dd>{{techno.cam_res}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/5'|| sub == '48/6'">
+              <div class="col-md-4" *ngIf="sub == '48/5'|| sub == '48/6'">
                 <dt>Tipo de Camara : </dt>
                 <dd>{{techno.ti}}</dd>
               </div>
-            <!--  -->
-              <div class="col-md-4"*ngIf="sub == '48/6'">
+              <!--  -->
+              <div class="col-md-4" *ngIf="sub == '48/6'">
                 <dt>Canales: </dt>
                 <dd>{{techno.cam_can}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/7'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/7'">
                 <dt>Marca de Control de Acceso: </dt>
                 <dd>{{techno.cont_acc_marc}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/7'">
+              <div class="col-md-4" *ngIf="sub == '48/7'">
                 <dt>Modelo Control de Acceso: </dt>
                 <dd>{{techno.cont_acc_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/7'">
+              <div class="col-md-4" *ngIf="sub == '48/7'">
                 <dt>Tipo de Control de Acceso: </dt>
                 <dd>{{techno.acc}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/8'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/8'">
                 <dt>Modelo de Switch: </dt>
                 <dd>{{techno.swi_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/8'">
+              <div class="col-md-4" *ngIf="sub == '48/8'">
                 <dt>Marca de Switch: </dt>
                 <dd>{{techno.swi_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/8'">
+              <div class="col-md-4" *ngIf="sub == '48/8'">
                 <dt>Puerto de Switch: </dt>
                 <dd>{{techno.swi_pue}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Modelo de Servidor: </dt>
                 <dd>{{techno.ser_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Marca de Servidor: </dt>
                 <dd>{{techno.ser_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Ram de Servidor: </dt>
                 <dd>{{techno.ser_ram}}</dd>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Procesador de Servidor: </dt>
                 <dd>{{techno.ser_pro}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Almacenamiento de Servidor: </dt>
                 <dd>{{techno.ser_alm}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Capacidad de Fuente de Servidor: </dt>
                 <dd>{{techno.ser_cap_fue}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/9'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Tipo de Servidor: </dt>
                 <dd>{{techno.srv}}</dd>
               </div>
               <!-- telefono -->
-              <div class="col-md-4"*ngIf="sub == '48/10'">
+              <div class="col-md-4" *ngIf="sub == '48/10'">
                 <dt>Modelo de Telefono: </dt>
                 <dd>{{techno.tel_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/10'">
+              <div class="col-md-4" *ngIf="sub == '48/10'">
                 <dt>Marca de Telefono: </dt>
                 <dd>{{techno.tel_mar}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/10'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/10'">
                 <dt>Tipo de Telefono: </dt>
                 <dd>{{techno.tlt}}</dd>
               </div>
-            <!--  ap/router-->
-              <div class="col-md-4"*ngIf="sub == '48/11'|| sub == '48/12'">
+              <!--  ap/router-->
+              <div class="col-md-4" *ngIf="sub == '48/11'|| sub == '48/12'">
                 <dt>Modelo de AP/Router: </dt>
                 <dd>{{techno.ap_rou_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/11'|| sub == '48/12'">
-                <dt>Marca de  AP/Router: </dt>
+              <div class="col-md-4" *ngIf="sub == '48/11'|| sub == '48/12'">
+                <dt>Marca de AP/Router: </dt>
                 <dd>{{techno.ap_rou_mar}}</dd>
               </div>
             </div>
             <!--  -->
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/13'">
+              <div class="col-md-4" *ngIf="sub == '48/13'">
                 <dt>Modelo de Impresora: </dt>
                 <dd>{{techno.imp_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/13'">
+              <div class="col-md-4" *ngIf="sub == '48/13'">
                 <dt>Marca de Impresora: </dt>
                 <dd>{{techno.imp_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/13'">
+              <div class="col-md-4" *ngIf="sub == '48/13'">
                 <dt>Tipo de Impresora: </dt>
                 <dd>{{techno.impt}}</dd>
               </div>
             </div>
-             <!-- sacanner/lector -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/14'|| sub == '48/15'">
+            <!-- sacanner/lector -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/14'|| sub == '48/15'">
                 <dt>Modelo: </dt>
                 <dd>{{techno.esc_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/14'|| sub == '48/15'">
+              <div class="col-md-4" *ngIf="sub == '48/14'|| sub == '48/15'">
                 <dt>Marca: </dt>
                 <dd>{{techno.esc_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/14'|| sub == '48/15'">
+              <div class="col-md-4" *ngIf="sub == '48/14'|| sub == '48/15'">
                 <dt>Tipo: </dt>
                 <dd>{{techno.tip}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/16'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/16'">
                 <dt>Modelo de Diadema: </dt>
                 <dd>{{techno.diad_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/16'">
+              <div class="col-md-4" *ngIf="sub == '48/16'">
                 <dt>Marca de Diadema: </dt>
                 <dd>{{techno.diad_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/16'">
+              <div class="col-md-4" *ngIf="sub == '48/16'">
                 <dt>Tipo de Diadema: </dt>
                 <dd>{{techno.dit}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/17'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/17'">
                 <dt>Modelo de UPS: </dt>
                 <dd>{{techno.ups_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/17'">
+              <div class="col-md-4" *ngIf="sub == '48/17'">
                 <dt>Marca de UPS: </dt>
                 <dd>{{techno.ups_mar}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/17'">
+              <div class="col-md-4" *ngIf="sub == '48/17'">
                 <dt>Capacidad de UPS: </dt>
                 <dd>{{techno.ups_cap}}</dd>
               </div>
             </div>
-             <!--  -->
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/21'">
+            <!--  -->
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/21'">
                 <dt>Tamaño de Rack: </dt>
                 <dd>{{techno.rac_tam}}</dd>
               </div>
-             <!--  -->
-              <div class="col-md-4"*ngIf="sub == '48/18'">
+              <!--  -->
+              <div class="col-md-4" *ngIf="sub == '48/18'">
                 <dt>Modelo de Planta Electrica: </dt>
                 <dd>{{techno.plan_elec_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/18'">
+              <div class="col-md-4" *ngIf="sub == '48/18'">
                 <dt>Marca de Planta Electrica: </dt>
                 <dd>{{techno.plan_elec_mar}}</dd>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/18'">
-                <dt>Capacidad de  Planta Electrica: </dt>
+              <div class="col-md-4" *ngIf="sub == '48/18'">
+                <dt>Capacidad de Planta Electrica: </dt>
                 <dd>{{techno.plan_elec_cap}}</dd>
               </div>
-            <!--  -->
-              <div class="col-md-4"*ngIf="sub == '48/19'">
+              <!--  -->
+              <div class="col-md-4" *ngIf="sub == '48/19'">
                 <dt>Modelo de Trasnformador Electrico: </dt>
                 <dd>{{techno.tran_for_ele_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/19'">
+              <div class="col-md-4" *ngIf="sub == '48/19'">
                 <dt>Marca de Trasnformador Electrico: </dt>
                 <dd>{{techno.tran_for_ele_mar}}</dd>
               </div>
             </div>
-             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/19'">
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="sub == '48/19'">
                 <dt>Capacidad de Trasnformador Electrico: </dt>
                 <dd>{{techno.tran_for_ele_cap}}</dd>
               </div>
-             <!--  -->
-              <div class="col-md-4"*ngIf="sub == '48/20'">
+              <!--  -->
+              <div class="col-md-4" *ngIf="sub == '48/20'">
                 <dt>Modelo de Aire: </dt>
                 <dd>{{techno.air_mod}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/20'">
+              <div class="col-md-4" *ngIf="sub == '48/20'">
                 <dt>Marca de Aire : </dt>
                 <dd>{{techno.air_mar}}</dd>
               </div>
             </div>
             <!--  -->
             <div class="row mt-2">
-              <div class="col-md-4"*ngIf="sub == '48/20'">
+              <div class="col-md-4" *ngIf="sub == '48/20'">
                 <dt>Capacidad de Aire : </dt>
                 <dd>{{techno.air_cap}}</dd>
               </div>
-              <div class="col-md-4"*ngIf="sub == '48/20'">
+              <div class="col-md-4" *ngIf="sub == '48/20'">
                 <dt>Tipo de Aire: </dt>
                 <dd>{{techno.ait}}</dd>
               </div>
-             
+
             </div>
-             <!--  -->
-             
+            <!--  -->
+
             <mat-action-row>
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
@@ -1117,10 +1142,10 @@
                 Facturacion &nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
-                 Detalle Factura
+                Detalle Factura
               </mat-panel-description>
-                <mat-icon>attach_money</mat-icon>
-              </mat-expansion-panel-header>
+              <mat-icon>attach_money</mat-icon>
+            </mat-expansion-panel-header>
             <div class="row">
               <div class="col-md-4">
                 <dt>Fecha de Compra:</dt>
@@ -1130,25 +1155,25 @@
                 <dt>Numero de Facturacion: </dt>
                 <dd>{{techno.sub_num_fac}}</dd>
               </div>
-              
-            <div class="col-md-4">
-              <dt>Precio</dt>
-              <dd>{{techno.sub_prec}}</dd>
-            </div>
-  
-           </div>
-  
-            <div class="row mt-2">
+
               <div class="col-md-4">
+                <dt>Precio</dt>
+                <dd>{{techno.sub_prec}}</dd>
+              </div>
+
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-md-6">
                 <dt>Placa Activo Fijo : </dt>
                 <dd>{{techno.sub_pla_act_fij}}</dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <dt>Serial: </dt>
                 <dd>{{techno.sub_serial}}</dd>
               </div>
-              </div>
-              <hr>
+            </div>
+            <hr>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -1160,11 +1185,11 @@
                 Responsable &nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
-                 Información Detallada
+                Información Detallada
               </mat-panel-description>
-                <mat-icon>account_box</mat-icon>
-              </mat-expansion-panel-header>
-           
+              <mat-icon>account_box</mat-icon>
+            </mat-expansion-panel-header>
+
             <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Sede </dt>
@@ -1178,7 +1203,7 @@
                 <dt>Responsable: </dt>
                 <dd>{{techno.name}}</dd>
               </div>
-              
+
             </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -1186,8 +1211,8 @@
             </mat-action-row>
           </mat-expansion-panel>
 
-          
-         
+
+
         </mat-accordion>
         <div class="row mt-3">
           <div class="col-md-12">

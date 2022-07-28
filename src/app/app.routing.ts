@@ -92,6 +92,10 @@ export const routes: Routes = [
       {
         path: 'inventory',
         loadChildren:()=> import('./views/inventory/inventory.module').then(m=>m.InventoryModule)
+      },
+      {
+        path: 'selection',
+        loadChildren:()=> import('./views/selection/selection.module').then(m=>m.SelectionModule)
       }
     ]
   }
