@@ -12,6 +12,9 @@ import { TemplateComponent } from '../../../template/template.component';
 import { AbsenteeismDialog } from '../../../dialogs/absenteeism/absenteeism.dialogs.component';
 import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
 import { environment } from '../../../../environments/environment';
+import * as internal from 'stream';
+import { MatCheckbox } from '@angular/material/checkbox';
+
 
 @Component({
   selector: 'app-absenteeism',
@@ -35,6 +38,9 @@ export class AbsenteeismComponent implements OnInit {
   url = this.urlKaysenBackend + this.endpointup;
   personaleData: any = [];
   datapersonale: any = [];
+  dataDelte:     any = [];
+  contDele:      number = 0;
+  stadValue:     boolean = false;
   modal: 'successModal';
   //Control Permiso
   component = "/procesalud/absenteeisms";
@@ -45,6 +51,7 @@ export class AbsenteeismComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
   @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
+  @ViewChild('myCheckbox') private myCheckbox:  QueryList<any>;
 
   public afuConfig = {
 
@@ -122,6 +129,7 @@ export class AbsenteeismComponent implements OnInit {
     //Tabla Contenido
    generateTable(data){
     this.displayedColumns = [
+      'check',
       'view', 
       'document',
       'fecha_ingreso',
@@ -247,5 +255,63 @@ export class AbsenteeismComponent implements OnInit {
         }
       );
   }
+
+  validAsPect(id, checkbox){
+
+   if(checkbox.checked){
+    this.dataDelte.push(id);
+   }else{
+    var i = this.dataDelte.indexOf( id );
+    this.dataDelte.splice( i, 1 );
+   }
+
+    console.log(this.dataDelte);
+  }
+
+  deleInfo(){
+
+    if(this.dataDelte.length > 0){
+      if( this.contDele == 0 ){
+        this.handler.showError('Si está seguro de borrar los registros, por favor de Click de nuevo en eliminar. Total a eliminar: '+this.dataDelte.length);
+        this.contDele++;
+        this.stadValue = true;
+      }else{
+        this.loading = true;
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'getDelinfo',
+            idDel:  ""+JSON.stringify(this.dataDelte),
+            idUser: this.cuser.iduser
+        })
+        .subscribe(
+           
+            data => {
+                if (data.success == true) {
+                    //DataInfo
+                    this.handler.showSuccess('Registros eliminados exitosamente.');
+                    this.loading = false;
+                    this.stadValue = false;
+                    this.sendRequest();
+                } else {
+                    this.handler.handlerError(data);
+                    this.loading = false;
+                    this.stadValue = false;
+                }
+            },
+            error => {
+                this.handler.showError('Se produjo un error');
+                this.loading = false;
+                this.stadValue = false;
+            }
+        );
+        this.contDele = 0;
+      }
+    }else{
+      this.handler.showError('Por favor seleccionar algún registro.');
+    }
+
+
+  }
+
+
 
 }
