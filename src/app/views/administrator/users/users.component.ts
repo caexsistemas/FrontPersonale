@@ -22,6 +22,7 @@ export class UsersComponent implements OnInit {
   public data;
   public detailUser = [];
   datauser: any = [];
+  contenTable: any = [];
   dataSource: any = [];
   displayedColumns: any = [];
   loading: boolean = false;
@@ -32,6 +33,7 @@ export class UsersComponent implements OnInit {
   endpoint: string = '/usuario';
 
 
+  public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -46,31 +48,31 @@ export class UsersComponent implements OnInit {
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
   ngOnInit(): void {
-    this.permissions = this.handler.permissionsApp;
-    console.log(this.permissions)
-    
     this.sendRequest();
+    this.permissions = this.handler.permissionsApp;    
+   
   }
 
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getUserAll",
+      // action: "getUserAll",
+      // idUser: this.cuser.iduser
+      role: this.cuser.role
     })
       .subscribe(
-        (data) => {
-        // response => {
+        // (data) => {
+        response => {
           this.permissions = this.handler.getPermissions(this.component);
-          console.log(1)
-          console.log(this.permissions)
-          if (data.success) {
-            // this.generateTable(response.data);
-            this.generateTable(data.data['userAll']);
-            this.datauser = data.data
+          if (response.success) {
+            this.generateTable(response.data);
+            // this.generateTable(data.data['userAll']);
+            // this.contenTable = data.data["userAll"];
+            this.datauser = response.data
             this.loading = false;
           } else {
             this.datauser = [];
-            this.handler.handlerError(data);
+            this.handler.handlerError(response);
             this.loading = false;
           }
         },
@@ -86,7 +88,8 @@ export class UsersComponent implements OnInit {
     this.displayedColumns = [
       'view',
       'idUser',
-      'name',
+      'idPersonale',
+      
       'role',
       'email',
       'actions'
@@ -122,8 +125,8 @@ export class UsersComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-          console.log(result);
+          // console.log('The dialog was closed');
+          // console.log(result);
         });
         break;
       case 'create':
@@ -131,6 +134,7 @@ export class UsersComponent implements OnInit {
         dialogRef = this.dialog.open(UsersDialog, {
           data: {
             window: 'create',
+            role: this.cuser.role,
             codigo
           }
         });

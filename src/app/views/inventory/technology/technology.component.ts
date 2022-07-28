@@ -23,6 +23,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { FeedbackDialog } from "../../../dialogs/feedback/feedback.dialog.component";
 import { ReportsFeddBackComponent } from "../../../dialogs/reports/feedback/reports-feedback.component";
 import { TechnologyDialog } from "../../../dialogs/technology/technology.dialog.component";
+import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 @Component({
   selector: 'app-technology',
   templateUrl: './technology.component.html',
@@ -56,7 +57,6 @@ export class TechnologyComponent implements OnInit {
   ngOnInit():void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
-    console.log(this.permissions);
 
   }
   sendRequest() {
@@ -71,6 +71,7 @@ export class TechnologyComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
+        console.log(data);
         if (data.success == true) {
 
           this.generateTable(data.data["getContData"]);
@@ -90,7 +91,7 @@ export class TechnologyComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "fecha_compra",
+      // "fecha_compra",
       "listActivo",
       "listSub",
       "idPersonale",
@@ -168,8 +169,7 @@ export class TechnologyComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-          console.log(result);
+         
         });
       break;
       }
@@ -181,4 +181,11 @@ openc(){
   }    
   this.contaClick = this.contaClick + 1;
 }
+applyFilter(search) {
+  this.dataSource.filter = search.trim().toLowerCase();
+}
+onTriggerSheetClick(){
+  this.matBottomSheet.open(ReportsTechnologyComponent)
+}
+
 }

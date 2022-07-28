@@ -8,7 +8,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-import { FormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { OnlynumberDirective } from './Tools/onlynumber.directive';
@@ -17,6 +17,7 @@ import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster'
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { ModalModule } from 'ngx-bootstrap/modal';
 // import { DataTableModule } from 'angular2-datatable';
+// import {MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS} from '@angular/material/radio';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -88,12 +89,19 @@ import { TechnologyDialog } from './dialogs/technology/technology.dialog.compone
 
 import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
 
-
-//import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
-//import { ReportsRqcalidadComponent } from "./dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
-
-// import { FileSaverModule } from 'ngx-filesaver';
-
+import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
+import { ReportsTechnologyComponent } from './dialogs/reports/technology/reports-technology.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { SelectionComponent } from './views/selection/selection.component';
+import { RequisitionDialog } from './dialogs/selection/requisition/requisition.dialog.component';
+import { PendingDialog } from './dialogs/selection/pending/pending.dialog.component';
+import { VacantDialog } from './dialogs/selection/vacant/vacant.dialog.component';
+import { ApprovalDialog } from './dialogs/selection/approval/approval.dialog.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { DeclineDialog } from './dialogs/selection/approval/decline.dialog.component';
+import { Pending } from './dialogs/selection/approval/pending';
+import { TrainingComponent } from './views/selection/training/training.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -138,9 +146,13 @@ const routes: Routes = [];
     MatSidenavModule,
     MatCheckboxModule,
     MatPaginatorModule,
-    MatSortModule
-
-    // FileSaverModule
+    MatSortModule,
+    MatNativeDateModule, 
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatCardModule,
+    MatRadioModule
     
   ],
   declarations: [
@@ -169,16 +181,23 @@ const routes: Routes = [];
     ReportsRqcalidadComponent,
     FeedbackDialog,
     ReportsFeddBackComponent,
-
+    RqcalidadvmrpComponent,
+    AbsenteeismDialog,   
     InventoryComponent,
     TechnologyDialog,
-    
-    
-
-    RqcalidadvmrpComponent    
-      
+    RqcalidadvmrpComponent,
+    ReportsTechnologyComponent,
+    SelectionComponent,
+    RequisitionDialog,
+    PendingDialog,
+    VacantDialog,
+    ApprovalDialog,
+    DeclineDialog,
+    Pending,
+    TrainingComponent     
   ],
   providers: [{
+    
     provide: LocationStrategy,
     useClass: HashLocationStrategy
     

@@ -73,7 +73,7 @@ export class RqcalidadvmrpComponent {
            this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0');
            this.initForms();
            this.fechaInicio = this.dateStrinMoni+'-01';
-           this.fechaFin = this.dateStrinMoni+'-31';
+           this.fechaFin = this.dateStrinMoni+'-'+String(date.getDate()).padStart(2, '0');
            this.sendRequest(this.fechaInicio, this.fechaFin);
            this.formProces.get('fecini').setValue(this.fechaInicio);
            this.formProces.get('fecfin').setValue(this.fechaFin);

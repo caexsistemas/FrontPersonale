@@ -23,6 +23,7 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { ProcessaludRoutingModule } from './novedadesalud-routing.module';
 import { ProcessaludComponent } from './processalud/processalud.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { AbsenteeismComponent } from './absenteeism/absenteeism.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -52,7 +53,8 @@ const ngWizardConfig: NgWizardConfig = {
     NgWizardModule.forRoot(ngWizardConfig)
   ],
   declarations: [
-    ProcessaludComponent
+    ProcessaludComponent,
+    AbsenteeismComponent
   ]
 })
 export class NovedadeSaludModule { }

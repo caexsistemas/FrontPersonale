@@ -1,0 +1,200 @@
+<h3>Contacts</h3>
+<hr>
+<div class="card" [formGroup]="form">
+  <div class="card-header">
+    <label>User Contacts</label>
+  </div>
+  <div class="card-body">
+    <h5>User Info</h5>
+    <hr>
+    <div class="row">
+      <div class="col-md-2">Fecha de seleccion</div>
+      <div class="col-md-4">
+        <input formControlName="fec_sel" type="text" class="form-control">
+      </div>
+
+      <div class="col-md-2">Tipo de documento</div>
+      <div class="col-md-4">
+        <input formControlName="tip_doc" type="text" class="form-control">
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">documento</div>
+        <div class="col-md-4">
+          <input formControlName="document" type="text" class="form-control">
+        </div>
+        <div class="col-md-2">Fecha cumpleaños</div>
+      <div class="col-md-4">
+        <input formControlName="birthDate" type="text" class="form-control">
+      </div>
+      </div>
+      
+    <div class="row">
+      
+
+      <div class="col-md-2">ciudad nacimiento</div>
+      <div class="col-md-4">
+        <input formControlName="ciu_nac" type="text" class="form-control">
+      </div>
+      <div class="col-md-2">departamento</div>
+      <div class="col-md-4">
+        <input formControlName="dep_nac" type="text" class="form-control">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2">Fecha de seleccion</div>
+      <div class="col-md-4">
+        <input formControlName="fec_sel" type="text" class="form-control">
+      </div>
+
+      <div class="col-md-2">area de trabajo</div>
+      <div class="col-md-4">
+        <input formControlName="are_tra" type="text" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">cargo</div>
+      <div class="col-md-4">
+        <input formControlName="cargo" type="text" class="form-control">
+      </div>
+      <div class="col-md-2">eps</div>
+      <div class="col-md-4">
+        <input formControlName="eps" type="text" class="form-control">
+      </div>
+    </div>
+     
+<div class="row">
+  <div class="col-md-2">pension</div>
+  <div class="col-md-4">
+    <input formControlName="pension" type="text" class="form-control">
+  </div>
+  <div class="col-md-2">observaciones</div>
+  <div class="col-md-4">
+    <input formControlName="obs_vac" type="text" class="form-control">
+  </div>
+</div>
+
+<h5>Agregar Contacto</h5>
+<button class="btn btn-outline-primary" (click)="addNewContacts()">Add New Contacts</button>
+<hr>
+<ng-container formArrayName="contacts" *ngFor="let o of contacts.controls; let i = index">
+
+  <b>Contact {{i+1}}</b> <button class="btn btn-outline-danger mx-3 mt-3"
+    (click)="removeContact(i)">&times;</button>
+  <hr>
+
+  <div class="row mt-2" [formGroupName]="i">
+    <div class="col-md-2">Fecha de Seleccion</div>
+    <div class="col-md-4">
+      <input formControlName="fec_sel" type="text" class="form-control">
+    </div>
+
+    <div class="col-md-2">Tipo de documento</div>
+    <div class="col-md-4">
+      <input formControlName="tip_doc" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="row mt-2" [formGroupName]="i">
+    <div class="col-md-2">Documento</div>
+    <div class="col-md-4">
+      <input formControlName="document" type="text" class="form-control">
+    </div>
+
+    <div class="col-md-2">Nombre completo</div>
+    <div class="col-md-4">
+      <input formControlName="nom_com" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="row mt-2" [formGroupName]="i">
+    <div class="col-md-2">birthDate</div>
+    <div class="col-md-4">
+      <input formControlName="birthDate" type="text" class="form-control">
+    </div>
+
+    <div class="col-md-2">ciu_nac</div>
+    <div class="col-md-4">
+      <input formControlName="ciu_nac" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="row mt-2" [formGroupName]="i">
+    <div class="col-md-2">dep_nac</div>
+    <div class="col-md-4">
+      <input formControlName="dep_nac" type="text" class="form-control">
+    </div>
+
+    <div class="col-md-2">are_tra</div>
+    <div class="col-md-4">
+      <input formControlName="are_tra" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="row mt-2" [formGroupName]="i">
+    <div class="col-md-2">cargo</div>
+    <div class="col-md-4">
+      <input formControlName="cargo" type="text" class="form-control">
+    </div>
+
+    <div class="col-md-2">eps</div>
+    <div class="col-md-4">
+      <input formControlName="eps" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="row mt-2" [formGroupName]="i">
+    <div class="col-md-2">pension</div>
+    <div class="col-md-4">
+      <input formControlName="pension" type="text" class="form-control">
+    </div>
+
+    <div class="col-md-2">obs_vac</div>
+    <div class="col-md-4">
+      <input formControlName="obs_vac" type="text" class="form-control">
+    </div>
+  </div>
+</ng-container>
+</div>
+<div class="card-footer text-center">
+<button (click)="onSubmit()" class="btn btn-primary">Save</button>
+</div>
+</div>
+
+<div class="card mt-2">
+<div class="card-header">
+Result
+</div>
+<div class="card-body">
+<code>
+        <pre>
+            {{result |json}}
+        </pre>
+    </code>
+</div>
+</div>
+      
+    <!-- <h5>Address</h5>
+        <hr>
+
+        <ng-container formGroupName="addresses">
+            <div class="row">
+                <div class="col-md-2">Address 1</div>
+                <div class="col-md-4">
+                    <input formControlName="address1" type="text" class="form-control">
+                </div>
+    
+                <div class="col-md-2">Address 2</div>
+                <div class="col-md-4">
+                    <input formControlName="address2" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-2">State</div>
+                <div class="col-md-4">
+                    <input formControlName="state" type="text" class="form-control">
+                </div>
+    
+                <div class="col-md-2">Country</div>
+                <div class="col-md-4">
+                    <input formControlName="country" type="text" class="form-control">
+                </div>
+            </div>
+        </ng-container> -->
+   
