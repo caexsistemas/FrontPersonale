@@ -209,7 +209,7 @@ export class IncapacidadesDialog implements OnInit {
                 }
             },
             error => {
-                // console.log(error);
+                // //console.log(error);
                 this.handler.showError('Se produjo un error');
                 this.loading.emit(false);
             }
@@ -323,17 +323,17 @@ export class IncapacidadesDialog implements OnInit {
                             this.handler.showSuccess(data.message);
                                 this.reload.emit();
                                 this.closeDialog();
-                                console.log('vbv');
+                                //console.log('vbv');
                             } else {
                                 this.handler.handlerError(data);
                                 this.loading.emit(false);
-                                console.log('yxy');
+                                //console.log('yxy');
                             }
                         },
                         error => {
                             this.handler.showError();
                             this.loading.emit(false);
-                            console.log('fhf');
+                            //console.log('fhf');
                         }
                     );
             }else {
@@ -410,10 +410,10 @@ export class IncapacidadesDialog implements OnInit {
         var fecha2 = new Date(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]).getTime();
         var diff = fecha2 - fecha1;
         let dias = 1 + (diff/(1000*60*60*24));
-        console.log(diff/(1000*60*60*24) );
+        //console.log(diff/(1000*60*60*24) );
 
-        console.log(aFecha1[0]+'-'+aFecha1[1]+'-'+aFecha1[2]);
-        console.log(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]);
+        //console.log(aFecha1[0]+'-'+aFecha1[1]+'-'+aFecha1[2]);
+        //console.log(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]);
 
         if( dias < 0 ){
            dias = 0;
@@ -438,7 +438,7 @@ export class IncapacidadesDialog implements OnInit {
         let exitsPersonal = this.PersonaleInfoJF.find(element => element.document == event);
         if( exitsPersonal ){
             this.formIncapad.get('nombentreinc').setValue(exitsPersonal.idPersonale);
-            //console.log(exitsPersonal.idPersonale+ "sonso");
+            ////console.log(exitsPersonal.idPersonale+ "sonso");
         }        
     }
 
