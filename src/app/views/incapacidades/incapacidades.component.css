@@ -17,7 +17,12 @@ table {
   text-align: center;
 }
 
-.color-Rechazado{
+.color-Eliminado{
   background-color: #D6D3D1;
+  text-align: center;
+}
+
+.color-Rechazado{
+  background-color: #FF9591;
   text-align: center;
 }
