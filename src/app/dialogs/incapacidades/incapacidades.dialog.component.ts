@@ -154,7 +154,8 @@ export class IncapacidadesDialog implements OnInit {
             idEps: new FormControl(""),
             idPension: new FormControl(""),
             coverageArl: new FormControl(""),
-            createUser: new FormControl(this.cuser.iduser)
+            createUser: new FormControl(this.cuser.iduser),
+            soporte_nove: new FormControl("")
         });
     }
 
@@ -262,6 +263,7 @@ export class IncapacidadesDialog implements OnInit {
                 this.formIncapad.get('idEps').setValue(data.data[0].idEps);
                 this.formIncapad.get('idPension').setValue(data.data[0].idPension);
                 this.formIncapad.get('coverageArl').setValue(data.data[0].coverageArl);
+                this.formIncapad.get('soporte_nove').setValue(data.data[0].soporte_nove);
                 //
             },
             error => {
@@ -528,6 +530,10 @@ export class IncapacidadesDialog implements OnInit {
         }else{
             this.bluedRequired = true;
             this.textAreRequired = false;
+        }
+
+        if(event == '30/5'){
+            this.formIncapad.get('soporte_nove').setValue('17/0');
         }
     }
 
