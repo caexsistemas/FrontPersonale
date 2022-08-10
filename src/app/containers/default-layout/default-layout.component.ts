@@ -164,10 +164,10 @@ export class DefaultLayoutComponent{
   checkSession() {
     // ejecutar consulta al servidor para verificar si el token es valido aun...
     this.cuser = JSON.parse(localStorage.getItem('currentUser'));
-
     if (this.cuser != null) {
       this.WebApiService.token = this.cuser.token;
-      if (this.cuser.user != null && this.cuser.token != null && this.cuser.username != null) {
+      if (this.cuser.user != null && this.cuser.token != null && this.cuser.username != null
+        ) {
         let route = window.location.pathname;
         if (route == "/") {
           this._router.navigate(['dashboard']);
@@ -207,7 +207,7 @@ export class DefaultLayoutComponent{
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
-    console.log('eve'+e);
+    //console.log('eve'+e);
   }
 
 

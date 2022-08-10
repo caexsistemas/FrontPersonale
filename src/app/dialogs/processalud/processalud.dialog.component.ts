@@ -53,6 +53,7 @@ export class ProcessaludDialog{
     displayedColumns:any  = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/procesalud/processalud";
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -83,7 +84,12 @@ export class ProcessaludDialog{
             case 'view':
                 this.idNomi = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.idNomi, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.idNomi, {
+                    idUser: this.cuser.iduser,
+                    role: this.cuser.role,
+                    token: this.cuser.token,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -144,6 +150,10 @@ export class ProcessaludDialog{
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamView',
+            idUser: this.cuser.iduser,
+            role: this.cuser.role,
+            token: this.cuser.token,
+            modulo: this.component
         })
         .subscribe(
            
@@ -234,7 +244,11 @@ export class ProcessaludDialog{
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamUpdateSet',
-            id: this.idNomi
+            id: this.idNomi,
+            idUser: this.cuser.iduser,
+            role: this.cuser.role,
+            token: this.cuser.token,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -274,7 +288,12 @@ export class ProcessaludDialog{
                     salud: this.formProces.value, 
                     archivoRes: this.archivo       
                 }
-                this.WebApiService.postRequest(this.endpoint, body, {})
+                this.WebApiService.postRequest(this.endpoint, body, {
+                    idUser: this.cuser.iduser,
+                    role: this.cuser.role,
+                    token: this.cuser.token,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success) {
@@ -310,7 +329,12 @@ export class ProcessaludDialog{
         }
         if( this.formProces.value.fechainicausen <= this.formProces.value.fechafinausen){
             this.loading.emit(true);
-            this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{})
+            this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{
+                idUser: this.cuser.iduser,
+                role: this.cuser.role,
+                token: this.cuser.token,
+                modulo: this.component
+            })
             .subscribe(
                 data=>{
                     if(data.success){

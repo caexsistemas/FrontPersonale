@@ -60,6 +60,7 @@ export class IncapacidadesDialog implements OnInit {
     displayedColumns:any  = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/incapacidades/gestion";
 
     archivo = {
         nombre: null,
@@ -88,7 +89,11 @@ export class IncapacidadesDialog implements OnInit {
             case 'view':
                 this.id = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -178,7 +183,10 @@ export class IncapacidadesDialog implements OnInit {
     getDataInit() {
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
-            action: 'getParamCreUpd'
+            action: 'getParamCreUpd',
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
            
@@ -230,7 +238,10 @@ export class IncapacidadesDialog implements OnInit {
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamUpdateSet',
-            id: this.id
+            id: this.id,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -282,7 +293,11 @@ export class IncapacidadesDialog implements OnInit {
                     incapacidades: this.formIncapad.value,
                     archivoRes: this.archivo        
                 }
-                this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+                this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                 .subscribe(
                     data=>{
                         if(data.success){
@@ -318,7 +333,11 @@ export class IncapacidadesDialog implements OnInit {
                     incapacidades: this.formIncapad.value,    
                     archivoRes: this.archivo    
                 }
-                this.WebApiService.postRequest(this.endpoint, body, {})
+                this.WebApiService.postRequest(this.endpoint, body, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success) {

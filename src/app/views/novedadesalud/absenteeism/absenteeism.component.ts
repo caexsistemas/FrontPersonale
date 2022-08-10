@@ -101,13 +101,16 @@ export class AbsenteeismComponent implements OnInit {
         action: 'getDatanovedadAll',
         idUser: this.cuser.iduser,
         role: this.cuser.role,
-        matrizarp: this.cuser.matrizarp
+        matrizarp: this.cuser.matrizarp,
+        token: this.cuser.token,
+        modulo: this.component
       })
         .subscribe(
        
           data => {
-            this.permissions = this.handler.getPermissions(this.component);
+            
               if (data.success == true) {
+                  this.permissions = this.handler.getPermissions(this.component);
                   this.generateTable(data.data['getContData']);
                   this.contenTable = data.data['getContData'];
                   this.loading = false;
@@ -231,7 +234,9 @@ export class AbsenteeismComponent implements OnInit {
   getAllPersonal() {
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDatUpload',
-      idUser: this.cuser.iduser
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
     })
       .subscribe(
         response => {
@@ -280,7 +285,9 @@ export class AbsenteeismComponent implements OnInit {
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getDelinfo',
             idDel:  ""+JSON.stringify(this.dataDelte),
-            idUser: this.cuser.iduser
+            idUser: this.cuser.iduser,
+            token: this.cuser.token,
+            modulo: this.component
         })
         .subscribe(
            

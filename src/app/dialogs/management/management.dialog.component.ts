@@ -110,6 +110,8 @@ export class ManagementDialog implements AfterContentChecked{
     // maskphone       = global.maskPhone;
     // maskphonehogar  = global.maskPhoneHogar;
     maskDNI         = global.maskDNI;
+    public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/management/gestion";
 
     // FORMULARIOS
     formUsuario: FormGroup;
@@ -146,7 +148,11 @@ export class ManagementDialog implements AfterContentChecked{
             case 'view':
                 this.id = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -289,7 +295,10 @@ export class ManagementDialog implements AfterContentChecked{
     getDataInit() {
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
-            action: 'getParamsUpdate'
+            action: 'getParamsUpdate',
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
            
@@ -433,7 +442,11 @@ export class ManagementDialog implements AfterContentChecked{
                 children: this.formChildren.value,
                 salary: this.formSalary.value
             }
-            this.WebApiService.postRequest(this.endpoint, body, {})
+            this.WebApiService.postRequest(this.endpoint, body, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
                 .subscribe(
                     data => {
                         if (data.success) {
@@ -460,7 +473,10 @@ export class ManagementDialog implements AfterContentChecked{
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamUpdateSet',
-            id: this.id
+            id: this.id,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -609,7 +625,10 @@ export class ManagementDialog implements AfterContentChecked{
             }
             this.loading.emit(true);
             this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
-                action: 'getParamUpdateData'
+                action: 'getParamUpdateData',
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
             })
             .subscribe(
                 data=>{

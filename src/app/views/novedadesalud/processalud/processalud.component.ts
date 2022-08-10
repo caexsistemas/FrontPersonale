@@ -62,13 +62,15 @@ export class ProcessaludComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDatanovedad',
       idUser: this.cuser.iduser,
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      modulo: this.component
     })
       .subscribe(
      
         data => {
-          this.permissions = this.handler.getPermissions(this.component);
             if (data.success == true) {
+                this.permissions = this.handler.getPermissions(this.component);
                 this.generateTable(data.data['getContData']);
                 this.contenTable = data.data['getContData'];
                 this.loading = false;
@@ -225,7 +227,9 @@ export class ProcessaludComponent implements OnInit {
       action: 'getDataDelete',
       idUser: this.cuser.iduser,
       role: this.cuser.role,
-      codigo: codigo
+      codigo: codigo,
+      token: this.cuser.token,
+      modulo: this.component
     })
       .subscribe(
      

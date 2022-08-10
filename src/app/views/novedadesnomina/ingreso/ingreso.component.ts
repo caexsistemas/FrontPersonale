@@ -37,6 +37,7 @@ export class IngresoComponent implements OnInit {
   contaClick:  number = 0;
   //Permisos
   component = "/nomi/ingreso";
+  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -71,14 +72,17 @@ export class IngresoComponent implements OnInit {
   sendRequest(){
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: 'getDatanoven'
+      action: 'getDatanoven',
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
      
         data => {
-          this.permissions = this.handler.getPermissions(this.component);
           console.log(this.permissions);
             if (data.success == true) {
+                this.permissions = this.handler.getPermissions(this.component);
                 this.generateTable(data.data['getContData']);
                 this.contenTable = data.data['getContData'];
                 this.loading = false;

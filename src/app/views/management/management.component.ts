@@ -61,6 +61,7 @@ export class ManagementComponent implements OnInit {
   modal: 'successModal';
   contaClick:  number = 0;
   component = "/management/gestion";
+  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   permissions: any = null;
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -108,16 +109,19 @@ export class ManagementComponent implements OnInit {
 
   getAllPersonal() {
     this.WebApiService.getRequest(this.endpoint, {
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
         response => {
-          this.permissions = this.handler.getPermissions(this.component);
+          console.log(this.permissions);
           if (response.success) {
-            console.log("repo: "+response);
             this.handler.showSuccess('El archivo se cargo exitosamente');
             this.personaleData = response.data;
             this.loading = false;
             this.successModal.hide();
+            this.sendRequest();
           } else {
             this.datapersonale = [];
             this.handler.handlerError(response);
@@ -140,11 +144,14 @@ export class ManagementComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
         response => {
-           this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
+            this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data);
             this.personaleData = response.data
             this.loading = false;
@@ -156,7 +163,6 @@ export class ManagementComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.permissions = this.handler.getPermissions(this.component);
           this.handler.showError();
         }
       );

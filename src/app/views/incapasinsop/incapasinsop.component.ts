@@ -54,12 +54,15 @@ export class IncapasinsopComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDataIncaSinSop',
       idUser: this.cuser.iduser,
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      modulo: this.component
     })
       .subscribe(
         response => {
-          this.permissions = this.handler.getPermissions(this.component);
+          
           if (response.success) {
+            this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data);
             this.personaleData = response.data
             this.loading = false;

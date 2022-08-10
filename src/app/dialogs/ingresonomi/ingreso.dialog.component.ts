@@ -46,6 +46,7 @@ export class IngresoDialog{
     displayedColumns:any  = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/nomi/ingreso";
 
     //OUTPUTS
     @Output() loading = new EventEmitter();
@@ -78,7 +79,11 @@ export class IngresoDialog{
             case 'view':
                 this.idNomi = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.idNomi, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.idNomi, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -137,6 +142,9 @@ export class IngresoDialog{
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamView',
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
            
@@ -213,7 +221,10 @@ export class IngresoDialog{
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamUpdateSet',
-            id: this.idNomi
+            id: this.idNomi,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -247,7 +258,11 @@ export class IngresoDialog{
                 novedades: this.formNomi.value, 
                 archivoRes: this.archivo       
             }
-            this.WebApiService.postRequest(this.endpoint, body, {})
+            this.WebApiService.postRequest(this.endpoint, body, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
                 .subscribe(
                     data => {
                         if (data.success) {
@@ -277,7 +292,11 @@ export class IngresoDialog{
                 archivoRes: this.archivo    
             }
             this.loading.emit(true);
-            this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{})
+            this.WebApiService.putRequest(this.endpoint+'/'+this.idNomi,body,{
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
             .subscribe(
                 data=>{
                     if(data.success){
