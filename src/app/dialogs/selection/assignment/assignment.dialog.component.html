@@ -1,7 +1,7 @@
 <div class="card mt-6">
   <div class="card-header">
     <h5 class="modal-title">
-      <p class="title-modal" *ngIf="view == 'repor1vmrq'">{{title}} {{idSel}}</p>
+      <p class="title-modal" *ngIf="view == 'trainer'">{{title}} {{idSel}}</p>
       <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
         style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
         <span aria-hidden="true">&times;</span>
@@ -14,10 +14,10 @@
       <mat-form-field class="example-full-width" appearance="fill">
         <strong>
           <h4>
-            <input matInput disabled value="Gestion Vacantes">
+            <input matInput disabled value="Asignar Formador">
           </h4>
         </strong>
-      <button class="btn btn-outline-primary" (click)="addNewContacts()">+</button>
+      <!-- <button class="btn btn-outline-primary" (click)="addNewContacts()">+</button> -->
 
       </mat-form-field>
 
@@ -36,10 +36,8 @@
       </div> -->
       
 
-      <form form *ngIf="view == 'repor1vmrq' || view == 'update'" [formGroup]="form">
-        <!-- <div class="card" [formGroup]="form"> -->
+      <!-- <form form *ngIf="view == 'repor1vmrq' || view == 'update'" [formGroup]="form">
         <div class="card-body">
-          <!-- <button class="btn btn-outline-primary" (click)="addNewContacts()">+</button> -->
           <hr>
           <ng-container formArrayName="contacts" *ngFor="let o of contacts.controls; let i = index">
 
@@ -53,30 +51,7 @@
               </mat-form-field>
             </div>
 
-            <!-- <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Fecha de Seleccion</mat-label>
-                  <input matInput formControlName="fec_sel" value="fec_sel" type="date">
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Tipo de Documento</mat-label>
-                  <mat-select formControlName="tip_doc" required>
-                    <mat-option *ngFor="let idet of typeDocument" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Numero Documento</mat-label>
-                  <input matInput formControlName="document" type="number" required>
-                </mat-form-field>
-              </div>
-            </div> -->
+            
             <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
@@ -94,15 +69,7 @@
                 <mat-form-field class="example-full-width">
                   <mat-label *ngIf="age">Edad: {{showAge}} </mat-label>
                   <input  matInput formControlName="ages" type="number" value="{{ showAge }}"  >
-                  <!-- <mat-select formControlName="ages">
-                    <mat-option *ngIf="age" [value]="ages"  [(ngModel)]="ages">
-                      {{showAge}}
-                    </mat-option>
-                  </mat-select> -->
-                  <!-- <mat-option *ngFor="let idet of citieswork" [value]="idet.idCity">
-                    {{idet.name}}
-                  </mat-option> -->
-
+               
                 </mat-form-field>
               </div>
              
@@ -152,10 +119,7 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <!-- <mat-form-field class="example-full-width">
-                  <mat-label>Cargo:</mat-label>
-                  <input matInput formControlName="car_sol"  required>
-                </mat-form-field> -->
+                
               </div>
              <div class="col-sm-4" *ngIf="cargo =='16/1'">
                 <mat-form-field class="example-full-width">
@@ -215,10 +179,8 @@
         </div>
         <div class="card-footer text-center">
           <button *ngIf="view == 'repor1vmrq'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
-          <!-- <button (click)="onSubmit()" class="btn btn-primary">Save</button> -->
         </div>
-        <!-- </div> -->
-      </form>
+      </form> -->
       <!-- --------------------------------------------------------------- -->
 
 
@@ -278,10 +240,10 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let row">
-              <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',row.idvac)"
+              <!-- <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',row.idvac)"
                 title="Editar">
                 <i class="fa fa-edit fa-lg"></i>
-              </button>
+              </button> -->
 
               <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
                             title="PDF">

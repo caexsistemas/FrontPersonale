@@ -28,6 +28,9 @@ import { SelectionRoutingModule } from './selection-routing.module';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { PendingComponent } from './pending/pending.component';
 import { VacantComponent } from './vacant/vacant.component';
+import { TrainingComponent } from './training/training.component';
+import { HiringComponent } from './hiring/hiring.component';
+import { AssignmentComponent } from './assignment/assignment.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -62,7 +65,10 @@ const ngWizardConfig: NgWizardConfig = {
   declarations: [
     RequisitionComponent,
     PendingComponent,
-    VacantComponent
+    VacantComponent,
+    AssignmentComponent,
+    TrainingComponent,
+    HiringComponent
     
 
  ]

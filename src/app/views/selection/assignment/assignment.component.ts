@@ -4,7 +4,6 @@ import {
   ViewChild,
   QueryList,
   ViewChildren,
-  
 } from "@angular/core";
 import { Tools } from "../../../Tools/tools.page";
 import { WebApiService } from "../../../services/web-api.service";
@@ -22,35 +21,33 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
-import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
 import { VacantDialog } from "../../../dialogs/selection/vacant/vacant.dialog.component";
-import { RqcalidadvmrpComponent } from "../../../dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component";
-import { element } from "protractor";
+import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
+import { AssignmentDialog } from "../../../dialogs/selection/assignment/assignment.dialog.component";
+import { TrainerDataDialog } from "../../../dialogs/selection/assignment/trainer data/trainer.dialog.component";
 
 
 @Component({
-  selector: 'app-vacant',
-  templateUrl: './vacant.component.html',
-  styleUrls: ['./vacant.component.css']
+  selector: 'app-assignment',
+  templateUrl: './assignment.component.html',
+  styleUrls: ['./assignment.component.css']
 })
-export class VacantComponent implements OnInit {
+export class AssignmentComponent implements OnInit {
 
- contenTable: any = [];
+  contenTable: any = [];
   loading: boolean = false;
   endpoint: string = "/requisition";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
   contaClick: number = 0;
-  idsel: any= [];
-  num_vac: number;
   
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/vacant";
+  component = "/selection/assignment";
 
   constructor(
     private _tools: Tools,
@@ -64,13 +61,12 @@ export class VacantComponent implements OnInit {
   ngOnInit():void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
-    console.log(this.permissions);
 
   }
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getVacant",
+      action: "getTrainer",
       idUser: this.cuser.iduser,
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
@@ -80,13 +76,14 @@ export class VacantComponent implements OnInit {
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
-        console.log(data);
+        console.log(data.success);
 
         if (data.success == true) {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-         this.loading = false;
+          // console.log( '===>',this.contenTable)
+          this.loading = false;
         } else {
           this.handler.handlerError(data);
           this.loading = false;
@@ -100,15 +97,16 @@ export class VacantComponent implements OnInit {
   }
   generateTable(data) {
     this.displayedColumns = [
-      // "view",
+      "view",
       "idsel",
       "fec_req",
       "car_sol",
       "matrizarp",
-      "tip_req",
-      "state",
+      "idPersonale",
+      // "tip_req",
+      // "state",
       // "salary",
-      "num_vac",
+      // "num_vac",
       // "swi_mod",
       // "ser_mod",
       "actions",
@@ -128,7 +126,7 @@ export class VacantComponent implements OnInit {
     switch(action){
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(VacantDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog,{
           data: {
             window: 'create',
             codigo,
@@ -148,7 +146,7 @@ export class VacantComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog,{
           data: {
             window: 'update',
             codigo,
@@ -185,11 +183,32 @@ export class VacantComponent implements OnInit {
          
         });
       break;
-      case "repor1vmrq":
+      case "trainer":
         this.loading = true;
-        dialogRef = this.dialog.open(VacantDialog, {
+        dialogRef = this.dialog.open(AssignmentDialog, {
           data: {
-            window: "repor1vmrq",
+            window: "trainer",
+            codigo,
+            id:id,
+            matriz
+            // cargo:this.num_vac
+          },
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          console.log("The dialog was closed");
+          console.log(result);
+        });
+        break;
+        case "training":
+        this.loading = true;
+        dialogRef = this.dialog.open(TrainerDataDialog, {
+          data: {
+            window: "training",
             codigo,
             id:id,
             matriz
@@ -223,35 +242,5 @@ onTriggerSheetClick(){
 }
 rechazar(e){
 console.log('=>',e);
-
-  // if(confirm('Desea Rechazar Requisicion')){
-  //   let body = {
-  //     listas: e
-  //   }
-  //   this.WebApiService.postRequest(this.endpoint+'/'+body,e,{})
-  //   .subscribe(
-  //       data=>{
-  //           if(data.success){
-  //               this.handler.showSuccess(data.message);
-  //               // this.reload.emit();
-  //               // this.closeDialog();
-  //           }else{
-  //               this.handler.handlerError(data);
-  //               // this.loading.emit(false);
-  //           }
-  //       },
-  //       error=>{
-  //         console.log(error);
-  //           this.handler.showError(error);
-  //           // this.loading.emit(false);
-  //       }
-  //   );
-  // }else {
-  //   this.handler.showError('Complete la informacion necesaria');
-  //   // this.loading.emit(false);
-  // }
 }
 }
-
-
-

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HiringComponent } from './hiring.component';
+import { AssignmentComponent } from './assignment.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  // declarations: [HiringComponent]
+  // declarations: [AssignmentComponent]
 })
-export class HiringModule { }
+export class AssignmentModule { }

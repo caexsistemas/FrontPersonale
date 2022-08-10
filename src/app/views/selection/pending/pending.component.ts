@@ -94,12 +94,15 @@ export class PendingComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      // "fecha_compra",
+      "idsel",
+      "fec_req",
+     
       "car_sol",
+      "matrizarp",
       "tip_req",
-      "salary",
-      "num_vac",
-      "aprobacion1",
+      // "salary",
+      // "num_vac",
+      "state",
       // "swi_mod",
       // "ser_mod",
       "actions",

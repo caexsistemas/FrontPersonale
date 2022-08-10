@@ -41,27 +41,36 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: "app-requisition",
-  templateUrl: "./requisition.dialog.component.html",
-  styleUrls: ["./requisition.dialog.component.css"],
+  selector: "app-training",
+  templateUrl: "./training.dialog.component.html",
+  styleUrls: ["./training.dialog.component.css"],
 })
 
-export class RequisitionDialog {
-  endpoint: string = "/requisition";
+export class TrainingDialog {
+  endpoint: string = "/vacant";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
   permissions: any = null;
   formSelec: FormGroup;
-  formTraining: FormGroup;
   selection: any = [];
   position: any = [];
   typeRequisition: any = [];
   idSel: number = null;
   rol: number;
+  typeDocument: any = [];
   typeMatriz: any = [];
+  depart: any = [];
+  citytBirth: any = [];
+  area: any = [];
+  // position: any = [];
+  eps: any = [];
+  pension: any = [];
+  citieswork: any =[];
+  cities: any = [];
   component = "/selection/requisition";
   dataSource: any = [];
+  stateFormation: any = [];
   archivo = {
     nombre: null,
     nombreArchivo: null,
@@ -73,10 +82,6 @@ export class RequisitionDialog {
   displayedColumns: any = [];
   checked = false;
   disabled = false;
-  matriz: boolean = false;
-  typeCargo: any = [];
-  PersonaleInfo: any = [];
-
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -85,7 +90,7 @@ export class RequisitionDialog {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
   constructor(
-    public dialogRef: MatDialogRef<RequisitionDialog>,
+    public dialogRef: MatDialogRef<TrainingDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -106,7 +111,7 @@ export class RequisitionDialog {
         this.idSel = this.data.codigo;
         console.log('idsel=>',this.idSel);
         this.initForms();
-        this.title = "Actualizar Requisicion";
+        this.title = "Actualizar Activos";
       break;
       case "view":
         this.idSel = this.data.codigo;
@@ -115,8 +120,6 @@ export class RequisitionDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection.car_sol);
-              this.typeCargo = this.selection.car_sol
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -136,58 +139,44 @@ export class RequisitionDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      car_sol: new FormControl(""),
-      num_vac: new FormControl(""),
-      salary: new FormControl(""),
-      tip_req: new FormControl(""),
-      matrizarp: new FormControl(""),
-      justification: new FormControl(""),
-      observations: new FormControl(""),
-      aprobacion1: new FormControl(""),
-      aprobacion2: new FormControl(""),
-      aprobacion3: new FormControl(""),
-      create_User: new FormControl(this.cuser.iduser),
-
-    });
-    this.formTraining = new FormGroup({
-      tip_for: new FormControl(""),
-      cod_grup: new FormControl(""),
-      grupo: new FormControl(""),
-      metodologia: new FormControl(""),
+      fec_sel: new FormControl(""),
+      tip_doc: new FormControl(""),
       document: new FormControl(""),
-      idPersonale: new FormControl(""),
-      fec_ini: new FormControl(""),
-      fec_fin: new FormControl(""),
-      state: new FormControl(""),
-      idsel: new FormControl(""),
+      nom_com: new FormControl(""),
+      birthDate: new FormControl(""),
+      dep_nac: new FormControl(""),
+      ciu_nac: new FormControl(""),
+      are_tra: new FormControl(""),
+      car_sol: new FormControl(""),
+      eps: new FormControl(""),
+      obs_vac: new FormControl(""),
+      pension: new FormControl(""),
+      formation: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
-
 
     });
   }
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamView",
+      action: "getInformation",
       idSel: this.data.codigo
     }).subscribe(
       (data) => {
         if (data.success == true) {
           //DataInfo
           // this.selection = data.data["getSelectData"];
-          // let datos = data.data['getDataPersonale'];
-          // console.log('per=>',datos);
           this.position        = data.data["getPosition"];
           this.typeRequisition = data.data["getRequisition"];
-          this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
-          // this.optionSelect(datos);
-
-          this.PersonaleInfo = data.data['getDataPersonale'];
-
-          // this.typeMatriz.slice(0, 2);
-        
-          // console.log('==>mt',this.typeMatriz)
-
+          this.typeDocument    = data.data["getDocument"];
+          this.depart          = data.data["getDepart"];
+          this.citytBirth      = data.data["getCity"];
+          this.position        = data.data["getPosition"];
+          this.eps             = data.data["getEps"];
+          this.pension         = data.data["getPension"];
+          this.area            = data.data["getArea"];
+          this.stateFormation  = data.data["getFormation"];
+          this.typeMatriz      = data.data["getMatriz"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -204,31 +193,11 @@ export class RequisitionDialog {
       }
     );
   }
-//   optionSelect(datos){
-//     console.log('data=>',datos);
-//     // for(let val in datos){
-//       //Tipo de Identificacion
-//       if( datos['getDataPersonale'] ){
-
-//           // this.PersonaleInfo.push(datos[val]);
-//           let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  
-//           if( exitsPersonal ){
-//               this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-//           }  
-//       }
-
-//   // }
-// }
-
-
-
   onSubmit() {
     if (this.formSelec.valid) {
       this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
-        formacion: this.formTraining.value
       };
       console.log('req=>',body);
       this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
@@ -261,16 +230,19 @@ export class RequisitionDialog {
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
+        this.formSelec.get("fec_sel").setValue(data.data["getSelecUpdat"][0].fec_sel);
+        this.formSelec.get("tip_doc").setValue(data.data["getSelecUpdat"][0].tip_doc);
+        this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        this.formSelec.get("nom_com").setValue(data.data["getSelecUpdat"][0].nom_com);
+        this.formSelec.get("birthDate").setValue(data.data["getSelecUpdat"][0].birthDate);
+        this.formSelec.get("dep_nac").setValue(data.data["getSelecUpdat"][0].dep_nac);
+        this.formSelec.get("ciu_nac").setValue(data.data["getSelecUpdat"][0].ciu_nac);
+        this.formSelec.get("are_tra").setValue(data.data["getSelecUpdat"][0].are_tra);
         this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        this.formSelec.get("eps").setValue(data.data["getSelecUpdat"][0].eps);
+        this.formSelec.get("pension").setValue(data.data["getSelecUpdat"][0].pension);
+        this.formSelec.get("obs_vac").setValue(data.data["getSelecUpdat"][0].obs_vac);
+        this.formSelec.get("formation").setValue(data.data["getSelecUpdat"][0].formation);
       },
       (error) => {
         this.handler.showError();
@@ -281,8 +253,7 @@ export class RequisitionDialog {
   onSubmitUpdate(){
 
     let body = {
-        listas: this.formSelec.value,
-        formacion: this.formTraining.value  
+        listas: this.formSelec.value,  
         //  id: this.idSel
     }
     if (this.formSelec.valid) {
@@ -330,22 +301,5 @@ export class RequisitionDialog {
   }
   prevStep() {
     this.step--;
-  }
-  onSelectionAttributes(idet){
-    console.log('cargo=>',idet)
-    if(idet =='16/1'){
-      this.matriz = true
-    }else{
-      this.matriz = false
-
-    }
-
-  }
-  onSelectionPerson(event){
-    let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  
-    if( exitsPersonal ){
-        this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-    }        
   }
 }

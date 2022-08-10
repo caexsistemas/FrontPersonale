@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { from } from "rxjs";
+import { AssignmentComponent } from "./assignment/assignment.component";
 import { HiringComponent } from "./hiring/hiring.component";
 import { PendingComponent } from "./pending/pending.component";
 import { RequisitionComponent } from "./requisition/requisition.component";
@@ -37,6 +38,13 @@ const routes: Routes = [
         component: VacantComponent,
         data: {
           title: "Vacant",
+        },
+      },
+      {
+        path: "assignment",
+        component: AssignmentComponent,
+        data: {
+          title: "Assignment",
         },
       },
       {

@@ -4,8 +4,6 @@ import {
   ViewChild,
   QueryList,
   ViewChildren,
-  Output,
-  EventEmitter,
 } from "@angular/core";
 import { Tools } from "../../../Tools/tools.page";
 import { WebApiService } from "../../../services/web-api.service";
@@ -24,7 +22,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
 import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { TrainingDialog } from "../../../dialogs/selection/training/training.dialog.component";
 
 
 @Component({
@@ -33,128 +31,164 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@ang
   styleUrls: ['./training.component.css']
 })
 export class TrainingComponent implements OnInit {
-  endpoint: string = "/requisition";
 
-  form:FormGroup;
-  result;
-  @Output() loading = new EventEmitter();
-  @Output() reload = new EventEmitter();
+ contenTable: any = [];
+  loading: boolean = false;
+  endpoint: string = "/vacant";
+  permissions: any = null;
+  displayedColumns: any = [];
+  dataSource: any = [];
+  contaClick: number = 0;
+  
+  public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
-  constructor(
-    // public dialogRef: MatDialogRef<TrainingComponent>,
-    private fb:FormBuilder,
-    private WebApiService: WebApiService,
-    private handler: HandlerAppService,
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
+  component = "/selection/vacant";
+
+  constructor(
+    private _tools: Tools,
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    public dialog: MatDialog,
+    private matBottomSheet : MatBottomSheet
   ) { }
 
-  ngOnInit(): void {
-    this.creatForm();
+
+  ngOnInit():void {
+    this.sendRequest();
+    this.permissions = this.handler.permissionsApp;
+
   }
+  sendRequest() {
+    this.loading = true;
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "geTraining",
+      idUser: this.cuser.iduser,
+      // role: this.cuser.role,
+      // matrizarp: this.cuser.matrizarp,
+      // idPersonale:this.cuser.idPersonale
 
-  creatForm(){
-    this.form = this.fb.group(
-      {
-        fec_sel: new FormControl(""),
-        tip_doc: new FormControl(""),
-        document: new FormControl(""),
-        nom_com: new FormControl(""),
-        birthDate: new FormControl(""),
-        ciu_nac: new FormControl(""),
-        dep_nac: new FormControl(""),
-        are_tra: new FormControl(""),
-        cargo: new FormControl(""),
-        eps: new FormControl(""),
-        pension: new FormControl(""),
-        obs_vac: new FormControl(""),
-        // addresses: this.addressForm(),
-        contacts: this.fb.array([this.contactFrom()])
-      }
-    );
-  }
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        console.log(this.permissions);
+        console.log(data);
 
-  // addressForm(){
-  //   return this.fb.group(
-  //     {
-  //       address1: [null],
-  //       address2: [null],
-  //       country: [null],
-  //       state: [null]
-  //     }
-  //   )
-  // }
+        if (data.success == true) {
 
-  get addresses(){
-  return this.form.get("addresses") as FormGroup;
-  }
-
-
-  get contacts(){
-    return this.form.get("contacts") as FormArray;
-    }
-
-  contactFrom(){
-    return this.fb.group(
-      {
-        fec_sel:  new FormControl(""),
-        tip_doc: new FormControl(""),
-        document: new FormControl(""),
-        nom_com: new FormControl(""),
-        birthDate: new FormControl(""),
-        ciu_nac: new FormControl(""),
-        dep_nac: new FormControl(""),
-        are_tra: new FormControl(""),
-        cargo: new FormControl(""),
-        eps: new FormControl(""),
-        pension: new FormControl(""),
-        obs_vac: new FormControl(""),
-      }
-    );
-  }
-
-  onSave(){
-    console.log(this.form.getRawValue())
-    this.result = this.form.getRawValue();
-  }
-
-  addNewContacts(){
-    this.contacts.push(this.contactFrom());
-  }
-
-  removeContact(i:Required<number>){
-    this.contacts.removeAt(i);
-  }
-
-  onSubmit() {
-    if (this.form.valid) {
-      this.loading.emit(true);
-      let body = {
-        listas: this.form.value,
-      };
-         
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
+          this.generateTable(data.data["getSelectData"]);
+          this.contenTable = data.data["getSelectData"];
+         this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading = false;
         }
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      this.loading.emit(false);
+      },
+      (error) => {
+        this.handler.showError("Se produjo un error");
+        this.loading = false;
+      }
+    );
+  }
+  generateTable(data) {
+    this.displayedColumns = [
+      "view",
+      "fec_sel",
+      "tip_doc",
+      "document",
+      "nom_com",
+      "car_sol",
+      "formation",
+      "actions"
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
     }
   }
-  closeDialog() {
-    // this.dialogRef.close();
-  }
-  
+
+  option(action,codigo=null, id){
+    var dialogRef;
+    switch(action){
+      case 'create':
+        this.loading = true;
+        dialogRef = this.dialog.open(TrainingDialog,{
+          data: {
+            window: 'create',
+            codigo,
+            id:id
+            // tipoMat: tipoMat
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+      break;
+      case 'update':
+        this.loading = true;
+        dialogRef = this.dialog.open(TrainingDialog,{
+          data: {
+            window: 'update',
+            codigo,
+            id:id
+            // tipoMat: tipoMat
+
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+        break;
+
+      case 'view':
+        this.loading = true;
+        dialogRef = this.dialog.open(TrainingDialog,{
+          data: {
+            window: 'view',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe(result => {
+         
+        });
+      break;
+      }
+    }
+    
+openc(){
+  if(this.contaClick == 0){
+    this.sendRequest();
+  }    
+  this.contaClick = this.contaClick + 1;
+}
+applyFilter(search) {
+  this.dataSource.filter = search.trim().toLowerCase();
+}
+onTriggerSheetClick(){
+  this.matBottomSheet.open(ReportsTechnologyComponent)
+}
+
 }

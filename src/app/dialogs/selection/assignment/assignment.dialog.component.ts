@@ -25,16 +25,17 @@ import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, Form
 import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.component";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
-import { EntryDialog } from "./entry/entry.dialog.component";
+// import { EntryDialog } from "./entry/entry.dialog.component";
 import { emit } from "process";
+import { EntryDialog } from "../vacant/entry/entry.dialog.component";
 
 
 @Component({
-  selector: 'app-rqcalidadvmrp',
-  templateUrl: './vacant.dialog.component.html',
-  styleUrls: ['./vacant.dialog.component.css']
+  selector: 'app-assignment',
+  templateUrl: './assignment.dialog.component.html',
+  styleUrls: ['./assignment.dialog.component.css']
 })
-export class VacantDialog {
+export class AssignmentDialog {
   form:FormGroup;
 
   endpoint:      string = '/vacant';
@@ -84,7 +85,7 @@ export class VacantDialog {
  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
 
- constructor(public dialogRef: MatDialogRef<VacantDialog>,
+ constructor(public dialogRef: MatDialogRef<AssignmentDialog>,
     private fb:FormBuilder,
     private WebApiService: WebApiService,
    private handler: HandlerAppService,
@@ -97,7 +98,7 @@ export class VacantDialog {
 
      switch (this.view) {
       
-       case 'repor1vmrq':
+       case 'trainer':
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
@@ -118,6 +119,11 @@ export class VacantDialog {
           //  this.formProces.get('fecfin').setValue(this.fechaFin);
           //  this.title = "PONDERADO";           
        break;
+       case "create":
+        this.initForms();
+        this.title = "Nu";
+        console.log('++',this.data)
+      break;
        case "update":
         this.idSel = this.data.codigo;
         this.initForms();
@@ -407,26 +413,26 @@ console.log( 'EDAD'+  this.showAge );
   option(action,codigo=null, id){
     var dialogRef;
     switch(action){
-      // case 'create':
-      //   this.loading = true;
-      //   dialogRef = this.dialog.open(EntryDialog,{
-      //     data: {
-      //       window: 'create',
-      //       codigo,
-      //       id:id
-      //       // tipoMat: tipoMat
-      //     }
-      //   });
-      //   dialogRef.disableClose = true;
-      //   // LOADING
-      //   dialogRef.componentInstance.loading.subscribe(val=>{
-      //     this.loading = val;
-      //   });
-      //   // RELOAD
-      //   dialogRef.componentInstance.reload.subscribe(val=>{
-      //     this.sendRequest();
-      //   });
-      // break;
+      case 'create':
+        // this.loading = true;
+        dialogRef = this.dialog.open(EntryDialog,{
+          data: {
+            window: 'create',
+            codigo,
+            id:id
+            // tipoMat: tipoMat
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+      break;
       case 'update':
         // this.loading = true;
         // this.loading.emit(true);
@@ -450,24 +456,24 @@ console.log( 'EDAD'+  this.showAge );
         });
         break;
 
-      case 'view':
-          this.loading
-        // this.loading.emit(true);
-        dialogRef = this.dialog.open(EntryDialog,{
-          data: {
-            window: 'view',
-            codigo
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe(result => {
+      // case 'view':
+      //     this.loading
+      //   // this.loading.emit(true);
+      //   dialogRef = this.dialog.open(EntryDialog,{
+      //     data: {
+      //       window: 'view',
+      //       codigo
+      //     }
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe(val=>{
+      //     this.loading = val;
+      //   });
+      //   dialogRef.afterClosed().subscribe(result => {
          
-        });
-      break;
+      //   });
+      // break;
       }
     }
     
@@ -513,4 +519,5 @@ ageCalculator(){
 // console.log(dia+'/'+mes+'/'anio);
 
 }
+
 

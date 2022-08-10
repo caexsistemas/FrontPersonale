@@ -82,22 +82,19 @@ import { RoleDialog } from './dialogs/role/role.dialog.component';
 import { ReportsRqcalidadComponent } from './dialogs/reports/rqcalidad/reports-rqcalidad.component';
 import { FeedbackDialog } from './dialogs/feedback/feedback.dialog.component';
 import { ReportsFeddBackComponent } from './dialogs/reports/feedback/reports-feedback.component';
-<<<<<<< HEAD
 
 import { InventoryComponent } from "./views/inventory/InventoryComponent";
 import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
 
-=======
-import { InventoryComponent } from "./views/inventory/InventoryComponent";
-import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
+// import { InventoryComponent } from "./views/inventory/InventoryComponent";
+// import { TechnologyDialog } from './dialogs/technology/technology.dialog.component';
 import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
 import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
 import { ReportsAbsenteeismComponent } from './dialogs/reports/absenteeism/reports-absenteeism.component';
->>>>>>> b9dda3b78274a9ad5bbebaf30a64da927afdae23
 
-import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
+// import { RqcalidadvmrpComponent } from './dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component';
 
-import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
+// import { AbsenteeismDialog } from './dialogs/absenteeism/absenteeism.dialogs.component';
 import { ReportsTechnologyComponent } from './dialogs/reports/technology/reports-technology.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -110,6 +107,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DeclineDialog } from './dialogs/selection/approval/decline.dialog.component';
 import { Pending } from './dialogs/selection/approval/pending';
 import { TrainingComponent } from './views/selection/training/training.component';
+import { EntryDialog } from './dialogs/selection/vacant/entry/entry.dialog.component';
+import { TrainingDialog } from './dialogs/selection/training/training.dialog.component';
+import { AssignmentDialog } from './dialogs/selection/assignment/assignment.dialog.component';
+import { TrainerDataDialog } from './dialogs/selection/assignment/trainer data/trainer.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -190,11 +191,9 @@ const routes: Routes = [];
     FeedbackDialog,
     ReportsFeddBackComponent,
     RqcalidadvmrpComponent,
-<<<<<<< HEAD
     AbsenteeismDialog,   
     InventoryComponent,
     TechnologyDialog,
-    RqcalidadvmrpComponent,
     ReportsTechnologyComponent,
     SelectionComponent,
     RequisitionDialog,
@@ -203,15 +202,13 @@ const routes: Routes = [];
     ApprovalDialog,
     DeclineDialog,
     Pending,
-    TrainingComponent     
-=======
-    AbsenteeismDialog,    
-    InventoryComponent,
-    TechnologyDialog,
-    RqcalidadvmrpComponent,
-    ReportsAbsenteeismComponent    
+    // TrainingComponent,     
+    ReportsAbsenteeismComponent,
+    EntryDialog,
+    TrainingDialog,
+    AssignmentDialog,
+    TrainerDataDialog    
   
->>>>>>> b9dda3b78274a9ad5bbebaf30a64da927afdae23
   ],
   providers: [{
     
