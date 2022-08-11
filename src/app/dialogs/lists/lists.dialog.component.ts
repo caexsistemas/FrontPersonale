@@ -39,6 +39,8 @@ export class ListasDialog{
     maskDNI         = global.maskDNI;
     formLista: FormGroup;
     formValList : FormGroup;
+    public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/admin/lists";
 
     status: any = [
         { codigo: '', nombre: 'Seleccione..' },
@@ -67,7 +69,11 @@ export class ListasDialog{
                 //alert('trues');
                 this.id = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -188,7 +194,10 @@ export class ListasDialog{
         this.id = this.data.codigo;
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamsUpdateSub',
-            idvalist: this.id
+            idvalist: this.id,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
            
@@ -249,7 +258,10 @@ export class ListasDialog{
             this.WebApiService.getRequest(this.endpoint, {
                 action: 'getUpdateValResult',
                 idvalist: this.id,
-                forma: ""+JSON.stringify({body})
+                forma: ""+JSON.stringify({body}),
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
             })
             .subscribe(
 
@@ -292,7 +304,10 @@ export class ListasDialog{
                 this.WebApiService.getRequest(this.endpoint, {
                     action: 'getInsertValResult',
                     idvalist: this.idList,
-                    forma: ""+JSON.stringify({body})
+                    forma: ""+JSON.stringify({body}),
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
                 })
                 .subscribe(
     
@@ -330,7 +345,10 @@ export class ListasDialog{
     getDataInit() {
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
-            action: 'getParamsUpdate'
+            action: 'getParamsUpdate',
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
            
@@ -362,7 +380,11 @@ export class ListasDialog{
 
     getDataUpdate() {
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+        this.WebApiService.getRequest(this.endpoint + '/' + this.id, {
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+        })
         .subscribe(
             data => {
                 if (data.success) {
@@ -390,7 +412,11 @@ export class ListasDialog{
                 listas:   this.formLista.value,
             }
             this.loading.emit(true);
-            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
             .subscribe(
                 data=>{
                     if(data.success){
@@ -418,7 +444,11 @@ export class ListasDialog{
             let body = {
                 listas: this.formLista.value,
             }
-            this.WebApiService.postRequest(this.endpoint, body, {})
+            this.WebApiService.postRequest(this.endpoint, body, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
                 .subscribe(
                     data => {
                         if (data.success) {
