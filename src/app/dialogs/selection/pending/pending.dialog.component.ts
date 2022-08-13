@@ -210,7 +210,7 @@ export class PendingDialog  {
       idPersonale: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
-      state: new FormControl(""),
+      est: new FormControl(""),
       idsel: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
@@ -367,6 +367,7 @@ export class PendingDialog  {
     console.log(this.formSelec.value)
     if(this.formSelec.value['aprobacion1'] == '65/1' && this.formSelec.value['aprobacion2'] == '65/1' && this.formSelec.value['aprobacion3'] == '65/1'){
       this.formSelec.value['state'] = '65/1';
+      // this.formSelec.value['idPersonale'] = 30/1;
     }else if(this.formSelec.value['aprobacion1'] == '65/2' && this.formSelec.value['aprobacion2'] == '65/2' && this.formSelec.value['aprobacion3'] == '65/2'){
         this.formSelec.value['state'] = '65/2';
     // }else if(this.formSelec.value['aprobacion1'] == '30/3' && this.formSelec.value['aprobacion2'] == '30/3' && this.formSelec.value['aprobacion3'] == '30/3'){

@@ -26,7 +26,7 @@ import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.com
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 import { EntryDialog } from "./entry/entry.dialog.component";
-import { emit } from "process";
+import { emit, exit } from "process";
 
 
 @Component({
@@ -68,7 +68,7 @@ export class VacantDialog {
   selection: any = [];
   typeMatriz: any = [];
   typeGender: any = [];
-  age;
+  ages: any = [];
   showAge;
   cargo: any = [];
   matriz: any = [];
@@ -172,6 +172,8 @@ export class VacantDialog {
   }
   
   get contacts(){
+    // this.ages.ChangeDetectionStrategy.OnPush();
+    this.ages.push();
     return this.form.get("contacts") as FormArray;
     }
 
@@ -195,25 +197,35 @@ export class VacantDialog {
         idsel: new FormControl(this.idSel),
         matrizarp: new FormControl(this.matriz),
         idGender: new FormControl(""),
-        ages: new FormControl(""),
+        ages: new FormControl(),
+        etario: new FormControl(""),
     }
     );
   }
   addNewContacts(){
-    this.contacts.push(this.contactFrom());
+    this.contacts.push(this.contactFrom()); 
+    // this.ages.push(0);
+    // console.log('++',this.fb.group);
+    // this.contacts.value.ages.push();
+    // console.log('edad',this.ages.push());
   }
 
   removeContact(i:Required<number>){
     this.contacts.removeAt(i);
+    // this.ages.removeAt(i);
   }
 
   onSubmit() {
     // this.form.value['contacts'][0].ages = this.showAge ;
-console.log('==>',this.form.value['ages'] = this.showAge)
-console.log( 'EDAD'+  this.showAge ); 
+// console.log('==>',this.form.value['ages'] = this.showAge)
+// console.log( 'EDAD'+  this.showAge ); 
 
+      console.log( 'form'+  this.contacts.value['ages '] ); 
 
-
+      // this.contacts.value.ages =  this.ages;
+      // console.log('ages=>', this.contacts.value.ages);
+      // this.form.value.contacts.ages = this.ages[i]
+      // console.log('form',this.form.value.contacts.ages)
 
     
     if (this.form.valid) {
@@ -488,13 +500,57 @@ openc(){
 //   this.historyMon = data;
 //   this.clickedRows = new Set<PeriodicElement>();
 // }
+onSelectBirthDate(e, i:Required<number>){
+  console.log('date=>',e,i);
+  // if(e){
+  //   let convertAge = new Date(e);
+  //   let timeDiff = Math.abs(Date.now() - convertAge.getTime());
 
+  //   // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  //   this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  
+  //  } // this.contacts.value[i].ages =  this.ages[i];
+
+  //  if(this.ages[i]){
+  //   this.contacts.value[i].ages =  this.ages[i];
+
+  //  }
+  if(e){
+
+  
+   switch( i){
+      case i:
+        let convertAge = new Date(e);
+        let timeDiff = Math.abs(Date.now() - convertAge.getTime());
+
+        // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+        this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+        // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+        this.contacts.value[i].ages =  this.ages[i];
+       break;
+
+   }
+  }
+  //  return  
+    console.log('submit=>',this.contacts.value[i].ages);
+ 
+    // console.log('form',this.form.value.contacts)
+    // console.log('ages=>',this.ages[i]);
+    // console.log('submit=>',this.contacts.value[i].ages);
+
+    //this.ages = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+    // ages: new FormControl(Math.floor((timeDiff / (1000 * 3600 * 24))/365)),
+    // this.form.value['ages'] =this.ages;
+  
+  // this.onSelectBirthDate(e);
+
+}
 ageCalculator(){
   
-  if(this.age){
-    const convertAge = new Date(this.age);
-    const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-    this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  // if(this.age){
+  //   const convertAge = new Date(this.age);
+  //   const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+  //   this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
    
   }
   
@@ -512,5 +568,5 @@ ageCalculator(){
 
 // console.log(dia+'/'+mes+'/'anio);
 
-}
+
 

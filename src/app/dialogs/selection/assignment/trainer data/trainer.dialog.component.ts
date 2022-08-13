@@ -77,6 +77,8 @@ export class TrainerDataDialog {
   matriz: boolean = false;
   typeCargo: any = [];
   PersonaleInfo: any = [];
+  trainingType: any = [];
+  methodology: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -105,7 +107,7 @@ export class TrainerDataDialog {
         this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
         this.initForms();
-        this.title = "Aprobaciones";
+        this.title = "Asignacion de Formador";
         break;
       case "training":
         // this.rol = this.cuser.role;
@@ -165,7 +167,7 @@ export class TrainerDataDialog {
       idPersonale: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
-      state: new FormControl(""),
+      est: new FormControl(""),
       idsel: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
@@ -186,6 +188,9 @@ export class TrainerDataDialog {
           this.typeRequisition = data.data["getRequisition"];
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
           this.PersonaleInfo = data.data['getDataPersonale'];
+          this.trainingType = data.data['getTraining'];
+          this.methodology = data.data['getMethod'];
+
               // this.typeMatriz.slice(0, 2);
         
           // console.log('==>mt',this.typeMatriz)
@@ -239,35 +244,35 @@ export class TrainerDataDialog {
 
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamUpdateSet",
+      action: "getTrainUpdateSet",
       id: this.idSel
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-       
-        // this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+
         // this.formSelec.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
-        // this.formSelec.get("tip_for").setValue(data.data["getSelecUpdat"][0].tip_for);
-        // this.formSelec.get("cod_grup").setValue(data.data["getSelecUpdat"][0].cod_grup);
-        // this.formSelec.get("grupo").setValue(data.data["getSelecUpdat"][0].grupo);
-        // this.formSelec.get("metodologia").setValue(data.data["getSelecUpdat"][0].metodologia);
-        // this.formSelec.get("fec_ini").setValue(data.data["getSelecUpdat"][0].fec_ini);
-        // this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
-        // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
+        // this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        // this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
+        // this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
+        // this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
+        // this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
+        // this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
+        // this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
+        // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
+        // this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
+        // this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
         // this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
 
-        this.formSelec.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
-        this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
-        this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        this.formTraining.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        this.formTraining.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
+        this.formTraining.get("tip_for").setValue(data.data["getSelecUpdat"][0].tip_for);
+        this.formTraining.get("cod_grup").setValue(data.data["getSelecUpdat"][0].cod_grup);
+        this.formTraining.get("grupo").setValue(data.data["getSelecUpdat"][0].grupo);
+        this.formTraining.get("metodologia").setValue(data.data["getSelecUpdat"][0].metodologia);
+        this.formTraining.get("fec_ini").setValue(data.data["getSelecUpdat"][0].fec_ini);
+        this.formTraining.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
+        this.formTraining.get("est").setValue(data.data["getSelecUpdat"][0].est);
+
       },
       (error) => {
         this.handler.showError();

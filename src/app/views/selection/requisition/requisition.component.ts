@@ -64,6 +64,8 @@ export class RequisitionComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getSelection",
       idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale

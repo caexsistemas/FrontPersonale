@@ -100,6 +100,7 @@ export class TrainingComponent implements OnInit {
       "document",
       "nom_com",
       "car_sol",
+      "matrizarp",
       "formation",
       "actions"
     ];

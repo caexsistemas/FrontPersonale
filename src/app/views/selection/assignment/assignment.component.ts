@@ -146,7 +146,7 @@ export class AssignmentComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog,{
+        dialogRef = this.dialog.open(TrainerDataDialog,{
           data: {
             window: 'update',
             codigo,

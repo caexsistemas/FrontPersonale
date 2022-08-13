@@ -28,6 +28,8 @@ export class ProcessaludComponent implements OnInit {
   dataSource:any        = [];
   public detaNovSal = [];
   contaClick:  number = 0;
+  contDele:    number = 0;
+  stadValue:   number = 0;
   //Control Permiso
   component = "/procesalud/processalud";
   //History
@@ -60,13 +62,15 @@ export class ProcessaludComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getDatanovedad',
       idUser: this.cuser.iduser,
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      modulo: this.component
     })
       .subscribe(
      
         data => {
-          this.permissions = this.handler.getPermissions(this.component);
             if (data.success == true) {
+                this.permissions = this.handler.getPermissions(this.component);
                 this.generateTable(data.data['getContData']);
                 this.contenTable = data.data['getContData'];
                 this.loading = false;
@@ -77,7 +81,7 @@ export class ProcessaludComponent implements OnInit {
             }
         },
         error => {
-            console.log(error);
+            //console.log(error);
             this.handler.showError('Se produjo un error');
             this.loading = false;
         }
@@ -120,7 +124,7 @@ export class ProcessaludComponent implements OnInit {
     this.infoModal.show()
   }
 
-  option(action,codigo=null){
+  option(action,codigo=null,estado=null){
     
       var dialogRef;
       switch(action){
@@ -174,9 +178,36 @@ export class ProcessaludComponent implements OnInit {
               this.loading = val;
             });
             dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
-              console.log(result);
+              //console.log('The dialog was closed');
+              //console.log(result);
             });
+        break;
+        case 'delete':
+          if( estado == '30/1' ){
+            if( this.contDele == 0 ){
+
+              this.handler.showError('Si está seguro de eliminar el registro, por favor de Click de nuevo en Eliminar');
+              this.contDele++;
+              this.stadValue = codigo;
+            }else if( this.stadValue == codigo){
+             
+              this.contDele = 0;
+              this.stadValue = 0;
+              this.deleteIforma(codigo);
+              this.sendRequest();
+            }else{
+  
+              this.handler.showError('Por favor escoger el mismo registro');
+              this.contDele = 0;
+              this.stadValue = 0;
+            }
+          }else{
+
+              this.handler.showError('Por favor escoger registros que estén en estado Pendiente, Gracias');
+              this.contDele = 0;
+              this.stadValue = 0;
+          }
+          
         break;
       }
   }
@@ -188,4 +219,38 @@ export class ProcessaludComponent implements OnInit {
     }    
     this.contaClick = this.contaClick + 1;
   }
+
+  deleteIforma(codigo){
+
+    this.loading = true;
+    this.WebApiService.getRequest(this.endpoint, {
+      action: 'getDataDelete',
+      idUser: this.cuser.iduser,
+      role: this.cuser.role,
+      codigo: codigo,
+      token: this.cuser.token,
+      modulo: this.component
+    })
+      .subscribe(
+     
+        data => {
+          this.permissions = this.handler.getPermissions(this.component);
+            if (data.success == true) {
+              
+              this.handler.showSuccess('El registro se ha eliminado exitosamente');
+              this.loading = false;
+            } else {
+                this.handler.handlerError(data.message);
+                this.loading = false;
+            }
+        },
+        error => {
+            this.handler.showError('Se produjo un error: '+error);
+            this.loading = false;
+        }
+      );
+    
+    //console.log(codigo+" vic");
+  }
+
 }

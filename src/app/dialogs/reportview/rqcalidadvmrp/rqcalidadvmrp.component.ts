@@ -128,6 +128,7 @@ export class RqcalidadvmrpComponent {
       "login",
       "name",
       "namecordi",
+      "name_creador",
       "campana",
       "statusagen",
       "final_note",

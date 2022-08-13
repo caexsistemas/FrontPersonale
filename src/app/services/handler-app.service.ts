@@ -45,7 +45,7 @@ export class HandlerAppService {
 
     
     if(this.permissions != undefined){
-      console.log(this.permissions[component])
+      //console.log(this.permissions[component])
       if(this.permissions[component].length > 0){
         this.permissions[component].forEach(permission => {
           switch(permission){
@@ -62,7 +62,7 @@ export class HandlerAppService {
               this.permissionsApp.delete = true;
             break;
             default:
-              console.log('permiso no existe');
+              //console.log('permiso no existe');
             break;
           }
         });
@@ -75,8 +75,8 @@ export class HandlerAppService {
   }
 
   getPermissionsSecundary(component){
-    // console.log(this.permissions);
-    // console.log(component);
+    // //console.log(this.permissions);
+    // //console.log(component);
     if(this.permissions != undefined){
       if(this.permissions[component].length > 0){
         this.permissions[component].forEach(permission => {
@@ -97,7 +97,7 @@ export class HandlerAppService {
               this.permissionsSecundary.delete = true;
             break;
             default:
-              console.log('permiso no existe');
+              //console.log('permiso no existe');
             break;
           }
         });
@@ -132,7 +132,7 @@ export class HandlerAppService {
         }
       }
     }else{
-      console.log(data.message);
+      //console.log(data.message);
       if(data.message != null){
         if(data.message.length > 0){
           Swal.fire({

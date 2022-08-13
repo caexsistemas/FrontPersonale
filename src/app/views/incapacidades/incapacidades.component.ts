@@ -54,12 +54,15 @@ export class IncapacidadesComponent implements OnInit {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       idUser: this.cuser.iduser,
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      modulo: this.component
     })
       .subscribe(
         response => {
-        this.permissions = this.handler.getPermissions(this.component);
+        
           if (response.success) {
+            this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data);
             this.personaleData = response.data
             this.loading = false;
@@ -125,8 +128,8 @@ export class IncapacidadesComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-          console.log(result);
+          //console.log('The dialog was closed');
+          //console.log(result);
         });
         break;
         case 'create':

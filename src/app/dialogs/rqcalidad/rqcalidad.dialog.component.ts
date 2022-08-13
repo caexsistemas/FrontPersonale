@@ -111,6 +111,7 @@ export class RqcalidadDialog  {
   observAspect:     string = "";
   //Tipo Matriz
   tipMatriz:        string = "";
+  component = "/callcenter/rqcalidad";
 
   archivo = {
     nombre: null,
@@ -149,7 +150,11 @@ export class RqcalidadDialog  {
             case 'view':
                 this.idPam = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.idPam, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.idPam, {
+                  token: this.cuser.token,
+                  idUser: this.cuser.iduser,
+                  modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -338,7 +343,10 @@ export class RqcalidadDialog  {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamPrew',
-        tipMat: this.tipMatriz
+        tipMat: this.tipMatriz,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
     })
     .subscribe(
        
@@ -530,7 +538,11 @@ export class RqcalidadDialog  {
         let body = {
             pqcalidad: this.formProces.value             
         }
-        this.WebApiService.postRequest(this.endpoint, body, {})
+        this.WebApiService.postRequest(this.endpoint, body, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        })
             .subscribe(
                 data => {
                     if (data.success) {
@@ -559,7 +571,10 @@ export class RqcalidadDialog  {
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamUpdateSet',
         id: this.idPam,
-        tipMat: this.tipMatriz
+        tipMat: this.tipMatriz,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
     })
     .subscribe(
         data => {
@@ -711,7 +726,11 @@ export class RqcalidadDialog  {
     }
     if (this.formProces.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){

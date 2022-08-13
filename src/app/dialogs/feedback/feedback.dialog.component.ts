@@ -34,7 +34,7 @@ export class FeedbackDialog
     title:         string = null;
     formNomi:      FormGroup;
     permissions: any = null;
-    component = "/feedback/feedback";
+    component = "/callcenter/feedback";
     dataSource: any=[];
     PersonaleInfo: any = [];
     feed: any= [];
@@ -114,7 +114,11 @@ export class FeedbackDialog
             this.loading.emit(true);
             this.WebApiService.getRequest(
               this.endpoint + "/" + this.idfeed,
-              {}
+              {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+              }
             ).subscribe(
               (data) => {
                 if (data.success == true) {
@@ -183,9 +187,10 @@ getDataInit(){
   this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
       matrizarp: this.cuser.matrizarp,
-      tipRole: this.cuser.role
-
-
+      tipRole: this.cuser.role,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
   })
   .subscribe(
      
@@ -222,7 +227,11 @@ onSubmit() {
       let body = {
           listas: this.formNomi.value,
       }
-      this.WebApiService.postRequest(this.endpoint, body, {})
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
           .subscribe(
               data => {
                   if (data.success) {
@@ -271,7 +280,10 @@ getDataUpdate(){
       action: 'getParamUpdateSet',
       id: this.idfeed,
       tipMat: this.tipMatriz,
-      tipRole:this.tipRole
+      tipRole:this.tipRole,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
 
   })
   .subscribe(
@@ -310,7 +322,11 @@ onSubmitUpdate(){
   }
   if (this.formNomi.valid) {
     this.loading.emit(true);
-    this.WebApiService.putRequest(this.endpoint+'/'+this.idfeed,body,{})
+    this.WebApiService.putRequest(this.endpoint+'/'+this.idfeed,body,{
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
+    })
     .subscribe(
         data=>{
             if(data.success){

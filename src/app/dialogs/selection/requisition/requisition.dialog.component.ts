@@ -111,7 +111,11 @@ export class RequisitionDialog {
       case "view":
         this.idSel = this.data.codigo;
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
@@ -158,7 +162,7 @@ export class RequisitionDialog {
       idPersonale: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
-      state: new FormControl(""),
+      est: new FormControl(""),
       idsel: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
@@ -169,7 +173,10 @@ export class RequisitionDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      idSel: this.data.codigo
+      idSel: this.data.codigo,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -231,7 +238,11 @@ export class RequisitionDialog {
         formacion: this.formTraining.value
       };
       console.log('req=>',body);
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);
@@ -257,7 +268,10 @@ export class RequisitionDialog {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
-      id: this.idSel
+      id: this.idSel,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -287,7 +301,11 @@ export class RequisitionDialog {
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){

@@ -72,16 +72,18 @@ export class FeedbackComponent implements OnInit {
       idUser: this.cuser.iduser,
       role: this.cuser.role,
       matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale,
+      token: this.cuser.token,
+      modulo: this.component
 
     }).subscribe(
       (data) => {
-        this.permissions = this.handler.getPermissions(this.component);
+        
         if (data.success == true) {
-
+          this.permissions = this.handler.getPermissions(this.component);
           this.generateTable(data.data["getContData"]);
           this.contenTable = data.data["getContData"];
-         this.loading = false;
+          this.loading = false;
         } else {
           this.handler.handlerError(data);
           this.loading = false;
@@ -188,6 +190,9 @@ export class FeedbackComponent implements OnInit {
       this.WebApiService.getRequest(this.endpoint, {
         action: "pdf",
         id: id,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
       }).subscribe(
         (data) => {
           this.permissions = this.handler.getPermissions(this.component);

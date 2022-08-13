@@ -34,10 +34,12 @@ interface Food {
   viewValue: string;
 }
 
+
 export interface PeriodicElement {
   currentm_user: string;
   date_move: string;
   type_move: string;
+  
 }
 
 @Component({
@@ -47,6 +49,10 @@ export interface PeriodicElement {
 })
 
 export class TrainingDialog {
+  
+ 
+
+
   endpoint: string = "/vacant";
   maskDNI = global.maskDNI;
   title: string = null;

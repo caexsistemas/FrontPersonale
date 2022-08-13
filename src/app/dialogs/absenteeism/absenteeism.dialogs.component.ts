@@ -30,6 +30,7 @@ export class AbsenteeismDialog {
   displayedColumns:any  = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+  component = "/procesalud/absenteeisms";
   //OUTPUTS
   @Output() loading = new EventEmitter();
   @Output() loadingtwo = new EventEmitter();
@@ -69,7 +70,11 @@ export class AbsenteeismDialog {
           case 'view':
             this.idAds = this.data.codigo;
             this.loading.emit(true);
-            this.WebApiService.getRequest(this.endpoint + '/' + this.idAds, {})
+            this.WebApiService.getRequest(this.endpoint + '/' + this.idAds, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
                 .subscribe(
                     data => {
                         if (data.success == true) {
@@ -109,6 +114,9 @@ export class AbsenteeismDialog {
       this.loading.emit(false);
       this.WebApiService.getRequest(this.endpoint, {
           action: 'getParamView',
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
       })
       .subscribe(
          
@@ -158,7 +166,11 @@ export class AbsenteeismDialog {
             let body = {
                 absen: this.formProces.value 
             }
-            this.WebApiService.postRequest(this.endpoint, body, {})
+            this.WebApiService.postRequest(this.endpoint, body, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
                 .subscribe(
                     data => {
                         if (data.success) {
@@ -193,7 +205,11 @@ export class AbsenteeismDialog {
     }
     if( this.formProces.value.fecha_ausencia <= this.formProces.value.fecha_finausen){
         this.loading.emit(true);
-        this.WebApiService.putRequest(this.endpoint+'/'+this.idAds,body,{})
+        this.WebApiService.putRequest(this.endpoint+'/'+this.idAds,body,{
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+        })
         .subscribe(
             data=>{
                 if(data.success){
@@ -221,7 +237,10 @@ export class AbsenteeismDialog {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamUpdateSet',
-        id: this.idAds
+        id: this.idAds,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
     })
     .subscribe(
         data => {

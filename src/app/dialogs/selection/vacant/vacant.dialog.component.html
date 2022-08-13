@@ -78,36 +78,34 @@
               </div>
             </div> -->
             <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-4">
+              <!-- <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Nombre Completo:</mat-label>
                   <input matInput formControlName="nom_com" type="text" required>
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Fecha de Nacimiento</mat-label>
-                  <input matInput formControlName="birthDate" value="birthDate" type="date"  (change)="ageCalculator()">
+                  <!-- <input matInput formControlName="birthDate" value="birthDate" type="date"  (change)="ageCalculator()"> -->
+                  <input matInput formControlName="birthDate" value="birthDate" type="date"   (ngModelChange)="onSelectBirthDate($event, i)">
                 </mat-form-field>
               </div>
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
-                  <mat-label *ngIf="age">Edad: {{showAge}} </mat-label>
-                  <input  matInput formControlName="ages" type="number" value="{{ showAge }}"  >
-                  <!-- <mat-select formControlName="ages">
-                    <mat-option *ngIf="age" [value]="ages"  [(ngModel)]="ages">
-                      {{showAge}}
-                    </mat-option>
-                  </mat-select> -->
-                  <!-- <mat-option *ngFor="let idet of citieswork" [value]="idet.idCity">
-                    {{idet.name}}
-                  </mat-option> -->
-
+                  <mat-label>Edad: </mat-label>
+                  <input  matInput  formControlName="ages" type="number" [value]="ages[i]">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-4">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Grupo Etario: </mat-label>
+                  <input  matInput  formControlName="etario" type="number" value="etario">
                 </mat-form-field>
               </div>
              
             </div>
-            <div class="row mt-2" [formGroupName]="i">
+            <!-- <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Departamento de Nacimiento</mat-label>
@@ -141,8 +139,8 @@
               </div>
 
             
-            </div>
-             <div class="row" [formGroupName]="i">
+            </div> -->
+             <!-- <div class="row" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Cargo:</mat-label>
@@ -152,10 +150,6 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <!-- <mat-form-field class="example-full-width">
-                  <mat-label>Cargo:</mat-label>
-                  <input matInput formControlName="car_sol"  required>
-                </mat-form-field> -->
               </div>
              <div class="col-sm-4" *ngIf="cargo =='16/1'">
                 <mat-form-field class="example-full-width">
@@ -177,8 +171,8 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-            </div>
-            <div class="row mt-2" [formGroupName]="i">
+            </div> -->
+            <!-- <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Eps:</mat-label>
@@ -200,7 +194,7 @@
                 </mat-form-field>
               </div>
 
-            </div>
+            </div> -->
             <hr>
             <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-12">

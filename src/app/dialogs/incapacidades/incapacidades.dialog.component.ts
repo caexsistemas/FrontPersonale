@@ -60,6 +60,7 @@ export class IncapacidadesDialog implements OnInit {
     displayedColumns:any  = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/incapacidades/gestion";
 
     archivo = {
         nombre: null,
@@ -88,7 +89,11 @@ export class IncapacidadesDialog implements OnInit {
             case 'view':
                 this.id = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -154,7 +159,8 @@ export class IncapacidadesDialog implements OnInit {
             idEps: new FormControl(""),
             idPension: new FormControl(""),
             coverageArl: new FormControl(""),
-            createUser: new FormControl(this.cuser.iduser)
+            createUser: new FormControl(this.cuser.iduser),
+            soporte_nove: new FormControl("")
         });
     }
 
@@ -177,7 +183,10 @@ export class IncapacidadesDialog implements OnInit {
     getDataInit() {
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
-            action: 'getParamCreUpd'
+            action: 'getParamCreUpd',
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
            
@@ -209,7 +218,7 @@ export class IncapacidadesDialog implements OnInit {
                 }
             },
             error => {
-                // console.log(error);
+                // //console.log(error);
                 this.handler.showError('Se produjo un error');
                 this.loading.emit(false);
             }
@@ -229,7 +238,10 @@ export class IncapacidadesDialog implements OnInit {
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamUpdateSet',
-            id: this.id
+            id: this.id,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -262,6 +274,7 @@ export class IncapacidadesDialog implements OnInit {
                 this.formIncapad.get('idEps').setValue(data.data[0].idEps);
                 this.formIncapad.get('idPension').setValue(data.data[0].idPension);
                 this.formIncapad.get('coverageArl').setValue(data.data[0].coverageArl);
+                this.formIncapad.get('soporte_nove').setValue(data.data[0].soporte_nove);
                 //
             },
             error => {
@@ -280,7 +293,11 @@ export class IncapacidadesDialog implements OnInit {
                     incapacidades: this.formIncapad.value,
                     archivoRes: this.archivo        
                 }
-                this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+                this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                 .subscribe(
                     data=>{
                         if(data.success){
@@ -316,24 +333,28 @@ export class IncapacidadesDialog implements OnInit {
                     incapacidades: this.formIncapad.value,    
                     archivoRes: this.archivo    
                 }
-                this.WebApiService.postRequest(this.endpoint, body, {})
+                this.WebApiService.postRequest(this.endpoint, body, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success) {
                             this.handler.showSuccess(data.message);
                                 this.reload.emit();
                                 this.closeDialog();
-                                console.log('vbv');
+                                //console.log('vbv');
                             } else {
                                 this.handler.handlerError(data);
                                 this.loading.emit(false);
-                                console.log('yxy');
+                                //console.log('yxy');
                             }
                         },
                         error => {
                             this.handler.showError();
                             this.loading.emit(false);
-                            console.log('fhf');
+                            //console.log('fhf');
                         }
                     );
             }else {
@@ -410,10 +431,10 @@ export class IncapacidadesDialog implements OnInit {
         var fecha2 = new Date(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]).getTime();
         var diff = fecha2 - fecha1;
         let dias = 1 + (diff/(1000*60*60*24));
-        console.log(diff/(1000*60*60*24) );
+        //console.log(diff/(1000*60*60*24) );
 
-        console.log(aFecha1[0]+'-'+aFecha1[1]+'-'+aFecha1[2]);
-        console.log(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]);
+        //console.log(aFecha1[0]+'-'+aFecha1[1]+'-'+aFecha1[2]);
+        //console.log(aFecha2[0]+'-'+aFecha2[1]+'-'+aFecha2[2]);
 
         if( dias < 0 ){
            dias = 0;
@@ -438,7 +459,7 @@ export class IncapacidadesDialog implements OnInit {
         let exitsPersonal = this.PersonaleInfoJF.find(element => element.document == event);
         if( exitsPersonal ){
             this.formIncapad.get('nombentreinc').setValue(exitsPersonal.idPersonale);
-            //console.log(exitsPersonal.idPersonale+ "sonso");
+            ////console.log(exitsPersonal.idPersonale+ "sonso");
         }        
     }
 
@@ -528,6 +549,10 @@ export class IncapacidadesDialog implements OnInit {
         }else{
             this.bluedRequired = true;
             this.textAreRequired = false;
+        }
+
+        if(event == '30/5'){
+            this.formIncapad.get('soporte_nove').setValue('17/0');
         }
     }
 

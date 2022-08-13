@@ -75,6 +75,12 @@
                       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cordinador </th>
                       <td mat-cell *matCellDef="let row"> {{row.namecordi}} </td>
                     </ng-container>
+
+                    <!-- name_creador Column -->
+                    <ng-container matColumnDef="name_creador">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Creador </th>
+                      <td mat-cell *matCellDef="let row"> {{row.name_creador}} </td>
+                    </ng-container>
                 
                     <!-- campana Column -->
                     <ng-container matColumnDef="campana">

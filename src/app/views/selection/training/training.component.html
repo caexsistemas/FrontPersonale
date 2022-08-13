@@ -85,6 +85,11 @@
                       <td mat-cell *matCellDef="let element"> {{element.form}} </td>
                   </ng-container>
 
+                  <ng-container matColumnDef="matrizarp">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Formacion </th>
+                    <td mat-cell *matCellDef="let element"> {{element.mat}} </td>
+                </ng-container>
+
                   
                  <!--- <ng-container matColumnDef="supervisor">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Enviado Por </th>
