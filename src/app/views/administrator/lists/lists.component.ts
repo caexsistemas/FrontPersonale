@@ -56,12 +56,16 @@ export class ListsComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
         response => {
-          this.permissions = this.handler.getPermissions(this.component);
+          
           if (response.success) {
+            this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data);
             this.valorLista = response.data
             this.loading = false;

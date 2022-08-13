@@ -49,6 +49,7 @@ export class RqcalidadDialog  {
   Listipocampana:   any = [];
   ListipifiHogarDed: any = [];
   ListTipiConsHogar: any = [];
+  ListTodoclaro:     any = [];
   numberOfDays: number = 0;
   //String Date
   dateStrinMoni: String = "";
@@ -365,6 +366,7 @@ export class RqcalidadDialog  {
                 this.ListtipificaTYT = data.data['tipificaTYT'];  //43
                 this.Listipocampana = data.data['tipicampana'];  //44
                 this.ListipifiHogarDed = data.data['tipificaHogarDed'];  //45
+                this.ListTodoclaro = data.data['ofertodcla'];  //45
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
                 //Fecha
                 let date = new Date();

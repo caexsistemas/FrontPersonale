@@ -56,18 +56,17 @@ export class UsersComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      // action: "getUserAll",
-      // idUser: this.cuser.iduser
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
-        // (data) => {
         response => {
-          this.permissions = this.handler.getPermissions(this.component);
+          
           if (response.success) {
+            this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data);
-            // this.generateTable(data.data['userAll']);
-            // this.contenTable = data.data["userAll"];
             this.datauser = response.data
             this.loading = false;
           } else {

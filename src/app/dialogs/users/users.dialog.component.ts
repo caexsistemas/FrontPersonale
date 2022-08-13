@@ -7,12 +7,6 @@ import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
 
-
-
-
-
-
-
 @Component({
     selector: 'users-dialog',
     templateUrl: 'users.dialog.component.html',
@@ -46,29 +40,15 @@ export class UsersDialog {
     role = new FormControl('', [Validators.required]);
     matrizarp = new FormControl('', [Validators.required]);
     campana = new FormControl('', [Validators.required]);
-    
-   
     // registro a consultar.
     endpoint: string = '/usuario';
-
-    // maskphone       = global.maskPhone;
-    // maskphonehogar  = global.maskPhoneHogar;
     maskDNI         = global.maskDNI;
-
-
+    component = "/admin/users";
     // FORMULARIOS
     formUsuario: FormGroup;
     value = '';
     value2 = '';
     value3 = '';
-
-
-
-    // status: any = [
-    //     { codigo: '', nombre: 'Seleccione..' },
-    //     { codigo: 1, nombre: 'Activo' },
-    //     { codigo: 0, nombre: 'Inactivo' }
-    // ];
 
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
     // // OUTPUTS
@@ -91,7 +71,11 @@ export class UsersDialog {
             case 'view':
                 this.id = this.data.codigo;
                 this.loading.emit(true);
-                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {})
+                this.WebApiService.getRequest(this.endpoint + '/' + this.id, {
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
+                })
                     .subscribe(
                         data => {
                             if (data.success == true) {
@@ -157,7 +141,10 @@ export class UsersDialog {
         this.loading.emit(false);
         this.WebApiService.getRequest(this.endpoint, {
             action: 'getParamsUpdate',
-            id: this.data.codigo
+            id: this.data.codigo,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -193,7 +180,11 @@ export class UsersDialog {
             let body = {
                 usuarios: this.formUsuario.value,
             }
-            this.WebApiService.postRequest(this.endpoint, body, {})
+            this.WebApiService.postRequest(this.endpoint, body, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
                 .subscribe(
                     data => {
                         if (data.success) {
@@ -222,8 +213,9 @@ export class UsersDialog {
         this.WebApiService.getRequest(this.endpoint,{
             action: "getParamUpdateSet",
             id: this.data.codigo,
-                // id: this.idTec,
-            // this.id 
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
         .subscribe(
             data => {
@@ -266,7 +258,11 @@ export class UsersDialog {
                 usuario:   this.formUsuario.value,
             }
             this.loading.emit(true);
-            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{})
+            this.WebApiService.putRequest(this.endpoint+'/'+this.id,body,{
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
             .subscribe(
                 data=>{
                     if(data.success){
