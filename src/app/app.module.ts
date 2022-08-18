@@ -103,6 +103,8 @@ import { EntryDialog } from './dialogs/selection/vacant/entry/entry.dialog.compo
 import { TrainingDialog } from './dialogs/selection/training/training.dialog.component';
 import { AssignmentDialog } from './dialogs/selection/assignment/assignment.dialog.component';
 import { TrainerDataDialog } from './dialogs/selection/assignment/trainer data/trainer.dialog.component';
+import { HiringDialog } from './dialogs/selection/hiring/hiring.dialog.component';
+import { InspectionDialog } from './dialogs/selection/training/inspection/inspection.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -199,9 +201,9 @@ const routes: Routes = [];
     TrainingDialog,
     AssignmentDialog,
     TrainerDataDialog,    
-    // TrainingComponent,    
     ReportsAbsenteeismComponent,
-    // TrainingComponent    
+    HiringDialog,
+    InspectionDialog
   
   ],
   providers: [{

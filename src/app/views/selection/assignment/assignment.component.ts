@@ -70,7 +70,7 @@ export class AssignmentComponent implements OnInit {
       idUser: this.cuser.iduser,
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale
 
     }).subscribe(
       (data) => {

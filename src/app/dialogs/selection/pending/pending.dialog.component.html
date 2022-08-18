@@ -10,13 +10,11 @@
         </button>
       </h5>
     </div>
-
     <div class="card-body">
       <mat-dialog-content>
         <mat-accordion class="example-headers-align">
           <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSelec">
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Requisición de Personal &nbsp; &nbsp;
@@ -25,14 +23,13 @@
                   Información Detallada
                 </mat-panel-description>
                 <mat-icon>work</mat-icon>
-
               </mat-expansion-panel-header>
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Cargo a Solicitar:</mat-label >
-                    <mat-select formControlName="car_sol"  (ngModelChange)="onSelectionAttributes($event)">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue"[disabled]="true">
+                    <mat-label>Cargo a Solicitar:</mat-label>
+                    <mat-select formControlName="car_sol" (ngModelChange)="onSelectionAttributes($event)">
+                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
@@ -41,7 +38,7 @@
                 <div class="col-sm-4" *ngIf="matriz">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp" required >
+                    <mat-select formControlName="matrizarp" required>
                       <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
                       </mat-option>
@@ -51,16 +48,13 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Requisicion:</mat-label>
-                    <mat-select formControlName="tip_req" required >
+                    <mat-select formControlName="tip_req" required>
                       <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-              
-               
-
               </div>
               <div class="row">
                 <div class="col-sm-4">
@@ -75,8 +69,7 @@
                     <input matInput formControlName="num_vac" type="number" readonly>
                   </mat-form-field>
                 </div>
-              
-                </div>
+              </div>
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
@@ -104,18 +97,15 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-
             <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-
                 </mat-panel-description>
                 <mat-icon>assignment</mat-icon>
               </mat-expansion-panel-header>
-
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
@@ -129,19 +119,17 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
               </mat-action-row>
             </mat-expansion-panel>
-
             <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Aprobaciones &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-
                 </mat-panel-description>
                 <mat-icon>thumbs_up_down</mat-icon>
               </mat-expansion-panel-header>
               <hr *ngIf="idUser != '255'">
-              <div class="row"  *ngIf="idUser != '255'">
+              <div class="row" *ngIf="idUser != '255'">
                 <!-- <div class="col-md-6">
                   <h6>maria</h6>
                     <mat-radio-group aria-label="Select an option" formControlName="aprobacion1" value="aprobacion1"
@@ -153,14 +141,14 @@
                 <div class="col-md-12" *ngIf="requ == '62/3' || requ == '62/4'||requ == '62/5'">
                   <h6>Gerencia General</h6>
                   <p>Diego Fernado Lopez</p>
-                    <mat-radio-group aria-label="Select an option" formControlName="aprobacion1" value="aprobacion1" (ngModelChange)="openDialog($event)"
-                      >
-                      <!-- [disabled]="retro" -->
-                      
-                      <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                      <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
-                    </mat-radio-group>
+                  <mat-radio-group aria-label="Select an option" formControlName="aprobacion1" value="aprobacion1"
+                    (ngModelChange)="openDialog($event)">
+                    <!-- [disabled]="retro" -->
+
+                    <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
+                      {{idet.description}}</mat-radio-button>
+                    <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
+                  </mat-radio-group>
                 </div>
               </div>
               <hr *ngIf="idUser != '255'">
@@ -176,17 +164,17 @@
                 <div class="col-md-12" *ngIf="requ == '62/3'|| requ == '62/4' || requ == '62/5'">
                   <h6>Gerencia Administrativa</h6>
                   <p>Maria Esmeralda</p>
-                    <mat-radio-group aria-label="Select an option" formControlName="aprobacion2" value="aprobacion2"(ngModelChange)="openDialog2($event)"
-                     >
-                     <!-- [disabled]="retro2" -->
-                      <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue" >
-                        {{idet.description}}</mat-radio-button>
-                      <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
-                    </mat-radio-group>
+                  <mat-radio-group aria-label="Select an option" formControlName="aprobacion2" value="aprobacion2"
+                    (ngModelChange)="openDialog2($event)">
+                    <!-- [disabled]="retro2" -->
+                    <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
+                      {{idet.description}}</mat-radio-button>
+                    <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
+                  </mat-radio-group>
                 </div>
               </div>
               <hr *ngIf="idUser != '255'">
-              <div class="row mt-3"  *ngIf="idUser != '255'">
+              <div class="row mt-3" *ngIf="idUser != '255'">
                 <!-- <div class="col-md-6">
                   <h6>J</h6>
                     <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion3"
@@ -198,25 +186,25 @@
                 <div class="col-md-12" *ngIf="requ == '62/3'|| requ == '62/5'">
                   <h6>Talento Humano</h6>
                   <p>Juan Olaya</p>
-                    <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion3"(ngModelChange)="openDialog3($event)"
-                      >
-                      <!-- [disabled]="retro3" -->
-                      <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                      <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
-                    </mat-radio-group>
+                  <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion3"
+                    (ngModelChange)="openDialog3($event)">
+                    <!-- [disabled]="retro3" -->
+                    <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
+                      {{idet.description}}</mat-radio-button>
+                    <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
+                  </mat-radio-group>
                 </div>
               </div>
               <hr *ngIf="idUser != '255'">
-              <div class="row mt-3"  *ngIf="idUser != '255'">
+              <div class="row mt-3" *ngIf="idUser != '255'">
                 <div class="col-md-12" *ngIf="requ == '62/4'">
                   <h6>Direccion o Jefe Area</h6>
-                    <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion1"
-                      [disabled]="retro4">
-                      <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                      <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
-                    </mat-radio-group>
+                  <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion1"
+                    [disabled]="retro4">
+                    <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
+                      {{idet.description}}</mat-radio-button>
+                    <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
+                  </mat-radio-group>
                 </div>
               </div>
               <div class="row mt-3">
@@ -252,16 +240,13 @@
         <div class="text-center col-12">
           <button *ngIf="view == 'update'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
-
           <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
-
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <!-- <p>view</p> -->
 <div class="card mt-6">
   <div *ngIf="view == 'view'">
@@ -274,7 +259,6 @@
         </button>
       </h5>
     </div>
-
     <div class="card-body">
       <mat-dialog-content>
         <mat-accordion class="example-headers-align">
@@ -287,7 +271,6 @@
                 Información Detallada
               </mat-panel-description>
               <mat-icon>work</mat-icon>
-
             </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4">
@@ -302,9 +285,7 @@
                 <dt>Tipo de Requisicion</dt>
                 <dd>{{selection.tip}}</dd>
               </div>
-             
             </div>
-
             <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Cargo a Solicitar</dt>
@@ -319,7 +300,6 @@
                 <dd>{{selection.salary}}</dd>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Numero de Vacantes</dt>
@@ -334,7 +314,6 @@
               <button mat-button class="btn btn-dark mr-3" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-
           <mat-expansion-panel [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -344,80 +323,71 @@
               </mat-panel-description>
               <mat-icon>description</mat-icon>
             </mat-expansion-panel-header>
-
             <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Justificacion de Requisicion</dt>
                 <dd>{{selection.justification}}</dd>
               </div>
-            </div>  
+            </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
-            </mat-expansion-panel>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
 
-            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-
-                </mat-panel-description>
-                <mat-icon>assignment</mat-icon>
-              </mat-expansion-panel-header>
-
-  
-              <div class="row mt-2">
-                <div class="col-md-4">
-                  <dt>Obcervaciones y/o consideraciones especiales  </dt>
-                  <dd>{{selection.observations}}</dd>
-                </div>
+              </mat-panel-description>
+              <mat-icon>assignment</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Obcervaciones y/o consideraciones especiales </dt>
+                <dd>{{selection.observations}}</dd>
               </div>
-              <mat-action-row>
+            </div>
+            <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
               <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
-                </mat-action-row>
-              </mat-expansion-panel>
-
-              <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Aprobaciones &nbsp; &nbsp;
-                  </mat-panel-title>
-                  <mat-panel-description>
-  
-                  </mat-panel-description>
-                  <mat-icon>thumbs_up_down</mat-icon>
-                </mat-expansion-panel-header>
-                <hr>
-  
-    
-                <div class="row mt-2">
-                  <div class="col-md-4">
-                    <dt>Diego Fernado Lopez  </dt>
-                    <dd>{{selection.die}}</dd>
-                  </div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-4">
-                    <dt>Maria Esmeralda  </dt>
-                    <dd>{{selection.ma}}</dd>
-                  </div>
-                </div>
-                <div class="row mt-2">
-                  <div class="col-md-4">
-                    <dt>Juan Olaya </dt>
-                    <dd>{{selection.ju}}</dd>
-                  </div>
-                </div>
-                <mat-action-row>
-                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
-                  </mat-action-row>
-                </mat-expansion-panel>
-
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Aprobaciones &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+              <mat-icon>thumbs_up_down</mat-icon>
+            </mat-expansion-panel-header>
+            <hr>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Diego Fernado Lopez </dt>
+                <dd>{{selection.die}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Maria Esmeralda </dt>
+                <dd>{{selection.ma}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Juan Olaya </dt>
+                <dd>{{selection.ju}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+            </mat-action-row>
+          </mat-expansion-panel>
         </mat-accordion>
         <div class="row mt-3">
           <div class="col-md-12">

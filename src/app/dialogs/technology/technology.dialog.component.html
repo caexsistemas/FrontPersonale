@@ -28,71 +28,7 @@
                 <mat-icon>laptop_chromebook</mat-icon>
 
               </mat-expansion-panel-header>
-
-              <!-- <div class="row">
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Intervencion:</mat-label>
-                    <mat-select formControlName="tipo_intervencion">
-                      <mat-option *ngFor="let idet of TipoIntervencion" [value]="idet.ls_codvalue" [disabled]="retro">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)">
-                      <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Numero Identificaci&oacute;n</mat-label>
-                    <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)"
-                      required [readonly]="retro">
-                  </mat-form-field>
-                </div>
-
-              </div> -->
               <div class="row">
-                <!-- <div class="col-sm-4">
-                  <mat-form-field class="example-full-width ContCamp">
-                    <mat-label>Nombre(s) y Apellido(s):</mat-label>
-                    <mat-select formControlName="idPersonale" required>
-                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
-                        {{idet.name}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4" *ngIf="view == 'update'">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Area de trabajo:</mat-label>
-                    <mat-select formControlName="car_user">
-                      <mat-option *ngFor="let idet of ListArea" [value]="idet.ls_codvalue" [disabled]="retro">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4 ContCamp" *ngIf="view == 'update'">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Enviado por:</mat-label>
-                    <mat-select formControlName="supervisor">
-                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
-                        {{idet.name}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div> -->
-
-
-
                 <div class="col-sm-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Activo:</mat-label>
@@ -113,20 +49,6 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-
-                <!-- <div class="col-md-4 ">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Producto</mat-label>
-                    <input matInput formControlName="nombre" value="nombre">
-                  </mat-form-field>
-                </div> 
-              <div class="col-md-4"  *ngIf="product?.length >'0'">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>RAM</mat-label>
-                    <input matInput formControlName="pc_ram" value="pc_ram">
-                  </mat-form-field>
-                </div>-->
               </div>
               <div class="row">
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/1'|| attribute == '48/2'">
@@ -156,14 +78,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Disco:</mat-label>
-                  <mat-select formControlName="pc_tip_dis">
-                    <mat-option *ngFor="let idet of typeDisk" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Disco:</mat-label>
                   <mat-select formControlName="pc_tip_dis">
@@ -175,23 +89,11 @@
                 </div>
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Tamaño Disco</mat-label>
+                    <mat-label>Tamaño Disco(GB)</mat-label>
                     <input matInput formControlName="pc_tam_dis" type="number" value="pc_tam_dis">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Cargador</mat-label>
-                    <input matInput formControlName="pc_car" value="pc_car">
-                  </mat-form-field> -->
-                  <!-- <mat-form-field appearance="fill"> listOpcion
-                    <mat-label>Cargador </mat-label>
-                    <mat-select [(ngModel)]="selectedValue" name="pc_car">
-                      <mat-option *ngFor="let food of foods" [value]="food.value">
-                        {{food.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargador:</mat-label>
                     <mat-select formControlName="pc_car">
@@ -256,10 +158,6 @@
               </div>
               <div class="row">
                 <div class="col-md-4" *ngIf="attribute == '48/5'|| attribute == '48/6'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="cam_tip" value="cam_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo:</mat-label>
                     <mat-select formControlName="cam_tip">
@@ -291,10 +189,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="cont_acc_tip" value="cont_acc_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo Control Acceso:</mat-label>
                     <mat-select formControlName="cont_acc_tip">
@@ -369,10 +263,6 @@
               </div>
               <div class="row">
                 <div class="col-md-4" *ngIf="attribute == '48/9'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="ser_tip" value="ser_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo servidores</mat-label>
                     <mat-select formControlName="ser_tip">
@@ -398,10 +288,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/10'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="tel_tip" value="tel_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo Telefonia</mat-label>
                     <mat-select formControlName="tel_tip">
@@ -442,10 +328,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="imp_tip" value="imp_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo Impresoras</mat-label>
                     <mat-select formControlName="imp_tip">
@@ -471,10 +353,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/14'|| attribute == '48/15'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="esc_tip" value="esc_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <mat-select formControlName="esc_tip">
@@ -500,10 +378,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/16'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="diad_tip" value="diad_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo Diademas</mat-label>
                     <mat-select formControlName="diad_tip">
@@ -601,10 +475,6 @@
               </div>
               <div class="row">
                 <div class="col-md-4" *ngIf="attribute == '48/20'">
-                  <!-- <mat-form-field class="example-full-width">
-                    <mat-label>Tipo</mat-label>
-                    <input matInput formControlName="air_tip" value="air_tip">
-                  </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo</mat-label>
                     <mat-select formControlName="air_tip">
@@ -625,27 +495,6 @@
                 </div>
               </div>
               <br>
-
-              <!-- valores subtipos general  -->
-
-              <!-- <div class="row">
-                <div class="col">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Enter a date range</mat-label>
-                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                      <input matStartDate formControlName="start" placeholder="Start date">
-                      <input matEndDate formControlName="end" placeholder="End date">
-                    </mat-date-range-input>
-                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker></mat-date-range-picker>
-                  
-                    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-                    <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-                  </mat-form-field>
-                </div>
-               
-              </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
@@ -734,10 +583,6 @@
               </div>
               <div class="row">
                 <div class="col-md-4">
-                  <!-- <mat-form-field class="example-full-width">typeCampus
-                  <mat-label>Ubicación</mat-label>
-                  <input matInput formControlName="sub_ubi" value="sub_ubi">
-                </mat-form-field> -->
                   <mat-form-field class="example-full-width">
                     <mat-label>Sede</mat-label>
                     <mat-select formControlName="sub_sede" (ngModelChange)="onSelectCampus($event)" required>
@@ -747,17 +592,6 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <!-- <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
-                      <mat-label>S</mat-label>
-                      <mat-select formControlName="sub_sede">
-                        <mat-option *ngFor="let idet of typeCampus" [value]="idet.list_id" required>
-                          {{idet.name_esp}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div> -->
-
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Ubicacion</mat-label>

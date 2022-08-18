@@ -1,128 +1,169 @@
 <div class="content">
-  <div class="card">
-      <div class="card-header">
-          Formacion
-      </div>
-      <div class="content-table">
-          <div class="toolbar-table" *ngIf="permissions != null">
-
-              <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-
-                  <div class="btn-group" dropdown>
-                      <!-- <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                          title="Reporte Excel">
-                          <i class="fa fa-feed"></i>
-                      </button> -->
-                  </div>
-                  <div class="btn-group" dropdown>
-                      <!-- <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
-                          title="Crear">
-                          <i class="fa fa-plus"></i>
-                      </button> -->
-                  </div>
-                 
-              </div>
-
-              <div class="container">
-                  <mat-form-field appearance="standard" style="width: 100%;">
-                      <mat-label>Buscar..</mat-label>
-                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
-                  </mat-form-field>
-              </div>
-          </div>
-
-          <div class="section-table first-action">
-              <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
-                  *ngIf="contenTable.length > 0">
-                 
-
-                  <ng-container matColumnDef="view">
-                      <th mat-header-cell *matHeaderCellDef> Ver </th>
-                      <td mat-cell *matCellDef="let element">
-                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
-                              (click)="option('view',element.idvac)" title="Ver">
-                              <i class="fa fa-eye fa-lg"></i>
-                          </button>
-                      </td>
+    <div class="card">
+        <div class="card-header">
+            Seguimiento de Formacion
+        </div>
+        <div class="content-table">
+            <div class="toolbar-table" *ngIf="permissions != null">
+  
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+  
+                    <div class="btn-group" dropdown>
+                        <!-- <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                            title="Reporte Excel">
+                            <i class="fa fa-feed"></i>
+                        </button> -->
+                    </div>
+                    <div class="btn-group" dropdown>
+                        <!-- <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
+                            title="Crear">
+                            <i class="fa fa-plus"></i>
+                        </button> -->
+                    </div>
+                   
+                </div>
+  
+                <div class="container">
+                    <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>Buscar..</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                    </mat-form-field>
+                </div>
+            </div>
+  
+            <div class="section-table first-action">
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                    *ngIf="contenTable.length > 0">
+                   
+  
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef> Ver </th>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                (click)="option('view',element.idvac)" title="Ver">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </button> -->
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.create"(click)="option('trainer',element.idsel,element.car_sol,element.matrizarp)"
+                            title="Informacion de Personal">
+                           <!-- <i class="fa fa-plus"></i> -->
+                                <i class="fa fa-eye fa-lg"></i>
+                           </button>
+                        </td>
+                    </ng-container>
+  
+                     <ng-container matColumnDef="idsel">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">ID Requisición</th>
+                        <td mat-cell *matCellDef="let element"> {{element.idsel}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="fec_req">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Requisición</th>
+                      <td mat-cell *matCellDef="let element"> {{element.fec_req | date}} </td>
                   </ng-container>
-
-                   <!-- <ng-container matColumnDef="fecha_compra">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha</th>
-                      <td mat-cell *matCellDef="let element"> {{element.fecha_compra | date}} </td>
-                  </ng-container> -->
-
-                  <ng-container matColumnDef="fec_sel">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Seleccion</th>
-                      <td mat-cell *matCellDef="let element"> {{element.fec_sel}} </td>
+  
+                    <ng-container matColumnDef="car_sol">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo Solicitado</th>
+                        <td mat-cell *matCellDef="let element"> {{element.sol}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="matrizarp">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo Matriz</th>
+                      <td mat-cell *matCellDef="let element"> {{element.mat}} </td>
                   </ng-container>
-
-                  <ng-container matColumnDef="tip_doc">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo Documento</th>
-                    <td mat-cell *matCellDef="let element"> {{element.docu}} </td>
+  
+                  <ng-container matColumnDef="idPersonale">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Formador</th>
+                    <td mat-cell *matCellDef="let element"> {{element.pers}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="document">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Numero Documento</th>
-                  <td mat-cell *matCellDef="let element"> {{element.document}} </td>
-              </ng-container>
+                  <ng-container matColumnDef="est_for">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado de Formacion</th>
+                      <td mat-cell *matCellDef="let element"> {{element.stFor}} </td>
+                  </ng-container>
 
-                  <ng-container matColumnDef="nom_com">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Completo
+                    <!-- <ng-container matColumnDef="num_vac">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Numero de Vacantes</th>
+                      <td mat-cell *matCellDef="let element"> {{element.num_vac}} </td>
+                  </ng-container>
+  
+                    <ng-container matColumnDef="state">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Requisición
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.sta}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="tip_req">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Requisicion
                       </th>
-                      <td mat-cell *matCellDef="let element"> {{element.nom_com}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="car_sol">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo Solicitado
-                    </th>
-                    <td mat-cell *matCellDef="let element"> {{element.lab}} </td>
-                </ng-container>
-
-
-
-                  <ng-container matColumnDef="formation">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Formacion </th>
-                      <td mat-cell *matCellDef="let element"> {{element.form}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="matrizarp">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Formacion </th>
-                    <td mat-cell *matCellDef="let element"> {{element.mat}} </td>
-                </ng-container>
-
-                  
-                 <!--- <ng-container matColumnDef="supervisor">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Enviado Por </th>
-                      <td mat-cell *matCellDef="let element"> {{element.supervisor}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.tip}} </td>
                   </ng-container> -->
-                  
-
-                  <ng-container matColumnDef="actions">
-                      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                      <td mat-cell *matCellDef="let element">
-                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
-                              (click)="option('update',element.idvac)" title="Editar">
-                              <i class="fa fa-edit fa-lg"></i>
-                          </button>
-
-                          <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.idsel)"
-                              title="PDF">
-                              <i class="fa fa-file-pdf-o"></i>
-                          </button> -->
-                      </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
-          </div>
-          <div *ngIf="contenTable.length == 0">
-              <h4 class="no-records">No hay registros...</h4>
-          </div>
-      </div>
+  
+  
+  
+                   <!---- <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Empleado </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+  
+                    
+                    <ng-container matColumnDef="supervisor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Enviado Por </th>
+                        <td mat-cell *matCellDef="let element"> {{element.supervisor}} </td>
+                    </ng-container> -->
+                    
+  
+                    <ng-container matColumnDef="actions">
+                      <!-- <div class="btn-group" dropdown> -->
+                       
+                    <!-- </div> -->
+                        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                           
+                            <!--<button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
+                            title="Crear">
+                            <i class="fa fa-plus"></i>
+                             </button> -->
+  
+                             <!-- <button class="btn  btn-primary mr-3" *ngIf="permissions.create"(click)="option('trainer',element.idsel,element.car_sol,element.matrizarp)"
+                             title="Asignar Formador">
+                            <i class="fa fa-plus"></i>
+                            </button> -->
+                            <!-- <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
+                            (click)="option('update',element.idsel)" title="Editar">
+                            <i class="fa fa-edit fa-lg"></i>
+                            </button> -->
+                            <!-- <button class="btn  btn-ghost-success mr-3" *ngIf="permissions.create"
+                            (click)="option('training',element.idsel)" title="Ingresar Formador">
+                            <i class="fa fa-edit fa-lg"></i>
+                            </button> -->
+                            <button class="btn  btn-ghost-success mr-3" *ngIf="permissions.update"
+                            (click)="option('update',element.idsel)" title="Ingresar Formador">
+                            <i class="fa fa-edit fa-lg"></i>
+                            </button>
+                            <!-- <button class="btn  btn-outline-danger" (click)="rechazar(element.idsel)"
+                            title="Rechazar">
+                           <i class="thumb_down"></i>
+                           </button> -->
+                            <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
+                                title="PDF">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </button> -->
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="contenTable.length == 0">
+                <h4 class="no-records">No hay registros...</h4>
+            </div>
+        </div>
+    </div>
   </div>
-</div>
-
-<div *ngIf="loading" class="loading">
-<mat-spinner [diameter]="50"></mat-spinner>
-</div>
+  
+  <div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
+  
+  

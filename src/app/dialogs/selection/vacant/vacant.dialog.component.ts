@@ -36,6 +36,7 @@ import { emit, exit } from "process";
 })
 export class VacantDialog {
   form:FormGroup;
+  formIns:FormGroup;
 
   endpoint:      string = '/vacant';
   component      = "/selection/vacant";
@@ -72,6 +73,10 @@ export class VacantDialog {
   showAge;
   cargo: any = [];
   matriz: any = [];
+  group: any = [];
+  country: any = [];
+  birth: boolean = false;
+  extra: boolean = false;
   // historyMon: any = [];
   // loading: boolean = false;
 
@@ -86,6 +91,7 @@ export class VacantDialog {
 
  constructor(public dialogRef: MatDialogRef<VacantDialog>,
     private fb:FormBuilder,
+    private formInsp:FormBuilder,
     private WebApiService: WebApiService,
    private handler: HandlerAppService,
    @Inject(MAT_DIALOG_DATA) public data,
@@ -95,8 +101,7 @@ export class VacantDialog {
       this.view = this.data.window;
       this.idSel = null;
 
-     switch (this.view) {
-      
+     switch (this.view) {   
        case 'repor1vmrq':
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
@@ -104,19 +109,8 @@ export class VacantDialog {
            console.log('idvac=>',this.idSel);
            console.log('car_sol=>',this.data.id);
            console.log('mt=>',this.data.matriz);
-          //  console.log('data=>',this.data.data);
-           
-        //  let date = new Date();
-          //  this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0');
-          this.initForms();
-          this.title = "Requisicion";
-         
-          //  this.fechaInicio = this.dateStrinMoni+'-01';
-          //  this.fechaFin = this.dateStrinMoni+'-'+String(date.getDate()).padStart(2, '0');
-          //  this.sendRequest(this.fechaInicio, this.fechaFin);
-          //  this.formProces.get('fecini').setValue(this.fechaInicio);
-          //  this.formProces.get('fecfin').setValue(this.fechaFin);
-          //  this.title = "PONDERADO";           
+            this.initForms();
+            this.title = "Requisicion";    
        break;
        case "update":
         this.idSel = this.data.codigo;
@@ -130,10 +124,6 @@ export class VacantDialog {
         this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
           (data) => {
             if (data.success == true) {
-              // this.selection = data.data["getDataTechno"][0];
-              // this.acti = data.data['getSubActivo'];
-              // this.list = data.data['getSubActivo'];
-              // this.sub = this.techno.listSub;
               this.selection = data.data["getSelectData"][0];
               this.generateTable(data.data["getDatHistory"]);
               // this.loading.emit(false);
@@ -156,23 +146,25 @@ export class VacantDialog {
    }
   
    //---------------------------------------------------------------------------------------------
+   
    ngOnInit(): void {
     this.creatForm();
+    this.creatIsnp();
   }
 
   creatForm(){
-
     this.form = this.fb.group(
-      {
-        
-        contacts: this.fb.array([this.contactFrom()])
+      {    
+        contacts: this.fb.array([this.contactFrom()]),  
       }
     );
-
+  }
+  creatIsnp(){
+    this.formIns = this.formInsp.group({
+    });
   }
   
   get contacts(){
-    // this.ages.ChangeDetectionStrategy.OnPush();
     this.ages.push();
     return this.form.get("contacts") as FormArray;
     }
@@ -185,10 +177,10 @@ export class VacantDialog {
         document: new FormControl(""),
         nom_com: new FormControl(""),
         birthDate: new FormControl(""),
+        pais_nac:new FormControl(""),
         ciu_nac: new FormControl(""),
         dep_nac: new FormControl(""),
         are_tra: new FormControl(""),
-        // car_sol: new FormControl(""),
         car_sol: new FormControl(this.cargo),
         eps: new FormControl(""),
         pension: new FormControl(""),
@@ -197,17 +189,17 @@ export class VacantDialog {
         idsel: new FormControl(this.idSel),
         matrizarp: new FormControl(this.matriz),
         idGender: new FormControl(""),
-        ages: new FormControl(),
+        ages: new FormControl(""),
         etario: new FormControl(""),
+        pai_ext: new FormControl(""),
+        ciu_ext: new FormControl(""),
+        idins: new FormControl(this.idSel),
     }
     );
   }
+  
   addNewContacts(){
     this.contacts.push(this.contactFrom()); 
-    // this.ages.push(0);
-    // console.log('++',this.fb.group);
-    // this.contacts.value.ages.push();
-    // console.log('edad',this.ages.push());
   }
 
   removeContact(i:Required<number>){
@@ -216,25 +208,9 @@ export class VacantDialog {
   }
 
   onSubmit() {
-    // this.form.value['contacts'][0].ages = this.showAge ;
-// console.log('==>',this.form.value['ages'] = this.showAge)
-// console.log( 'EDAD'+  this.showAge ); 
-
-      console.log( 'form'+  this.contacts.value['ages '] ); 
-
-      // this.contacts.value.ages =  this.ages;
-      // console.log('ages=>', this.contacts.value.ages);
-      // this.form.value.contacts.ages = this.ages[i]
-      // console.log('form',this.form.value.contacts.ages)
-
-    
     if (this.form.valid) {
       // this.loading.emit(true);
       // this.loading = true;
-      // if( this.view == 'repor1vmrq' && this.form.value['ages'] ){
-      //   // this.formSelec.get('aprobacion1').setValue('30/3'); 
-      //   this.form.value['ages'] =  this.showAge; 
-      // }
       let body = {
         listas: this.form.value['contacts'],
       };
@@ -275,11 +251,6 @@ export class VacantDialog {
 
     this.getDataInit();
     this.sendRequest();
-    // this.formProces = new FormGroup({
-    //   fecini: new FormControl(""), 
-    //   fecfin: new FormControl(""), 
-    //   tipmatriz: new FormControl("")
-    // });
    }
 
  sendRequest() {
@@ -290,16 +261,11 @@ export class VacantDialog {
        action: "getVacant",
        idUser: this.cuser.iduser,
        idsel: this.idSel,
-      //  role: this.cuser.role,
-      //  fecini: fechini,
-      //  fecfin: fechafin,
-      //  tipMat: tipMatriz
      }).subscribe(
        (data) => {
 
          this.permissions = this.handler.getPermissions(this.component);
          if (data.success == true) {
-          // this.numVac = data.data["getId"][0];
           console.log('numVac=>',this.numVac);
            this.generateTable(data.data["getSelectData"]);
            this.contenTable = data.data["getSelectData"];
@@ -362,7 +328,6 @@ export class VacantDialog {
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getInformation',
-        // tipMat: this.tipogesti 
     })
     .subscribe(
        
@@ -378,10 +343,8 @@ export class VacantDialog {
               this.area            = data.data["getArea"];
               this.typeMatriz      = data.data["getMatriz"];
               this.typeGender      = data.data["getGender"];
-
-              // this.numVac = data.data["getId"];
-              // console.log('numVac=>',this.numVac);
-
+              this.group           = data.data['getGroupAge']
+              this.country         = data.data['getCountry']
               this.loading.emit(false);
               // this.loading = false
             } else {
@@ -397,17 +360,14 @@ export class VacantDialog {
           }
       );
     }
-
     // openc() {
     //   if (this.contaClick == 0) {
     //     this.sendRequest();
     //   }
     //   this.contaClick = this.contaClick + 1;
     // }
-    onSelectBirth(idState:any):void{
-        
+    onSelectBirth(idState:any):void{    
       // this.loading.emit(true);
-
       setTimeout(()=>{       
           this.citieswork = this.citytBirth.filter(item => item.idState == idState);
           //console.log(this.citieswork);
@@ -419,26 +379,6 @@ export class VacantDialog {
   option(action,codigo=null, id){
     var dialogRef;
     switch(action){
-      // case 'create':
-      //   this.loading = true;
-      //   dialogRef = this.dialog.open(EntryDialog,{
-      //     data: {
-      //       window: 'create',
-      //       codigo,
-      //       id:id
-      //       // tipoMat: tipoMat
-      //     }
-      //   });
-      //   dialogRef.disableClose = true;
-      //   // LOADING
-      //   dialogRef.componentInstance.loading.subscribe(val=>{
-      //     this.loading = val;
-      //   });
-      //   // RELOAD
-      //   dialogRef.componentInstance.reload.subscribe(val=>{
-      //     this.sendRequest();
-      //   });
-      // break;
       case 'update':
         // this.loading = true;
         // this.loading.emit(true);
@@ -447,8 +387,6 @@ export class VacantDialog {
             window: 'update',
             codigo,
             id:id
-            // tipoMat: tipoMat
-
           }
         });
         dialogRef.disableClose = true;
@@ -489,84 +427,38 @@ openc(){
   }    
   this.contaClick = this.contaClick + 1;
 }
-// applyFilter(search) {
-//   this.dataSource.filter = search.trim().toLowerCase();
-// }
-// onTriggerSheetClick(){
-//   this.matBottomSheet.open(ReportsTechnologyComponent)
-// }
-// generateTable(data) {
-//   this.displayedColumns = ["currentm_user", "date_move", "type_move"];
-//   this.historyMon = data;
-//   this.clickedRows = new Set<PeriodicElement>();
-// }
+onSelectionCountry(idet){
+  console.log('pais=>',idet)
+      if(idet == '71/1'){
+        this.birth = true;
+       }else{
+        this.birth = false
+       }
+    if(idet == '71/2'){
+        this.extra = true;
+     }else{
+     this.extra = false;
+     }
+}
+
 onSelectBirthDate(e, i:Required<number>){
   console.log('date=>',e,i);
-  // if(e){
-  //   let convertAge = new Date(e);
-  //   let timeDiff = Math.abs(Date.now() - convertAge.getTime());
-
-  //   // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-  //   this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-  
-  //  } // this.contacts.value[i].ages =  this.ages[i];
-
-  //  if(this.ages[i]){
-  //   this.contacts.value[i].ages =  this.ages[i];
-
-  //  }
-  if(e){
-
-  
-   switch( i){
-      case i:
         let convertAge = new Date(e);
         let timeDiff = Math.abs(Date.now() - convertAge.getTime());
 
         // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
         this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
         // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+
         this.contacts.value[i].ages =  this.ages[i];
-       break;
+        // this.contacts.controls['ages'] =  this.ages[i];
 
-   }
-  }
-  //  return  
+    // console.log('submit=>', this.contacts.controls['ages'] );
     console.log('submit=>',this.contacts.value[i].ages);
- 
-    // console.log('form',this.form.value.contacts)
-    // console.log('ages=>',this.ages[i]);
-    // console.log('submit=>',this.contacts.value[i].ages);
-
-    //this.ages = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-    // ages: new FormControl(Math.floor((timeDiff / (1000 * 3600 * 24))/365)),
-    // this.form.value['ages'] =this.ages;
-  
-  // this.onSelectBirthDate(e);
 
 }
-ageCalculator(){
-  
-  // if(this.age){
-  //   const convertAge = new Date(this.age);
-  //   const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-  //   this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-   
-  }
-  
-//   if( this.view == 'repor1vmrq' && this.form.value['contacts'] ){
-//     // this.formSelec.get('aprobacion1').setValue('30/3'); 
-//     this.form.value['age'] =  this.showAge; 
-// console.log('==>',this.form.value['age']);
-// }
-}
-// public fecha;
-// let date: Date = new Date();
-// let dia=date.getDay();
-// let mes=getMonth();
-// let anio=date.getFullYear();
 
-// console.log(dia+'/'+mes+'/'anio);
+}
 
 
 

@@ -62,6 +62,8 @@ export class PendingDialog  {
   permissions: any = null;
   formSelec: FormGroup;
   formTraining: FormGroup;
+  formInsp:FormGroup;
+  formVac:FormGroup;
   selection: any = [];
   position: any = [];
   pos: any = [];
@@ -137,24 +139,6 @@ export class PendingDialog  {
           else if( this.idUser == 43){
             this.retro4 = false;
           }
-
-          // if( this.idUser == 63 ){
-          //   this.retro = false;
-          // }else if(this.idUser == 63){
-          //     this.retro2 = false;
-  
-          // } else if(this.idUser == 63 ){
-          //   this.retro3 = false;
-          // }
-          //   else if( this.idUser == 63){
-          //     this.retro4 = false;
-          //   }
-         
-
-          // }else{
-          //   this.retro = true;
-
-          // }
         this.initForms();
         this.title = "Aprobaciones";
         break;
@@ -213,15 +197,20 @@ export class PendingDialog  {
       est: new FormControl(""),
       idsel: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
-
-
+    });
+    this.formVac = new FormGroup({
+      create_User: new FormControl(this.cuser.iduser),
+      con_fin: new FormControl(""),
+    });
+    this.formInsp = new FormGroup({
+        idsel: new FormControl(this.idSel),
+      create_User: new FormControl(this.cuser.iduser),
     });
   }
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      // tipRole: this.cuser.role,
         idUser: this.cuser.iduser,
         idSel: this.data.codigo
     }).subscribe(
@@ -285,7 +274,6 @@ export class PendingDialog  {
       action: "getParamUpdateSet",
         idUser: this.cuser.iduser,
         id: this.idSel
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
         this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
@@ -309,32 +297,14 @@ export class PendingDialog  {
     );
   }
   openDialog(e) {
-      // if( e == '30/2'){
-      //   console.log('id',e);
-      //     this.dialog.open(ApprovalDialog);
-      //   }else if(e == '30/3'){
-      //     this.dialog.open(DeclineDialog);
-      //   }else if(e == '30/1'){
-      //     this.dialog.open(Pending);
-      //   }    
         if( e == '65/1'){
           console.log('id',e);
             this.dialog.open(ApprovalDialog);
           }else if(e == '65/2'){
             this.dialog.open(DeclineDialog);
           }
-          // }else if(e == '30/1'){
-          //   this.dialog.open(Pending);
-          // } 
   }
   openDialog2(e){
-      // if( e == '30/2'){
-      //   this.dialog.open(ApprovalDialog);
-      // }else if(e == '30/3'){
-      //   this.dialog.open(DeclineDialog);
-      // }else if(e == '30/1'){
-      //   this.dialog.open(Pending);
-      // }  
       if( e == '65/1'){
         console.log('id',e);
           this.dialog.open(ApprovalDialog);
@@ -343,13 +313,6 @@ export class PendingDialog  {
         }
   }
   openDialog3(e){
-    // if( e == '30/2'){
-    //   this.dialog.open(ApprovalDialog);
-    // }else if(e == '30/3'){
-    //   this.dialog.open(DeclineDialog);
-    // }else if(e == '30/1'){
-    //   this.dialog.open(Pending);
-    // }  
     if( e == '65/1'){
       console.log('id',e);
         this.dialog.open(ApprovalDialog);
@@ -357,45 +320,33 @@ export class PendingDialog  {
         this.dialog.open(DeclineDialog);
       }
 }
-  // openDialogRe(){
-  //   if(this.idUser == 63){
-
-  //   this.dialog.open(DeclineDialog);
-  //   }
-  // }
+  
   onSubmitUpdate(){
     console.log(this.formSelec.value)
     if(this.formSelec.value['aprobacion1'] == '65/1' && this.formSelec.value['aprobacion2'] == '65/1' && this.formSelec.value['aprobacion3'] == '65/1'){
       this.formSelec.value['state'] = '65/1';
-      // this.formSelec.value['idPersonale'] = 30/1;
     }else if(this.formSelec.value['aprobacion1'] == '65/2' && this.formSelec.value['aprobacion2'] == '65/2' && this.formSelec.value['aprobacion3'] == '65/2'){
         this.formSelec.value['state'] = '65/2';
-    // }else if(this.formSelec.value['aprobacion1'] == '30/3' && this.formSelec.value['aprobacion2'] == '30/3' && this.formSelec.value['aprobacion3'] == '30/3'){
-    //   this.formSelec.value['state'] = '30/3';
-    // }else if(this.formSelec.value['aprobacion1'] == '30/4' && this.formSelec.value['aprobacion2'] == '30/4' && this.formSelec.value['aprobacion3'] == '30/4'){
-    //     this.formSelec.value['state'] = '30/4';
     }else{
       this.formSelec.value['state'] = '30/1';
     }
 
     if( this.view == 'update' && this.formSelec.value['create_User'] == 255 ){
-      // this.formSelec.get('aprobacion1').setValue('30/3'); 
       this.formSelec.value['aprobacion1'] = '30/3'; 
       this.formSelec.value['state'] = '30/3';
     }else if( this.view == 'update' && this.formSelec.value['create_User']== 255){
       this.formSelec.value['aprobacion2'] = '30/3'; 
-      // this.formSelec.get('aprobacion2').setValue('30/3'); 
     }else if( this.view == 'update' && this.formSelec.value['create_User']== 255 ){
       this.formSelec.value['aprobacion3'] = '30/3'; 
-      // this.formSelec.get('aprobacion3').setValue('30/3'); 
     }
     // 
     
     console.log('=>',this.formSelec.value);
     let body = {
         listas: this.formSelec.value,
-        formacion:this.formTraining.value  
-        //  id: this.idfeed
+        formacion:this.formTraining.value,
+        vacant: this.formVac.value,
+        seguimiento: this.formInsp.value
     }
   
     if (this.formSelec.valid) {
@@ -423,13 +374,7 @@ export class PendingDialog  {
       this.loading.emit(false);
     }
   }
-  // onSelectBirth(idet){
-  //   console.log('ap=>',idet)
-  //   if(idet == true){
-  //     this.dialog.open(ApprovalDialog);
-    // }
-// 
-  // }
+ 
   generateTable(data) {
     this.displayedColumns = ["currentm_user", "date_move", "type_move"];
     this.historyMon = data;

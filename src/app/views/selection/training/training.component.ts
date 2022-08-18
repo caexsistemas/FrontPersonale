@@ -23,6 +23,7 @@ import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
 import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
 import { TrainingDialog } from "../../../dialogs/selection/training/training.dialog.component";
+import { AssignmentDialog } from "../../../dialogs/selection/assignment/assignment.dialog.component";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class TrainingComponent implements OnInit {
 
  contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/vacant";
+  endpoint: string = "/training";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
@@ -45,7 +46,7 @@ export class TrainingComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/vacant";
+  component = "/selection/training";
 
   constructor(
     private _tools: Tools,
@@ -64,11 +65,11 @@ export class TrainingComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "geTraining",
+      action: "getTraining",
       idUser: this.cuser.iduser,
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale
 
     }).subscribe(
       (data) => {
@@ -94,15 +95,30 @@ export class TrainingComponent implements OnInit {
   }
   generateTable(data) {
     this.displayedColumns = [
+      // "view",
+      // "fec_sel",
+      // "tip_doc",
+      // "document",
+      // "nom_com",
+      // "car_sol",
+      // "matrizarp",
+      // "formation",
+      // "actions"
+
       "view",
-      "fec_sel",
-      "tip_doc",
-      "document",
-      "nom_com",
+      "idsel",
+      "fec_req",
       "car_sol",
       "matrizarp",
-      "formation",
-      "actions"
+      "idPersonale",
+      "est_for",
+      // "tip_req",
+      // "state",
+      // "salary",
+      // "num_vac",
+      // "swi_mod",
+      // "ser_mod",
+      "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -114,7 +130,7 @@ export class TrainingComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id){
+  option(action,codigo=null, id,matriz ){
     var dialogRef;
     switch(action){
       case 'create':
@@ -137,45 +153,66 @@ export class TrainingComponent implements OnInit {
           this.sendRequest();
         });
       break;
-      case 'update':
-        this.loading = true;
-        dialogRef = this.dialog.open(TrainingDialog,{
-          data: {
-            window: 'update',
-            codigo,
-            id:id
-            // tipoMat: tipoMat
+      // case 'update':
+      //   this.loading = true;
+      //   dialogRef = this.dialog.open(TrainingDialog,{
+      //     data: {
+      //       window: 'update',
+      //       codigo,
+      //       id:id
+      //       // tipoMat: tipoMat
 
-          }
+      //     }
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe(val=>{
+      //     this.loading = val;
+      //   });
+      //   // RELOAD
+      //   dialogRef.componentInstance.reload.subscribe(val=>{
+      //     this.sendRequest();
+      //   });
+      //   break;
+
+      // case 'view':
+      //   this.loading = true;
+      //   dialogRef = this.dialog.open(TrainingDialog,{
+      //     data: {
+      //       window: 'view',
+      //       codigo
+      //     }
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe(val=>{
+      //     this.loading = val;
+      //   });
+      //   dialogRef.afterClosed().subscribe(result => {
+         
+      //   });
+      // break;
+      case "trainer":
+        this.loading = true;
+        dialogRef = this.dialog.open(TrainingDialog, {
+          data: {
+            window: "trainer",
+            codigo,
+            id:id,
+            matriz
+            // cargo:this.num_vac
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
+        dialogRef.afterClosed().subscribe((result) => {
+          console.log("The dialog was closed");
+          console.log(result);
         });
         break;
-
-      case 'view':
-        this.loading = true;
-        dialogRef = this.dialog.open(TrainingDialog,{
-          data: {
-            window: 'view',
-            codigo
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe(result => {
-         
-        });
-      break;
       }
     }
     
