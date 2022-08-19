@@ -64,6 +64,8 @@ export class RequisitionComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getSelection",
       idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale
@@ -72,13 +74,14 @@ export class RequisitionComponent implements OnInit {
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
-        console.log(data);
+        console.log(data.success);
 
         if (data.success == true) {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-         this.loading = false;
+          console.log( '===>',this.contenTable)
+          this.loading = false;
         } else {
           this.handler.handlerError(data);
           this.loading = false;
@@ -93,13 +96,14 @@ export class RequisitionComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      // "fecha_compra",
+      "idsel",
+      "fec_req",
       "car_sol",
+      "matrizarp",
       "tip_req",
-      "salary",
-      "num_vac",
-      // "swi_mod",
-      // "ser_mod",
+      "state",
+      // "salary",
+      // "num_vac",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -186,8 +190,8 @@ openc(){
 applyFilter(search) {
   this.dataSource.filter = search.trim().toLowerCase();
 }
-onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsTechnologyComponent)
-}
+// onTriggerSheetClick(){
+//   this.matBottomSheet.open(ReportsTechnologyComponent)
+// }
 
 }

@@ -1,7 +1,7 @@
 <div class="card mt-6">
   <div class="card-header">
     <h5 class="modal-title">
-      <p class="title-modal" *ngIf="view == 'repor1vmrq'">{{title}} {{idSel}}</p>
+      <p class="title-modal" *ngIf="view == 'trainer'">{{title}} {{idSel}}</p>
       <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
         style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
         <span aria-hidden="true">&times;</span>
@@ -14,15 +14,33 @@
       <mat-form-field class="example-full-width" appearance="fill">
         <strong>
           <h4>
-            <input matInput disabled value="Gestion Vacantes">
+            <input matInput disabled value="Asignar Formador">
           </h4>
         </strong>
-        <button class="btn btn-outline-primary" (click)="addNewContacts()">+</button>
+      <!-- <button class="btn btn-outline-primary" (click)="addNewContacts()">+</button> -->
+
       </mat-form-field>
-      <form form *ngIf="view == 'repor1vmrq' || view == 'update'" [formGroup]="form">
+
+      <!-- <div class="row">
+        <div class="col-sm-4">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <strong>
+              <input matInput disabled value="Gestion Vacantes">
+            </strong>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-4">
+          <button class="btn btn-outline-primary mx-1 " (click)="addNewContacts()">+</button>
+
+        </div>
+      </div> -->
+      
+
+      <!-- <form form *ngIf="view == 'repor1vmrq' || view == 'update'" [formGroup]="form">
         <div class="card-body">
           <hr>
           <ng-container formArrayName="contacts" *ngFor="let o of contacts.controls; let i = index">
+
             <b>FORMULARIO {{i+1}}</b> <button class="btn btn-outline-danger mx-3 mt-3"
               (click)="removeContact(i)">&times;</button>
             <hr>
@@ -32,30 +50,8 @@
                 <input matInput disabled value="Cali Express">
               </mat-form-field>
             </div>
-            <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Fecha de Seleccion</mat-label>
-                  <input matInput formControlName="fec_sel" value="fec_sel" type="date">
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Tipo de Documento</mat-label>
-                  <mat-select formControlName="tip_doc" required>
-                    <mat-option *ngFor="let idet of typeDocument" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Numero Documento</mat-label>
-                  <input matInput formControlName="document" type="number" required>
-                </mat-form-field>
-              </div>
-            </div>
+
+            
             <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
@@ -66,40 +62,20 @@
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Fecha de Nacimiento</mat-label>
-                  <!-- <input matInput formControlName="birthDate" value="birthDate" type="date"  (change)="ageCalculator()"> -->
-                  <input matInput formControlName="birthDate" value="birthDate" type="date"
-                    (ngModelChange)="onSelectBirthDate($event, i)">
+                  <input matInput formControlName="birthDate" value="birthDate" type="date"  (change)="ageCalculator()">
                 </mat-form-field>
               </div>
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
-                  <mat-label>Edad: </mat-label>
-                  <input matInput formControlName="ages" type="number" [value]="ages[i]">
+                  <mat-label *ngIf="age">Edad: {{showAge}} </mat-label>
+                  <input  matInput formControlName="ages" type="number" value="{{ showAge }}"  >
+               
                 </mat-form-field>
               </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Grupo Etario</mat-label>
-                  <mat-select formControlName="etario">
-                    <mat-option *ngFor="let idet of group" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+             
             </div>
             <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Pais</mat-label>
-                  <mat-select formControlName="pais_nac" (ngModelChange)="onSelectionCountry($event)">
-                    <mat-option *ngFor="let idet of country" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4" *ngIf="birth">
                 <mat-form-field class="example-full-width">
                   <mat-label>Departamento de Nacimiento</mat-label>
                   <mat-select formControlName="dep_nac" (selectionChange)="onSelectBirth($event.value)">
@@ -109,7 +85,7 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-sm-4" *ngIf="birth">
+              <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Ciudad de Nacimiento</mat-label>
                   <mat-select formControlName="ciu_nac">
@@ -118,21 +94,8 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-              </div>
-              <div class="col-sm-4" *ngIf="extra">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Pais:</mat-label>
-                  <input matInput formControlName="pai_ext" type="text">
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4" *ngIf="extra">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Ciudad:</mat-label>
-                  <input matInput formControlName="ciu_ext" type="text">
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row" [formGroupName]="i">
+              </div> 
+             
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Area de Trabajo</mat-label>
@@ -143,6 +106,10 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+
+            
+            </div>
+             <div class="row" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Cargo:</mat-label>
@@ -152,8 +119,9 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
+                
               </div>
-              <div class="col-sm-4" *ngIf="cargo =='16/1'">
+             <div class="col-sm-4" *ngIf="cargo =='16/1'">
                 <mat-form-field class="example-full-width">
                   <mat-label>Tipo Matriz:</mat-label>
                   <mat-select formControlName="matrizarp">
@@ -163,8 +131,6 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-            </div>
-            <div class="row" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Genero:</mat-label>
@@ -175,6 +141,8 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+            </div>
+            <div class="row mt-2" [formGroupName]="i">
               <div class="col-sm-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Eps:</mat-label>
@@ -195,6 +163,7 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+
             </div>
             <hr>
             <div class="row mt-2" [formGroupName]="i">
@@ -206,17 +175,21 @@
               </div>
             </div>
           </ng-container>
+
         </div>
         <div class="card-footer text-center">
           <button *ngIf="view == 'repor1vmrq'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
         </div>
-      </form>
+      </form> -->
       <!-- --------------------------------------------------------------- -->
+
+
 
       <mat-form-field appearance="standard">
         <mat-label>Buscar...</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
       </mat-form-field>
+
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
           *ngIf="contenTable.length > 0">
@@ -262,10 +235,10 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let row">
-              <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',row.idvac)"
+              <!-- <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',row.idvac)"
                 title="Editar">
                 <i class="fa fa-edit fa-lg"></i>
-              </button>
+              </button> -->
 
               <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
                             title="PDF">
@@ -278,6 +251,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
+          <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
           </tr>
@@ -285,6 +259,7 @@
 
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
       </div>
+      <!-- </form> -->
     </div>
     <!-- <div class="row mt-3">
             <div class="col-md-12">

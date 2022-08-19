@@ -99,6 +99,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DeclineDialog } from './dialogs/selection/approval/decline.dialog.component';
 import { Pending } from './dialogs/selection/approval/pending';
 import { TrainingComponent } from './views/selection/training/training.component';
+import { EntryDialog } from './dialogs/selection/vacant/entry/entry.dialog.component';
+import { TrainingDialog } from './dialogs/selection/training/training.dialog.component';
+import { AssignmentDialog } from './dialogs/selection/assignment/assignment.dialog.component';
+import { TrainerDataDialog } from './dialogs/selection/assignment/trainer data/trainer.dialog.component';
+import { HiringDialog } from './dialogs/selection/hiring/hiring.dialog.component';
+import { InspectionDialog } from './dialogs/selection/training/inspection/inspection.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -182,7 +188,6 @@ const routes: Routes = [];
     AbsenteeismDialog,   
     InventoryComponent,
     TechnologyDialog,
-    RqcalidadvmrpComponent,
     ReportsTechnologyComponent,
     SelectionComponent,
     RequisitionDialog,
@@ -191,8 +196,14 @@ const routes: Routes = [];
     ApprovalDialog,
     DeclineDialog,
     Pending,
-    TrainingComponent,    
-    ReportsAbsenteeismComponent    
+    ReportsAbsenteeismComponent,
+    EntryDialog,
+    TrainingDialog,
+    AssignmentDialog,
+    TrainerDataDialog,    
+    ReportsAbsenteeismComponent,
+    HiringDialog,
+    InspectionDialog
   
   ],
   providers: [{
