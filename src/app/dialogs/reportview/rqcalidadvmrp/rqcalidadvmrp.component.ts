@@ -101,7 +101,9 @@ export class RqcalidadvmrpComponent {
        role: this.cuser.role,
        fecini: fechini,
        fecfin: fechafin,
-       tipMat: tipMatriz
+       tipMat: tipMatriz,
+       token: this.cuser.token,
+       modulo: this.component
      }).subscribe(
        (data) => {
          this.permissions = this.handler.getPermissions(this.component);
@@ -166,7 +168,10 @@ export class RqcalidadvmrpComponent {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getdataReporVmRp',
-        tipMat: this.tipogesti 
+        tipMat: this.tipogesti,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component 
     })
     .subscribe(
        
@@ -226,7 +231,10 @@ export class RqcalidadvmrpComponent {
               this.loading.emit(true);
               this.WebApiService.getRequest(this.endpoint, {
                   action: 'downloadFilesViewPm',
-                  report:  ""+JSON.stringify({body})
+                  report:  ""+JSON.stringify({body}),
+                  token: this.cuser.token,
+                  idUser: this.cuser.iduser,
+                  modulo: this.component
               })
               .subscribe(
                   data => {                   

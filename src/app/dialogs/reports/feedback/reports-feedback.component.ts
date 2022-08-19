@@ -34,6 +34,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/materia
     pipe = new DatePipe('en-US');
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+    component = "/callcenter/feedback";
   
     @Output() loading = new EventEmitter();
     @Output() reload = new EventEmitter();
@@ -63,7 +64,10 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/materia
         this.WebApiService.getRequest(this.ndpoint, {
           action: 'getParamView',
           role: this.cuser.role,
-          matrizarp: this.cuser.matrizarp
+          matrizarp: this.cuser.matrizarp,
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
         })
           .subscribe(
             data => {
@@ -112,7 +116,10 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/materia
                   this.loading.emit(true);
                   this.WebApiService.getRequest(this.ndpoint, {
                       action: 'downloadFiles',
-                      report:  ""+JSON.stringify({body})
+                      report:  ""+JSON.stringify({body}),
+                      token: this.cuser.token,
+                      idUser: this.cuser.iduser,
+                      modulo: this.component
                   })
                   .subscribe(
                       data => {
