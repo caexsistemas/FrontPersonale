@@ -139,7 +139,14 @@ export class RqcalidadDialog  {
             case 'create':
                 this.tipMatriz = this.data.tipoMat;
                 this.initForms();
-                this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA ";
+                if( this.tipMatriz  == '40/1' ){
+                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (MOVIL)";
+                }else if( this.tipMatriz  == '40/2' ){
+                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (HOGAR)";
+                }else{
+                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (T&T)";
+                }
+                
                 
             break;
             case 'update':

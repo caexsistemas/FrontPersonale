@@ -23,6 +23,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   displayedColumns:any  = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+  component = "/nomi/ingreso";
 
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
@@ -55,7 +56,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.ndpoint, {
                     action: 'downloadFiles',
-                    report:  ""+JSON.stringify({body})
+                    report:  ""+JSON.stringify({body}),
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
                 })
                 .subscribe(
                     data => {

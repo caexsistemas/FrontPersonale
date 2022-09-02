@@ -61,6 +61,7 @@ export class IncapacidadesDialog implements OnInit {
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
     component = "/incapacidades/gestion";
+    gesAnteSopo: string = "";
 
     archivo = {
         nombre: null,
@@ -275,6 +276,7 @@ export class IncapacidadesDialog implements OnInit {
                 this.formIncapad.get('idPension').setValue(data.data[0].idPension);
                 this.formIncapad.get('coverageArl').setValue(data.data[0].coverageArl);
                 this.formIncapad.get('soporte_nove').setValue(data.data[0].soporte_nove);
+                this.gesAnteSopo = data.data[0].soporte_nove;
                 //
             },
             error => {
@@ -543,7 +545,7 @@ export class IncapacidadesDialog implements OnInit {
       }
     
     validRequid(event){
-        if( event == '30/3' ){
+        if( event == '30/3' || event == '30/5' ){
             this.bluedRequired = false;
             this.textAreRequired = true;
         }else{
@@ -553,6 +555,8 @@ export class IncapacidadesDialog implements OnInit {
 
         if(event == '30/5'){
             this.formIncapad.get('soporte_nove').setValue('17/0');
+        }else{
+            this.formIncapad.get('soporte_nove').setValue(this.gesAnteSopo);
         }
     }
 

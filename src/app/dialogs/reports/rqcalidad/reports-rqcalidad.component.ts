@@ -30,13 +30,10 @@ export class ReportsRqcalidadComponent implements OnInit {
   listipomatriz: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+  component = "/callcenter/rqcalidad";
 
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
-
-
-
-
 
   constructor(
     private WebApiService: WebApiService,
@@ -61,7 +58,10 @@ export class ReportsRqcalidadComponent implements OnInit {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.ndpoint, {
       action: 'getParamPrew',
-      role: this.cuser.role
+      role: this.cuser.role,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
         data => {
@@ -95,7 +95,10 @@ export class ReportsRqcalidadComponent implements OnInit {
             this.loading.emit(true);
             this.WebApiService.getRequest(this.ndpoint, {
                 action: 'downloadFiles',
-                report:  ""+JSON.stringify({body})
+                report:  ""+JSON.stringify({body}),
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
             })
             .subscribe(
                 data => {                   

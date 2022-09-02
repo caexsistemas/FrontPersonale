@@ -22,6 +22,7 @@ import { ActivatedRoute } from '@angular/router';
   public clickedRows;
   ListEstGes: any = [];
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+  component = "/incapacidades/gestion";
 
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
@@ -47,7 +48,10 @@ import { ActivatedRoute } from '@angular/router';
         this.loading.emit(true);
         this.WebApiService.getRequest(this.ndpoint, {
             action: 'getParExporInfo',
-            role: this.cuser.role
+            role: this.cuser.role,
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
         })
             .subscribe(
                 data => {
@@ -78,7 +82,10 @@ import { ActivatedRoute } from '@angular/router';
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.ndpoint, {
                     action: 'downloadFiles',
-                    report:  ""+JSON.stringify({body})
+                    report:  ""+JSON.stringify({body}),
+                    token: this.cuser.token,
+                    idUser: this.cuser.iduser,
+                    modulo: this.component
                 })
                 .subscribe(
                     data => {
