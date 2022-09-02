@@ -929,7 +929,7 @@
               
                   
                   <div class="row">
-                    <div class="col-sm-4">
+                    <!--{<div class="col-sm-4">
                         <mat-form-field class="example-full-width ContCamp">
                             <mat-label>Tipo Matriz:</mat-label>
                             <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)" >
@@ -937,6 +937,12 @@
                                     {{idet.description}}
                                 </mat-option>
                             </mat-select>
+                        </mat-form-field>
+                    </div>}-->
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Fecha de Llamada:</mat-label>
+                            <input matInput formControlName="call_date" type="date" required>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -1000,7 +1006,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>TMO:</mat-label>
-                            <input matInput formControlName="tmo" type="text" >
+                            <input matInput formControlName="tmo" type="text" > 
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -1059,12 +1065,6 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-4">
-                        <mat-form-field>
-                            <mat-label>Fecha de Llamada:</mat-label>
-                            <input matInput formControlName="call_date" type="date" required>
-                        </mat-form-field>
-                    </div>
                     <div class="col-sm-4">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Final:</mat-label>

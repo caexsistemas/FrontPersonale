@@ -62,7 +62,7 @@ export class RoleDialog {
   formCreate: FormGroup;
   formUpdate: FormGroup;
 
-  //public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
+  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
   //OUTPUTS
   @Output() loading = new EventEmitter();
@@ -104,7 +104,9 @@ export class RoleDialog {
         this.loading.emit(true);
         this.WebApiService.getRequest(
           this.endpoint + "/" + this.idRol,
-          {}
+          {  token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component}
         ).subscribe(
           (data) => {
             if (data.success == true) {
@@ -155,6 +157,9 @@ export class RoleDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamsUpdateSub",
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     }).subscribe(
             (data) => {
               if (data.success == true) {
@@ -186,7 +191,10 @@ export class RoleDialog {
 
     this.WebApiService.getRequest(this.endpoint, {
       action: 'getParamsUpdate',
-      id: this.idRol
+      idRol: this.idRol,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
   })
     .subscribe(
         data => {
@@ -215,7 +223,11 @@ export class RoleDialog {
             listas:   this.formCreate.value,
         }
         this.loading.emit(true);
-        this.WebApiService.putRequest(this.endpoint+'/'+this.idRol,body,{})
+        this.WebApiService.putRequest(this.endpoint+'/'+this.idRol,body,{
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+        })
         .subscribe(
             data=>{
                 if(data.success){
@@ -305,7 +317,11 @@ export class RoleDialog {
       let body = {
         listas: this.formCreate.value,
       };
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);

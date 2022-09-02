@@ -45,6 +45,7 @@ export class RolesComponent implements OnInit {
     public dialog: MatDialog) { }
 
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
+   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
   ngOnInit(): void {
     this.permissions = this.handler.permissionsApp;
@@ -53,17 +54,17 @@ export class RolesComponent implements OnInit {
   
   sendRequest() {
     this.loading = true;
-    this.WebApiService.getRequest(this.endpoint, {//action:'getPrueba'
+    this.WebApiService.getRequest(this.endpoint, {
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     })
       .subscribe(
         response => {
-          this.permissions = this.handler.getPermissions(this.component);
-          console.log(1)
-          console.log(this.permissions)
+          
           if (response.success) {
-            
+            this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data);
-
             this.ValorRol = response.data
             this.loading = false;
           } else {

@@ -28,6 +28,7 @@ export class DefaultLayoutComponent{
   endpoint: string = '/menu';
   public permissions:any[]  = Array();
   public userLogin: any;
+  public checktoken: boolean;
 
 
 
@@ -80,11 +81,15 @@ export class DefaultLayoutComponent{
   }
 
   ngOnInit(): void {
+    this.checkToken();
     this.checkSession();
     this.sendRequest();
   }
 
   sendRequest() {
+
+    
+
     this.WebApiService.postRequest(this.endpoint, this.cuser, {})
       .subscribe(
         response => {
@@ -162,24 +167,55 @@ export class DefaultLayoutComponent{
   }
 
   checkSession() {
+
     // ejecutar consulta al servidor para verificar si el token es valido aun...
-    this.cuser = JSON.parse(localStorage.getItem('currentUser'));
+    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
+    //Variables 
+    let body = {
+      iduser: this.cuser.iduser,
+      token: this.cuser.token
+    }
+    //Validar Informacion del token
     if (this.cuser != null) {
-      this.WebApiService.token = this.cuser.token;
-      if (this.cuser.user != null && this.cuser.token != null && this.cuser.username != null
-        ) {
-        let route = window.location.pathname;
-        if (route == "/") {
-          this._router.navigate(['dashboard']);
-        } else {
-          this._router.navigate([route]);
+
+      this.WebApiService.postRequest('/checktoken', body, {})
+      .subscribe(
+        response => {
+        
+          if (this.cuser.user != null && this.cuser.token != null 
+            && this.cuser.username != null && response.success ) {
+    
+            let route = window.location.pathname;
+            if (route == "/") {
+              this._router.navigate(['dashboard']);
+            } else {
+              this._router.navigate([route]);
+            }
+            this.isLogged = true;
+    
+          } else {
+            
+            this.isLogged = false;
+            this.cuser = null;
+            localStorage.removeItem('isLogged');
+            localStorage.removeItem('currentUser');
+            this._router.navigate(['/']);
+            this.handler.handlerError(response.message);
+          }
+        },
+        error => {
+            
+            this.isLogged = false;
+            this.cuser = null;
+            localStorage.removeItem('isLogged');
+            localStorage.removeItem('currentUser');
+            this._router.navigate(['/']);
+            this.handler.handlerError('(E): '+error.message);
         }
-        this.isLogged = true;
-      } else {
-        this.isLogged = false;
-        this._router.navigate(['/login']);
-      }
+      );
+
     } else {
+
       this.isLogged = false;
       let search;
       let filter = {};
@@ -198,11 +234,43 @@ export class DefaultLayoutComponent{
   }
 
   logout() {
+
+    let body = {
+      idPersonale: this.cuser.idPersonale,
+      iduser: this.cuser.iduser,
+      role: this.cuser.role,
+      token: this.cuser.token,
+      username: this.cuser.username
+    }
+    //Limpieza
     this.isLogged = false;
     this.cuser = null;
-    localStorage.removeItem('isLogged');
-    localStorage.removeItem('currentUser');
-    this._router.navigate(['/']);
+
+    this.WebApiService.postRequest('/logout', body, {
+       
+    })
+      .subscribe(
+        response => {
+        
+          if (response.success) {
+            this.handler.showSuccess('Sesión culminada con éxito, gracias hasta pronto.');
+          } else {
+            this.handler.handlerError('Error: '+response);
+          }
+        },
+        error => {
+          this.loading = false;
+          this.handler.showError(error.message);
+        }
+      );
+
+      localStorage.removeItem('isLogged');
+      localStorage.removeItem('currentUser');
+      this._router.navigate(['/']);
+  }
+
+  checkToken(){
+    
   }
 
   toggleMinimize(e) {
