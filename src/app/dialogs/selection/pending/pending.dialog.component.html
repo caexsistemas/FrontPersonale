@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Requisicion:</mat-label>
+                    <mat-label>Tipo de Requisición:</mat-label>
                     <mat-select formControlName="tip_req" required>
                       <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
@@ -77,7 +77,7 @@
             <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Justificacion de la Requisicion&nbsp; &nbsp;
+                  Justificación de la Requisición&nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
                   <!--{}-->
@@ -87,7 +87,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <mat-label> Justificacion de la Requisicion:</mat-label>
+                    <mat-label> Justificación de la Requisición:</mat-label>
                     <textarea matInput formControlName="justification" placeholder="" [readonly]="true"></textarea>
                   </mat-form-field>
                 </div>
@@ -100,7 +100,7 @@
             <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
+                  Observaciones y/o consideraciones especiales &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
@@ -109,7 +109,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Obcervaciones:</mat-label>
+                    <mat-label>Observaciones:</mat-label>
                     <textarea matInput formControlName="observations" [readonly]="true"></textarea>
                   </mat-form-field>
                 </div>
@@ -198,7 +198,7 @@
               <hr *ngIf="idUser != '255'">
               <div class="row mt-3" *ngIf="idUser != '255'">
                 <div class="col-md-12" *ngIf="requ == '62/4'">
-                  <h6>Direccion o Jefe Area</h6>
+                  <h6>Dirección o Jefe Area</h6>
                   <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion1"
                     [disabled]="retro4">
                     <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
@@ -219,7 +219,7 @@
                 <div class="col-md-4" *ngIf="pop == '255'">
                   <!-- <div class="col-md-4"> -->
                   <mat-form-field class="example-full-width">
-                    <mat-label>Estado de Requisicion:</mat-label>
+                    <mat-label>Estado de Requisición:</mat-label>
                     <mat-select formControlName="state" required>
                       <mat-option *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue" (click)="rechazar(idet)">
                         {{idet.description}}
@@ -282,7 +282,7 @@
                 <dd>{{selection.fec_req}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Tipo de Requisicion</dt>
+                <dt>Tipo de Requisición</dt>
                 <dd>{{selection.tip}}</dd>
               </div>
             </div>
@@ -306,7 +306,7 @@
                 <dd>{{selection.num_vac}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Estado Requisicion</dt>
+                <dt>Estado Requisición</dt>
                 <dd>{{selection.sta}}</dd>
               </div>
             </div>
@@ -317,7 +317,7 @@
           <mat-expansion-panel [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Justificacion de la Requisicion&nbsp; &nbsp;
+                Justificación de la Requisición&nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
               </mat-panel-description>
@@ -325,7 +325,7 @@
             </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4">
-                <dt>Justificacion de Requisicion</dt>
+                <dt>Justificación de Requisición</dt>
                 <dd>{{selection.justification}}</dd>
               </div>
             </div>
@@ -337,7 +337,7 @@
           <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
+                Observaciones y/o consideraciones especiales &nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
 
@@ -346,7 +346,7 @@
             </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4">
-                <dt>Obcervaciones y/o consideraciones especiales </dt>
+                <dt>Observaciones y/o consideraciones especiales </dt>
                 <dd>{{selection.observations}}</dd>
               </div>
             </div>

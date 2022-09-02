@@ -8,7 +8,6 @@
       </button>
     </h5>
   </div>
-
   <mat-dialog-content>
     <div class="card-body">
       <mat-form-field class="example-full-width" appearance="fill">
@@ -17,186 +16,37 @@
             <input matInput disabled value="Seguimiento Formacion">
           </h4>
         </strong>
-      <!-- <button class="btn btn-outline-primary" (click)="addNewContacts()">+</button> -->
-
       </mat-form-field>
+      <div class="toolbar-table" *ngIf="permissions != null">
 
-      <!-- <div class="row">
-        <div class="col-sm-4">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <strong>
-              <input matInput disabled value="Gestion Vacantes">
-            </strong>
-          </mat-form-field>
+      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+
+        <!-- <div class="btn-group" dropdown>
+            <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                title="Reporte Excel">
+                <i class="fa fa-feed"></i>
+            </button>
+        </div> -->
+        <div class="btn-group" dropdown>
+            <!-- <button class="btn btn-success" *ngIf="permissions.update" (click)="option('state',idSel)"
+                title="Actualizar Estado Formación">
+                <i class="icon-refresh"></i>
+            </button> -->
         </div>
-        <div class="col-sm-4">
-          <button class="btn btn-outline-primary mx-1 " (click)="addNewContacts()">+</button>
-
-        </div>
-      </div> -->
-      
-
-      <!-- <form form *ngIf="view == 'repor1vmrq' || view == 'update'" [formGroup]="form">
-        <div class="card-body">
-          <hr>
-          <ng-container formArrayName="contacts" *ngFor="let o of contacts.controls; let i = index">
-
-            <b>FORMULARIO {{i+1}}</b> <button class="btn btn-outline-danger mx-3 mt-3"
-              (click)="removeContact(i)">&times;</button>
-            <hr>
-            <div class="row mt-2" [formGroupName]="i">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Company</mat-label>
-                <input matInput disabled value="Cali Express">
-              </mat-form-field>
-            </div>
-
-            
-            <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Nombre Completo:</mat-label>
-                  <input matInput formControlName="nom_com" type="text" required>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Fecha de Nacimiento</mat-label>
-                  <input matInput formControlName="birthDate" value="birthDate" type="date"  (change)="ageCalculator()">
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label *ngIf="age">Edad: {{showAge}} </mat-label>
-                  <input  matInput formControlName="ages" type="number" value="{{ showAge }}"  >
-               
-                </mat-form-field>
-              </div>
-             
-            </div>
-            <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Departamento de Nacimiento</mat-label>
-                  <mat-select formControlName="dep_nac" (selectionChange)="onSelectBirth($event.value)">
-                    <mat-option *ngFor="let idet of depart" [value]="idet.idState">
-                      {{idet.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Ciudad de Nacimiento</mat-label>
-                  <mat-select formControlName="ciu_nac">
-                    <mat-option *ngFor="let idet of citieswork" [value]="idet.idCity">
-                      {{idet.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div> 
-             
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Area de Trabajo</mat-label>
-                  <mat-select formControlName="are_tra">
-                    <mat-option *ngFor="let idet of area" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-            
-            </div>
-             <div class="row" [formGroupName]="i">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Cargo:</mat-label>
-                  <mat-select formControlName="car_sol">
-                    <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" [disabled]="true">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                
-              </div>
-             <div class="col-sm-4" *ngIf="cargo =='16/1'">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Tipo Matriz:</mat-label>
-                  <mat-select formControlName="matrizarp">
-                    <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Genero:</mat-label>
-                  <mat-select formControlName="idGender">
-                    <mat-option *ngFor="let idet of typeGender" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Eps:</mat-label>
-                  <mat-select formControlName="eps">
-                    <mat-option *ngFor="let idet of eps" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Pension:</mat-label>
-                  <mat-select formControlName="pension">
-                    <mat-option *ngFor="let idet of pension" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-            </div>
-            <hr>
-            <div class="row mt-2" [formGroupName]="i">
-              <div class="col-sm-12">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Obcervaciones/Opcional:</mat-label>
-                  <textarea matInput formControlName="obs_vac"></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-          </ng-container>
-
-        </div>
-        <div class="card-footer text-center">
-          <button *ngIf="view == 'repor1vmrq'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
-        </div>
-      </form> -->
-      <!-- --------------------------------------------------------------- -->
-
-
-
+       
+    </div>
       <mat-form-field appearance="standard">
         <mat-label>Buscar...</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
       </mat-form-field>
-
+      </div>
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
           *ngIf="contenTable.length > 0">
           <ng-container matColumnDef="view">
             <th mat-header-cell *matHeaderCellDef> Ver </th>
             <td mat-cell *matCellDef="let row">
-              <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',row.idsel)"
+              <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',row.idvac,row.nom_com)"
                 title="Ver">
                 <i class="fa fa-eye fa-lg"></i>
               </button>
@@ -204,7 +54,7 @@
           </ng-container>
           !-- login Column -->
           <ng-container matColumnDef="fec_sel">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Seleccion </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Selección </th>
             <td mat-cell *matCellDef="let row"> {{row.fec_sel}} </td>
           </ng-container>
 
@@ -243,38 +93,22 @@
           </ng-container>
 
           <ng-container matColumnDef="con_fin">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Concepto Final Formacion </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Concepto Final Formación </th>
             <td mat-cell *matCellDef="let row"> {{row.final}} </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let row">
-              <button  class="btn btn-primary" *ngIf="permissions.update" (click)="option('update',row.idsel)"
+              <button class="btn btn-ghost-primary" *ngIf="permissions.update" (click)="option('update',row.idvac,row.nom_com)"
                 title="Seguimiento">
-              <i class="fa fa-plus"></i>
-              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                <i class="fa fa-edit fa-lg"></i>
+                <!-- <i class="fa fa-edit fa-lg"></i> -->
               </button>
-              <!-- <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
-               (click)="option('update',element.idsel)" title="Editar">
-              <i class="fa fa-edit fa-lg"></i>
-              </button> -->
-              <!-- <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
-              title="Crear">
-              <i class="fa fa-plus"></i>
-             </button> -->
-
-              <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
-                            title="PDF">
-                            <i class="fa fa-file-pdf-o"></i>
-                        </button> -->
             </td>
           </ng-container>
-
-
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
@@ -315,6 +149,48 @@
             </div>
           </div> -->
   </mat-dialog-content>
-
-
+</div>
+<div class="card mt-6">
+  <div *ngIf="view === 'update'">
+    <div class="card-header">
+      <h5 class="modal-title button_header">
+        <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+        <mat-accordion class="example-headers-align">
+          <form form *ngIf="view == 'update'" [formGroup]="formSelec">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Actualizar Formación &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Información Detallada
+                </mat-panel-description>
+                <mat-icon>work</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Estado de Formación:</mat-label>
+                    <mat-select formControlName="est_for">
+                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </form>
+        </mat-accordion>
+      </mat-dialog-content>
+    </div>
+  </div>
 </div>

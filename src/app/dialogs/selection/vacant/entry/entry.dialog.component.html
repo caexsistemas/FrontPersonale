@@ -14,28 +14,20 @@
       <mat-dialog-content>
         <mat-accordion class="example-headers-align">
           <form form *ngIf="view == 'update'" [formGroup]="form">
-            <!-- <form [formGroup]="formParent" class="form-parent">
-                  <div class="form-grid" formArrayName="skills">
-                    <div class="form-field" *ngFor="let skill of getCtrl('skills',formParent).controls;index as formChild">
-                      <div class="form-block" [formGroupName]="formChild"> -->
-            
-
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Gestion de Vacante&nbsp; &nbsp;
+                  Gestión de Vacante&nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                    Ingreso de Datos
+                  Ingreso de Datos
                 </mat-panel-description>
-                  <mat-icon>account_circle</mat-icon>
-                </mat-expansion-panel-header>
-                
+                <mat-icon>account_circle</mat-icon>
+              </mat-expansion-panel-header>
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Fecha de Seleccion</mat-label>
+                    <mat-label>Fecha de Selección</mat-label>
                     <input matInput formControlName="fec_sel" value="fec_sel" type="date">
                   </mat-form-field>
                 </div>
@@ -63,18 +55,55 @@
                     <input matInput formControlName="nom_com" type="text" required>
                   </mat-form-field>
                 </div>
-                
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
+                    <mat-label>Fecha de Nacimiento</mat-label>
+                    <input matInput formControlName="birthDate" value="birthDate" type="date"
+                      (ngModelChange)="onSelectBirthDate($event)">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Edad: </mat-label>
+                    <input matInput formControlName="ages" type="number" [value]="ages">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Grupo Etario</mat-label>
+                    <mat-select formControlName="etario">
+                      <mat-option *ngFor="let idet of group" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Ciudadanía?</mat-label>
+                    <mat-select formControlName="pais_nac" (ngModelChange)="onSelectionCountry($event)">
+                      <mat-option *ngFor="let idet of country" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4" *ngIf="birth">
+                  <mat-form-field class="example-full-width">
                     <mat-label>Departamento de Nacimiento</mat-label>
-                    <mat-select formControlName="dep_nac" (selectionChange)="onSelect($event.value)">
+                    <mat-select formControlName="dep_nac" (selectionChange)="onSelectBirth($event.value)">
                       <mat-option *ngFor="let idet of depart" [value]="idet.idState">
                         {{idet.name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4" *ngIf="birth">
                   <mat-form-field class="example-full-width">
                     <mat-label>Ciudad de Nacimiento</mat-label>
                     <mat-select formControlName="ciu_nac">
@@ -84,18 +113,33 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
+                <div class="col-sm-4" *ngIf="extra">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Ingrese País:</mat-label>
+                    <input matInput formControlName="pai_ext" type="text">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4" *ngIf="extra">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Ciudad:</mat-label>
+                    <input matInput formControlName="ciu_ext" type="text">
+                  </mat-form-field>
+                </div>
               </div>
               <div class="row">
-                
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Fecha de Nacimiento</mat-label>
-                    <input matInput formControlName="birthDate" value="birthDate" type="date">
+                    <mat-label>Area de Trabajo</mat-label>
+                    <mat-select formControlName="are_tra">
+                      <mat-option *ngFor="let idet of area" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Cargo a Solicitar++++++++:</mat-label >
+                    <mat-label>Cargo:</mat-label>
                     <mat-select formControlName="car_sol"  (ngModelChange)="onSelectionAttributes($event)">
                       <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
@@ -105,8 +149,8 @@
                 </div>
                 <div class="col-sm-4" *ngIf="matriz">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp" required >
+                    <mat-label>Tipo Matriz:</mat-label>
+                    <mat-select formControlName="matrizarp">
                       <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
                       </mat-option>
@@ -115,18 +159,16 @@
                 </div>
               </div>
               <div class="row">
-                <!-- <div class="col-sm-4">
+                <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Tipo Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp">
-                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
+                    <mat-label>Genero:</mat-label>
+                    <mat-select formControlName="idGender">
+                      <mat-option *ngFor="let idet of typeGender" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                </div> -->
-              </div>
-              <div class="row">
+                </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Eps:</mat-label>
@@ -139,7 +181,7 @@
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Pension:</mat-label>
+                    <mat-label>Pensión:</mat-label>
                     <mat-select formControlName="pension">
                       <mat-option *ngFor="let idet of pension" [value]="idet.ls_codvalue">
                         {{idet.description}}
@@ -147,13 +189,12 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                
               </div>
               <hr>
               <div class="row">
                 <div class="col-sm-12">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Obcervaciones/Opcional:</mat-label>
+                    <mat-label>Observaciones/Opcional:</mat-label>
                     <textarea matInput formControlName="obs_vac"></textarea>
                   </mat-form-field>
                 </div>
@@ -161,30 +202,20 @@
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
               </mat-action-row>
-          
             </mat-expansion-panel>
-             <!-- </div>
-          </div>
-          </div>
-          </form>  -->
           </form>
-           
         </mat-accordion>
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12">
           <button *ngIf="view == 'update'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
-
-          <!-- <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button> -->
-
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <div class="card mt-6">
   <div *ngIf="view == 'view'">
     <div class="card-header">
@@ -203,20 +234,18 @@
           <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Gestion de Vacante&nbsp; &nbsp;
+                Gestión de Vacante&nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
-                  Ingreso de Datos
+                Ingreso de Datos
               </mat-panel-description>
-                <mat-icon>account_circle</mat-icon>
-              </mat-expansion-panel-header>
-
+              <mat-icon>account_circle</mat-icon>
+            </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4">
-                <dt>Fecha de Seleccion</dt>
+                <dt>Fecha de Selección</dt>
                 <dd>{{techno.fec_sel}}</dd>
               </div>
-
               <div class="col-md-4">
                 <dt>Tipo de Documento</dt>
                 <dd>{{techno.docu}}</dd>
@@ -225,30 +254,53 @@
                 <dt>Numero Documento</dt>
                 <dd>{{techno.document}}</dd>
               </div>
-              
             </div>
             <div class="row mt-2">
+              
               <div class="col-md-4">
                 <dt>Nombre Completo</dt>
                 <dd>{{techno.nom_com}}</dd>
               </div>
-
               <div class="col-md-4">
                 <dt>Fecha Nacimiento</dt>
                 <dd>{{techno.birthDate}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Deapartamento Nacimiento</dt>
-                <dd>{{techno.department}}</dd>
+                <dt>Edad</dt>
+                <dd>{{techno.ages}}</dd>
               </div>
               
             </div>
             <div class="row mt-2">
               <div class="col-md-4">
+                <dt>Grupo Etario</dt>
+                <dd>{{techno.gru}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <dt>Nacionalidad</dt>
+                <dd>{{techno.nac}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/1'">
+                <dt>Deapartamento Nacimiento</dt>
+                <dd>{{techno.department}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/1'">
                 <dt>Ciudad Nacimiento</dt>
                 <dd>{{techno.city}}</dd>
               </div>
-
+              <div class="col-md-4" *ngIf="country == '71/2'">
+                <dt> País</dt>
+                <dd>{{techno.pai_ext}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/2'">
+                <dt>Ciudad </dt>
+                <dd>{{techno.ciu_ext}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Area de Trabajo</dt>
                 <dd>{{techno.tra}}</dd>
@@ -257,63 +309,62 @@
                 <dt>Cargo</dt>
                 <dd>{{techno.lab}}</dd>
               </div>
-              
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-4" *ngIf="typeCargo=='16/1'">
+              <div class="col-md-4" *ngIf="typeCargo =='16/1'">
                 <dt>Tipo Matriz</dt>
                 <dd>{{techno.mat}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Genero</dt>
+                <dd>{{techno.gen}}</dd>
               </div>
               <div class="col-md-4">
                 <dt>EPS</dt>
                 <dd>{{techno.salud}}</dd>
               </div>
-
               <div class="col-md-4">
-                <dt>Pension</dt>
+                <dt>Pensión</dt>
                 <dd>{{techno.pens}}</dd>
               </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-md-12">
-                  <dt>Obcervaciones</dt>
-                  <dd>{{techno.obs_vac}}</dd>
-                </div>
-              </div>
-             
-              
-            
-            </mat-expansion-panel>
-          </mat-accordion>
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  Histórico de Procesos:
-                </div>
-                <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
-                  <ng-container matColumnDef="currentm_user">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="type_move">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="date_move">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
-                  </ng-container>
-  
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-                </table>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <dt>Observaciones</dt>
+                <dd>{{techno.obs_vac}}</dd>
               </div>
             </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Histórico de Procesos:
+              </div>
+              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="currentm_user">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="type_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+            </div>
           </div>
-        </mat-dialog-content>
-      </div>
+        </div>
+      </mat-dialog-content>
+    </div>

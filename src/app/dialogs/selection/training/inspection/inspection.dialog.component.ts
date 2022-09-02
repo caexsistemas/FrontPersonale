@@ -49,7 +49,7 @@ export interface PeriodicElement {
 })
 
 export class InspectionDialog {
-  endpoint: string = "/requisition";
+  endpoint: string = "/vacant";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
@@ -59,6 +59,7 @@ export class InspectionDialog {
   formTraining: FormGroup;
   formVac: FormGroup;
   selection: any = [];
+  vacant: any = [];
   position: any = [];
   typeRequisition: any = [];
   idSel: number = null;
@@ -91,7 +92,16 @@ export class InspectionDialog {
   area: any= [];
   stateFormation: any = [];
   asist: any =[];
-  
+  idvac: number = null;
+  num:number = null;
+  nume:number = null;
+  element: any = [];
+  product: any = [];
+  asiste: any = [];
+  name: any = [];
+  totalHelp: any = [];
+  idUser: number = null;
+  nomi: boolean;
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -110,31 +120,57 @@ export class InspectionDialog {
   ) {
     this.view = this.data.window;
     this.idSel = null;
-    // this.rol = this.cuser.role;
+    this.idUser= this.cuser.iduser
 
+    // this.rol = this.cuser.role;
+    if( this.idUser == 255 || this.idUser == 62 ){
+      this.nomi = true;
+    }else{
+      this.nomi = false;
+    }
     switch (this.view) {
-      case "create":
+      
+      case "state":
+        this.idSel = this.data;
+        console.log('==>',this.data)
         this.initForms();
-        this.title = "Formador";
+        this.title = "Actualizar Formación";
       break;
       case "update":
-        // this.rol = this.cuser.role;
-        console.log('++',this.data);
-        this.idSel = this.data.codigo;
+        this.idvac = this.data.codigo;
+        this.name = this.data.name;
+        this.num = this.data.num;
+        console.log('user',this.idUser)
+       
+
+        if(this.num){
+         
+          for (let day = 1; day <= this.num; day++) {
+            this.element.push(day); 
+          }
+          console.log( this.element.length )
+        }
+
         this.initForms();
         this.title = "Seguimiento Formacion";
         break;
       case "training":
         // this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
-        console.log('dat=>',this.data);
-        console.log('idsel=>',this.idSel);
         this.initForms();
         this.title = "Ingresar Formador";
       break;
       case "view":
         this.idSel = this.data.codigo;
-        console.log('**',this.idSel);
+        this.name = this.data.name;
+        this.nume = this.data.num;
+        if(this.nume){
+         
+          for (let pre = 1; pre <= this.nume; pre++) {
+            this.element.push(pre); 
+          }
+          console.log( this.element.length )
+        }
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint+"/"+this.idSel, {
           // action: "getData",
@@ -145,7 +181,8 @@ export class InspectionDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data[0][0];
-              console.log('==>',this.selection.car_sol);
+              this.asiste = data.data[0][0];
+              this.vacant = data.data['getSelectData'][0];
               this.typeCargo = this.selection.car_sol
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -166,18 +203,7 @@ export class InspectionDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      car_sol: new FormControl(""),
-      num_vac: new FormControl(""),
-      salary: new FormControl(""),
-      tip_req: new FormControl(""),
-      matrizarp: new FormControl(""),
-      justification: new FormControl(""),
-      observations: new FormControl(""),
-      aprobacion1: new FormControl(""),
-      aprobacion2: new FormControl(""),
-      aprobacion3: new FormControl(""),
-      fec_req: new FormControl(""),
-      state: new FormControl(""),
+      est_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
     });
@@ -195,28 +221,14 @@ export class InspectionDialog {
       create_User: new FormControl(this.cuser.iduser),
     });
     this.formVac = new FormGroup({
-      // fec_sel:  new FormControl(""),
-      // tip_doc: new FormControl(""),
-      // document: new FormControl(""),
-      // nom_com: new FormControl(""),
-      // birthDate: new FormControl(""),
-      // ciu_nac: new FormControl(""),
-      // dep_nac: new FormControl(""),
-      // are_tra: new FormControl(""),
-      // car_sol: new FormControl(""),
-      // eps: new FormControl(""),
-      // pension: new FormControl(""),
-      // obs_vac: new FormControl(""),
+      birthDate: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
       con_fin: new FormControl(""),
-      // idGender: new FormControl(""),
-      // age: new FormControl(""),
-      // idsel: new FormControl(this.idTec)
     });
       this.formInsp = new FormGroup({
-        day1: new FormControl(false),
-        day2: new FormControl(false),
-        day3: new FormControl(false),
+        day1: new FormControl(""),
+        day2: new FormControl(""),
+        day3: new FormControl(""),
         day4: new FormControl(""),
         day5: new FormControl(""),
         day6: new FormControl(""),
@@ -241,6 +253,9 @@ export class InspectionDialog {
         obs: new FormControl(""),
         tot_asi: new FormControl(""),
         idsel: new FormControl(this.idSel),
+        idvac: new FormControl(this.idvac),
+        aux_tra: new FormControl(null),
+        aux_tot: new FormControl(""),
         create_User: new FormControl(this.cuser.iduser)
 
 
@@ -250,7 +265,7 @@ export class InspectionDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      idSel: this.data.codigo
+      idvac: this.data.codigo
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -271,13 +286,9 @@ export class InspectionDialog {
           this.area  = data.data["getArea"];
           this.stateFormation  = data.data["getFinal"];
           this.asist = data.data['getAsist'];
+          this.totalHelp = data.data['getHelp'];
 
-              // this.typeMatriz.slice(0, 2);
-        
-          // console.log('==>mt',this.typeMatriz)
-
-
-          if (this.view == "update") {
+         if (this.view == "update") {
             this.getDataUpdate();
           }
           this.loading.emit(false);
@@ -292,40 +303,13 @@ export class InspectionDialog {
       }
     );
   }
-  onSubmit() {
-    if (this.formInsp.valid) {
-      // this.loading.emit(true);
-      let body = {
-        listas: this.formInsp.value,
-      };
-      console.log('req=>',body);
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      this.loading.emit(false);
-    }
-  }
+  
   getDataUpdate() {
 
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getinspectionUp",
-      id: this.idSel,
+      id: this.idvac,
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -352,9 +336,9 @@ export class InspectionDialog {
         this.formInsp.get("cer12").setValue(data.data["getSelecUpdat"][0].cer12);
         this.formInsp.get("pro_gen").setValue(data.data["getSelecUpdat"][0].pro_gen);
         this.formInsp.get("idsel").setValue(data.data["getSelecUpdat"][0].idsel);
-        // this.cargo =data.data["getSelecUpdat"][0].car_sol
-      //  console.log('depp=>',data.data["getSelecUpdat"][0].dep_nac);
-      //  console.log('ciu=>',data.data["getSelecUpdat"][0].ciu_nac);
+        this.formInsp.get("tot_asi").setValue(data.data["getSelecUpdat"][0].tot_asi);
+        //vacant
+        this.formVac.get("con_fin").setValue(data.data[0][0].con_fin);
       },
       (error) => {
         this.handler.showError();
@@ -365,14 +349,12 @@ export class InspectionDialog {
   onSubmitUpdate(){
 
     let body = {
-        listas: this.formSelec.value, 
-        formacion:this.formTraining.value,
-        vacant: this.formVac.value,
-        seguimiento: this.formInsp.value   
+        listas: this.formVac.value, 
+        segui: this.formInsp.value   
     }
     if (this.formInsp.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{})
       .subscribe(
           data=>{
               if(data.success){
@@ -438,24 +420,13 @@ export class InspectionDialog {
   eva_ind_cal: number;
   val1: any;
   
-  onProme(e){
-    console.log('=>',e)
-    this.resultado = (this.formInsp.value.eva_ind_sst + this.formInsp.value.eva_ind_cal)
-    console.log("++",this.resultado)
-    // this.result = this.
-    // this.result = ((this.formInsp.controls['eva_ind_sst'].value) + (this.formInsp.controls['eva_ind_cal'].value))
-    // console.log("sum=>",this.result)
-  //  for(let pro in e){
-  //   console.log("sum=>",pro)
-  //  }
+  // onProme(e){
+  //   console.log('=>',e)
+  //   this.resultado = (this.formInsp.value.eva_ind_sst + this.formInsp.value.eva_ind_cal)
+  //   console.log("++",this.resultado)
+    
 
-    // for(let val of e){
-    //   console.log("valor=>",val)
-    //   this.result =+val
-    //   console.log("sum=>",this.result)
-    // }
-
-  }
+  // }
   onSumar():void {
    
     if(this.view == 'update'){
@@ -466,7 +437,44 @@ export class InspectionDialog {
       this.formInsp.value.pro_gen = this.resultado
     }
   }
-    
+  day = 0;
+  onTotalPresence(e){
+    if(e == '35/1'){
+      this.day = this.day +1
+    }else if(e == '35/2'){
+      this.day = this.day -1
+    }
+    return this.formInsp.value.tot_asi = this.day;
+    // console.log('nu',this.day)
+     
+  }
+  help = 0;
+  // totalHelp = 0;
+  totalAux = 0;
+  totalTra = 0
+  onTotalHelp(e){
+    console.log('aux',e)
+    if(e == '72/2'){
+      this.totalAux = 4800
+      console.log('day=>',this.day);     
+      this.totalTra = (this.day*this.totalAux);
+      console.log('tot=>',this.totalTra);
+    }
+    return this.formInsp.value.aux_tot = this.totalTra
+    //   this.totalTra = 0
+    // }
+    // this.help = 4800;
+    // this.totalHelp = (e*this.help);
+    // console.log('aux=>',this.totalHelp)
+
+  }
+  // reset() {
+  //   this.totalHelp=''; // Aquí igualas al value del ítem que quieras
+  // }
+  // onHelp(e){
+  //   console.log('tot',e)
+
+  // }
     
   }
   

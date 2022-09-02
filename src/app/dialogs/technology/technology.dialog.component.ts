@@ -139,7 +139,7 @@ export class TechnologyDialog {
               this.techno = data.data["getDataTechno"][0];
               this.acti = data.data['getSubActivo'];
               this.list = data.data['getSubActivo'];
-              // this.sub = this.techno.listSub;
+              this.sub = this.techno.listSub;
               // console.log('===>',this.techno)
               console.log(this.sub)
               this.generateTable(data.data["getDatHistory"]);

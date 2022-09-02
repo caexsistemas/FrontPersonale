@@ -125,9 +125,7 @@ export class PendingDialog  {
       case "update":
         this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
-        console.log('cuser=>',this.cuser);
-        console.log('idsel=>',this.idSel);
-        // console.log('iduser=>',this.idUser);
+       
         if( this.idUser == 63 ){
           this.retro = false;
         }else if(this.idUser == 44){
@@ -145,7 +143,11 @@ export class PendingDialog  {
       case "view":
         this.idSel = this.data.codigo;
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+          idUser: this.cuser.iduser,
+          token: this.cuser.token,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
@@ -212,7 +214,9 @@ export class PendingDialog  {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
         idUser: this.cuser.iduser,
-        idSel: this.data.codigo
+        idSel: this.data.codigo,
+        token: this.cuser.token,
+        modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -246,7 +250,11 @@ export class PendingDialog  {
       let body = {
         listas: this.formSelec.value,
       };
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);
@@ -271,8 +279,10 @@ export class PendingDialog  {
 
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamUpdateSet",
+        action: "getParamUpdateSet",
         idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component,
         id: this.idSel
     }).subscribe(
       (data) => {
@@ -288,7 +298,6 @@ export class PendingDialog  {
         this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
         this.requ = data.data["getSelecUpdat"][0].tip_req;
         this.pop = this.cuser.iduser
-        console.log('rrr', this.requ);
       },
       (error) => {
         this.handler.showError();
@@ -298,7 +307,6 @@ export class PendingDialog  {
   }
   openDialog(e) {
         if( e == '65/1'){
-          console.log('id',e);
             this.dialog.open(ApprovalDialog);
           }else if(e == '65/2'){
             this.dialog.open(DeclineDialog);
@@ -306,7 +314,6 @@ export class PendingDialog  {
   }
   openDialog2(e){
       if( e == '65/1'){
-        console.log('id',e);
           this.dialog.open(ApprovalDialog);
         }else if(e == '65/2'){
           this.dialog.open(DeclineDialog);
@@ -314,7 +321,6 @@ export class PendingDialog  {
   }
   openDialog3(e){
     if( e == '65/1'){
-      console.log('id',e);
         this.dialog.open(ApprovalDialog);
       }else if(e == '65/2'){
         this.dialog.open(DeclineDialog);
@@ -322,7 +328,6 @@ export class PendingDialog  {
 }
   
   onSubmitUpdate(){
-    console.log(this.formSelec.value)
     if(this.formSelec.value['aprobacion1'] == '65/1' && this.formSelec.value['aprobacion2'] == '65/1' && this.formSelec.value['aprobacion3'] == '65/1'){
       this.formSelec.value['state'] = '65/1';
     }else if(this.formSelec.value['aprobacion1'] == '65/2' && this.formSelec.value['aprobacion2'] == '65/2' && this.formSelec.value['aprobacion3'] == '65/2'){
@@ -351,7 +356,11 @@ export class PendingDialog  {
   
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
+        idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){
@@ -396,7 +405,6 @@ export class PendingDialog  {
     this.step--;
   }
 rechazar(idet){
-  console.log('==>',idet)
   if( this.view == 'update' && this.cuser.role == 63 && idet == '30/3' ){
     this.formSelec.get('aprobacion1').setValue('30/3'); 
   }else if( this.view == 'update' && this.cuser.role == 63 && idet == '30/3'  ){
@@ -406,7 +414,6 @@ rechazar(idet){
   }
 }
 onSelectionAttributes(idet){
-  console.log('cargo=>',idet)
   if(idet =='16/1'){
     this.matriz = true
   }else{

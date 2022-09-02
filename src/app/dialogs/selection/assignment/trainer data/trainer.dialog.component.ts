@@ -30,6 +30,7 @@ import { Observable } from "rxjs";
 import { NovedadesnominaServices } from "../../../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../../../services/web-api.service";
+import * as moment from "moment";
 interface Food {
   value: string;
   viewValue: string;
@@ -108,21 +109,27 @@ export class TrainerDataDialog {
       case "update":
         this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
+        this.matriz = this.data.tipoMat
         this.initForms();
-        this.title = "Asignacion de Formador";
+        this.title = "Asignación de Formador";
         break;
       case "training":
         // this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
         console.log('dat=>',this.data);
         console.log('idsel=>',this.idSel);
+        console.log('num=>',this.data);
         this.initForms();
         this.title = "Ingresar Formador";
       break;
       case "view":
         this.idSel = this.data.codigo;
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
@@ -147,16 +154,17 @@ export class TrainerDataDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      car_sol: new FormControl(""),
-      num_vac: new FormControl(""),
-      salary: new FormControl(""),
-      tip_req: new FormControl(""),
-      matrizarp: new FormControl(""),
-      justification: new FormControl(""),
-      observations: new FormControl(""),
-      aprobacion1: new FormControl(""),
-      aprobacion2: new FormControl(""),
-      aprobacion3: new FormControl(""),
+      // car_sol: new FormControl(""),
+      // num_vac: new FormControl(""),
+      // salary: new FormControl(""),
+      // tip_req: new FormControl(""),
+      // matrizarp: new FormControl(""),
+      // justification: new FormControl(""),
+      // observations: new FormControl(""),
+      // aprobacion1: new FormControl(""),
+      // aprobacion2: new FormControl(""),
+      // aprobacion3: new FormControl(""),
+      day_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
     });this.formVac = new FormGroup({
@@ -189,6 +197,7 @@ export class TrainerDataDialog {
       fec_fin: new FormControl(""),
       est: new FormControl(""),
       idsel: new FormControl(""),
+      day_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
 
@@ -203,7 +212,9 @@ export class TrainerDataDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      idSel: this.data.codigo
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -213,8 +224,10 @@ export class TrainerDataDialog {
           this.typeRequisition = data.data["getRequisition"];
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
           this.PersonaleInfo = data.data['getDataPersonale'];
-          this.trainingType = data.data['getTraining'];
           this.methodology = data.data['getMethod'];
+
+          if(this.matriz)
+          this.trainingType = data.data['getTraining'];
 
               // this.typeMatriz.slice(0, 2);
         
@@ -244,7 +257,11 @@ export class TrainerDataDialog {
         formacion: this.formTraining.value
       };
       console.log('req=>',body);
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);
@@ -270,7 +287,10 @@ export class TrainerDataDialog {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getTrainUpdateSet",
-      id: this.idSel
+      id: this.idSel,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -286,7 +306,7 @@ export class TrainerDataDialog {
         // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
         // this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
         // this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        // this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        // this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);day_for
 
         this.formTraining.get("document").setValue(data.data["getSelecUpdat"][0].document);
         this.formTraining.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
@@ -297,6 +317,7 @@ export class TrainerDataDialog {
         this.formTraining.get("fec_ini").setValue(data.data["getSelecUpdat"][0].fec_ini);
         this.formTraining.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formTraining.get("est").setValue(data.data["getSelecUpdat"][0].est);
+        this.formTraining.get("day_for").setValue(data.data["getSelecUpdat"][0].day_for);
 
       },
       (error) => {
@@ -315,7 +336,11 @@ export class TrainerDataDialog {
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){
@@ -376,5 +401,66 @@ export class TrainerDataDialog {
         this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
     }        
   }
+  days = 0;
+  
+  calculateDays(e){
+    console.log("day=>",e)
+    // if(e){
+    // var ini = moment(this.formTraining.value.fec_ini);
+    // let fin = moment(this.formTraining.value.fec_fin);
+  
+    // // }
+    // for (let days = 0;(ini.isAfter(fin)); days++) {
+    //   // const element = array[index];
+    //   if(ini.isoWeekday() !== 6 && ini.isoWeekday() !== 7) {
+    //     days++;
+    //   }
+    //   ini.add(1, 'days');
+    // }
+    // console.log(this.days);
+
+    // return this.days;
+      
+    // }
+    //  while (ini.isAfter(fin)) {
+    //   if(ini.isoWeekday() == 6 && ini.isoWeekday() == 0) {
+    //     this.days = this.days + 1;
+    //   }
+    //   ini.add(1, 'days');
+    // }
+    // console.log(this.days);
+
+    // return this.days;
+    //  } 
+      // Si no es sabado ni domingo
+     
+    // var days = workingDays('05/03/2018', '13/03/2018');
+    
+    let ini = moment(this.formTraining.value.fec_ini);
+    let fin = moment(this.formTraining.value.fec_fin);
+    let diff = fin.diff(ini,'d');
+      console.log(diff);
+      
+    
+
+      
+  
+    
+   
+    // let ini = moment(e);
+    // let fin = moment(e);
+    // let diff = fin.diff(ini, 'days');
+    // console.log(diff);
+  }
 }
+  
+  
+  
+   
+
+  
+
+
+
+
 

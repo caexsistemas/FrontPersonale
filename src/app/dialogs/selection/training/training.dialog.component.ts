@@ -29,6 +29,7 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { emit } from "process";
 import { EntryDialog } from "../vacant/entry/entry.dialog.component";
 import { InspectionDialog } from "./inspection/inspection.dialog.component";
+// import { StateDialog } from "./inspection/formation/formation.dialog.component";
 
 
 @Component({
@@ -41,7 +42,7 @@ export class TrainingDialog {
 
   endpoint:      string = '/training';
   // component      = "/selection/vacant";
-  component      = "/selection/assignment";
+  component      = "/selection/training";
   maskDNI        = global.maskDNI;
   view:          string = null;
   title:         string = null;
@@ -52,6 +53,7 @@ export class TrainingDialog {
   displayedColumns: any = [];
   listipomatriz:     any = []; 
   formProces:    FormGroup;
+  formSelec: FormGroup;
   contaClick:    number = 0;
   fechaInicio:   string = "";
   fechaFin:      string = "";
@@ -75,6 +77,7 @@ export class TrainingDialog {
   showAge;
   cargo: any = [];
   matriz: any = [];
+  num:number = null;
   // historyMon: any = [];
   // loading: boolean = false;
 
@@ -104,32 +107,18 @@ export class TrainingDialog {
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
-           console.log('idvac=>',this.idSel);
-           console.log('car_sol=>',this.data.id);
-           console.log('mt=>',this.data.matriz);
-          //  console.log('data=>',this.data.data);
-           
-        //  let date = new Date();
-          //  this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0');
+           this.num = this.data.num
           this.initForms();
-          this.title = "Requisicion";
-         
-          //  this.fechaInicio = this.dateStrinMoni+'-01';
-          //  this.fechaFin = this.dateStrinMoni+'-'+String(date.getDate()).padStart(2, '0');
-          //  this.sendRequest(this.fechaInicio, this.fechaFin);
-          //  this.formProces.get('fecini').setValue(this.fechaInicio);
-          //  this.formProces.get('fecfin').setValue(this.fechaFin);
-          //  this.title = "PONDERADO";           
+          this.title = "Requisicion"; 
        break;
        case "create":
         this.initForms();
         this.title = "Nu";
-        console.log('++',this.data)
       break;
        case "update":
         this.idSel = this.data.codigo;
         this.initForms();
-        this.title = "Actualizar Datos";
+        this.title = "Actualizar Formación";
         break;
        case 'view':
         this.idSel = this.data.codigo;
@@ -165,111 +154,107 @@ export class TrainingDialog {
   
    //---------------------------------------------------------------------------------------------
    ngOnInit(): void {
-    this.creatForm();
+    this.getDataInit();
+    // this.formSelec = new FormGroup({
+    //   est_for: new FormControl(""),
+    //   create_User: new FormControl("")
+    // });
   }
 
-  creatForm(){
+  // creatForm(){
 
-    this.form = this.fb.group(
-      {
+  //   this.form = this.fb.group(
+  //     {
         
-        contacts: this.fb.array([this.contactFrom()])
-      }
-    );
+  //       contacts: this.fb.array([this.contactFrom()])
+  //     }
+  //   );
 
-  }
+  // }
   
-  get contacts(){
-    return this.form.get("contacts") as FormArray;
-    }
+  // get contacts(){
+  //   return this.form.get("contacts") as FormArray;
+  //   }
 
-  contactFrom(){
-    return this.fb.group(
-      {
-        fec_sel:  new FormControl(""),
-        tip_doc: new FormControl(""),
-        document: new FormControl(""),
-        nom_com: new FormControl(""),
-        birthDate: new FormControl(""),
-        ciu_nac: new FormControl(""),
-        dep_nac: new FormControl(""),
-        are_tra: new FormControl(""),
-        // car_sol: new FormControl(""),
-        car_sol: new FormControl(this.cargo),
-        eps: new FormControl(""),
-        pension: new FormControl(""),
-        obs_vac: new FormControl(""),
-        create_User: new FormControl(this.cuser.iduser),
-        idsel: new FormControl(this.idSel),
-        matrizarp: new FormControl(this.matriz),
-        idGender: new FormControl(""),
-        ages: new FormControl(""),
-    }
-    );
-  }
-  addNewContacts(){
-    this.contacts.push(this.contactFrom());
-  }
+  // contactFrom(){
+  //   return this.fb.group(
+  //     {
+  //       fec_sel:  new FormControl(""),
+  //       tip_doc: new FormControl(""),
+  //       document: new FormControl(""),
+  //       nom_com: new FormControl(""),
+  //       birthDate: new FormControl(""),
+  //       ciu_nac: new FormControl(""),
+  //       dep_nac: new FormControl(""),
+  //       are_tra: new FormControl(""),
+  //       // car_sol: new FormControl(""),
+  //       car_sol: new FormControl(this.cargo),
+  //       eps: new FormControl(""),
+  //       pension: new FormControl(""),
+  //       obs_vac: new FormControl(""),
+  //       create_User: new FormControl(this.cuser.iduser),
+  //       idsel: new FormControl(this.idSel),
+  //       matrizarp: new FormControl(this.matriz),
+  //       idGender: new FormControl(""),
+  //       ages: new FormControl(""),
+  //   }
+  //   );
+  // }
+  // addNewContacts(){
+  //   this.contacts.push(this.contactFrom());
+  // }
 
-  removeContact(i:Required<number>){
-    this.contacts.removeAt(i);
-  }
+  // removeContact(i:Required<number>){
+  //   this.contacts.removeAt(i);
+  // }
 
-  onSubmit() {
-    // this.form.value['contacts'][0].ages = this.showAge ;
-console.log('==>',this.form.value['ages'] = this.showAge)
-console.log( 'EDAD'+  this.showAge ); 
-
-
-
-
+  // onSubmit() {
     
-    if (this.form.valid) {
-      // this.loading.emit(true);
-      // this.loading = true;
-      // if( this.view == 'repor1vmrq' && this.form.value['ages'] ){
-      //   // this.formSelec.get('aprobacion1').setValue('30/3'); 
-      //   this.form.value['ages'] =  this.showAge; 
-      // }
-      let body = {
-        listas: this.form.value['contacts'],
-      };
-      console.log('body=>',body);
+  //   if (this.form.valid) {
+  //     // this.loading.emit(true);
+  //     // this.loading = true;
+  //     let body = {
+  //       listas: this.form.value['contacts'],
+  //     };
+  //     console.log('body=>',body);
          
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            // this.loading.emit(false);
-            // this.loading = false;
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          // this.loading.emit(false);
-          // this.loading = false;
-        }
+  //     this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+  //       (data) => {
+  //         if (data.success) {
+  //           this.handler.showSuccess(data.message);
+  //           this.reload.emit();
+  //           this.closeDialog();
+  //         } else {
+  //           this.handler.handlerError(data);
+  //           // this.loading.emit(false);
+  //           // this.loading = false;
+  //         }
+  //       },
+  //       (error) => {
+  //         this.handler.showError();
+  //         // this.loading.emit(false);
+  //         // this.loading = false;
+  //       }
       
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      // this.loading.emit(false);
-      // this.loading = false;
-    // }
-  }
-  }
+  //     );
+  //   } else {
+  //     this.handler.showError("Complete la informacion necesaria");
+  //     // this.loading.emit(false);
+  //     // this.loading = false;
+  //   // }
+  // }
+  // }
   // closeDialog() {
   //   // this.dialogRef.close();
   // }
   
 //------------------------------------------------------------------------------------------------------------
    initForms(){
-
-    this.getDataInit();
+    // this.getDataInit();
+    // this.formSelec = new FormGroup({
+    //   est_for: new FormControl(""),
+    //   create_User: new FormControl("")
+    // });
     this.sendRequest();
     // this.formProces = new FormGroup({
     //   fecini: new FormControl(""), 
@@ -277,6 +262,43 @@ console.log( 'EDAD'+  this.showAge );
     //   tipmatriz: new FormControl("")
     // });
    }
+   onSubmitUpdate(){
+
+    let body = {
+      listas: this.formSelec.value,
+      // segui: this.formInsp.value,
+      // seguimiento: this.formInsp.value
+        //  id: this.idSel
+    }
+    if (this.formSelec.valid) {
+      this.loading.emit(true);
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
+      .subscribe(
+          data=>{
+              if(data.success){
+                  this.handler.showSuccess(data.message);
+                  this.reload.emit();
+                  this.closeDialog();
+              }else{
+                  this.handler.handlerError(data);
+                  this.loading.emit(false);
+              }
+          },
+          error=>{
+            console.log(error);
+              this.handler.showError(error);
+              this.loading.emit(false);
+          }
+      );
+    }else {
+      this.handler.showError('Complete la informacion necesaria');
+      this.loading.emit(false);
+    }
+  }
 
  sendRequest() {
 
@@ -295,8 +317,7 @@ console.log( 'EDAD'+  this.showAge );
 
          this.permissions = this.handler.getPermissions(this.component);
          if (data.success == true) {
-          // this.numVac = data.data["getId"][0];
-          console.log('numVac=>',this.numVac);
+          
            this.generateTable(data.data["getSelectData"]);
            this.contenTable = data.data["getSelectData"];
           //  this.loading.emit(false);
@@ -326,7 +347,6 @@ console.log( 'EDAD'+  this.showAge );
       "nom_com",
       "car_sol",
       "matrizarp",
-      "pro_gen",
       "con_fin",
       "actions"
       
@@ -376,10 +396,6 @@ console.log( 'EDAD'+  this.showAge );
               this.area            = data.data["getArea"];
               this.typeMatriz      = data.data["getMatriz"];
               this.typeGender      = data.data["getGender"];
-
-              // this.numVac = data.data["getId"];
-              // console.log('numVac=>',this.numVac);
-
               this.loading.emit(false);
               // this.loading = false
             } else {
@@ -414,29 +430,29 @@ console.log( 'EDAD'+  this.showAge );
       // this.loading.emit(false);
   }
 
-  option(action,codigo=null, id){
+  option(action,codigo=null,name, id){
     var dialogRef;
     switch(action){
-      case 'create':
-        // this.loading = true;
-        dialogRef = this.dialog.open(EntryDialog,{
-          data: {
-            window: 'create',
-            codigo,
-            id:id
-            // tipoMat: tipoMat
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
-        });
-      break;
+      // case 'state':
+      //   // this.loading = true;
+      //   dialogRef = this.dialog.open("",{
+      //     data: {
+      //       window: 'state',
+      //       codigo,
+      //       id:id
+      //       // tipoMat: tipoMat
+      //     }
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe(val=>{
+      //     this.loading = val;
+      //   });
+      //   // RELOAD
+      //   dialogRef.componentInstance.reload.subscribe(val=>{
+      //     this.sendRequest();
+      //   });
+      // break;
       case 'update':
         // this.loading = true;
         // this.loading.emit(true);
@@ -444,7 +460,10 @@ console.log( 'EDAD'+  this.showAge );
           data: {
             window: 'update',
             codigo,
-            id:id
+            name,
+            id:id,
+            num:this.num,
+            
             // tipoMat: tipoMat
 
           }
@@ -467,7 +486,9 @@ console.log( 'EDAD'+  this.showAge );
           data: {
             window: 'view',
             codigo,
-            id:id
+            name,
+            id:id,
+            num:this.num
           }
         });
         dialogRef.disableClose = true;
@@ -515,13 +536,7 @@ ageCalculator(){
 // console.log('==>',this.form.value['age']);
 // }
 }
-// public fecha;
-// let date: Date = new Date();
-// let dia=date.getDay();
-// let mes=getMonth();
-// let anio=date.getFullYear();
 
-// console.log(dia+'/'+mes+'/'anio);
 
 }
 

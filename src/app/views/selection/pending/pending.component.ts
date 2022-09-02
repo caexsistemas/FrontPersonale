@@ -65,6 +65,8 @@ export class PendingComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getPending",
       idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale
@@ -95,16 +97,11 @@ export class PendingComponent implements OnInit {
     this.displayedColumns = [
       "view",
       "idsel",
-      "fec_req",
-     
+      "fec_req", 
       "car_sol",
       "matrizarp",
       "tip_req",
-      // "salary",
-      // "num_vac",
       "state",
-      // "swi_mod",
-      // "ser_mod",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);

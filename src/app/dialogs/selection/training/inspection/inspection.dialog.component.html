@@ -2,14 +2,13 @@
   <div *ngIf="view == 'update'">
     <div class="card-header">
       <h5 class="modal-title button_header">
-        <p class="title-modal" *ngIf="view == 'update'">{{title}} </p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}} {{name}}</p>
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
           style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
           <span aria-hidden="true">&times;</span>
         </button>
       </h5>
     </div>
-
     <div class="card-body">
       <mat-dialog-content>
         <mat-accordion class="example-headers-align">
@@ -166,143 +165,34 @@
                 <mat-icon>check_circle</mat-icon>
               </mat-expansion-panel-header>
               <hr>
-              <div class="row">
+              <div class="row" *ngFor="let dia of element">
                 <div class="col-md-6">
-                  <p>Dia 1</p>
+                  <p>Dia {{ dia }}</p>
                 </div>
                 <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day1" value="day1" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
+                  <!-- <hr> -->
+                  <mat-radio-group aria-label="Select an option" formControlName="day{{dia}}" value="day{{dia}}"
+                    [color]="'primary'" (ngModelChange)="onTotalPresence($event)" [disabled]="nomi">
+                    <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <hr>
                 </div>
+                <!-- <hr *ngFor="let dia of element"> -->
               </div>
               <hr>
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 2</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day2" value="day2" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 3</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day3" value="day3" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 4</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day4" value="day4" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 5</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day5" value="day5" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 6</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day6" value="day6" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 7</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day7" value="day7" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 8</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day8" value="day8" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 9</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day9" value="day9" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
               <hr>
               <div class="row">
-                <div class="col-md-6">
-                  <p>Dia 10</p>
-                </div>
-                <div class="col-md-6">
-                    <mat-radio-group aria-label="Select an option" formControlName="day10" value="day10" [color]="'primary'">
-                      <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-              </div>
-              <hr>
-              <div class="row">       
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Total</mat-label>
-                    <input matInput formControlName="tot_asi" type="number" >                  
-                  </mat-form-field>               
+                    <mat-label>Total Asistencias</mat-label>
+                    <input matInput formControlName="tot_asi" [value]="day" type="number"  [readonly]="true">
+                  </mat-form-field>
                 </div>
               </div>
               <hr>
-
+             
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
@@ -311,7 +201,47 @@
             <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Evaluacion/Certificacion &nbsp; &nbsp;
+                  Auxilio Transporte &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  
+                </mat-panel-description>
+                <mat-icon>monetization_on</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Auxilio de Transporte:</mat-label>
+                    <mat-select formControlName="aux_tra" type="number" (ngModelChange)="onTotalHelp($event)">
+                      <mat-option *ngIf="idet">None</mat-option>
+                      <mat-option *ngFor="let idet of totalHelp" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Dias</mat-label>
+                    <input matInput formControlName="tot_asi" [value]="day" type="number" >
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Total </mat-label>
+                    <input matInput formControlName="aux_tot" [value]="totalTra"type="number" [readonly]="true">
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()" *ngIf="idUser != '255'">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="nomi">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Evaluación/Certificación &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
 
@@ -321,19 +251,19 @@
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Evaluacion Induccion SST</mat-label>
+                    <mat-label>Evaluación Inducción SST</mat-label>
                     <input matInput formControlName="eva_ind_sst" value="eva_ind_sst" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Evaluacion Induccion CALIDAD</mat-label>
+                    <mat-label>Evaluación Inducción CALIDAD</mat-label>
                     <input matInput formControlName="eva_ind_cal" value="eva_ind_cal" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Producto Telemercadeo Hogar</mat-label>
+                    <mat-label>Certificación Producto Telemercadeo Hogar</mat-label>
                     <input matInput formControlName="cer_pro_tel_hog" value="cer_pro_tel_hog" type="number">
                   </mat-form-field>
                 </div>
@@ -341,19 +271,19 @@
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Producto Movil </mat-label>
+                    <mat-label>Certificación Producto Movil </mat-label>
                     <input matInput formControlName="cer_pro_mov" value="cer_pro_mov" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Sistemas de Información y Politicas</mat-label>
+                    <mat-label>Certificación Sistemas de Información y Políticas</mat-label>
                     <input matInput formControlName="cer_sis_inf_pol" value="cer_sis_inf_pol" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion TYT</mat-label>
+                    <mat-label>Certificación TYT</mat-label>
                     <input matInput formControlName="cer_tyt" value="cer_tyt" type="number">
                   </mat-form-field>
                 </div>
@@ -361,19 +291,19 @@
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Interna 1</mat-label>
+                    <mat-label>Certificación Interna 1</mat-label>
                     <input matInput formControlName="cer_in1" value="cer_in1" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Interna 2</mat-label>
+                    <mat-label>Certificación Interna 2</mat-label>
                     <input matInput formControlName="cer_in2" value="cer_in2" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Interna 3</mat-label>
+                    <mat-label>Certificación Interna 3</mat-label>
                     <input matInput formControlName="cer_in3" value="cer_in3" type="number">
                   </mat-form-field>
                 </div>
@@ -381,35 +311,35 @@
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Interna 11</mat-label>
+                    <mat-label>Certificación Interna 11</mat-label>
                     <input matInput formControlName="cer11" value="cer11" type="number">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Certificacion Interna 12</mat-label>
+                    <mat-label>Certificación Interna 12</mat-label>
                     <input matInput formControlName="cer12" value="cer12" type="number">
                   </mat-form-field>
                 </div>
 
               </div>
-              <div class="row">       
+              <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Pro</mat-label>
-                    <input matInput formControlName="pro_gen" type="number" [value]="resultado">                  
-                  </mat-form-field>               
+                    <input matInput formControlName="pro_gen" type="number" [value]="resultado">
+                  </mat-form-field>
                 </div>
-                
+
               </div>
               <div mat-dialog-actions>
                 <div class="text-center col-12">
-              <button *ngIf="view == 'update'" type="submit"  mat-button class="btn btn-primary" (click)="onSumar()">
-                Promedio
-              </button>
-            </div>
-          </div>
-             
+                  <button *ngIf="view == 'update'" type="submit" mat-button class="btn btn-primary" (click)="onSumar()">
+                    Promedio
+                  </button>
+                </div>
+              </div>
+
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -417,7 +347,7 @@
             </mat-expansion-panel>
           </form>
 
-          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle [disabled]="nomi">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Concepto Final &nbsp; &nbsp;
@@ -436,22 +366,22 @@
                       {{idet.description}}
                     </mat-option>
                   </mat-select>
-                </mat-form-field>              
+                </mat-form-field>
               </div>
-             
+
             </form>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-              <button mat-button class="btn btn-dark" (click)="nextStep()">Fin</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
             </mat-action-row>
-            </mat-expansion-panel>
+          </mat-expansion-panel>
 
         </mat-accordion>
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12">
-         
-        <!-- <p>Resultado {{ resultado }}</p> -->
+
+          <!-- <p>Resultado {{ resultado }}</p> -->
           <button *ngIf="view == 'update'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Guardar</button>
 
@@ -468,7 +398,7 @@
   <div *ngIf="view == 'view'">
     <div class="card-header">
       <h5 class="modal-title">
-        <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
+        <p class="title-modal" *ngIf="view == 'view'">Información Detallada {{name}}</p>
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
           style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
           <span aria-hidden="true">&times;</span>
@@ -485,17 +415,21 @@
                 Asistencias&nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
-                Ingreso de Datos
+                Dias de Asistencias
               </mat-panel-description>
               <mat-icon>check_circle</mat-icon>
             </mat-expansion-panel-header>
 
+            <!-- <div class="row mt-2"  *ngFor="let dias of element">
+              <div class="col">
+                <dt>Dia {{dias}}</dt>
+                <dd>{{selection.d1}}</dd>
+              </div> -->
             <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Dia 1</dt>
                 <dd>{{selection.d1}}</dd>
               </div>
-
               <div class="col-md-4">
                 <dt>Dia 2</dt>
                 <dd>{{selection.d2}}</dd>
@@ -530,7 +464,7 @@
 
               <div class="col-md-4">
                 <dt>Dia 8</dt>
-                <dd>{{selection.day8}}</dd>
+                <dd>{{selection.d8}}</dd>
               </div>
               <div class="col-md-4">
                 <dt>Dia 9</dt>
@@ -542,15 +476,24 @@
               <div class="col-md-4">
                 <dt>Dia 10</dt>
                 <dd>{{selection.d10}}</dd>
-              </div>   
+              </div>
+              <div class="col-md-4">
+                <dt>Total Asistencias</dt>
+                <dd>{{selection.tot_asi}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Total Auxilio Transporte</dt>
+                <dd>{{selection.aux_tot}}</dd>
+              </div>
             </div>
-           
-
+            <mat-action-row>
+              <button mat-button class="btn btn-dark" (click)="nextStep()" *ngIf="idUser != '255'">Next</button>
+            </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle [disabled]="nomi">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Evaluacio/Certificacion &nbsp; &nbsp;
+                Evaluación/Certificación &nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
 
@@ -559,22 +502,22 @@
             </mat-expansion-panel-header>
             <div class="row">
               <div class="col-md-4">
-                <dt>Evaluación  Inducción SST</dt>
+                <dt>Evaluación Inducción SST</dt>
                 <dd>{{selection.eva_ind_sst}}</dd>
               </div>
 
               <div class="col-md-4">
-                <dt>Evaluación  Inducción Calidad</dt>
+                <dt>Evaluación Inducción Calidad</dt>
                 <dd>{{selection.eva_ind_cal}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Certificación  Producto Telemercadeo Hogar</dt>
+                <dt>Certificación Producto Telemercadeo Hogar</dt>
                 <dd>{{selection.cer_pro_tel_hog}}</dd>
               </div>
             </div>
             <div class="row">
               <div class="col-md-4">
-                <dt>Certificación  Producto Movil</dt>
+                <dt>Certificación Producto Movil</dt>
                 <dd>{{selection.cer_pro_mov}}</dd>
               </div>
               <div class="col-md-4">
@@ -610,64 +553,50 @@
                 <dd>{{selection.cer12}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Promedio General</dt>
-                <dd>{{selection.pro_gen}}</dd>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
                 <dt>Promedio Certificación</dt>
                 <dd>{{selection.pro_cer}}</dd>
               </div>
+            </div>
+            <div class="row">
               <div class="col-md-4">
                 <dt>Certificado</dt>
                 <dd>{{selection.cer}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Obcervaciones</dt>
+                <dt>Observaciones</dt>
                 <dd>{{selection.obs}}</dd>
               </div>
-            </div>
-            <div class="row">
               <div class="col-md-4">
-                <dt>Total Asistencias</dt>
-                <dd>{{selection.tot_asi}}</dd>
+                <dt>Promedio General</dt>
+                <dd>{{selection.pro_gen}}</dd>
               </div>
             </div>
-
-
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-
-          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="nomi">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Concepto Final &nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
-
               </mat-panel-description>
               <mat-icon>thumbs_up_down</mat-icon>
             </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-md-4">
-                  <dt>Concepto Final</dt>
-                  <dd>{{selection.con_fin}}</dd>
-                </div>
+            <div class="row">
+              <div class="col-md-4">
+                <dt>Concepto Final</dt>
+                <dd>{{vacant.fin}}</dd>
               </div>
-             
+            </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-              <button mat-button class="btn btn-dark" (click)="nextStep()">Fin</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
             </mat-action-row>
-            </mat-expansion-panel>
-
+          </mat-expansion-panel>
         </mat-accordion>
-        <!-- </mat-dialog-content> -->
-        <!-- </mat-accordion> -->
         <div class="row mt-3">
           <div class="col-md-12">
             <div class="card">
@@ -699,3 +628,7 @@
         </div>
       </mat-dialog-content>
     </div>
+  </div>
+</div>
+
+

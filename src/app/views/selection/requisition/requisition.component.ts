@@ -80,7 +80,6 @@ export class RequisitionComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          console.log( '===>',this.contenTable)
           this.loading = false;
         } else {
           this.handler.handlerError(data);

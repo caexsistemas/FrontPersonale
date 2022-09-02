@@ -32,11 +32,7 @@ interface Food {
   value: string;
   viewValue: string;
 }
-// export interface CityI{
-//   idCity: number;
-//   name: string;
-//   idState: number;
-// }
+
 export interface PeriodicElement {
   currentm_user: string;
   date_move: string;
@@ -56,7 +52,7 @@ export class EntryDialog {
   permissions: any = null;
   formNomi: FormGroup;
   form:FormGroup;
-
+  formInsp:FormGroup;
   component = "/selection/vacant";
   dataSource: any = [];
   archivo = {
@@ -86,8 +82,14 @@ export class EntryDialog {
   displayedColumns: any = [];
   checked = false;
   disabled = false;
-  matriz: any = [];
+  matriz: boolean = false;
+  country: any = [];
   typeCargo: any = [];
+  birth: boolean = false;
+  extra: boolean = false;
+  ages: any = [];
+  typeGender: any [];
+  group: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   // public citieswork: CityI[];
@@ -129,8 +131,8 @@ export class EntryDialog {
           (data) => {
             if (data.success == true) {
               this.techno = data.data["getSelectData"][0];
+              this.country = this.techno.pais_nac
               this.typeCargo = this.techno.car_sol
-
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -155,19 +157,24 @@ export class EntryDialog {
       document: new FormControl(""),
       nom_com: new FormControl(""),
       birthDate: new FormControl(""),
+      pais_nac: new FormControl(""),
       ciu_nac: new FormControl(""),
       dep_nac: new FormControl(""),
       are_tra: new FormControl(""),
-      car_sol: new FormControl(""),
+      car_sol: new FormControl(this.cargo),
       eps: new FormControl(""),
       pension: new FormControl(""),
       obs_vac: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
-      matrizarp: new FormControl(""),
+      matrizarp: new FormControl(this.matriz),
       idGender: new FormControl(""),
-      age: new FormControl(""),
-      // idsel: new FormControl(this.idTec)
-
+      ages: new FormControl(""),
+      etario: new FormControl(""),
+      pai_ext: new FormControl(""),
+      ciu_ext: new FormControl(""),
+    });
+     this.formInsp = new FormGroup({
+      create_User: new FormControl(this.cuser.iduser),
     });
   }
   getDataInit() {
@@ -189,7 +196,9 @@ export class EntryDialog {
           this.pension  = data.data["getPension"];
           this.area  = data.data["getArea"];
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
-          // this.typeMatriz      = data.data["getMatriz"];
+          this.typeGender      = data.data["getGender"];
+          this.group           = data.data['getGroupAge']
+          this.country         = data.data['getCountry']
 
           if (this.view == 'update') {
               this.getDataUpdate();
@@ -249,10 +258,7 @@ export class EntryDialog {
         this.form.get("nom_com").setValue(data.data["getSelecUpdat"][0].nom_com);
         this.form.get("birthDate").setValue(data.data["getSelecUpdat"][0].birthDate);
         this.form.get("dep_nac").setValue(data.data["getSelecUpdat"][0].dep_nac);
-       
         this.form.get("ciu_nac").setValue(data.data["getSelecUpdat"][0].ciu_nac);
-        // this.onSelectBirth(this.data.data.idState);
-
         this.form.get("are_tra").setValue(data.data["getSelecUpdat"][0].are_tra);
         this.form.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
         this.form.get("eps").setValue(data.data["getSelecUpdat"][0].eps);
@@ -260,10 +266,11 @@ export class EntryDialog {
         this.form.get("obs_vac").setValue(data.data["getSelecUpdat"][0].obs_vac);
         this.form.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
         this.form.get("idGender").setValue(data.data["getSelecUpdat"][0].idGender);
-        this.form.get("age").setValue(data.data["getSelecUpdat"][0].age);
-        this.cargo =data.data["getSelecUpdat"][0].car_sol
-       console.log('depp=>',data.data["getSelecUpdat"][0].dep_nac);
-       console.log('ciu=>',data.data["getSelecUpdat"][0].ciu_nac);
+        this.form.get("ages").setValue(data.data["getSelecUpdat"][0].ages);
+        this.form.get("etario").setValue(data.data["getSelecUpdat"][0].etario);
+        this.form.get("pai_ext").setValue(data.data["getSelecUpdat"][0].pai_ext);
+        this.form.get("ciu_ext").setValue(data.data["getSelecUpdat"][0].ciu_ext);
+        this.form.get("pais_nac").setValue(data.data["getSelecUpdat"][0].pais_nac);
       },
       (error) => {
         this.handler.showError();
@@ -274,8 +281,9 @@ export class EntryDialog {
   onSubmitUpdate(){
 
     let body = {
-        listas: this.form.value,  
-         id: this.idTec
+        listas: this.form.value, 
+        segui: this.formInsp.value,
+        //  id: this.idTec
     }
     if (this.form.valid) {
       this.loading.emit(true);
@@ -324,89 +332,12 @@ export class EntryDialog {
   }    
     }
 
-    // setTimeout(()=>{       
-    //     this.citieswork = this.citytBirth.filter(item => item.idState == idState);
-    //     //console.log(this.citieswork);
-    // },3);   
-
-    // this.loading.emit(false);
-
-//   onSelectBirth(idState:any):void{
-        
-//     this.loading.emit(true);
-//     console.log('state=>',idState)
-//             // this.citieswork = this.citytBirth.filter(item => item.idState == idState);
-//     // this.citieswork = this.citytBirth;
-//         // console.log(this.citieswork);
-//           setTimeout(()=>{       
-//             this.citieswork = this.citytBirth.filter(item => item.idState == idState);
-//             console.log(this.citieswork);
-//         },3);   
-        
-//       //   if( this.citieswork ){
-//       //     this.form.get('ciu_nac').setValue(this.citieswork.ciu_nac);       
-//       // }        
-    
-
-//     // this.loading.emit(false);
-// }
-
-  // onSelectionChange(idet) {
-  //   if (idet == "47/1") {
-  //     this.product = this.listSub.slice(0, 2);
-  //   }
-  //   else if (idet == "47/2") {
-  //     this.product = this.listSub.slice(2, 4);
-  //   }
-  //   else if (idet == "47/3") {
-  //     this.product = this.listSub.slice(4, 7);
-  //   }
-  //   else if (idet == "47/4") {
-  //     this.product = this.listSub.slice(7, 12);
-  //   }
-  //   else if (idet == "47/5") {
-  //     this.product = this.listSub.slice(12, 17);
-  //   }
-  //   else if (idet == "47/6") {
-  //     this.product = this.listSub.slice(17, 21);
-  //   }
-
-  //   // console.log("id=>", idet);
-    
-  // }
-  // onSelectionAttributes(idet){
-  //     // console.log("idSub=>", idet);
-     
-  //     for(let i = idet; i>='48/1'; i++ ){
-
-  //        this.attribute = idet ;
-
-  //       }
-  // }
-  // onSelectionPerson(event){
-  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  
-  //   if( exitsPersonal ){
-  //       this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-  //   }        
-  // }
-  // onSelectCampus(idet){ 
-    
-  //   // console.log('sede=>',idet);
-  //   if( idet == '58'){
-  //     this.typeflat = this.typeCampusCambu;
-  //     // this.typeflat = this.typeCampus;
-  //     // console.log('sede 1=>',this.typeflat);
-  //     return this.typeflat;
-
-  //   }else if(idet == '59'){
-  //     this.typeflat= this.typeCampusCedro;
-  //     // this.typeflat= this.typeCampus;
-  //     // console.log('sede 2=>',this.typeflat);
-  //     return this.typeflat;
-  //   }
-
-  // }
+  onSelectBirth(idState:any):void{
+          setTimeout(()=>{       
+            this.citieswork = this.citytBirth.filter(item => item.idState == idState);
+            // console.log(this.citieswork);
+        },3);   
+}
 
   generateTable(data) {
     this.displayedColumns = ["currentm_user", "date_move", "type_move"];
@@ -436,6 +367,30 @@ export class EntryDialog {
       this.matriz = false
   
     }
+  }
+  onSelectionCountry(idet){
+    console.log('pais=>',idet)
+        if(idet == '71/1'){
+          this.birth = true;
+         }else{
+          this.birth = false
+         }
+      if(idet == '71/2'){
+          this.extra = true;
+       }else{
+       this.extra = false;
+       }
+  }
+  
+  onSelectBirthDate(e:Required<number>){
+    console.log('date=>',e);
+          let convertAge = new Date(e);
+          let timeDiff = Math.abs(Date.now() - convertAge.getTime());
+  
+          this.ages = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+         
+      
+  
   }
 }
 

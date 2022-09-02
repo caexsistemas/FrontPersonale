@@ -20,15 +20,15 @@ import {
   ValidationErrors,
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
-import { HandlerAppService } from "../../../services/handler-app.service";
-import { environment } from "../../../../environments/environment";
-import { global } from "../../../services/global";
+import { HandlerAppService } from "../../../../../services/handler-app.service";
+import { environment } from "../../../../../../environments/environment";
+import { global } from "../../../../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
-import { NovedadesnominaServices } from "../../../services/novedadesnomina.service";
+import { NovedadesnominaServices } from "../../../../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
-import { WebApiService } from "../../../services/web-api.service";
+import { WebApiService } from "../../../../../services/web-api.service";
 interface Food {
   value: string;
   viewValue: string;
@@ -41,12 +41,12 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: "app-requisition",
-  templateUrl: "./requisition.dialog.component.html",
-  styleUrls: ["./requisition.dialog.component.css"],
+  selector: "app-formation",
+  templateUrl: "./formation.dialog.component.html",
+  styleUrls: ["./formation.dialog.component.css"],
 })
 
-export class RequisitionDialog {
+export class FormationDialog {
   endpoint: string = "/requisition";
   maskDNI = global.maskDNI;
   title: string = null;
@@ -62,7 +62,8 @@ export class RequisitionDialog {
   idSel: number = null;
   rol: number;
   typeMatriz: any = [];
-  component = "/selection/requisition";
+  component = "/selection/training";
+  // component = "/selection/requisition";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -78,6 +79,9 @@ export class RequisitionDialog {
   matriz: boolean = false;
   typeCargo: any = [];
   PersonaleInfo: any = [];
+  typeFormation: any = [];
+  idUser: number = null;
+  nomi: boolean;
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -87,7 +91,7 @@ export class RequisitionDialog {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
   constructor(
-    public dialogRef: MatDialogRef<RequisitionDialog>,
+    public dialogRef: MatDialogRef<FormationDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -96,18 +100,31 @@ export class RequisitionDialog {
   ) {
     this.view = this.data.window;
     this.idSel = null;
+    this.idUser= this.cuser.iduser
 
+    if(this.idUser == 62 || this.idUser == 255){
+      this.nomi = true;
+    }else{
+      this.nomi = false;
+    }
+    
     switch (this.view) {
-      case "create":
-        this.initForms();
-        this.title = "Nueva Requisicion";
-      break;
-      case "update":
+      case "state":
         this.idSel = this.data.codigo;
-        // console.log('idsel=>',this.idSel);
+        console.log('==>',this.idSel)
         this.initForms();
-        this.title = "Actualizar Requisicion";
+        this.title = "Actualizar Formación";
       break;
+      // case "create":
+      //   this.initForms();
+      //   this.title = "Nueva Requisicion";
+      // break;
+      // case "update":
+      //   this.idSel = this.data.codigo;
+      //   // console.log('idsel=>',this.idSel);
+      //   this.initForms();
+      //   this.title = "Actualizar Requisicion";
+      // break;
       case "view":
         this.idSel = this.data.codigo;
         this.loading.emit(true);
@@ -140,38 +157,22 @@ export class RequisitionDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      car_sol: new FormControl(""),
-      num_vac: new FormControl(""),
-      salary: new FormControl(""),
-      tip_req: new FormControl(""),
-      matrizarp: new FormControl(""),
-      justification: new FormControl(""),
-      observations: new FormControl(""),
-      aprobacion1: new FormControl(""),
-      aprobacion2: new FormControl(""),
-      aprobacion3: new FormControl(""),
-      day_for: new FormControl(""),
+      document: new FormControl(""),
+      // idPersonale: new FormControl(""),
+      est_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
     this.formTraining = new FormGroup({
-      tip_for: new FormControl(""),
-      cod_grup: new FormControl(""),
-      grupo: new FormControl(""),
-      metodologia: new FormControl(""),
-      document: new FormControl(""),
       idPersonale: new FormControl(""),
+      document: new FormControl(""),
       fec_ini: new FormControl(""),
-      fec_fin: new FormControl(""),
-      est: new FormControl(""),
-      idsel: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
-    // this.formInsp = new FormGroup({
-    //   create_User: new FormControl(this.cuser.iduser),
-    // });
+    this.formInsp = new FormGroup({
+      create_User: new FormControl(this.cuser.iduser),
+    });
     this.formVac = new FormGroup({
       create_User: new FormControl(this.cuser.iduser),
-      con_fin: new FormControl(""),
     });
   }
   getDataInit() {
@@ -179,9 +180,9 @@ export class RequisitionDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
       idSel: this.data.codigo,
-      token: this.cuser.token,
+      // token: this.cuser.token,
       idUser: this.cuser.iduser,
-      modulo: this.component
+      // modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -189,7 +190,8 @@ export class RequisitionDialog {
           this.position        = data.data["getPosition"];
           this.typeRequisition = data.data["getRequisition"];
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
-          this.PersonaleInfo = data.data['getDataPersonale'];        
+          this.PersonaleInfo = data.data['getDataPersonale']; 
+          this.typeFormation = data.data['getFormation'];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -206,64 +208,64 @@ export class RequisitionDialog {
       }
     );
   }
-  onSubmit() {
-    if (this.formSelec.valid) {
-      this.loading.emit(true);
-      let body = {
-        listas: this.formSelec.value,
-        formacion: this.formTraining.value,
-        // segui: this.formInsp.value,
-        vacant: this.formVac.value,
-        // seguimiento: this.formInsp.value
-      };
-      console.log('req=>',body);
-      this.WebApiService.postRequest(this.endpoint, body, {
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      this.loading.emit(false);
-    }
-  }
+  // onSubmit() {
+  //   if (this.formSelec.valid) {
+  //     this.loading.emit(true);
+  //     let body = {
+  //       listas: this.formSelec.value,
+  //       formacion: this.formTraining.value,
+  //       // segui: this.formInsp.value,
+  //       vacant: this.formVac.value,
+  //       // seguimiento: this.formInsp.value
+  //     };
+  //     console.log('req=>',body);
+  //     this.WebApiService.postRequest(this.endpoint, body, {
+  //       token: this.cuser.token,
+  //       idUser: this.cuser.iduser,
+  //       modulo: this.component
+  //     }).subscribe(
+  //       (data) => {
+  //         if (data.success) {
+  //           this.handler.showSuccess(data.message);
+  //           this.reload.emit();
+  //           this.closeDialog();
+  //         } else {
+  //           this.handler.handlerError(data);
+  //           this.loading.emit(false);
+  //         }
+  //       },
+  //       (error) => {
+  //         this.handler.showError();
+  //         this.loading.emit(false);
+  //       }
+  //     );
+  //   } else {
+  //     this.handler.showError("Complete la informacion necesaria");
+  //     this.loading.emit(false);
+  //   }
+  // }
   getDataUpdate() {
 
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
       id: this.idSel,
-      token: this.cuser.token,
+      // token: this.cuser.token,
       idUser: this.cuser.iduser,
-      modulo: this.component
+      // modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-        this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        // this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
+        // this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
+        // this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
+        // this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
+        // this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
+        // this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
+        // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
+        // this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
+        this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        this.formSelec.get("est_for").setValue(data.data["getSelecUpdat"][0].est_for);
       },
       (error) => {
         this.handler.showError();
@@ -331,21 +333,21 @@ export class RequisitionDialog {
   prevStep() {
     this.step--;
   }
-  onSelectionAttributes(idet){
-    console.log('cargo=>',idet)
-    if(idet =='16/1'){
-      this.matriz = true
-    }else{
-      this.matriz = false
+  // onSelectionAttributes(idet){
+  //   console.log('cargo=>',idet)
+  //   if(idet =='16/1'){
+  //     this.matriz = true
+  //   }else{
+  //     this.matriz = false
 
-    }
+  //   }
 
-  }
-  onSelectionPerson(event){
-    let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+  // }
+  // onSelectionPerson(event){
+  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
-    if( exitsPersonal ){
-        this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-    }        
-  }
+  //   if( exitsPersonal ){
+  //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
+  //   }        
+  // }
 }

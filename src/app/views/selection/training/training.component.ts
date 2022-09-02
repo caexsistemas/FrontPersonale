@@ -24,6 +24,9 @@ import { RequisitionDialog } from "../../../dialogs/selection/requisition/requis
 import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
 import { TrainingDialog } from "../../../dialogs/selection/training/training.dialog.component";
 import { AssignmentDialog } from "../../../dialogs/selection/assignment/assignment.dialog.component";
+import { InspectionDialog } from "../../../dialogs/selection/training/inspection/inspection.dialog.component";
+import { StateDialog } from "../../../dialogs/state/state.dialog.component";
+import { FormationDialog } from "../../../dialogs/selection/training/inspection/formation/formation.dialog.component";
 
 
 @Component({
@@ -67,7 +70,7 @@ export class TrainingComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getTraining",
       idUser: this.cuser.iduser,
-      // role: this.cuser.role,
+      role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       idPersonale:this.cuser.idPersonale
 
@@ -95,16 +98,7 @@ export class TrainingComponent implements OnInit {
   }
   generateTable(data) {
     this.displayedColumns = [
-      // "view",
-      // "fec_sel",
-      // "tip_doc",
-      // "document",
-      // "nom_com",
-      // "car_sol",
-      // "matrizarp",
-      // "formation",
-      // "actions"
-
+      
       "view",
       "idsel",
       "fec_req",
@@ -112,12 +106,6 @@ export class TrainingComponent implements OnInit {
       "matrizarp",
       "idPersonale",
       "est_for",
-      // "tip_req",
-      // "state",
-      // "salary",
-      // "num_vac",
-      // "swi_mod",
-      // "ser_mod",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -130,14 +118,14 @@ export class TrainingComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id,matriz ){
+  option(action,codigo=null, id,matriz,num ){
     var dialogRef;
     switch(action){
-      case 'create':
+      case 'state':
         this.loading = true;
-        dialogRef = this.dialog.open(TrainingDialog,{
+        dialogRef = this.dialog.open(FormationDialog,{
           data: {
-            window: 'create',
+            window: 'state',
             codigo,
             id:id
             // tipoMat: tipoMat
@@ -175,23 +163,23 @@ export class TrainingComponent implements OnInit {
       //   });
       //   break;
 
-      // case 'view':
-      //   this.loading = true;
-      //   dialogRef = this.dialog.open(TrainingDialog,{
-      //     data: {
-      //       window: 'view',
-      //       codigo
-      //     }
-      //   });
-      //   dialogRef.disableClose = true;
-      //   // LOADING
-      //   dialogRef.componentInstance.loading.subscribe(val=>{
-      //     this.loading = val;
-      //   });
-      //   dialogRef.afterClosed().subscribe(result => {
+      case 'view':
+        this.loading = true;
+        dialogRef = this.dialog.open(TrainingDialog,{
+          data: {
+            window: 'view',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe(result => {
          
-      //   });
-      // break;
+        });
+      break;
       case "trainer":
         this.loading = true;
         dialogRef = this.dialog.open(TrainingDialog, {
@@ -199,7 +187,8 @@ export class TrainingComponent implements OnInit {
             window: "trainer",
             codigo,
             id:id,
-            matriz
+            matriz,
+            num
             // cargo:this.num_vac
           },
         });

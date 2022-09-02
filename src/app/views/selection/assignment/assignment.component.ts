@@ -70,7 +70,9 @@ export class AssignmentComponent implements OnInit {
       idUser: this.cuser.iduser,
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale,
+      token: this.cuser.token,
+      modulo: this.component
 
     }).subscribe(
       (data) => {
@@ -82,7 +84,6 @@ export class AssignmentComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          // console.log( '===>',this.contenTable)
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -103,12 +104,7 @@ export class AssignmentComponent implements OnInit {
       "car_sol",
       "matrizarp",
       "idPersonale",
-      // "tip_req",
-      // "state",
-      // "salary",
-      // "num_vac",
-      // "swi_mod",
-      // "ser_mod",
+      "est_for",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -121,7 +117,7 @@ export class AssignmentComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id,matriz){
+  option(action,codigo=null,matriz, id,){
     var dialogRef;
     switch(action){
       case 'create':
@@ -150,8 +146,8 @@ export class AssignmentComponent implements OnInit {
           data: {
             window: 'update',
             codigo,
-            id:id
-            // tipoMat: tipoMat
+            id:id,
+            tipoMat: matriz
 
           }
         });
@@ -240,7 +236,5 @@ applyFilter(search) {
 onTriggerSheetClick(){
   this.matBottomSheet.open(ReportsTechnologyComponent)
 }
-rechazar(e){
-console.log('=>',e);
-}
+
 }

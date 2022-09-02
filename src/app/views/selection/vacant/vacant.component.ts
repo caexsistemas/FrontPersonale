@@ -72,6 +72,8 @@ export class VacantComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getVacant",
       idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale
@@ -107,7 +109,7 @@ export class VacantComponent implements OnInit {
       "matrizarp",
       "tip_req",
       "state",
-      // "salary",
+      "est_for",
       "num_vac",
       // "swi_mod",
       // "ser_mod",
@@ -221,36 +223,7 @@ applyFilter(search) {
 onTriggerSheetClick(){
   this.matBottomSheet.open(ReportsTechnologyComponent)
 }
-rechazar(e){
-console.log('=>',e);
 
-  // if(confirm('Desea Rechazar Requisicion')){
-  //   let body = {
-  //     listas: e
-  //   }
-  //   this.WebApiService.postRequest(this.endpoint+'/'+body,e,{})
-  //   .subscribe(
-  //       data=>{
-  //           if(data.success){
-  //               this.handler.showSuccess(data.message);
-  //               // this.reload.emit();
-  //               // this.closeDialog();
-  //           }else{
-  //               this.handler.handlerError(data);
-  //               // this.loading.emit(false);
-  //           }
-  //       },
-  //       error=>{
-  //         console.log(error);
-  //           this.handler.showError(error);
-  //           // this.loading.emit(false);
-  //       }
-  //   );
-  // }else {
-  //   this.handler.showError('Complete la informacion necesaria');
-  //   // this.loading.emit(false);
-  // }
-}
 }
 
 

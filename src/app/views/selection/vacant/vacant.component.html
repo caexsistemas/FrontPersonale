@@ -78,24 +78,15 @@
                   </ng-container>
 
                   <ng-container matColumnDef="tip_req">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Requisicion
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Requisición
                     </th>
                     <td mat-cell *matCellDef="let element"> {{element.tip}} </td>
                 </ng-container>
 
-
-
-                 <!---- <ng-container matColumnDef="name">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Empleado </th>
-                      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                  </ng-container>
-
-                  
-                  <ng-container matColumnDef="supervisor">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Enviado Por </th>
-                      <td mat-cell *matCellDef="let element"> {{element.supervisor}} </td>
-                  </ng-container> -->
-                  
+                <ng-container matColumnDef="est_for">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado de Formación </th>
+                    <td mat-cell *matCellDef="let element"> {{element.for}} </td>
+                </ng-container>
 
                   <ng-container matColumnDef="actions">
                     <!-- <div class="btn-group" dropdown> -->
@@ -103,29 +94,11 @@
                   <!-- </div> -->
                       <th mat-header-cell *matHeaderCellDef> Acciones </th>
                       <td mat-cell *matCellDef="let element">
-                         
-                          <!--<button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
-                          title="Crear">
-                          <i class="fa fa-plus"></i>
-                           </button> -->
-
                            <button class="btn  btn-primary mr-3" *ngIf="permissions.create"(click)="option('repor1vmrq',element.idsel,element.car_sol,element.matrizarp)"
                            title="Crear Vacante">
                           <i class="fa fa-plus"></i>
                           <!-- <i class="fa fa-edit fa-lg"></i> -->
-                          </button>
-                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
-                          (click)="option('update',element.idsel)" title="Editar">
-                          <i class="fa fa-edit fa-lg"></i>
-                          </button>
-                          <!-- <button class="btn  btn-outline-danger" (click)="rechazar(element.idsel)"
-                          title="Rechazar">
-                         <i class="thumb_down"></i>
-                         </button> -->
-                          <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
-                              title="PDF">
-                              <i class="fa fa-file-pdf-o"></i>
-                          </button> -->
+                          </button>     
                       </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

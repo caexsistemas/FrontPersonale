@@ -77,6 +77,7 @@ export class VacantDialog {
   country: any = [];
   birth: boolean = false;
   extra: boolean = false;
+  etario: any = [];
   // historyMon: any = [];
   // loading: boolean = false;
 
@@ -110,7 +111,7 @@ export class VacantDialog {
            console.log('car_sol=>',this.data.id);
            console.log('mt=>',this.data.matriz);
             this.initForms();
-            this.title = "Requisicion";    
+            this.title = "Requisición";    
        break;
        case "update":
         this.idSel = this.data.codigo;
@@ -121,7 +122,11 @@ export class VacantDialog {
         this.idSel = this.data.codigo;
         // this.loading.emit(true);
         // this.loading = true;
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
@@ -149,7 +154,7 @@ export class VacantDialog {
    
    ngOnInit(): void {
     this.creatForm();
-    this.creatIsnp();
+    // this.creatIsnp();
   }
 
   creatForm(){
@@ -170,8 +175,7 @@ export class VacantDialog {
     }
 
   contactFrom(){
-    return this.fb.group(
-      {
+    return this.fb.group({
         fec_sel:  new FormControl(""),
         tip_doc: new FormControl(""),
         document: new FormControl(""),
@@ -193,9 +197,8 @@ export class VacantDialog {
         etario: new FormControl(""),
         pai_ext: new FormControl(""),
         ciu_ext: new FormControl(""),
-        idins: new FormControl(this.idSel),
-    }
-    );
+        idins: new FormControl(""),
+    });
   }
   
   addNewContacts(){
@@ -216,7 +219,11 @@ export class VacantDialog {
       };
       console.log('body=>',body);
          
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);
@@ -258,9 +265,12 @@ export class VacantDialog {
     //  this.loading.emit(true);
     //  this.loading = true;
      this.WebApiService.getRequest(this.endpoint, {
+      
        action: "getVacant",
        idUser: this.cuser.iduser,
        idsel: this.idSel,
+       token: this.cuser.token,
+       modulo: this.component
      }).subscribe(
        (data) => {
 
@@ -327,7 +337,7 @@ export class VacantDialog {
     this.loading.emit(true);
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
-        action: 'getInformation',
+        action: 'getParamView',
     })
     .subscribe(
        
@@ -446,17 +456,21 @@ onSelectBirthDate(e, i:Required<number>){
         let convertAge = new Date(e);
         let timeDiff = Math.abs(Date.now() - convertAge.getTime());
 
-        // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
         this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-        // this.ages[i] = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-
-        this.contacts.value[i].ages =  this.ages[i];
-        // this.contacts.controls['ages'] =  this.ages[i];
-
-    // console.log('submit=>', this.contacts.controls['ages'] );
-    console.log('submit=>',this.contacts.value[i].ages);
+       
+    let rangos = this.ages.filter(number => number <= 29 );
+    
 
 }
+// onSelectionGroup(e){
+//   console.log('grupo=>',e)
+//   console.log('grupo',this.contacts.value.ages)
+
+// }
+
+
+
+
 
 }
 
