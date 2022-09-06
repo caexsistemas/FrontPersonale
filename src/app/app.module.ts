@@ -106,6 +106,7 @@ import { TrainerDataDialog } from './dialogs/selection/assignment/trainer data/t
 import { HiringDialog } from './dialogs/selection/hiring/hiring.dialog.component';
 import { InspectionDialog } from './dialogs/selection/training/inspection/inspection.dialog.component';
 import { FormationDialog } from './dialogs/selection/training/inspection/formation/formation.dialog.component';
+import { OwnerDialog } from './dialogs/technology/owner/owner.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -205,7 +206,8 @@ const routes: Routes = [];
     ReportsAbsenteeismComponent,
     HiringDialog,
     InspectionDialog,
-    FormationDialog
+    FormationDialog,
+    OwnerDialog
   
   ],
   providers: [{

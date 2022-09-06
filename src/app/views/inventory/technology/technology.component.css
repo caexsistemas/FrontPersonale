@@ -5,4 +5,23 @@ table {
     font-size: 18px;
     width: 100%;
   }
+  .pointer{
+    cursor: pointer;
+  }
+  .dropdown-menu.pointer{
+    background-color: #ffa9a4;
+    
+  }
+  .mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  .mat-row:hover .mat-cell {
+    border-color: currentColor;
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }
   
