@@ -50,31 +50,20 @@ export interface PeriodicElement {
 
 export class HiringDialog {
   
- 
-
-
-  endpoint: string = "/vacant";
+  endpoint: string = "/hiring";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
   permissions: any = null;
   formSelec: FormGroup;
   selection: any = [];
-  position: any = [];
-  typeRequisition: any = [];
-  idSel: number = null;
-  rol: number;
+  position:  any = [];
+  idSel:     number = null;
+  rol:       number;
   typeDocument: any = [];
   typeMatriz: any = [];
-  depart: any = [];
-  citytBirth: any = [];
   area: any = [];
-  // position: any = [];
-  eps: any = [];
-  pension: any = [];
-  citieswork: any =[];
-  cities: any = [];
-  component = "/selection/requisition";
+  component = "/selection/hiring";
   dataSource: any = [];
   stateFormation: any = [];
   archivo = {
@@ -86,8 +75,12 @@ export class HiringDialog {
   historyMon: any = [];
   check: 0;
   displayedColumns: any = [];
-  checked = false;
   disabled = false;
+  period:       boolean;
+  tipoMat:      any = [];
+  typeContract: any = [];
+  stateCont:    any = [];
+  contra:       any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -115,9 +108,9 @@ export class HiringDialog {
       case "update":
         // this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
-        console.log('idsel=>',this.idSel);
+        this.tipoMat = this.data.tipoMat;
         this.initForms();
-        this.title = "Actualizar Activos";
+        this.title = "Contratación";
       break;
       case "view":
         this.idSel = this.data.codigo;
@@ -126,6 +119,7 @@ export class HiringDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
+              this.contra = this.selection.vac_cont;
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -145,19 +139,17 @@ export class HiringDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      fec_sel: new FormControl(""),
       tip_doc: new FormControl(""),
       document: new FormControl(""),
       nom_com: new FormControl(""),
-      birthDate: new FormControl(""),
-      dep_nac: new FormControl(""),
-      ciu_nac: new FormControl(""),
       are_tra: new FormControl(""),
       car_sol: new FormControl(""),
-      eps: new FormControl(""),
-      obs_vac: new FormControl(""),
-      pension: new FormControl(""),
-      formation: new FormControl(""),
+      vac_cont: new FormControl(""),
+      vac_sal: new FormControl(""),
+      vac_aux: new FormControl(""),
+      vac_per: new FormControl(""),
+      sta_cont: new FormControl(""),
+      matrizarp: new FormControl(this.tipoMat),
       create_User: new FormControl(this.cuser.iduser),
 
     });
@@ -171,19 +163,12 @@ export class HiringDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          // this.selection = data.data["getSelectData"];
           this.position        = data.data["getPosition"];
-          this.typeRequisition = data.data["getRequisition"];
           this.typeDocument    = data.data["getDocument"];
-          this.depart          = data.data["getDepart"];
-          this.citytBirth      = data.data["getCity"];
-          this.position        = data.data["getPosition"];
-          this.eps             = data.data["getEps"];
-          this.pension         = data.data["getPension"];
           this.area            = data.data["getArea"];
-          this.stateFormation  = data.data["getFormation"];
           this.typeMatriz      = data.data["getMatriz"];
-
+          this.typeContract    = data.data["getContract"];
+          this.stateCont       = data.data["getStateCont"];
           if (this.view == "update") {
             this.getDataUpdate();
           }
@@ -199,34 +184,33 @@ export class HiringDialog {
       }
     );
   }
-  onSubmit() {
-    if (this.formSelec.valid) {
-      this.loading.emit(true);
-      let body = {
-        listas: this.formSelec.value,
-      };
-      console.log('req=>',body);
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      this.loading.emit(false);
-    }
-  }
+  // onSubmit() {
+  //   if (this.formSelec.valid) {
+  //     this.loading.emit(true);
+  //     let body = {
+  //       listas: this.formSelec.value,
+  //     };
+  //     this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+  //       (data) => {
+  //         if (data.success) {
+  //           this.handler.showSuccess(data.message);
+  //           this.reload.emit();
+  //           this.closeDialog();
+  //         } else {
+  //           this.handler.handlerError(data);
+  //           this.loading.emit(false);
+  //         }
+  //       },
+  //       (error) => {
+  //         this.handler.showError();
+  //         this.loading.emit(false);
+  //       }
+  //     );
+  //   } else {
+  //     this.handler.showError("Complete la informacion necesaria");
+  //     this.loading.emit(false);
+  //   }
+  // }
   getDataUpdate() {
 
     this.loading.emit(true);
@@ -236,19 +220,17 @@ export class HiringDialog {
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-        this.formSelec.get("fec_sel").setValue(data.data["getSelecUpdat"][0].fec_sel);
         this.formSelec.get("tip_doc").setValue(data.data["getSelecUpdat"][0].tip_doc);
         this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
         this.formSelec.get("nom_com").setValue(data.data["getSelecUpdat"][0].nom_com);
-        this.formSelec.get("birthDate").setValue(data.data["getSelecUpdat"][0].birthDate);
-        this.formSelec.get("dep_nac").setValue(data.data["getSelecUpdat"][0].dep_nac);
-        this.formSelec.get("ciu_nac").setValue(data.data["getSelecUpdat"][0].ciu_nac);
         this.formSelec.get("are_tra").setValue(data.data["getSelecUpdat"][0].are_tra);
         this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        this.formSelec.get("eps").setValue(data.data["getSelecUpdat"][0].eps);
-        this.formSelec.get("pension").setValue(data.data["getSelecUpdat"][0].pension);
-        this.formSelec.get("obs_vac").setValue(data.data["getSelecUpdat"][0].obs_vac);
-        this.formSelec.get("formation").setValue(data.data["getSelecUpdat"][0].formation);
+        this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
+        this.formSelec.get("vac_cont").setValue(data.data["getSelecUpdat"][0].vac_cont);
+        this.formSelec.get("vac_sal").setValue(data.data["getSelecUpdat"][0].vac_sal);
+        this.formSelec.get("vac_aux").setValue(data.data["getSelecUpdat"][0].vac_aux);
+        this.formSelec.get("vac_per").setValue(data.data["getSelecUpdat"][0].vac_per);
+        this.formSelec.get("sta_cont").setValue(data.data["getSelecUpdat"][0].sta_cont);
       },
       (error) => {
         this.handler.showError();
@@ -307,5 +289,14 @@ export class HiringDialog {
   }
   prevStep() {
     this.step--;
+  }
+  onSelectContract(e){
+    console.log('contr',e)
+    if(!(e == '5/1')){
+      this.period = true
+    }else{
+      this.period = false
+    }
+
   }
 }

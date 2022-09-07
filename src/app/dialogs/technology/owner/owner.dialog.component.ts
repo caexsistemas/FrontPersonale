@@ -27,22 +27,22 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 // import { EntryDialog } from "./entry/entry.dialog.component";
 import { emit } from "process";
-import { EntryDialog } from "../vacant/entry/entry.dialog.component";
-import { InspectionDialog } from "./inspection/inspection.dialog.component";
+// import { InspectionDialog } from "./inspection/inspection.dialog.component";
 // import { StateDialog } from "./inspection/formation/formation.dialog.component";
 
 
 @Component({
-  selector: 'app-training',
-  templateUrl: './training.dialog.component.html',
-  styleUrls: ['./training.dialog.component.css']
+  selector: 'app-owner',
+  templateUrl: './owner.dialog.component.html',
+  styleUrls: ['./owner.dialog.component.css']
 })
-export class TrainingDialog {
+export class OwnerDialog {
   form:FormGroup;
 
-  endpoint:      string = '/training';
+  endpoint:      string = '/technology';
   // component      = "/selection/vacant";
-  component      = "/selection/training";
+  // component      = "/selection/technology";
+  component = "/inventory/technology";
   maskDNI        = global.maskDNI;
   view:          string = null;
   title:         string = null;
@@ -58,7 +58,7 @@ export class TrainingDialog {
   fechaInicio:   string = "";
   fechaFin:      string = "";
   tipogesti:     string = "";
-  idSel: number = null;
+  idTec: number = null;
   car_sol: any = [];
   typeDocument: any = [];
   depart: any = [];
@@ -90,7 +90,7 @@ export class TrainingDialog {
  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
 
- constructor(public dialogRef: MatDialogRef<TrainingDialog>,
+ constructor(public dialogRef: MatDialogRef<OwnerDialog>,
     private fb:FormBuilder,
     private WebApiService: WebApiService,
    private handler: HandlerAppService,
@@ -99,39 +99,37 @@ export class TrainingDialog {
      
     //  option(action,codigo=null, id){
       this.view = this.data.window;
-      this.idSel = null;
+      this.idTec = null;
 
      switch (this.view) {
       
-       case 'trainer':
-           this.idSel = this.data.codigo;
-           this.cargo = this.data.id;
-           this.matriz = this.data.matriz;
-           this.num = this.data.num
+       case 'user':
+        console.log('user',this.data)
+        this.idTec = this.data.codigo;
           this.initForms();
-          this.title = "Requisicion"; 
+          this.title = "ID"; 
        break;
        case "create":
         this.initForms();
         this.title = "Nu";
       break;
        case "update":
-        this.idSel = this.data.codigo;
+        this.idTec = this.data.codigo;
         this.initForms();
         this.title = "Actualizar Formación";
         break;
        case 'view':
-        this.idSel = this.data.codigo;
+        this.idTec = this.data.codigo;
         // this.loading.emit(true);
         // this.loading = true;
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idTec, {}).subscribe(
           (data) => {
             if (data.success == true) {
               // this.selection = data.data["getDataTechno"][0];
               // this.acti = data.data['getSubActivo'];
               // this.list = data.data['getSubActivo'];
               // this.sub = this.techno.listSub;
-              this.selection = data.data["getSelectData"][0];
+              this.selection = data.data["getDataUpda"];
               this.generateTable(data.data["getDatHistory"]);
               // this.loading.emit(false);
               // this.loading = false;
@@ -193,7 +191,7 @@ export class TrainingDialog {
   //       pension: new FormControl(""),
   //       obs_vac: new FormControl(""),
   //       create_User: new FormControl(this.cuser.iduser),
-  //       idsel: new FormControl(this.idSel),
+  //       idTec: new FormControl(this.idTec),
   //       matrizarp: new FormControl(this.matriz),
   //       idGender: new FormControl(""),
   //       ages: new FormControl(""),
@@ -268,13 +266,13 @@ export class TrainingDialog {
       listas: this.formSelec.value,
       // segui: this.formInsp.value,
       // seguimiento: this.formInsp.value
-        //  id: this.idSel
+        //  id: this.idTec
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idTec,body,{
         token: this.cuser.token,
-        idUser: this.cuser.iduser,
+        idTec: this.cuser.iduser,
         modulo: this.component
       })
       .subscribe(
@@ -305,21 +303,22 @@ export class TrainingDialog {
     //  this.loading.emit(true);
     //  this.loading = true;
      this.WebApiService.getRequest(this.endpoint, {
-       action: "getVacant",
-       idUser: this.cuser.iduser,
-       idsel: this.idSel,
-      //  role: this.cuser.role,
-      //  fecini: fechini,
-      //  fecfin: fechafin,
-      //  tipMat: tipMatriz
+      action: "getParamUpdateUser",
+      id: this.idTec,
+      cc:this.data.id
+      // idTec: this.cuser.idTec,
+      // role: this.cuser.role,
+      // matrizarp: this.cuser.matrizarp,
+      // idPersonale:this.cuser.idPersonale
      }).subscribe(
        (data) => {
 
          this.permissions = this.handler.getPermissions(this.component);
          if (data.success == true) {
           
-           this.generateTable(data.data["getSelectData"]);
-           this.contenTable = data.data["getSelectData"];
+           this.generateTable(data.data["getDataUpda"]);
+           this.contenTable = data.data["getDataUpda"];
+           console.log('user',this.contenTable)
           //  this.loading.emit(false);
           //  this.loading = false;
          } else {
@@ -341,13 +340,13 @@ export class TrainingDialog {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "fec_sel",
-      "tip_doc",
-      "document",
-      "nom_com",
-      "car_sol",
-      "matrizarp",
-      "con_fin",
+      "fec_ent",
+      "listSub",
+      "sub_pla_act_fij",
+      "sub_serial",
+      // "car_sol",
+      // "matrizarp",
+      // "con_fin",
       "actions"
       
     ];
@@ -379,7 +378,7 @@ export class TrainingDialog {
     this.loading.emit(true);
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
-        action: 'getInformation',
+        action: 'getParamView',
         // tipMat: this.tipogesti 
     })
     .subscribe(
@@ -453,53 +452,53 @@ export class TrainingDialog {
       //     this.sendRequest();
       //   });
       // break;
-      case 'update':
-        // this.loading = true;
-        // this.loading.emit(true);
-        dialogRef = this.dialog.open(InspectionDialog,{
-          data: {
-            window: 'update',
-            codigo,
-            name,
-            id:id,
-            num:this.num,
+      // case 'update':
+      //   // this.loading = true;
+      //   // this.loading.emit(true);
+      //   dialogRef = this.dialog.open(InspectionDialog,{
+      //     data: {
+      //       window: 'update',
+      //       codigo,
+      //       name,
+      //       id:id,
+      //       num:this.num,
             
-            // tipoMat: tipoMat
+      //       // tipoMat: tipoMat
 
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
-        });
-        break;
+      //     }
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe(val=>{
+      //     this.loading = val;
+      //   });
+      //   // RELOAD
+      //   dialogRef.componentInstance.reload.subscribe(val=>{
+      //     this.sendRequest();
+      //   });
+      //   break;
 
-      case 'view':
-          this.loading
-        // this.loading.emit(true);
-        dialogRef = this.dialog.open(InspectionDialog,{
-          data: {
-            window: 'view',
-            codigo,
-            name,
-            id:id,
-            num:this.num
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe(result => {
+      // case 'view':
+      //     this.loading
+      //   // this.loading.emit(true);
+      //   dialogRef = this.dialog.open(InspectionDialog,{
+      //     data: {
+      //       window: 'view',
+      //       codigo,
+      //       name,
+      //       id:id,
+      //       num:this.num
+      //     }
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe(val=>{
+      //     this.loading = val;
+      //   });
+      //   dialogRef.afterClosed().subscribe(result => {
          
-        });
-      break;
+      //   });
+      // break;
       }
     }
     

@@ -23,6 +23,7 @@ import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
 import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
 import { TrainingDialog } from "../../../dialogs/selection/training/training.dialog.component";
+import { HiringDialog } from "../../../dialogs/selection/hiring/hiring.dialog.component";
 
 
 @Component({
@@ -34,7 +35,7 @@ export class HiringComponent implements OnInit {
 
  contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/vacant";
+  endpoint: string = "/hiring";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
@@ -45,7 +46,7 @@ export class HiringComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/vacant";
+  component = "/selection/hiring";
 
   constructor(
     private _tools: Tools,
@@ -96,12 +97,12 @@ export class HiringComponent implements OnInit {
     this.displayedColumns = [
       "view",
       "fec_sel",
+      "idsel",
       "tip_doc",
       "document",
       "nom_com",
       "car_sol",
       "vac_cont",
-      // "formation",
       "actions"
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -114,7 +115,7 @@ export class HiringComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id){
+  option(action,codigo=null, id,tipoMat){
     var dialogRef;
     switch(action){
       case 'create':
@@ -139,11 +140,11 @@ export class HiringComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(TrainingDialog,{
+        dialogRef = this.dialog.open(HiringDialog,{
           data: {
             window: 'update',
             codigo,
-            id:id
+            tipoMat:id,
             // tipoMat: tipoMat
 
           }
@@ -161,7 +162,7 @@ export class HiringComponent implements OnInit {
 
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(TrainingDialog,{
+        dialogRef = this.dialog.open(HiringDialog,{
           data: {
             window: 'view',
             codigo

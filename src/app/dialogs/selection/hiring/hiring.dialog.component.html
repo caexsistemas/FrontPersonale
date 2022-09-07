@@ -18,31 +18,25 @@
                   <div class="form-grid" formArrayName="skills">
                     <div class="form-field" *ngFor="let skill of getCtrl('skills',formParent).controls;index as formChild">
                       <div class="form-block" [formGroupName]="formChild"> -->
-            
+
 
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
 
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Gestion de Vacante&nbsp; &nbsp;
+                  Contratación&nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                    Ingreso de Datos
+                  Datos Generales
                 </mat-panel-description>
-                  <mat-icon>account_circle</mat-icon>
-                </mat-expansion-panel-header>
-                
+                <mat-icon>account_circle</mat-icon>
+              </mat-expansion-panel-header>
+
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Fecha de Seleccion</mat-label>
-                    <input matInput formControlName="fec_sel" value="fec_sel" type="date" [readonly]="true">
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Documento</mat-label>
-                    <mat-select formControlName="tip_doc" required >
+                    <mat-select formControlName="tip_doc" required>
                       <mat-option *ngFor="let idet of typeDocument" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
                       </mat-option>
@@ -52,48 +46,18 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Numero Documento</mat-label>
-                    <input matInput formControlName="document" type="number" required  [readonly]="true">
+                    <input matInput formControlName="document" type="number" required [readonly]="true">
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Nombre Completo:</mat-label>
-                    <input matInput formControlName="nom_com" type="text" required  [readonly]="true">
-                  </mat-form-field>
-                </div>
-                
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Departamento de Nacimiento</mat-label>
-                    <mat-select formControlName="dep_nac" (selectionChange)="onSelectBirth($event.value)">
-                      <mat-option *ngFor="let idet of depart" [value]="idet.idState"  [disabled]="true">
-                        {{idet.name}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Ciudad de Nacimiento</mat-label>
-                    <mat-select formControlName="ciu_nac" required>
-                      <mat-option *ngFor="let idet of citieswork" [value]="idet.idCity"  [disabled]="true">
-                        {{idet.name}}
-                      </mat-option>
-                    </mat-select>
+                    <input matInput formControlName="nom_com" type="text" required [readonly]="true">
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Fecha de Nacimiento</mat-label>
-                    <input matInput formControlName="birthDate" value="birthDate" type="date" [readonly]="true">
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
+                <!-- <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Area de Trabajo</mat-label>
                     <mat-select formControlName="are_tra">
@@ -102,8 +66,7 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                </div>
-
+                </div> -->
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargo:</mat-label>
@@ -114,370 +77,66 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                
-              </div>
-              <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
+                    <mat-label>Salario</mat-label>
+                    <input matInput formControlName="vac_sal" type="number" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Auxilio Transporte</mat-label>
+                    <input matInput formControlName="vac_aux" type="number" required>
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
                     <mat-label>Tipo Matriz:</mat-label>
-                    <mat-select formControlName="car_sol">
+                    <mat-select formControlName="matrizarp">
                       <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                </div>
+                </div> -->
               </div>
-              <!-- <div class="row">
+              <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Eps:</mat-label>
-                    <mat-select formControlName="eps">
-                      <mat-option *ngFor="let idet of eps" [value]="idet.ls_codvalue">
+                    <mat-label>Tipo Contrato:</mat-label>
+                    <mat-select formControlName="vac_cont" (selectionChange)="onSelectContract($event.value)">
+                      <mat-option *ngFor="let idet of typeContract" [value]="idet.ls_codvalue" >
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
+                <div class="col-sm-4" *ngIf="period">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Periodo(Meses)</mat-label>
+                    <input matInput formControlName="vac_per" type="number" required>
+                  </mat-form-field>
+                </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Pension:</mat-label>
-                    <mat-select formControlName="pension">
-                      <mat-option *ngFor="let idet of pension" [value]="idet.ls_codvalue">
+                    <mat-label>Estado Contrato:</mat-label>
+                    <mat-select formControlName="sta_cont">
+                      <mat-option *ngFor="let idet of stateCont" [value]="idet.ls_codvalue" >
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                
-              </div> -->
-              <hr>
-              <div class="row">
-                <div class="col-sm-12">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Obcervaciones/Opcional:</mat-label>
-                    <textarea matInput formControlName="obs_vac" [readonly]="true"></textarea>
-                  </mat-form-field>
-                </div>
               </div>
+             
             </mat-expansion-panel>
-              <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Estado Formacion &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-
-                </mat-panel-description>
-                <mat-icon>thumbs_up_down</mat-icon>
-              </mat-expansion-panel-header>
-              <hr>
-              <div class="row">
-				<div class="col-md-4">
-					<p>Dia 1</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 2</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 3</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 4</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 5</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 6</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 7</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 8</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 9</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Dia 10</p>
-
-				</div>
-            
-			 <div class="col-md-4">
-				<p><mat-checkbox formControlName="obs_vac"></mat-checkbox></p>
-
-			 </div>
-			</div>
-			<hr>
-
-			 
-                <!-- <div class="col-md-12"> -->
-                  
-                    <!-- <mat-radio-group aria-label="Select an option" formControlName="aprobacion1"
-                      [disabled]="retro">
-                      <mat-radio-button *ngFor="let idet of stateFormation" [value]="idet.ls_codvalue">
-                        {{idet.description}}</mat-radio-button>
-                    </mat-radio-group> -->
-                  
-                    <!-- <div class="col-sm-6"> -->
-						
-						<!-- <p><mat-label>Dia 2</mat-label></p>
-						<p><mat-label>Dia 3</mat-label></p>
-						<p><mat-label>Dia 4</mat-label></p>
-						<p><mat-label>Dia 5</mat-label></p>
-						<p><mat-label>Dia 6</mat-label></p>
-						<p><mat-label>Dia 7</mat-label></p> -->
-                      <!-- <section class="example-section">
-                        <p><mat-checkbox formControlName="obs_vac">Dia 1</mat-checkbox></p>
-                        <p><mat-checkbox formControlName="obs_vac">Dia 4</mat-checkbox></p>
-                        <p><mat-checkbox formControlName="obs_vac">Dia 7</mat-checkbox></p>
-                      </section>
-					  
-                    </div>
-					<div class="col-md-4">
-						<section class="example-section">
-						  <p><mat-checkbox formControlName="obs_vac">Dia 2</mat-checkbox></p>
-						  <p><mat-checkbox formControlName="obs_vac">Dia 5</mat-checkbox></p>
-						</section>
-  
-					  </div>
-					  <div class="col-md-4">
-						<section class="example-section">
-						  <p><mat-checkbox formControlName="obs_vac">Dia 3</mat-checkbox></p>
-						  <p><mat-checkbox formControlName="obs_vac">Dia 6</mat-checkbox></p>
-						  
-						</section> -->
-						<!-- <section class="example-section">
-						<p><mat-label>Dia 1</mat-label></p>
-						<p><mat-label>Dia 2</mat-label></p>
-						<p><mat-label>Dia 3</mat-label></p>
-						<p><mat-label>Dia 4</mat-label></p>
-						<p><mat-label>Dia 5</mat-label></p>
-						<p><mat-label>Dia 6</mat-label></p>
-						<p><mat-label>Dia 7</mat-label></p> -->
-						<!-- <p>Dia 2</p>
-						<p>Dia 3</p>
-						<p>Dia 4</p>
-						<p>Dia 5</p>
-						<p>Dia 6</p>
-						<p>Dia 7</p> -->
-					    <!-- </section> -->
-						
-						  
-					  <!-- </div> -->
-					 
-                <!-- </div> -->
-				<div class="row">
-					<div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Formacion:</mat-label>
-						  <mat-select formControlName="formation">
-							<mat-option *ngFor="let idet of stateFormation" [value]="idet.ls_codvalue">
-							  {{idet.description}}
-							</mat-option>
-						  </mat-select>
-						</mat-form-field>
-					  </div>
-				</div>
-
-
-
-
-              <mat-action-row>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
-              </mat-action-row>
-          
-            </mat-expansion-panel>
-			<mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
-				<mat-expansion-panel-header>
-				  <mat-panel-title>
-					Evaluacio/Certificacion &nbsp; &nbsp;
-				  </mat-panel-title>
-				  <mat-panel-description>
-  
-				  </mat-panel-description>
-				  <mat-icon>thumbs_up_down</mat-icon>
-				</mat-expansion-panel-header>
-				<div class="row">
-					<div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Evaluacion Induccion SST</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Evaluacion Induccion CALIDAD</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Producto Telemercadeo Hogar</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-				</div>
-				<div class="row">
-					<div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Producto Movil </mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Sistemas de Información y Politicas</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion TYT</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-				</div>
-				<div class="row">
-					<div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Interna 1</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Interna 2</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Interna 3</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-				</div>
-				<div class="row">
-					<div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Interna 11</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					  <div class="col-sm-4">
-						<mat-form-field class="example-full-width">
-						  <mat-label>Certificacion Interna 12</mat-label>
-						  <input matInput formControlName="obs_vac" value="obs_vac" type="number">
-						</mat-form-field>
-					  </div>
-					
-				</div>
-				
-		  </mat-expansion-panel>
           </form>
-          
-           
         </mat-accordion>
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12">
           <button *ngIf="view == 'update'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
-
-          <!-- <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button> -->
-
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
@@ -503,20 +162,15 @@
           <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Gestion de Vacante&nbsp; &nbsp;
+                Contratación&nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
-                  Ingreso de Datos
+                Datos Generales
               </mat-panel-description>
-                <mat-icon>account_circle</mat-icon>
-              </mat-expansion-panel-header>
+              <mat-icon>account_circle</mat-icon>
+            </mat-expansion-panel-header>
 
             <div class="row mt-2">
-              <div class="col-md-4">
-                <dt>Fecha de Seleccion</dt>
-                <dd>{{selection.fec_sel}}</dd>
-              </div>
-
               <div class="col-md-4">
                 <dt>Tipo de Documento</dt>
                 <dd>{{selection.docu}}</dd>
@@ -525,95 +179,69 @@
                 <dt>Numero Documento</dt>
                 <dd>{{selection.document}}</dd>
               </div>
-              
-            </div>
-            <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Nombre Completo</dt>
                 <dd>{{selection.nom_com}}</dd>
               </div>
-
-              <div class="col-md-4">
-                <dt>Fecha Nacimiento</dt>
-                <dd>{{selection.birthDate}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Deapartamento Nacimiento</dt>
-                <dd>{{selection.department}}</dd>
-              </div>
-              
             </div>
             <div class="row mt-2">
-              <div class="col-md-4">
-                <dt>Ciudad Nacimiento</dt>
-                <dd>{{selection.city}}</dd>
-              </div>
-
-              <div class="col-md-4">
-                <dt>Area de Trabajo</dt>
-                <dd>{{selection.tra}}</dd>
-              </div>
               <div class="col-md-4">
                 <dt>Cargo</dt>
                 <dd>{{selection.lab}}</dd>
               </div>
-              
+              <div class="col-md-4">
+                <dt>Salario</dt>
+                <dd>{{selection.vac_sal}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Auxilio Transporte</dt>
+                <dd>{{selection.vac_aux}}</dd>
+              </div>
             </div>
             <div class="row mt-2">
               <div class="col-md-4">
-                <dt>EPS</dt>
-                <dd>{{selection.salud}}</dd>
+                <dt>Tipo Contrtato</dt>
+                <dd>{{selection.cont}}</dd>
               </div>
-
+              <div class="col-md-4" *ngIf="contra != '5/1'">
+                <dt>Periodo(Meses)</dt>
+                <dd>{{selection.vac_per}}</dd>
+              </div>
               <div class="col-md-4">
-                <dt>Pension</dt>
-                <dd>{{selection.pens}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Estado Formacion</dt>
-                <dd>{{selection.form}}</dd>
-              </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-md-12">
-                  <dt>Obcervaciones</dt>
-                  <dd>{{selection.obs_vac}}</dd>
-                </div>
-              </div>
-             
-              
-            
-            </mat-expansion-panel>
-          </mat-accordion>
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  Histórico de Procesos:
-                </div>
-                <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
-                  <ng-container matColumnDef="currentm_user">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="type_move">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="date_move">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
-                  </ng-container>
-  
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-                </table>
+                <dt>Estado Contrato</dt>
+                <dd>{{selection.sta}}</dd>
               </div>
             </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Histórico de Procesos:
+              </div>
+              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="currentm_user">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="type_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+            </div>
           </div>
-        </mat-dialog-content>
-      </div>
+        </div>
+      </mat-dialog-content>
+    </div>

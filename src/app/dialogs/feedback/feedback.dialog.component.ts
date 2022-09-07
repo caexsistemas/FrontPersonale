@@ -8,9 +8,12 @@ import { environment } from '../../../environments/environment';
 import { global } from '../../services/global';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { Observable } from 'rxjs';
+import { empty, Observable } from 'rxjs';
 import { NovedadesnominaServices } from '../../services/novedadesnomina.service';
 import { DatePipe } from '@angular/common'
+import { exists } from 'fs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 export interface PeriodicElement {
   currentm_user: string,
@@ -67,6 +70,10 @@ export class FeedbackDialog
     displayedColumns:any  = [];
     checked = false;
     disabled = false;
+    block: boolean;
+    exit: any = [];
+    stateSign: any = [];
+    acept: any = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -81,7 +88,8 @@ export class FeedbackDialog
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
-    private uploadFileService: NovedadesnominaServices
+    private uploadFileService: NovedadesnominaServices,
+    private _snackBar: MatSnackBar
   ) { 
     this.view = this.data.window;
     this.idfeed = null;
@@ -95,7 +103,7 @@ export class FeedbackDialog
             this.tipMatriz = this.data.tipoMat;
             this.tipRole = this.data.tipRole;
             this.initForms();
-            this.title = "Crear Retroalimentacion";
+            this.title = "Crear Retroalimentación";
         break;
         case 'update':
           this.tipInter = this.data.tipoMat;
@@ -105,7 +113,7 @@ export class FeedbackDialog
             this.retro = true;
             }
             this.initForms();
-            this.title = "Actualizar Retroalimentacion";
+            this.title = "Actualizar Retroalimentación";
             this.idfeed = this.data.codigo;
             console.log('idfeed=>',this.idfeed);
           break;
@@ -124,6 +132,12 @@ export class FeedbackDialog
                 if (data.success == true) {
                  
                   this.feed = data.data['getDataPerson'][0];
+                  if(this.feed.sign = 1){
+                    this.acept = 'Si'
+                  }else if(this.feed.sign = 0){
+                    this.acept = 'No'
+
+                  }
                   this.tipInter = this.feed.matrizarp_cod;
                   this.tipMatriz = this.feed.matrizarp_cod;
 
@@ -168,7 +182,8 @@ closeDialog() {
         checked1: new FormControl(false),
         checked2: new FormControl(false),
         checked3: new FormControl(false),
-        visible: new FormControl("")
+        visible: new FormControl(""),
+        sign: new FormControl(false)
         
     });
 }
@@ -298,6 +313,8 @@ getDataUpdate(){
           this.formNomi.get('fecha').setValue(data.data['getDataUpda'][0].fecha);
           this.formNomi.get('des_crip').setValue(data.data['getDataUpda'][0].des_crip);
           this.formNomi.get('com_tra').setValue(data.data['getDataUpda'][0].com_tra);
+          this.exit = data.data['getDataUpda'][0].com_tra
+          
           this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
           this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
           this.formNomi.get('visible').setValue(data.data['getDataUpda'][0].visible);
@@ -305,6 +322,15 @@ getDataUpdate(){
           this.formNomi.get('checked1').setValue(data.data['getDataUpda'][0].checked1);
           this.formNomi.get('checked2').setValue(data.data['getDataUpda'][0].checked2);
           this.formNomi.get('checked3').setValue(data.data['getDataUpda'][0].checked3);
+          this.formNomi.get('sign').setValue(data.data['getDataUpda'][0].sign);
+          this.stateSign = data.data['getDataUpda'][0].sign
+          if(this.stateSign == 1){
+            this.block = true
+          }else if(this.stateSign == 0){
+            this.block = false
+
+          }
+          console.log(this.stateSign)
              
       },
       error => {
@@ -394,5 +420,24 @@ getWeekNr(event){
 SendDataonChange(event: any) {
   console.log(event.target.value);
   } 
+  // onSelectionPerson(e){
+  //   if(isset_empty(e)){
+  //     this.block = true
+  //   }else if(e = ''){
+  //     this.block = false
 
+  //   }
+  //   console.log('e=>',e)
+  // }
+  // openSnackBar(message: string, action: string) {
+  //   this._snackBar.open(message, action, {
+  //     duration: 2000,
+  //   });
+  // }
+  openSnackBar(e){
+    this.formNomi.value.sign = e; 
+
+    console.log(this.formNomi.value.sign)
+
+  }
 }

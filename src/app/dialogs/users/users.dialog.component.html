@@ -142,7 +142,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <mat-form-field class="example-form-field" appearance="fill">
                                 <mat-label>Teléfono</mat-label>
                                 <input matInput formControlName="phone" type="number" [(ngModel)]="value3">
@@ -150,28 +150,34 @@
                                     <mat-icon>close</mat-icon>
                                 </button>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
-                                <mat-label>canal</mat-label>
-                                <input matInput formControlName="canal">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="name" autocomplete="off" oninput="javascript:this.value=this.value.toUpperCase();">
+                                <mat-error *ngIf="name.hasError('required')">
+                                    Name is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
-                                <mat-label>usu_wolk</mat-label>
-                                <input matInput formControlName="usu_wolk">
+                                <mat-label>Apellido</mat-label>
+                                <input matInput formControlName="surname" autocomplete="off" oninput="javascript:this.value=this.value.toUpperCase();">
+                                <mat-error *ngIf="surname.hasError('required')">
+                                    Surname is <strong>required</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>last Login</mat-label>
                                 <input matInput formControlName="lastLogin">
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </mat-dialog-content>
             <div mat-dialog-actions>

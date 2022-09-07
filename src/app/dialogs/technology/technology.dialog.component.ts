@@ -97,6 +97,8 @@ export class TechnologyDialog {
   displayedColumns: any = [];
   checked = false;
   disabled = false;
+  listPosition: any = [];
+  stateCerti: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -139,7 +141,7 @@ export class TechnologyDialog {
               this.techno = data.data["getDataTechno"][0];
               this.acti = data.data['getSubActivo'];
               this.list = data.data['getSubActivo'];
-              // this.sub = this.techno.listSub;
+              this.sub = this.techno.listSub;
               // console.log('===>',this.techno)
               console.log(this.sub)
               this.generateTable(data.data["getDatHistory"]);
@@ -257,6 +259,10 @@ export class TechnologyDialog {
       // sub_res: new FormControl(""),
       sub_pla_act_fij: new FormControl(""),
       sub_serial: new FormControl(""),
+      fec_ent: new FormControl(""),
+      car_user: new FormControl(""),
+      obs_act: new FormControl(""),
+      sta_equ: new FormControl("")
 
     });
   }
@@ -287,7 +293,8 @@ export class TechnologyDialog {
               this.typeDisk = data.data['getTypeDisk'];
               this.typeCampusCambu = data.data['getCampusCambu'];
               this.typeCampusCedro = data.data['getCampusCedro'];
-            //  this.techno = data.data["getDataTechno"];
+              this.listPosition = data.data['getPosition'];
+              this.stateCerti = data.data["getCertificate"];
 
           if (this.view == 'update') {
               this.getDataUpdate();
@@ -409,6 +416,10 @@ export class TechnologyDialog {
         this.formNomi.get("sub_ubi").setValue(data.data["getDataUpda"][0].sub_ubi);
         this.formNomi.get("sub_sede").setValue(data.data["getDataUpda"][0].sub_sede);
         this.formNomi.get("create_User").setValue(data.data["getDataUpda"][0].create_User);          
+        this.formNomi.get("car_user").setValue(data.data["getDataUpda"][0].car_user);          
+        this.formNomi.get("fec_ent").setValue(data.data["getDataUpda"][0].fec_ent);          
+        this.formNomi.get("obs_act").setValue(data.data["getDataUpda"][0].obs_act);          
+        this.formNomi.get("sta_equ").setValue(data.data["getDataUpda"][0].sta_equ);          
       },
       (error) => {
         this.handler.showError();
@@ -482,9 +493,11 @@ export class TechnologyDialog {
   }
   onSelectionPerson(event){
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+    console.log('per=>',exitsPersonal)
   
     if( exitsPersonal ){
         this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);       
+        this.formNomi.get('car_user').setValue(exitsPersonal.idPosition);       
     }        
   }
   onSelectCampus(idet){ 

@@ -19,7 +19,7 @@
 
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Asignacion de Formador &nbsp; &nbsp;
+                  Asignación de Formador &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
                   Información Detallada
@@ -49,7 +49,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha Inicio</mat-label>
-                    <input matInput formControlName="fec_ini" type="date">
+                    <input matInput formControlName="fec_ini" type="date"(ngModelChange)="calculateDays()">
                   </mat-form-field>
                 </div>
               </div>
@@ -57,12 +57,18 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha Final</mat-label>
-                    <input matInput formControlName="fec_fin" type="date">
+                    <input matInput formControlName="fec_fin" type="date" (ngModelChange)="calculateDays()">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Formacion:</mat-label >
+                    <mat-label>Dias de Formación:</mat-label>
+                      <input matInput formControlName="day_for" type="number" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Formación:</mat-label >
                       <mat-select formControlName="tip_for" required>
                         <mat-option *ngFor="let idet of trainingType" [value]="idet.ls_codvalue">
                           {{idet.description}}
@@ -70,17 +76,18 @@
                       </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Grupo:</mat-label>
-                      <input matInput formControlName="grupo" type="text">
-                  </mat-form-field>
-                </div>
+              
                 </div>
                 <div class="row">
                   <div class="col-sm-4">
                     <mat-form-field class="example-full-width">
-                      <mat-label>Metodologia:</mat-label>
+                      <mat-label>Grupo:</mat-label>
+                        <input matInput formControlName="grupo" type="text">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Metodología:</mat-label>
                       <mat-select formControlName="metodologia" required>
                         <mat-option *ngFor="let idet of methodology" [value]="idet.ls_codvalue"> 
                           {{idet.description}}
@@ -94,78 +101,12 @@
                       <input matInput formControlName="est" type="text">
                     </mat-form-field>
                   </div>
-                  <!-- <div class="col-sm-4">
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Numero de Vacantes:</mat-label>
-                      <input matInput formControlName="num_vac" type="number" required>
-                    </mat-form-field>
-                  </div> -->
-
-
                 </div>
                
-              
-               
-
-              <div class="row">
-                
-              
-                </div>
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
-            </mat-expansion-panel>
-            <!-- <mat-expansion-panel  [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-
-             <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Justificacion de la Requisicion&nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-                <mat-icon>description</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width" >
-                    <mat-label> Justificacion de la Requisicion:</mat-label>
-                    <textarea matInput formControlName="justification" required></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-action-row>
-                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel  [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
-
-               <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-
-                </mat-panel-description>
-                <mat-icon>assignment</mat-icon>
-              </mat-expansion-panel-header>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Obcervaciones:</mat-label>
-                      <textarea  matInput formControlName="observations"></textarea>
-                  </mat-form-field>
-                  </div>
-              </div>
-              <mat-action-row>
-                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
-              </mat-action-row>
-            </mat-expansion-panel> -->
-
-           
+            </mat-expansion-panel>     
           </form>
         </mat-accordion>
       </mat-dialog-content>
@@ -173,9 +114,7 @@
         <div class="text-center col-12">
           <button *ngIf="view == 'update'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
-
           <button *ngIf="view == 'training'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
-
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
@@ -184,7 +123,7 @@
 </div>
 
 <!-- <p>view</p> -->
-<div class="card mt-6">
+<!-- <div class="card mt-6">
   <div *ngIf="view == 'view'">
     <div class="card-header">
       <h5 class="modal-title">
@@ -220,10 +159,9 @@
                 <dd>{{selection.fec_req}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Tipo de Requisicion</dt>
+                <dt>Tipo de Requisición</dt>
                 <dd>{{selection.tip}}</dd>
-              </div>
-             
+              </div>    
             </div>
 
             <div class="row mt-2">
@@ -247,7 +185,7 @@
                 <dd>{{selection.num_vac}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Estado Requisicion</dt>
+                <dt>Estado Requisición</dt>
                 <dd>{{selection.sta}}</dd>
               </div>
             </div>
@@ -261,7 +199,7 @@
           <mat-expansion-panel [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Justificacion de la Requisicion&nbsp; &nbsp;
+                Justificación de la Requisición&nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
               </mat-panel-description>
@@ -270,7 +208,7 @@
 
             <div class="row mt-2">
               <div class="col-md-4">
-                <dt>Justificacion de Requisicion</dt>
+                <dt>Justificación de Requisición</dt>
                 <dd>{{selection.justification}}</dd>
               </div>
             </div>  
@@ -283,7 +221,7 @@
             <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Obcervaciones y/o consideraciones especiales &nbsp; &nbsp;
+                  Observaciones y/o consideraciones especiales &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
 
@@ -294,7 +232,7 @@
   
               <div class="row mt-2">
                 <div class="col-md-4">
-                  <dt>Obcervaciones y/o consideraciones especiales  </dt>
+                  <dt>Observaciones y/o consideraciones especiales  </dt>
                   <dd>{{selection.observations}}</dd>
                 </div>
               </div>
@@ -340,8 +278,8 @@
                   </mat-action-row>
                 </mat-expansion-panel>
 
-        </mat-accordion>
-        <div class="row mt-3">
+        </mat-accordion> -->
+        <!-- <div class="row mt-3">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
@@ -371,4 +309,4 @@
           </div>
         </div>
       </mat-dialog-content>
-    </div>
+    </div> -->

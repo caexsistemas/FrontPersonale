@@ -103,22 +103,10 @@ export class AssignmentDialog {
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
-           console.log('idvac=>',this.idSel);
-           console.log('car_sol=>',this.data.id);
-           console.log('mt=>',this.data.matriz);
-          //  console.log('data=>',this.data.data);
            
-        //  let date = new Date();
-          //  this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0');
           this.initForms();
           this.title = "Requisicion";
-         
-          //  this.fechaInicio = this.dateStrinMoni+'-01';
-          //  this.fechaFin = this.dateStrinMoni+'-'+String(date.getDate()).padStart(2, '0');
-          //  this.sendRequest(this.fechaInicio, this.fechaFin);
-          //  this.formProces.get('fecini').setValue(this.fechaInicio);
-          //  this.formProces.get('fecfin').setValue(this.fechaFin);
-          //  this.title = "PONDERADO";           
+               
        break;
        case "create":
         this.initForms();
@@ -137,10 +125,6 @@ export class AssignmentDialog {
         this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
           (data) => {
             if (data.success == true) {
-              // this.selection = data.data["getDataTechno"][0];
-              // this.acti = data.data['getSubActivo'];
-              // this.list = data.data['getSubActivo'];
-              // this.sub = this.techno.listSub;
               this.selection = data.data["getSelectData"][0];
               this.generateTable(data.data["getDatHistory"]);
               // this.loading.emit(false);

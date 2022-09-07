@@ -32,7 +32,7 @@ export class UsersDialog {
 
     // name: any =[];
     touched: any = [];
-    email = new FormControl('', [Validators.required, Validators.email]);
+    // email = new FormControl('', [Validators.required, Validators.email]);
     name = new FormControl('', [Validators.required]);
     surname = new FormControl('', [Validators.required]);
     username = new FormControl('', [Validators.required]);
@@ -113,18 +113,18 @@ export class UsersDialog {
         this.formUsuario = new FormGroup({
            
     // name = new FormControl('', [Validators.required]);
-            name: new FormControl('', [Validators.required]),
-            surname: new FormControl("", [Validators.required]),
-            username: new FormControl("", [Validators.required]),
-            email: new FormControl("", [Validators.required]),
+            name: new FormControl("",[Validators.required]),
+            surname: new FormControl("",[Validators.required]),
+            username: new FormControl(""),
+            email: new FormControl(""),
             phone: new FormControl(""),
             password: new FormControl(""),
-            status: new FormControl("", [Validators.required]),
+            status: new FormControl("",[Validators.required]),
             lastLogin: new FormControl(""),
-            role: new FormControl("",[Validators.required]),
-            matrizarp: new FormControl("", [Validators.required]),
+            role: new FormControl(""),
+            matrizarp: new FormControl(""),
             id_caex: new FormControl(""),
-            campana: new FormControl("", [Validators.required]),
+            campana: new FormControl(""),
             canal: new FormControl(""),
             usu_wolk: new FormControl(""),
             idPersonale: new FormControl("")
@@ -289,10 +289,12 @@ export class UsersDialog {
     }
     onSelectionPerson(event){
         let exitsPersonal = this.person.find(element => element.document == event);
-      
+
         if( exitsPersonal ){
             this.formUsuario.get('idPersonale').setValue(exitsPersonal.idPersonale);       
         }        
+        console.log('=>',exitsPersonal)
+
       }
     // mayus(e) {
     //     e.value = e.value.toUpperCase();
