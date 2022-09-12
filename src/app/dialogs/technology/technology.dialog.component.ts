@@ -493,13 +493,24 @@ export class TechnologyDialog {
   }
   onSelectionPerson(event){
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-    console.log('per=>',exitsPersonal)
-  
+
     if( exitsPersonal ){
-        this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);       
+        this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);   
         this.formNomi.get('car_user').setValue(exitsPersonal.idPosition);       
+
     }        
+    console.log('=>',exitsPersonal)
+
   }
+  // onSelectionPerson(event){
+  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+  //   console.log('per=>',exitsPersonal)
+  
+  //   if( exitsPersonal ){
+  //       this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);       
+  //       this.formNomi.get('car_user').setValue(exitsPersonal.idPosition);       
+  //   }        
+  // }
   onSelectCampus(idet){ 
     
     // console.log('sede=>',idet);

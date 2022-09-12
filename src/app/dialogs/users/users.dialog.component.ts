@@ -7,6 +7,11 @@ import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
 
+interface Login {
+    sesion: number;
+    viewValue: string;
+  }
+
 @Component({
     selector: 'users-dialog',
     templateUrl: 'users.dialog.component.html',
@@ -14,6 +19,8 @@ import { global } from '../../services/global';
 })
 
 export class UsersDialog {
+
+    
     // VARIABLES
     view: string = null;
     usuario: any = []; 
@@ -29,7 +36,7 @@ export class UsersDialog {
     typeRolAsesor: any = [];
     person: any = [];
     rol : any = [];
-
+    statusLid: any = [];
     // name: any =[];
     touched: any = [];
     // email = new FormControl('', [Validators.required, Validators.email]);
@@ -49,7 +56,16 @@ export class UsersDialog {
     value = '';
     value2 = '';
     value3 = '';
-
+    sesion: number = null;
+    // sesion: any = [];
+    // interface Food {
+    //     value: string;
+    //     viewValue: string;
+    //   }
+    login: Login[] = [
+        {sesion: 0, viewValue: 'OFF'},
+        {sesion: 1, viewValue: 'ON'},
+      ];
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
     // // OUTPUTS
     @Output() loading = new EventEmitter();
@@ -102,6 +118,7 @@ export class UsersDialog {
                
                 this.initForms();
                 this.id = this.data.codigo;
+                this.sesion = this.data.sesion
                 // this.title = "Editar Usuario" + " " + this.id;
                 this.title = "Editar Usuario";
                 break;
@@ -127,7 +144,8 @@ export class UsersDialog {
             campana: new FormControl(""),
             canal: new FormControl(""),
             usu_wolk: new FormControl(""),
-            idPersonale: new FormControl("")
+            idPersonale: new FormControl(""),
+            login: new FormControl(this.sesion)
 
         });
     }
@@ -149,7 +167,9 @@ export class UsersDialog {
         .subscribe(
             data => {
                 if (data.success == true) {
+
                     this.typeStatus = data.data['status'];
+                    this.statusLid = data.data['statusLid'];
                     this.typeMatriz = data.data['matriz'];
                     this.typeCampaign = data.data['campaign'];
                     this.typeRol = data.data['typeRol'];
@@ -238,6 +258,7 @@ export class UsersDialog {
                     this.formUsuario.get('canal').setValue(data.data["getDataUpda"][0].canal);
                     this.formUsuario.get('usu_wolk').setValue(data.data["getDataUpda"][0].usu_wolk);
                     this.formUsuario.get('idPersonale').setValue(data.data["getDataUpda"][0].idPersonale);
+                    this.formUsuario.get('login').setValue(data.data["getDataUpda"][0].login);
                     this.loading.emit(false);
                 } else {
                     this.handler.handlerError(data);

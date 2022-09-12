@@ -18,6 +18,7 @@ import {
   Validators,
   ValidatorFn,
   ValidationErrors,
+  RequiredValidator,
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
 import { HandlerAppService } from "../../../services/handler-app.service";
@@ -75,7 +76,9 @@ export class RequisitionDialog {
   displayedColumns: any = [];
   checked = false;
   disabled = false;
-  matriz: boolean = false;
+  matriz: boolean;
+  requ: boolean;
+  // matriz: any = [];
   typeCargo: any = [];
   PersonaleInfo: any = [];
 
@@ -144,7 +147,7 @@ export class RequisitionDialog {
       num_vac: new FormControl(""),
       salary: new FormControl(""),
       tip_req: new FormControl(""),
-      matrizarp: new FormControl(""),
+      matrizarp: new FormControl("",[Validators.required]),
       justification: new FormControl(""),
       observations: new FormControl(""),
       aprobacion1: new FormControl(""),
@@ -331,14 +334,34 @@ export class RequisitionDialog {
   prevStep() {
     this.step--;
   }
-  onSelectionAttributes(idet){
-    console.log('cargo=>',idet)
-    if(idet =='16/1'){
+  onSelectionAttributes(e){
+    console.log('cargo=>',e)
+    if(e == '16/1'){
       this.matriz = true
+      this.formSelec.value.matrizarp.required,false
+      console.log('++.', this.formSelec.controls.car_sol,{Validators:require})
+      if(this.matriz == true){
+        this.requ = true
+      }else if(e != '16/1'){
+        this.matriz = false
+        if(this.matriz == false){
+             this.requ = false
+
+        }
+
+      }
     }else{
       this.matriz = false
-
     }
+    // if(idet == '16/1'){
+      // this.matriz = idet
+    // // }
+    // if(idet !='16/1'){
+    //   this.matriz = false
+    // }else if(idet == '16/1'){
+    //   this.matriz = true
+
+    // }
 
   }
   onSelectionPerson(event){
