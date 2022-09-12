@@ -43,6 +43,7 @@ export class TechnologyComponent implements OnInit {
   exitsPersonal: any = [];
   area: any = [];
   clickedRows : any = [];
+  group:any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -76,9 +77,9 @@ export class TechnologyComponent implements OnInit {
         console.log(data);
         if (data.success == true) {
           this.generateTable(data.data["getContData"]);
-          this.name = data.data['getDataPersonale'];
+          this.name = data.data['getPersonale'];
          this.exitsPersonal = this.name.find(element => element.idPersonale == this.cuser.idPersonale);
-         console.log('na=>',this.exitsPersonal.idPosition);
+        //  console.log('na=>',this.exitsPersonal.idPosition);
 
         //  this.area = this.name.find(element => element.idPersonale == this.cuser.idPersonale);
 
@@ -101,7 +102,7 @@ export class TechnologyComponent implements OnInit {
     this.displayedColumns = [
       'check',
       "view",
-      "sub_serial",
+      "sub_pla_act_fij",
       "listActivo",
       "listSub",
       "idPersonale",
@@ -281,9 +282,62 @@ export class TechnologyComponent implements OnInit {
       }
     );
   }
-  onSelectionAct(e){
-    console.log('tcId=>',e)
+  onSelectionAct(id, checkbox){
+    // this.group = e
+    // console.log('tcId=>',Object(this.group ))
 
+      if(checkbox.checked){
+       this.group.push(id);
+      }else{
+       var i = this.group.indexOf( id );
+       this.group.splice( i, 1 );
+      }
+   
+       console.log(this.group);
+     }
+
+     pdfAll(id) {
+      if(this.group.length > 0){
+
+      
+
+      this.WebApiService.getRequest(this.endpoint, {
+        action: "pdfAll",
+            id:  ""+JSON.stringify(this.group),
+            // id: this.group,
+        // cc:document,
+        // token: this.cuser.token,
+        idPersonale: this.exitsPersonal.name,
+        area:this.exitsPersonal.idPosition
+        // idUser: this.cuser.iduser,
+        // modulo: this.component,
+      }).subscribe(
+        (data) => {
+          this.permissions = this.handler.getPermissions(this.component);
+          if (data.success == true) {
+            const link = document.createElement("a");
+            link.href = data.data.url;
+            link.download = data.data.file;
+            link.target = "_blank";
+            link.click();
+            this.handler.showSuccess(data.data.file);
+            this.loading = false;
+          } else {
+            this.handler.handlerError(data);
+            this.loading = false;
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.handler.showError("Se produjo un error");
+          this.loading = false;
+        }
+      );
+    
+  }else{
+    this.handler.showError('Por favor seleccionar algún registro.');
   }
+     }
+  
 
 }

@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
     this.dataSource.filter = search.trim().toLowerCase();
   }
 
-  option(action, codigo = null) {
+  option(action, codigo = null,sesion) {
     var dialogRef;
     switch (action) {
       case 'view':
@@ -152,7 +152,8 @@ export class UsersComponent implements OnInit {
         dialogRef = this.dialog.open(UsersDialog, {
           data: {
             window: 'update',
-            codigo
+            codigo,
+            sesion
           }
         });
         dialogRef.disableClose = true;

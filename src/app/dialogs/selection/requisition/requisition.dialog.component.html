@@ -28,7 +28,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargo a Solicitar:</mat-label>
-                    <mat-select formControlName="car_sol" (ngModelChange)="onSelectionAttributes($event)">
+                    <mat-select formControlName="car_sol" #car_sol (ngModelChange)="onSelectionAttributes(car_sol.value)">
                       <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
@@ -38,7 +38,7 @@
                 <div class="col-sm-4" *ngIf="matriz">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp" required>
+                    <mat-select formControlName="matrizarp">
                       <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
