@@ -63,11 +63,13 @@ export class RqcalidadDialog  {
                           'hab_dej_exp_rea_preg',
                           'hab_esc_act_par_con_nec_cli',
                           'hab_man_de_obj',
-                          'proc_rea_ofr_ven_cru',
-                          'tyt_hab_com_met_pag',
+                          'proc_rea_ofr_ven_cru',                         
                           'tyt_cie_cod',
-                          'tyt_ate_ama_emp' 
-                      
+                          //'tyt_ate_ama_emp' 
+                          'tyt_ate_con_ini',
+                          'tyt_hab_com_esc_act_par_con_nec_cli',
+                          'tyt_hab_com_man_obj'
+
                           ];
   //Datos Procesos
   conCumplePro:     number = 0;
@@ -91,9 +93,8 @@ export class RqcalidadDialog  {
                           'tyt_pro_ven_bri_inf_cor_ben_ban_vig',
                           'tyt_pro_ven_bri_inf_cor_ent_equ',
                           'tyt_cie_rea_res_ges',
-                          'tyt_hab_com_esc_act_par_con_nec_cli',
-                          'tyt_hab_com_man_obj'
-                          
+                          'tyt_hab_com_met_pag'
+                                                   
                           ];
   //Datos Criticos
   contCriticos:     number = 0;
@@ -411,6 +412,17 @@ export class RqcalidadDialog  {
     this.conNoACumPro = 0;
     //Criticos
     this.contCriticos = 0;
+    //sumador 
+    let contSumGen = 0;
+    let contSumPro = 0;
+
+    if( this.tipMatriz == '40/3' ){
+      contSumGen = 0.60;
+      contSumPro = 0.64;
+    }else{
+      contSumGen = 1;
+      contSumPro = 1;
+    }
 
     for (const field in this.formProces.controls) { 
         
@@ -418,13 +430,13 @@ export class RqcalidadDialog  {
       if( this.campGeneralAny.indexOf(field) !== -1 ){
 
         if( this.formProces.controls[field].value == '34/1'){
-          this.conCumpleGen = this.conCumpleGen + 1;
+          this.conCumpleGen = this.conCumpleGen + contSumGen;
         }
         if( this.formProces.controls[field].value == '34/2'){
-          this.conNoCumpGen = this.conNoCumpGen + 1;
+          this.conNoCumpGen = this.conNoCumpGen + contSumGen;
         }
         if( this.formProces.controls[field].value == '34/3'){
-          this.conNoACumGen = this.conNoACumGen + 1;
+          this.conNoACumGen = this.conNoACumGen + contSumGen;
         }
       }
 
@@ -432,13 +444,13 @@ export class RqcalidadDialog  {
       if( this.campProcesosAny.indexOf(field) !== -1 ){
 
         if( this.formProces.controls[field].value == '34/1'){
-          this.conCumplePro = this.conCumplePro + 1;
+          this.conCumplePro = this.conCumplePro + contSumPro;
         }
         if( this.formProces.controls[field].value == '34/2'){
-          this.conNoCumpPro = this.conNoCumpPro + 1;
+          this.conNoCumpPro = this.conNoCumpPro + contSumPro;
         }
         if( this.formProces.controls[field].value == '34/3'){
-          this.conNoACumPro = this.conNoACumPro + 1;
+          this.conNoACumPro = this.conNoACumPro + contSumPro;
         }
       }
 

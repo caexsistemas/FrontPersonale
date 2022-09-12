@@ -205,6 +205,8 @@ export class AbsenteeismDialog {
     }
     if( this.formProces.value.fecha_ausencia <= this.formProces.value.fecha_finausen){
         this.loading.emit(true);
+        //Validados incapcidad
+
         this.WebApiService.putRequest(this.endpoint+'/'+this.idAds,body,{
             token: this.cuser.token,
             idUser: this.cuser.iduser,
@@ -226,6 +228,9 @@ export class AbsenteeismDialog {
                 this.loading.emit(false);
             }
         );
+
+
+
     }else {
         this.handler.showError('Por favor validar el rango de fechas');
         this.loading.emit(false);
@@ -292,6 +297,44 @@ export class AbsenteeismDialog {
     if( (event == '60/2' || event == '60/3') ){
         this.optionOtr('createIncapa');
     }     
+  }
+
+  //Validacion creacion de incapacidad
+  valIncapaAusen(){
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+        action: 'getValicapacty',
+        id: this.idAds,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
+        idPersonale: this.formProces.value.idPersonale,
+        fecha_ausencia: this.formProces.value.fecha_ausencia,
+        fecha_finausen: this.formProces.value.fecha_finausen,
+    })
+    .subscribe(
+        data => {
+
+            if(data.success){
+              
+                if( data.data['resincapa'].resp == 'NO' && (this.formProces.value.motivo == '60/2' || this.formProces.value.motivo == '60/3') ){
+                    this.loading.emit(false);
+                    this.handler.showError('Por favor diligenciar la incapacidad');
+                    this.optionOtr('createIncapa');
+                }else{
+                    this.loading.emit(false);
+                    this.onSubmitUpdate();
+                }                            
+            }else{
+                this.handler.showError('Error al consultar incapacidades');
+                this.loading.emit(false);
+            }   
+        },
+        error => {
+            this.handler.showError(error);
+            this.loading.emit(false);
+        }
+    );
   }
 
 }
