@@ -142,6 +142,16 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Sesion:</mat-label>
+                                <mat-select formControlName="login" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let idet of login" [value]="idet.sesion">
+                                        {{idet.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         <!-- <div class="col-md-4">
                             <mat-form-field class="example-form-field" appearance="fill">
                                 <mat-label>Teléfono</mat-label>
@@ -196,7 +206,7 @@
     </div>
 </div>
 <!-- lider de proceso -->
-<div class="card mt-6" *ngIf="rol == 2">
+<div class="card mt-6" *ngIf="rol == 2 || rol == 3 || rol == 22">
     <div *ngIf="view == 'create' || view == 'update'">
         <div class="card-header">
             <h5 class="modal-title">
