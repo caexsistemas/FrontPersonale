@@ -54,13 +54,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/1'|| attribute == '48/2'">
@@ -74,18 +76,19 @@
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Procesador</mat-label>
-                    <input matInput formControlName="pc_pro" value="pc_pro">
+                    <input matInput formControlName="pc_pro" value="pc_pro" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Disco:</mat-label>
-                  <mat-select formControlName="pc_tip_dis">
-                    <mat-option *ngFor="let idet of typeDisk" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                    <mat-select formControlName="pc_tip_dis">
+                      <mat-option *ngFor="let idet of typeDisk" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
@@ -118,19 +121,21 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/3'|| attribute == '48/4'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/3'|| attribute == '48/4'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/3'|| attribute == '48/4'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tamaño</mat-label>
-                    <input matInput formControlName="mon_tam" type="number" value="mon_tam">
+                    <input matInput formControlName="pc_tam_pan" type="number" value="pc_tam_pan">
                   </mat-form-field>
                 </div>
               </div>
@@ -140,13 +145,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/5'|| attribute == '48/6'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/5'|| attribute == '48/6'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/5'|| attribute == '48/6'">
@@ -179,13 +186,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/7'">
@@ -204,13 +213,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/8'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/8'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/8'">
@@ -225,19 +236,21 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/9'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Ram</mat-label>
-                    <input matInput formControlName="ser_ram" type="number" value="ser_ram">
+                    <input matInput formControlName="pc_ram" type="number" value="pc_ram">
                   </mat-form-field>
                 </div>
               </div>
@@ -278,13 +291,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/10'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/10'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/10'">
@@ -303,13 +318,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/11' || attribute == '48/12'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/11'|| attribute == '48/12'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
               </div>
@@ -318,13 +335,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/13'">
@@ -343,13 +362,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/14' || attribute == '48/15'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/14'|| attribute == '48/15'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/14'|| attribute == '48/15'">
@@ -368,13 +389,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/16'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/16'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/16'">
@@ -393,13 +416,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/17'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/17'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/17'">
@@ -415,13 +440,15 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/18'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/18'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/18'">
@@ -436,19 +463,21 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/19'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/19'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/19'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad</mat-label>
-                    <input matInput formControlName="tran_for_ele_cap" type="number" value="tran_for_ele_cap">
+                    <input matInput formControlName="plan_elec_cap" type="number" value="plan_elec_cap">
                   </mat-form-field>
                 </div>
               </div>
@@ -457,19 +486,21 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/20'">
                   <mat-form-field class="example-full-width">
                     <mat-label> Modelo</mat-label>
-                    <input matInput formControlName="pc_mod" value="pc_mod">
+                    <input matInput formControlName="pc_mod" value="pc_mod" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/20'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Marca</mat-label>
-                    <input matInput formControlName="pc_mar" value="pc_mar">
+                    <input matInput formControlName="pc_mar" value="pc_mar" autocomplete="off"
+                      oninput="javascript:this.value=this.value.toUpperCase();">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/20'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Capacidad</mat-label>
-                    <input matInput formControlName="air_cap" type="number" value="air_cap">
+                    <input matInput formControlName="plan_elec_cap" type="number" value="plan_elec_cap">
                   </mat-form-field>
                 </div>
               </div>
@@ -490,7 +521,7 @@
                 <div class="col-md-4 mt-3" *ngIf="attribute == '48/21'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tamaño</mat-label>
-                    <input matInput formControlName="rac_tam" value="rac_tam">
+                    <input matInput formControlName="pc_tam_pan" value="pc_tam_pan">
                   </mat-form-field>
                 </div>
               </div>
@@ -502,7 +533,7 @@
             <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Facturacion &nbsp; &nbsp;
+                  Facturación  &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
                   Detalle Factura
@@ -591,7 +622,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row">   
+              <div class="row">
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha Entrega</mat-label>
@@ -610,16 +641,6 @@
                 </div>
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Estado</mat-label>
-                    <mat-select formControlName="sta_equ" required>
-                      <mat-option *ngFor="let idet of stateCerti" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
                     <mat-label>Ubicacion</mat-label>
                     <mat-select formControlName="sub_ubi">
                       <mat-option *ngFor="let idet of typeflat" [value]="idet.ls_codvalue" required>
@@ -628,17 +649,58 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Estado</mat-label>
+                    <mat-select formControlName="sta_equ" (ngModelChange)="onSelectEstate($event)" required>
+                      <mat-option *ngFor="let idet of stateCerti" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
               <hr>
-              <div class="row">
+              <div class="row" *ngIf="obs">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label>Observación :</mat-label>
-                    <textarea matInput formControlName="obs_act" required></textarea>
+                    <textarea matInput formControlName="obs_ent"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngIf="rep">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observación Reposición:</mat-label>
+                    <textarea matInput formControlName="obs_rep"></textarea>
                   </mat-form-field>
                 </div>
               </div>
 
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Mantenimiento
+                </mat-panel-title>
+                <mat-panel-description>
+                  Equipos
+                </mat-panel-description>
+                <mat-icon>build</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observación/Mantenimiento:</mat-label>
+                    <textarea matInput formControlName="obs_act"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
@@ -736,7 +798,7 @@
                 <dt>Tamaño de Disco: </dt>
                 <dd>{{techno.pc_tam_dis}}</dd>
               </div>
-              
+
             </div>
             <div class="row">
               <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
@@ -763,7 +825,7 @@
             <div class="row mt-2">
               <div class="col-md-4" *ngIf="sub == '48/3'|| sub == '48/4'">
                 <dt>Tamaño de Monitor: </dt>
-                <dd>{{techno.mon_tam}}</dd>
+                <dd>{{techno.pc_tam_pan}}</dd>
               </div>
               <!--  -->
               <div class="col-md-4" *ngIf="sub == '48/5'|| sub == '48/6'">
@@ -832,7 +894,7 @@
               </div>
               <div class="col-md-4" *ngIf="sub == '48/9'">
                 <dt>Ram de Servidor: </dt>
-                <dd>{{techno.ser_ram}}</dd>
+                <dd>{{techno.pc_ram}}</dd>
               </div>
             </div>
             <div class="row mt-2">
@@ -945,7 +1007,7 @@
             <div class="row mt-2">
               <div class="col-md-4" *ngIf="sub == '48/21'">
                 <dt>Tamaño de Rack: </dt>
-                <dd>{{techno.rac_tam}}</dd>
+                <dd>{{techno.pc_tam_pan}}</dd>
               </div>
               <!--  -->
               <div class="col-md-4" *ngIf="sub == '48/18'">
@@ -975,7 +1037,7 @@
             <div class="row mt-2">
               <div class="col-md-4" *ngIf="sub == '48/19'">
                 <dt>Capacidad de Trasnformador Electrico: </dt>
-                <dd>{{techno.tran_for_ele_cap}}</dd>
+                <dd>{{techno.plan_elec_cap}}</dd>
               </div>
               <!--  -->
               <div class="col-md-4" *ngIf="sub == '48/20'">
@@ -991,7 +1053,7 @@
             <div class="row mt-2">
               <div class="col-md-4" *ngIf="sub == '48/20'">
                 <dt>Capacidad de Aire : </dt>
-                <dd>{{techno.air_cap}}</dd>
+                <dd>{{techno.plan_elec_cap}}</dd>
               </div>
               <div class="col-md-4" *ngIf="sub == '48/20'">
                 <dt>Tipo de Aire: </dt>
@@ -1008,7 +1070,7 @@
           <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Facturacion &nbsp; &nbsp;
+                Facturación  &nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
                 Detalle Factura
@@ -1021,7 +1083,7 @@
                 <dd>{{ techno.fecha_compra | date }}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Numero de Facturacion: </dt>
+                <dt>Numero de Facturación: </dt>
                 <dd>{{techno.sub_num_fac}}</dd>
               </div>
 
@@ -1074,13 +1136,51 @@
               </div>
 
             </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Estado: </dt>
+                <dd>{{techno.rep}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-4" *ngIf="repo == '73/2'">
+              <div class="col-md-4">
+                <dt>Observación: </dt>
+                <dd>{{techno.obs_ent}}</dd>
+              </div>
+            </div>
+            <div class="row mt-4" *ngIf="repo == '73/1'">
+              <div class="col-md-4">
+                <dt>Observación Reposición: </dt>
+                <dd>{{techno.obs_rep}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Mantenimiento &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Equipo
+              </mat-panel-description>
+              <mat-icon>build</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-4">
+              <div class="col-md-4">
+                <dt>Observación: </dt>
+                <dd>{{techno.obs_act}}</dd>
+              </div>
+            </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
               <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
             </mat-action-row>
           </mat-expansion-panel>
-
-
 
         </mat-accordion>
         <div class="row mt-3">

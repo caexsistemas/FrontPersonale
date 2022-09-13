@@ -217,71 +217,71 @@ export class TechnologyComponent implements OnInit {
     this.matBottomSheet.open(ReportsTechnologyComponent);
   }
 
-  pdf(id) {
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "pdf",
-      id: id,
-      // cc:document,
-      // token: this.cuser.token,
-      idPersonale: this.exitsPersonal.name,
-      area:this.exitsPersonal.idPosition
-      // idUser: this.cuser.iduser,
-      // modulo: this.component,
-    }).subscribe(
-      (data) => {
-        this.permissions = this.handler.getPermissions(this.component);
-        if (data.success == true) {
-          const link = document.createElement("a");
-          link.href = data.data.url;
-          link.download = data.data.file;
-          link.target = "_blank";
-          link.click();
-          this.handler.showSuccess(data.data.file);
-          this.loading = false;
-        } else {
-          this.handler.handlerError(data);
-          this.loading = false;
-        }
-      },
-      (error) => {
-        console.log(error);
-        this.handler.showError("Se produjo un error");
-        this.loading = false;
-      }
-    );
-  }
-  pdfReposicion(id) {
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "pdfReposicion",
-      id: id,
-      // token: this.cuser.token,
-      idPersonale: this.exitsPersonal.name,
-      area:this.exitsPersonal.idPosition
-      // idUser: this.cuser.iduser,
-      // modulo: this.component,
-    }).subscribe(
-      (data) => {
-        this.permissions = this.handler.getPermissions(this.component);
-        if (data.success == true) {
-          const link = document.createElement("a");
-          link.href = data.data.url;
-          link.download = data.data.file;
-          link.target = "_blank";
-          link.click();
-          this.handler.showSuccess(data.data.file);
-          this.loading = false;
-        } else {
-          this.handler.handlerError(data);
-          this.loading = false;
-        }
-      },
-      (error) => {
-        console.log(error);
-        this.handler.showError("Se produjo un error");
-        this.loading = false;
-      }
-    );
-  }
+  // pdf(id) {
+  //   this.WebApiService.getRequest(this.endpoint, {
+  //     action: "pdf",
+  //     id: id,
+  //     // cc:document,
+  //     // token: this.cuser.token,
+  //     idPersonale: this.exitsPersonal.name,
+  //     area:this.exitsPersonal.idPosition
+  //     // idUser: this.cuser.iduser,
+  //     // modulo: this.component,
+  //   }).subscribe(
+  //     (data) => {
+  //       this.permissions = this.handler.getPermissions(this.component);
+  //       if (data.success == true) {
+  //         const link = document.createElement("a");
+  //         link.href = data.data.url;
+  //         link.download = data.data.file;
+  //         link.target = "_blank";
+  //         link.click();
+  //         this.handler.showSuccess(data.data.file);
+  //         this.loading = false;
+  //       } else {
+  //         this.handler.handlerError(data);
+  //         this.loading = false;
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //       this.handler.showError("Se produjo un error");
+  //       this.loading = false;
+  //     }
+  //   );
+  // }
+  // pdfReposicion(id) {
+  //   this.WebApiService.getRequest(this.endpoint, {
+  //     action: "pdfReposicion",
+  //     id: id,
+  //     // token: this.cuser.token,
+  //     idPersonale: this.exitsPersonal.name,
+  //     area:this.exitsPersonal.idPosition
+  //     // idUser: this.cuser.iduser,
+  //     // modulo: this.component,
+  //   }).subscribe(
+  //     (data) => {
+  //       this.permissions = this.handler.getPermissions(this.component);
+  //       if (data.success == true) {
+  //         const link = document.createElement("a");
+  //         link.href = data.data.url;
+  //         link.download = data.data.file;
+  //         link.target = "_blank";
+  //         link.click();
+  //         this.handler.showSuccess(data.data.file);
+  //         this.loading = false;
+  //       } else {
+  //         this.handler.handlerError(data);
+  //         this.loading = false;
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //       this.handler.showError("Se produjo un error");
+  //       this.loading = false;
+  //     }
+  //   );
+  // }
   onSelectionAct(id, checkbox){
     // this.group = e
     // console.log('tcId=>',Object(this.group ))
@@ -295,7 +295,7 @@ export class TechnologyComponent implements OnInit {
    
        console.log(this.group);
      }
-
+     
      pdfAll(id) {
       if(this.group.length > 0){
 
@@ -303,6 +303,47 @@ export class TechnologyComponent implements OnInit {
 
       this.WebApiService.getRequest(this.endpoint, {
         action: "pdfAll",
+            id:  ""+JSON.stringify(this.group),
+            // id: this.group,
+        // cc:document,
+        // token: this.cuser.token,
+        idPersonale: this.exitsPersonal.name,
+        area:this.exitsPersonal.idPosition
+        // idUser: this.cuser.iduser,
+        // modulo: this.component,
+      }).subscribe(
+        (data) => {
+          this.permissions = this.handler.getPermissions(this.component);
+          if (data.success == true) {
+            const link = document.createElement("a");
+            link.href = data.data.url;
+            link.download = data.data.file;
+            link.target = "_blank";
+            link.click();
+            this.handler.showSuccess(data.data.file);
+            this.loading = false;
+          } else {
+            this.handler.handlerError(data);
+            this.loading = false;
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.handler.showError("Se produjo un error");
+          this.loading = false;
+        }
+      );
+    
+  }else{
+    this.handler.showError('Por favor seleccionar algún registro.');
+  }
+     }
+
+     pdfReposicion(id) {
+      if(this.group.length > 0){
+
+      this.WebApiService.getRequest(this.endpoint, {
+        action: "pdfReposicion",
             id:  ""+JSON.stringify(this.group),
             // id: this.group,
         // cc:document,
