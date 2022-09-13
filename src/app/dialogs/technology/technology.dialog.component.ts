@@ -99,6 +99,7 @@ export class TechnologyDialog {
   disabled = false;
   listPosition: any = [];
   stateCerti: any = [];
+  repo: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -142,6 +143,7 @@ export class TechnologyDialog {
               this.acti = data.data['getSubActivo'];
               this.list = data.data['getSubActivo'];
               this.sub = this.techno.listSub;
+              this.repo = this.techno.sta_equ;
               // console.log('===>',this.techno)
               console.log(this.sub)
               this.generateTable(data.data["getDatHistory"]);
@@ -180,74 +182,74 @@ export class TechnologyDialog {
       pc_tam_pan: new FormControl(""),
       pc_tip_dis: new FormControl(""),
       //monitor
-      mon_mar: new FormControl(""),
-      mon_mod: new FormControl(""),
-      mon_tam: new FormControl(""),
+      // mon_mar: new FormControl(""),
+      // mon_mod: new FormControl(""),
+      // mon_tam: new FormControl(""),
       //Camaras / DVR
-      cam_mod: new FormControl(""), 
-      cam_mar: new FormControl(""),
+      // cam_mod: new FormControl(""), 
+      // cam_mar: new FormControl(""),
       cam_res: new FormControl(""),
       cam_tip: new FormControl(""),
       cam_can: new FormControl(""),
       //Control Acceso
-      cont_acc_marc: new FormControl(""),
-      cont_acc_mod: new FormControl(""),
+      // cont_acc_marc: new FormControl(""),
+      // cont_acc_mod: new FormControl(""),
       cont_acc_tip: new FormControl(""),
       // Switches
-      swi_mod: new FormControl(""),
-      swi_mar: new FormControl(""),
+      // swi_mod: new FormControl(""),
+      // swi_mar: new FormControl(""),
       swi_pue: new FormControl(""),
       // Servidores
-      ser_mod:new FormControl(""),
-      ser_mar:new FormControl(""),
+      // ser_mod:new FormControl(""),
+      // ser_mar:new FormControl(""),
       ser_ram:new FormControl(""),
       ser_pro:new FormControl(""),
       ser_alm:new FormControl(""),
       ser_cap_fue:new FormControl(""),
       ser_tip:new FormControl(""),
       // Telefonia IP
-      tel_mod: new FormControl(""),
-      tel_mar: new FormControl(""),
+      // tel_mod: new FormControl(""),
+      // tel_mar: new FormControl(""),
       tel_tip: new FormControl(""),
       // AP/Router
-      ap_rou_mod: new FormControl(""),
-      ap_rou_mar: new FormControl(""),
+      // ap_rou_mod: new FormControl(""),
+      // ap_rou_mar: new FormControl(""),
       // Impresoras
-      imp_mod: new FormControl(""),
-      imp_mar: new FormControl(""),
+      // imp_mod: new FormControl(""),
+      // imp_mar: new FormControl(""),
       imp_tip: new FormControl(""),
 
       // Escaner / Lectores Barras
-      esc_mod: new FormControl(""),
-      esc_mar: new FormControl(""),
+      // esc_mod: new FormControl(""),
+      // esc_mar: new FormControl(""),
       esc_tip: new FormControl(""),
 
       // Diademas
-      diad_mod: new FormControl(""),
-      diad_mar: new FormControl(""),
+      // diad_mod: new FormControl(""),
+      // diad_mar: new FormControl(""),
       diad_tip: new FormControl(""),
 
       // UPS
-      ups_mod: new FormControl(""),
-      ups_mar: new FormControl(""),
+      // ups_mod: new FormControl(""),
+      // ups_mar: new FormControl(""),
       ups_cap: new FormControl(""),
 
       // Racks
-      rac_tam: new FormControl(""),
+      // rac_tam: new FormControl(""),
 
       // Planta Electrica
-      plan_elec_mod: new FormControl(""),
-      plan_elec_mar: new FormControl(""),
+      // plan_elec_mod: new FormControl(""),
+      // plan_elec_mar: new FormControl(""),
       plan_elec_cap: new FormControl(""),
 
       // Transformador Electrico
-      tran_for_ele_mod: new FormControl(""),
-      tran_for_ele_mar: new FormControl(""),
+      // tran_for_ele_mod: new FormControl(""),
+      // tran_for_ele_mar: new FormControl(""),
       tran_for_ele_cap: new FormControl(""),
 
       // Aires
-      air_mod: new FormControl(""),
-      air_mar: new FormControl(""),
+      // air_mod: new FormControl(""),
+      // air_mar: new FormControl(""),
       air_cap: new FormControl(""),
       air_tip: new FormControl(""),
 
@@ -262,7 +264,9 @@ export class TechnologyDialog {
       fec_ent: new FormControl(""),
       car_user: new FormControl(""),
       obs_act: new FormControl(""),
-      sta_equ: new FormControl("")
+      sta_equ: new FormControl(""),
+      obs_rep: new FormControl(""),
+      obs_ent: new FormControl("")
 
     });
   }
@@ -358,53 +362,53 @@ export class TechnologyDialog {
         this.formNomi.get("pc_tip_dis").setValue(data.data["getDataUpda"][0].pc_tip_dis);
         this.formNomi.get("pc_car").setValue(data.data["getDataUpda"][0].pc_car);
         this.formNomi.get("pc_tam_pan").setValue(data.data["getDataUpda"][0].pc_tam_pan);
-        this.formNomi.get("mon_mar").setValue(data.data["getDataUpda"][0].mon_mar);
-        this.formNomi.get("mon_mod").setValue(data.data["getDataUpda"][0].mon_mod);
-        this.formNomi.get("mon_tam").setValue(data.data["getDataUpda"][0].mon_tam);
-        this.formNomi.get("cam_mod").setValue(data.data["getDataUpda"][0].cam_mod);
-        this.formNomi.get("cam_mar").setValue(data.data["getDataUpda"][0].cam_mar);
+        // this.formNomi.get("mon_mar").setValue(data.data["getDataUpda"][0].mon_mar);
+        // this.formNomi.get("mon_mod").setValue(data.data["getDataUpda"][0].mon_mod);
+        // this.formNomi.get("mon_tam").setValue(data.data["getDataUpda"][0].mon_tam);
+        // this.formNomi.get("cam_mod").setValue(data.data["getDataUpda"][0].cam_mod);
+        // this.formNomi.get("cam_mar").setValue(data.data["getDataUpda"][0].cam_mar);
         this.formNomi.get("cam_res").setValue(data.data["getDataUpda"][0].cam_res);
         this.formNomi.get("cam_tip").setValue(data.data["getDataUpda"][0].cam_tip);
         this.formNomi.get("cam_can").setValue(data.data["getDataUpda"][0].cam_can);
-        this.formNomi.get("cont_acc_marc").setValue(data.data["getDataUpda"][0].cont_acc_marc);
-        this.formNomi.get("cont_acc_mod").setValue(data.data["getDataUpda"][0].cont_acc_mod);
+        // this.formNomi.get("cont_acc_marc").setValue(data.data["getDataUpda"][0].cont_acc_marc);
+        // this.formNomi.get("cont_acc_mod").setValue(data.data["getDataUpda"][0].cont_acc_mod);
         this.formNomi.get("cont_acc_tip").setValue(data.data["getDataUpda"][0].cont_acc_tip);
-        this.formNomi.get("swi_mod").setValue(data.data["getDataUpda"][0].swi_mod);
-        this.formNomi.get("swi_mar").setValue(data.data["getDataUpda"][0].swi_mar);
+        // this.formNomi.get("swi_mod").setValue(data.data["getDataUpda"][0].swi_mod);
+        // this.formNomi.get("swi_mar").setValue(data.data["getDataUpda"][0].swi_mar);
         this.formNomi.get("swi_pue").setValue(data.data["getDataUpda"][0].swi_pue);
-        this.formNomi.get("ser_mod").setValue(data.data["getDataUpda"][0].ser_mod);
-        this.formNomi.get("ser_mar").setValue(data.data["getDataUpda"][0].ser_mar);
+        // this.formNomi.get("ser_mod").setValue(data.data["getDataUpda"][0].ser_mod);
+        // this.formNomi.get("ser_mar").setValue(data.data["getDataUpda"][0].ser_mar);
         this.formNomi.get("ser_ram").setValue(data.data["getDataUpda"][0].ser_ram);
         this.formNomi.get("ser_pro").setValue(data.data["getDataUpda"][0].ser_pro);
         this.formNomi.get("ser_alm").setValue(data.data["getDataUpda"][0].ser_alm);
         this.formNomi.get("ser_cap_fue").setValue(data.data["getDataUpda"][0].ser_cap_fue);
         this.formNomi.get("ser_tip").setValue(data.data["getDataUpda"][0].ser_tip);
-        this.formNomi.get("tel_mod").setValue(data.data["getDataUpda"][0].tel_mod);
-        this.formNomi.get("tel_mar").setValue(data.data["getDataUpda"][0].tel_mar);
+        // this.formNomi.get("tel_mod").setValue(data.data["getDataUpda"][0].tel_mod);
+        // this.formNomi.get("tel_mar").setValue(data.data["getDataUpda"][0].tel_mar);
         this.formNomi.get("tel_tip").setValue(data.data["getDataUpda"][0].tel_tip);
-        this.formNomi.get("ap_rou_mod").setValue(data.data["getDataUpda"][0].ap_rou_mod);
-        this.formNomi.get("ap_rou_mar").setValue(data.data["getDataUpda"][0].ap_rou_mar);
-        this.formNomi.get("imp_mod").setValue(data.data["getDataUpda"][0].imp_mod);
-        this.formNomi.get("imp_mar").setValue(data.data["getDataUpda"][0].imp_mar);
+        // this.formNomi.get("ap_rou_mod").setValue(data.data["getDataUpda"][0].ap_rou_mod);
+        // this.formNomi.get("ap_rou_mar").setValue(data.data["getDataUpda"][0].ap_rou_mar);
+        // this.formNomi.get("imp_mod").setValue(data.data["getDataUpda"][0].imp_mod);
+        // this.formNomi.get("imp_mar").setValue(data.data["getDataUpda"][0].imp_mar);
         this.formNomi.get("imp_tip").setValue(data.data["getDataUpda"][0].imp_tip);
-        this.formNomi.get("esc_mod").setValue(data.data["getDataUpda"][0].esc_mod);
-        this.formNomi.get("esc_mar").setValue(data.data["getDataUpda"][0].esc_mar);
+        // this.formNomi.get("esc_mod").setValue(data.data["getDataUpda"][0].esc_mod);
+        // this.formNomi.get("esc_mar").setValue(data.data["getDataUpda"][0].esc_mar);
         this.formNomi.get("esc_tip").setValue(data.data["getDataUpda"][0].esc_tip);
-        this.formNomi.get("diad_mod").setValue(data.data["getDataUpda"][0].diad_mod);
-        this.formNomi.get("diad_mar").setValue(data.data["getDataUpda"][0].diad_mar);
+        // this.formNomi.get("diad_mod").setValue(data.data["getDataUpda"][0].diad_mod);
+        // this.formNomi.get("diad_mar").setValue(data.data["getDataUpda"][0].diad_mar);
         this.formNomi.get("diad_tip").setValue(data.data["getDataUpda"][0].diad_tip);
-        this.formNomi.get("ups_mod").setValue(data.data["getDataUpda"][0].ups_mod);
-        this.formNomi.get("ups_mar").setValue(data.data["getDataUpda"][0].ups_mar);
+        // this.formNomi.get("ups_mod").setValue(data.data["getDataUpda"][0].ups_mod);
+        // this.formNomi.get("ups_mar").setValue(data.data["getDataUpda"][0].ups_mar);
         this.formNomi.get("ups_cap").setValue(data.data["getDataUpda"][0].ups_cap);
-        this.formNomi.get("rac_tam").setValue(data.data["getDataUpda"][0].rac_tam);
-        this.formNomi.get("plan_elec_mod").setValue(data.data["getDataUpda"][0].plan_elec_mod);
-        this.formNomi.get("plan_elec_mar").setValue(data.data["getDataUpda"][0].plan_elec_mar);
+        // this.formNomi.get("rac_tam").setValue(data.data["getDataUpda"][0].rac_tam);
+        // this.formNomi.get("plan_elec_mod").setValue(data.data["getDataUpda"][0].plan_elec_mod);
+        // this.formNomi.get("plan_elec_mar").setValue(data.data["getDataUpda"][0].plan_elec_mar);
         this.formNomi.get("plan_elec_cap").setValue(data.data["getDataUpda"][0].plan_elec_cap);
-        this.formNomi.get("tran_for_ele_mod").setValue(data.data["getDataUpda"][0].tran_for_ele_mod);
-        this.formNomi.get("tran_for_ele_mar").setValue(data.data["getDataUpda"][0].tran_for_ele_mar);
+        // this.formNomi.get("tran_for_ele_mod").setValue(data.data["getDataUpda"][0].tran_for_ele_mod);
+        // this.formNomi.get("tran_for_ele_mar").setValue(data.data["getDataUpda"][0].tran_for_ele_mar);
         this.formNomi.get("tran_for_ele_cap").setValue(data.data["getDataUpda"][0].tran_for_ele_cap);
-        this.formNomi.get("air_mod").setValue(data.data["getDataUpda"][0].air_mod);
-        this.formNomi.get("air_mar").setValue(data.data["getDataUpda"][0].air_mar);
+        // this.formNomi.get("air_mod").setValue(data.data["getDataUpda"][0].air_mod);
+        // this.formNomi.get("air_mar").setValue(data.data["getDataUpda"][0].air_mar);
         this.formNomi.get("air_cap").setValue(data.data["getDataUpda"][0].air_cap);
         this.formNomi.get("air_tip").setValue(data.data["getDataUpda"][0].air_tip);
         this.formNomi.get("sub_prec").setValue(data.data["getDataUpda"][0].sub_prec);
@@ -419,7 +423,9 @@ export class TechnologyDialog {
         this.formNomi.get("car_user").setValue(data.data["getDataUpda"][0].car_user);          
         this.formNomi.get("fec_ent").setValue(data.data["getDataUpda"][0].fec_ent);          
         this.formNomi.get("obs_act").setValue(data.data["getDataUpda"][0].obs_act);          
+        this.formNomi.get("obs_rep").setValue(data.data["getDataUpda"][0].obs_rep);          
         this.formNomi.get("sta_equ").setValue(data.data["getDataUpda"][0].sta_equ);          
+        this.formNomi.get("obs_ent").setValue(data.data["getDataUpda"][0].obs_ent);          
       },
       (error) => {
         this.handler.showError();
@@ -483,7 +489,7 @@ export class TechnologyDialog {
     
   }
   onSelectionAttributes(idet){
-      // console.log("idSub=>", idet);
+      console.log("idSub=>", idet);
      
       for(let i = idet; i>='48/1'; i++ ){
 
@@ -527,6 +533,21 @@ export class TechnologyDialog {
       return this.typeflat;
     }
 
+  }
+  obs: boolean;
+  rep:boolean;
+  onSelectEstate(e){
+    console.log('=>',e)
+    if(e == '73/2'){
+      this.obs = true
+    }else{
+      this.obs = false
+    }
+      if(e == '73/1'){
+        this.rep = true
+      }else{
+        this.rep = false
+      }
   }
 
   generateTable(data) {

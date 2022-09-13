@@ -20,11 +20,22 @@
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
-                    <div class="btn-group" dropdown>
+                    <!-- <div class="btn-group" dropdown>
                         <button class="btn btn-danger" *ngIf="permissions.create" (click)="pdfAll()"
                             title="Pdf">
                                     <i class="fa fa-file-pdf-o"></i>
                         </button>
+                    </div> -->
+                    <div class="btn-group" *ngIf="permissions.create" dropdown title="Pdf">
+                        <button dropdownToggle type="button" class="btn btn-danger">
+                            <i class="fa fa-file-pdf-o"></i>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer" role="pdf">
+                            <li role="pdfitem"><a class="dropdown-item" (click)="pdfAll()">Acta
+                                    Entrega</a></li>
+                            <li role="pdfitem"><a class="dropdown-item"
+                                    (click)="pdfReposicion()">Acta Reposición Equipo</a></li>
+                        </ul>
                     </div>
                 </div>
 
