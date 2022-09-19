@@ -82,6 +82,7 @@ export class TrainerDataDialog {
   PersonaleInfo: any = [];
   trainingType: any = [];
   methodology: any = [];
+  stateFor: any =[];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -116,8 +117,8 @@ export class TrainerDataDialog {
       case "training":
         // this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
-        console.log('dat=>',this.data);
-        console.log('idsel=>',this.idSel);
+        // console.log('dat=>',this.data);
+        // console.log('idsel=>',this.idSel);
         console.log('num=>',this.data);
         this.initForms();
         this.title = "Ingresar Formador";
@@ -160,10 +161,10 @@ export class TrainerDataDialog {
       // tip_req: new FormControl(""),
       // matrizarp: new FormControl(""),
       // justification: new FormControl(""),
-      // observations: new FormControl(""),
-      // aprobacion1: new FormControl(""),
-      // aprobacion2: new FormControl(""),
-      // aprobacion3: new FormControl(""),
+      // state: new FormControl(""),
+      aprobacion1: new FormControl(""),
+      aprobacion2: new FormControl(""),
+      aprobacion3: new FormControl(""),
       day_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
@@ -225,6 +226,7 @@ export class TrainerDataDialog {
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
           this.PersonaleInfo = data.data['getDataPersonale'];
           this.methodology = data.data['getMethod'];
+          this.stateFor = data.data['getFormation'];
 
           if(this.matriz)
           this.trainingType = data.data['getTraining'];
@@ -306,7 +308,7 @@ export class TrainerDataDialog {
         // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
         // this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
         // this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        // this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);day_for
+        // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
 
         this.formTraining.get("document").setValue(data.data["getSelecUpdat"][0].document);
         this.formTraining.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);

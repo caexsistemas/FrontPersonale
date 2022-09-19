@@ -94,11 +94,14 @@
                   <!-- </div> -->
                       <th mat-header-cell *matHeaderCellDef> Acciones </th>
                       <td mat-cell *matCellDef="let element">
-                           <button class="btn  btn-primary mr-3" *ngIf="permissions.create"(click)="option('repor1vmrq',element.idsel,element.car_sol,element.matrizarp)"
-                           title="Crear Vacante">
-                          <i class="fa fa-plus"></i>
-                          <!-- <i class="fa fa-edit fa-lg"></i> -->
-                          </button>     
+                        <div *ngIf="element.state != '65/4'">
+                            <button class="btn  btn-primary mr-3" *ngIf="permissions.create"(click)="option('repor1vmrq',element.idsel,element.car_sol,element.matrizarp)"
+                            title="Crear Vacante">
+                           <i class="fa fa-plus"></i>
+                           <!-- <i class="fa fa-edit fa-lg"></i> -->
+                           </button>   
+                        </div>
+                            
                       </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

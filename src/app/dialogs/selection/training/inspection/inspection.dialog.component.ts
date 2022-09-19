@@ -102,6 +102,8 @@ export class InspectionDialog {
   totalHelp: any = [];
   idUser: number = null;
   nomi: boolean;
+  stateReq: any = [];
+  idreq: any =[];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -140,7 +142,9 @@ export class InspectionDialog {
         this.idvac = this.data.codigo;
         this.name = this.data.name;
         this.num = this.data.num;
-        console.log('user',this.idUser)
+        console.log('id',this.data)
+        this.idreq = this.data.id
+        this.stateReq = this.data.state
        
 
         if(this.num){
@@ -203,7 +207,8 @@ export class InspectionDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      est_for: new FormControl(""),
+      idsel: new FormControl(this.idreq),
+      state: new FormControl(this.stateReq),
       create_User: new FormControl(this.cuser.iduser),
 
     });
@@ -350,7 +355,8 @@ export class InspectionDialog {
 
     let body = {
         listas: this.formVac.value, 
-        segui: this.formInsp.value   
+        segui: this.formInsp.value,
+        req: this.formSelec.value   
     }
     if (this.formInsp.valid) {
       this.loading.emit(true);

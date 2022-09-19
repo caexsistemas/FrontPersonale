@@ -44,6 +44,7 @@ export class VacantComponent implements OnInit {
   contaClick: number = 0;
   idsel: any= [];
   num_vac: number;
+  state: any = [];
   
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -88,6 +89,8 @@ export class VacantComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
+          this.state = data.data["getSelectData"]['state']
+          console.log('state=>',this.state)
          this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -143,6 +146,10 @@ export class VacantComponent implements OnInit {
         dialogRef.componentInstance.loading.subscribe(val=>{
           this.loading = val;
         });
+        // dialogRef.afterClosed().subscribe((result) => {
+        //   console.log("The dialog was closed");
+        //   console.log(result);
+        // });
         // RELOAD
         dialogRef.componentInstance.reload.subscribe(val=>{
           this.sendRequest();
@@ -193,9 +200,10 @@ export class VacantComponent implements OnInit {
           data: {
             window: "repor1vmrq",
             codigo,
-            id:id,
+            id: id,
             matriz
-            // cargo:this.num_vac
+
+            // tipoMat: tipoMat
           },
         });
         dialogRef.disableClose = true;
@@ -203,11 +211,12 @@ export class VacantComponent implements OnInit {
         dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.sendRequest();
         });
         break;
+        
       }
     }
     

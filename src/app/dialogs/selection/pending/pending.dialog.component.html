@@ -142,8 +142,8 @@
                   <h6>Gerencia General</h6>
                   <p>Diego Fernado Lopez</p>
                   <mat-radio-group aria-label="Select an option" formControlName="aprobacion1" value="aprobacion1"
-                    (ngModelChange)="openDialog($event)">
-                    <!-- [disabled]="retro" -->
+                    (ngModelChange)="openDialog($event)"
+                    [disabled]="retro">
 
                     <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
                       {{idet.description}}</mat-radio-button>
@@ -165,8 +165,8 @@
                   <h6>Gerencia Administrativa</h6>
                   <p>Maria Esmeralda</p>
                   <mat-radio-group aria-label="Select an option" formControlName="aprobacion2" value="aprobacion2"
-                    (ngModelChange)="openDialog2($event)">
-                    <!-- [disabled]="retro2" -->
+                    (ngModelChange)="openDialog2($event)"
+                    [disabled]="retro2">
                     <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
                       {{idet.description}}</mat-radio-button>
                     <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
@@ -187,8 +187,8 @@
                   <h6>Talento Humano</h6>
                   <p>Juan Olaya</p>
                   <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion3"
-                    (ngModelChange)="openDialog3($event)">
-                    <!-- [disabled]="retro3" -->
+                    (ngModelChange)="openDialog3($event)"
+                    [disabled]="retro3">
                     <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
                       {{idet.description}}</mat-radio-button>
                     <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
