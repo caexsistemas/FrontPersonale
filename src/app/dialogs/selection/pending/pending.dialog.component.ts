@@ -126,7 +126,7 @@ export class PendingDialog  {
         this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
        
-        if( this.idUser == 63 ){
+        if( this.idUser == 263 ){
           this.retro = false;
         }else if(this.idUser == 44){
             this.retro2 = false;

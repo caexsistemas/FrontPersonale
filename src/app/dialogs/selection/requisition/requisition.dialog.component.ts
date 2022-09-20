@@ -103,13 +103,13 @@ export class RequisitionDialog {
     switch (this.view) {
       case "create":
         this.initForms();
-        this.title = "Nueva Requisicion";
+        this.title = "Nueva Requisición";
       break;
       case "update":
         this.idSel = this.data.codigo;
         // console.log('idsel=>',this.idSel);
         this.initForms();
-        this.title = "Actualizar Requisicion";
+        this.title = "Actualizar Requisición";
       break;
       case "view":
         this.idSel = this.data.codigo;
@@ -147,7 +147,7 @@ export class RequisitionDialog {
       num_vac: new FormControl(""),
       salary: new FormControl(""),
       tip_req: new FormControl(""),
-      matrizarp: new FormControl("",[Validators.required]),
+      matrizarp: new FormControl(""),
       justification: new FormControl(""),
       observations: new FormControl(""),
       aprobacion1: new FormControl(""),
@@ -334,25 +334,56 @@ export class RequisitionDialog {
   prevStep() {
     this.step--;
   }
+  // mat:boolean= false;
+  mat =RequiredValidator;
+  // onSelectMat(e){
+  //   console.log('mat=>',e)
+  //   this.mat = e
+
+  // }
   onSelectionAttributes(e){
     console.log('cargo=>',e)
-    if(e == '16/1'){
-      this.matriz = true
-      this.formSelec.value.matrizarp.required,false
-      console.log('++.', this.formSelec.controls.car_sol,{Validators:require})
-      if(this.matriz == true){
-        this.requ = true
-      }else if(e != '16/1'){
-        this.matriz = false
-        if(this.matriz == false){
-             this.requ = false
+    // if(e != '16/1'){
+    //   this.matriz = false
+    //   this.formSelec.controls['matrizarp'].errors['required']=false
+    //   console.log(this.formSelec.controls['matrizarp'].errors['required'])
+      
+    // }else if(e == '16/1'){
+    //   this.matriz = true
+    //   this.formSelec.controls['matrizarp'].errors['required']=true
+    //   // this.formSelec.value['matrizarp'].reset();
 
-        }
+    //    console.log(this.formSelec.controls['matrizarp'].errors['required'])
+    // }else{
+    //   this.matriz = false
+
+    // }
+      if(e != '16/1'){
+      this.matriz = false
+
+      }else if(e == '16/1'){
+      this.matriz = true
+      this.mat
+
+      }else{
+      this.matriz = false
 
       }
-    }else{
-      this.matriz = false
-    }
+    //   this.formSelec.value.matrizarp.required,false
+    //   console.log('++.', this.formSelec.controls.car_sol,{Validators:require})
+    //   if(this.matriz == true){
+    //     this.requ = true
+    //   }else if(e != '16/1'){
+    //     this.matriz = false
+    //     if(this.matriz == false){
+    //          this.requ = false
+
+    //     }
+
+    //   }
+    // }else{
+    //   this.matriz = false
+    // }
     // if(idet == '16/1'){
       // this.matriz = idet
     // // }

@@ -100,7 +100,7 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let row">
-              <button class="btn btn-ghost-primary" *ngIf="permissions.update" (click)="option('update',row.idvac,row.nom_com)"
+              <button class="btn btn-ghost-primary" *ngIf="permissions.update" (click)="option('update',row.idvac,row.nom_com,row.idsel)"
                 title="Seguimiento">
                 <i class="fa fa-edit fa-lg"></i>
                 <!-- <i class="fa fa-edit fa-lg"></i> -->

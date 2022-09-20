@@ -87,7 +87,7 @@
                       <th mat-header-cell *matHeaderCellDef> Acciones </th>
                       <td mat-cell *matCellDef="let element">
                           <button class="btn  btn-ghost-success" *ngIf="permissions.update"
-                              (click)="option('update',element.idvac, element.matrizarp)" title="Contratación">
+                              (click)="option('update',element.idvac, element.matrizarp,element.idsel)" title="Contratación">
                               <i class="fa fa-edit fa-lg"></i>
                           </button>
 

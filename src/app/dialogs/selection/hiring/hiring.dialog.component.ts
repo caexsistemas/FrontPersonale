@@ -29,6 +29,7 @@ import { Observable } from "rxjs";
 import { NovedadesnominaServices } from "../../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../../services/web-api.service";
+import { NullTemplateVisitor } from "@angular/compiler";
 interface Food {
   value: string;
   viewValue: string;
@@ -55,10 +56,12 @@ export class HiringDialog {
   title: string = null;
   view: string = null;
   permissions: any = null;
+  formVac: FormGroup;
   formSelec: FormGroup;
   selection: any = [];
   position:  any = [];
   idSel:     number = null;
+  idvac: number = null;
   rol:       number;
   typeDocument: any = [];
   typeMatriz: any = [];
@@ -97,7 +100,7 @@ export class HiringDialog {
     private uploadFileService: NovedadesnominaServices
   ) {
     this.view = this.data.window;
-    this.idSel = null;
+    this.idvac = null;
     // this.rol = this.cuser.role;
 
     switch (this.view) {
@@ -107,15 +110,18 @@ export class HiringDialog {
       break;
       case "update":
         // this.rol = this.cuser.role;
-        this.idSel = this.data.codigo;
+        console.log('>',this.data.idsel)
+        this.idSel = this.data.idsel
+        this.idvac = this.data.codigo;
+        console.log('=>',this.idvac)
         this.tipoMat = this.data.tipoMat;
         this.initForms();
         this.title = "Contratación";
       break;
       case "view":
-        this.idSel = this.data.codigo;
+        this.idvac = this.data.codigo;
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idvac, {}).subscribe(
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
@@ -150,15 +156,21 @@ export class HiringDialog {
       vac_per: new FormControl(""),
       sta_cont: new FormControl(""),
       matrizarp: new FormControl(this.tipoMat),
+      idsel: new FormControl(this.idSel),
       create_User: new FormControl(this.cuser.iduser),
 
     });
+    this.formVac = new FormGroup({
+      create_User: new FormControl(this.cuser.iduser),
+      state: new FormControl(""),
+    });
+
   }
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getInformation",
-      idSel: this.data.codigo
+      idvac: this.data.codigo
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -216,7 +228,7 @@ export class HiringDialog {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
-      id: this.idSel
+      id: this.idvac
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -241,12 +253,13 @@ export class HiringDialog {
   onSubmitUpdate(){
 
     let body = {
-        listas: this.formSelec.value,  
-        //  id: this.idSel
+        listas: this.formSelec.value,
+        contr: this.formVac.value,  
+        //  id: this.idvac
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{})
       .subscribe(
           data=>{
               if(data.success){

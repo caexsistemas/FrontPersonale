@@ -1,3 +1,4 @@
+import {MatDialogRef} from '@angular/material/dialog';
 import {
   Component,
   OnInit,
@@ -15,7 +16,7 @@ import { HandlerAppService } from "../../../services/handler-app.service";
 import { global } from "../../../services/global";
 import {
   MatDialog,
-  MatDialogRef,
+  // MatDialogRef,
   MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
@@ -27,6 +28,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 import { EntryDialog } from "./entry/entry.dialog.component";
 import { emit, exit } from "process";
+import { DOCUMENT } from '@angular/common';
 
 
 @Component({
@@ -79,18 +81,22 @@ export class VacantDialog {
   extra: boolean = false;
   etario: any = [];
   // historyMon: any = [];
-  // loading: boolean = false;
+  loading1: boolean = false;
 
  // Informacion Usuario
  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
  //OUTPUTS
- @Output() loading = new EventEmitter();
+ mensaje: string;
+
+  @Output() loading = new EventEmitter();
  @Output() reload = new EventEmitter();
  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
 
  constructor(public dialogRef: MatDialogRef<VacantDialog>,
+ @Inject(DOCUMENT) private _document: Document,
+
     private fb:FormBuilder,
     private formInsp:FormBuilder,
     private WebApiService: WebApiService,
@@ -111,6 +117,7 @@ export class VacantDialog {
            console.log('car_sol=>',this.data.id);
            console.log('mt=>',this.data.matriz);
             this.initForms();
+            this.sendRequest();
             this.title = "Requisición";    
        break;
        case "update":
@@ -131,7 +138,7 @@ export class VacantDialog {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
               this.generateTable(data.data["getDatHistory"]);
-              // this.loading.emit(false);
+              this.loading.emit(false);
               // this.loading = false;
             } else {
               this.handler.handlerError(data);
@@ -153,7 +160,7 @@ export class VacantDialog {
    //---------------------------------------------------------------------------------------------
    
    ngOnInit(): void {
-    this.creatForm();
+              this.creatForm();
     // this.creatIsnp();
   }
 
@@ -202,6 +209,8 @@ export class VacantDialog {
   }
   
   addNewContacts(){
+    // this.loading.emit(true);
+
     this.contacts.push(this.contactFrom()); 
   }
 
@@ -212,8 +221,9 @@ export class VacantDialog {
 
   onSubmit() {
     if (this.form.valid) {
-      // this.loading.emit(true);
+      //  this.loading.emit(true)
       // this.loading = true;
+      // this.refresh()
       let body = {
         listas: this.form.value['contacts'],
       };
@@ -231,13 +241,13 @@ export class VacantDialog {
             this.closeDialog();
           } else {
             this.handler.handlerError(data);
-            // this.loading.emit(false);
+            this.loading.emit(false);
             // this.loading = false;
           }
         },
         (error) => {
           this.handler.showError();
-          // this.loading.emit(false);
+          this.loading.emit(false);
           // this.loading = false;
         }
       
@@ -245,25 +255,23 @@ export class VacantDialog {
     } else {
       this.handler.showError("Complete la informacion necesaria");
       // this.loading.emit(false);
-      // this.loading = false;
+      this.loading1 = false;
     // }
   }
   }
-  // closeDialog() {
-  //   // this.dialogRef.close();
-  // }
   
+
 //------------------------------------------------------------------------------------------------------------
    initForms(){
 
     this.getDataInit();
-    this.sendRequest();
+    // this.sendRequest();
    }
 
  sendRequest() {
 
     //  this.loading.emit(true);
-    //  this.loading = true;
+     this.loading1 = true;
      this.WebApiService.getRequest(this.endpoint, {
       
        action: "getVacant",
@@ -280,18 +288,18 @@ export class VacantDialog {
            this.generateTable(data.data["getSelectData"]);
            this.contenTable = data.data["getSelectData"];
           //  this.loading.emit(false);
-          //  this.loading = false;
+           this.loading1 = false;
          } else {
            this.handler.handlerError(data);
-           this.loading.emit(false);
-          //  this.loading = false;
+          //  this.loading.emit(false);
+           this.loading1 = false;
          }
        },
        (error) => {
          console.log(error);
          this.handler.showError("Se produjo un error");
-         this.loading.emit(false);
-        //  this.loading = false;
+        //  this.loading.emit(false);
+         this.loading1 = false;
        }
      );
  }
@@ -328,13 +336,11 @@ export class VacantDialog {
     }
   }
 
-  closeDialog() {
-    this.dialogRef.close();
-  }
+ 
 
   getDataInit(){
 
-    this.loading.emit(true);
+    this.loading.emit(false);
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamView',
@@ -390,7 +396,7 @@ export class VacantDialog {
     var dialogRef;
     switch(action){
       case 'update':
-        // this.loading = true;
+        this.loading1 = true;
         // this.loading.emit(true);
         dialogRef = this.dialog.open(EntryDialog,{
           data: {
@@ -411,7 +417,8 @@ export class VacantDialog {
         break;
 
       case 'view':
-          this.loading
+        this.loading1 = true;
+        // this.loading
         // this.loading.emit(true);
         dialogRef = this.dialog.open(EntryDialog,{
           data: {
@@ -467,7 +474,9 @@ onSelectBirthDate(e, i:Required<number>){
 //   console.log('grupo',this.contacts.value.ages)
 
 // }
-
+closeDialog() {
+  this.dialogRef.close();
+}
 
 
 

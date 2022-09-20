@@ -111,7 +111,7 @@ export class FormationDialog {
     switch (this.view) {
       case "state":
         this.idSel = this.data.codigo;
-        console.log('==>',this.idSel)
+        console.log('=state=>',this.data)
         this.initForms();
         this.title = "Actualizar Formación";
       break;
@@ -158,6 +158,9 @@ export class FormationDialog {
     this.getDataInit();
     this.formSelec = new FormGroup({
       document: new FormControl(""),
+      aprobacion1: new FormControl(""),
+      aprobacion2:new FormControl(""),
+      aprobacion3:new FormControl(""),
       // idPersonale: new FormControl(""),
       est_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),

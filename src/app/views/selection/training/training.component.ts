@@ -118,7 +118,7 @@ export class TrainingComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id,matriz,num ){
+  option(action,codigo=null, id,matriz,num,state ){
     var dialogRef;
     switch(action){
       case 'state':
@@ -127,7 +127,7 @@ export class TrainingComponent implements OnInit {
           data: {
             window: 'state',
             codigo,
-            id:id
+            id:id,
             // tipoMat: tipoMat
           }
         });
@@ -188,7 +188,9 @@ export class TrainingComponent implements OnInit {
             codigo,
             id:id,
             matriz,
-            num
+            num,
+            state
+
             // cargo:this.num_vac
           },
         });

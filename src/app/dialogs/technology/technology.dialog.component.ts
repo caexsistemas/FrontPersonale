@@ -129,6 +129,7 @@ export class TechnologyDialog {
         this.idTec = this.data.codigo;
         this.initForms();
         this.title = "Actualizar Activos";
+        console.log("=>",this.cuser)
         break;
       case "view":
         this.idTec = this.data.codigo;
@@ -275,7 +276,8 @@ export class TechnologyDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
       // tipRole: this.cuser.role,
-      idTec: this.data.codigo
+      idTec: this.data.codigo,
+      idUser: this.cuser.iduser
 
     }).subscribe(
       (data) => {
@@ -321,7 +323,9 @@ export class TechnologyDialog {
       let body = {
         listas: this.formNomi.value,
       };
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        idUser: this.cuser.iduser,
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);
@@ -348,6 +352,7 @@ export class TechnologyDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
       id: this.idTec,
+      idUser: this.cuser.iduser,
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -419,7 +424,7 @@ export class TechnologyDialog {
         this.formNomi.get("idPersonale").setValue(data.data["getDataUpda"][0].idPersonale);
         this.formNomi.get("sub_ubi").setValue(data.data["getDataUpda"][0].sub_ubi);
         this.formNomi.get("sub_sede").setValue(data.data["getDataUpda"][0].sub_sede);
-        this.formNomi.get("create_User").setValue(data.data["getDataUpda"][0].create_User);          
+        // this.formNomi.get("create_User").setValue(data.data["getDataUpda"][0].create_User);          
         this.formNomi.get("car_user").setValue(data.data["getDataUpda"][0].car_user);          
         this.formNomi.get("fec_ent").setValue(data.data["getDataUpda"][0].fec_ent);          
         this.formNomi.get("obs_act").setValue(data.data["getDataUpda"][0].obs_act);          
@@ -441,7 +446,9 @@ export class TechnologyDialog {
     }
     if (this.formNomi.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idTec,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idTec,body,{
+        idUser: this.cuser.iduser,
+      })
       .subscribe(
           data=>{
               if(data.success){

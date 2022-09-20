@@ -78,6 +78,7 @@ export class TrainingDialog {
   cargo: any = [];
   matriz: any = [];
   num:number = null;
+  stateReq: any = [];
   // historyMon: any = [];
   // loading: boolean = false;
 
@@ -110,6 +111,8 @@ export class TrainingDialog {
            this.num = this.data.num
           this.initForms();
           this.title = "Requisicion"; 
+          console.log('state+++++++=>',this.data)
+          this.stateReq = this.data.state
        break;
        case "create":
         this.initForms();
@@ -463,6 +466,7 @@ export class TrainingDialog {
             name,
             id:id,
             num:this.num,
+            state:this.stateReq
             
             // tipoMat: tipoMat
 

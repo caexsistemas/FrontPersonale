@@ -49,7 +49,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha Inicio</mat-label>
-                    <input matInput formControlName="fec_ini" type="date"(ngModelChange)="calculateDays()">
+                    <input matInput formControlName="fec_ini" type="date"(ngModelChange)="calculateDays()" required>
                   </mat-form-field>
                 </div>
               </div>
@@ -57,7 +57,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha Final</mat-label>
-                    <input matInput formControlName="fec_fin" type="date" (ngModelChange)="calculateDays()">
+                    <input matInput formControlName="fec_fin" type="date" (ngModelChange)="calculateDays()" required>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
@@ -97,8 +97,12 @@
                   </div>
                   <div class="col-sm-4">
                     <mat-form-field class="example-full-width">
-                      <mat-label>Estado</mat-label>
-                      <input matInput formControlName="est" type="text">
+                      <mat-label>Estado Formación:</mat-label >
+                        <mat-select formControlName="est" required>
+                          <mat-option *ngFor="let idet of stateFor" [value]="idet.ls_codvalue">
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
                     </mat-form-field>
                   </div>
                 </div>

@@ -67,7 +67,7 @@ export class HiringComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getHiring",
       idUser: this.cuser.iduser,
-      // role: this.cuser.role,
+      role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale
 
@@ -115,7 +115,7 @@ export class HiringComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id,tipoMat){
+  option(action,codigo=null, id,idsel){
     var dialogRef;
     switch(action){
       case 'create':
@@ -145,6 +145,7 @@ export class HiringComponent implements OnInit {
             window: 'update',
             codigo,
             tipoMat:id,
+            idsel
             // tipoMat: tipoMat
 
           }
