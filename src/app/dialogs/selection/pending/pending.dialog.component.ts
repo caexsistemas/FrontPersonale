@@ -128,10 +128,10 @@ export class PendingDialog  {
        
         if( this.idUser == 263 ){
           this.retro = false;
-        }else if(this.idUser == 44){
+        }else if(this.idUser == 256){
             this.retro2 = false;
 
-        } else if(this.idUser == 58 ){
+        } else if(this.idUser == 44 ){
           this.retro3 = false;
         }
           else if( this.idUser == 43){

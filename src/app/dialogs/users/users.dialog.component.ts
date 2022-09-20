@@ -130,8 +130,8 @@ export class UsersDialog {
         this.formUsuario = new FormGroup({
            
     // name = new FormControl('', [Validators.required]);
-            name: new FormControl("",[Validators.required]),
-            surname: new FormControl("",[Validators.required]),
+            name: new FormControl(""),
+            surname: new FormControl(""),
             username: new FormControl(""),
             email: new FormControl(""),
             phone: new FormControl(""),
@@ -308,6 +308,7 @@ export class UsersDialog {
     closeDialog() {
         this.dialogRef.close();
     }
+    newUser: any = [];
     onSelectionPerson(event){
         let exitsPersonal = this.person.find(element => element.document == event);
 
@@ -315,7 +316,18 @@ export class UsersDialog {
             this.formUsuario.get('idPersonale').setValue(exitsPersonal.idPersonale);       
         }        
         console.log('=>',exitsPersonal)
+        // this.newUser = exitsPersonal['name'];
+        // console.log("name=>",this.newUser)
+        // let nombreJunto = exitsPersonal
+        // var match = /[A-Z]{1}/.exec(nombreJunto);
+        // let indexSplit = 0
+        // if (match) {
+        // indexSplit = match.index
+        // }
+        // let nombre = nombreJunto.substring(0, indexSplit)
+        // let apellido = nombreJunto.substring(indexSplit)
 
+        // console.log(nombre, apellido)
       }
     // mayus(e) {
     //     e.value = e.value.toUpperCase();
