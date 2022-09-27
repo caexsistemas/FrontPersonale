@@ -44,6 +44,8 @@ export class TechnologyComponent implements OnInit {
   area: any = [];
   clickedRows : any = [];
   group:any = [];
+  stadValue:     boolean = false;
+
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -299,8 +301,8 @@ export class TechnologyComponent implements OnInit {
      pdfAll(id) {
       if(this.group.length > 0){
 
-      
-
+      // this.stadValue = true;
+      this.loading = true;
       this.WebApiService.getRequest(this.endpoint, {
         action: "pdfAll",
             id:  ""+JSON.stringify(this.group),
@@ -341,7 +343,8 @@ export class TechnologyComponent implements OnInit {
 
      pdfReposicion(id) {
       if(this.group.length > 0){
-
+      // this.stadValue = true;
+      this.loading = true;
       this.WebApiService.getRequest(this.endpoint, {
         action: "pdfReposicion",
             id:  ""+JSON.stringify(this.group),

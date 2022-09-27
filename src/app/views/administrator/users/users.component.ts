@@ -31,8 +31,8 @@ export class UsersComponent implements OnInit {
   permissions: any = null;
 
   endpoint: string = '/usuario';
-
-
+  // log: any = [];
+  // sta: any =[];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -66,8 +66,15 @@ export class UsersComponent implements OnInit {
           
           if (response.success) {
             this.permissions = this.handler.getPermissions(this.component);
-            this.generateTable(response.data);
-            this.datauser = response.data
+            this.generateTable(response.data['getDataUser']);
+            this.datauser = response.data['getDataUser'];
+            // this.log = response.data['getDataUser'][0];
+            // console.log('==>',this.log.login)
+            // if(this.log == '1'){
+            //       this.sta = 'ON'
+            //   }else if(this.log == '0' || this.log == null){
+            //             this.sta = 'OFF'
+            //       }
             this.loading = false;
           } else {
             this.datauser = [];
@@ -90,7 +97,7 @@ export class UsersComponent implements OnInit {
       'idPersonale',
       
       'role',
-      'email',
+      'status',
       'actions'
     ];
     this.dataSource = new MatTableDataSource(data);
