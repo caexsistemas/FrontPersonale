@@ -193,8 +193,7 @@ export class ProcessaludComponent implements OnInit {
              
               this.contDele = 0;
               this.stadValue = 0;
-              this.deleteIforma(codigo);
-              this.sendRequest();
+              this.deleteIforma(codigo);           
             }else{
   
               this.handler.showError('Por favor escoger el mismo registro');
@@ -239,10 +238,11 @@ export class ProcessaludComponent implements OnInit {
               
               this.handler.showSuccess('El registro se ha eliminado exitosamente');
               this.loading = false;
+              this.sendRequest();
             } else {
                 this.handler.handlerError(data.message);
                 this.loading = false;
-            }
+            }            
         },
         error => {
             this.handler.showError('Se produjo un error: '+error);
