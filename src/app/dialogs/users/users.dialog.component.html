@@ -33,13 +33,13 @@
 
         <div class="row">
             <div class="col-md-8">
-                <dt>Correo</dt>
-                <dd>{{usuario.email}}</dd>
+                <dt>Status</dt>
+                <dd>{{usuario.stat}}</dd>
             </div>
 
             <div class="col-md-4">
-                <dt>Telefono</dt>
-                <dd>{{usuario.phone}}</dd>
+                <dt>Sesion</dt>
+                <dd>{{log}}</dd>
             </div>
 
         </div>
@@ -76,16 +76,19 @@
                                     (ngModelChange)="onSelectionPerson($event)" required>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 ContCamp">
                             <mat-form-field appearance="fill">
-                                <mat-label>Nombre:</mat-label>
-                                <mat-select formControlName="idPersonale" required>
+                                <mat-label>Verificación:</mat-label>
+                                <mat-select formControlName="idPersonale" required [type]="hidden">
                                     <mat-option *ngFor="let idet of person" [value]="idet.idPersonale">
                                         {{idet.name}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                        <!-- <div class="col">
+                            <input type="hidden" formArrayName="idPersonale">
+                        </div> -->
                         <div class="col-md-4" *ngIf="rol == 1">
                             <mat-form-field appearance="fill">
                                 <mat-label>Rol:</mat-label>

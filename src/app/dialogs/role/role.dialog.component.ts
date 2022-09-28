@@ -42,7 +42,7 @@ export interface PeriodicElement {
   styleUrls: ["./role.dialog.component.css"],
 })
 export class RoleDialog {
-  endpoint: string = "/prueba";
+  endpoint: string = "/rol";
   maskDNI = global.maskDNI;
   view: string = null;
   title: string = null;
@@ -89,18 +89,15 @@ export class RoleDialog {
       case "create":
         this.initFormsRole();
         this.title = "Crear Nuevo Rol";
-        // this.idRol = this.data.codigo;
-        break;
+      break;
       case "update":
         this.initFormsRole();
-        //this.title = "Editar usuario";
-        this.title = "Editar usuario";
-        this.idRol = this.data.codigo;
-      
-
-        break;
+        this.title = "Editar Rol";
+        this.idRol = this.data.codigo;      
+      break;
       case "view":
         this.idRol = this.data.codigo;
+        this.title = 'Información detallada'
         this.loading.emit(true);
         this.WebApiService.getRequest(
           this.endpoint + "/" + this.idRol,
@@ -111,8 +108,6 @@ export class RoleDialog {
           (data) => {
             if (data.success == true) {
               this.role = data.data[0];
-              //  console.log('111111  ');
-              //console.log(this.role);
               this.loading.emit(false);
             } else {
               this.handler.handlerError(data);
@@ -128,13 +123,6 @@ export class RoleDialog {
         break;
     }
   }
-  // initForms() {
-  //   this.formRole = new FormGroup({
-  //     idRol: new FormControl(""),
-  //     name: new FormControl(""),
-  //     description: new FormControl(""),
-  //   });
-  // }
   initFormsRole() {
     this.getDataInit();
     this.formCreate = new FormGroup({
@@ -156,7 +144,7 @@ export class RoleDialog {
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamsUpdateSub",
+      action: "getParamsUpdate",
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -165,7 +153,6 @@ export class RoleDialog {
               if (data.success == true) {
                 //DataInfo
                 this.RolInfo = data.data["getDataRole"];
-                //console.log(this.RolInfo);
 
                 if (this.view == 'update') {
                     this.getDataUpdate();
@@ -185,12 +172,8 @@ export class RoleDialog {
 
   getDataUpdate() {
     this.loading.emit(true);
-    // this.WebApiService.getRequest(this.endpoint + '/' + this.idRol, {
-      
-    // })
-
     this.WebApiService.getRequest(this.endpoint, {
-      action: 'getParamsUpdate',
+      action: 'getParamsUpdateSub',
       idRol: this.idRol,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
@@ -199,10 +182,9 @@ export class RoleDialog {
     .subscribe(
         data => {
             if (data.success) {
-                this.role = data.data[0];
-                console.log(this.role);
-                this.formCreate.get('name').setValue(this.role.name);
-                this.formCreate.get('status').setValue(this.role.status);
+               
+                this.formCreate.get('name').setValue(data.data['getSelecUpdat'][0].name);
+                this.formCreate.get('status').setValue(data.data['getSelecUpdat'][0].status);
                 this.loading.emit(false);
             } else {
                 this.handler.handlerError(data);
@@ -248,68 +230,6 @@ export class RoleDialog {
         this.handler.showError('Complete la información necesaria');
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // optionSubVal(action, codigo = null, titlelist = null) {
-  //   var dialogRef;
-  //   switch (action) {
-  //     case "update":
-  //       this.loading.emit(true);
-  //       dialogRef = this.dialog.open(RoleDialog, {
-  //         data: {
-  //           window: "update",
-  //           codigo,
-  //         },
-  //       });
-  //       this.loading.emit(false);
-  //       this.closeDialog();
-
-  //       break;
-
-  //     case "view":
-  //       this.loading.emit(true);
-  //       dialogRef = this.dialog.open(RoleDialog, {
-  //         data: {
-  //           window: "view",
-  //           codigo,
-  //           titlelist,
-  //         },
-  //       });
-  //       this.loading.emit(false);
-
-  //       break;
-
-  //     case "create":
-  //       this.loading.emit(true);
-  //       dialogRef = this.dialog.open(RoleDialog, {
-  //         data: {
-  //           window: "create",
-  //           codigo,
-  //           titlelist,
-  //         },
-  //       });
-  //       this.loading.emit(false);
-  //       this.closeDialog();
-  //       break;
-  //   }
-  // }
 
   onSubmi() {
     if (this.formCreate.valid) {

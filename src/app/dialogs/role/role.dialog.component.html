@@ -1,148 +1,74 @@
-
-
-    <div *ngIf="view == 'view'">
-        <div class="modal-header">
-            <h5 class="modal-title">Información de Rol</h5>
-            <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
-            <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
-            <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    
-        <mat-dialog-content style="min-width: 500px;">
-            <div class="row mt-2">
-                <div class="col-md-4">
-                    <dt>ID</dt>
-                    <dd>{{role.idRole}}</dd>
-                </div>
-    
-                <div class="col-md-4">
-                    <dt>Name</dt>
-                    <dd>{{role.name}}</dd>
-                </div>
-    
-                <div class="col-md-4">
-                    <dt>Description</dt>
-                    <dd>{{role.description}}</dd>
-                </div>
+<div *ngIf="view == 'view'">
+    <div class="modal-header">
+        <h5 class="modal-title">{{title}}</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <mat-dialog-content style="min-width: 500px;">
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <dt>ID</dt>
+                <dd>{{role.idRole}}</dd>
             </div>
-            <!-- <div class="col-md-4">
-                <dt>Crear Nuevo Usuario</dt>
-            <dd>
-                <div class="btn-group" dropdown>
-                    <button class="btn btn-primary" (click)="optionSubVal('create', role.idRole, role.name, role.description)" title="Crear">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-            </dd>   
-            </div> -->
-
-        </mat-dialog-content>
-
-        <!-- <div class="card mt-6">
-            <div *ngIf="view == 'create' || view == 'update'">
-                <div class="card-header">
-                    <h5 class="modal-title">
-                        <p class="title-modal" *ngIf="view == 'create' ">Crear Usuario: {{title}} </p>
-                        <p class="title-modal" *ngIf="view == 'update'">Editar </p>
-                        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                            style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </h5>
-                </div>
-
+            <div class="col-md-4">
+                <dt>Name</dt>
+                <dd>{{role.name}}</dd>
+            </div>
+            <div class="col-md-4">
+                <dt>Description</dt>
+                <dd>{{role.description}}</dd>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>
+<div class="card mt-6">
+    <div *ngIf="view == 'create' || view == 'update'">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal" *ngIf="view == 'create'">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
         <div class="card-body">
             <mat-dialog-content>
-                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formValList" method="POST">
+                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
 
                     <div class="row">
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Descripci&oacute;n</mat-label>
-                                <input matInput formControlName="description">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="name">
+                                {{role.name}}
                             </mat-form-field>
                         </div>
-                        <div class="col-md-6">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Estado</mat-label>
-                                <select matNativeControl formControlName="status">
-                                  <option value="1">Activo</option>
-                                  <option value="2">Inactivo</option>
-                                </select>
-                              </mat-form-field>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Description:</mat-label>
+                                <mat-select formControlName="status">
+                                    <mat-option *ngFor="let idet of RolInfo" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                     </div>
-
                 </form>
-
             </mat-dialog-content>
             <div mat-dialog-actions>
                 <div class="text-center col-12">
                     <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                        (click)="onSubmitUpdateSub()">Actualizar</button>
+                        (click)="onSubmitUpdate()">Actualizar</button>
 
                     <button *ngIf="view == 'create'" mat-button class="btn btn-success"
-                        (click)="onSubmiSub()">Guardar</button>
+                        (click)="onSubmi()">Guardar</button>
 
                     <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                 </div>
             </div>
-        </div> -->
-
-
-    </div>
-    <div class="card mt-6">
-        <div *ngIf="view == 'create' || view == 'update'">
-            <div class="card-header">
-                <h5 class="modal-title">
-                    <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
-                    <p class="title-modal" *ngIf="view == 'update'">Editar</p>
-                    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                        style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </h5>
-            </div>
-    <div class="card-body">
-        <mat-dialog-content>
-            <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate" >
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Nombre</mat-label>
-                            <input matInput formControlName="name">
-                            {{role.name}}
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Description:</mat-label>
-                            <mat-select formControlName="status"  >
-                              <mat-option *ngFor="let idet of RolInfo" [value]="idet.ls_codvalue" >
-                                {{idet.description}}
-                              </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    
-                </div>
-
-            </form>
-
-        </mat-dialog-content>
-        <div mat-dialog-actions>
-            <div class="text-center col-12">
-                <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                    (click)="onSubmitUpdate()">Actualizar</button>
-
-                <button *ngIf="view == 'create'" mat-button class="btn btn-success"
-                    (click)="onSubmi()">Guardar</button>
-
-                <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
-            </div>
         </div>
     </div>
-        </div>

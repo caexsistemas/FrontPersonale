@@ -32,7 +32,7 @@ export class RolesComponent implements OnInit {
   component = "/admin/roles";
   permissions: any = null;
   contaClick:  number = 0;
-  endpoint: string = '/prueba';
+  endpoint: string = '/rol';
 
   
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();

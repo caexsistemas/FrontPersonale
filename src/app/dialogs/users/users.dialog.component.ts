@@ -56,7 +56,9 @@ export class UsersDialog {
     value = '';
     value2 = '';
     value3 = '';
+    act: any = [];
     sesion: number = null;
+    log: any = [];
     // sesion: any = [];
     // interface Food {
     //     value: string;
@@ -96,6 +98,12 @@ export class UsersDialog {
                         data => {
                             if (data.success == true) {
                                 this.usuario = data.data[0];
+                                this.act = this.usuario.login
+                                if(this.act == '1'){
+                                        this.log = 'ON'
+                                     }else if(this.act == '0' || this.act == null){
+                                         this.log = 'OFF'
+                                        }
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -138,7 +146,7 @@ export class UsersDialog {
             password: new FormControl(""),
             status: new FormControl("",[Validators.required]),
             lastLogin: new FormControl(""),
-            role: new FormControl(""),
+            role: new FormControl("",[Validators.required]),
             matrizarp: new FormControl(""),
             id_caex: new FormControl(""),
             campana: new FormControl(""),
@@ -309,26 +317,23 @@ export class UsersDialog {
         this.dialogRef.close();
     }
     newUser: any = [];
+    newSurname: any = [];
+    exitsPersonal: any = []
     onSelectionPerson(event){
-        let exitsPersonal = this.person.find(element => element.document == event);
+        this.exitsPersonal = this.person.find(element => element.document == event);
 
-        if( exitsPersonal ){
-            this.formUsuario.get('idPersonale').setValue(exitsPersonal.idPersonale);       
+        if( this.exitsPersonal ){
+            this.formUsuario.get('idPersonale').setValue(this.exitsPersonal.idPersonale);       
         }        
-        console.log('=>',exitsPersonal)
-        // this.newUser = exitsPersonal['name'];
-        // console.log("name=>",this.newUser)
-        // let nombreJunto = exitsPersonal
-        // var match = /[A-Z]{1}/.exec(nombreJunto);
-        // let indexSplit = 0
-        // if (match) {
-        // indexSplit = match.index
-        // }
-        // let nombre = nombreJunto.substring(0, indexSplit)
-        // let apellido = nombreJunto.substring(indexSplit)
+        // console.log('=>',this.exitsPersonal)
+        // this.newUser = this.exitsPersonal.name.slice(0,4)
+        // this.newSurname = this.exitsPersonal.name.slice(5,12)
 
-        // console.log(nombre, apellido)
+        // console.log('name=>',this.newUser)
+        // console.log('surname=>',this.newSurname)
+        
       }
+      
     // mayus(e) {
     //     e.value = e.value.toUpperCase();
     // }
