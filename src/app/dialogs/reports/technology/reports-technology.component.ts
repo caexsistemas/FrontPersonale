@@ -20,6 +20,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ReportsTechnologyComponent implements OnInit {
 
     ndpoint: string = '/technology';
+    component = "/inventory/technology";
+    
     formDownoadTechnology: FormGroup;
     loading_: boolean = false;
     //History
@@ -57,6 +59,9 @@ export class ReportsTechnologyComponent implements OnInit {
       this.WebApiService.getRequest(this.ndpoint, {
         action: 'getParamView',
         role: this.cuser.role,
+        idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component
         // matrizarp: this.cuser.matrizarp
       })
         .subscribe(

@@ -72,7 +72,9 @@ export class TechnologyComponent implements OnInit {
       idUser: this.cuser.iduser,
       // role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale,
+      token: this.cuser.token,
+      modulo: this.component
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
@@ -308,11 +310,11 @@ export class TechnologyComponent implements OnInit {
             id:  ""+JSON.stringify(this.group),
             // id: this.group,
         // cc:document,
-        // token: this.cuser.token,
+        token: this.cuser.token,
         idPersonale: this.exitsPersonal.name,
-        area:this.exitsPersonal.idPosition
-        // idUser: this.cuser.iduser,
-        // modulo: this.component,
+        area:this.exitsPersonal.idPosition,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
       }).subscribe(
         (data) => {
           this.permissions = this.handler.getPermissions(this.component);
@@ -350,11 +352,11 @@ export class TechnologyComponent implements OnInit {
             id:  ""+JSON.stringify(this.group),
             // id: this.group,
         // cc:document,
-        // token: this.cuser.token,
+        token: this.cuser.token,
         idPersonale: this.exitsPersonal.name,
-        area:this.exitsPersonal.idPosition
-        // idUser: this.cuser.iduser,
-        // modulo: this.component,
+        area:this.exitsPersonal.idPosition,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
       }).subscribe(
         (data) => {
           this.permissions = this.handler.getPermissions(this.component);

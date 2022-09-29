@@ -136,7 +136,11 @@ export class TechnologyDialog {
         this.loading.emit(true);
         this.WebApiService.getRequest(
           this.endpoint + "/" + this.idTec,
-          {}
+          {
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+          }
         ).subscribe(
           (data) => {
             if (data.success == true) {
@@ -277,7 +281,9 @@ export class TechnologyDialog {
       action: "getParamView",
       // tipRole: this.cuser.role,
       idTec: this.data.codigo,
-      idUser: this.cuser.iduser
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
 
     }).subscribe(
       (data) => {
@@ -325,6 +331,8 @@ export class TechnologyDialog {
       };
       this.WebApiService.postRequest(this.endpoint, body, {
         idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component
       }).subscribe(
         (data) => {
           if (data.success) {
@@ -353,6 +361,8 @@ export class TechnologyDialog {
       action: "getParamUpdateSet",
       id: this.idTec,
       idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -448,6 +458,8 @@ export class TechnologyDialog {
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint+'/'+this.idTec,body,{
         idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component
       })
       .subscribe(
           data=>{
