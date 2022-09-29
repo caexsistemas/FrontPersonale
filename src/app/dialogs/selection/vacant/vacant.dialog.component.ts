@@ -344,6 +344,9 @@ export class VacantDialog {
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamView',
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component
     })
     .subscribe(
        

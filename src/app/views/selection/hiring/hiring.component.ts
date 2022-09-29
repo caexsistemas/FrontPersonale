@@ -68,6 +68,8 @@ export class HiringComponent implements OnInit {
       action: "getHiring",
       idUser: this.cuser.iduser,
       role: this.cuser.role,
+      token: this.cuser.token,
+      modulo: this.component
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale
 

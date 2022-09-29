@@ -96,6 +96,12 @@
                         <td mat-cell *matCellDef="let element"> {{element.sub_sede}} </td>
                     </ng-container>
 
+                    <ng-container matColumnDef="sta_equ">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Equipo
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.rep}} </td>
+                    </ng-container>
+
                     <tr matCellDef (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
                         *matColumnDef="let element columns: displayedColumns;"></tr>
 

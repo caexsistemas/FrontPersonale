@@ -72,7 +72,9 @@ export class TrainingComponent implements OnInit {
       idUser: this.cuser.iduser,
       role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale,
+      token: this.cuser.token,
+      modulo: this.component
 
     }).subscribe(
       (data) => {
