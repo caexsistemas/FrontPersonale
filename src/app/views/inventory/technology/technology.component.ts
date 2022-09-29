@@ -109,7 +109,7 @@ export class TechnologyComponent implements OnInit {
       "listSub",
       "idPersonale",
       "sub_sede",
-      // "swi_mod",
+      "sta_equ",
       // "ser_mod",
       "actions",
     ];
