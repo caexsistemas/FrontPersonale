@@ -110,10 +110,10 @@ export class HiringDialog {
       break;
       case "update":
         // this.rol = this.cuser.role;
-        console.log('>',this.data.idsel)
+        // console.log('>',this.data.idsel)
         this.idSel = this.data.idsel
         this.idvac = this.data.codigo;
-        console.log('=>',this.idvac)
+        // console.log('=>',this.idvac)
         this.tipoMat = this.data.tipoMat;
         this.initForms();
         this.title = "Contratación";
@@ -121,7 +121,11 @@ export class HiringDialog {
       case "view":
         this.idvac = this.data.codigo;
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idvac, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idvac, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
@@ -170,7 +174,10 @@ export class HiringDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getInformation",
-      idvac: this.data.codigo
+      idvac: this.data.codigo,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -228,7 +235,10 @@ export class HiringDialog {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
-      id: this.idvac
+      id: this.idvac,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -259,7 +269,11 @@ export class HiringDialog {
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){

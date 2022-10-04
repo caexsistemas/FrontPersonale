@@ -115,7 +115,6 @@ export class FeedbackDialog
             this.initForms();
             this.title = "Actualizar Retroalimentación";
             this.idfeed = this.data.codigo;
-            console.log('idfeed=>',this.idfeed);
           break;
           case "view":
             this.idfeed = this.data.codigo;
@@ -132,12 +131,11 @@ export class FeedbackDialog
                 if (data.success == true) {
                  
                   this.feed = data.data['getDataPerson'][0];
-                  if(this.feed.sign = 1){
-                    this.acept = 'Si'
-                  }else if(this.feed.sign = 0){
-                    this.acept = 'No'
-
-                  }
+                  if(this.feed.sign == '1'){
+                      this.acept = 'Si'
+                      }else if(this.feed.sign == '0' || this.feed.sign == null){
+                                this.acept = 'No'
+                      }    
                   this.tipInter = this.feed.matrizarp_cod;
                   this.tipMatriz = this.feed.matrizarp_cod;
 

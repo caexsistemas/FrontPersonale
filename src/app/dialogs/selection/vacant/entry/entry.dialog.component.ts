@@ -126,7 +126,11 @@ export class EntryDialog {
         this.loading.emit(true);
         this.WebApiService.getRequest(
           this.endpoint + "/" + this.idTec,
-          {}
+          {
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+          }
         ).subscribe(
           (data) => {
             if (data.success == true) {
@@ -182,7 +186,10 @@ export class EntryDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
       // tipRole: this.cuser.role,
-      idTec: this.data.codigo
+      idTec: this.data.codigo,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
 
     }).subscribe(
       (data) => {
@@ -221,7 +228,11 @@ export class EntryDialog {
       let body = {
         listas: this.form.value,
       };
-      this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      }).subscribe(
         (data) => {
           if (data.success) {
             this.handler.showSuccess(data.message);
@@ -248,6 +259,9 @@ export class EntryDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
       id: this.idTec,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -287,7 +301,11 @@ export class EntryDialog {
     }
     if (this.form.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idTec,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idTec,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){
