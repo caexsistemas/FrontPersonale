@@ -294,8 +294,8 @@ export class AbsenteeismDialog {
   }
 
   selectProcesald(event){
-    if( (event == '60/2' || event == '60/3') ){
-        //this.optionOtr('createIncapa');
+    if( (event == '60/2' || event == '60/3') && this.view == 'create' ){
+        this.optionOtr('createIncapa');
     }     
   }
 
