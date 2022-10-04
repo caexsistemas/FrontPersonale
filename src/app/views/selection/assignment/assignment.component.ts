@@ -68,7 +68,7 @@ export class AssignmentComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getTrainer",
       idUser: this.cuser.iduser,
-      // role: this.cuser.role,
+      role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
       idPersonale:this.cuser.idPersonale,
       token: this.cuser.token,
