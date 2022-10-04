@@ -39,8 +39,8 @@ export class AssignmentDialog {
   form:FormGroup;
 
   endpoint:      string = '/vacant';
-  // component      = "/selection/vacant";
-  component      = "/selection/assignment";
+  component      = "/selection/vacant";
+  // component      = "/selection/assignment";
   maskDNI        = global.maskDNI;
   view:          string = null;
   title:         string = null;
@@ -273,6 +273,9 @@ console.log( 'EDAD'+  this.showAge );
        action: "getVacant",
        idUser: this.cuser.iduser,
        idsel: this.idSel,
+       token: this.cuser.token,
+      // idUser: this.cuser.iduser,
+        modulo: this.component
       //  role: this.cuser.role,
       //  fecini: fechini,
       //  fecfin: fechafin,
@@ -345,6 +348,9 @@ console.log( 'EDAD'+  this.showAge );
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getInformation',
+        token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
         // tipMat: this.tipogesti 
     })
     .subscribe(

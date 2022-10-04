@@ -127,7 +127,11 @@ export class TrainingDialog {
         this.idSel = this.data.codigo;
         // this.loading.emit(true);
         // this.loading = true;
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
               // this.selection = data.data["getDataTechno"][0];
@@ -311,6 +315,9 @@ export class TrainingDialog {
        action: "getVacant",
        idUser: this.cuser.iduser,
        idsel: this.idSel,
+       token: this.cuser.token,
+          // idUser: this.cuser.iduser,
+          modulo: this.component
       //  role: this.cuser.role,
       //  fecini: fechini,
       //  fecfin: fechafin,
@@ -383,6 +390,9 @@ export class TrainingDialog {
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getInformation',
+        token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
         // tipMat: this.tipogesti 
     })
     .subscribe(

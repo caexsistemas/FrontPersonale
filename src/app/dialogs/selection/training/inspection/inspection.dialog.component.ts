@@ -180,6 +180,9 @@ export class InspectionDialog {
           // action: "getData",
           // id: this.idSel,
           // idUser: this.cuser.iduser,
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
 
         }).subscribe(
           (data) => {
@@ -270,7 +273,10 @@ export class InspectionDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      idvac: this.data.codigo
+      idvac: this.data.codigo,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -315,6 +321,9 @@ export class InspectionDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getinspectionUp",
       id: this.idvac,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -360,7 +369,11 @@ export class InspectionDialog {
     }
     if (this.formInsp.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{})
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
       .subscribe(
           data=>{
               if(data.success){
