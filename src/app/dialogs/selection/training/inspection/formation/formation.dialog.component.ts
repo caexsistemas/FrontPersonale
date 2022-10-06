@@ -183,9 +183,9 @@ export class FormationDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
       idSel: this.data.codigo,
-      // token: this.cuser.token,
+      token: this.cuser.token,
       idUser: this.cuser.iduser,
-      // modulo: this.component
+      modulo: this.component
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -253,9 +253,9 @@ export class FormationDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
       id: this.idSel,
-      // token: this.cuser.token,
+      token: this.cuser.token,
       idUser: this.cuser.iduser,
-      // modulo: this.component
+      modulo: this.component
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
