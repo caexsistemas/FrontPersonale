@@ -176,6 +176,7 @@ export class EntryDialog {
       etario: new FormControl(""),
       pai_ext: new FormControl(""),
       ciu_ext: new FormControl(""),
+      con_fin: new FormControl("")
     });
      this.formInsp = new FormGroup({
       create_User: new FormControl(this.cuser.iduser),
@@ -285,6 +286,7 @@ export class EntryDialog {
         this.form.get("pai_ext").setValue(data.data["getSelecUpdat"][0].pai_ext);
         this.form.get("ciu_ext").setValue(data.data["getSelecUpdat"][0].ciu_ext);
         this.form.get("pais_nac").setValue(data.data["getSelecUpdat"][0].pais_nac);
+        this.form.get("con_fin").setValue(data.data["getSelecUpdat"][0].con_fin);
       },
       (error) => {
         this.handler.showError();

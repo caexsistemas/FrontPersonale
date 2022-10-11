@@ -117,7 +117,7 @@ export class AssignmentComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null,matriz, id,state){
+  option(action,codigo=null,matriz, id,state,idPersonale){
     var dialogRef;
     switch(action){
       case 'create':
@@ -187,7 +187,8 @@ export class AssignmentComponent implements OnInit {
             codigo,
             id:id,
             matriz,
-            state:state
+            state:state,
+            idPersonale
             // cargo:this.num_vac
           },
         });

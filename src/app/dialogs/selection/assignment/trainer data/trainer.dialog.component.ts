@@ -192,7 +192,7 @@ export class TrainerDataDialog {
       cod_grup: new FormControl(""),
       grupo: new FormControl(""),
       metodologia: new FormControl(""),
-      document: new FormControl(""),
+      document: new FormControl([Validators.required]),
       idPersonale: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
@@ -336,7 +336,7 @@ export class TrainerDataDialog {
         vacant: this.formVac.value,
         seguimiento: this.formInsp.value
     }
-    if (this.formSelec.valid) {
+    if (this.formTraining.valid) {
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
         token: this.cuser.token,

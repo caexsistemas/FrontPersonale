@@ -68,6 +68,7 @@ export class AssignmentDialog {
   cities: any = [];
   numVac: any =[];
   selection: any = [];
+  formad: any = [];
   typeMatriz: any = [];
   typeGender: any = [];
   age;
@@ -103,7 +104,32 @@ export class AssignmentDialog {
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
-           
+          //  console.log('**',this.data);
+
+          //  this.loading.emit(true);
+          //  this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+          //   action: "getFormador",
+          //    token: this.cuser.token,
+          //    idUser: this.cuser.iduser,
+          //    modulo: this.component
+          //  }).subscribe(
+          //    (data) => {
+          //      if (data.success == true) {
+          //        this.formad = data.data["getSelecFormador"][0];
+          //        console.log('==>',this.selection.car_sol);
+          //       //  this.generateTable(data.data["getDatHistory"]);
+          //        this.loading.emit(false);
+          //      } else {
+          //        this.handler.handlerError(data);
+          //        this.closeDialog();
+          //        this.loading.emit(false);
+          //      }
+          //    },
+          //    (error) => {
+          //      this.handler.showError("Se produjo un error");
+          //      this.loading.emit(false);
+          //    }
+          //  );
           this.initForms();
           this.title = "Requisicion";
                

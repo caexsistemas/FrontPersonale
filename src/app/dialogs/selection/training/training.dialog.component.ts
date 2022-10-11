@@ -79,6 +79,7 @@ export class TrainingDialog {
   matriz: any = [];
   num:number = null;
   stateReq: any = [];
+  formad: any =[];
   // historyMon: any = [];
   // loading: boolean = false;
 
@@ -109,9 +110,32 @@ export class TrainingDialog {
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
            this.num = this.data.num
+
+            this.loading.emit(true);
+            this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+             action: "getFormador",
+              token: this.cuser.token,
+              idUser: this.cuser.iduser,
+              modulo: this.component
+            }).subscribe(
+              (data) => {
+                if (data.success == true) {
+                  this.formad = data.data["getSelecFormador"][0];
+                 //  this.generateTable(data.data["getDatHistory"]);
+                  this.loading.emit(false);
+                } else {
+                  this.handler.handlerError(data);
+                  this.closeDialog();
+                  this.loading.emit(false);
+                }
+              },
+              (error) => {
+                this.handler.showError("Se produjo un error");
+                this.loading.emit(false);
+              }
+            );
           this.initForms();
           this.title = "Requisicion"; 
-          console.log('state+++++++=>',this.data)
           this.stateReq = this.data.state
        break;
        case "create":
