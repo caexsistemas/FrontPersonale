@@ -82,7 +82,7 @@
                   <div class="col-sm-4">
                     <mat-form-field class="example-full-width">
                       <mat-label>Grupo:</mat-label>
-                        <input matInput formControlName="grupo" type="text">
+                        <input matInput formControlName="grupo" type="text" required="">
                     </mat-form-field>
                   </div>
                   <div class="col-sm-4">
@@ -118,7 +118,7 @@
         <div class="text-center col-12">
           <button *ngIf="view == 'update'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
-          <button *ngIf="view == 'training'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+          <!-- <button *ngIf="view == 'training'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button> -->
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>

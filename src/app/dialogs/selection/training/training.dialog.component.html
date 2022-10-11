@@ -13,10 +13,63 @@
       <mat-form-field class="example-full-width" appearance="fill">
         <strong>
           <h4>
-            <input matInput disabled value="Seguimiento Formacion">
+            <input matInput disabled value="Seguimiento Formación">
           </h4>
         </strong>
       </mat-form-field>
+      <div >
+        <!-- <div class="modal-header">
+           
+        </div> -->
+    
+        <mat-dialog-content style="min-width: 500px;">
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <dt>Documento</dt>
+                    <dd>{{formad.document}}</dd>
+                </div>
+                <div class="col-md-4">
+                    <dt>Formador</dt>
+                    <dd>{{formad.pers}}</dd>
+                </div>
+                <div class="col-md-4">
+                    <dt>Fecha Inicio</dt>
+                    <dd>{{formad.fec_ini}}</dd>
+                </div>
+            </div>
+    
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <dt>Fecha Final</dt>
+                    <dd>{{formad.fec_fin}}</dd>
+                </div>
+    
+                <div class="col-md-4">
+                    <dt>Dias de Formación</dt>
+                    <dd>{{formad.day_for}}</dd>
+                </div>
+                <div class="col-md-4">
+                  <dt>Tipo de Formación</dt>
+                  <dd>{{formad.tip}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                  <dt>Grupo</dt>
+                  <dd>{{formad.grupo}}</dd>
+              </div>
+  
+              <div class="col-md-4">
+                  <dt>Metdologia</dt>
+                  <dd>{{formad.met}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Estado de Formación</dt>
+                <dd>{{formad.sta}}</dd>
+            </div>
+          </div>
+        </mat-dialog-content>
+    </div> 
       <div class="toolbar-table" *ngIf="permissions != null">
 
       <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">

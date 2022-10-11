@@ -115,7 +115,7 @@ export class RequisitionComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id){
+  option(action,codigo=null, id,create_User){
     var dialogRef;
     switch(action){
       case 'create':
@@ -144,7 +144,8 @@ export class RequisitionComponent implements OnInit {
           data: {
             window: 'update',
             codigo,
-            id:id
+            id:id,
+          
             // tipoMat: tipoMat
 
           }

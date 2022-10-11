@@ -67,9 +67,10 @@ export class HiringComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getHiring",
       idUser: this.cuser.iduser,
-      role: this.cuser.role,
       token: this.cuser.token,
-      modulo: this.component
+      modulo: this.component,
+      role: this.cuser.role,
+
       // matrizarp: this.cuser.matrizarp,
       // idPersonale:this.cuser.idPersonale
 
@@ -104,7 +105,7 @@ export class HiringComponent implements OnInit {
       "document",
       "nom_com",
       "car_sol",
-      "vac_cont",
+      "sta_cont",
       "actions"
     ];
     this.dataSource = new MatTableDataSource(data);

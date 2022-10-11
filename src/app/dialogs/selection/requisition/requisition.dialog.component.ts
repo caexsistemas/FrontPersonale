@@ -81,6 +81,7 @@ export class RequisitionDialog {
   // matriz: any = [];
   typeCargo: any = [];
   PersonaleInfo: any = [];
+  createUs: any =[];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -107,7 +108,8 @@ export class RequisitionDialog {
       break;
       case "update":
         this.idSel = this.data.codigo;
-        // console.log('idsel=>',this.idSel);
+        this.createUs = this.data.id;
+        // console.log('idsel=>',this.createUs);
         this.initForms();
         this.title = "Actualizar Requisición";
       break;

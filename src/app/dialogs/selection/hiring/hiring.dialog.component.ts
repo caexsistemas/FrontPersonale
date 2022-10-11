@@ -122,8 +122,8 @@ export class HiringDialog {
         this.idvac = this.data.codigo;
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint + "/"+ this.idvac, {
-          token: this.cuser.token,
           idUser: this.cuser.iduser,
+          token: this.cuser.token,
           modulo: this.component
         }).subscribe(
           (data) => {
@@ -174,9 +174,9 @@ export class HiringDialog {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getInformation",
-      idvac: this.data.codigo,
-      token: this.cuser.token,
+      id: this.data.codigo,
       idUser: this.cuser.iduser,
+      token: this.cuser.token,
       modulo: this.component
     }).subscribe(
       (data) => {
@@ -235,10 +235,10 @@ export class HiringDialog {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
-      id: this.idvac,
-      token: this.cuser.token,
       idUser: this.cuser.iduser,
-      modulo: this.component
+      token: this.cuser.token,
+      modulo: this.component,
+      id: this.idvac,
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
@@ -270,8 +270,8 @@ export class HiringDialog {
     if (this.formSelec.valid) {
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{
-        token: this.cuser.token,
         idUser: this.cuser.iduser,
+        token: this.cuser.token,
         modulo: this.component
       })
       .subscribe(
