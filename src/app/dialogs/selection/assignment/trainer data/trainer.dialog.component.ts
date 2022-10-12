@@ -161,7 +161,7 @@ export class TrainerDataDialog {
       // tip_req: new FormControl(""),
       // matrizarp: new FormControl(""),
       // justification: new FormControl(""),
-      // state: new FormControl(""),
+      state: new FormControl(""),
       aprobacion1: new FormControl(""),
       aprobacion2: new FormControl(""),
       aprobacion3: new FormControl(""),
