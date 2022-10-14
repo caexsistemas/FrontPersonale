@@ -2114,7 +2114,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>CLARO  UP:</mat-label>
                                 <mat-select formControlName="tyt_cla_up" required>
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of ListTodoclaro" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
