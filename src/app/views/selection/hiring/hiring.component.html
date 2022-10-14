@@ -86,7 +86,7 @@
                   <ng-container matColumnDef="actions">
                       <th mat-header-cell *matHeaderCellDef> Acciones </th>
                       <td mat-cell *matCellDef="let element">
-                        <div *ngIf="!element.sta">
+                        <div *ngIf="element.sta_cont == '64/1' ">
                           <button class="btn  btn-ghost-success" *ngIf="permissions.update"
                               (click)="option('update',element.idvac, element.matrizarp,element.idsel)" title="Contratación">
                               <i class="fa fa-edit fa-lg"></i>

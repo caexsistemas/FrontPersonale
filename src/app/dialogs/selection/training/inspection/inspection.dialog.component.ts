@@ -156,7 +156,7 @@ export class InspectionDialog {
         }
 
         this.initForms();
-        this.title = "Seguimiento Formacion";
+        this.title = "Seguimiento Formación";
         break;
       case "training":
         // this.rol = this.cuser.role;
@@ -262,7 +262,7 @@ export class InspectionDialog {
         tot_asi: new FormControl(""),
         idsel: new FormControl(this.idSel),
         idvac: new FormControl(this.idvac),
-        aux_tra: new FormControl(null),
+        aux_tra: new FormControl(""),
         aux_tot: new FormControl(""),
         create_User: new FormControl(this.cuser.iduser)
 
@@ -351,6 +351,8 @@ export class InspectionDialog {
         this.formInsp.get("pro_gen").setValue(data.data["getSelecUpdat"][0].pro_gen);
         this.formInsp.get("idsel").setValue(data.data["getSelecUpdat"][0].idsel);
         this.formInsp.get("tot_asi").setValue(data.data["getSelecUpdat"][0].tot_asi);
+        this.formInsp.get("aux_tra").setValue(data.data["getSelecUpdat"][0].aux_tra);
+        this.formInsp.get("aux_tot").setValue(data.data["getSelecUpdat"][0].aux_tot);
         //vacant
         this.formVac.get("con_fin").setValue(data.data[0][0].con_fin);
       },
@@ -460,10 +462,14 @@ export class InspectionDialog {
   onTotalPresence(e){
     if(e == '35/1'){
       this.day = this.day +1
+      this.formInsp.value.tot_asi = this.day;
+
     }else if(e == '35/2'){
       this.day = this.day -1
+      this.formInsp.value.tot_asi = this.day;
     }
-    return this.formInsp.value.tot_asi = this.day;
+    this.formInsp.value.tot_asi = this.day;
+    // return 
     // console.log('nu',this.day)
      
   }

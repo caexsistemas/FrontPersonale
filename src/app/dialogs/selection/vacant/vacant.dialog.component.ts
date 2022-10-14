@@ -205,6 +205,7 @@ export class VacantDialog {
         pai_ext: new FormControl(""),
         ciu_ext: new FormControl(""),
         idins: new FormControl(""),
+        sta_cont: new FormControl("")
     });
   }
   

@@ -104,6 +104,7 @@ export class AssignmentComponent implements OnInit {
       "car_sol",
       "matrizarp",
       "idPersonale",
+      "num_vac",
       "est_for",
       "actions",
     ];

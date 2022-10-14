@@ -107,6 +107,7 @@ export class TrainingComponent implements OnInit {
       "car_sol",
       "matrizarp",
       "idPersonale",
+      "num_vac",
       "est_for",
       "actions",
     ];
