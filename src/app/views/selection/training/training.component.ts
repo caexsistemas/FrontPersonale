@@ -43,6 +43,7 @@ export class TrainingComponent implements OnInit {
   displayedColumns: any = [];
   dataSource: any = [];
   contaClick: number = 0;
+  auxTH: any = [];
   
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -86,6 +87,7 @@ export class TrainingComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
+          this.auxTH = this.cuser.role
          this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -192,7 +194,8 @@ export class TrainingComponent implements OnInit {
             id:id,
             matriz,
             num,
-            state
+            state,
+            auxTH: this.auxTH
 
             // cargo:this.num_vac
           },

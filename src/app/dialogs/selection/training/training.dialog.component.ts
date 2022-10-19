@@ -80,6 +80,7 @@ export class TrainingDialog {
   num:number = null;
   stateReq: any = [];
   formad: any =[];
+  auxth: any = [];
   // historyMon: any = [];
   // loading: boolean = false;
 
@@ -109,7 +110,8 @@ export class TrainingDialog {
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
-           this.num = this.data.num
+           this.num = this.data.num;
+           this.auxth = this.data.auxTH
 
             this.loading.emit(true);
             this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {

@@ -172,7 +172,7 @@
                 <div class="col-md-6">
                   <!-- <hr> -->
                   <mat-radio-group aria-label="Select an option" formControlName="day{{dia}}" value="day{{dia}}"
-                    [color]="'primary'" (ngModelChange)="onTotalPresence($event)" [disabled]="nomi">
+                    [color]="'primary'"  [disabled]="nomi">
                     <mat-radio-button *ngFor="let idet of asist" [value]="idet.ls_codvalue">
                       {{idet.description}}
                     </mat-radio-button>
@@ -187,7 +187,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Total Asistencias</mat-label>
-                    <input matInput formControlName="tot_asi" [value]="day" type="number"  [readonly]="true">
+                    <input matInput formControlName="tot_asi" value="tot_asi" type="number"  [readonly]="true">
                   </mat-form-field>
                 </div>
               </div>
@@ -201,7 +201,7 @@
             <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Auxilio Transporte &nbsp; &nbsp;
+                  Auxilio Transporte x Dias&nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
                   
@@ -211,36 +211,14 @@
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Auxilio de Transporte:</mat-label>
-                    <mat-select formControlName="aux_tra" type="number" (ngModelChange)="onTotalHelp($event)">
-                      <mat-option *ngIf="idet">None</mat-option>
-                      <mat-option *ngFor="let idet of totalHelp" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <!-- <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Auxilio de Transporte:</mat-label>
-                    <input matInput formControlName="aux_tra" [value]="totalHelp" type="number"> -->
-                    <!-- <mat-select formControlName="aux_tra" type="number">
-                      <mat-option *ngFor="let idet of totalHelp" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select> -->
-                  <!-- </mat-form-field>
-                </div> -->
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Dias***</mat-label>
-                    <input matInput formControlName="tot_asi" [value]="day" type="number">
+                    <mat-label>Dias</mat-label>
+                    <input matInput formControlName="tot_asi" value="tot_asi" type="number" [readonly]="true">
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Total </mat-label>
-                    <input matInput formControlName="aux_tot" [value]="totalTra"type="number" [readonly]="true">
+                    <input matInput formControlName="aux_tra" value="aux_tra" type="number" [readonly]="true">
                   </mat-form-field>
                 </div>
               </div>
@@ -369,17 +347,52 @@
               <mat-icon>thumbs_up_down</mat-icon>
             </mat-expansion-panel-header>
             <form form *ngIf="view == 'update'" [formGroup]="formVac">
-              <div class="col-sm-4">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Concepto Final:</mat-label>
-                  <mat-select formControlName="con_fin">
-                    <mat-option *ngFor="let idet of stateFormation" [value]="idet.ls_codvalue">
-                      {{idet.description}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Concepto Final:</mat-label>
+                    <mat-select formControlName="con_fin" (ngModelChange)="canditateAttitudes($event)">
+                      <mat-option *ngFor="let idet of stateFormation" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                </div>
+              <div class="row" *ngIf="apto">
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Descripción general del desempeño del candidato:</mat-label>
+                    <textarea matInput formControlName="des_can" required></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Aspectos positivos:</mat-label>
+                    <textarea matInput formControlName="asp_pos" required></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Aspectos a fortalecer:</mat-label>
+                    <textarea matInput formControlName="asp_for" required></textarea>
+                  </mat-form-field>
+                </div>
               </div>
-
+              <div class="row" *ngIf="noApto">
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Descripción general del desempeño del candidato:</mat-label>
+                    <textarea matInput formControlName="des_can" required></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Motivo no apto:</mat-label>
+                    <textarea matInput formControlName="mot_no" required></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
             </form>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -437,64 +450,88 @@
                 <dd>{{selection.d1}}</dd>
               </div> -->
             <div class="row mt-2">
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d1">
                 <dt>Dia 1</dt>
                 <dd>{{selection.d1}}</dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d2">
                 <dt>Dia 2</dt>
                 <dd>{{selection.d2}}</dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d3">
                 <dt>Dia 3</dt>
                 <dd>{{selection.d3}}</dd>
               </div>
 
             </div>
             <div class="row mt-2">
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d4">
                 <dt>Dia 4</dt>
                 <dd>{{selection.d4}}</dd>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d5">
                 <dt>Dia 5</dt>
                 <dd>{{selection.d5}}</dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d6">
                 <dt>Dia 6</dt>
                 <dd>{{selection.d6}}</dd>
               </div>
 
             </div>
             <div class="row mt-2">
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d7">
                 <dt>Dia 7</dt>
                 <dd>{{selection.d7}}</dd>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d8">
                 <dt>Dia 8</dt>
                 <dd>{{selection.d8}}</dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d9">
                 <dt>Dia 9</dt>
                 <dd>{{selection.d9}}</dd>
               </div>
 
             </div>
             <div class="row mt-2">
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="selection.d10">
                 <dt>Dia 10</dt>
                 <dd>{{selection.d10}}</dd>
               </div>
+              <div class="col-md-4" *ngIf="selection.d11">
+                <dt>Dia 11</dt>
+                <dd>{{selection.d10}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="selection.d12">
+                <dt>Dia 12</dt>
+                <dd>{{selection.d10}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4" *ngIf="selection.d13">
+                <dt>Dia 13</dt>
+                <dd>{{selection.d10}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="selection.d14">
+                <dt>Dia 14</dt>
+                <dd>{{selection.d10}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="selection.d15">
+                <dt>Dia 15</dt>
+                <dd>{{selection.d10}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
               <div class="col-md-4">
                 <dt>Total Asistencias</dt>
                 <dd>{{selection.tot_asi}}</dd>
               </div>
               <div class="col-md-4">
                 <dt>Total Auxilio Transporte</dt>
-                <dd>{{selection.aux_tot}}</dd>
+                <dd>{{selection.aux_tra}}</dd>
               </div>
             </div>
             <mat-action-row>
@@ -600,6 +637,31 @@
               <div class="col-md-4">
                 <dt>Concepto Final</dt>
                 <dd>{{vacant.fin}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-2" *ngIf="concept">
+              <div class="col-md-12">
+                <dt>Descripción general del desempeño del candidato:</dt>
+                <dd>{{vacant.des_can}}</dd>
+              </div>
+              <div class="col-md-12 mt-3">
+                <dt>  Aspectos positivos:</dt>
+                <dd>{{vacant.asp_pos}}</dd>
+              </div>
+              <div class="col-md-12 mt-3">
+                <dt>Aspectos a fortalecer:</dt>
+                <dd>{{vacant.asp_for}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2" *ngIf="conceptNo">
+              <div class="col-md-12">
+                <dt>Descripción general del desempeño del candidato:</dt>
+                <dd>{{vacant.des_can}}</dd>
+              </div>
+              <div class="col-md-12 mt-3">
+                <dt> Motivo no apto:</dt>
+                <dd>{{vacant.mot_no}}</dd>
               </div>
             </div>
             <mat-action-row>

@@ -90,10 +90,12 @@
                     <!-- </div> -->
                         <th mat-header-cell *matHeaderCellDef> Acciones </th>
                         <td mat-cell *matCellDef="let element">
+                        <div *ngIf="auxTH != '20' ">
                             <button class="btn  btn-ghost-success mr-3" *ngIf="permissions.update"
                             (click)="option('state',element.idsel)" title="Actualizar Formación">
                             <i class="icon-refresh"></i>
                             </button>
+                            </div>
                             <!-- <button class="btn  btn-outline-danger" (click)="rechazar(element.idsel)"
                             title="Rechazar">
                            <i class="thumb_down"></i>
