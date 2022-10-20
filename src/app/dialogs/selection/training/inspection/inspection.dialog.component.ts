@@ -26,11 +26,12 @@ import { environment } from "../../../../../environments/environment";
 import { global } from "../../../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { Observable } from "rxjs";
+import { empty, Observable } from "rxjs";
 import { NovedadesnominaServices } from "../../../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../../../services/web-api.service";
 import { decimalDigest } from "@angular/compiler/src/i18n/digest";
+import { exists } from "fs";
 interface Food {
   value: string;
   viewValue: string;
@@ -104,6 +105,14 @@ export class InspectionDialog {
   nomi: boolean;
   stateReq: any = [];
   idreq: any =[];
+  concept: boolean;
+  conceptNo: boolean;
+  // ---------------{{{{{{}}}}}}
+  asistt:number=0;
+  noAsistt = 0;
+  tto = 0;
+  ex = 0;
+  // ---------------------
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -156,7 +165,7 @@ export class InspectionDialog {
         }
 
         this.initForms();
-        this.title = "Seguimiento Formacion";
+        this.title = "Seguimiento Formación";
         break;
       case "training":
         // this.rol = this.cuser.role;
@@ -190,6 +199,8 @@ export class InspectionDialog {
               this.selection = data.data[0][0];
               this.asiste = data.data[0][0];
               this.vacant = data.data['getSelectData'][0];
+              this.vacant.con_fin == '70/1'? this.concept = true: this.concept = false;
+              this.vacant.con_fin == '70/2'? this.conceptNo = true: this.conceptNo = false;
               this.typeCargo = this.selection.car_sol
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -232,6 +243,10 @@ export class InspectionDialog {
       birthDate: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
       con_fin: new FormControl(""),
+      des_can: new FormControl(""),
+      asp_pos: new FormControl(""),
+      asp_for: new FormControl(""),
+      mot_no: new FormControl("")
     });
       this.formInsp = new FormGroup({
         day1: new FormControl(""),
@@ -244,6 +259,11 @@ export class InspectionDialog {
         day8: new FormControl(""),
         day9: new FormControl(""),
         day10: new FormControl(""),
+        day11: new FormControl(""),
+        day12: new FormControl(""),
+        day13: new FormControl(""),
+        day14: new FormControl(""),
+        day15: new FormControl(""),
         eva_ind_sst: new FormControl(""),
         eva_ind_cal: new FormControl(""),
         cer_pro_tel_hog: new FormControl(""),
@@ -262,7 +282,7 @@ export class InspectionDialog {
         tot_asi: new FormControl(""),
         idsel: new FormControl(this.idSel),
         idvac: new FormControl(this.idvac),
-        aux_tra: new FormControl(null),
+        aux_tra: new FormControl(""),
         aux_tot: new FormControl(""),
         create_User: new FormControl(this.cuser.iduser)
 
@@ -281,23 +301,23 @@ export class InspectionDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          this.selection = data.data["getDataTechno"];
+          this.selection       = data.data["getDataTechno"];
           this.position        = data.data["getPosition"];
           this.typeRequisition = data.data["getRequisition"];
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
-          this.PersonaleInfo = data.data['getDataPersonale'];
-          this.trainingType = data.data['getTraining'];
-          this.methodology = data.data['getMethod'];
-          this.typeDocument = data.data["getDocument"];
-          this.depart = data.data["getDepart"];
-          this.citytBirth  = data.data["getCity"];
-          this.position  = data.data["getPosition"];
-          this.eps  = data.data["getEps"];
-          this.pension  = data.data["getPension"];
-          this.area  = data.data["getArea"];
+          this.PersonaleInfo   = data.data['getDataPersonale'];
+          this.trainingType    = data.data['getTraining'];
+          this.methodology     = data.data['getMethod'];
+          this.typeDocument    = data.data["getDocument"];
+          this.depart          = data.data["getDepart"];
+          this.citytBirth      = data.data["getCity"];
+          this.position        = data.data["getPosition"];
+          this.eps             = data.data["getEps"];
+          this.pension         = data.data["getPension"];
+          this.area            = data.data["getArea"];
           this.stateFormation  = data.data["getFinal"];
-          this.asist = data.data['getAsist'];
-          this.totalHelp = data.data['getHelp'];
+          this.asist           = data.data['getAsist'];
+          this.totalHelp       = data.data['getHelp'];
 
          if (this.view == "update") {
             this.getDataUpdate();
@@ -351,8 +371,14 @@ export class InspectionDialog {
         this.formInsp.get("pro_gen").setValue(data.data["getSelecUpdat"][0].pro_gen);
         this.formInsp.get("idsel").setValue(data.data["getSelecUpdat"][0].idsel);
         this.formInsp.get("tot_asi").setValue(data.data["getSelecUpdat"][0].tot_asi);
+        this.formInsp.get("aux_tra").setValue(data.data["getSelecUpdat"][0].aux_tra);
+        this.formInsp.get("aux_tot").setValue(data.data["getSelecUpdat"][0].aux_tot);
         //vacant
         this.formVac.get("con_fin").setValue(data.data[0][0].con_fin);
+        this.formVac.get("des_can").setValue(data.data[0][0].des_can);
+        this.formVac.get("asp_pos").setValue(data.data[0][0].asp_pos);
+        this.formVac.get("asp_for").setValue(data.data[0][0].asp_for);
+        this.formVac.get("mot_no").setValue(data.data[0][0].mot_no);
       },
       (error) => {
         this.handler.showError();
@@ -367,7 +393,7 @@ export class InspectionDialog {
         segui: this.formInsp.value,
         req: this.formSelec.value   
     }
-    if (this.formInsp.valid) {
+    if (this.formInsp.valid && this.formVac.valid) {
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint+'/'+this.idvac,body,{
         token: this.cuser.token,
@@ -456,46 +482,43 @@ export class InspectionDialog {
       this.formInsp.value.pro_gen = this.resultado
     }
   }
-  day = 0;
+  
   onTotalPresence(e){
-    if(e == '35/1'){
-      this.day = this.day +1
-    }else if(e == '35/2'){
-      this.day = this.day -1
-    }
-    return this.formInsp.value.tot_asi = this.day;
-    // console.log('nu',this.day)
-     
-  }
-  help = 0;
-  // totalHelp = 0;
-  totalAux = 0;
-  totalTra = 0
-  onTotalHelp(e){
-    console.log('aux',e)
-    if(e == '72/2'){
-      this.totalAux = 4800
-      console.log('day=>',this.day);     
-      this.totalTra = (this.day*this.totalAux);
-      console.log('tot=>',this.totalTra);
-    }
-    return this.formInsp.value.aux_tot = this.totalTra
-    //   this.totalTra = 0
-    // }
-    // this.help = 4800;
-    // this.totalHelp = (e*this.help);
-    // console.log('aux=>',this.totalHelp)
-
-  }
-  // reset() {
-  //   this.totalHelp=''; // Aquí igualas al value del ítem que quieras
-  // }
-  // onHelp(e){
-  //   console.log('tot',e)
-
-  // }
     
+    // if(this.formInsp.get('day1').value == '35/1'){
+    //   // this.formInsp.get('day1').setValue(1);
+    //   console.log('++',this.formInsp.get('day1').value);
+      //---------------------------------------------------------
+      if( e == '35/1'){
+          this.asistt +=  1;
+          // this.ex =this.formInsp.value.tot_asi
+          // this.tto = (this.asistt + this.ex)
+          // console.log('===',this.tto)
+    
+          // console.log('d1s=>',this.formInsp.get("day1").value)
+    
+          console.log('dias=>',this.asistt)
+          // this.formInsp.value.tot_asi = this.asistt;
+          // this.tto = (this.asist - this.noAsistt)
+    
+        }else if(e == '35/2'){
+          this.asistt -= 1
+          console.log('no=>',this.asistt)
+          // this.formInsp.value.tot_asi = this.asistt;
+        }
+      // -----------------------------------------------------------
+      this.tto = this.asistt ;
   }
+  apto:boolean;
+  noApto:boolean;
+  canditateAttitudes(event){
+    event == '70/1'? this.apto = true: this.apto = false;
+    event == '70/2'? this.noApto = true: this.noApto = false;
+  }
+
+  }
+    
+  
   
 
   

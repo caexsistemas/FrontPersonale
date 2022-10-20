@@ -1,5 +1,155 @@
 <div class="card mt-6">
-  <div *ngIf="view == 'update'">
+  <div class="card-header">
+    <h5 class="modal-title">
+      <p class="title-modal" *ngIf="view == 'trainer'">{{title}} {{idSel}}</p>
+      <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+        style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </h5>
+  </div>
+  <mat-dialog-content>
+    <div class="card-body">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <strong>
+          <h4>
+            <input matInput disabled value="Contratación">
+          </h4>
+        </strong>
+      </mat-form-field>
+     
+      <div class="toolbar-table" *ngIf="permissions != null">
+
+      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+
+        <!-- <div class="btn-group" dropdown>
+            <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                title="Reporte Excel">
+                <i class="fa fa-feed"></i>
+            </button>
+        </div> -->
+        <div class="btn-group" dropdown>
+            <!-- <button class="btn btn-success" *ngIf="permissions.update" (click)="option('state',idSel)"
+                title="Actualizar Estado Formación">
+                <i class="icon-refresh"></i>
+            </button> -->
+        </div>
+       
+    </div>
+      <mat-form-field appearance="standard">
+        <mat-label>Buscar...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
+      </mat-form-field>
+      </div>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+          *ngIf="contenTable.length > 0">
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef> Ver </th>
+            <td mat-cell *matCellDef="let row">
+              <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',row.idvac,row.nom_com)"
+                title="Ver">
+                <i class="fa fa-eye fa-lg"></i>
+              </button>
+            </td>
+          </ng-container>
+          !-- login Column -->
+          <ng-container matColumnDef="fec_sel">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Selección </th>
+            <td mat-cell *matCellDef="let row"> {{row.fec_sel}} </td>
+          </ng-container>
+
+          <!-- name Column -->
+          <ng-container matColumnDef="tip_doc">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo Documento </th>
+            <td mat-cell *matCellDef="let row"> {{row.docu}} </td>
+          </ng-container>
+
+          <!-- namecordi Column -->
+          <ng-container matColumnDef="document">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Numero Documento </th>
+            <td mat-cell *matCellDef="let row"> {{row.document}} </td>
+          </ng-container>
+
+          <!-- campana Column -->
+          <ng-container matColumnDef="nom_com">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Completo </th>
+            <td mat-cell *matCellDef="let row"> {{row.nom_com}} </td>
+          </ng-container>
+
+          <!-- statusagen Column -->
+          <ng-container matColumnDef="car_sol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo Solicitado </th>
+            <td mat-cell *matCellDef="let row"> {{row.lab}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="matrizarp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo Matriz </th>
+            <td mat-cell *matCellDef="let row"> {{row.mat}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="sta_cont">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado Contratación </th>
+            <td mat-cell *matCellDef="let row"> {{row.sta}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let row">
+              <div *ngIf="row.sta_cont == '64/1' ">
+              <button class="btn btn-ghost-primary" *ngIf="permissions.update" (click)="option('update',row.idvac,row.nom_com,row.idsel)"
+                title="Seguimiento">
+                <i class="fa fa-edit fa-lg"></i>
+                <!-- <i class="fa fa-edit fa-lg"></i> -->
+              </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+      <!-- </form> -->
+    </div>
+    <!-- <div class="row mt-3">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  Histórico de Procesos:
+                </div>
+                <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                  <ng-container matColumnDef="currentm_user">
+                    <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                    <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="type_move">
+                    <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                    <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="date_move">
+                    <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                    <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                  </ng-container>
+  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+                </table>
+              </div>
+            </div>
+          </div> -->
+  </mat-dialog-content>
+</div>
+<div class="card mt-6">
+  <div *ngIf="view === 'update'">
     <div class="card-header">
       <h5 class="modal-title button_header">
         <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
@@ -9,239 +159,36 @@
         </button>
       </h5>
     </div>
-
     <div class="card-body">
       <mat-dialog-content>
         <mat-accordion class="example-headers-align">
           <form form *ngIf="view == 'update'" [formGroup]="formSelec">
-            <!-- <form [formGroup]="formParent" class="form-parent">
-                  <div class="form-grid" formArrayName="skills">
-                    <div class="form-field" *ngFor="let skill of getCtrl('skills',formParent).controls;index as formChild">
-                      <div class="form-block" [formGroupName]="formChild"> -->
-
-
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Contratación&nbsp; &nbsp;
+                  Actualizar Formación &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                  Datos Generales
+                  Información Detallada
                 </mat-panel-description>
-                <mat-icon>account_circle</mat-icon>
+                <mat-icon>work</mat-icon>
               </mat-expansion-panel-header>
-
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Documento</mat-label>
-                    <mat-select formControlName="tip_doc" required>
-                      <mat-option *ngFor="let idet of typeDocument" [value]="idet.ls_codvalue" [disabled]="true">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Numero Documento</mat-label>
-                    <input matInput formControlName="document" type="number" required [readonly]="true">
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Nombre Completo:</mat-label>
-                    <input matInput formControlName="nom_com" type="text" required [readonly]="true">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <!-- <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Area de Trabajo</mat-label>
-                    <mat-select formControlName="are_tra">
-                      <mat-option *ngFor="let idet of area" [value]="idet.ls_codvalue" [disabled]="true">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div> -->
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Cargo:</mat-label>
-                    <mat-select formControlName="car_sol">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" [disabled]="true">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Salario</mat-label>
-                    <input matInput formControlName="vac_sal" type="number" required>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Auxilio Transporte</mat-label>
-                    <input matInput formControlName="vac_aux" type="number" required>
-                  </mat-form-field>
-                </div>
-                <!-- <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp">
-                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div> -->
-              </div>
-              <div class="row">
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo Contrato:</mat-label>
-                    <mat-select formControlName="vac_cont" (selectionChange)="onSelectContract($event.value)">
-                      <mat-option *ngFor="let idet of typeContract" [value]="idet.ls_codvalue" >
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4" *ngIf="period">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Periodo(Meses)</mat-label>
-                    <input matInput formControlName="vac_per" type="number" required>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Estado Contrato:</mat-label>
-                    <mat-select formControlName="sta_cont">
-                      <mat-option *ngFor="let idet of stateCont" [value]="idet.ls_codvalue" >
+                    <mat-label>Estado de Formación:</mat-label>
+                    <mat-select formControlName="est_for">
+                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
               </div>
-             
             </mat-expansion-panel>
           </form>
         </mat-accordion>
       </mat-dialog-content>
-      <div mat-dialog-actions>
-        <div class="text-center col-12">
-          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-            (click)="onSubmitUpdate()">Actualizar</button>
-          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
-
-<div class="card mt-6">
-  <div *ngIf="view == 'view'">
-    <div class="card-header">
-      <h5 class="modal-title">
-        <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
-        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </h5>
-    </div>
-
-    <div class="card-body">
-      <mat-dialog-content>
-        <mat-accordion class="example-headers-align">
-          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Contratación&nbsp; &nbsp;
-              </mat-panel-title>
-              <mat-panel-description>
-                Datos Generales
-              </mat-panel-description>
-              <mat-icon>account_circle</mat-icon>
-            </mat-expansion-panel-header>
-
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <dt>Tipo de Documento</dt>
-                <dd>{{selection.docu}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Numero Documento</dt>
-                <dd>{{selection.document}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Nombre Completo</dt>
-                <dd>{{selection.nom_com}}</dd>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <dt>Cargo</dt>
-                <dd>{{selection.lab}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Salario</dt>
-                <dd>{{selection.vac_sal}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Auxilio Transporte</dt>
-                <dd>{{selection.vac_aux}}</dd>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-4">
-                <dt>Tipo Contrtato</dt>
-                <dd>{{selection.cont}}</dd>
-              </div>
-              <div class="col-md-4" *ngIf="contra != '5/1'">
-                <dt>Periodo(Meses)</dt>
-                <dd>{{selection.vac_per}}</dd>
-              </div>
-              <div class="col-md-4">
-                <dt>Estado Contrato</dt>
-                <dd>{{selection.sta}}</dd>
-              </div>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-        <div class="row mt-3">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                Histórico de Procesos:
-              </div>
-              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
-                <ng-container matColumnDef="currentm_user">
-                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
-                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="type_move">
-                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
-                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="date_move">
-                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
-                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-              </table>
-            </div>
-          </div>
-        </div>
-      </mat-dialog-content>
-    </div>

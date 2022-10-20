@@ -108,6 +108,7 @@ import { InspectionDialog } from './dialogs/selection/training/inspection/inspec
 import { FormationDialog } from './dialogs/selection/training/inspection/formation/formation.dialog.component';
 import { OwnerDialog } from './dialogs/technology/owner/owner.dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PreselectedDialog } from './dialogs/selection/hiring/preselected/preselected.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -209,7 +210,8 @@ const routes: Routes = [];
     HiringDialog,
     InspectionDialog,
     FormationDialog,
-    OwnerDialog
+    OwnerDialog,
+    PreselectedDialog
   
   ],
   providers: [{

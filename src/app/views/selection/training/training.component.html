@@ -80,16 +80,22 @@
                       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado de Formación</th>
                       <td mat-cell *matCellDef="let element"> {{element.stFor}} </td>
                   </ng-container>
+                  <ng-container matColumnDef="num_vac">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Numero Vacantes</th>
+                    <td mat-cell *matCellDef="let element"> {{element.num_vac}} </td>
+                </ng-container>
                     <ng-container matColumnDef="actions">
                       <!-- <div class="btn-group" dropdown> -->
                        
                     <!-- </div> -->
                         <th mat-header-cell *matHeaderCellDef> Acciones </th>
                         <td mat-cell *matCellDef="let element">
+                        <div *ngIf="auxTH != '20' ">
                             <button class="btn  btn-ghost-success mr-3" *ngIf="permissions.update"
                             (click)="option('state',element.idsel)" title="Actualizar Formación">
                             <i class="icon-refresh"></i>
                             </button>
+                            </div>
                             <!-- <button class="btn  btn-outline-danger" (click)="rechazar(element.idsel)"
                             title="Rechazar">
                            <i class="thumb_down"></i>

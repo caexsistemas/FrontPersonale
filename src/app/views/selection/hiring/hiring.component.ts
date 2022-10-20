@@ -4,6 +4,8 @@ import {
   ViewChild,
   QueryList,
   ViewChildren,
+  EventEmitter,
+  Output,
 } from "@angular/core";
 import { Tools } from "../../../Tools/tools.page";
 import { WebApiService } from "../../../services/web-api.service";
@@ -45,6 +47,7 @@ export class HiringComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+  @Output() reload = new EventEmitter();
 
   component = "/selection/hiring";
 
@@ -99,14 +102,12 @@ export class HiringComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "fec_sel",
       "idsel",
-      "tip_doc",
-      "document",
-      "nom_com",
+      "fec_req",
       "car_sol",
-      "sta_cont",
-      "actions"
+      "matrizarp",
+      // "idPersonale",
+      "state",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -118,7 +119,7 @@ export class HiringComponent implements OnInit {
     }
   }
 
-  option(action,codigo=null, id,idsel){
+  option(action,codigo=null, id,matriz,num,state){
     var dialogRef;
     switch(action){
       case 'create':
@@ -148,9 +149,6 @@ export class HiringComponent implements OnInit {
             window: 'update',
             codigo,
             tipoMat:id,
-            idsel
-            // tipoMat: tipoMat
-
           }
         });
         dialogRef.disableClose = true;
@@ -163,24 +161,23 @@ export class HiringComponent implements OnInit {
           this.sendRequest();
         });
         break;
-
-      case 'view':
+      case "trainer":
         this.loading = true;
-        dialogRef = this.dialog.open(HiringDialog,{
+        dialogRef = this.dialog.open(HiringDialog, {
           data: {
-            window: 'view',
-            codigo
-          }
+            window: "trainer",
+            codigo,
+            id:id,
+
+          },
         });
         dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
+        this.sendRequest();
+      
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
         });
-        dialogRef.afterClosed().subscribe(result => {
-         
-        });
-      break;
+        break;
       }
     }
     
