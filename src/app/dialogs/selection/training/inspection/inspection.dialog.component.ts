@@ -357,6 +357,11 @@ export class InspectionDialog {
         this.formInsp.get("day8").setValue(data.data["getSelecUpdat"][0].day8);
         this.formInsp.get("day9").setValue(data.data["getSelecUpdat"][0].day9);
         this.formInsp.get("day10").setValue(data.data["getSelecUpdat"][0].day10);
+        this.formInsp.get("day11").setValue(data.data["getSelecUpdat"][0].day11);
+        this.formInsp.get("day12").setValue(data.data["getSelecUpdat"][0].day12);
+        this.formInsp.get("day13").setValue(data.data["getSelecUpdat"][0].day13);
+        this.formInsp.get("day14").setValue(data.data["getSelecUpdat"][0].day14);
+        this.formInsp.get("day15").setValue(data.data["getSelecUpdat"][0].day15);
         this.formInsp.get("eva_ind_sst").setValue(data.data["getSelecUpdat"][0].eva_ind_sst);
         this.formInsp.get("eva_ind_cal").setValue(data.data["getSelecUpdat"][0].eva_ind_cal);
         this.formInsp.get("cer_pro_tel_hog").setValue(data.data["getSelecUpdat"][0].cer_pro_tel_hog);
