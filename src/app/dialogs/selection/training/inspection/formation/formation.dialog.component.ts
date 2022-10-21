@@ -62,8 +62,8 @@ export class FormationDialog {
   idSel: number = null;
   rol: number;
   typeMatriz: any = [];
-  component = "/selection/training";
-  // component = "/selection/requisition";
+  // component = "/selection/training";
+  component = "/selection/requisition";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -161,13 +161,14 @@ export class FormationDialog {
       aprobacion1: new FormControl(""),
       aprobacion2:new FormControl(""),
       aprobacion3:new FormControl(""),
-      // idPersonale: new FormControl(""),
+      state: new FormControl(""),
       est_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
     this.formTraining = new FormGroup({
       idPersonale: new FormControl(""),
       document: new FormControl(""),
+      est: new FormControl(""),
       fec_ini: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
@@ -196,7 +197,7 @@ export class FormationDialog {
           this.PersonaleInfo = data.data['getDataPersonale']; 
           this.typeFormation = data.data['getFormation'];
 
-          if (this.view == "update") {
+          if (this.view == "state") {
             this.getDataUpdate();
           }
           this.loading.emit(false);
@@ -283,7 +284,7 @@ export class FormationDialog {
       formacion: this.formTraining.value,
       // segui: this.formInsp.value,
       vacant: this.formVac.value,
-      // seguimiento: this.formInsp.value
+      seguimiento: this.formInsp.value
         //  id: this.idSel
     }
     if (this.formSelec.valid) {
