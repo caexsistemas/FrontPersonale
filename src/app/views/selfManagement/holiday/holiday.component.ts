@@ -21,30 +21,29 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
-
+import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
 
 @Component({
-  selector: 'app-requisition',
-  templateUrl: './requisition.component.html',
-  styleUrls: ['./requisition.component.css']
+  selector: 'app-holiday',
+  templateUrl: './holiday.component.html',
+  styleUrls: ['./holiday.component.css']
 })
-export class RequisitionComponent implements OnInit {
+export class HolidayComponent implements OnInit {
 
   contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/requisition";
+  endpoint: string = "/holiday";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
   contaClick: number = 0;
-  perm: any = [];
-  rol: any = [];
+  
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/requisition";
+  component = "/selfManagement/holiday";
 
   constructor(
     private _tools: Tools,
@@ -69,7 +68,7 @@ export class RequisitionComponent implements OnInit {
       modulo: this.component,
       role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale
 
     }).subscribe(
       (data) => {
@@ -81,9 +80,6 @@ export class RequisitionComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          this.perm = this.cuser.iduser;
-          this.rol = this.cuser.role;
-          console.log('=>',this.rol);
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -99,12 +95,12 @@ export class RequisitionComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "idsel",
-      "fec_req",
-      "car_sol",
-      "matrizarp",
-      "tip_req",
-      "state",
+      "idPersonale",
+      "idPosition",
+      "admissionDate",
+      // "matrizarp",
+      // "tip_req",
+      // "state",
       // "salary",
       // "num_vac",
       "actions",
@@ -124,11 +120,11 @@ export class RequisitionComponent implements OnInit {
     switch(action){
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog,{
+        dialogRef = this.dialog.open(HolidayDialog,{
           data: {
             window: 'create',
             codigo,
-            id:id
+            id:id,
             // tipoMat: tipoMat
           }
         });
@@ -194,8 +190,4 @@ openc(){
 applyFilter(search) {
   this.dataSource.filter = search.trim().toLowerCase();
 }
-// onTriggerSheetClick(){
-//   this.matBottomSheet.open(ReportsTechnologyComponent)
-// }
-
 }
