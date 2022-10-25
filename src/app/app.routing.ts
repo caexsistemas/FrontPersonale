@@ -7,6 +7,7 @@ import { LoginComponent } from './views/login/login.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { P403Component } from './views/error/403.component';
+import { SelfManagementModule } from './views/selfManagement/selfManagement.module';
 
 
 export const routes: Routes = [
@@ -96,6 +97,10 @@ export const routes: Routes = [
       {
         path: 'selection',
         loadChildren:()=> import('./views/selection/selection.module').then(m=>m.SelectionModule)
+      },
+      {
+        path: 'selfManagement',
+        loadChildren:()=> import('./views/selfManagement/selfManagement.module').then(m=>m.SelfManagementModule)
       }
     ]
   }
