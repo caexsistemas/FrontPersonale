@@ -25,20 +25,23 @@
               <mat-form-field class="example-full-width">
                 <!-- <mat-form-field appearance="fill"> -->
                 <mat-label>Numero Identificaci&oacute;n</mat-label>
-                <input matInput formControlName="document" type="text" required>
+                <input matInput formControlName="document"  required>
               </mat-form-field>
             </div>
             <div class="col-md-4 ContCamp">
-              <mat-form-field class="example-full-width">
-                <!-- <mat-form-field appearance="fill"> -->
-                <mat-label>Nombres y apellidos</mat-label>
-                <input matInput formControlName="idPersonale" type="number" required>
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                <mat-select formControlName="idPersonale" required >
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
-                <input matInput formControlName="fec_ini" value="fec_ini" type="date">
+                <input matInput formControlName="fec_ini" value="fec_ini" type="date" (ngModelChange)="calculateDays()">
               </mat-form-field>
             </div>
           </div>
@@ -46,7 +49,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Fin</mat-label>
-                <input matInput formControlName="fec_fin" value="fec_fin" type="date">
+                <input matInput formControlName="fec_fin" value="fec_fin" type="date" (ngModelChange)="calculateDays()">
               </mat-form-field>
             </div>
             <div class="col-sm-4">

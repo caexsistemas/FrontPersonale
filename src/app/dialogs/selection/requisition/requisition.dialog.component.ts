@@ -82,7 +82,7 @@ export class RequisitionDialog {
   typeCargo: any = [];
   PersonaleInfo: any = [];
   createUs: any =[];
-
+  state: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -112,6 +112,13 @@ export class RequisitionDialog {
         // console.log('idsel=>',this.createUs);
         this.initForms();
         this.title = "Actualizar Requisición";
+      break;
+      case "cancel":
+        this.idSel = this.data.codigo;
+        console.log('canc', this.idSel)
+        this.title = "Cancelar Requisición";
+        this.initForms();
+        // this.initFormsCancel();
       break;
       case "view":
         this.idSel = this.data.codigo;
@@ -156,6 +163,8 @@ export class RequisitionDialog {
       aprobacion2: new FormControl(""),
       aprobacion3: new FormControl(""),
       day_for: new FormControl(""),
+      state: new FormControl(""),
+      can_req: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
     this.formTraining = new FormGroup({
@@ -179,6 +188,12 @@ export class RequisitionDialog {
       con_fin: new FormControl(""),
     });
   }
+  initFormsCancel(){
+    this.getDataInit();
+    this.formSelec = new FormGroup({
+      state: new FormControl("")
+    });
+  }
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
@@ -194,9 +209,10 @@ export class RequisitionDialog {
           this.position        = data.data["getPosition"];
           this.typeRequisition = data.data["getRequisition"];
           this.typeMatriz      = data.data["getMatriz"].slice(0, 3);
-          this.PersonaleInfo = data.data['getDataPersonale'];        
+          this.PersonaleInfo = data.data['getDataPersonale']; 
+          this.state         = data.data['getCancel'].slice(5);
 
-          if (this.view == "update") {
+          if (this.view == "update" || this.view == 'cancel' ) {
             this.getDataUpdate();
           }
           this.loading.emit(false);
@@ -269,6 +285,7 @@ export class RequisitionDialog {
         this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
         this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
         this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
       },
       (error) => {
         this.handler.showError();

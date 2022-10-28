@@ -30,6 +30,8 @@ import { Observable } from "rxjs";
 import { NovedadesnominaServices } from "../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../services/web-api.service";
+import * as moment from "moment";
+// import { element } from "protractor";
 interface Food {
   value: string;
   viewValue: string;
@@ -71,6 +73,7 @@ export class HolidayDialog  {
   PersonaleInfo: any = [];
   document: any = [];
   people: any = [];
+  position: any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -161,6 +164,7 @@ export class HolidayDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
+          this.position        = data.data["getPosition"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -222,16 +226,12 @@ export class HolidayDialog  {
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-        this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        this.formSelec.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
+        this.formSelec.get("fec_ini").setValue(data.data["getSelecUpdat"][0].fec_ini);
+        this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
+        this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
+        this.formSelec.get("day_vac").setValue(data.data["getSelecUpdat"][0].day_vac);
       },
       (error) => {
         this.handler.showError();
@@ -310,6 +310,97 @@ export class HolidayDialog  {
   //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
   //   }        
   // }
+  from: any = []
+  to: any = []
+  days;
+  ini;
+  calculateDays(e){
+  const festivos = [ [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
+  // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
+
+    var ini = moment(this.formSelec.value.fec_ini);
+    var fin = moment(this.formSelec.value.fec_fin);
+    // let diff = fin.diff(ini,'days');
+    const mes = ini.month();
+    const dia = ini.isoWeekday();
+    console.log("=>",mes)
+    console.log("=>dia",dia)
+    // if(mes){
+      // festivos.forEach(element => console.log( element) );
+
+      console.log(Array.from( festivos ));
+      this.from = (Array.from( festivos ))
+        console.log("=***>", this.from )
+
+      // if( mes == Array.from(festivos).length ) {
+              // console.log(Array.from( festivos ))
+              festivos.forEach(element => {
+                console.log("mes>",element)
+                if(mes == this.from ){
+                console.log("nuev>",element)
+
+                }
+              });
+              // festivos.forEach(element);
+
+      // }
+    // }
+    // if(ini.isAfter(fin)){
+
+    //   console.log("=>",ini.month())
+
+    // }
+    // // console.log('=>',ini);
+    //  this.days = 0;
+    // if(ini.isoWeekday() != 6 && fin.isoWeekday() != 7){
+    //   this.days++;
+    // }
+    // let diff = fin.diff(ini,'days');
+      // console.log('=>', this.days);
+     
+
+// Devolvemos el resultado
+
+        
+      
+    // var fechas = [
+      
+    //     ini , fin
+
+      
+    // ];
+    // ini.isoWeekday()
+    // if(ini.isAfter(fin)){
+    //     if(fechas.weekdays("Sunday"))
+    // }
+    // // let diff = fin.isAfter(ini);
+    // // let days = diff
+    // // if(diff){
+
+    // }
+      // console.log('=>',diff);
+
+      // function workingDays(dateFrom, dateTo) {
+        //  this.from = moment(this.formSelec.value.fec_ini)
+        //     this.to = moment(this.formSelec.value.fec_fin)
+        //     this.days = 0;
+          
+        // // if (this.from.isAfter(this.to)) {
+        //   // Si no es sabado ni domingo
+        //   if (this.from.isoWeekday() !== 6 && this.from.isoWeekday() !== 7) {
+        //     this.days++;
+        //   }
+        //   this.from.add(1, 'days');
+        // // }
+        // console.log('=>>',this.days);
+
+        // return this.days;
+      // }
+      
+      
+      // var days = workingDays('05/03/2018', '13/03/2018');
+      // console.log(days);
+  }
 
   }
   

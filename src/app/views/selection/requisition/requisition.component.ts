@@ -39,6 +39,9 @@ export class RequisitionComponent implements OnInit {
   contaClick: number = 0;
   perm: any = [];
   rol: any = [];
+  acces: boolean;
+   accep: Array<string>;
+         
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -82,6 +85,11 @@ export class RequisitionComponent implements OnInit {
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
           this.perm = this.cuser.iduser;
+          // let accep: Array<string>;
+          this.accep = ['50', '44', '49','63']; 
+
+          ( this.perm == this.accep )? this.acces = true : this.acces = false
+
           this.rol = this.cuser.role;
           console.log('=>',this.rol);
           this.loading = false;
@@ -182,6 +190,28 @@ export class RequisitionComponent implements OnInit {
          
         });
       break;
+      case 'cancel':
+        this.loading = true;
+        dialogRef = this.dialog.open(RequisitionDialog,{
+          data: {
+            window: 'cancel',
+            codigo,
+            id:id,
+          
+            // tipoMat: tipoMat
+
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+        break;
       }
     }
     

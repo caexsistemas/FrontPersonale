@@ -20,16 +20,12 @@
                       </button> -->
                   </div>
                   <div class="btn-group" dropdown>
-                  <ng-container matColumnDef="create">
 
-                    <td mat-cell *matCellDef="let element">
-
-                      <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',element.document, element.idPersonale)"
+                      <di let element ></di>
+                      <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',document, idPersonale)"
                           title="Crear">
                           <i class="fa fa-plus"></i>
                       </button>
-                    </td>
-                  </ng-container>
 
                   </div>
                  
@@ -44,6 +40,14 @@
           </div>
 
           <div class="section-table first-action">
+            <table>
+            <thead>
+              <tr>
+              
+              <th class="success"  style="position: absolute;left: 75%;top: 49%;font-size: 12px;">Dias de Vacaciones</th>
+              </tr>
+             </thead>
+            </table>
               <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
                   *ngIf="contenTable.length > 0">
                   
@@ -70,24 +74,30 @@
                     <td mat-cell *matCellDef="let element"> {{element.idPosition }} </td>
                 </ng-container>
 
-
-                  <ng-container matColumnDef="car_sol">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo Solicitado</th>
-                      <td mat-cell *matCellDef="let element"> {{element.sol}} </td>
-                  </ng-container>
-
                   <ng-container matColumnDef="admissionDate">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Ingreso</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Contratación</th>
                     <td mat-cell *matCellDef="let element"> {{element.admissionDate  }} </td>
                 </ng-container>
 
-                  <!-- <ng-container matColumnDef="state">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Requisición
+                  <ng-container matColumnDef="daysGained">
+                      <th mat-header-cell *matHeaderCellDef> Dias Ganados
                       </th>
-                      <td mat-cell *matCellDef="let element"> {{element.sta}} </td>
+                      <td mat-cell *matCellDef="let element">{{ageCalculator()}}  </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="tip_req">
+                  <ng-container matColumnDef="daysTaken">
+                    <th mat-header-cell *matHeaderCellDef> Dias Tomados
+                    </th>
+                    <td mat-cell *matCellDef="let element"></td> 
+                </ng-container>
+
+                <ng-container matColumnDef="remainingDays">
+                  <th mat-header-cell *matHeaderCellDef> Dias Restantes
+                  </th>
+                  <td mat-cell *matCellDef="let element">  </td>
+              </ng-container>
+
+                  <!-- <ng-container matColumnDef="tip_req">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Requisición
                     </th>
                     <td mat-cell *matCellDef="let element"> {{element.tip}} </td>
@@ -139,7 +149,7 @@
                     </button> -->
                 </div>
                 <div class="btn-group" dropdown>
-                    <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
+                    <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',element.idPersonale, element.document)"
                         title="Crear">
                         <i class="fa fa-plus"></i>
                     </button>
@@ -156,8 +166,8 @@
         </div>
 
         <div class="section-table first-action">
-            <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
-                *ngIf="contenTable.length > 0">
+            <table mat-table [dataSource]="dataSourceVacation" matSort class="table-large table-responsive-lg"
+                *ngIf="contenTableVacation.length > 0">
                
 
                 <ng-container matColumnDef="view">
@@ -170,39 +180,39 @@
                     </td>
                 </ng-container>
 
-                 <ng-container matColumnDef="idPersonale">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Empleado</th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                 <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento</th>
+                    <td mat-cell *matCellDef="let element"> {{element.document}} </td>
                 </ng-container>
 
     
-               <ng-container matColumnDef="idPosition">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo</th>
-                  <td mat-cell *matCellDef="let element"> {{element.idPosition }} </td>
+               <ng-container matColumnDef="idPersonale">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombres y Apellidos</th>
+                  <td mat-cell *matCellDef="let element"> {{element.idPersonale }} </td>
               </ng-container>
 
 
-                <ng-container matColumnDef="car_sol">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo Solicitado</th>
-                    <td mat-cell *matCellDef="let element"> {{element.sol}} </td>
+                <ng-container matColumnDef="fec_ini">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Inicio</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fec_ini}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="admissionDate">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Ingreso</th>
-                  <td mat-cell *matCellDef="let element"> {{element.admissionDate  }} </td>
+                <ng-container matColumnDef="fec_fin">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Fin</th>
+                  <td mat-cell *matCellDef="let element"> {{element.fec_fin  }} </td>
               </ng-container>
 
-                <!-- <ng-container matColumnDef="state">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Requisición
+                <ng-container matColumnDef="fec_rei">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Regreso
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{element.sta}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fec_rei}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="tip_req">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Requisición
+                <ng-container matColumnDef="day_vac">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> # Dias a tomar
                   </th>
-                  <td mat-cell *matCellDef="let element"> {{element.tip}} </td>
-              </ng-container> -->
+                  <td mat-cell *matCellDef="let element"> {{element.day_vac}} </td>
+              </ng-container>
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Acciones </th>
@@ -218,12 +228,12 @@
                         </button> -->
                     </td>
                 </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsVacation; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsVacation;"></tr>
             </table>
             <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
         </div>
-        <div *ngIf="contenTable.length == 0">
+        <div *ngIf="contenTableVacation.length == 0">
             <h4 class="no-records">No hay registros...</h4>
         </div>
     </div>
