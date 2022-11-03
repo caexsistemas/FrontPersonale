@@ -83,6 +83,7 @@ export class RequisitionDialog {
   PersonaleInfo: any = [];
   createUs: any =[];
   state: any = [];
+  cancel: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -131,8 +132,11 @@ export class RequisitionDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection.car_sol);
-              this.typeCargo = this.selection.car_sol
+              console.log('==>',this.selection);
+              this.cancel= this.selection.state;
+              ( this.cancel == '65/6') ? this.title = ' Requisición Cancelada': '';
+              this.typeCargo = this.selection.car_sol;
+
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {

@@ -41,7 +41,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
-                <input matInput formControlName="fec_ini" value="fec_ini" type="date" (ngModelChange)="calculateDays()">
+                <input matInput formControlName="fec_ini" value="fec_ini" type="date" (ngModelChange)="calculate1($event)">
               </mat-form-field>
             </div>
           </div>
@@ -49,7 +49,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Fin</mat-label>
-                <input matInput formControlName="fec_fin" value="fec_fin" type="date" (ngModelChange)="calculateDays()">
+                <input matInput formControlName="fec_fin" value="fec_fin" type="date" (ngModelChange)="calculate($event)">
               </mat-form-field>
             </div>
             <div class="col-sm-4">

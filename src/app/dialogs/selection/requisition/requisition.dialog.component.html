@@ -231,8 +231,8 @@
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12">
-          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-            (click)="onSubmitUpdate()">Actualizar</button>
+          <!-- <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button> -->
           <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
@@ -305,7 +305,7 @@
   <div *ngIf="view == 'view'">
     <div class="card-header">
       <h5 class="modal-title">
-        <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
+        <p class="title-modal" *ngIf="view == 'view'">Información Detallada  {{title}}</p>
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
           style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
           <span aria-hidden="true">&times;</span>
@@ -404,7 +404,7 @@
             </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
           <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
@@ -433,6 +433,26 @@
               <div class="col-md-4">
                 <dt>Juan Olaya </dt>
                 <dd>{{selection.ju}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="cancel == '65/6' " [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Requisición Cancelada &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+              <mat-icon>cancel</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt> Motivo por el cual se cancela? </dt>
+                <dd>{{selection.can_req}}</dd>
               </div>
             </div>
             <mat-action-row>

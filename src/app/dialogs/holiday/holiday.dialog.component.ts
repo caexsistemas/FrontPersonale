@@ -26,11 +26,13 @@ import { environment } from "../../../environments/environment";
 import { global } from "../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { Observable } from "rxjs";
+import { Observable, pipe } from "rxjs";
 import { NovedadesnominaServices } from "../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../services/web-api.service";
 import * as moment from "moment";
+import { element } from "protractor";
+import { exit } from "process";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -310,99 +312,156 @@ export class HolidayDialog  {
   //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
   //   }        
   // }
-  from: any = []
+  prue: any =[];
+  prue2: any =[];
+  // from: any = []
   to: any = []
-  days;
+  daysIniMen = 0;
+  daysIniMay = 0;
+  daysFin = 1;
+  totalMen = 0;
+  totalMay = 0;
+  sumTotalMen = 0;
+  sumTotalMay = 0;
   ini;
-  calculateDays(e){
-  const festivos = [ [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
+  // diff = 0;
+  // calculateDaysf($event){
+  //   this.prue = $event;
+  //   this.calculateDays(this.prue);
+  // }
+  acum= 0;
+  restar = 0;
+  // element: any=[]
+  calculate1(event){
+    this.prue = event;
+    this.calculateDays(this.prue,this.prue2);
+  }
+  calculate(event){
+    this.prue2 = event;
+    this.calculateDays(this.prue,this.prue2);
+  }
+ 
+  calculateDays(f1, f2){
+    // console.log($event)
+  // var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
+  var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
+  //  var festivos =  [7, 11 ];
   // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
 
-    var ini = moment(this.formSelec.value.fec_ini);
-    var fin = moment(this.formSelec.value.fec_fin);
-    // let diff = fin.diff(ini,'days');
-    const mes = ini.month();
-    const dia = ini.isoWeekday();
-    console.log("=>",mes)
-    console.log("=>dia",dia)
-    // if(mes){
-      // festivos.forEach(element => console.log( element) );
+  // console.log('==',this.formSelec.value.fec_in) $('#item2')
+    // var ini = moment(this.formSelec.value.fec_ini);
+    var ini = moment(f1);
+    var ini2 = (f1);
+    console.log('****',ini)
+    // console.log('==',ini.toObject().date) // obetener el dia del mes
+    
+    // var fin = moment(this.formSelec.value.fec_fin);
+    var fin = moment(f2);
+    var fin2 = (this.formSelec.value.fec_fin);
+    // console.log('****',fin)
 
-      console.log(Array.from( festivos ));
-      this.from = (Array.from( festivos ))
-        console.log("=***>", this.from )
+    var diff = fin.diff(ini,'days');
+    console.log('****',diff);
 
-      // if( mes == Array.from(festivos).length ) {
-              // console.log(Array.from( festivos ))
-              festivos.forEach(element => {
-                console.log("mes>",element)
-                if(mes == this.from ){
-                console.log("nuev>",element)
+    var arrFecha = ini2.split('-');
+    console.log('****',arrFecha[1]);
+    var mes = ini.month();
+    var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
+    console.log(fecha)
 
-                }
-              });
-              // festivos.forEach(element);
+    for (var i = 0; i < diff; i++) {
+      // var from = (Array.from( festivos ))
+      // console.log('=>',festivos[mes]);
 
-      // }
-    // }
-    // if(ini.isAfter(fin)){
+      var diaInvalido = false;
+      fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
+      // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
+        for (var j = 0; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
+          // var mesDia =mes
+          var mesDia =festivos[mes][j];
+          // var ite= festivos[mesDia][j]                                                  //ejemplo
+          // var mesDia = from[mes][j];
+          // console.log('=>', fecha.getDate());
+          console.log('=>', festivos[mes].length);
+          // if(fecha.getDate() == festivos[mes][j]){
+          //   console.log(true)
+          // }
+          if (fecha.getMonth() + 1  == mesDia[1] && fecha.getDate() == mesDia[0]) {
+            console.log(true);
+              console.log(fecha.getDate() + ' es dia festivo (Sumamos un dia)');
+              diaInvalido = true;
+              break;
+          }
+      };
 
-    //   console.log("=>",ini.month())
+    
+      if ( fecha.getDay() == 0) { // Verificamos si es domingo
+          console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
+          diaInvalido = true;
+      }
+      if (diaInvalido)
+      diff++; // Si es fin de semana o festivo le sumamos un dia
+  }
+  console.log(fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ))
 
-    // }
-    // // console.log('=>',ini);
-    //  this.days = 0;
-    // if(ini.isoWeekday() != 6 && fin.isoWeekday() != 7){
-    //   this.days++;
-    // }
-    // let diff = fin.diff(ini,'days');
-      // console.log('=>', this.days);
+  // return fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2, '0');
+
+
+
+
+
+
+
+
+    // let mesIni = ini.month();
+    // let mesFin = fin.month();
+    // console.log('mesIni',mesIni);
+    // console.log('mesFin',mesFin);
+
+    // var diaIni = ini.toObject().date;
+    // var diaFin = fin.toObject().date;
+    // console.log('diaIni',diaIni);
+    // console.log('diafin',diaFin);
+    //   this.from = (Array.from( festivos ))
+
+    //   for (let day = 1; day <=diff ; day++) {
+    //     // this.element.push(day); 
+    //     this.acum = day;
+    //     console.log('>>',this.acum);
+
+    //     console.log('**',this.from[mesIni]);
+    //   }
      
 
-// Devolvemos el resultado
-
-        
-      
-    // var fechas = [
-      
-    //     ini , fin
-
-      
-    // ];
-    // ini.isoWeekday()
-    // if(ini.isAfter(fin)){
-    //     if(fechas.weekdays("Sunday"))
-    // }
-    // // let diff = fin.isAfter(ini);
-    // // let days = diff
-    // // if(diff){
 
     // }
-      // console.log('=>',diff);
+   //------------------------------------------------------------------------------
+      // this.from = (Array.from( festivos ))
+      //   if(  this.from[mesIni] && this.from[mesFin]) {
 
-      // function workingDays(dateFrom, dateTo) {
-        //  this.from = moment(this.formSelec.value.fec_ini)
-        //     this.to = moment(this.formSelec.value.fec_fin)
-        //     this.days = 0;
-          
-        // // if (this.from.isAfter(this.to)) {
-        //   // Si no es sabado ni domingo
-        //   if (this.from.isoWeekday() !== 6 && this.from.isoWeekday() !== 7) {
-        //     this.days++;
-        //   }
-        //   this.from.add(1, 'days');
-        // // }
-        // console.log('=>>',this.days);
+      //       console.log('si')
+      //           this.from[mesIni].forEach(element => {
+      //           console.log("m>",element);  
+      //                 if(diaFin <= element){
+      //                    this.daysIniMen++ ;
+      //                 console.log('si****',this.daysIniMen++)
+      //                 this.diff = fin.diff(ini,'days');
+      //                 console.log('<<<', this.diff);
+      //                 this.totalMen =  ( this.diff + 1 ) ;
+      //                 this.sumTotalMen =  ( this.totalMen - this.daysIniMen ) ;
 
-        // return this.days;
+      //                 console.log('total,',this.sumTotalMen);
+                        
+      //                 }
+      //         });
       // }
-      
-      
-      // var days = workingDays('05/03/2018', '13/03/2018');
-      // console.log(days);
+      //-----------------------------------------------------------------------------------
+    
   }
+    
+}
 
-  }
   
+
 
 
