@@ -26,10 +26,14 @@ import { environment } from "../../../environments/environment";
 import { global } from "../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { Observable } from "rxjs";
+import { Observable, pipe } from "rxjs";
 import { NovedadesnominaServices } from "../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../services/web-api.service";
+import * as moment from "moment";
+import { element } from "protractor";
+import { exit } from "process";
+// import { element } from "protractor";
 interface Food {
   value: string;
   viewValue: string;
@@ -71,6 +75,7 @@ export class HolidayDialog  {
   PersonaleInfo: any = [];
   document: any = [];
   people: any = [];
+  position: any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -161,6 +166,7 @@ export class HolidayDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
+          this.position        = data.data["getPosition"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -222,16 +228,12 @@ export class HolidayDialog  {
       // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-        this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        this.formSelec.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        this.formSelec.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
+        this.formSelec.get("fec_ini").setValue(data.data["getSelecUpdat"][0].fec_ini);
+        this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
+        this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
+        this.formSelec.get("day_vac").setValue(data.data["getSelecUpdat"][0].day_vac);
       },
       (error) => {
         this.handler.showError();
@@ -310,8 +312,156 @@ export class HolidayDialog  {
   //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
   //   }        
   // }
-
+  prue: any =[];
+  prue2: any =[];
+  // from: any = []
+  to: any = []
+  daysIniMen = 0;
+  daysIniMay = 0;
+  daysFin = 1;
+  totalMen = 0;
+  totalMay = 0;
+  sumTotalMen = 0;
+  sumTotalMay = 0;
+  ini;
+  // diff = 0;
+  // calculateDaysf($event){
+  //   this.prue = $event;
+  //   this.calculateDays(this.prue);
+  // }
+  acum= 0;
+  restar = 0;
+  // element: any=[]
+  calculate1(event){
+    this.prue = event;
+    this.calculateDays(this.prue,this.prue2);
   }
+  calculate(event){
+    this.prue2 = event;
+    this.calculateDays(this.prue,this.prue2);
+  }
+ 
+  calculateDays(f1, f2){
+    // console.log($event)
+  // var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
+  var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
+  //  var festivos =  [7, 11 ];
+  // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
+
+  // console.log('==',this.formSelec.value.fec_in) $('#item2')
+    // var ini = moment(this.formSelec.value.fec_ini);
+    var ini = moment(f1);
+    var ini2 = (f1);
+    console.log('****',ini)
+    // console.log('==',ini.toObject().date) // obetener el dia del mes
+    
+    // var fin = moment(this.formSelec.value.fec_fin);
+    var fin = moment(f2);
+    var fin2 = (this.formSelec.value.fec_fin);
+    // console.log('****',fin)
+
+    var diff = fin.diff(ini,'days');
+    console.log('****',diff);
+
+    var arrFecha = ini2.split('-');
+    console.log('****',arrFecha[1]);
+    var mes = ini.month();
+    var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
+    console.log(fecha)
+
+    for (var i = 0; i < diff; i++) {
+      // var from = (Array.from( festivos ))
+      // console.log('=>',festivos[mes]);
+
+      var diaInvalido = false;
+      fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
+      // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
+        for (var j = 0; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
+          // var mesDia =mes
+          var mesDia =festivos[mes][j];
+          // var ite= festivos[mesDia][j]                                                  //ejemplo
+          // var mesDia = from[mes][j];
+          // console.log('=>', fecha.getDate());
+          console.log('=>', festivos[mes].length);
+          // if(fecha.getDate() == festivos[mes][j]){
+          //   console.log(true)
+          // }
+          if (fecha.getMonth() + 1  == mesDia[1] && fecha.getDate() == mesDia[0]) {
+            console.log(true);
+              console.log(fecha.getDate() + ' es dia festivo (Sumamos un dia)');
+              diaInvalido = true;
+              break;
+          }
+      };
+
+    
+      if ( fecha.getDay() == 0) { // Verificamos si es domingo
+          console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
+          diaInvalido = true;
+      }
+      if (diaInvalido)
+      diff++; // Si es fin de semana o festivo le sumamos un dia
+  }
+  console.log(fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ))
+
+  // return fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2, '0');
+
+
+
+
+
+
+
+
+    // let mesIni = ini.month();
+    // let mesFin = fin.month();
+    // console.log('mesIni',mesIni);
+    // console.log('mesFin',mesFin);
+
+    // var diaIni = ini.toObject().date;
+    // var diaFin = fin.toObject().date;
+    // console.log('diaIni',diaIni);
+    // console.log('diafin',diaFin);
+    //   this.from = (Array.from( festivos ))
+
+    //   for (let day = 1; day <=diff ; day++) {
+    //     // this.element.push(day); 
+    //     this.acum = day;
+    //     console.log('>>',this.acum);
+
+    //     console.log('**',this.from[mesIni]);
+    //   }
+     
+
+
+    // }
+   //------------------------------------------------------------------------------
+      // this.from = (Array.from( festivos ))
+      //   if(  this.from[mesIni] && this.from[mesFin]) {
+
+      //       console.log('si')
+      //           this.from[mesIni].forEach(element => {
+      //           console.log("m>",element);  
+      //                 if(diaFin <= element){
+      //                    this.daysIniMen++ ;
+      //                 console.log('si****',this.daysIniMen++)
+      //                 this.diff = fin.diff(ini,'days');
+      //                 console.log('<<<', this.diff);
+      //                 this.totalMen =  ( this.diff + 1 ) ;
+      //                 this.sumTotalMen =  ( this.totalMen - this.daysIniMen ) ;
+
+      //                 console.log('total,',this.sumTotalMen);
+                        
+      //                 }
+      //         });
+      // }
+      //-----------------------------------------------------------------------------------
+    
+  }
+    
+}
+
   
+
 
 
