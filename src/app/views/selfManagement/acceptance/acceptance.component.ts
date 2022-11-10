@@ -21,30 +21,40 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
-import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
-
+import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
 
 @Component({
-  selector: 'app-pending',
-  templateUrl: './pending.component.html',
-  styleUrls: ['./pending.component.css']
+  selector: 'app-acceptance',
+  templateUrl: './acceptance.component.html',
+  styleUrls: ['./acceptance.component.css']
 })
-export class PendingComponent implements OnInit {
+export class AcceptanceComponent implements OnInit {
 
- contenTable: any = [];
+  contenTable: any = [];
+  contenTableVacation: any = [];
   loading: boolean = false;
-  endpoint: string = "/pending";
+  endpoint: string = "/acceptance";
   permissions: any = null;
   displayedColumns: any = [];
+  displayedColumnsVacation: any = [];
+  displayedColumnsPrueba: any = [];
   dataSource: any = [];
+  dataSourceVacation: any = [];
   contaClick: number = 0;
-  
+  name: any = [];
+  username: any = [];
+  days: any = [];
+  fec_in: any = [];
+  daysTo: any = [];
+  daysRe: any = [];
+  daysFor: any = [];
+  total: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/pending";
+  component = "/selfManagement/holiday";
 
   constructor(
     private _tools: Tools,
@@ -57,31 +67,64 @@ export class PendingComponent implements OnInit {
 
   ngOnInit():void {
     this.sendRequest();
+    // this.sendRequestVacation();
+
     this.permissions = this.handler.permissionsApp;
 
   }
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getPending",
+      action: "getSelection",
       idUser: this.cuser.iduser,
       token: this.cuser.token,
-      modulo: this.component
-      // role: this.cuser.role,
+      modulo: this.component,
+      role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale,
 
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
-        console.log(data);
+        console.log(data.success);
 
         if (data.success == true) {
 
-          this.generateTable(data.data["getSelectData"]);
-          this.contenTable = data.data["getSelectData"];
-         this.loading = false;
+          this.generateTable(data.data["getSelectData"]['vac']);
+          this.contenTable = data.data["getSelectData"]['vac'];
+          // console.log('',data.data["getSelectData"]);
+          this.daysFor = data.data["getSelectData"][0];
+          // for()
+          this.daysTo = data.data["getSelectData"][0][0].day_vac;
+          console.log('<<',this.daysFor.length);
+          for (let i = 0; i < this.daysFor.length; i++) {
+            console.log('*', this.daysFor[i].day_vac);
+
+            // this.daysFor.forEach(element => {
+            // for(let j of this.daysFor[0]){
+            //   this.total += j;
+            //   console.log('*',this.total);
+            // }
+            //   console.log('*',element);
+             
+  
+            // });
+           
+          }
+          // this.daysFor.forEach(element => {
+
+          //   // console.log('*',element.day_vac);
+          //   this.total = element.day_vac;
+          //   console.log('*',this.total);
+
+          // });
+          this.fec_in = this.contenTable[0].admissionDate
+          // console.log('fec_ini', this.fec_in)
+          this.name = this.cuser.idPersonale
+          this.username = this.cuser.username
+          // console.log('=>',this.cuser)
+          this.loading = false;
         } else {
           this.handler.handlerError(data);
           this.loading = false;
@@ -96,13 +139,15 @@ export class PendingComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "idsel",
-      "fec_req", 
-      "car_sol",
-      "matrizarp",
-      "tip_req",
-      "state",
-      "actions",
+      "idPersonale",
+      "idPosition",
+      "admissionDate",
+      "daysGained",
+      "daysTaken",
+      "remainingDays",
+      // "salary",
+      // "num_vac",
+      "actions", 
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -113,84 +158,5 @@ export class PendingComponent implements OnInit {
       search.value = "";
     }
   }
-
-  option(action,codigo=null, id,){
-    var dialogRef;
-    switch(action){
-      case 'create':
-        this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
-          data: {
-            window: 'create',
-            codigo,
-            id:id
-            // tipoMat: tipoMat
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
-        });
-      break;
-      case 'update':
-        this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
-          data: {
-            window: 'update',
-            codigo,
-            id:id,
-            
-            // tipoMat: tipoMat
-
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
-        });
-        break;
-
-      case 'view':
-        this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
-          data: {
-            window: 'view',
-            codigo
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe(result => {
-         
-        });
-      break;
-      }
-    }
-    
-openc(){
-  if(this.contaClick == 0){
-    this.sendRequest();
-  }    
-  this.contaClick = this.contaClick + 1;
-}
-applyFilter(search) {
-  this.dataSource.filter = search.trim().toLowerCase();
-}
-onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsTechnologyComponent)
-}
 
 }

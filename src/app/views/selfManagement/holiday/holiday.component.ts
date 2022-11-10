@@ -17,24 +17,24 @@ import {
 } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {
+  MatPaginator,
+  MatPaginatorDefaultOptions,
+} from "@angular/material/paginator";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
 import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
+import { empty } from "rxjs";
 
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-holiday',
-  templateUrl: './holiday.component.html',
-  styleUrls: ['./holiday.component.css']
+  selector: "app-holiday",
+  templateUrl: "./holiday.component.html",
+  styleUrls: ["./holiday.component.css"],
 })
-
-
-
 export class HolidayComponent implements OnInit {
-
-  
   // getTotalCost() {
   //   return this.transactions.map(t => t.cost).reduce((acc, value) => acc + value, 0);
   // }
@@ -52,7 +52,20 @@ export class HolidayComponent implements OnInit {
   contaClick: number = 0;
   name: any = [];
   username: any = [];
+  // days: number = 0;
+  days: any = [];
   fec_in: any = [];
+  daysTo: any = [];
+  daysRe: any = [];
+  daysFor: any = [];
+  total: number = 0;
+  line: any = [];
+  // showAge: number = 0;
+  showAge: any = [];
+  prue: any = [];
+
+  pipe = new DatePipe('en-US');
+
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -65,17 +78,17 @@ export class HolidayComponent implements OnInit {
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
     public dialog: MatDialog,
-    private matBottomSheet : MatBottomSheet
-  ) { }
+    private matBottomSheet: MatBottomSheet
+  ) {}
 
-
-  ngOnInit():void {
+  ngOnInit(): void {
     this.sendRequest();
     this.sendRequestVacation();
 
     this.permissions = this.handler.permissionsApp;
-
+    
   }
+
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
@@ -85,23 +98,76 @@ export class HolidayComponent implements OnInit {
       modulo: this.component,
       role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale,
-
+      idPersonale: this.cuser.idPersonale,
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
         console.log(data.success);
+        
 
         if (data.success == true) {
+          this.contenTable = data.data["getSelectData"]["vac"];
+          this.fec_in = data.data["getSelectData"]["vac"];
 
-          this.generateTable(data.data["getSelectData"]);
-          this.contenTable = data.data["getSelectData"];
-          this.fec_in = this.contenTable[0].admissionDate
-          console.log('fec_ini', this.fec_in)
-          this.name = this.cuser.idPersonale
-          this.username = this.cuser.username
-          console.log('=>',this.cuser)
+          this.contenTable.forEach((element) => {
+            // console.log( Date('Y-m-d',element.admissionDate) );
+
+            
+           
+            
+            const convertAge = new Date(element.admissionDate);
+            const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+            this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones
+            this.prue = (this.showAge * 15); // dias de vacaciones
+            console.log("Dias", this.prue,"años",this.showAge);
+            return this.prue;
+          });
+
+
+          this.generateTable(data.data["getSelectData"]["vac"]);
+          
+          // this.fec_in = this.contenTable[0].admissionDate;
+         
+          // this.fec_in = this.contenTable.length;
+          // for(let i = 0; i < this.contenTable.length; i++){
+          //     // console.log('todos',this.fec_in[i].admissionDate);
+          //     // this.prue = this.fec_in[i].admissionDate;
+          //     console.log('=>',this.contenTable[i].admissionDate)
+          //     // if( (this.contenTable[i].admissionDate) ){
+          //       const convertAge = new Date(this.contenTable[i].admissionDate );
+          //       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+          //       this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365); // años de vacaciones
+          //       this.days = ( this.showAge*15); // dias de vacaciones
+          //       console.log('===',this.days);
+          //   // }
+          // }
+
+          // console.log('fech',this.fec_in);
+          // console.log('=>',this.cuser.idPersonale);
+          this.line = data.data["getSelectData"][0];
+          this.daysFor = data.data["getSelectData"][0];
+          // for()
+          // this.daysTo = data.data["getSelectData"][0][0].day_vac;
+
+          console.log("<<", this.daysFor.length);
+          for (let i = 0; i < this.daysFor.length; i++) {
+            // console.log('*', this.daysFor[i].day_vac);
+
+            this.total = this.total + this.daysFor[i].day_vac;
+          }
+
+          // this.daysFor.forEach(element => {
+
+          //   // console.log('*',element.day_vac);
+          //   this.total = element.day_vac;
+          //   console.log('*',this.total);
+
+          // });
+          // console.log('fec_ini', this.fec_in)
+          this.name = this.cuser.idPersonale;
+          this.username = this.cuser.username;
+          // console.log('=>',this.cuser)
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -125,7 +191,7 @@ export class HolidayComponent implements OnInit {
       "remainingDays",
       // "salary",
       // "num_vac",
-      "actions", 
+      "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -137,86 +203,115 @@ export class HolidayComponent implements OnInit {
     }
   }
   // age= (1-08-2000);
-  showAge;
-  days;
-  ageCalculator(){
-    if(this.fec_in){
-      const convertAge = new Date(this.fec_in);
-      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-       this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-       return this.days = ( this.showAge*15)
-      console.log('===',this.showAge)
-    }else{
-      // return this.showAge = 0
+  // showAge;
+  // ageCalculator(){
+  //   // if(this.fec_in){
+  //   //   const convertAge = new Date(this.fec_in);
+  //   //   const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+  //   //    this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  //   //    return this.days = ( this.showAge*15)
+  //   //   console.log('===',this.showAge)
+  //   // }
+  //   // for(let i = 0; i < this.contenTable.length; i++){
+  //     // console.log('todos',this.fec_in[i].admissionDate);
+  //     // this.prue = this.fec_in[i].admissionDate;
+  //     // console.log('=>',this.contenTable[i].admissionDate)
+  //     // if( (this.contenTable[i].admissionDate) ){
+  //       console.log(this.fec_in[0].admissionDate)
+  //       // const convertAge = new Date(this.fec_in.admissionDate );
+  //       // const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+  //       // this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365); // años de vacaciones
+  //       // // this.days = ( this.showAge*15); // dias de vacaciones
+  //       // console.log('===',this.showAge);
+  //   // }
+  // // }
+  // }
+  //     // return this.showAge = 0
+  //   }
+  // }
+  d;
+  daysTom() {
+    if (this.daysTo) {
+      this.d = this.daysTo + this.daysTo;
     }
+    return this.d;
   }
+  // daysRes(){
 
-  option(action,codigo=null, id,create_User){
+  //   if(this.fec_in){
+  //     const convertAge = new Date(this.fec_in);
+  //     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+  //      this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  //      this.days = ( this.showAge*15)
+  //      this.daysRe = (this.days- this.total);
+  //      return this.daysRe;
+  //     console.log('===',this.showAge)
+  //   }
+  // }
+
+  option(action, codigo = null, id, create_User) {
     var dialogRef;
-    switch(action){
-      case 'create':
+    switch (action) {
+      case "create":
         this.loading = true;
-        dialogRef = this.dialog.open(HolidayDialog,{
+        dialogRef = this.dialog.open(HolidayDialog, {
           data: {
-            window: 'create',
-            codigo:this.username,
-            id:this.name,
+            window: "create",
+            codigo: this.username,
+            id: this.name,
             // tipoMat: tipoMat
-          }
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
+        dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
         });
-      break;
-      case 'update':
+        break;
+      case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog, {
           data: {
-            window: 'update',
+            window: "update",
             codigo,
-            id:id,
-          
-            // tipoMat: tipoMat
+            id: id,
 
-          }
+            // tipoMat: tipoMat
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
+        dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
         });
         break;
 
-      case 'view':
+      case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog,{
+        dialogRef = this.dialog.open(RequisitionDialog, {
           data: {
-            window: 'view',
-            codigo
-          }
+            window: "view",
+            codigo,
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
-        dialogRef.afterClosed().subscribe(result => {
-         
-        });
-      break;
-      }
+        dialogRef.afterClosed().subscribe((result) => {});
+        break;
     }
-    sendRequestVacation() {
+  }
+  sendRequestVacation() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: "getVacation",
@@ -225,8 +320,7 @@ export class HolidayComponent implements OnInit {
       modulo: this.component,
       role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale,
-
+      idPersonale: this.cuser.idPersonale,
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
@@ -234,12 +328,11 @@ export class HolidayComponent implements OnInit {
         console.log(data.success);
 
         if (data.success == true) {
-
           this.generateTableVacation(data.data["getSelectVacation"]);
           this.contenTableVacation = data.data["getSelectVacation"];
-          this.name = this.cuser.idPersonale
-          this.username = this.cuser.username
-          console.log('=>',this.cuser)
+          this.name = this.cuser.idPersonale;
+          this.username = this.cuser.username;
+          console.log("=>", this.cuser);
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -274,16 +367,16 @@ export class HolidayComponent implements OnInit {
       search.value = "";
     }
   }
-    
-openc(){
-  if(this.contaClick == 0){
-    this.sendRequest();
-    this.sendRequestVacation();
-  }    
-  this.contaClick = this.contaClick + 1;
-}
-applyFilter(search) {
-  this.dataSource.filter = search.trim().toLowerCase();
-  this.dataSourceVacation.filter = search.trim().toLowerCase();
-}
+
+  openc() {
+    if (this.contaClick == 0) {
+      this.sendRequest();
+      this.sendRequestVacation();
+    }
+    this.contaClick = this.contaClick + 1;
+  }
+  applyFilter(search) {
+    this.dataSource.filter = search.trim().toLowerCase();
+    this.dataSourceVacation.filter = search.trim().toLowerCase();
+  }
 }

@@ -33,6 +33,7 @@ import { WebApiService } from "../../services/web-api.service";
 import * as moment from "moment";
 import { element } from "protractor";
 import { exit } from "process";
+import { MatPaginator } from "@angular/material/paginator";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -76,6 +77,9 @@ export class HolidayDialog  {
   document: any = [];
   people: any = [];
   position: any = [];
+  contenTable:   any = [];
+  fec_in: any = [];
+  days: any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -83,6 +87,7 @@ export class HolidayDialog  {
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
     public dialogRef: MatDialogRef<HolidayDialog>,
@@ -103,6 +108,8 @@ export class HolidayDialog  {
         this.people = this.data.id
         console.log('==cc>',this.document)
         console.log('==id>',this.people)
+        this.sendRequest();
+
 
         this.title = "Solicitud de Vacaciones";
       break;
@@ -140,6 +147,92 @@ export class HolidayDialog  {
         break;
     }
   }
+  sendRequest() {
+     this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getSelection",
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component,
+      role: this.cuser.role,
+      // matrizarp: this.cuser.matrizarp,
+      idPersonale:this.cuser.idPersonale,
+
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        console.log(this.permissions);
+        console.log(data.success);
+
+        if (data.success == true) {
+
+          this.generateTableVac(data.data["getSelectData"]['vac']);
+          this.contenTable = data.data["getSelectData"]['vac'];
+          // console.log('',data.data["getSelectData"]);
+          // this.daysFor = data.data["getSelectData"][0];
+          // for()
+          // this.daysTo = data.data["getSelectData"][0][0].day_vac;
+          // console.log('<<',this.daysFor.length);
+          // for (let i = 0; i < this.daysFor.length; i++) {
+          //   console.log('*', this.daysFor[i].day_vac);
+
+          //   // this.daysFor.forEach(element => {
+          //   // for(let j of this.daysFor[0]){
+          //   //   this.total += j;
+          //   //   console.log('*',this.total);
+          //   // }
+          //   //   console.log('*',element);
+             
+  
+          //   // });
+           
+          // }
+          // this.daysFor.forEach(element => {
+
+          //   // console.log('*',element.day_vac);
+          //   this.total = element.day_vac;
+          //   console.log('*',this.total);
+
+          // });
+          this.fec_in = this.contenTable[0].admissionDate
+          // // console.log('fec_ini', this.fec_in)
+          // this.name = this.cuser.idPersonale
+          // this.username = this.cuser.username
+          // console.log('=>',this.cuser)
+           this.loading.emit(false);
+        } else {
+          this.handler.handlerError(data);
+           this.loading.emit(false);
+        }
+      },
+      (error) => {
+        this.handler.showError("Se produjo un error");
+           this.loading.emit(false);
+      }
+    );
+  }
+  generateTableVac(data) {
+    this.displayedColumns = [
+      "view",
+      "idPersonale",
+      "idPosition",
+      "admissionDate",
+      "daysGained",
+      "daysTaken",
+      "remainingDays",
+      // "salary",
+      // "num_vac",
+      "actions", 
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
@@ -154,7 +247,7 @@ export class HolidayDialog  {
    
   }
   getDataInit() {
-    this.loading.emit(false);
+    this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
       idSel: this.data.codigo,
@@ -298,6 +391,32 @@ export class HolidayDialog  {
   prevStep() {
     this.step--;
   }
+  onSelectionChange(event){
+        
+       
+    let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
+    console.log(exitsPersonal);
+  
+    if( exitsPersonal ){
+      
+        this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
+        // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);
+       
+    }        
+  }
+  showAge;
+
+  ageCalculator(){
+    if(this.fec_in){
+      const convertAge = new Date(this.fec_in);
+      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+       this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+       return this.days = ( this.showAge*15)
+      console.log('===',this.showAge)
+    }else{
+      // return this.showAge = 0
+    }
+  }
   // mat:boolean= false;
   mat =RequiredValidator;
   // onSelectMat(e){
@@ -321,7 +440,7 @@ export class HolidayDialog  {
   daysFin = 1;
   totalMen = 0;
   totalMay = 0;
-  sumTotalMen = 0;
+  sumTotalMen: any = [];
   sumTotalMay = 0;
   ini;
   // diff = 0;
@@ -343,8 +462,8 @@ export class HolidayDialog  {
  
   calculateDays(f1, f2){
     // console.log($event)
-  // var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
-  var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
+  var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[0,8] ];
+  // var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
   //  var festivos =  [7, 11 ];
   // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
 
@@ -360,12 +479,13 @@ export class HolidayDialog  {
     var fin2 = (this.formSelec.value.fec_fin);
     // console.log('****',fin)
 
-    var diff = fin.diff(ini,'days');
+    // var diff = fin.diff(ini,'days');
+    var diff = f2;
     console.log('****',diff);
 
     var arrFecha = ini2.split('-');
     console.log('****',arrFecha[1]);
-    var mes = ini.month();
+    var mes = ini.month() ;
     var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
     console.log(fecha)
 
@@ -377,33 +497,43 @@ export class HolidayDialog  {
       fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
       // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
         for (var j = 0; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
-          // var mesDia =mes
-          var mesDia =festivos[mes][j];
-          // var ite= festivos[mesDia][j]                                                  //ejemplo
+          var mesDia =mes
+          // var mesDia =festivos[mes][j];// festivos2
+          var ite= festivos[mesDia][j]                                                  //ejemplo
           // var mesDia = from[mes][j];
-          // console.log('=>', fecha.getDate());
-          console.log('=>', festivos[mes].length);
+          // console.log('=>', ite);
+          // console.log('=>', fecha.getMonth());
+          // console.log('=>', festivos[mes].length);
           // if(fecha.getDate() == festivos[mes][j]){
           //   console.log(true)
           // }
-          if (fecha.getMonth() + 1  == mesDia[1] && fecha.getDate() == mesDia[0]) {
+          if (fecha.getMonth()   == mesDia && fecha.getDate() == ite) {
             console.log(true);
               console.log(fecha.getDate() + ' es dia festivo (Sumamos un dia)');
               diaInvalido = true;
               break;
-          }
+          }else if( fecha.getDay() == 0) { // Verificamos si es domingo
+                console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
+                diaInvalido = true;
+
+            }
+      (diaInvalido)? diff++ : '';
+
       };
 
     
-      if ( fecha.getDay() == 0) { // Verificamos si es domingo
-          console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
-          diaInvalido = true;
-      }
-      if (diaInvalido)
-      diff++; // Si es fin de semana o festivo le sumamos un dia
+      // if ( fecha.getDay() == 0) { // Verificamos si es domingo
+      //     console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
+      //     diaInvalido = true;
+      // }
+      // if (diaInvalido)
+      // diff++; // Si es fin de semana o festivo le sumamos un dia
   }
+    this.sumTotalMen = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' )
   console.log(fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ))
-
+  console.log(this.sumTotalMen)
+    
+    
   // return fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2, '0');
 
 

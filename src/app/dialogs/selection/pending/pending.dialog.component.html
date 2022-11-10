@@ -199,7 +199,7 @@
               <div class="row mt-3" *ngIf="idUser != '255'">
                 <div class="col-md-12" *ngIf="requ == '62/4'">
                   <h6>Dirección o Jefe Area</h6>
-                  <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion1"
+                  <mat-radio-group aria-label="Select an option" formControlName="aprobacion3" value="aprobacion3"
                     [disabled]="retro4">
                     <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
                       {{idet.description}}</mat-radio-button>
@@ -216,17 +216,7 @@
                       <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button>
                     </mat-radio-group>
                 </div> -->
-                <div class="col-md-4" *ngIf="pop == '255'">
-                  <!-- <div class="col-md-4"> -->
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Estado de Requisición:</mat-label>
-                    <mat-select formControlName="state" required>
-                      <mat-option *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue" (click)="rechazar(idet)">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
+               
               </div>
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>

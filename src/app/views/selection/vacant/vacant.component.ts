@@ -37,7 +37,7 @@ export class VacantComponent implements OnInit {
 
  contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/requisition";
+  endpoint: string = "/vacant";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
@@ -71,7 +71,7 @@ export class VacantComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getVacant",
+      action: "getVacantAll",
       idUser: this.cuser.iduser,
       token: this.cuser.token,
       modulo: this.component
