@@ -12,6 +12,7 @@ import { TemplateComponent } from '../../../template/template.component';
 import { AbsenteeismDialog } from '../../../dialogs/absenteeism/absenteeism.dialogs.component';
 import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
 import { environment } from '../../../../environments/environment';
+import { Console } from 'console';
 
 
 
@@ -40,6 +41,7 @@ export class AbsenteeismComponent implements OnInit {
   dataDelte:     any = [];
   contDele:      number = 0;
   stadValue:     boolean = false;
+  tmajust:       boolean = false;
   modal: 'successModal';
   //Control Permiso
   component = "/procesalud/absenteeisms";
@@ -319,6 +321,36 @@ export class AbsenteeismComponent implements OnInit {
 
   }
 
-
+  validatAjust(fechaing){
+    
+    var fecha = fechaing;
+    var horas = 24;
+    //Se Aumenta La fecha De Radicacion
+	  fecha = new Date(fecha);
+		fecha.setHours(fecha.getHours()+horas);
+		fecha =  fecha.toISOString();
+    var fecha_date = fecha.split('T');
+    var fecha_time = fecha_date[1].split('.');
+		fecha_date = fecha_date[0];
+    var fechaFin = fecha_date+' '+fecha_time[0];
+    //Se Compara Fecha Actual 
+    var hoy = new Date();
+    var fechAct = hoy.getFullYear() +'-'+ ( hoy.getMonth() + 1 ) +'-'+ hoy.getDate();
+    var horAtc = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+    var timeActu = fechAct+' '+horAtc;
+    //Validacion
+    if( timeActu >= fechaing && timeActu <= fechaFin ){
+      this.tmajust = true;
+      //Proceso  
+      /*console.log('------------');
+      console.log(fechaing);
+      console.log(fechaFin);
+      console.log(timeActu);
+      console.log(this.tmajust);
+      console.log('------------');*/
+    }else{
+      this.tmajust = false;
+    }
+  }
 
 }
