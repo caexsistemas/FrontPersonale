@@ -92,116 +92,9 @@
           </div>
         </div>
 
-      <!-- <mat-form-field appearance="standard">
-        <mat-label>Buscar...</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
-      </mat-form-field>
-      
-      <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="contenTable.length > 0">
-
-          <ng-container matColumnDef="view">
-            <th mat-header-cell *matHeaderCellDef> Ver </th>
-            <td mat-cell *matCellDef="let row">
-                <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
-                    (click)="option('view',row.idsel)" title="Ver">
-                    <i class="fa fa-eye fa-lg"></i>
-                </button>
-            </td>
-        </ng-container>
-      
-            <ng-container matColumnDef="idPersonale">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Empleado </th>
-              <td mat-cell *matCellDef="let row"> {{row.idPersonale}} </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="idPosition">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo </th>
-              <td mat-cell *matCellDef="let row"> {{row.idPosition}} </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="admissionDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Ingreso </th>
-              <td mat-cell *matCellDef="let row"> {{row.admissionDate}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="daysGained">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Dias Pendientes </th>
-              <td mat-cell *matCellDef="let row"> {{row.daysGained}}{{ageCalculator()}} </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="daysTaken">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Dias Tomados </th>
-              <td mat-cell *matCellDef="let row"> {{row.daysTaken}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="remainingDays">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Dias Restantes </th>
-              <td mat-cell *matCellDef="let row"> {{row.remainingDays}} </td>
-            </ng-container>
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef> Acciones </th>
-              <td mat-cell *matCellDef="let element">
-                  <button class="btn  btn-ghost-secondary" *ngIf="permissions.create"
-                      (click)="option('create',element.document, element.idPersonale)" title="Editar">
-                      <i class="fa fa-edit fa-lg"></i>
-                  </button>
-
-               
-              </td>
-          </ng-container> -->
-<!-- 
-            <ng-container matColumnDef="final_note">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nota Final </th>
-              <td mat-cell *matCellDef="let row"> {{row.final_note}}% </td>
-            </ng-container>
-
-            <ng-container matColumnDef="afec_cero">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Afecciones A Cero </th>
-              <td mat-cell *matCellDef="let row"> {{row.afec_cero}} </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="ventas">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Ventas </th>
-              <td mat-cell *matCellDef="let row"> {{row.ventas}} </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="no_ventas">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> No Ventas </th>
-              <td mat-cell *matCellDef="let row"> {{row.no_ventas}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="total_gesti">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Total </th>
-              <td mat-cell *matCellDef="let row"> {{row.total_gesti}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="critico">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> %Criticos </th>
-              <td mat-cell *matCellDef="let row"> {{row.critico}} </td>
-            </ng-container> -->
-      
-          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-          </tr>
-        </table>
-      
-        <mat-paginator  [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-      </div>
-    </div> -->
-      
-      
-
-
-
-     
-
-<!-- <div *ngIf="view == 'view'">
+<div *ngIf="view == 'view'">
   <div class="modal-header">
-    <h5 class="modal-title">Información de usuario</h5>
+    <h5 class="modal-title">{{title}}</h5>
     <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -212,29 +105,29 @@
      
       <div class="col-md-4">
         <dt>Documento</dt>
-        <dd>{{usuario.username}}</dd>
+        <dd>{{selection.document}}</dd>
       </div>
       <div class="col-md-4">
         <dt>Nombres</dt>
-        <dd>{{usuario.na}}</dd>
+        <dd>{{selection.idPersonale}}</dd>
       </div>
       <div class="col-md-4">
         <dt>Rol de Usuario</dt>
-        <dd>{{usuario.role}}</dd>
+        <dd>{{selection.fec_ini}}</dd>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-8">
         <dt>Status</dt>
-        <dd>{{usuario.stat}}</dd>
+        <dd>{{selection.fec_fin}}</dd>
       </div>
 
       <div class="col-md-4">
         <dt>Sesion</dt>
-        <dd>{{log}}</dd>
+        <dd>{{selection.fec_rei}}</dd>
       </div>
 
     </div>
   </mat-dialog-content>
-</div> -->
+</div>

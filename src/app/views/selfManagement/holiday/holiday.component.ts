@@ -253,21 +253,21 @@ export class HolidayComponent implements OnInit {
         });
         break;
 
-      case "view":
-        this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog, {
-          data: {
-            window: "view",
-            codigo,
-          },
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe((val) => {
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe((result) => {});
-        break;
+      // case "vac":
+      //   this.loading = true;
+      //   dialogRef = this.dialog.open(HolidayDialog, {
+      //     data: {
+      //       window: "vac",
+      //       codigo,
+      //     },
+      //   });
+      //   dialogRef.disableClose = true;
+      //   // LOADING
+      //   dialogRef.componentInstance.loading.subscribe((val) => {
+      //     this.loading = val;
+      //   });
+      //   dialogRef.afterClosed().subscribe((result) => {});
+      //   break;
     }
   }
   sendRequestVacation() {
@@ -306,6 +306,7 @@ export class HolidayComponent implements OnInit {
   }
   generateTableVacation(data) {
     this.displayedColumnsVacation = [
+      "view",
       "fec_rad",
       "document",
       "idPersonale",
@@ -339,5 +340,71 @@ export class HolidayComponent implements OnInit {
   applyFilter(search) {
     this.dataSource.filter = search.trim().toLowerCase();
     this.dataSourceVacation.filter = search.trim().toLowerCase();
+  }
+  optionVac(action, codigo = null, id, create_User) {
+    var dialogRef;
+    switch (action) {
+      case "create":
+        this.loading = true;
+        dialogRef = this.dialog.open(HolidayDialog, {
+          data: {
+            window: "create",
+            codigo: this.username,
+            id: this.name,
+            // tipoMat: tipoMat
+          },
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.sendRequest();
+          this.sendRequestVacation();
+
+        });
+        break;
+      case "update":
+        this.loading = true;
+        dialogRef = this.dialog.open(RequisitionDialog, {
+          data: {
+            window: "update",
+            codigo,
+            id: id,
+
+            // tipoMat: tipoMat
+          },
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.sendRequest();
+          this.sendRequestVacation();
+
+        });
+        break;
+
+      case "view":
+        this.loading = true;
+        dialogRef = this.dialog.open(HolidayDialog, {
+          data: {
+            window: "view",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe((result) => {});
+        break;
+    }
   }
 }

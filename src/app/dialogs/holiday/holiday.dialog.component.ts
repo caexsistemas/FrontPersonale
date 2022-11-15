@@ -132,7 +132,7 @@ export class HolidayDialog  {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection.car_sol);
+              console.log('==>',this.selection);
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -246,6 +246,7 @@ export class HolidayDialog  {
       fec_rei: new FormControl(""),
       day_vac: new FormControl(""),
       day_com: new FormControl(""),
+      tot_day: new FormControl(""),
       state: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
@@ -504,14 +505,14 @@ totalFii(){
     var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
     console.log(fecha)
 
-    for (var i = 1; i < diff; i++) {
+    for (var i = 0; i < diff; i++) {
       // var from = (Array.from( festivos ))
       // console.log('=>',festivos[mes]);
 
       var diaInvalido = false;
       fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
       // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
-        for (var j = 0; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
+        for (var j = 1; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
           var mesDia =mes
           // var mesDia =festivos[mes][j];// festivos2
           var ite= festivos[mesDia][j]                                                  //ejemplo

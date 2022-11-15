@@ -149,7 +149,7 @@
     </div>
 </div>
    <div class="row">
-    <div class="col-md-6" style="right: -10%;">
+    <div class="col-md-6" style="right: -8%;">
         <section class="example-container mat-elevation-z8" tabindex="0">
             <table mat-table [dataSource]="dataSource">
           
@@ -215,9 +215,19 @@
             </table>
           </section>
     </div>
-    <div class="col-md-6" style="position: absolute;left: 55%;">
+    <div class="col-md-6" style="position: absolute;left: 52%;">
         <section class="example-container mat-elevation-z8" tabindex="1">
             <table mat-table [dataSource]="dataSourceVacation">
+
+                <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef> Ver </th>
+                    <td mat-cell *matCellDef="let rw">
+                        <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                            (click)="optionVac('view',rw.hol_id)" title="Ver">
+                            <i class="fa fa-eye fa-lg"></i>
+                        </button>
+                    </td>
+                </ng-container>
           
               <!-- Name Column -->
               <ng-container matColumnDef="fec_rad" sticky>

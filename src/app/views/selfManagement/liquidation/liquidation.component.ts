@@ -118,6 +118,7 @@ export class LiquidationComponent implements OnInit {
       "fec_ini",
       "day_vac",
       "day_com",
+      "tot_day",
       "fec_fin",
       "fec_rei",
       "state",

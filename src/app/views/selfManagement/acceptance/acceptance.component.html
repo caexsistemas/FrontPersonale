@@ -86,11 +86,19 @@
                 </th>
                 <td mat-cell *matCellDef="let element"> {{element.day_vac}} </td>
             </ng-container>
+
             <ng-container matColumnDef="day_com">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> # Dias a compensar
                 </th>
                 <td mat-cell *matCellDef="let element"> {{element.day_com}} </td>
             </ng-container>
+
+            <ng-container matColumnDef="tot_day">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Total Dias
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.tot_day}} </td>
+            </ng-container>
+
             <ng-container matColumnDef="state">
               <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">  Estado de Solicitud
               </th>
