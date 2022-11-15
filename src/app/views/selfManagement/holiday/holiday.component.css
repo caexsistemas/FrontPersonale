@@ -1,32 +1,49 @@
+.example-container {
+  height: 400px;
+  width: 600px;
+  max-width: 100%;
+  overflow: auto;
+}
+
 table {
-    width: 100%;
-  }
-  .mat-form-field {
-    font-size: 18px;
-    width: 100%;
-  }
-  /* .example-container {
-    height: 400px;
-    width: 700px;
-    overflow: auto;
-  }
-  table {
-    width: 800px;
-  }
-  
-  td.mat-column-star {
-    width: 20px;
-    padding-right: 8px;
-  }
-  
-  th.mat-column-position, td.mat-column-position {
-    padding-left: 8px;
-  }
-  
-  .mat-table-sticky:first-child {
-    border-right: 1px solid #e0e0e0;
-  }
-  
-  .mat-table-sticky:last-child {
-    border-left: 1px solid #e0e0e0;
-  } */
+  width: 1000px;
+}
+
+td.mat-column-star {
+  width: 40px;
+  padding-right: 8px;
+}
+
+th.mat-column-position, td.mat-column-position {
+  padding-left: 30px;
+}
+
+.mat-table-sticky-border-elem-right {
+  border-left: 1px solid #e0e0e0;
+}
+
+.mat-table-sticky-border-elem-left {
+  border-right: 1px solid #e0e0e0;
+}
+/* ------------------------------------------- */
+/* .example-container2 {
+  height: 400px;
+  width: 550px;
+  max-width: 100%;
+  overflow: auto;
+} */
+/* td.mat-column2 {
+  width: 40px;
+  padding-right: 8px;
+}
+
+th.mat-column2-position, td.mat-column2-position {
+  padding-left: 20px;
+}
+.mat-table-sticky2-border-elem-right {
+  border-left: 1px solid #e0e0e0;
+}
+
+.mat-table-sticky2-border-elem-left {
+  border-right: 1px solid #e0e0e0;
+} */

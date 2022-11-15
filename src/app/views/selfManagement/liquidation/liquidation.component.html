@@ -47,7 +47,7 @@
                   <th mat-header-cell *matHeaderCellDef> Ver </th>
                   <td mat-cell *matCellDef="let element">
                       <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
-                          (click)="option('view',element.hol_id)" title="Ver">
+                          (click)="option('view',element.idsel)" title="Ver">
                           <i class="fa fa-eye fa-lg"></i>
                       </button>
                   </td>
@@ -86,11 +86,13 @@
                 </th>
                 <td mat-cell *matCellDef="let element"> {{element.day_vac}} </td>
             </ng-container>
+
             <ng-container matColumnDef="day_com">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> # Dias a compensar
-                </th>
-                <td mat-cell *matCellDef="let element"> {{element.day_com}} </td>
-            </ng-container>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> # Dias a compensar
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.day_com}} </td>
+          </ng-container>
+
             <ng-container matColumnDef="state">
               <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">  Estado de Solicitud
               </th>

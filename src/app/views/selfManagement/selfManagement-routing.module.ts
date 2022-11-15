@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { from } from "rxjs";
 import { AcceptanceComponent } from "./acceptance/acceptance.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { LiquidationComponent } from "./liquidation/liquidation.component";
 
 
 const routes: Routes = [
@@ -30,6 +31,13 @@ const routes: Routes = [
           title: "Aprobación",
         },
       },
+      {
+        path: "liquidation",
+        component: LiquidationComponent,
+        data: {
+          title: "Gestión Vacaciones"
+        }
+      }
     
     ],
   },

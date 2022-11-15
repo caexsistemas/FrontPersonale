@@ -54,6 +54,7 @@ export class HolidayComponent implements OnInit {
   username: any = [];
   // days: number = 0;
   days: any = [];
+  totalDays: any = [];
   fec_in: any = [];
   daysTo: any = [];
   daysRe: any = [];
@@ -106,26 +107,22 @@ export class HolidayComponent implements OnInit {
         console.log(data.success);
         
 
-        if (data.success == true) {
-          this.contenTable = data.data["getSelectData"]["vac"];
-          this.fec_in = data.data["getSelectData"]["vac"];
+          if (data.success == true) {
+              this.contenTable = data.data["getSelectData"]["vac"];
+              this.fec_in = data.data["getSelectData"]["vac"];
+            //   this.contenTable.forEach((element) => {
+            //   // console.log( Date('Y-m-d',element.admissionDate) );
+            //       var convertAge = new Date(element.admissionDate);
+            //       var timeDiff = Math.abs(Date.now() - convertAge.getTime());
+            //        this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones
+            //        this.days = (this.showAge * 15); // dias de vacaciones
+            //       // this.days = 2; // dias de vacaciones
+            //       // console.log("Dias", this.days,"años",this.showAge);
 
-          this.contenTable.forEach((element) => {
-            // console.log( Date('Y-m-d',element.admissionDate) );
-
-            
-           
-            
-            const convertAge = new Date(element.admissionDate);
-            const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-            this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones
-            this.prue = (this.showAge * 15); // dias de vacaciones
-            console.log("Dias", this.prue,"años",this.showAge);
-            return this.prue;
-          });
+            // });
 
 
-          this.generateTable(data.data["getSelectData"]["vac"]);
+           this.generateTable(data.data["getSelectData"]["vac"]);
           
           // this.fec_in = this.contenTable[0].admissionDate;
          
@@ -150,21 +147,12 @@ export class HolidayComponent implements OnInit {
           // for()
           // this.daysTo = data.data["getSelectData"][0][0].day_vac;
 
-          console.log("<<", this.daysFor.length);
           for (let i = 0; i < this.daysFor.length; i++) {
             // console.log('*', this.daysFor[i].day_vac);
 
             this.total = this.total + this.daysFor[i].day_vac;
+
           }
-
-          // this.daysFor.forEach(element => {
-
-          //   // console.log('*',element.day_vac);
-          //   this.total = element.day_vac;
-          //   console.log('*',this.total);
-
-          // });
-          // console.log('fec_ini', this.fec_in)
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
           // console.log('=>',this.cuser)
@@ -178,77 +166,44 @@ export class HolidayComponent implements OnInit {
         this.handler.showError("Se produjo un error");
         this.loading = false;
       }
+      
     );
   }
   generateTable(data) {
+
     this.displayedColumns = [
-      "view",
+      // "view",
+      "document",
       "idPersonale",
       "idPosition",
       "admissionDate",
       "daysGained",
-      "daysTaken",
+      "day_vac",
       "remainingDays",
       // "salary",
       // "num_vac",
-      "actions",
+      // "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];
+
     let search;
     if (document.contains(document.querySelector("search-input-table"))) {
-      search = document.querySelector(".search-input-table");
-      search.value = "";
+          search = document.querySelector(".search-input-table");
+          search.value = "";
     }
   }
-  // age= (1-08-2000);
-  // showAge;
-  // ageCalculator(){
-  //   // if(this.fec_in){
-  //   //   const convertAge = new Date(this.fec_in);
-  //   //   const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-  //   //    this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-  //   //    return this.days = ( this.showAge*15)
-  //   //   console.log('===',this.showAge)
-  //   // }
-  //   // for(let i = 0; i < this.contenTable.length; i++){
-  //     // console.log('todos',this.fec_in[i].admissionDate);
-  //     // this.prue = this.fec_in[i].admissionDate;
-  //     // console.log('=>',this.contenTable[i].admissionDate)
-  //     // if( (this.contenTable[i].admissionDate) ){
-  //       console.log(this.fec_in[0].admissionDate)
-  //       // const convertAge = new Date(this.fec_in.admissionDate );
-  //       // const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-  //       // this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365); // años de vacaciones
-  //       // // this.days = ( this.showAge*15); // dias de vacaciones
-  //       // console.log('===',this.showAge);
-  //   // }
-  // // }
-  // }
-  //     // return this.showAge = 0
-  //   }
-  // }
-  d;
-  daysTom() {
-    if (this.daysTo) {
-      this.d = this.daysTo + this.daysTo;
-    }
-    return this.d;
+  calculateDays(fecha){
+      var convertAge = new Date(fecha);
+      var timeDiff = Math.abs(Date.now() - convertAge.getTime());
+          this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones
+          this.days = (this.showAge * 15); // dias de vacaciones
   }
-  // daysRes(){
-
-  //   if(this.fec_in){
-  //     const convertAge = new Date(this.fec_in);
-  //     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-  //      this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-  //      this.days = ( this.showAge*15)
-  //      this.daysRe = (this.days- this.total);
-  //      return this.daysRe;
-  //     console.log('===',this.showAge)
-  //   }
-  // }
-
+  calculateDaysRest(totDays){
+       (totDays)? this.totalDays = ( this.days - totDays) : this.totalDays = '' ; // Dias restanstes
+  }
+  
   option(action, codigo = null, id, create_User) {
     var dialogRef;
     switch (action) {
@@ -270,6 +225,8 @@ export class HolidayComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
+          this.sendRequestVacation();
+
         });
         break;
       case "update":
@@ -291,6 +248,8 @@ export class HolidayComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
+          this.sendRequestVacation();
+
         });
         break;
 
@@ -314,7 +273,7 @@ export class HolidayComponent implements OnInit {
   sendRequestVacation() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getVacation",
+      action: "getSelection",
       idUser: this.cuser.iduser,
       token: this.cuser.token,
       modulo: this.component,
@@ -328,11 +287,11 @@ export class HolidayComponent implements OnInit {
         console.log(data.success);
 
         if (data.success == true) {
-          this.generateTableVacation(data.data["getSelectVacation"]);
-          this.contenTableVacation = data.data["getSelectVacation"];
+          this.generateTableVacation(data.data["getSelectData"][0]);
+          this.contenTableVacation = data.data["getSelectData"][0];
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
-          console.log("=>", this.cuser);
+          // console.log("=>", this.cuser);
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -347,16 +306,18 @@ export class HolidayComponent implements OnInit {
   }
   generateTableVacation(data) {
     this.displayedColumnsVacation = [
-      "view",
+      "fec_rad",
       "document",
       "idPersonale",
+      "immediateBoss",
       "fec_ini",
+      "day_vac",
+      "day_com",
       "fec_fin",
       "fec_rei",
-      "day_vac",
-      // "salary",
+      "state",
       // "num_vac",
-      "actions",
+      // "actions",
     ];
     this.dataSourceVacation = new MatTableDataSource(data);
     this.dataSourceVacation.sort = this.sort.toArray()[0];

@@ -24,18 +24,19 @@ import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
 import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
 import { AcceptanceDialog } from "../../../dialogs/holiday/acceptance/acceptance.dialog.component";
+import { LiquidationDialog } from "../../../dialogs/holiday/liquidation/liquidation.dialog.component";
 
 @Component({
-  selector: 'app-acceptance',
-  templateUrl: './acceptance.component.html',
-  styleUrls: ['./acceptance.component.css']
+  selector: 'app-liquidation',
+  templateUrl: './liquidation.component.html',
+  styleUrls: ['./liquidation.component.css']
 })
-export class AcceptanceComponent implements OnInit {
+export class LiquidationComponent implements OnInit {
 
   contenTable: any = [];
   // contenTableVacation: any = [];
   loading: boolean = false;
-  endpoint: string = "/acceptance";
+  endpoint: string = "/liquidation";
   permissions: any = null;
   displayedColumns: any = [];
   // displayedColumnsVacation: any = [];
@@ -137,7 +138,7 @@ export class AcceptanceComponent implements OnInit {
     switch(action){
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(AcceptanceDialog,{
+        dialogRef = this.dialog.open(LiquidationDialog,{
           data: {
             window: 'create',
             codigo,
@@ -157,7 +158,7 @@ export class AcceptanceComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(AcceptanceDialog,{
+        dialogRef = this.dialog.open(LiquidationDialog,{
           data: {
             window: 'update',
             codigo,
@@ -180,7 +181,7 @@ export class AcceptanceComponent implements OnInit {
 
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(AcceptanceDialog,{
+        dialogRef = this.dialog.open(LiquidationDialog,{
           data: {
             window: 'view',
             codigo

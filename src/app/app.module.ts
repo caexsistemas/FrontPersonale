@@ -111,6 +111,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PreselectedDialog } from './dialogs/selection/hiring/preselected/preselected.dialog.component';
 import { SelfManagementComponent } from './views/selfManagement/selfManagement.component';
 import { HolidayDialog } from './dialogs/holiday/holiday.dialog.component';
+import { AcceptanceDialog } from './dialogs/holiday/acceptance/acceptance.dialog.component';
+import { LiquidationDialog } from './dialogs/holiday/liquidation/liquidation.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -215,7 +217,9 @@ const routes: Routes = [];
     OwnerDialog,
     PreselectedDialog,
     SelfManagementComponent,
-    HolidayDialog
+    HolidayDialog,
+    AcceptanceDialog,
+    LiquidationDialog
   
   ],
   providers: [{

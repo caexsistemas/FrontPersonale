@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AcceptanceComponent } from './acceptance.component';
+import { LiquidationComponent } from './liquidation.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  // declarations: [AcceptanceComponent]
+  // declarations: [LiquidationComponent]
 })
-export class AcceptanceModule { }
+export class LiquidationModule { }
