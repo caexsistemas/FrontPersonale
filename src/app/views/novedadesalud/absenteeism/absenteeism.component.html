@@ -9,7 +9,7 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3"> 
                     
                     <div class="btn-group" dropdown>
-                        <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                        <button class="btn btn-success" *ngIf="permissions.view" (click)="onTriggerSheetClick()"
                             title="Reporte Excel">
                             <i class="fa fa-feed"></i>
                         </button>
@@ -47,7 +47,8 @@
                     <ng-container matColumnDef="check" >
                         <th mat-header-cell *matHeaderCellDef > * </th>
                         <td mat-cell *matCellDef="let element">
-                            <mat-checkbox *ngIf="permissions.delete"  [color]="'primary'" [disabled]="stadValue" (change)="validAsPect(element.abseid, $event)"> </mat-checkbox>
+                            {{ validatAjust(element.fecha_ingreso) }}
+                            <mat-checkbox *ngIf="permissions.delete && tmajust == true"  [color]="'primary'" [disabled]="stadValue" (change)="validAsPect(element.abseid, $event)"> </mat-checkbox>
                         </td>
                     </ng-container>
 
@@ -104,7 +105,7 @@
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef > Acciones </th>
                         <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',element.abseid)"
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update && tmajust == true" (click)="option('update',element.abseid)"
                                 title="Editar">
                                 <i class="fa fa-edit fa-lg"></i>
                             </button>
