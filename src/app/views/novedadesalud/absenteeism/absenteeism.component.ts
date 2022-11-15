@@ -324,8 +324,8 @@ export class AbsenteeismComponent implements OnInit {
   validatAjust(fechaing){
     
     var fecha = fechaing;
-    var horas = 24;
-    //Se Aumenta La fecha De Radicacion
+    var horas = 48;
+    //Fecha De Radicacion
 	  fecha = new Date(fecha);
 		fecha.setHours(fecha.getHours()+horas);
 		fecha =  fecha.toISOString();
@@ -341,16 +341,16 @@ export class AbsenteeismComponent implements OnInit {
     //Validacion
     if( timeActu >= fechaing && timeActu <= fechaFin ){
       this.tmajust = true;
-      //Proceso  
+    }else{
+      this.tmajust = false;
+    }
+    //Proceso  
       /*console.log('------------');
       console.log(fechaing);
       console.log(fechaFin);
       console.log(timeActu);
       console.log(this.tmajust);
       console.log('------------');*/
-    }else{
-      this.tmajust = false;
-    }
   }
 
 }
