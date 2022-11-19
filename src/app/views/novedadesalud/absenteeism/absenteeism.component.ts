@@ -341,16 +341,17 @@ export class AbsenteeismComponent implements OnInit {
     //Validacion
     if( timeActu >= fechaing && timeActu <= fechaFin ){
       this.tmajust = true;
-    }else{
-      this.tmajust = false;
-    }
-    //Proceso  
-      /*console.log('------------');
+          //Proceso  
+      /*¿console.log('------------');
       console.log(fechaing);
       console.log(fechaFin);
       console.log(timeActu);
       console.log(this.tmajust);
       console.log('------------');*/
+    }else{
+      this.tmajust = false;
+    }
+
   }
 
 }
