@@ -26,6 +26,8 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { HolidayComponent } from './holiday/holiday.component';
 import { selfManagementRoutingModule } from './selfManagement-routing.module';
+import { AcceptanceComponent } from './acceptance/acceptance.component';
+import { LiquidationComponent } from './liquidation/liquidation.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -59,7 +61,10 @@ const ngWizardConfig: NgWizardConfig = {
   ],
   declarations: [
     
-    HolidayComponent
+    HolidayComponent,
+    AcceptanceComponent,
+    LiquidationComponent
+    
 
  ]
 })

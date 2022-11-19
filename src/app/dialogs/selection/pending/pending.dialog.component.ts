@@ -55,7 +55,7 @@ export interface PeriodicElement {
 })
 export class PendingDialog  {
 
-  endpoint: string = "/requisition";
+  endpoint: string = "/pending";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
@@ -95,6 +95,7 @@ export class PendingDialog  {
   typeMatriz: any = [];
   matriz: boolean = false;
   typeCargo: any = [];
+  create_user: any = [];
   public test: any = { limite_semana: 1 };
   public test2: any = { limite_semana: 0 };
   public clickedRows;
@@ -125,6 +126,8 @@ export class PendingDialog  {
       case "update":
         this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
+        this.create_user = this.data.id;
+        console.log(this.data.id)
        
         if( this.idUser == 263 ){
           this.retro = false;
@@ -134,7 +137,7 @@ export class PendingDialog  {
         } else if(this.idUser == 44 ){
           this.retro3 = false;
         }
-          else if( this.idUser == 43){
+          else if( this.idUser === this.create_user){
             this.retro4 = false;
           }
         this.initForms();

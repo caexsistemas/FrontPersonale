@@ -100,6 +100,11 @@ export class TechnologyDialog {
   listPosition: any = [];
   stateCerti: any = [];
   repo: any = [];
+  charger: any = [];
+  chaType: any = [];
+  TypeCarg: any = [];
+  origin: any = [];
+  actP: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -149,8 +154,10 @@ export class TechnologyDialog {
               this.list = data.data['getSubActivo'];
               this.sub = this.techno.listSub;
               this.repo = this.techno.sta_equ;
+              this.chaType = this.techno.car_tipo;
+              ( this.chaType == '49/1')? true: false;
               // console.log('===>',this.techno)
-              console.log(this.sub)
+              // console.log(this.sub)
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -184,6 +191,7 @@ export class TechnologyDialog {
       pc_pro: new FormControl(""),
       pc_tam_dis: new FormControl(""),
       pc_car: new FormControl(""),
+      car_tipo:new FormControl(""),
       pc_tam_pan: new FormControl(""),
       pc_tip_dis: new FormControl(""),
       //monitor
@@ -307,6 +315,7 @@ export class TechnologyDialog {
               this.typeCampusCedro = data.data['getCampusCedro'];
               this.listPosition = data.data['getPosition'];
               this.stateCerti = data.data["getCertificate"];
+              this.charger = data.data["typeCharger"];
 
           if (this.view == 'update') {
               this.getDataUpdate();
@@ -377,6 +386,10 @@ export class TechnologyDialog {
         this.formNomi.get("pc_tip_dis").setValue(data.data["getDataUpda"][0].pc_tip_dis);
         this.formNomi.get("pc_car").setValue(data.data["getDataUpda"][0].pc_car);
         this.formNomi.get("pc_tam_pan").setValue(data.data["getDataUpda"][0].pc_tam_pan);
+        this.formNomi.get("car_tipo").setValue(data.data["getDataUpda"][0].car_tipo);
+        this.actP = this.formNomi.get("car_tipo").value;
+        // console.log('>>',this.actP);
+        ( this.actP == '78/2') ? true : false;
         // this.formNomi.get("mon_mar").setValue(data.data["getDataUpda"][0].mon_mar);
         // this.formNomi.get("mon_mod").setValue(data.data["getDataUpda"][0].mon_mod);
         // this.formNomi.get("mon_tam").setValue(data.data["getDataUpda"][0].mon_tam);
@@ -556,7 +569,7 @@ export class TechnologyDialog {
   obs: boolean;
   rep:boolean;
   onSelectEstate(e){
-    console.log('=>',e)
+    // console.log('=>',e)
     if(e == '73/2'){
       this.obs = true
     }else{
@@ -567,6 +580,12 @@ export class TechnologyDialog {
       }else{
         this.rep = false
       }
+  }
+  
+  onCargador($event){
+      // console.log($event);
+      this.origin = $event;
+      (this.origin == '49/1')? this.TypeCarg = true : this.TypeCarg = false;
   }
 
   generateTable(data) {

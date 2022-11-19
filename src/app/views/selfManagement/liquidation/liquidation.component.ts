@@ -17,34 +17,47 @@ import {
 } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
+// import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
-import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
-
+import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
+import { AcceptanceDialog } from "../../../dialogs/holiday/acceptance/acceptance.dialog.component";
+import { LiquidationDialog } from "../../../dialogs/holiday/liquidation/liquidation.dialog.component";
 
 @Component({
-  selector: 'app-pending',
-  templateUrl: './pending.component.html',
-  styleUrls: ['./pending.component.css']
+  selector: 'app-liquidation',
+  templateUrl: './liquidation.component.html',
+  styleUrls: ['./liquidation.component.css']
 })
-export class PendingComponent implements OnInit {
+export class LiquidationComponent implements OnInit {
 
- contenTable: any = [];
+  contenTable: any = [];
+  // contenTableVacation: any = [];
   loading: boolean = false;
-  endpoint: string = "/pending";
+  endpoint: string = "/liquidation";
   permissions: any = null;
   displayedColumns: any = [];
+  // displayedColumnsVacation: any = [];
+  // displayedColumnsPrueba: any = [];
   dataSource: any = [];
+  // dataSourceVacation: any = [];
   contaClick: number = 0;
-  
+  name: any = [];
+  username: any = [];
+  days: any = [];
+  fec_in: any = [];
+  daysTo: any = [];
+  daysRe: any = [];
+  daysFor: any = [];
+  total: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/pending";
+  component = "/selfManagement/holiday";
 
   constructor(
     private _tools: Tools,
@@ -57,31 +70,35 @@ export class PendingComponent implements OnInit {
 
   ngOnInit():void {
     this.sendRequest();
+    // this.sendRequestVacation();
+
     this.permissions = this.handler.permissionsApp;
 
   }
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getPending",
+      action: "getParamUpdateSet",
       idUser: this.cuser.iduser,
       token: this.cuser.token,
-      modulo: this.component
-      // role: this.cuser.role,
+      modulo: this.component,
+      role: this.cuser.role,
       // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+      idPersonale:this.cuser.idPersonale,
 
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
-        console.log(data);
+        console.log(data.success);
 
         if (data.success == true) {
 
-          this.generateTable(data.data["getSelectData"]);
-          this.contenTable = data.data["getSelectData"];
-         this.loading = false;
+          this.generateTable(data.data["getSelecUpdat"]);
+          this.contenTable = data.data["getSelecUpdat"];
+          console.log('',data.data["getSelecUpdat"]);
+         
+          this.loading = false;
         } else {
           this.handler.handlerError(data);
           this.loading = false;
@@ -96,13 +113,17 @@ export class PendingComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "idsel",
-      "fec_req", 
-      "car_sol",
-      "matrizarp",
-      "tip_req",
+      "document",
+      "idPersonale",
+      "fec_ini",
+      "day_vac",
+      "day_com",
+      "tot_day",
+      "fec_fin",
+      "fec_rei",
       "state",
-      "actions",
+      "sta_liq",
+      "actions", 
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -113,13 +134,12 @@ export class PendingComponent implements OnInit {
       search.value = "";
     }
   }
-
   option(action,codigo=null, id,){
     var dialogRef;
     switch(action){
       case 'create':
         this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
+        dialogRef = this.dialog.open(LiquidationDialog,{
           data: {
             window: 'create',
             codigo,
@@ -139,7 +159,7 @@ export class PendingComponent implements OnInit {
       break;
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
+        dialogRef = this.dialog.open(LiquidationDialog,{
           data: {
             window: 'update',
             codigo,
@@ -162,7 +182,7 @@ export class PendingComponent implements OnInit {
 
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
+        dialogRef = this.dialog.open(LiquidationDialog,{
           data: {
             window: 'view',
             codigo
@@ -179,18 +199,14 @@ export class PendingComponent implements OnInit {
       break;
       }
     }
-    
-openc(){
-  if(this.contaClick == 0){
-    this.sendRequest();
-  }    
-  this.contaClick = this.contaClick + 1;
-}
-applyFilter(search) {
-  this.dataSource.filter = search.trim().toLowerCase();
-}
-onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsTechnologyComponent)
+  openc() {
+    if (this.contaClick == 0) {
+      this.sendRequest();
+    }
+    this.contaClick = this.contaClick + 1;
+  }
+  applyFilter(search) {
+    this.dataSource.filter = search.trim().toLowerCase();
+  }
 }
 
-}

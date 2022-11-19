@@ -1,245 +1,334 @@
-<div class="content">
+<!-- <div class="content"> -->
+    <!-- <div class="example-container mat-elevation-z8">
 
-  <div class="card">
-      <div class="card-header">
-        Gestión de Vacaciones
-      </div>
+    <div class="card">
+        <div class="card-header">
+            Requisicion
+        </div>
+        <div class="content-table">
 
-      <!-- <div class="content-table"> -->
-      <div class="mat-elevation-z8">
-
-        
-          <div class="toolbar-table" *ngIf="permissions != null">
-
-              <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-
-                  <div class="btn-group" dropdown>
-                      <!-- <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                          title="Reporte Excel">
-                          <i class="fa fa-feed"></i>
-                      </button> -->
-                  </div>
-                  <div class="btn-group" dropdown>
-
-                      <di let element ></di>
-                      <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',document, idPersonale)"
-                          title="Crear">
-                          <i class="fa fa-plus"></i>
-                      </button>
-
-                  </div>
-                 
-              </div>
-
-              <div class="container">
-                  <mat-form-field appearance="standard" style="width: 100%;">
-                      <mat-label>Buscar..</mat-label>
-                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
-                  </mat-form-field>
-              </div>
-          </div>
-
-          <div class="section-table first-action">
-            <table>
-            <thead>
-              <tr>
-              
-              <th class="success"  style="position: absolute;left: 75%;top: 49%;font-size: 12px;">Dias de Vacaciones</th>
-              </tr>
-             </thead>
-            </table>
-              <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
-                  *ngIf="contenTable.length > 0">
-                  
-                 
-
-                  <ng-container matColumnDef="view">
-                      <th mat-header-cell *matHeaderCellDef> Ver </th>
-                      <td mat-cell *matCellDef="let element">
-                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
-                              (click)="option('view',element.idsel)" title="Ver">
-                              <i class="fa fa-eye fa-lg"></i>
-                          </button>
-                      </td>
+            <div class="toolbar-table" *ngIf="permissions != null">
+  
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+  
+                    <div class="btn-group" dropdown>
+                       
+                    </div>
+                    <div class="btn-group" dropdown>
+  
+                        <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
+                            title="Crear">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                   
+                </div>
+  
+                <div class="container">
+                    <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>Buscar..</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                    </mat-form-field>
+                </div>
+            </div>
+  
+            <div class="section-table first-action">
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                    *ngIf="contenTable.length > 0">
+                   
+  
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef> Ver </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                (click)="option('view',element.idsel)" title="Ver">
+                                <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                        </td>
+                    </ng-container>
+  
+                     <ng-container matColumnDef="idPersonale">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">ID Requisición</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="idPosition">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Requisición</th>
+                      <td mat-cell *matCellDef="let element"> {{element.idPosition }} </td>
                   </ng-container>
-
-                   <ng-container matColumnDef="idPersonale">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Empleado</th>
-                      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                  </ng-container>
-
-      
-                 <ng-container matColumnDef="idPosition">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo</th>
-                    <td mat-cell *matCellDef="let element"> {{element.idPosition }} </td>
-                </ng-container>
-
-                  <ng-container matColumnDef="admissionDate">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Contratación</th>
-                    <td mat-cell *matCellDef="let element"> {{element.admissionDate  }} </td>
-                </ng-container>
-
-                  <ng-container matColumnDef="daysGained">
-                      <th mat-header-cell *matHeaderCellDef> Dias Ganados
-                      </th>
-                      <td mat-cell *matCellDef="let element">{{ageCalculator()}}  </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="daysTaken">
-                    <th mat-header-cell *matHeaderCellDef> Dias Tomados
-                    </th>
-                    <td mat-cell *matCellDef="let element"></td> 
-                </ng-container>
-
+  
+  
+                    <ng-container matColumnDef="admissionDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo Solicitado</th>
+                        <td mat-cell *matCellDef="let element"> {{element.admissionDate}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="daysGained">
+                        <th mat-header-cell *matHeaderCellDef> Dias Habilitados </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{calculateDays(element.admissionDate)}} {{days}}     
+                        </td>
+                    </ng-container>
+    
+                      <ng-container matColumnDef="day_vac">
+                        <th mat-header-cell *matHeaderCellDef> Dias Tomados
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{element.tol}}</td> 
+                    </ng-container>
+    
                 <ng-container matColumnDef="remainingDays">
-                  <th mat-header-cell *matHeaderCellDef> Dias Restantes
-                  </th>
-                  <td mat-cell *matCellDef="let element">  </td>
-              </ng-container>
-
-                  <!-- <ng-container matColumnDef="tip_req">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo de Requisición
-                    </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tip}} </td>
-                </ng-container> -->
-
-                  <ng-container matColumnDef="actions">
-                      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                      <td mat-cell *matCellDef="let element">
-                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.create"
-                              (click)="option('create',element.document, element.idPersonale)" title="Editar">
-                              <i class="fa fa-edit fa-lg"></i>
-                          </button>
-
-                          <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
-                              title="PDF">
-                              <i class="fa fa-file-pdf-o"></i>
-                          </button> -->
-                      </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
-          </div>
-          <div *ngIf="contenTable.length == 0">
-              <h4 class="no-records">No hay registros...</h4>
-          </div>
+                    <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{calculateDaysRest(element.tol)}} {{totalDays}}     
+                    </td>
+                </ng-container>
+  
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
+                                (click)="option('update',element.idsel,element.create_User)" title="Editar">
+                                <i class="fa fa-edit fa-lg"></i>
+                            </button>
+                            <di *ngIf="element.state == '30/1' && rol== '5'">
+                              <button class="btn btn-ghost-danger" *ngIf="permissions.update" (click)="option('cancel',element.idsel)"
+                                   title="Cancelar">
+                                <i class="fa fa-trash fa-lg"></i>
+                              </button>
+                            </di>
+                          
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="contenTable.length == 0">
+                <h4 class="no-records">No hay registros...</h4>
+            </div>
+        </div>
+    </div>
   </div>
-
-      </div>
-  <div class="card">
+  
+  <div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
+   -->
+   <div class="card">
     <div class="card-header">
       Solicitud
   </div>
-    <!-- <mat-dialog-content> -->
+  <div class="toolbar-table" *ngIf="permissions != null">
 
-      <!-- <div class="content-table"> -->
+    <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
 
-      <div class="mat-elevation-z8">
-
-        <div class="toolbar-table" *ngIf="permissions != null">
-
-            <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-
-                <div class="btn-group" dropdown>
-                    <!-- <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                        title="Reporte Excel">
-                        <i class="fa fa-feed"></i>
-                    </button> -->
-                </div>
-                <div class="btn-group" dropdown>
-                    <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',element.idPersonale, element.document)"
-                        title="Crear">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-               
-            </div>
-
-            <div class="container">
-                <mat-form-field appearance="standard" style="width: 100%;">
-                    <mat-label>Buscar..</mat-label>
-                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
-                </mat-form-field>
-            </div>
+        <div class="btn-group" dropdown>
+            <!-- <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                title="Reporte Excel">
+                <i class="fa fa-feed"></i>
+            </button> -->
         </div>
+        <div class="btn-group" dropdown>
 
-        <div class="section-table first-action">
-            <table mat-table [dataSource]="dataSourceVacation" matSort class="table-large table-responsive-lg"
-                *ngIf="contenTableVacation.length > 0">
-               
+          <di let element ></di>
+          <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',document, idPersonale)"
+              title="Crear">
+              <i class="fa fa-plus"></i>
+          </button>
+
+      </div>
+       
+    </div>
+
+    <div class="container">
+        <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Buscar..</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+        </mat-form-field>
+    </div>
+</div>
+   <div class="row">
+    <div class="col-md-6" style="right: -8%;">
+        <section class="example-container mat-elevation-z8" tabindex="0">
+            <table mat-table [dataSource]="dataSource">
+          
+              <!-- Name Column -->
+              <ng-container matColumnDef="document" sticky>
+                <th mat-header-cell *matHeaderCellDef> Documento </th>
+                <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="idPersonale">
+                <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+          
+              <!-- Position Column -->
+              <ng-container matColumnDef="idPosition">
+                <th mat-header-cell *matHeaderCellDef> Cargo </th>
+                <td mat-cell *matCellDef="let element"> {{element.idPosition}} </td>
+              </ng-container>
+          
+              <!-- Weight Column -->
+              <ng-container matColumnDef="admissionDate">
+                <th mat-header-cell *matHeaderCellDef> Fecha de Contratacion </th>
+                <td mat-cell *matCellDef="let element"> {{element.admissionDate}} </td>
+              </ng-container>
+          
+              <ng-container matColumnDef="daysGained">
+                  <th mat-header-cell *matHeaderCellDef> Dias Habilitados </th>
+                  <td mat-cell *matCellDef="let element">
+                      {{calculateDays(element.admissionDate)}} {{days}}     
+                  </td>
+              </ng-container>
+          
+                <ng-container matColumnDef="day_vac">
+                  <th mat-header-cell *matHeaderCellDef> Dias Tomados
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{element.tol}}</td> 
+              </ng-container>
+          
+          <ng-container matColumnDef="remainingDays">
+              <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
+              <td mat-cell *matCellDef="let element">
+                  {{calculateDaysRest(element.tol)}} {{totalDays}}     
+              </td>
+          </ng-container>
+          
+              <!-- Symbol Column -->
+              <!-- <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+              </ng-container> -->
+          
+              <!-- Star Column -->
+              <!-- <ng-container matColumnDef="star" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon>more_vert</mat-icon>
+                </td>
+              </ng-container> -->
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </section>
+    </div>
+    <div class="col-md-6" style="position: absolute;left: 52%;">
+        <section class="example-container mat-elevation-z8" tabindex="1">
+            <table mat-table [dataSource]="dataSourceVacation">
 
                 <ng-container matColumnDef="view">
                     <th mat-header-cell *matHeaderCellDef> Ver </th>
-                    <td mat-cell *matCellDef="let element">
+                    <td mat-cell *matCellDef="let rw">
                         <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
-                            (click)="option('view',element.idsel)" title="Ver">
+                            (click)="optionVac('view',rw.hol_id)" title="Ver">
                             <i class="fa fa-eye fa-lg"></i>
                         </button>
                     </td>
                 </ng-container>
-
-                 <ng-container matColumnDef="document">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento</th>
-                    <td mat-cell *matCellDef="let element"> {{element.document}} </td>
-                </ng-container>
-
-    
-               <ng-container matColumnDef="idPersonale">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombres y Apellidos</th>
-                  <td mat-cell *matCellDef="let element"> {{element.idPersonale }} </td>
+          
+              <!-- Name Column -->
+              <ng-container matColumnDef="fec_rad" sticky>
+                <th mat-header-cell *matHeaderCellDef>Fecha Solicitud </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.fec_rad | date}} </td>
               </ng-container>
 
-
-                <ng-container matColumnDef="fec_ini">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Inicio</th>
-                    <td mat-cell *matCellDef="let element"> {{element.fec_ini}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="fec_fin">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Fin</th>
-                  <td mat-cell *matCellDef="let element"> {{element.fec_fin  }} </td>
+              <ng-container matColumnDef="document" >
+                <th mat-header-cell *matHeaderCellDef> Documento </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.document}} </td>
+              </ng-container>
+          
+              <!-- Position Column -->
+              <ng-container matColumnDef="idPersonale" >
+                <th mat-header-cell *matHeaderCellDef> Nombres y Apellidos</th>
+                <td mat-cell *matCellDef="let rw"> {{rw.emp}} </td>
+              </ng-container>
+          
+              <!-- Weight Column -->
+              <ng-container matColumnDef="immediateBoss">
+                <th mat-header-cell *matHeaderCellDef> Jefe Inmediato </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.inm}} </td>
               </ng-container>
 
-                <ng-container matColumnDef="fec_rei">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Regreso
-                    </th>
-                    <td mat-cell *matCellDef="let element"> {{element.fec_rei}} </td>
-                </ng-container>
+              <ng-container matColumnDef="fec_ini">
+                <th mat-header-cell *matHeaderCellDef> Fecha de Inicio </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.fec_ini | date}} </td>
+              </ng-container>
 
+              <ng-container matColumnDef="day_vac">
+                <th mat-header-cell *matHeaderCellDef> Dias a Disfrutar </th> 
+                <td mat-cell *matCellDef="let rw"> {{rw.day_vac}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="day_com">
+                <th mat-header-cell *matHeaderCellDef> Dias a Compensar </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.day_com}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fec_fin">
+                <th mat-header-cell *matHeaderCellDef> Fecha Finalización </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.fec_fin | date}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fec_rei">
+                <th mat-header-cell *matHeaderCellDef> Fecha Regreso </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.fec_rei | date}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef> Estado </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.sta}} </td>	
+              </ng-container>
+
+              <ng-container matColumnDef="sta_liq">
+                <th mat-header-cell *matHeaderCellDef> Estado Liquidación </th>
+                <td mat-cell *matCellDef="let rw"> {{rw.sta_liq}} </td>	
+              </ng-container>
+          
+              <!-- <ng-container matColumnDef="daysGained">
+                  <th mat-header-cell *matHeaderCellDef> Dias Habilitados </th>
+                  <td mat-cell *matCellDef="let element">
+                      {{calculateDays(element.admissionDate)}} {{days}}     
+                  </td>
+              </ng-container>
+          
                 <ng-container matColumnDef="day_vac">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> # Dias a tomar
+                  <th mat-header-cell *matHeaderCellDef> Dias Tomados
                   </th>
-                  <td mat-cell *matCellDef="let element"> {{element.day_vac}} </td>
+                  <td mat-cell *matCellDef="let element">{{element.tol}}</td> 
               </ng-container>
-
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
-                            (click)="option('update',element.idsel,element.create_User)" title="Editar">
-                            <i class="fa fa-edit fa-lg"></i>
-                        </button>
-
-                        <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
-                            title="PDF">
-                            <i class="fa fa-file-pdf-o"></i>
-                        </button> -->
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsVacation; sticky: true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsVacation;"></tr>
+          
+          <ng-container matColumnDef="remainingDays">
+              <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
+              <td mat-cell *matCellDef="let element">
+                  {{calculateDaysRest(element.tol)}} {{totalDays}}     
+              </td>
+          </ng-container> -->
+          
+              <!-- Symbol Column -->
+              <!-- <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+              </ng-container> -->
+          
+              <!-- Star Column -->
+              <!-- <ng-container matColumnDef="star" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon>more_vert</mat-icon>
+                </td>
+              </ng-container> -->
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsVacation"></tr>
+              <tr mat-row *matRowDef="let rw; columns: displayedColumnsVacation;"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
-        </div>
-        <div *ngIf="contenTableVacation.length == 0">
-            <h4 class="no-records">No hay registros...</h4>
-        </div>
+          </section>
     </div>
-  </div>
-  </div>
+   </div>
+   <div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+   </div>
 
-<div *ngIf="loading" class="loading">
-<mat-spinner [diameter]="50"></mat-spinner>
-</div>

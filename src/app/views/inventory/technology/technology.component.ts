@@ -78,7 +78,7 @@ export class TechnologyComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(data);
+        // console.log(data);
         if (data.success == true) {
           this.generateTable(data.data["getContData"]);
           this.name = data.data['getPersonale'];

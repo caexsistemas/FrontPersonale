@@ -99,13 +99,23 @@
                 <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2'">
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargador:</mat-label>
-                    <mat-select formControlName="pc_car">
+                    <mat-select formControlName="pc_car"(ngModelChange)="onCargador($event)" required>
                       <mat-option *ngFor="let idet of listOpcion" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
-                  </mat-form-field>
-                </div>
+                  </mat-form-field> 
+                </div>       
+                <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2' && actP">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Cargador:</mat-label>
+                    <mat-select formControlName="car_tipo">
+                      <mat-option *ngFor="let idet of charger" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> 
+                </div>      
               </div>
               <div class="row">
                 <div class="col-md-4" *ngIf="attribute == '48/2'">
@@ -664,7 +674,7 @@
               <div class="row" *ngIf="obs">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Observación :</mat-label>
+                    <mat-label> Otras Observaciónes :</mat-label>
                     <textarea matInput formControlName="obs_ent"></textarea>
                   </mat-form-field>
                 </div>
@@ -804,6 +814,10 @@
               <div class="col-md-4" *ngIf="sub == '48/1'|| sub == '48/2'">
                 <dt>Cargador: </dt>
                 <dd>{{techno.car}}</dd>
+              </div>
+              <div class="col-md-4"  *ngIf="sub == '48/1'|| sub == '48/2' && chaType">
+                <dt> Tipo de Cargador: </dt>
+                <dd>{{techno.tcarg}}</dd>
               </div>
             </div>
             <!--  -->
@@ -1145,7 +1159,7 @@
             <hr>
             <div class="row mt-4" *ngIf="repo == '73/2'">
               <div class="col-md-4">
-                <dt>Observación: </dt>
+                <dt> Otras Observaciónes: </dt>
                 <dd>{{techno.obs_ent}}</dd>
               </div>
             </div>

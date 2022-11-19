@@ -46,7 +46,7 @@
     </mat-dialog-content>
 </div>
 
-<div class="card mt-6" *ngIf="rol == 1">
+<div class="card mt-6">
     <div *ngIf="view == 'create' || view == 'update'">
         <div class="card-header">
             <h5 class="modal-title">
@@ -89,7 +89,7 @@
                         <!-- <div class="col">
                             <input type="hidden" formArrayName="idPersonale">
                         </div> -->
-                        <div class="col-md-4" *ngIf="rol == 1">
+                        <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Rol:</mat-label>
                                 <mat-select formControlName="role" [errorStateMatcher]="matcher">
@@ -209,7 +209,7 @@
     </div>
 </div>
 <!-- lider de proceso -->
-<div class="card mt-6" *ngIf="rol == 2 || rol == 3 || rol == 22">
+<!-- <div class="card mt-6" *ngIf="rol == 2 || rol == 3 || rol == 22">
     <div *ngIf="view == 'create' || view == 'update'">
         <div class="card-header">
             <h5 class="modal-title">
@@ -254,70 +254,12 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Tipo de Matriz:</mat-label>
-                                <mat-select formControlName="matrizarp" [errorStateMatcher]="matcher">
-                                    <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="matrizarp.hasError('required')">
-                                    Matriz is <strong>required</strong>
-                                </mat-error>
-                            </mat-form-field>
-                        </div> -->
-                        <!-- <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Tipo de Campaña:</mat-label>
-                                <mat-select formControlName="campana" [errorStateMatcher]="matcher">
-                                    <mat-option *ngFor="let idet of typeCampaign" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="campana.hasError('required')">
-                                    Campaña is <strong>required</strong>
-                                </mat-error>
-                            </mat-form-field>
-                        </div> -->
+                        
                     </div>
                     <div class="row">
-                        <!-- <div class="col-md-4">
-                            <mat-form-field class="example-form-field" appearance="fill">
-                                <mat-label>Teléfono</mat-label>
-                                <input matInput formControlName="phone" type="number" [(ngModel)]="value3">
-                                <button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value3=''">
-                                    <mat-icon>close</mat-icon>
-                                </button>
-                            </mat-form-field>
-                        </div> -->
-                        <!-- <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Nombre</mat-label>
-                                <input matInput formControlName="name" autocomplete="off" oninput="javascript:this.value=this.value.toUpperCase();">
-                                <mat-error *ngIf="name.hasError('required')">
-                                    Name is <strong>required</strong>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Apellido</mat-label>
-                                <input matInput formControlName="surname" autocomplete="off" oninput="javascript:this.value=this.value.toUpperCase();">
-                                <mat-error *ngIf="surname.hasError('required')">
-                                    Surname is <strong>required</strong>
-                                </mat-error>
-                            </mat-form-field>
-                        </div> -->
+                        
                     </div>
-                    <!-- <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>last Login</mat-label>
-                                <input matInput formControlName="lastLogin">
-                            </mat-form-field>
-                        </div>
-                    </div> -->
+                   
                 </form>
             </mat-dialog-content>
             <div mat-dialog-actions>
@@ -334,4 +276,4 @@
         </div>
 
     </div>
-</div>
+</div> -->

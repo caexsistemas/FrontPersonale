@@ -1,3 +1,4 @@
+
 import {
   MatDialog,
   MatDialogRef,
@@ -21,15 +22,15 @@ import {
   RequiredValidator,
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
-import { HandlerAppService } from "../../services/handler-app.service";
-import { environment } from "../../../environments/environment";
-import { global } from "../../services/global";
+import { HandlerAppService } from "../../../services/handler-app.service";
+import { environment } from "../../../../environments/environment";
+import { global } from "../../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { Observable, pipe } from "rxjs";
-import { NovedadesnominaServices } from "../../services/novedadesnomina.service";
+import { NovedadesnominaServices } from "../../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
-import { WebApiService } from "../../services/web-api.service";
+import { WebApiService } from "../../../services/web-api.service";
 import * as moment from "moment";
 import { element } from "protractor";
 import { exit } from "process";
@@ -47,22 +48,22 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-holiday.dialog',
-  templateUrl: './holiday.dialog.component.html',
-  styleUrls: ['./holiday.dialog.component.css']
+  selector: 'app-acceptance.dialog',
+  templateUrl: './acceptance.dialog.component.html',
+  styleUrls: ['./acceptance.dialog.component.css']
 })
-export class HolidayDialog  {
+export class AcceptanceDialog  {
 
-  endpoint: string = "/holiday";
+  endpoint: string = "/acceptance";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
   permissions: any = null;
   formSelec: FormGroup;
   selection: any = [];
-  idSel: number = null;
+  idHol: number = null;
   rol: number;
-  component = "/selfManagement/holiday";
+  component = "/selfManagement/acceptance";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -80,9 +81,8 @@ export class HolidayDialog  {
   contenTable:   any = [];
   fec_in: any = [];
   days: any = [];
-  totalFin: any= [];
-  prue: any =[];
-  prue2: any =[];
+  stateVac:any = [];
+
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -92,7 +92,7 @@ export class HolidayDialog  {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
-    public dialogRef: MatDialogRef<HolidayDialog>,
+    public dialogRef: MatDialogRef<AcceptanceDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -100,7 +100,7 @@ export class HolidayDialog  {
     private uploadFileService: NovedadesnominaServices
   ) {
     this.view = this.data.window;
-    this.idSel = null;
+    this.idHol = null;
 
     switch (this.view) {
       case "create":
@@ -110,21 +110,21 @@ export class HolidayDialog  {
         this.people = this.data.id
         console.log('==cc>',this.document)
         console.log('==id>',this.people)
-        this.sendRequest();
+        // this.sendRequest();
 
 
         this.title = "Solicitud de Vacaciones";
       break;
       case "update":
-        this.idSel = this.data.codigo;
-        // console.log('idsel=>',this.createUs);
+        this.idHol = this.data.codigo;
+        console.log('idHol=>',this.data);
         this.initForms();
-        this.title = "Actualizar Requisición";
+        this.title = "Aprobar Solicitud";
       break;
       case "view":
-        this.idSel = this.data.codigo;
+        this.idHol = this.data.codigo;
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idHol, {
           token: this.cuser.token,
           idUser: this.cuser.iduser,
           modulo: this.component
@@ -132,7 +132,7 @@ export class HolidayDialog  {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection);
+              console.log('==>',this.selection.car_sol);
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -168,39 +168,8 @@ export class HolidayDialog  {
 
         if (data.success == true) {
 
-          this.generateTableVac(data.data["getSelectData"]['vac']);
           this.contenTable = data.data["getSelectData"]['vac'];
-          // console.log('',data.data["getSelectData"]);
-          // this.daysFor = data.data["getSelectData"][0];
-          // for()
-          // this.daysTo = data.data["getSelectData"][0][0].day_vac;
-          // console.log('<<',this.daysFor.length);
-          // for (let i = 0; i < this.daysFor.length; i++) {
-          //   console.log('*', this.daysFor[i].day_vac);
-
-          //   // this.daysFor.forEach(element => {
-          //   // for(let j of this.daysFor[0]){
-          //   //   this.total += j;
-          //   //   console.log('*',this.total);
-          //   // }
-          //   //   console.log('*',element);
-             
-  
-          //   // });
-           
-          // }
-          // this.daysFor.forEach(element => {
-
-          //   // console.log('*',element.day_vac);
-          //   this.total = element.day_vac;
-          //   console.log('*',this.total);
-
-          // });
-          this.fec_in = this.contenTable[0].admissionDate
-          // // console.log('fec_ini', this.fec_in)
-          // this.name = this.cuser.idPersonale
-          // this.username = this.cuser.username
-          // console.log('=>',this.cuser)
+          
            this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -213,41 +182,18 @@ export class HolidayDialog  {
       }
     );
   }
-  generateTableVac(data) {
-    this.displayedColumns = [
-      "view",
-      "idPersonale",
-      "idPosition",
-      "admissionDate",
-      "daysGained",
-      "daysTaken",
-      "remainingDays",
-      // "salary",
-      // "num_vac",
-      "actions", 
-    ];
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort.toArray()[0];
-    this.dataSource.paginator = this.paginator.toArray()[0];
-    let search;
-    if (document.contains(document.querySelector("search-input-table"))) {
-      search = document.querySelector(".search-input-table");
-      search.value = "";
-    }
-  }
+  
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
       document: new FormControl(this.document),
       idPersonale: new FormControl(this.people),
-      immediateBoss: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
       fec_rei: new FormControl(""),
       day_vac: new FormControl(""),
-      day_com: new FormControl(""),
-      tot_day: new FormControl(""),
-      state: new FormControl(""),
+      state:new FormControl(""),
+      sta_liq:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
    
@@ -256,7 +202,7 @@ export class HolidayDialog  {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      idSel: this.data.codigo,
+      idHol: this.data.codigo,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -266,6 +212,7 @@ export class HolidayDialog  {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
           this.position        = data.data["getPosition"];
+          this.stateVac = data.data["getStateVac"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -320,7 +267,7 @@ export class HolidayDialog  {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
-      id: this.idSel,
+      id: this.idHol,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -333,8 +280,7 @@ export class HolidayDialog  {
         this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
         this.formSelec.get("day_vac").setValue(data.data["getSelecUpdat"][0].day_vac);
-        this.formSelec.get("day_com").setValue(data.data["getSelecUpdat"][0].day_com);
-        this.formSelec.get("immediateBoss").setValue(data.data["getSelecUpdat"][0].immediateBoss);
+        this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
       },
       (error) => {
         this.handler.showError();
@@ -347,11 +293,11 @@ export class HolidayDialog  {
     let body = {
       listas: this.formSelec.value,
      
-        //  id: this.idSel
+        //  id: this.idHol
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idHol,body,{
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component
@@ -408,13 +354,10 @@ export class HolidayDialog  {
     if( exitsPersonal ){
       
         this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
-        this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
         // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);
        
     }        
   }
-  
-  
   showAge;
 
   ageCalculator(){
@@ -442,17 +385,18 @@ export class HolidayDialog  {
   //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
   //   }        
   // }
- 
-  // // from: any = []
-  // to: any = []
-  // daysIniMen = 0;
-  // daysIniMay = 0;
-  // daysFin = 1;
-  // totalMen = 0;
-  // totalMay = 0;
+  prue: any =[];
+  prue2: any =[];
+  // from: any = []
+  to: any = []
+  daysIniMen = 0;
+  daysIniMay = 0;
+  daysFin = 1;
+  totalMen = 0;
+  totalMay = 0;
   sumTotalMen: any = [];
-  fec_fin: any = [];
-  // ini;
+  sumTotalMay = 0;
+  ini;
   // diff = 0;
   // calculateDaysf($event){
   //   this.prue = $event;
@@ -469,16 +413,10 @@ export class HolidayDialog  {
     this.prue2 = event;
     this.calculateDays(this.prue,this.prue2);
   }
-  totalDays(event){
-    this.totalFin = event;
-    // this.totalFii(this.totalFin,this.prue2);
-}
-totalFii(){
-
-}
+ 
   calculateDays(f1, f2){
     // console.log($event)
-  var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
+  var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[0,8] ];
   // var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
   //  var festivos =  [7, 11 ];
   // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
@@ -512,7 +450,7 @@ totalFii(){
       var diaInvalido = false;
       fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
       // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
-        for (var j = 1; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
+        for (var j = 0; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
           var mesDia =mes
           // var mesDia =festivos[mes][j];// festivos2
           var ite= festivos[mesDia][j]                                                  //ejemplo
@@ -545,21 +483,12 @@ totalFii(){
       // if (diaInvalido)
       // diff++; // Si es fin de semana o festivo le sumamos un dia
   }
-  this.fec_fin = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + (fecha.getDate() - 1).toString().padStart(2,'0' );
-
-    this.sumTotalMen = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' );
-    
-    this.formSelec.get('fec_fin').setValue(this.fec_fin);
-    this.formSelec.get('fec_rei').setValue(this.sumTotalMen);
-  console.log('fin',fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + (fecha.getDate() - 1).toString().padStart(2,'0' ));
-  console.log('reint',fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ));
-  // this.totalFin = 
-  // console.log('tot',this.totalFin);
+    this.sumTotalMen = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' )
+  console.log(fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ))
+  console.log(this.sumTotalMen)
     
     
   
-      //-----------------------------------------------------------------------------------
-    
   }
     
 }
