@@ -31,22 +31,19 @@ import { empty } from "rxjs";
 import { DatePipe } from '@angular/common';
 import * as moment from "moment";
 import { exit } from "process";
+import { AdvanceDialog } from "../../../dialogs/holiday/advance/advance.dialog.component";
 
 @Component({
-  selector: "app-holiday",
-  templateUrl: "./holiday.component.html",
-  styleUrls: ["./holiday.component.css"],
+  selector: "app-advance",
+  templateUrl: "./advance.component.html",
+  styleUrls: ["./advance.component.css"],
 })
-export class HolidayComponent implements OnInit {
-  // getTotalCost() {
-  //   return this.transactions.map(t => t.cost).reduce((acc, value) => acc + value, 0);
-  // }
-  // @Input() color!: string;
-  // @Input() mensaje!: string;
+export class AdvanceComponent implements OnInit {
+  
   contenTable: any = [];
   contenTableVacation: any = [];
   loading: boolean = false;
-  endpoint: string = "/holiday";
+  endpoint: string = "/advance";
   permissions: any = null;
   displayedColumns: any = [];
   displayedColumnsVacation: any = [];
@@ -64,7 +61,6 @@ export class HolidayComponent implements OnInit {
   daysRe: any = [];
   daysFor: any = [];
   total: number = 0;
-  totalSol: number = 0;
   line: any = [];
   // showAge: number = 0;
   showAge: any = [];
@@ -81,7 +77,7 @@ export class HolidayComponent implements OnInit {
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
   
 
-  component = "/selfManagement/holiday";
+  component = "/selfManagement/advance";
 
   constructor(
     private _tools: Tools,
@@ -114,6 +110,7 @@ export class HolidayComponent implements OnInit {
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
+        console.log(data.success);
         
 
           if (data.success == true) {
@@ -124,24 +121,13 @@ export class HolidayComponent implements OnInit {
               this.generateTable(data.data["getSelectData"]["vac"]);
           
           
-       
           this.content = data.data["getSelectData"][0];
-            // console.log('fech',this.content);
           if(this.content){
               this.content.forEach(element => {
                   this.line = element.state;
                   this.laterFec = element.fec_rei;
                   this.stateVac = element.state;
                   this.ini = element.fec_ini;
-                  // console.log("total state =>",element.state + "total dias =>",element.tot_day);
-                  if(element.state == '79/2'){
-                    // this.totalSol= element.tot_day;
-                    // console.log("=>",(this.totalSol))
-                    this.totalSol= this.content.map(item => item.tot_day).reduce((prev, curr) => prev + curr, 0);
-                  }
-                  
-                  // console.log("total dias =>",this.totalSol)
-
               });
           }
 
@@ -154,11 +140,8 @@ export class HolidayComponent implements OnInit {
           for (let i = 0; i < this.daysFor.length; i++) {
             // console.log('*', this.daysFor[i].day_vac);
 
-            // this.total = this.total + this.daysFor[i].day_vac;
-            if(this.daysFor){
-              this.total = this.total + this.daysFor[i].state;
+            this.total = this.total + this.daysFor[i].day_vac;
 
-            }
           }
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
@@ -216,23 +199,19 @@ export class HolidayComponent implements OnInit {
      var timeDiff = Math.abs(Date.now() - convertAge.getTime());
     //  console.log(timeDiff)
       // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
-      this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24)); //* todos los dias laborados hasta la fecha
+      this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24)); //todos los dias laborados hasta la fecha
   // console.log(this.showAge)
   // console.log((this.showAge*15)/360)
   this.days = ((this.showAge*15)/360); // dias proporcionales de vacaciones
 }
-  calculateDaysRest(totDays,state,adv){
-    if(totDays){
-      // console.log("=>", adv);
-      this.totalDays = ( this.days - totDays);
-      // this.totalDays = ( this.days - adv);
-    // }else if(state =='79/2'){
-    //   this.totalDays = ( this.days - adv);
-
-    }else{
-      this.totalDays = 0 ; // Dias restanstes
-    }
-    // ( state == '79/2')? this.totalDays = ( this.days - totDays):  this.totalDays = 0 ;
+  calculateDaysRest(totDays){
+    // if(state == '79/2'){
+    //   console.log(totDays,"=>", state);
+    //   this.totalDays = ( this.days - totDays) 
+    // }else{
+    //   this.totalDays = 0 ; // Dias restanstes
+    // }
+    ( totDays)? this.totalDays = ( this.days - totDays):  this.totalDays = 0 ;
   }
   
   option(action, codigo = null, id, create_User) {
@@ -252,7 +231,7 @@ export class HolidayComponent implements OnInit {
           // }
 
         this.loading = true;
-        dialogRef = this.dialog.open(HolidayDialog, {
+        dialogRef = this.dialog.open(AdvanceDialog, {
           data: {
             window: "create",
             codigo: this.username,
@@ -277,7 +256,7 @@ export class HolidayComponent implements OnInit {
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog, {
+        dialogRef = this.dialog.open(AdvanceDialog, {
           data: {
             window: "update",
             codigo,
@@ -314,6 +293,7 @@ export class HolidayComponent implements OnInit {
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
+        console.log(data.success);
 
         if (data.success == true) {
           this.generateTableVacation(data.data["getSelectData"][0]);
@@ -344,8 +324,8 @@ export class HolidayComponent implements OnInit {
       "idPersonale",
       // "immediateBoss",
       "fec_ini",
-      "day_vac",
-      "day_com",
+      // "day_vac",
+      // "day_com",
       "day_adv",
       "fec_rei",
       "state",
@@ -380,7 +360,7 @@ export class HolidayComponent implements OnInit {
 
         this.loading = true;
 
-        dialogRef = this.dialog.open(HolidayDialog, {
+        dialogRef = this.dialog.open(AdvanceDialog, {
           data: {
             window: "create",
             codigo: this.username,
@@ -402,7 +382,7 @@ export class HolidayComponent implements OnInit {
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog, {
+        dialogRef = this.dialog.open(AdvanceDialog, {
           data: {
             window: "update",
             codigo,
@@ -426,7 +406,7 @@ export class HolidayComponent implements OnInit {
 
       case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(HolidayDialog, {
+        dialogRef = this.dialog.open(AdvanceDialog, {
           data: {
             window: "view",
             codigo,

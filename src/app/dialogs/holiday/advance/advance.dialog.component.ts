@@ -1,4 +1,3 @@
-
 import {
   MatDialog,
   MatDialogRef,
@@ -35,6 +34,7 @@ import * as moment from "moment";
 import { element } from "protractor";
 import { exit } from "process";
 import { MatPaginator } from "@angular/material/paginator";
+import { calculateDays } from "../../../services/holiday.service";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -48,22 +48,22 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-acceptance.dialog',
-  templateUrl: './acceptance.dialog.component.html',
-  styleUrls: ['./acceptance.dialog.component.css']
+  selector: 'app-advance',
+  templateUrl: './advance.dialog.component.html',
+  styleUrls: ['./advance.dialog.component.css']
 })
-export class AcceptanceDialog  {
+export class AdvanceDialog  {
 
-  endpoint: string = "/acceptance";
+  endpoint: string = "/advance";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
   permissions: any = null;
   formSelec: FormGroup;
   selection: any = [];
-  idHol: number = null;
+  idSel: number = null;
   rol: number;
-  component = "/selfManagement/acceptance";
+  component = "/selfManagement/advance";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -72,8 +72,7 @@ export class AcceptanceDialog  {
   };
   //History
   historyMon: any = [];
-  check: boolean;
-  checkS: boolean;
+  check: 0;
   displayedColumns: any = [];
   PersonaleInfo: any = [];
   document: any = [];
@@ -82,10 +81,19 @@ export class AcceptanceDialog  {
   contenTable:   any = [];
   fec_in: any = [];
   days: any = [];
-  stateVac:any = [];
-  stateAnt:any = [];
-  advance: any = [];
-  totalSol: any = [];
+  totalFin: any= [];
+  prue: any =[];
+  prue2: any =[];
+  laterFec:any = [];
+  fe: any = [];
+  totaLfecHol: any = [];
+  sumTotalMen: any = [];
+  fec_fin: any = [];
+  jefe: any = [];
+  exitsPersonal: any = [];
+  name: any = [];
+  stateVac: any = [];
+  ini: any = [];
   checkAvd: boolean;
   checkSol: boolean;
   public clickedRows;
@@ -97,47 +105,47 @@ export class AcceptanceDialog  {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
-    public dialogRef: MatDialogRef<AcceptanceDialog>,
+    public dialogRef: MatDialogRef<AdvanceDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
+    private holiday: calculateDays,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
     private uploadFileService: NovedadesnominaServices
   ) {
     this.view = this.data.window;
-    this.idHol = null;
+    this.idSel = null;
 
     switch (this.view) {
       case "create":
         this.initForms();
-        this.document = this.data.codigo
-        this.people = this.data.id
-       
-        // this.sendRequest();
-
-
-        this.title = "Solicitud de Vacaciones";
+        this.document = this.cuser.username;
+        this.document;
+        this.stateVac = this.data.state;
+        this.ini = this.data.ini;
+        // (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
+        this.people = this.cuser.idPersonale;
+        this.title = "Anticipo de Vacaciones";
       break;
       case "update":
-        this.idHol = this.data.codigo;
+        this.idSel = this.data.codigo;
         this.initForms();
-        this.title = "Aprobar Solicitud";
+        this.title = "Actualizar Requisición";
       break;
       case "view":
-        this.idHol = this.data.codigo;
+        this.idSel = this.data.codigo;
         this.title = "Información General"
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idHol, {
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
           token: this.cuser.token,
           idUser: this.cuser.iduser,
           modulo: this.component
         }).subscribe(
           (data) => {
             if (data.success == true) {
-              this.selection = data.data["getSelecUpdat"][0];
+              this.selection = data.data["getSelectData"][0];
               (this.selection.day_adv)? this.checkAvd = true: this.checkAvd = false;
               (this.selection.tot_day)? this.checkSol = true: this.checkSol = false;
-              // console.log('==>',this.selection.car_sol);
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -154,54 +162,23 @@ export class AcceptanceDialog  {
         break;
     }
   }
-  sendRequest() {
-     this.loading.emit(true);
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "getSelection",
-      idUser: this.cuser.iduser,
-      token: this.cuser.token,
-      modulo: this.component,
-      role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale,
-
-    }).subscribe(
-      (data) => {
-        this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
-
-        if (data.success == true) {
-
-          this.contenTable = data.data["getSelectData"]['vac'];
-          
-           this.loading.emit(false);
-        } else {
-          this.handler.handlerError(data);
-           this.loading.emit(false);
-        }
-      },
-      (error) => {
-        this.handler.showError("Se produjo un error");
-           this.loading.emit(false);
-      }
-    );
-  }
   
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      document: new FormControl(this.document),
-      idPersonale: new FormControl(this.people),
+      document: new FormControl(""),
+      idPersonale: new FormControl(""),
+      immediateBoss: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
       fec_rei: new FormControl(""),
-      day_vac: new FormControl(""),
+      day_com: new FormControl( ),
       tot_day: new FormControl(""),
+      day_vac: new FormControl(""),
       day_adv: new FormControl(""),
-      state:new FormControl(""),
-      total_adv:new FormControl(""),
-      sta_liq:new FormControl(""),
+      state: new FormControl(""),
+      type_sol:new FormControl(""),
+      obc_ant: new FormControl(""),
       obc_apr:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
@@ -211,7 +188,7 @@ export class AcceptanceDialog  {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      idHol: this.data.codigo,
+      idSel: this.data.codigo,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -220,9 +197,12 @@ export class AcceptanceDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
+          // console.log(this.PersonaleInfo);
+        //  this.exitsPersonal = this.PersonaleInfo.find(element => element.idPersonale == this.cuser.idPersonale);
+        //  this.name = this.exitsPersonal.jef_idPersonale;
+        //  console.log(this.exitsPersonal);
+
           this.position        = data.data["getPosition"];
-          this.stateVac = data.data["getStateVac"].slice(0,3);
-          this.stateAnt = data.data["getStateVac"].slice(2,4);
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -241,6 +221,7 @@ export class AcceptanceDialog  {
   }
   onSubmit() {
     if (this.formSelec.valid) {
+      this.formSelec.value.type_sol = '	79/4';
       this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
@@ -272,11 +253,11 @@ export class AcceptanceDialog  {
     }
   }
   getDataUpdate() {
-
+    
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
-      id: this.idHol,
+      id: this.idSel,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -289,15 +270,9 @@ export class AcceptanceDialog  {
         this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
         this.formSelec.get("day_vac").setValue(data.data["getSelecUpdat"][0].day_vac);
-        this.formSelec.get("day_adv").setValue(data.data["getSelecUpdat"][0].day_adv);
-        this.formSelec.get("tot_day").setValue(data.data["getSelecUpdat"][0].tot_day);
-        this.formSelec.get("total_adv").setValue(data.data["getSelecUpdat"][0].total_adv);
-        this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
-        this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
-        this.advance = (data.data["getSelecUpdat"][0].day_adv);
-        // console.log(this.advance);
-        (this.totalSol)? this.checkS = true: this.checkS = false;
-        (this.advance)? this.check = true: this.check = false;
+        this.formSelec.get("day_com").setValue(data.data["getSelecUpdat"][0].day_com);
+        this.formSelec.get("type_sol").setValue(data.data["getSelecUpdat"][0].type_sol);
+        this.formSelec.get("immediateBoss").setValue(data.data["getSelecUpdat"][0].immediateBoss);
       },
       (error) => {
         this.handler.showError();
@@ -310,11 +285,11 @@ export class AcceptanceDialog  {
     let body = {
       listas: this.formSelec.value,
      
-        //  id: this.idHol
+        //  id: this.idSel
     }
     if (this.formSelec.valid) {
       this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idHol,body,{
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component
@@ -367,15 +342,40 @@ export class AcceptanceDialog  {
        
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
-    if( exitsPersonal ){
-      
+    if( exitsPersonal ){    
         this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
-        // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);
-       
+        this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
+        // this.jefe =this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
+        this.laterFec = exitsPersonal.fec_rei;
+        this.formSelec.get('day_vac').setValue(0);
+        this.formSelec.get('day_com').setValue(0);
+        // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);  
     }        
   }
   
-    
+  calculate1(event){
+    this.prue = event;
+    // this.calculateDays(this.prue,this.prue2);
+    this.holiday.holiday(this.prue,this.prue2);
+  }
+   calculate(event){  
+    this.prue2 = event;
+    // this.calculateDays(this.prue,this.prue2);
+    this.holiday.holiday(this.prue,this.prue2);
+
+    this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+    this.fec_fin = this.totaLfecHol[0];
+    this.sumTotalMen = this.totaLfecHol[1];
+    this.formSelec.get('fec_fin').setValue(this.fec_fin);
+    this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+    // this.formSelec.get('immediateBoss').setValue(this.jefe);
+
+  }
+  totalDays(event){
+    this.totalFin = event;
+     // this.totalFii(this.totalFin,this.prue2);
+}
+  
 }
 
   

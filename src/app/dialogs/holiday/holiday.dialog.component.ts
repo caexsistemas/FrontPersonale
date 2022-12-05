@@ -34,6 +34,7 @@ import * as moment from "moment";
 import { element } from "protractor";
 import { exit } from "process";
 import { MatPaginator } from "@angular/material/paginator";
+import { calculateDays } from "../../services/holiday.service";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -47,7 +48,7 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-holiday.dialog',
+  selector: 'app-holiday',
   templateUrl: './holiday.dialog.component.html',
   styleUrls: ['./holiday.dialog.component.css']
 })
@@ -83,6 +84,19 @@ export class HolidayDialog  {
   totalFin: any= [];
   prue: any =[];
   prue2: any =[];
+  laterFec:any = [];
+  fe: any = [];
+  totaLfecHol: any = [];
+  sumTotalMen: any = [];
+  fec_fin: any = [];
+  jefe: any = [];
+  exitsPersonal: any = [];
+  name: any = [];
+  stateVac: any = [];
+  ini: any = [];
+  comp: any = [];
+  checkAvd: boolean;
+  checkSol: boolean;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -95,6 +109,7 @@ export class HolidayDialog  {
     public dialogRef: MatDialogRef<HolidayDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
+    private holiday: calculateDays,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
     private uploadFileService: NovedadesnominaServices
@@ -105,24 +120,22 @@ export class HolidayDialog  {
     switch (this.view) {
       case "create":
         this.initForms();
-        console.log('==>',this.data)
-        this.document = this.data.codigo
-        this.people = this.data.id
-        console.log('==cc>',this.document)
-        console.log('==id>',this.people)
-        this.sendRequest();
-
-
+        this.document = this.cuser.username;
+        this.document;
+        this.stateVac = this.data.state;
+        this.ini = this.data.ini;
+        (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
+        this.people = this.cuser.idPersonale;
         this.title = "Solicitud de Vacaciones";
       break;
       case "update":
         this.idSel = this.data.codigo;
-        // console.log('idsel=>',this.createUs);
         this.initForms();
         this.title = "Actualizar Requisición";
       break;
       case "view":
         this.idSel = this.data.codigo;
+        this.title = "Información General"
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
           token: this.cuser.token,
@@ -132,7 +145,8 @@ export class HolidayDialog  {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection);
+              (this.selection.day_adv)? this.checkAvd = true: this.checkAvd = false;
+              (this.selection.tot_day)? this.checkSol = true: this.checkSol = false;
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -149,103 +163,19 @@ export class HolidayDialog  {
         break;
     }
   }
-  sendRequest() {
-     this.loading.emit(true);
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "getSelection",
-      idUser: this.cuser.iduser,
-      token: this.cuser.token,
-      modulo: this.component,
-      role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
-      idPersonale:this.cuser.idPersonale,
-
-    }).subscribe(
-      (data) => {
-        this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
-
-        if (data.success == true) {
-
-          this.generateTableVac(data.data["getSelectData"]['vac']);
-          this.contenTable = data.data["getSelectData"]['vac'];
-          // console.log('',data.data["getSelectData"]);
-          // this.daysFor = data.data["getSelectData"][0];
-          // for()
-          // this.daysTo = data.data["getSelectData"][0][0].day_vac;
-          // console.log('<<',this.daysFor.length);
-          // for (let i = 0; i < this.daysFor.length; i++) {
-          //   console.log('*', this.daysFor[i].day_vac);
-
-          //   // this.daysFor.forEach(element => {
-          //   // for(let j of this.daysFor[0]){
-          //   //   this.total += j;
-          //   //   console.log('*',this.total);
-          //   // }
-          //   //   console.log('*',element);
-             
   
-          //   // });
-           
-          // }
-          // this.daysFor.forEach(element => {
-
-          //   // console.log('*',element.day_vac);
-          //   this.total = element.day_vac;
-          //   console.log('*',this.total);
-
-          // });
-          this.fec_in = this.contenTable[0].admissionDate
-          // // console.log('fec_ini', this.fec_in)
-          // this.name = this.cuser.idPersonale
-          // this.username = this.cuser.username
-          // console.log('=>',this.cuser)
-           this.loading.emit(false);
-        } else {
-          this.handler.handlerError(data);
-           this.loading.emit(false);
-        }
-      },
-      (error) => {
-        this.handler.showError("Se produjo un error");
-           this.loading.emit(false);
-      }
-    );
-  }
-  generateTableVac(data) {
-    this.displayedColumns = [
-      "view",
-      "idPersonale",
-      "idPosition",
-      "admissionDate",
-      "daysGained",
-      "daysTaken",
-      "remainingDays",
-      // "salary",
-      // "num_vac",
-      "actions", 
-    ];
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort.toArray()[0];
-    this.dataSource.paginator = this.paginator.toArray()[0];
-    let search;
-    if (document.contains(document.querySelector("search-input-table"))) {
-      search = document.querySelector(".search-input-table");
-      search.value = "";
-    }
-  }
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      document: new FormControl(this.document),
-      idPersonale: new FormControl(this.people),
+      document: new FormControl(this.cuser.username),
+      idPersonale: new FormControl(this.cuser.idPersonale),
       immediateBoss: new FormControl(""),
       fec_ini: new FormControl(""),
       fec_fin: new FormControl(""),
       fec_rei: new FormControl(""),
       day_vac: new FormControl(""),
-      day_com: new FormControl(""),
+      day_adv: new FormControl(""),
+      day_com: new FormControl( ),
       tot_day: new FormControl(""),
       state: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
@@ -265,6 +195,12 @@ export class HolidayDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
+          // console.log(this.PersonaleInfo);
+         this.exitsPersonal = this.PersonaleInfo.find(element => element.idPersonale == this.cuser.idPersonale);
+         this.name = this.exitsPersonal.jef_idPersonale;
+         this.formSelec.get('day_adv').setValue(0);
+        //  console.log(this.exitsPersonal);
+
           this.position        = data.data["getPosition"];
 
           if (this.view == "update") {
@@ -284,12 +220,12 @@ export class HolidayDialog  {
   }
   onSubmit() {
     if (this.formSelec.valid) {
+      this.formSelec.value.immediateBoss = this.name
       this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
         
       };
-      console.log('req=>',body);
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
@@ -316,7 +252,7 @@ export class HolidayDialog  {
     }
   }
   getDataUpdate() {
-
+    
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateSet",
@@ -403,165 +339,54 @@ export class HolidayDialog  {
         
        
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-    console.log(exitsPersonal);
+    // console.log(exitsPersonal);
   
-    if( exitsPersonal ){
-      
-        this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
+    if( exitsPersonal ){    
+        // this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
         this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
-        // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);
-       
+
+        // this.jefe =this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
+        
+        // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);  
     }        
   }
   
-  
-  showAge;
-
-  ageCalculator(){
-    if(this.fec_in){
-      const convertAge = new Date(this.fec_in);
-      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-       this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-       return this.days = ( this.showAge*15)
-      console.log('===',this.showAge)
-    }else{
-      // return this.showAge = 0
-    }
-  }
-  // mat:boolean= false;
-  mat =RequiredValidator;
-  // onSelectMat(e){
-  //   console.log('mat=>',e)
-  //   this.mat = e
-
-  // }
-  // onSelectionPerson(event){
-  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  
-  //   if( exitsPersonal ){
-  //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-  //   }        
-  // }
- 
-  // // from: any = []
-  // to: any = []
-  // daysIniMen = 0;
-  // daysIniMay = 0;
-  // daysFin = 1;
-  // totalMen = 0;
-  // totalMay = 0;
-  sumTotalMen: any = [];
-  fec_fin: any = [];
-  // ini;
-  // diff = 0;
-  // calculateDaysf($event){
-  //   this.prue = $event;
-  //   this.calculateDays(this.prue);
-  // }
-  acum= 0;
-  restar = 0;
-  // element: any=[]
   calculate1(event){
     this.prue = event;
-    this.calculateDays(this.prue,this.prue2);
+    // this.calculateDays(this.prue,this.prue2);
+    this.holiday.holiday(this.prue,this.prue2);
   }
-  calculate(event){
+   calculate(event){  
     this.prue2 = event;
-    this.calculateDays(this.prue,this.prue2);
-  }
-  totalDays(event){
-    this.totalFin = event;
-    // this.totalFii(this.totalFin,this.prue2);
-}
-totalFii(){
+    // this.calculateDays(this.prue,this.prue2);
+    this.totalDays(this.prue2,this.comp);
+    this.holiday.holiday(this.prue,this.prue2);
 
-}
-  calculateDays(f1, f2){
-    // console.log($event)
-  var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] ];
-  // var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
-  //  var festivos =  [7, 11 ];
-  // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
-
-  // console.log('==',this.formSelec.value.fec_in) $('#item2')
-    // var ini = moment(this.formSelec.value.fec_ini);
-    var ini = moment(f1);
-    var ini2 = (f1);
-    console.log('****',ini)
-    // console.log('==',ini.toObject().date) // obetener el dia del mes
-    
-    // var fin = moment(this.formSelec.value.fec_fin);
-    var fin = moment(f2);
-    var fin2 = (this.formSelec.value.fec_fin);
-    // console.log('****',fin)
-
-    // var diff = fin.diff(ini,'days');
-    var diff = f2;
-    console.log('****',diff);
-
-    var arrFecha = ini2.split('-');
-    console.log('****',arrFecha[1]);
-    var mes = ini.month() ;
-    var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
-    console.log(fecha)
-
-    for (var i = 0; i < diff; i++) {
-      // var from = (Array.from( festivos ))
-      // console.log('=>',festivos[mes]);
-
-      var diaInvalido = false;
-      fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
-      // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
-        for (var j = 1; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
-          var mesDia =mes
-          // var mesDia =festivos[mes][j];// festivos2
-          var ite= festivos[mesDia][j]                                                  //ejemplo
-          // var mesDia = from[mes][j];
-          // console.log('=>', ite);
-          // console.log('=>', fecha.getMonth());
-          // console.log('=>', festivos[mes].length);
-          // if(fecha.getDate() == festivos[mes][j]){
-          //   console.log(true)
-          // }
-          if (fecha.getMonth()   == mesDia && fecha.getDate() == ite) {
-            console.log(true);
-              console.log(fecha.getDate() + ' es dia festivo (Sumamos un dia)');
-              diaInvalido = true;
-              break;
-          }else if( fecha.getDay() == 0) { // Verificamos si es domingo
-                console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
-                diaInvalido = true;
-
-            }
-      (diaInvalido)? diff++ : '';
-
-      };
-
-    
-      // if ( fecha.getDay() == 0) { // Verificamos si es domingo
-      //     console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
-      //     diaInvalido = true;
-      // }
-      // if (diaInvalido)
-      // diff++; // Si es fin de semana o festivo le sumamos un dia
-  }
-  this.fec_fin = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + (fecha.getDate() - 1).toString().padStart(2,'0' );
-
-    this.sumTotalMen = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' );
-    
+    this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+    this.fec_fin = this.totaLfecHol[0];
+    this.sumTotalMen = this.totaLfecHol[1];
     this.formSelec.get('fec_fin').setValue(this.fec_fin);
-    this.formSelec.get('fec_rei').setValue(this.sumTotalMen);
-  console.log('fin',fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + (fecha.getDate() - 1).toString().padStart(2,'0' ));
-  console.log('reint',fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ));
-  // this.totalFin = 
-  // console.log('tot',this.totalFin);
-    
-    
-  
-      //-----------------------------------------------------------------------------------
-    
+    this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+    // this.formSelec.get('immediateBoss').setValue(this.jefe);
+
   }
-    
+  daysCom(event){
+    this.comp = event;
+    this.totalDays(this.prue2,this.comp);
+
+  }
+  totalDays(d1,d2){
+    // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
+    this.totalFin = (d1+d2);
+    // console.log("total dias solicitados =>",this.totalFin);
+    if(this.totalFin > 15){
+      this.handler.showError("No puedes solicitar mas de 15 dias!");
+      this.reload.emit();
+      this.loading.emit(false);
+    }
+     // this.totalFii(this.totalFin,this.prue2);
+}
+  
 }
 
   

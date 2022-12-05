@@ -1,25 +1,27 @@
 .example-container {
   height: 400px;
-  width: 650px;
-  max-width: 100%;
+  width: 540px;
+  max-width: 200%;
   overflow: auto;
+  
 }
 
 table {
-  width: 1000px;
+  width: 800px;
 }
 
 td.mat-column-star {
-  width: 40px;
+  width: 20px;
   padding-right: 8px;
 }
 
 th.mat-column-position, td.mat-column-position {
-  padding-left: 30px;
+  padding-left: 4px;
 }
 
 .mat-table-sticky-border-elem-right {
   border-left: 1px solid #e0e0e0;
+  /* border-left: 1px solid #f30000; */
 }
 
 .mat-table-sticky-border-elem-left {

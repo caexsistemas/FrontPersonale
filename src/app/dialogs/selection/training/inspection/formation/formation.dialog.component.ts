@@ -47,7 +47,7 @@ export interface PeriodicElement {
 })
 
 export class FormationDialog {
-  endpoint: string = "/requisition";
+  endpoint: string = "/Assignment";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
@@ -62,8 +62,8 @@ export class FormationDialog {
   idSel: number = null;
   rol: number;
   typeMatriz: any = [];
-  // component = "/selection/training";
-  component = "/selection/requisition";
+  component = "/selection/assignment";
+  // component = "/selection/requisition";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -82,7 +82,8 @@ export class FormationDialog {
   typeFormation: any = [];
   idUser: number = null;
   nomi: boolean;
-
+  idIns: number = null;
+  idvac: number = null;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -112,6 +113,9 @@ export class FormationDialog {
       case "state":
         this.idSel = this.data.codigo;
         console.log('=state=>',this.data)
+        this.idIns = this.data.isnp;
+        this.idvac = this.data.codigo;
+
         this.initForms();
         this.title = "Actualizar Formación";
       break;
@@ -157,28 +161,59 @@ export class FormationDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      document: new FormControl(""),
-      aprobacion1: new FormControl(""),
-      aprobacion2:new FormControl(""),
-      aprobacion3:new FormControl(""),
+      // car_sol: new FormControl(""),
+      // num_vac: new FormControl(""),
+      // salary: new FormControl(""),
+      // tip_req: new FormControl(""),
+      // matrizarp: new FormControl(""),
+      // justification: new FormControl(""),
       state: new FormControl(""),
-      // est_for: new FormControl(""),
+      aprobacion1: new FormControl(""),
+      aprobacion2: new FormControl(""),
+      aprobacion3: new FormControl(""),
+      day_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
+
+    });this.formVac = new FormGroup({
+      // fec_sel:  new FormControl(""),
+      // tip_doc: new FormControl(""),
+      // document: new FormControl(""),
+      // nom_com: new FormControl(""),
+      // birthDate: new FormControl(""),
+      // ciu_nac: new FormControl(""),
+      // dep_nac: new FormControl(""),
+      // are_tra: new FormControl(""),
+      // car_sol: new FormControl(""),
+      // eps: new FormControl(""),
+      // pension: new FormControl(""),
+      // obs_vac: new FormControl(""),
+      create_User: new FormControl(this.cuser.iduser),
+      con_fin: new FormControl(""),
+      // idGender: new FormControl(""),
+      // age: new FormControl(""),
+      // idsel: new FormControl(this.idTec)
     });
     this.formTraining = new FormGroup({
-      idPersonale: new FormControl(""),
+      tip_for: new FormControl(""),
+      cod_grup: new FormControl(""),
+      grupo: new FormControl(""),
+      metodologia: new FormControl(""),
       document: new FormControl(""),
-      est: new FormControl(""),
-      day_for: new FormControl(""),
+      idPersonale: new FormControl(""),
       fec_ini: new FormControl(""),
+      fec_fin: new FormControl(""),
+      est: new FormControl(""),
+      idsel: new FormControl(""),
+      day_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
-    });
-    this.formInsp = new FormGroup({
-      create_User: new FormControl(this.cuser.iduser),
-    });
-    this.formVac = new FormGroup({
-      create_User: new FormControl(this.cuser.iduser),
-    });
+
+
+    });this.formInsp = new FormGroup({
+     
+      idsel: new FormControl(this.idSel),
+    create_User: new FormControl(this.cuser.iduser),
+
+  });
   }
   getDataInit() {
     this.loading.emit(false);
@@ -213,47 +248,12 @@ export class FormationDialog {
       }
     );
   }
-  // onSubmit() {
-  //   if (this.formSelec.valid) {
-  //     this.loading.emit(true);
-  //     let body = {
-  //       listas: this.formSelec.value,
-  //       formacion: this.formTraining.value,
-  //       // segui: this.formInsp.value,
-  //       vacant: this.formVac.value,
-  //       // seguimiento: this.formInsp.value
-  //     };
-  //     console.log('req=>',body);
-  //     this.WebApiService.postRequest(this.endpoint, body, {
-  //       token: this.cuser.token,
-  //       idUser: this.cuser.iduser,
-  //       modulo: this.component
-  //     }).subscribe(
-  //       (data) => {
-  //         if (data.success) {
-  //           this.handler.showSuccess(data.message);
-  //           this.reload.emit();
-  //           this.closeDialog();
-  //         } else {
-  //           this.handler.handlerError(data);
-  //           this.loading.emit(false);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.handler.showError();
-  //         this.loading.emit(false);
-  //       }
-  //     );
-  //   } else {
-  //     this.handler.showError("Complete la informacion necesaria");
-  //     this.loading.emit(false);
-  //   }
-  // }
+ 
   getDataUpdate() {
 
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamUpdateSet",
+      action: "getTrainUpdateSet",
       id: this.idSel,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
@@ -268,9 +268,9 @@ export class FormationDialog {
         // this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
         // this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
         // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
-        this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
-        this.formSelec.get("est_for").setValue(data.data["getSelecUpdat"][0].est_for);
+        // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
+        // this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
+        // this.formSelec.get("est_for").setValue(data.data["getSelecUpdat"][0].est_for);
 
         this.formTraining.get("est").setValue(data.data["getSelecUpdat"][0].est);
       },
@@ -283,14 +283,12 @@ export class FormationDialog {
   onSubmitUpdate(){
 
     let body = {
-      listas: this.formSelec.value,
-      formacion: this.formTraining.value,
-      // segui: this.formInsp.value,
-      vacant: this.formVac.value,
-      seguimiento: this.formInsp.value
-        //  id: this.idSel
+        listas: this.formSelec.value,  
+        formacion: this.formTraining.value, 
+        vacant: this.formVac.value,
+        seguimiento: this.formInsp.value
     }
-    if (this.formSelec.valid) {
+    if (this.formTraining.valid) {
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint+'/'+this.idSel,body,{
         token: this.cuser.token,

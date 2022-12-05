@@ -49,7 +49,7 @@ export interface PeriodicElement {
 })
 
 export class TrainerDataDialog {
-  endpoint: string = "/requisition";
+  endpoint: string = "/Assignment";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;

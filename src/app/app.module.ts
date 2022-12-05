@@ -113,6 +113,7 @@ import { SelfManagementComponent } from './views/selfManagement/selfManagement.c
 import { HolidayDialog } from './dialogs/holiday/holiday.dialog.component';
 import { AcceptanceDialog } from './dialogs/holiday/acceptance/acceptance.dialog.component';
 import { LiquidationDialog } from './dialogs/holiday/liquidation/liquidation.dialog.component';
+import { AdvanceDialog } from './dialogs/holiday/advance/advance.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -219,7 +220,8 @@ const routes: Routes = [];
     SelfManagementComponent,
     HolidayDialog,
     AcceptanceDialog,
-    LiquidationDialog
+    LiquidationDialog,
+    AdvanceDialog
   
   ],
   providers: [{

@@ -50,7 +50,8 @@ export interface PeriodicElement {
 })
 
 export class InspectionDialog {
-  endpoint: string = "/vacant";
+  endpoint: string = "/training";
+  // endpoint: string = "/vacant";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
@@ -66,7 +67,8 @@ export class InspectionDialog {
   idSel: number = null;
   rol: number;
   typeMatriz: any = [];
-  component = "/selection/assignment";
+  component      = "/selection/training";
+  // component = "/selection/assignment";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -112,6 +114,7 @@ export class InspectionDialog {
   noAsistt = 0;
   tto = 0;
   ex = 0;
+  idIns: number = null;
   // ---------------------
 
   public clickedRows;
@@ -151,6 +154,7 @@ export class InspectionDialog {
         this.idvac = this.data.codigo;
         this.name = this.data.name;
         this.num = this.data.num;
+        this.idIns = this.data.isnp;
         console.log('id',this.data)
         this.idreq = this.data.id
         this.stateReq = this.data.state
@@ -246,7 +250,8 @@ export class InspectionDialog {
       des_can: new FormControl(""),
       asp_pos: new FormControl(""),
       asp_for: new FormControl(""),
-      mot_no: new FormControl("")
+      mot_no: new FormControl(""),
+      idins: new FormControl(this.idIns),
     });
       this.formInsp = new FormGroup({
         day1: new FormControl(""),
