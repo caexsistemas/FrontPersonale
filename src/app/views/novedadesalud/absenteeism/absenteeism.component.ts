@@ -335,16 +335,17 @@ export class AbsenteeismComponent implements OnInit {
     var fechaFin = fecha_date+' '+fecha_time[0];
     //Se Compara Fecha Actual 
     var hoy = new Date();
-    var fechAct = hoy.getFullYear() +'-'+ ( hoy.getMonth() + 1 ) +'-'+ hoy.getDate();
+    var fechAct = hoy.getFullYear() +'-'+ `0${hoy.getMonth() + 1}`.slice(-2) +'-'+ `0${hoy.getDate()}`.slice(-2);
     var horAtc = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
     var timeActu = fechAct+' '+horAtc;
     //Validacion
     if( timeActu >= fechaing && timeActu <= fechaFin ){
       this.tmajust = true;
+
     }else{
       this.tmajust = false;
     }
-    //Proceso  
+      //Proceso  
       /*console.log('------------');
       console.log(fechaing);
       console.log(fechaFin);
