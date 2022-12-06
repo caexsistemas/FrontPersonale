@@ -8,6 +8,8 @@ export class calculateDays {
     constructor() {
     }
     holiday(f1, f2){
+
+      if(f1 && f2){
         var festivos  = [
             [9,1],
             [20,3],
@@ -79,6 +81,10 @@ export class calculateDays {
     // console.log('reint',fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ));
   
         return [fec_fin, sumTotalMen ];
+      }else{
+        false;
+      }
+        
     }
     
   

@@ -60,19 +60,19 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Disfrutar</mat-label>
-                <input matInput formControlName="day_vac" value="day_vac" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1"  required>
+                <input matInput formControlName="day_vac" value="day_vac" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue" required>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Compensar</mat-label>
-                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"required>
+                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" [readonly]="CheckTrue" required>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Total Dias Solicitados</mat-label>
-                <input matInput formControlName="tot_day" value="tot_day" [value]="totalFin" type="number">
+                <input matInput formControlName="tot_day" value="tot_day" [value]="totalFin" type="number"readonly>
               </mat-form-field>
             </div>
            
@@ -81,13 +81,13 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha Finalización</mat-label>
-                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date">
+                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date" readonly>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Reintegro</mat-label>
-                <input matInput formControlName="fec_rei" [value]="sumTotalMen" type="date">
+                <input matInput formControlName="fec_rei" [value]="sumTotalMen" type="date" readonly>
               </mat-form-field>
             </div>
           </div>

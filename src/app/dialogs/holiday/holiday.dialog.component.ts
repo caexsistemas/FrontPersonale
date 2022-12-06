@@ -97,6 +97,8 @@ export class HolidayDialog  {
   comp: any = [];
   checkAvd: boolean;
   checkSol: boolean;
+  CheckTrue:boolean = true;
+
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -352,27 +354,37 @@ export class HolidayDialog  {
   }
   
   calculate1(event){
-    this.prue = event;
-    // this.calculateDays(this.prue,this.prue2);
-    this.holiday.holiday(this.prue,this.prue2);
+      if(event){
+          this.CheckTrue = false;
+          this.prue = event;
+          // this.calculateDays(this.prue,this.prue2);
+          this.holiday.holiday(this.prue,this.prue2);
+      }
+    
   }
    calculate(event){  
-    this.prue2 = event;
-    // this.calculateDays(this.prue,this.prue2);
-    this.totalDays(this.prue2,this.comp);
-    this.holiday.holiday(this.prue,this.prue2);
-
-    this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
-    this.fec_fin = this.totaLfecHol[0];
-    this.sumTotalMen = this.totaLfecHol[1];
-    this.formSelec.get('fec_fin').setValue(this.fec_fin);
-    this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
-    // this.formSelec.get('immediateBoss').setValue(this.jefe);
+    if(event){
+        this.prue2 = event;
+        // this.calculateDays(this.prue,this.prue2);
+        this.totalDays(this.prue2,this.comp);
+        this.holiday.holiday(this.prue,this.prue2);
+    
+        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+        this.fec_fin = this.totaLfecHol[0];
+        this.sumTotalMen = this.totaLfecHol[1];
+        this.formSelec.get('fec_fin').setValue(this.fec_fin);
+        this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+        // this.formSelec.get('immediateBoss').setValue(this.jefe);
+    }
+   
 
   }
   daysCom(event){
-    this.comp = event;
-    this.totalDays(this.prue2,this.comp);
+    if(event){
+      this.comp = event;
+      this.totalDays(this.prue2,this.comp);
+    }
+    
 
   }
   totalDays(d1,d2){

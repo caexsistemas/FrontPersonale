@@ -58,13 +58,13 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias de anticipo</mat-label>
-                <input matInput formControlName="day_adv" value="day_adv" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1"  required>
+                <input matInput formControlName="day_adv" value="day_adv" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue" required>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha Finalización</mat-label>
-                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date">
+                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date" readonly>
               </mat-form-field>
             </div>
             <!-- <div class="col-sm-4">
@@ -84,7 +84,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Reintegro</mat-label>
-                <input matInput formControlName="fec_rei" [value]="sumTotalMen" type="date">
+                <input matInput formControlName="fec_rei" [value]="sumTotalMen" type="date" readonly>
               </mat-form-field>
             </div>
           </div>

@@ -26,7 +26,7 @@ import { environment } from "../../../../environments/environment";
 import { global } from "../../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { Observable, pipe } from "rxjs";
+import { empty, Observable, pipe } from "rxjs";
 import { NovedadesnominaServices } from "../../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../../services/web-api.service";
@@ -35,6 +35,7 @@ import { element } from "protractor";
 import { exit } from "process";
 import { MatPaginator } from "@angular/material/paginator";
 import { calculateDays } from "../../../services/holiday.service";
+import { exists } from "fs";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -96,6 +97,7 @@ export class AdvanceDialog  {
   ini: any = [];
   checkAvd: boolean;
   checkSol: boolean;
+  CheckTrue:boolean = true;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -354,21 +356,28 @@ export class AdvanceDialog  {
   }
   
   calculate1(event){
-    this.prue = event;
-    // this.calculateDays(this.prue,this.prue2);
-    this.holiday.holiday(this.prue,this.prue2);
-  }
+    if (event){
+      this.CheckTrue = false;
+        this.prue = event;
+        // this.calculateDays(this.prue,this.prue2);
+        this.holiday.holiday(this.prue,this.prue2);
+    }
+    }
+   
    calculate(event){  
-    this.prue2 = event;
-    // this.calculateDays(this.prue,this.prue2);
-    this.holiday.holiday(this.prue,this.prue2);
-
-    this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
-    this.fec_fin = this.totaLfecHol[0];
-    this.sumTotalMen = this.totaLfecHol[1];
-    this.formSelec.get('fec_fin').setValue(this.fec_fin);
-    this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
-    // this.formSelec.get('immediateBoss').setValue(this.jefe);
+    if(event){
+        this.prue2 = event;
+        // this.calculateDays(this.prue,this.prue2);
+        this.holiday.holiday(this.prue,this.prue2);
+    
+        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+        this.fec_fin = this.totaLfecHol[0];
+        this.sumTotalMen = this.totaLfecHol[1];
+        this.formSelec.get('fec_fin').setValue(this.fec_fin);
+        this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+        // this.formSelec.get('immediateBoss').setValue(this.jefe);
+    }
+    
 
   }
   totalDays(event){

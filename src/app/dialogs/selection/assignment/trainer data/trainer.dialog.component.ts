@@ -31,6 +31,7 @@ import { NovedadesnominaServices } from "../../../../services/novedadesnomina.se
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../../../services/web-api.service";
 import * as moment from "moment";
+import { calculateDays } from "../../../../services/holiday.service";
 interface Food {
   value: string;
   viewValue: string;
@@ -83,6 +84,15 @@ export class TrainerDataDialog {
   trainingType: any = [];
   methodology: any = [];
   stateFor: any =[];
+  prue:any = [];
+  prue2:any = [];
+  comp:any = [];
+  totaLfecHol:any = [];
+  fec_fin:any = [];
+  sumTotalMen:any = [];
+  totalFin:any = [];
+  CheckTrue:boolean = true;
+ 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -94,6 +104,7 @@ export class TrainerDataDialog {
     public dialogRef: MatDialogRef<TrainerDataDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
+    private holiday: calculateDays,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
     private uploadFileService: NovedadesnominaServices
@@ -405,55 +416,48 @@ export class TrainerDataDialog {
   }
   days = 0;
   
-  calculateDays(e){
-    console.log("day=>",e)
-    // if(e){
-    // var ini = moment(this.formTraining.value.fec_ini);
-    // let fin = moment(this.formTraining.value.fec_fin);
-  
-    // // }
-    // for (let days = 0;(ini.isAfter(fin)); days++) {
-    //   // const element = array[index];
-    //   if(ini.isoWeekday() !== 6 && ini.isoWeekday() !== 7) {
-    //     days++;
-    //   }
-    //   ini.add(1, 'days');
-    // }
-    // console.log(this.days);
-
-    // return this.days;
-      
-    // }
-    //  while (ini.isAfter(fin)) {
-    //   if(ini.isoWeekday() == 6 && ini.isoWeekday() == 0) {
-    //     this.days = this.days + 1;
-    //   }
-    //   ini.add(1, 'days');
-    // }
-    // console.log(this.days);
-
-    // return this.days;
-    //  } 
-      // Si no es sabado ni domingo
-     
-    // var days = workingDays('05/03/2018', '13/03/2018');
-    
-    let ini = moment(this.formTraining.value.fec_ini);
-    let fin = moment(this.formTraining.value.fec_fin);
-    let diff = fin.diff(ini,'d');
-      console.log(diff);
-      
-    
-
-      
-  
-    
+//   calculate1(event){
+//     if(event){
+//       this.CheckTrue = false;
+//       this.prue = event;
+//       // this.calculateDays(this.prue,this.prue2);
+//       this.holiday.holiday(this.prue,this.prue2);
+//     }
    
-    // let ini = moment(e);
-    // let fin = moment(e);
-    // let diff = fin.diff(ini, 'days');
-    // console.log(diff);
-  }
+//   }
+//    calculate(event){  
+//     if(event){
+//       this.prue2 = event;
+//       // this.calculateDays(this.prue,this.prue2);
+//       this.totalDays(this.prue2);
+//       this.holiday.holiday(this.prue,this.prue2);
+  
+//       this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+//       this.fec_fin = this.totaLfecHol[0];
+//       this.sumTotalMen = this.totaLfecHol[1];
+//       this.formTraining.get('fec_fin').setValue(this.fec_fin);
+//       // this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+//       // this.formSelec.get('immediateBoss').setValue(this.jefe);
+//     }
+    
+
+//   }
+//   // daysCom(event){
+//   //   this.comp = event;
+//   //   this.totalDays(this.prue2,this.comp);
+
+//   // }
+//   totalDays(d1){
+//     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
+//     this.totalFin = (d1);
+//     // console.log("total dias solicitados =>",this.totalFin);
+//     if(this.totalFin > 15){
+//       this.handler.showError("No puedes solicitar mas de 15 dias!");
+//       this.reload.emit();
+//       this.loading.emit(false);
+//     }
+//      // this.totalFii(this.totalFin,this.prue2);
+// }
 }
   
   
