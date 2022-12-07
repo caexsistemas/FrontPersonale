@@ -179,7 +179,7 @@ export class PreselectedDialog {
     //   aprobacion3: new FormControl(""),
     //   day_for: new FormControl(""),
       state: new FormControl(""),
-    //   can_req: new FormControl(""),
+      can_req: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
 
