@@ -114,11 +114,12 @@ export class HiringDialog {
           this.title = "Requisicion"; 
           this.stateReq = this.data.state
        break;
-       
+      
       
      }
+     
    }
-  
+   
    //---------------------------------------------------------------------------------------------
   
   

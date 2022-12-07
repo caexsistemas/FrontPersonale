@@ -84,6 +84,7 @@ export class PreselectedDialog {
   typeContract: any = [];
   stateCont:    any = [];
   contra:       any = [];
+  state: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -111,6 +112,13 @@ export class PreselectedDialog {
         this.initForms();
         this.title = "Contratación";
       break;
+      case "cancel":
+          this.idSel = this.data.codigo;
+          console.log('canc', this.idSel)
+          this.title = "Cancelar Requisición";
+          this.initForms();
+          // this.initFormsCancel();
+        break;
       case "view":
         this.idvac = this.data.codigo;
         this.loading.emit(true);
@@ -137,6 +145,7 @@ export class PreselectedDialog {
           }
         );
         break;
+        
     }
   }
   initForms() {
@@ -158,8 +167,20 @@ export class PreselectedDialog {
 
     });
     this.formVac = new FormGroup({
-      create_User: new FormControl(this.cuser.iduser),
+      car_sol: new FormControl(""),
+    //   num_vac: new FormControl(""),
+    //   salary: new FormControl(""),
+    //   tip_req: new FormControl(""),
+    //   matrizarp: new FormControl(""),
+    //   justification: new FormControl(""),
+    //   observations: new FormControl(""),
+    //   aprobacion1: new FormControl(""),
+    //   aprobacion2: new FormControl(""),
+    //   aprobacion3: new FormControl(""),
+    //   day_for: new FormControl(""),
       state: new FormControl(""),
+    //   can_req: new FormControl(""),
+      create_User: new FormControl(this.cuser.iduser),
     });
 
   }
@@ -181,6 +202,8 @@ export class PreselectedDialog {
           this.typeMatriz      = data.data["getMatriz"];
           this.typeContract    = data.data["getContract"];
           this.stateCont       = data.data["getStateCont"];
+          this.state         = data.data['getCancel'].slice(5);
+
           if (this.view == "update") {
             this.getDataUpdate();
           }
@@ -218,6 +241,18 @@ export class PreselectedDialog {
         this.formSelec.get("vac_aux").setValue(data.data["getSelecUpdat"][0].vac_aux);
         this.formSelec.get("vac_per").setValue(data.data["getSelecUpdat"][0].vac_per);
         this.formSelec.get("sta_cont").setValue(data.data["getSelecUpdat"][0].sta_cont);
+
+        // this.formVac.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
+        // this.formVac.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
+        // this.formVac.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
+        // this.formVac.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
+        // this.formVac.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
+        // this.formVac.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
+        // this.formVac.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
+        // this.formVac.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
+        // this.formVac.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
+        // this.formVac.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
+        // this.formVac.get("state").setValue(data.data["getSelecUpdat"][0].state);
       },
       (error) => {
         this.handler.showError();

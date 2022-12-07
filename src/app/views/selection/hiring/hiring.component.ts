@@ -26,6 +26,7 @@ import { RequisitionDialog } from "../../../dialogs/selection/requisition/requis
 import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
 import { TrainingDialog } from "../../../dialogs/selection/training/training.dialog.component";
 import { HiringDialog } from "../../../dialogs/selection/hiring/hiring.dialog.component";
+import { PreselectedDialog } from "../../../dialogs/selection/hiring/preselected/preselected.dialog.component";
 
 
 @Component({
@@ -42,6 +43,7 @@ export class HiringComponent implements OnInit {
   displayedColumns: any = [];
   dataSource: any = [];
   contaClick: number = 0;
+  rol: any = [];
   
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -87,6 +89,8 @@ export class HiringComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
+          this.rol = this.cuser.role;
+
          this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -108,6 +112,7 @@ export class HiringComponent implements OnInit {
       "matrizarp",
       // "idPersonale",
       "state",
+      "actions"
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -174,6 +179,28 @@ export class HiringComponent implements OnInit {
         dialogRef.disableClose = true;
         this.sendRequest();
       
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
+        });
+        break;
+        case 'cancel':
+        this.loading = true;
+        dialogRef = this.dialog.open(PreselectedDialog,{
+          data: {
+            window: 'cancel',
+            codigo,
+            id:id,
+          
+            // tipoMat: tipoMat
+
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val=>{
+          this.loading = val;
+        });
+        // RELOAD
         dialogRef.componentInstance.reload.subscribe(val=>{
           this.sendRequest();
         });

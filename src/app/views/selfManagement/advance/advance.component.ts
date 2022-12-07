@@ -219,11 +219,11 @@ export class AdvanceComponent implements OnInit {
     switch (action) {
       case "create":
         // this.laterFec = new Date().toISOString().split("T")[0];
-        if(this.days < 1){
-         this.handler.showError("No tienes días disponibles");
-         this.loading = false;
-        break;
-        }
+        // if(this.days < 1){
+        //  this.handler.showError("No tienes días disponibles");
+        //  this.loading = false;
+        // break;
+        // }
           // if(this.line == '79/1'){
           //   this.handler.showError("Tienes una solicitud pendiente");
           //   this.loading = false;
@@ -299,9 +299,9 @@ export class AdvanceComponent implements OnInit {
           this.generateTableVacation(data.data["getSelectData"][0]);
           this.contenTableVacation = data.data["getSelectData"][0];
           // (this.days === 0) ? alert("No tienes dias disponibles"): '';
-          if(this.days == '0'){
-            this.handler.showError("No tienes dias disponibles");
-          }
+          // if(this.days == '0'){
+          //   this.handler.showError("No tienes dias disponibles");
+          // }
           // this.name = this.contenTableVacation;
           // this.username = this.cuser.username;
           this.loading = false;
