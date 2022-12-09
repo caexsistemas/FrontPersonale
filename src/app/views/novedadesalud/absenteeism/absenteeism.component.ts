@@ -336,7 +336,7 @@ export class AbsenteeismComponent implements OnInit {
     //Se Compara Fecha Actual 
     var hoy = new Date();
     var fechAct = hoy.getFullYear() +'-'+ `0${hoy.getMonth() + 1}`.slice(-2) +'-'+ `0${hoy.getDate()}`.slice(-2);
-    var horAtc = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+    var horAtc = `0${hoy.getHours()}`.slice(-2) + ':' + `0${hoy.getMinutes()}`.slice(-2) + ':' + `0${hoy.getSeconds()}`.slice(-2);
     var timeActu = fechAct+' '+horAtc;
     //Validacion
     if( timeActu >= fechaing && timeActu <= fechaFin ){
@@ -346,12 +346,12 @@ export class AbsenteeismComponent implements OnInit {
       this.tmajust = false;
     }
       //Proceso  
-      /*console.log('------------');
+      console.log('------------');
       console.log(fechaing);
       console.log(fechaFin);
       console.log(timeActu);
       console.log(this.tmajust);
-      console.log('------------');*/
+      console.log('------------');
   }
 
 }
