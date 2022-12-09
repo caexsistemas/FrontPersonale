@@ -139,6 +139,7 @@ export class TrainingDialog {
           this.initForms();
           this.title = "Requisicion"; 
           this.stateReq = this.data.state
+          console.log(this.data)
        break;
        case "create":
         this.initForms();
@@ -469,7 +470,7 @@ export class TrainingDialog {
       // this.loading.emit(false);
   }
 
-  option(action,codigo=null,name, id){
+  option(action,codigo=null,name, id,isnp){
     var dialogRef;
     switch(action){
       // case 'state':
@@ -502,7 +503,8 @@ export class TrainingDialog {
             name,
             id:id,
             num:this.num,
-            state:this.stateReq
+            state:this.stateReq,
+            isnp
             
             // tipoMat: tipoMat
 

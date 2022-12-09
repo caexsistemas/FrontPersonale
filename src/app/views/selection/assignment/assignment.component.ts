@@ -36,7 +36,7 @@ export class AssignmentComponent implements OnInit {
 
   contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/requisition";
+  endpoint: string = "/Assignment";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];

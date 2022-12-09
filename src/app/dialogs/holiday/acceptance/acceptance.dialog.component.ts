@@ -72,7 +72,8 @@ export class AcceptanceDialog  {
   };
   //History
   historyMon: any = [];
-  check: 0;
+  check: boolean;
+  checkS: boolean;
   displayedColumns: any = [];
   PersonaleInfo: any = [];
   document: any = [];
@@ -82,7 +83,11 @@ export class AcceptanceDialog  {
   fec_in: any = [];
   days: any = [];
   stateVac:any = [];
-
+  stateAnt:any = [];
+  advance: any = [];
+  totalSol: any = [];
+  checkAvd: boolean;
+  checkSol: boolean;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -105,11 +110,9 @@ export class AcceptanceDialog  {
     switch (this.view) {
       case "create":
         this.initForms();
-        console.log('==>',this.data)
         this.document = this.data.codigo
         this.people = this.data.id
-        console.log('==cc>',this.document)
-        console.log('==id>',this.people)
+       
         // this.sendRequest();
 
 
@@ -117,12 +120,12 @@ export class AcceptanceDialog  {
       break;
       case "update":
         this.idHol = this.data.codigo;
-        console.log('idHol=>',this.data);
         this.initForms();
         this.title = "Aprobar Solicitud";
       break;
       case "view":
         this.idHol = this.data.codigo;
+        this.title = "Información General"
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint + "/"+ this.idHol, {
           token: this.cuser.token,
@@ -131,8 +134,10 @@ export class AcceptanceDialog  {
         }).subscribe(
           (data) => {
             if (data.success == true) {
-              this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection.car_sol);
+              this.selection = data.data["getSelecUpdat"][0];
+              (this.selection.day_adv)? this.checkAvd = true: this.checkAvd = false;
+              (this.selection.tot_day)? this.checkSol = true: this.checkSol = false;
+              // console.log('==>',this.selection.car_sol);
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -192,8 +197,12 @@ export class AcceptanceDialog  {
       fec_fin: new FormControl(""),
       fec_rei: new FormControl(""),
       day_vac: new FormControl(""),
+      tot_day: new FormControl(""),
+      day_adv: new FormControl(""),
       state:new FormControl(""),
+      total_adv:new FormControl(""),
       sta_liq:new FormControl(""),
+      obc_apr:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
    
@@ -212,7 +221,8 @@ export class AcceptanceDialog  {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
           this.position        = data.data["getPosition"];
-          this.stateVac = data.data["getStateVac"];
+          this.stateVac = data.data["getStateVac"].slice(0,3);
+          this.stateAnt = data.data["getStateVac"].slice(2,4);
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -236,7 +246,6 @@ export class AcceptanceDialog  {
         listas: this.formSelec.value,
         
       };
-      console.log('req=>',body);
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
@@ -280,7 +289,15 @@ export class AcceptanceDialog  {
         this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
         this.formSelec.get("day_vac").setValue(data.data["getSelecUpdat"][0].day_vac);
+        this.formSelec.get("day_adv").setValue(data.data["getSelecUpdat"][0].day_adv);
+        this.formSelec.get("tot_day").setValue(data.data["getSelecUpdat"][0].tot_day);
+        this.formSelec.get("total_adv").setValue(data.data["getSelecUpdat"][0].total_adv);
         this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
+        this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
+        this.advance = (data.data["getSelecUpdat"][0].day_adv);
+        // console.log(this.advance);
+        (this.totalSol)? this.checkS = true: this.checkS = false;
+        (this.advance)? this.check = true: this.check = false;
       },
       (error) => {
         this.handler.showError();
@@ -349,7 +366,6 @@ export class AcceptanceDialog  {
         
        
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-    console.log(exitsPersonal);
   
     if( exitsPersonal ){
       
@@ -358,138 +374,7 @@ export class AcceptanceDialog  {
        
     }        
   }
-  showAge;
-
-  ageCalculator(){
-    if(this.fec_in){
-      const convertAge = new Date(this.fec_in);
-      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
-       this.showAge = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
-       return this.days = ( this.showAge*15)
-      console.log('===',this.showAge)
-    }else{
-      // return this.showAge = 0
-    }
-  }
-  // mat:boolean= false;
-  mat =RequiredValidator;
-  // onSelectMat(e){
-  //   console.log('mat=>',e)
-  //   this.mat = e
-
-  // }
-  // onSelectionPerson(event){
-  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
-  //   if( exitsPersonal ){
-  //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-  //   }        
-  // }
-  prue: any =[];
-  prue2: any =[];
-  // from: any = []
-  to: any = []
-  daysIniMen = 0;
-  daysIniMay = 0;
-  daysFin = 1;
-  totalMen = 0;
-  totalMay = 0;
-  sumTotalMen: any = [];
-  sumTotalMay = 0;
-  ini;
-  // diff = 0;
-  // calculateDaysf($event){
-  //   this.prue = $event;
-  //   this.calculateDays(this.prue);
-  // }
-  acum= 0;
-  restar = 0;
-  // element: any=[]
-  calculate1(event){
-    this.prue = event;
-    this.calculateDays(this.prue,this.prue2);
-  }
-  calculate(event){
-    this.prue2 = event;
-    this.calculateDays(this.prue,this.prue2);
-  }
- 
-  calculateDays(f1, f2){
-    // console.log($event)
-  var festivos = [  [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[0,8] ];
-  // var festivos = [ [ [1, 1],[7,1],[8,1] ], [ [27, 2],[28,2] ],[ [1,3] ],[ [6, 4],[9,4] ],[ [1,5] ],[ [15,6] ],[[9,7]],[ [17,8],[18,8],[19,8]],[ [10,9]],[ [12, 10],[23,10] ],[ [7,11],[14,11] ],[[8,12] ]];
-  //  var festivos =  [7, 11 ];
-  // const festivos = Array.from( [1, 7, 8],[27, 28],[1],[6, 9],[1],[15],[9],[17, 18, 19],[10],[12, 23],[7,14],[8] );
-
-  // console.log('==',this.formSelec.value.fec_in) $('#item2')
-    // var ini = moment(this.formSelec.value.fec_ini);
-    var ini = moment(f1);
-    var ini2 = (f1);
-    console.log('****',ini)
-    // console.log('==',ini.toObject().date) // obetener el dia del mes
-    
-    // var fin = moment(this.formSelec.value.fec_fin);
-    var fin = moment(f2);
-    var fin2 = (this.formSelec.value.fec_fin);
-    // console.log('****',fin)
-
-    // var diff = fin.diff(ini,'days');
-    var diff = f2;
-    console.log('****',diff);
-
-    var arrFecha = ini2.split('-');
-    console.log('****',arrFecha[1]);
-    var mes = ini.month() ;
-    var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
-    console.log(fecha)
-
-    for (var i = 0; i < diff; i++) {
-      // var from = (Array.from( festivos ))
-      // console.log('=>',festivos[mes]);
-
-      var diaInvalido = false;
-      fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
-      // for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo ejemplo
-        for (var j = 0; j < festivos[mes].length; j++) { // Verificamos si el dia + 1 es festivo
-          var mesDia =mes
-          // var mesDia =festivos[mes][j];// festivos2
-          var ite= festivos[mesDia][j]                                                  //ejemplo
-          // var mesDia = from[mes][j];
-          // console.log('=>', ite);
-          // console.log('=>', fecha.getMonth());
-          // console.log('=>', festivos[mes].length);
-          // if(fecha.getDate() == festivos[mes][j]){
-          //   console.log(true)
-          // }
-          if (fecha.getMonth()   == mesDia && fecha.getDate() == ite) {
-            console.log(true);
-              console.log(fecha.getDate() + ' es dia festivo (Sumamos un dia)');
-              diaInvalido = true;
-              break;
-          }else if( fecha.getDay() == 0) { // Verificamos si es domingo
-                console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
-                diaInvalido = true;
-
-            }
-      (diaInvalido)? diff++ : '';
-
-      };
-
-    
-      // if ( fecha.getDay() == 0) { // Verificamos si es domingo
-      //     console.log(fecha.getDate() + ' es  domingo (Sumamos un dia)');
-      //     diaInvalido = true;
-      // }
-      // if (diaInvalido)
-      // diff++; // Si es fin de semana o festivo le sumamos un dia
-  }
-    this.sumTotalMen = fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' )
-  console.log(fecha.getFullYear() + '-' + (fecha.getMonth() + 1).toString().padStart(2, '0') + '-' + fecha.getDate().toString().padStart(2,'0' ))
-  console.log(this.sumTotalMen)
-    
-    
-  
-  }
     
 }
 

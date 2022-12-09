@@ -38,9 +38,9 @@ import { EntryDialog } from "../vacant/entry/entry.dialog.component";
 export class AssignmentDialog {
   form:FormGroup;
 
-  endpoint:      string = '/vacant';
-  component      = "/selection/vacant";
-  // component      = "/selection/assignment";
+  endpoint:      string = '/Assignment';
+  // component      = "/selection/vacant";
+  component      = "/selection/assignment";
   maskDNI        = global.maskDNI;
   view:          string = null;
   title:         string = null;

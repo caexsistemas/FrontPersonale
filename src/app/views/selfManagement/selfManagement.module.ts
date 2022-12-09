@@ -28,6 +28,7 @@ import { HolidayComponent } from './holiday/holiday.component';
 import { selfManagementRoutingModule } from './selfManagement-routing.module';
 import { AcceptanceComponent } from './acceptance/acceptance.component';
 import { LiquidationComponent } from './liquidation/liquidation.component';
+import { AdvanceComponent } from './advance/advance.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -63,7 +64,8 @@ const ngWizardConfig: NgWizardConfig = {
     
     HolidayComponent,
     AcceptanceComponent,
-    LiquidationComponent
+    LiquidationComponent,
+    AdvanceComponent
     
 
  ]

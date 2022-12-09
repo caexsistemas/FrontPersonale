@@ -25,14 +25,14 @@
               <mat-form-field class="example-full-width">
                 <!-- <mat-form-field appearance="fill"> -->
                 <mat-label>Numero Identificaci&oacute;n</mat-label>
-                <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)" required>
+                <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)" required readonly>
               </mat-form-field>
             </div>
             <div class="col-md-4 ContCamp">
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Nombre(s) y Apellido(s):</mat-label>
                 <mat-select formControlName="idPersonale" required>
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
                     {{idet.name}}
                   </mat-option>
                 </mat-select>
@@ -42,7 +42,7 @@
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
                 <input matInput formControlName="fec_ini" value="fec_ini" type="date"
-                  (ngModelChange)="calculate1($event)">
+                   readonly>
               </mat-form-field>
             </div>
           </div>
@@ -57,21 +57,35 @@
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Solicitar</mat-label>
                 <input matInput formControlName="day_vac" value="day_vac" type="number"
-                  (ngModelChange)="calculate($event)">
+                  readonly>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Reintegro</mat-label>
-                <input matInput formControlName="fec_rei" value="fec_rei" type="date">
+                <input matInput formControlName="fec_rei" value="fec_rei" type="date" readonly>
               </mat-form-field>
             </div>
               
               
           </div>
+         
           <hr>
           <div class="row mt-3">
-            <div class="col-sm-4">
+
+            <div class="col-md-6">
+                <label>Adjuntar Documento de Soporte:</label>
+                <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)">
+            </div>
+<!-- 
+            <div class="col-md-4" *ngIf="view == 'update'" >
+                <label>Documentos de Soporte:</label>
+                <a href="{{archivo.nombre}}" target="_blank">Download</a>
+            </div> -->
+
+        <!-- </div> -->
+          <!-- <div class="row mt-3"> -->
+            <div class="col-sm-6">
               <h6>liquidación de Vacaciones</h6>
               <mat-form-field class="example-full-width">
                 <mat-label>State:</mat-label>
@@ -95,6 +109,115 @@
 
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="view == 'view'">
+  <div class="modal-header">
+    <h5 class="modal-title">{{title}}</h5>
+    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <mat-dialog-content style="min-width: 500px;">
+    <div class="row mt-2">
+     
+      <div class="col-md-4">
+        <dt>Fecha Radicación</dt>
+        <dd>{{selection.fec_rad}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Documento</dt>
+        <dd>{{selection.document}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Nombres</dt>
+        <dd>{{selection.emp}}</dd>
+      </div>
+      
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <dt>Jefe Inmediato</dt>
+        <dd>{{selection.inm}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Fecha Inicio </dt>
+        <dd>{{selection.fec_ini}}</dd>
+      </div>
+      <div class="col-md-4" *ngIf="checkAvd">
+        <dt># Dias anticipo</dt>
+        <dd>{{selection.day_adv}}</dd>
+      </div>
+      <div class="col-md-4"  *ngIf="checkSol">
+        <dt>Dias a Disfrutar</dt>
+        <dd>{{selection.day_vac}}</dd>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-4"  *ngIf="checkSol">
+        <dt>Dias a Compensar</dt>
+        <dd>{{selection.day_com}}</dd>
+      </div>
+      <div class="col-md-4" *ngIf="checkSol">
+        <dt>Total Dias Solicitados</dt>
+        <dd>{{selection.tot_day}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Fecha Fin </dt>
+        <dd>{{selection.fec_fin}}</dd>
+      </div>
+      
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <dt>Fecha Regreso</dt>
+        <dd>{{selection.fec_rei}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Estado Solicitud</dt>
+        <dd>{{selection.sta}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Estado Liquidación </dt>
+        <dd>{{selection.liq}}</dd>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <dt>Documentos de Soporte:</dt>
+        <dd><a href="{{selection.file_sp}}" target="_blank">Download</a></dd>
+    </div>
+    </div>
+  </mat-dialog-content>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Histórico de Procesos:
+        </div>
+        <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+          <ng-container matColumnDef="currentm_user">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type_move">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="date_move">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
       </div>
     </div>
   </div>

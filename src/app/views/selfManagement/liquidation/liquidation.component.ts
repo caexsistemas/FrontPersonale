@@ -57,7 +57,7 @@ export class LiquidationComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selfManagement/holiday";
+  component = "/selfManagement/liquidation";
 
   constructor(
     private _tools: Tools,
@@ -78,7 +78,7 @@ export class LiquidationComponent implements OnInit {
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamUpdateSet",
+      action: "getDataLiquidation",
       idUser: this.cuser.iduser,
       token: this.cuser.token,
       modulo: this.component,
@@ -96,7 +96,6 @@ export class LiquidationComponent implements OnInit {
 
           this.generateTable(data.data["getSelecUpdat"]);
           this.contenTable = data.data["getSelecUpdat"];
-          console.log('',data.data["getSelecUpdat"]);
          
           this.loading = false;
         } else {
@@ -119,6 +118,7 @@ export class LiquidationComponent implements OnInit {
       "day_vac",
       "day_com",
       "tot_day",
+      "day_adv",
       "fec_fin",
       "fec_rei",
       "state",

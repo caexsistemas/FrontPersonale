@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    Solicitud
+    Aprobaciones
 </div>
   <!-- <mat-dialog-content> -->
 
@@ -61,24 +61,24 @@
   
              <ng-container matColumnDef="idPersonale">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombres y Apellidos</th>
-                <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+                <td mat-cell *matCellDef="let element"> {{element.emp }} </td>
             </ng-container>
 
 
               <ng-container matColumnDef="fec_ini">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Inicio</th>
-                  <td mat-cell *matCellDef="let element"> {{element.fec_ini}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.fec_ini | date}} </td>
               </ng-container>
 
               <ng-container matColumnDef="fec_fin">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Fin</th>
-                <td mat-cell *matCellDef="let element"> {{element.fec_fin  }} </td>
+                <td mat-cell *matCellDef="let element"> {{element.fec_fin | date }} </td>
             </ng-container>
 
               <ng-container matColumnDef="fec_rei">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Regreso
                   </th>
-                  <td mat-cell *matCellDef="let element"> {{element.fec_rei}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.fec_rei | date}} </td>
               </ng-container>
 
               <ng-container matColumnDef="day_vac">
@@ -94,11 +94,18 @@
             </ng-container>
 
             <ng-container matColumnDef="tot_day">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Total Dias
+                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Total Dias Solicitados
                 </th>
                 <td mat-cell *matCellDef="let element"> {{element.tot_day}} </td>
             </ng-container>
 
+            <ng-container matColumnDef="day_adv">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> # Dias Anticipados
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.day_adv}} </td>
+            </ng-container>
+
+          
             <ng-container matColumnDef="state">
               <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">  Estado de Solicitud
               </th>
@@ -113,11 +120,12 @@
               <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef> Acciones </th>
                   <td mat-cell *matCellDef="let element">
+                    <div *ngIf="element.state == '79/1' ">
                       <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
                           (click)="option('update',element.hol_id)" title="Editar">
                           <i class="fa fa-edit fa-lg"></i>
                       </button>
-
+                        </div>
                       <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
                           title="PDF">
                           <i class="fa fa-file-pdf-o"></i>

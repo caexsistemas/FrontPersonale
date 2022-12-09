@@ -49,23 +49,24 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Fecha Inicio</mat-label>
-                    <input matInput formControlName="fec_ini" type="date"(ngModelChange)="calculateDays()" required>
+                    <input matInput formControlName="fec_ini" type="date" required>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Fecha Final</mat-label>
-                    <input matInput formControlName="fec_fin" type="date" (ngModelChange)="calculateDays()" required>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
                     <mat-label>Dias de Formación:</mat-label>
                       <input matInput formControlName="day_for" type="number" required>
                   </mat-form-field>
                 </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Fecha Final</mat-label>
+                    <input matInput formControlName="fec_fin" type="date" value="fec_fin"  required>
+                  </mat-form-field>
+                </div>
+                
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Formación:</mat-label >
@@ -116,7 +117,7 @@
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12">
-          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+          <button *ngIf="view == 'update'" mat-button class="btn btn-success" [disabled]=" totalFin > 15"
             (click)="onSubmitUpdate()">Actualizar</button>
           <!-- <button *ngIf="view == 'training'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button> -->
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>

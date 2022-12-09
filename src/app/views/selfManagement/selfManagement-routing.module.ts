@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { from } from "rxjs";
 import { AcceptanceComponent } from "./acceptance/acceptance.component";
+import { AdvanceComponent } from "./advance/advance.component";
 import { HolidayComponent } from "./holiday/holiday.component";
 import { LiquidationComponent } from "./liquidation/liquidation.component";
 
@@ -37,6 +38,14 @@ const routes: Routes = [
         data: {
           title: "Gestión Vacaciones"
         }
+      },
+      {
+        path: "advance",
+        component: AdvanceComponent,
+        data: {
+          title: "Anticipo Vacaciones"
+
+        },
       }
     
     ],
