@@ -39,8 +39,8 @@ export class RequisitionComponent implements OnInit {
   contaClick: number = 0;
   perm: any = [];
   rol: any = [];
-  acces: boolean;
-   accep: Array<string>;
+  acces: any = [];
+   accep:boolean;
          
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -84,13 +84,27 @@ export class RequisitionComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          this.perm = this.cuser.iduser;
-          // let accep: Array<string>;
-          this.accep = ['50', '44', '49','63']; 
+          // this.perm = this.contenTable.state;
+          // console.log(this.perm)
+          this.contenTable.forEach(element => {
+          // console.log(element.state)
+            // this.acces = element.state
+            // if(this.acces != '65/6' )
+            //   {
+            //     this.accep = true;
+            //   }else{
+            //     this.accep = false;
 
-          ( this.perm == this.accep )? this.acces = true : this.acces = false
+            //   }
+            
+          });
+          // let accep: Array<string>;
+          // this.accep = ['50', '44', '49','63']; 
+        
+          // ( this.perm == this.accep )? this.acces = true : this.acces = false
 
           this.rol = this.cuser.role;
+          (this.rol =='1')? this.accep = true: this.accep = false;
           console.log('=>',this.rol);
           this.loading = false;
         } else {

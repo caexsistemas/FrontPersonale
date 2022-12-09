@@ -112,7 +112,7 @@ export class HiringComponent implements OnInit {
       "matrizarp",
       // "idPersonale",
       "state",
-      "actions"
+      // "actions"
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];

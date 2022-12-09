@@ -90,12 +90,12 @@
                               (click)="option('update',element.idsel,element.create_User)" title="Editar">
                               <i class="fa fa-edit fa-lg"></i>
                           </button>
-                          <di *ngIf="element.state == '30/1' && rol== '5'">
+                          <div *ngIf="element.state == '65/3' && rol == '5'  || element.state == '65/5' && rol == '5' || element.state == '65/1' && rol == '5' ">
                             <button class="btn btn-ghost-danger" *ngIf="permissions.update" (click)="option('cancel',element.idsel)"
                                  title="Cancelar">
                               <i class="fa fa-trash fa-lg"></i>
                             </button>
-                          </di>
+                          </div>
                         
                       </td>
                   </ng-container>
