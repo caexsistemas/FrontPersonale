@@ -94,8 +94,6 @@ export class FeedbackDialog
     this.view = this.data.window;
     this.idfeed = null;
     this.rol = this.cuser.role;
-    console.log(this.rol);
-
   
     switch (this.view) {
         case 'create':
@@ -166,21 +164,21 @@ closeDialog() {
     this.getDataInit();
     this.formNomi = new FormGroup({
         fecha: new FormControl(""),
-        matrizarp: new FormControl(this.cuser.matrizarp),
-        document: new FormControl(""),
+        matrizarp: new FormControl(this.cuser.matrizarp,[Validators.required]),
+        document: new FormControl("",[Validators.required]),
         idPersonale: new FormControl(""),
         supervisor: new FormControl(this.cuser.idPersonale),
         role: new FormControl(this.cuser.role),
         car_user: new FormControl(""),
-        des_crip: new FormControl(""),
+        des_crip: new FormControl("", [Validators.required]),
         com_tra: new FormControl(""),
-        rec_com: new FormControl(""),
-        tipo_intervencion: new FormControl(""),
+        rec_com: new FormControl("", [Validators.required]),
+        tipo_intervencion: new FormControl("", [Validators.required]),
         create_User: new FormControl(this.cuser.iduser),
         checked1: new FormControl(false),
         checked2: new FormControl(false),
         checked3: new FormControl(false),
-        visible: new FormControl(""),
+        visible: new FormControl("", [Validators.required]),
         sign: new FormControl(false)
         
     });
@@ -418,24 +416,28 @@ getWeekNr(event){
 SendDataonChange(event: any) {
   console.log(event.target.value);
   } 
-  // onSelectionPerson(e){
-  //   if(isset_empty(e)){
-  //     this.block = true
-  //   }else if(e = ''){
-  //     this.block = false
-
-  //   }
-  //   console.log('e=>',e)
-  // }
-  // openSnackBar(message: string, action: string) {
-  //   this._snackBar.open(message, action, {
-  //     duration: 2000,
-  //   });
-  // }
+  
   openSnackBar(e){
     this.formNomi.value.sign = e; 
 
     console.log(this.formNomi.value.sign)
-
+  }
+  getInterInvalid(){
+    return this.formNomi.get('tipo_intervencion').invalid && this.formNomi.get('tipo_intervencion').touched;
+}
+  getMatrizInvalid(){
+  return this.formNomi.get('matrizarp').invalid && this.formNomi.get('matrizarp').touched;
+  }
+  getDocuInvalid(){
+  return this.formNomi.get('document').invalid && this.formNomi.get('document').touched;
+  }
+  getVisibleInvalid(){
+    return this.formNomi.get('visible').invalid && this.formNomi.get('visible').touched;
+  }
+  getDescripInvalid(){
+    return this.formNomi.get('des_crip').invalid && this.formNomi.get('des_crip').touched;
+  }
+  getRecomInvalid(){
+    return this.formNomi.get('rec_com').invalid && this.formNomi.get('rec_com').touched;
   }
 }

@@ -24,13 +24,13 @@
             <div class="col-md-4">
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Numero Identificaci&oacute;n</mat-label>
-                <input matInput formControlName="document"  (ngModelChange)="onSelectionChange($event)"  required>
+                <input matInput formControlName="document"  (ngModelChange)="onSelectionChange($event)">
               </mat-form-field>
             </div>
             <div class="col-md-4 ContCamp">
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Nombre(s) y Apellido(s):</mat-label>
-                <mat-select formControlName="idPersonale" required >
+                <mat-select formControlName="idPersonale">
                   <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                     {{idet.name}}
                   </mat-option>
@@ -52,6 +52,11 @@
             <mat-form-field class="example-full-width">
               <mat-label>Fecha de Inicio</mat-label>
               <input matInput formControlName="fec_ini" value="fec_ini" type="date" (ngModelChange)="calculate1($event)" [min]="laterFec" [max]="fec_ini">
+                <mat-error *ngIf="getFechInvalid()">
+                  <strong>
+                    Ingrese Fecha
+                  </strong>
+                </mat-error>
             </mat-form-field>
           </div>
           </div>
@@ -60,13 +65,23 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Disfrutar</mat-label>
-                <input matInput formControlName="day_vac" value="day_vac" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue" required>
+                <input matInput formControlName="day_vac" value="day_vac" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
+                  <mat-error *ngIf="getDayInvalid()">
+                    <strong>
+                      Ingrese # dias.
+                    </strong>
+                  </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Compensar</mat-label>
-                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" [readonly]="CheckTrue" required>
+                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" [readonly]="CheckTrue">
+                  <mat-error *ngIf="getCompInvalid()">
+                    <strong>
+                      Ingrese # dias.
+                    </strong>
+                  </mat-error>
               </mat-form-field>
             </div>
             <div class="col-sm-4">
@@ -77,7 +92,7 @@
             </div>
            
           </div>
-          <div class="row">
+          <div class="row mt-2">
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha Finalización</mat-label>

@@ -32,28 +32,37 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Intervención:</mat-label >
-                    <mat-select formControlName="tipo_intervencion" required>
+                    <mat-select formControlName="tipo_intervencion">
                       <mat-option *ngFor="let idet of TipoIntervencion" [value]="idet.ls_codvalue" [disabled] ="retro">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
+                      <mat-error *ngIf="getInterInvalid()">
+                        <strong> Ingrese tipo intervención.</strong>
+                    </mat-error>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)" >
+                    <mat-select formControlName="matrizarp" (ngModelChange)="labelMatriz($event)" >
                       <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="getMatrizInvalid()">
+                      <strong> Ingrese matriz.</strong>
+                  </mat-error>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Numero Identificaci&oacute;n</mat-label>
                     <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)"
-                     required [readonly] ="retro">
+                      [readonly] ="retro">
+                      <mat-error *ngIf="getDocuInvalid()">
+                        <strong> Ingrese # documento.</strong>
+                    </mat-error>
                   </mat-form-field>
                 </div>
 
@@ -101,11 +110,14 @@
                   <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                       <mat-label>Visible para Agente:</mat-label>
-                      <mat-select formControlName="visible" required>
+                      <mat-select formControlName="visible">
                         <mat-option *ngFor="let idet of typeConfir" [value]="idet.ls_codvalue" [disabled] ="retro">
                           {{idet.description}}
                         </mat-option>
                       </mat-select>
+                      <mat-error *ngIf="getVisibleInvalid()">
+                        <strong> Opción requerida.</strong>
+                    </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -128,7 +140,10 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width" >
                     <mat-label>Descripción de la Situación:</mat-label>
-                    <textarea matInput formControlName="des_crip" placeholder="" [readonly] ="retro"></textarea>
+                    <textarea matInput formControlName="des_crip" [readonly] ="retro"></textarea>
+                  <mat-error *ngIf="getDescripInvalid()">
+                      <strong> Opcion requerida.</strong>
+                  </mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -179,7 +194,10 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label>Recomendaciones/Compromisos:</mat-label>
-                    <textarea matInput formControlName="rec_com" placeholder=""  [readonly] ="retro"></textarea>
+                    <textarea matInput formControlName="rec_com"  [readonly] ="retro"></textarea>
+                    <mat-error *ngIf="getRecomInvalid()">
+                      <strong> Opción requerida.</strong>
+                  </mat-error>
                   </mat-form-field>
                 </div>
               

@@ -53,10 +53,17 @@
           <input matInput formControlName="fec_fin" value="fec_fin" type="date" (ngModelChange)="calculate($event)">
         </mat-form-field>
       </div> -->
-            <div class="col-sm-4">
+            <div class="col-sm-4"  *ngIf="checkS">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Solicitar</mat-label>
                 <input matInput formControlName="day_vac" value="day_vac" type="number"
+                  readonly>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4" *ngIf="check">
+              <mat-form-field class="example-full-width">
+                <mat-label># Dias Anticipar</mat-label>
+                <input matInput formControlName="day_adv" value="day_adv" type="number"
                   readonly>
               </mat-form-field>
             </div>
@@ -94,6 +101,11 @@
                     {{idet.description}}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="getStateInvalid()">
+                  <strong>
+                    Opción requerida.
+                  </strong>
+              </mat-error>
               </mat-form-field>
             </div>
           </div>

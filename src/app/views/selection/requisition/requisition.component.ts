@@ -105,7 +105,6 @@ export class RequisitionComponent implements OnInit {
 
           this.rol = this.cuser.role;
           (this.rol =='1')? this.accep = true: this.accep = false;
-          console.log('=>',this.rol);
           this.loading = false;
         } else {
           this.handler.handlerError(data);

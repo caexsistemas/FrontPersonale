@@ -72,7 +72,7 @@ export class LiquidationDialog  {
   };
   //History
   historyMon: any = [];
-  check: 0;
+  // check: 0;
   displayedColumns: any = [];
   PersonaleInfo: any = [];
   document: any = [];
@@ -84,6 +84,10 @@ export class LiquidationDialog  {
   stateLiq:any = [];
   checkAvd: boolean;
   checkSol: boolean;
+  advance: any = [];
+  totalSol: any = [];
+  check: boolean;
+  checkS: boolean;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -192,7 +196,8 @@ export class LiquidationDialog  {
       fec_rei: new FormControl(""),
       day_vac: new FormControl(""),
       state:new FormControl(""),
-      sta_liq: new FormControl(""),
+      day_adv: new FormControl(""),
+      sta_liq: new FormControl("", [Validators.required]),
       file_sp: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
@@ -280,10 +285,15 @@ export class LiquidationDialog  {
         this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
         this.formSelec.get("day_vac").setValue(data.data["getSelecUpdat"][0].day_vac);
+        this.formSelec.get("day_adv").setValue(data.data["getSelecUpdat"][0].day_adv);
         this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
-        this.formSelec.get("sta_liq").setValue(data.data["getSelecUpdat"][0].sta_liq);
+        // this.formSelec.get("sta_liq").setValue(data.data["getSelecUpdat"][0].sta_liq);
         this.archivo.nombre = data.data["getSelecUpdat"][0].file_sp;
-
+        this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
+        this.advance = (data.data["getSelecUpdat"][0].day_adv);
+        // console.log(this.advance);
+        (this.totalSol)? this.checkS = true: this.checkS = false;
+        (this.advance)? this.check = true: this.check = false;
       },
       (error) => {
         this.handler.showError();
@@ -375,7 +385,9 @@ _handleReaderLoaded(readerEvent){
   var binaryString = readerEvent.target.result;
   this.archivo.base64textString = btoa(binaryString);
 }
-    
+getStateInvalid(){
+  return this.formSelec.get('sta_liq').invalid && this.formSelec.get('sta_liq').touched;
+}
 }
 
   

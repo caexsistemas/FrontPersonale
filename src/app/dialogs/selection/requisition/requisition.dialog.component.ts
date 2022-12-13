@@ -156,12 +156,12 @@ export class RequisitionDialog {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      car_sol: new FormControl(""),
-      num_vac: new FormControl(""),
-      salary: new FormControl(""),
-      tip_req: new FormControl(""),
+      car_sol: new FormControl("",[Validators.required]),
+      num_vac: new FormControl("", [Validators.required]),
+      salary: new FormControl("", [Validators.required]),
+      tip_req: new FormControl("", [Validators.required]),
       matrizarp: new FormControl(""),
-      justification: new FormControl(""),
+      justification: new FormControl("", [Validators.required]),
       observations: new FormControl(""),
       aprobacion1: new FormControl(""),
       aprobacion2: new FormControl(""),
@@ -365,22 +365,7 @@ export class RequisitionDialog {
 
   // }
   onSelectionAttributes(e){
-    console.log('cargo=>',e)
-    // if(e != '16/1'){
-    //   this.matriz = false
-    //   this.formSelec.controls['matrizarp'].errors['required']=false
-    //   console.log(this.formSelec.controls['matrizarp'].errors['required'])
-      
-    // }else if(e == '16/1'){
-    //   this.matriz = true
-    //   this.formSelec.controls['matrizarp'].errors['required']=true
-    //   // this.formSelec.value['matrizarp'].reset();
-
-    //    console.log(this.formSelec.controls['matrizarp'].errors['required'])
-    // }else{
-    //   this.matriz = false
-
-    // }
+   
       if(e != '16/1'){
       this.matriz = false
 
@@ -392,31 +377,7 @@ export class RequisitionDialog {
       this.matriz = false
 
       }
-    //   this.formSelec.value.matrizarp.required,false
-    //   console.log('++.', this.formSelec.controls.car_sol,{Validators:require})
-    //   if(this.matriz == true){
-    //     this.requ = true
-    //   }else if(e != '16/1'){
-    //     this.matriz = false
-    //     if(this.matriz == false){
-    //          this.requ = false
-
-    //     }
-
-    //   }
-    // }else{
-    //   this.matriz = false
-    // }
-    // if(idet == '16/1'){
-      // this.matriz = idet
-    // // }
-    // if(idet !='16/1'){
-    //   this.matriz = false
-    // }else if(idet == '16/1'){
-    //   this.matriz = true
-
-    // }
-
+  
   }
   onSelectionPerson(event){
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
@@ -425,4 +386,20 @@ export class RequisitionDialog {
         this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
     }        
   }
+  getCargInvalid(){
+       return this.formSelec.get('car_sol').invalid && this.formSelec.get('car_sol').touched;
+  }
+  getTypeInvalid(){
+    return this.formSelec.get('tip_req').invalid && this.formSelec.get('tip_req').touched;
+}
+  getSalaryInvalid(){
+    return this.formSelec.get('salary').invalid && this.formSelec.get('salary').touched;
+  }
+  getNumInvalid(){
+    return this.formSelec.get('num_vac').invalid && this.formSelec.get('num_vac').touched;
+}
+  getJustInvalid(){
+    return this.formSelec.get('justification').invalid && this.formSelec.get('justification').touched;
+  }
+
 }

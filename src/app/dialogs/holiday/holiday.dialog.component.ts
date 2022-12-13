@@ -172,12 +172,12 @@ export class HolidayDialog  {
       document: new FormControl(this.cuser.username),
       idPersonale: new FormControl(this.cuser.idPersonale),
       immediateBoss: new FormControl(""),
-      fec_ini: new FormControl(""),
+      fec_ini: new FormControl("",[Validators.required]),
       fec_fin: new FormControl(""),
       fec_rei: new FormControl(""),
-      day_vac: new FormControl(""),
+      day_vac: new FormControl("",[Validators.required]),
       day_adv: new FormControl(""),
-      day_com: new FormControl( ),
+      day_com: new FormControl("", [Validators.required]),
       tot_day: new FormControl(""),
       state: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
@@ -398,7 +398,19 @@ export class HolidayDialog  {
     }
      // this.totalFii(this.totalFin,this.prue2);
 }
-  
+getDocumentInvalid(){
+  return this.formSelec.get('document').invalid && this.formSelec.get('document').touched;
+ }
+ getFechInvalid(){
+  return this.formSelec.get('fec_ini').invalid && this.formSelec.get('fec_ini').touched;
+ }
+ getDayInvalid(){
+  return this.formSelec.get('day_vac').invalid && this.formSelec.get('day_vac').touched;
+ }
+ getCompInvalid(){
+  return this.formSelec.get('day_com').invalid && this.formSelec.get('day_com').touched;
+
+ }
 }
 
   

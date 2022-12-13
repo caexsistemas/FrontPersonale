@@ -98,6 +98,7 @@ export class AdvanceDialog  {
   checkAvd: boolean;
   checkSol: boolean;
   CheckTrue:boolean = true;
+  // document = new FormControl('', [Validators.required]);
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -168,19 +169,19 @@ export class AdvanceDialog  {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      document: new FormControl(""),
+      document: new FormControl("",[Validators.required]),
       idPersonale: new FormControl(""),
       immediateBoss: new FormControl(""),
-      fec_ini: new FormControl(""),
+      fec_ini: new FormControl("",[Validators.required]),
       fec_fin: new FormControl(""),
       fec_rei: new FormControl(""),
-      day_com: new FormControl( ),
+      day_com: new FormControl(""),
       tot_day: new FormControl(""),
       day_vac: new FormControl(""),
-      day_adv: new FormControl(""),
+      day_adv: new FormControl("",[Validators.required]),
       state: new FormControl(""),
       type_sol:new FormControl(""),
-      obc_ant: new FormControl(""),
+      obc_ant: new FormControl("", [Validators.required]),
       obc_apr:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
@@ -384,7 +385,19 @@ export class AdvanceDialog  {
     this.totalFin = event;
      // this.totalFii(this.totalFin,this.prue2);
 }
-  
+ getDocumentInvalid(){
+  return this.formSelec.get('document').invalid && this.formSelec.get('document').touched;
+ }
+ getFechInvalid(){
+  return this.formSelec.get('fec_ini').invalid && this.formSelec.get('fec_ini').touched;
+ }
+ getDayInvalid(){
+  return this.formSelec.get('day_adv').invalid && this.formSelec.get('day_adv').touched;
+ }
+ getObcerInvalid(){
+  return this.formSelec.get('obc_ant').invalid && this.formSelec.get('obc_ant').touched;
+
+ }
 }
 
   

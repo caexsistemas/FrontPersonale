@@ -199,10 +199,10 @@ export class AcceptanceDialog  {
       day_vac: new FormControl(""),
       tot_day: new FormControl(""),
       day_adv: new FormControl(""),
-      state:new FormControl(""),
+      state:new FormControl("", [Validators.required]),
       total_adv:new FormControl(""),
       sta_liq:new FormControl(""),
-      obc_apr:new FormControl(""),
+      obc_apr:new FormControl("", [Validators.required]),
       create_User: new FormControl(this.cuser.iduser),
     });
    
@@ -292,7 +292,7 @@ export class AcceptanceDialog  {
         this.formSelec.get("day_adv").setValue(data.data["getSelecUpdat"][0].day_adv);
         this.formSelec.get("tot_day").setValue(data.data["getSelecUpdat"][0].tot_day);
         this.formSelec.get("total_adv").setValue(data.data["getSelecUpdat"][0].total_adv);
-        this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
+        // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
         this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
         this.advance = (data.data["getSelecUpdat"][0].day_adv);
         // console.log(this.advance);
@@ -374,8 +374,12 @@ export class AcceptanceDialog  {
        
     }        
   }
-  
-    
+  getStateInvalid(){
+    return this.formSelec.get('state').invalid && this.formSelec.get('state').touched;
+  }
+  getObcerInvalid(){
+    return this.formSelec.get('obc_apr').invalid && this.formSelec.get('obc_apr').touched;
+   }
 }
 
   
