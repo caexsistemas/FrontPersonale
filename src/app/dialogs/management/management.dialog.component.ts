@@ -1,12 +1,16 @@
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Component, Inject, Output, EventEmitter, OnInit, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, OnInit, ChangeDetectorRef, AfterContentChecked, ViewChildren, QueryList } from '@angular/core';
 import { WebApiService } from '../../services/web-api.service';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, FormArray } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { global } from '../../services/global';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 //import { Console } from 'console';
 
@@ -62,6 +66,12 @@ export class ManagementDialog implements AfterContentChecked{
     typeposition: any = [];
     typefamilyinf: any = [];
     typeSalaryinfo: any = [];
+    typeSalarynom:  any = [];
+    dataSource: any = [];
+    displayedColumns: any = [];
+    personaleData: any = [];
+    contaClick:  number = 0;
+
     typehouse: any = [
         {ls_codvalue: 'Apartamento', description:'Apartamento'},
         {ls_codvalue: 'Casa', description:'Casa'},
@@ -133,6 +143,10 @@ export class ManagementDialog implements AfterContentChecked{
     @Output() loading = new EventEmitter();
     @Output() reload = new EventEmitter();
 
+    @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+    @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+
+
     constructor(
         public dialogRef: MatDialogRef<ManagementDialog>,
         private WebApiService: WebApiService,
@@ -165,7 +179,10 @@ export class ManagementDialog implements AfterContentChecked{
                                 this.family        = data.data[5][0];
                                 this.sos           = data.data[6][0];
                                 this.endowmentData = data.data[7][0];
-                                this.children      = data.data[8];       
+                                this.children      = data.data[8];   
+                                this.personaleData = data.data[9];
+                                this.generateTable(this.personaleData);
+                                
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -263,7 +280,9 @@ export class ManagementDialog implements AfterContentChecked{
             admissionDate:new FormControl(""),
             withdrawalDate:new FormControl(""),
             reason:new FormControl(""),
-            Departamentworking:new FormControl("")
+            Departamentworking:new FormControl(""),
+            tipsalarywork: new FormControl(""),
+            fechactusalary :new FormControl("")
         });
         this.formFamily = new FormGroup({
             ownHouse:new FormControl(""),
@@ -368,6 +387,8 @@ export class ManagementDialog implements AfterContentChecked{
             if( datos[val]['list_id'] == 14 ){this.typeArea.push(datos[val]);}
             //Posicion
             if( datos[val]['list_id'] == 16 ){this.typeposition.push(datos[val]);}
+            //Tipo Salario
+            if( datos[val]['list_id'] == 81 ){this.typeSalarynom.push(datos[val]);}           
         }
 
     }
@@ -550,6 +571,9 @@ export class ManagementDialog implements AfterContentChecked{
                     this.formWorking.get('idPosition').setValue(this.workininf.idPosition);
                     this.formWorking.get('idArea').setValue(this.workininf.idArea);
                     this.formWorking.get('immediateBoss').setValue(this.workininf.immediateBoss);
+                    this.formWorking.get('fechactusalary').setValue(this.workininf.fechactusalary);
+                    this.formWorking.get('tipsalarywork').setValue(this.workininf.tipsalarywork);
+                            
                     //Departamentworking
                     this.formWorking.get('Departamentworking').setValue(this.workininf.stateidworkin);
                     this.onSelectLabor(this.workininf.stateidworkin);
@@ -662,8 +686,30 @@ export class ManagementDialog implements AfterContentChecked{
         return this.email.hasError('email') ? 'Not a valid email' : '';
       }
 
+      applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+      }
 
-
+      generateTable(data) {
+        this.displayedColumns = [
+          'idPosition',
+          'idContract',
+          'tipsalarywork',
+          'idArea',
+          'salary',
+          'transportation',
+          'date_intof'
+        ];
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.sort = this.sort.toArray()[0];
+        this.dataSource.paginator = this.paginator.toArray()[0];
+        let search;
+        if (document.contains(document.querySelector('search-input-table'))) {
+          search = document.querySelector('.search-input-table');
+          search.value = "";
+        }
+      }
 
 
 

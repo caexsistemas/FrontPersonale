@@ -346,12 +346,12 @@ export class AbsenteeismComponent implements OnInit {
       this.tmajust = false;
     }
       //Proceso  
-      console.log('------------');
+      /*console.log('------------');
       console.log(fechaing);
       console.log(fechaFin);
       console.log(timeActu);
       console.log(this.tmajust);
-      console.log('------------');
+      console.log('------------');*/
   }
 
 }
