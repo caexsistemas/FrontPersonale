@@ -11,6 +11,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ReportsManagementComponent } from '../reports/management/reports-management.component';
 
 //import { Console } from 'console';
 
@@ -153,7 +155,8 @@ export class ManagementDialog implements AfterContentChecked{
         private handler: HandlerAppService,
         @Inject(MAT_DIALOG_DATA) public data,
         public dialog: MatDialog,
-        private cdref: ChangeDetectorRef
+        private cdref: ChangeDetectorRef,
+        private matBottomSheet : MatBottomSheet
     ) {
         this.view = this.data.window;
         this.id = null;
@@ -711,8 +714,41 @@ export class ManagementDialog implements AfterContentChecked{
         }
       }
 
+    onTriggerSheetClick(){
+    this.matBottomSheet.open(ReportsManagementComponent)
+    }
 
-
+    descarReporteempleado(id){
+    
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.endpoint, {
+            action: 'downloadFileshis',
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component,
+            idPersonale: id
+        })
+            .subscribe(
+                data => {                   
+                    if(data.success){
+                        const link = document.createElement("a");
+                        link.href = data.data.url;
+                        link.download = data.data.file;
+                        link.click();
+                        this.handler.showSuccess(data.data.file);
+                        this.loading.emit(false);
+                    }else{
+                        this.handler.handlerError(data);
+                        this.loading.emit(false);
+                    }          
+                },
+                error => {
+                    this.handler.showError('El documento no contiene información.');
+                    console.log(error);
+                    this.loading.emit(false);
+                }
+            );
+    }
 
 
 
