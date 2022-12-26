@@ -4,7 +4,6 @@ import {
   ViewChild,
   QueryList,
   ViewChildren,
-  
 } from "@angular/core";
 import { Tools } from "../../../Tools/tools.page";
 import { WebApiService } from "../../../services/web-api.service";
@@ -22,75 +21,74 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/reports-technology.component";
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
-import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
-import { VacantDialog } from "../../../dialogs/selection/vacant/vacant.dialog.component";
-import { RqcalidadvmrpComponent } from "../../../dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component";
-import { element } from "protractor";
-
+import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
+import { AcceptanceDialog } from "../../../dialogs/holiday/acceptance/acceptance.dialog.component";
+import { CalendarDialog } from "../../../dialogs/calendar/calendar.dialog.component";
 
 @Component({
-  selector: 'app-vacant',
-  templateUrl: './vacant.component.html',
-  styleUrls: ['./vacant.component.css']
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.css']
 })
-export class VacantComponent implements OnInit {
+export class CalendarComponent implements OnInit {
 
- contenTable: any = [];
+  contenTable: any = [];
   loading: boolean = false;
-  endpoint: string = "/vacant";
+  endpoint: string = "/calendar";
   permissions: any = null;
   displayedColumns: any = [];
   dataSource: any = [];
   contaClick: number = 0;
-  idsel: any= [];
-  num_vac: number;
-  state: any = [];
-  
+  name: any = [];
+  username: any = [];
+  days: any = [];
+  fec_in: any = [];
+  daysTo: any = [];
+  daysRe: any = [];
+  daysFor: any = [];
+  total: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
-  component = "/selection/vacant";
+  component = "/admin/calendar";
 
   constructor(
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
     public dialog: MatDialog,
-    private matBottomSheet : MatBottomSheet
+    // private matBottomSheet : MatBottomSheet
   ) { }
 
 
   ngOnInit():void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
-    console.log(this.permissions);
-
   }
   sendRequest() {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getVacantAll",
+      action: "getAcceptanceAll",
       idUser: this.cuser.iduser,
       token: this.cuser.token,
-      modulo: this.component
-      // role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+      modulo: this.component,
+      role: this.cuser.role,
+      idPersonale:this.cuser.idPersonale,
 
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
-        console.log(data);
+        console.log(data.success);
 
         if (data.success == true) {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          this.state = data.data["getSelectData"]['state']
-         this.loading = false;
+         
+          this.loading = false;
         } else {
           this.handler.handlerError(data);
           this.loading = false;
@@ -104,18 +102,10 @@ export class VacantComponent implements OnInit {
   }
   generateTable(data) {
     this.displayedColumns = [
-      // "view",
-      "idsel",
-      "fec_req",
-      "car_sol",
-      "matrizarp",
-      "tip_req",
-      "state",
-      "est_for",
-      "num_vac",
-      // "swi_mod",
-      // "ser_mod",
-      "actions",
+      "view",
+      "month",
+      "day_hol",
+      "actions", 
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -126,43 +116,17 @@ export class VacantComponent implements OnInit {
       search.value = "";
     }
   }
-
-  option(action,codigo=null, id,matriz){
+  option(action,codigo=null, id,){
     var dialogRef;
     switch(action){
-      case 'create':
-        this.loading = true;
-        dialogRef = this.dialog.open(VacantDialog,{
-          data: {
-            window: 'create',
-            codigo,
-            id:id
-            // tipoMat: tipoMat
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        // dialogRef.afterClosed().subscribe((result) => {
-        //   console.log("The dialog was closed");
-        //   console.log(result);
-        // });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
-        });
-      break;
+     
       case 'update':
         this.loading = true;
-        dialogRef = this.dialog.open(PendingDialog,{
+        dialogRef = this.dialog.open(CalendarDialog,{
           data: {
             window: 'update',
             codigo,
-            id:id
-            // tipoMat: tipoMat
-
+            id:id,
           }
         });
         dialogRef.disableClose = true;
@@ -178,10 +142,11 @@ export class VacantComponent implements OnInit {
 
       case 'view':
         this.loading = true;
-        dialogRef = this.dialog.open(VacantDialog,{
+        dialogRef = this.dialog.open(CalendarDialog,{
           data: {
             window: 'view',
-            codigo
+            codigo,
+            id:id
           }
         });
         dialogRef.disableClose = true;
@@ -193,46 +158,16 @@ export class VacantComponent implements OnInit {
          
         });
       break;
-      case "repor1vmrq":
-        this.loading = true;
-        dialogRef = this.dialog.open(VacantDialog, {
-          data: {
-            window: "repor1vmrq",
-            codigo,
-            id: id,
-            matriz
-
-            // tipoMat: tipoMat
-          },
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe((val) => {
-          this.loading = val;
-        });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe((val) => {
-          this.sendRequest();
-        });
-        break;
-        
       }
     }
-    
-openc(){
-  if(this.contaClick == 0){
-    this.sendRequest();
-  }    
-  this.contaClick = this.contaClick + 1;
+  openc() {
+    if (this.contaClick == 0) {
+      this.sendRequest();
+    }
+    this.contaClick = this.contaClick + 1;
+  }
+  applyFilter(search) {
+    this.dataSource.filter = search.trim().toLowerCase();
+  }
 }
-applyFilter(search) {
-  this.dataSource.filter = search.trim().toLowerCase();
-}
-onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsTechnologyComponent)
-}
-
-}
-
-
 

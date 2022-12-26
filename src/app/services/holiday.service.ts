@@ -1,36 +1,99 @@
 import { Injectable } from '@angular/core';
+import { WebApiService } from "../services/web-api.service";
+
 import * as moment from 'moment';
+import { HandlerAppService } from './handler-app.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class calculateDays {
-    constructor() {
+
+  endpoint: string = "/holiday";
+  public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
+  component = "/selfManagement/holiday";
+  permissions: any = null;
+  loading: boolean = false;
+  contenTable: any = [];
+
+
+
+    constructor(
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+
+    ) {
     }
-    holiday(f1, f2){
+    ngOnInit(): void {
+      this.sendRequest();
+  
+      this.permissions = this.handler.permissionsApp;
+      
+    }
+    sendRequest() {
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getHoliday",
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component,
+      role: this.cuser.role,
+      // matrizarp: this.cuser.matrizarp,
+      idPersonale: this.cuser.idPersonale,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        console.log(this.permissions);
+        console.log(data.success);
+        
+
+          if (data.success == true) {
+          this.contenTable = data.data["getHoliday"];
+          // this.contenTable = ["getHoliday"];
+           console.log("data=>",this.contenTable);
+            this.holiday;
+           
+          
+          this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading = false;
+        }
+      },
+      (error) => {
+        this.handler.showError("Se produjo un error");
+        this.loading = false;
+      }
+      
+    );
+    }
+    holiday(f1, f2, arr){
+
+
+      
 
       if(f1 && f2){
-        var festivos  = [
-            [9,1],
-            [20,3],
-            [6,4],
-            [7,4],
-            [1,5],
-            [22,5],
-            [12,6],
-            [19,6],
-            [3,7],
-            [20,7],
-            [7,8],
-            [21,8],
-            [16,10],
-            [6,11],
-            [13,11],
-            [8,12],
+        // var festivos  = [
+        //     [9,1],
+        //     [20,3],
+        //     [6,4],
+        //     [7,4],
+        //     [1,5],
+        //     [22,5],
+        //     [12,6],
+        //     [19,6],
+        //     [3,7],
+        //     [20,7],
+        //     [7,8],
+        //     [21,8],
+        //     [16,10],
+        //     [6,11],
+        //     [13,11],
+        //     [8,12],
             
             
-          ];
-        // console.log(festivos.length)
+        //   ];
+        // console.log("fesService=>",festivos)
           
             // var ini = moment(f1);
             var ini2 = (f1);
@@ -48,8 +111,8 @@ export class calculateDays {
              
              var diaInvalido = false;
               fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
-                for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo
-                  var mesDia =festivos[j];
+                for (var j = 0; j < arr.length; j++) { // Verificamos si el dia + 1 es festivo
+                  var mesDia =arr[j];
                   // console.log(mesDia[1])
         
                   // var ite= festivos[mes][j]                                                  //ejemplo

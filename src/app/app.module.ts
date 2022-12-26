@@ -114,6 +114,7 @@ import { HolidayDialog } from './dialogs/holiday/holiday.dialog.component';
 import { AcceptanceDialog } from './dialogs/holiday/acceptance/acceptance.dialog.component';
 import { LiquidationDialog } from './dialogs/holiday/liquidation/liquidation.dialog.component';
 import { AdvanceDialog } from './dialogs/holiday/advance/advance.dialog.component';
+import { CalendarDialog } from './dialogs/calendar/calendar.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -221,7 +222,8 @@ const routes: Routes = [];
     HolidayDialog,
     AcceptanceDialog,
     LiquidationDialog,
-    AdvanceDialog
+    AdvanceDialog,
+    CalendarDialog
   
   ],
   providers: [{

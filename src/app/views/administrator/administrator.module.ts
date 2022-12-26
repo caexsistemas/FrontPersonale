@@ -41,6 +41,7 @@ import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
 import { MatInputModule }  from '@angular/material/input';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { RolesComponent } from './roles/roles.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -75,7 +76,8 @@ const ngWizardConfig: NgWizardConfig = {
     UsersComponent,
     ListsComponent,
     StateComponent,
-    RolesComponent
+    RolesComponent,
+    CalendarComponent
 
 
   ]

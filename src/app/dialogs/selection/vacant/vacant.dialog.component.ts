@@ -113,9 +113,7 @@ export class VacantDialog {
            this.idSel = this.data.codigo;
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
-           console.log('idvac=>',this.idSel);
-           console.log('car_sol=>',this.data.id);
-           console.log('mt=>',this.data.matriz);
+          
             this.initForms();
             this.sendRequest();
             this.title = "Requisición";    
@@ -285,7 +283,6 @@ export class VacantDialog {
 
          this.permissions = this.handler.getPermissions(this.component);
          if (data.success == true) {
-          console.log('numVac=>',this.numVac);
            this.generateTable(data.data["getSelectData"]);
            this.contenTable = data.data["getSelectData"];
           //  this.loading.emit(false);

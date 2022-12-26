@@ -116,7 +116,6 @@ export class RequisitionDialog {
       break;
       case "cancel":
         this.idSel = this.data.codigo;
-        console.log('canc', this.idSel)
         this.title = "Cancelar Requisición";
         this.initForms();
         // this.initFormsCancel();
@@ -132,7 +131,6 @@ export class RequisitionDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection);
               this.cancel= this.selection.state;
               ( this.cancel == '65/6') ? this.title = ' Requisición Cancelada': '';
               this.typeCargo = this.selection.car_sol;
@@ -241,7 +239,6 @@ export class RequisitionDialog {
         vacant: this.formVac.value,
         // seguimiento: this.formInsp.value
       };
-      console.log('req=>',body);
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

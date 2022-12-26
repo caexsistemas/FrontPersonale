@@ -98,6 +98,8 @@ export class AdvanceDialog  {
   checkAvd: boolean;
   checkSol: boolean;
   CheckTrue:boolean = true;
+  arrDayHol: any = [];
+  arrholiday: any = [];
   // document = new FormControl('', [Validators.required]);
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -129,6 +131,44 @@ export class AdvanceDialog  {
         // (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
         this.people = this.cuser.idPersonale;
         this.title = "Anticipo de Vacaciones";
+
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.endpoint + "/" , {
+          action: "getHoliday",
+          idUser: this.cuser.iduser,
+          token: this.cuser.token,
+          modulo: this.component,
+          role: this.cuser.role,
+          // matrizarp: this.cuser.matrizarp,
+          idPersonale: this.cuser.idPersonale,
+        }).subscribe(
+          (data) => {
+            this.permissions = this.handler.getPermissions(this.component);
+            console.log(this.permissions);
+            console.log(data.success);
+            
+    
+              if (data.success == true) {
+              this.contenTable = data.data["getHoliday"];
+              // this.contenTable = ["getHoliday"];
+               this.arrDayHol = this.contenTable;
+
+               this.arrDayHol.forEach(element => {
+                this.arrholiday = [element.day_hol, element.month];
+                
+               });
+              
+              this.loading.emit(false);
+            } else {
+              this.handler.handlerError(data);
+              this.loading.emit(false);
+            }
+          },
+          (error) => {
+            this.handler.showError("Se produjo un error");
+              this.loading.emit(false);
+          }
+        ); 
       break;
       case "update":
         this.idSel = this.data.codigo;
@@ -361,7 +401,7 @@ export class AdvanceDialog  {
       this.CheckTrue = false;
         this.prue = event;
         // this.calculateDays(this.prue,this.prue2);
-        this.holiday.holiday(this.prue,this.prue2);
+        this.holiday.holiday(this.prue,this.prue2,this.arrholiday);
     }
     }
    
@@ -369,9 +409,9 @@ export class AdvanceDialog  {
     if(event){
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
-        this.holiday.holiday(this.prue,this.prue2);
+        this.holiday.holiday(this.prue,this.prue2,this.arrholiday);
     
-        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2,this.arrholiday);
         this.fec_fin = this.totaLfecHol[0];
         this.sumTotalMen = this.totaLfecHol[1];
         this.formSelec.get('fec_fin').setValue(this.fec_fin);

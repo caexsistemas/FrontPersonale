@@ -18,6 +18,7 @@ import { UsersComponent } from './users/users.component';
 import { ListsComponent } from './lists/lists.component';
 import { StateComponent } from './state/state.component';
 import { RolesComponent } from './roles/roles.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 
 const routes: Routes = [
@@ -57,6 +58,13 @@ const routes: Routes = [
         component: RolesComponent,
         data: {
           title: 'Rol'
+        }
+      },
+      {
+        path: 'calendar',
+        component: CalendarComponent,
+        data: {
+          title: 'Festivos'
         }
       },
     ]
