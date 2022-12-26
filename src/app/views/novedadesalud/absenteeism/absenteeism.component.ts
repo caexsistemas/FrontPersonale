@@ -324,7 +324,7 @@ export class AbsenteeismComponent implements OnInit {
   validatAjust(fechaing){
     
     var fecha = fechaing;
-    var horas = 48;
+    var horas = 43;
     //Fecha De Radicacion
 	  fecha = new Date(fecha);
 		fecha.setHours(fecha.getHours()+horas);

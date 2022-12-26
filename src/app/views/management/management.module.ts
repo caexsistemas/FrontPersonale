@@ -25,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule }  from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -51,7 +52,7 @@ const ngWizardConfig: NgWizardConfig = {
     MatSortModule,
     MatTabsModule,
     MatIconModule,
-
+    MatBottomSheetModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig)
   ],

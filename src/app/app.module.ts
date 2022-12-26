@@ -115,6 +115,8 @@ import { AcceptanceDialog } from './dialogs/holiday/acceptance/acceptance.dialog
 import { LiquidationDialog } from './dialogs/holiday/liquidation/liquidation.dialog.component';
 import { AdvanceDialog } from './dialogs/holiday/advance/advance.dialog.component';
 import { CalendarDialog } from './dialogs/calendar/calendar.dialog.component';
+import { ReportsManagementComponent } from './dialogs/reports/management/reports-management.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 const routes: Routes = []; 
 @NgModule({
@@ -166,7 +168,8 @@ const routes: Routes = [];
     MatInputModule,
     MatCardModule,
     MatRadioModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatBottomSheetModule
     
   ],
   declarations: [
@@ -223,7 +226,8 @@ const routes: Routes = [];
     AcceptanceDialog,
     LiquidationDialog,
     AdvanceDialog,
-    CalendarDialog
+    CalendarDialog,
+    ReportsManagementComponent
   
   ],
   providers: [{
