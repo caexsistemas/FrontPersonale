@@ -80,13 +80,6 @@
                 <i class="fa fa-feed"></i>
             </button>
         </div> -->
-        <div class="btn-group" dropdown>
-            <!-- <button class="btn btn-success" *ngIf="permissions.update" (click)="option('state',idSel)"
-                title="Actualizar Estado Formación">
-                <i class="icon-refresh"></i>
-            </button> -->
-        </div>
-       
     </div>
       <mat-form-field appearance="standard">
         <mat-label>Buscar...</mat-label>
@@ -174,78 +167,6 @@
       </div>
       <!-- </form> -->
     </div>
-    <!-- <div class="row mt-3">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  Histórico de Procesos:
-                </div>
-                <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
-                  <ng-container matColumnDef="currentm_user">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="type_move">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
-                  </ng-container>
-  
-                  <ng-container matColumnDef="date_move">
-                    <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
-                    <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
-                  </ng-container>
-  
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-                </table>
-              </div>
-            </div>
-          </div> -->
+   
   </mat-dialog-content>
-</div>
-<div class="card mt-6">
-  <div *ngIf="view === 'update'">
-    <div class="card-header">
-      <h5 class="modal-title button_header">
-        <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
-        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </h5>
-    </div>
-    <div class="card-body">
-      <mat-dialog-content>
-        <mat-accordion class="example-headers-align">
-          <form form *ngIf="view == 'update'" [formGroup]="formSelec">
-            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Actualizar Formación &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                  Información Detallada
-                </mat-panel-description>
-                <mat-icon>work</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Estado de Formación:</mat-label>
-                    <mat-select formControlName="est_for">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </form>
-        </mat-accordion>
-      </mat-dialog-content>
-    </div>
-  </div>
 </div>

@@ -16,9 +16,9 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 export interface PeriodicElement {
-  currentm_user: string,
-  date_move:string,
-  type_move: string
+  month: string,
+  day_hol:string,
+  actions: string
 }
 
 @Component({
@@ -59,6 +59,8 @@ export class CalendarDialog
     idCal: number;
     idCalSec: number;
     and: any = [];
+    fes: any = [];
+    status: any = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -82,14 +84,15 @@ export class CalendarDialog
   
     switch (this.view) {
        
-        case 'update':
+        case 'createCal':
           this.tipMatriz = this.data.tipoMat;
             this.initForms();
-            this.title = "Actualizar Festivos";
+            this.title = "Ingresar Festivo";
             this.idfeed = this.data.codigo;
           break;
           case "view":
             this.idfeed = this.data.id;
+            // this.idfeed = this.data.codigo;
             this.title = "Información General";
             this.loading.emit(true);
             this.WebApiService.getRequest(
@@ -103,20 +106,13 @@ export class CalendarDialog
               (data) => {
                 if (data.success == true) {
                  
-                  console.log(this.feed)
-                  if(data.data['getSelectData'].length == 2){
-                      this.and = "y";
-                      this.feed = data.data['getSelectData'][0];
-                      this.calend = data.data['getSelectData'][1];
-                  }else{
-                      this.feed = data.data['getSelectData'][0];
-                  }
-                  this.generateTable(data.data['getDatHistory']);   
-                  this.loading.emit(false);
+                      this.calend = data.data['getDataView'][0];
+                      this.generateTable(data.data['getSelectData']);
+                      this.loading.emit(false);        
                 } else {
-                  this.handler.handlerError(data);
-                  this.closeDialog();
-                  this.loading.emit(false);
+                    this.handler.handlerError(data);
+                    this.closeDialog();
+                    this.loading.emit(false);
                 }
               },
               (error) => {
@@ -125,27 +121,114 @@ export class CalendarDialog
               }
             );
             break;
+            case 'updateCal':
+            this.initForms();
+            this.title = "Actualizar Festivos";
+            this.idfeed = this.data.codigo;
+            break;
         }
   }
+
+  optionCal(action, codigo=null, id){
+
+    var dialogRef;
+    switch(action){
+
+        case 'updateCal':
+            this.loading.emit(true);
+            dialogRef = this.dialog.open(CalendarDialog,{
+            data: {
+                window: 'updateCal',
+                codigo,
+                id:id
+            }
+            });
+            // dialogRef.disableClose = true;
+              // LOADING
+              dialogRef.componentInstance.loading.subscribe(val=>{
+            this.loading.emit(false);
+            // this.loading = val;
+              });
+              // RELOAD
+              dialogRef.componentInstance.reload.subscribe(val=>{
+                this.reload.emit(true);
+              });
+                this.closeDialog();
+           
+        break;
+
+        case 'view':
+            this.loading.emit(true);
+            dialogRef = this.dialog.open(CalendarDialog,{
+            data: {
+                window: 'view',
+                codigo,
+                id
+            }
+            });
+            dialogRef.disableClose = true;
+              // LOADING
+              dialogRef.componentInstance.loading.subscribe(val=>{
+            this.loading.emit(false);
+                // this.loading = val;
+              });
+              // RELOAD
+              dialogRef.componentInstance.reload.subscribe(val=>{
+                this.reload.emit(true); 
+              });
+
+        break;
+
+        case 'createCal':
+            this.loading.emit(true);
+            dialogRef = this.dialog.open(CalendarDialog,{
+            data: {
+                window: 'createCal',
+                codigo,
+            }
+            });
+            dialogRef.disableClose = true;
+              // LOADING
+              dialogRef.componentInstance.loading.subscribe(val=>{
+                this.loading = val;
+              });
+              // RELOAD
+              dialogRef.componentInstance.reload.subscribe(val=>{
+                this.reload.emit(true);
+              });
+            this.closeDialog();
+        break;
+    }
+}
 closeDialog() {
   this.dialogRef.close();
+  this.reload.emit(true);
+
 }
   initForms() {
     this.getDataInit();
     this.formCalen = new FormGroup({
       month: new FormControl(""),
-      day_hol: new FormControl(""),       
+      day_hol: new FormControl("", [ Validators.required]),
+      status: new FormControl("", [Validators.required])       
     });
-    this.formFeed = new FormGroup({
-      month: new FormControl(""),
-      day_hol: new FormControl(""),  
-    });
+   
 }
+// generateTable(data){
+//   this.displayedColumns = [
+//     'currentm_user',
+//     'date_move',
+//     'type_move'  
+//   ];
+//   this.historyMon = data;
+//   this.clickedRows = new Set<PeriodicElement>();
+// }
 generateTable(data){
   this.displayedColumns = [
-    'currentm_user',
-    'date_move',
-    'type_move'  
+    'month',
+    'day_hol',
+    'status',
+    'actions'  
   ];
   this.historyMon = data;
   this.clickedRows = new Set<PeriodicElement>();
@@ -166,9 +249,9 @@ getDataInit(){
       data => {
           if (data.success == true) {
               //DataInfo
-              this.tipRole = data.data['tipRole'];
-
-                  if (this.view == 'update') {
+              this.status = data.data['getStatus'].slice(0,2);
+              this.loading.emit(false);
+                  if (this.view == 'updateCal') {
                       this.getDataUpdate();
                   }
                       this.loading.emit(false);
@@ -186,8 +269,10 @@ getDataInit(){
 onSubmit() {
   if (this.formCalen.valid) {
       this.loading.emit(true);
+      this.formCalen.value.month = this.idfeed
       let body = {
           listas: this.formCalen.value,
+          // month: this.idfeed
       }
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
@@ -200,6 +285,8 @@ onSubmit() {
                      this.handler.showSuccess(data.message);
                       this.reload.emit();
                       this.closeDialog();
+                      this.optionCal('view',this.data.codigo,this.idfeed);
+
                   } else {
                       this.handler.handlerError(data);
                       this.loading.emit(false);
@@ -219,7 +306,7 @@ getDataUpdate(){
   this.loading.emit(true);
   this.WebApiService.getRequest(this.endpoint, {
       action: 'getParamUpdateSet',
-      id: this.data.id,
+      id: this.data.codigo,
       tipMat: this.tipMatriz,
       tipRole:this.tipRole,
       token: this.cuser.token,
@@ -229,21 +316,10 @@ getDataUpdate(){
   })
   .subscribe(
       data => {
-            if(data.data['getDataUpda'].length == 2){
-                  this.checked = true;
-                  this.idCal = data.data['getDataUpda'][0].cal_id;
-                  this.formCalen.get('month').setValue(data.data['getDataUpda'][0].na);
-                  this.formCalen.get('day_hol').setValue(data.data['getDataUpda'][0].day_hol);
-
-                  this.formFeed.get('month').setValue(data.data['getDataUpda'][1].na);
-                  this.formFeed.get('day_hol').setValue(data.data['getDataUpda'][1].day_hol);
-                  this.idCalSec = data.data['getDataUpda'][1].cal_id;
-            }else{
-                  this.checked = false;
-                  this.idCal = data.data['getDataUpda'][0].cal_id;
-                  this.formCalen.get('month').setValue(data.data['getDataUpda'][0].na);
-                  this.formCalen.get('day_hol').setValue(data.data['getDataUpda'][0].day_hol);
-            }    
+            
+        this.formCalen.get('month').setValue(data.data['getDataUpda'][0].na);
+        this.formCalen.get('day_hol').setValue(data.data['getDataUpda'][0].day_hol);
+        this.formCalen.get('status').setValue(data.data['getDataUpda'][0].status);
       },
       error => {
           this.handler.showError();
@@ -255,14 +331,11 @@ onSubmitUpdate(){
 
   let body = {
       listas: this.formCalen.value,
-      calen: this.formFeed.value,  
-       tipMat: this.tipMatriz,
-      //  id: this.idfeed,
-       id2: this.idCalSec,
+       id: this.data.codigo,
   }
   if (this.formCalen.valid) {
     this.loading.emit(true);
-    this.WebApiService.putRequest(this.endpoint+'/'+this.idCal,body,{
+    this.WebApiService.putRequest(this.endpoint+'/'+this.idfeed,body,{
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -273,6 +346,8 @@ onSubmitUpdate(){
                 this.handler.showSuccess(data.message);
                 this.reload.emit();
                 this.closeDialog();
+                this.optionCal('view',this.data.codigo,this.data.id);
+
             }else{
                 this.handler.handlerError(data);
                 this.loading.emit(false);
@@ -316,22 +391,11 @@ SendDataonChange(event: any) {
 
     console.log(this.formCalen.value.sign)
   }
-  getInterInvalid(){
-    return this.formCalen.get('tipo_intervencion').invalid && this.formCalen.get('tipo_intervencion').touched;
+  getStatus(){
+    return this.formCalen.get('status').invalid && this.formCalen.get('status').touched;
 }
-  getMatrizInvalid(){
-  return this.formCalen.get('matrizarp').invalid && this.formCalen.get('matrizarp').touched;
+  getDay(){
+    return this.formCalen.get('day_hol').invalid && this.formCalen.get('day_hol').touched;
   }
-  getDocuInvalid(){
-  return this.formCalen.get('document').invalid && this.formCalen.get('document').touched;
-  }
-  getVisibleInvalid(){
-    return this.formCalen.get('visible').invalid && this.formCalen.get('visible').touched;
-  }
-  getDescripInvalid(){
-    return this.formCalen.get('des_crip').invalid && this.formCalen.get('des_crip').touched;
-  }
-  getRecomInvalid(){
-    return this.formCalen.get('rec_com').invalid && this.formCalen.get('rec_com').touched;
-  }
+ 
 }

@@ -105,7 +105,7 @@ export class CalendarComponent implements OnInit {
       "view",
       "month",
       "day_hol",
-      "actions", 
+      // "actions", 
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -119,7 +119,24 @@ export class CalendarComponent implements OnInit {
   option(action,codigo=null, id,){
     var dialogRef;
     switch(action){
-     
+      case 'create':
+        this.loading = true;
+        dialogRef = this.dialog.open(CalendarDialog, {
+          data: {
+            window: 'create',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val => {
+          this.sendRequest();
+        });
+        break;
       case 'update':
         this.loading = true;
         dialogRef = this.dialog.open(CalendarDialog,{
@@ -154,9 +171,13 @@ export class CalendarComponent implements OnInit {
         dialogRef.componentInstance.loading.subscribe(val=>{
           this.loading = val;
         });
-        dialogRef.afterClosed().subscribe(result => {
-         
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
         });
+        // dialogRef.afterClosed().subscribe(result => {
+         
+        // });
       break;
       }
     }

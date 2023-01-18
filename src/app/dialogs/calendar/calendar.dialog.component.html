@@ -1,9 +1,9 @@
 <div class="card mt-6">
-  <div *ngIf=" view == 'update'">
+  <div *ngIf=" view == 'updateCal' || view == 'createCal'">
     <div class="card-header">
       <h5 class="modal-title">
-        <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
-        <p class="title-modal" *ngIf="view == 'update'">{{title}} {{user}} {{ape}}</p>
+        <p class="title-modal" *ngIf="view == 'createCal' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'updateCal'">{{title}} {{user}} {{ape}}</p>
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
           style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
           <span aria-hidden="true">&times;</span>
@@ -13,7 +13,7 @@
     <div class="card-body">
       <mat-dialog-content>
 
-        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCalen">
+        <form *ngIf="view == 'createCal'" [formGroup]="formCalen">
 
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Company</mat-label>
@@ -23,34 +23,74 @@
           <div class="row">
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <mat-label>Mes</mat-label>
-                <input matInput formControlName="month" readonly>
+                <mat-label>Dia Festivo</mat-label>
+                <input matInput formControlName="day_hol">
+                <mat-error *ngIf="getDay()">
+                  <strong> Dia required.</strong>
+                 </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-6">
+              <mat-form-field  class="example-full-width">
+                  <mat-label>Estado</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="getStatus()">
+                    <strong> Ingrese Estado.</strong>
+                </mat-error>
+                </mat-form-field>
+          </div>
+          </div>
+         
+        </form>
+        <form *ngIf="view == 'updateCal'" [formGroup]="formCalen">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput disabled value="Cali Express">
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Mes</mat-label>
+                <input matInput formControlName="month" value="month" readonly>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias Festivos</mat-label>
                 <input matInput formControlName="day_hol">
+                <mat-error *ngIf="getDay()">
+                  <strong> Dia required.</strong>
+              </mat-error>
               </mat-form-field>
             </div>
+            <div class="col-md-4">
+              <mat-form-field  class="example-full-width">
+                  <mat-label>Estado</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="getStatus()">
+                    <strong> Ingrese Estado.</strong>
+                </mat-error>
+                </mat-form-field>
+          </div>
           </div>
          
         </form>
         
-        <form *ngIf=" view == 'update' && checked" [formGroup]="formFeed">
+        <!-- <form *ngIf=" view == 'updateCal' && checked" [formGroup]="formFeed">
 
-          <!-- <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Company</mat-label>
-            <input matInput disabled value="Cali Express">
-          </mat-form-field> -->
-
+       
           <div class="row">
-            <!-- <div class="col-md-6">
-              <mat-form-field class="example-full-width">
-                <mat-label>Mes</mat-label>
-                <input matInput formControlName="month">
-              </mat-form-field>
-            </div> -->
+          
             <div class="col-md-6" style="left: 50%;">
               <mat-form-field class="example-full-width">
                 <mat-label>Dia Festivo</mat-label>
@@ -59,14 +99,14 @@
             </div>
           </div>
          
-        </form>
+        </form> -->
       </mat-dialog-content>
       <div mat-dialog-actions>
         <div class="text-center col-12 mt-3">
-          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+          <button *ngIf="view == 'updateCal'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
 
-          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+          <button *ngIf="view == 'createCal'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
 
           <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
         </div>
@@ -88,13 +128,30 @@
      
       <div class="col-md-4">
         <dt>Mes</dt>
-        <dd>{{feed.na}}</dd>
-      </div>
+        <dd>{{calend.mont}}</dd>
+      </div>  
       <div class="col-md-4">
         <dt>Dias Festivos</dt>
-        <dd>{{feed.day_hol}} {{and}} {{calend.day_hol}}</dd>
+        <dd>{{calend.hol}}</dd>
       </div>    
-       
+    </div>
+    <!-- <div class="row mt-2">
+      <div class="col-md-4" *ngFor="let dia of fes">
+        <dt>Dia Festivo </dt>
+        <dd> {{dia}} </dd>
+      </div> 
+    </div> -->
+    <div class="row mt-2">
+    <div class="col-md-4">
+      <dt>Añadir Festivo</dt>
+      <dd>
+          <div class="btn-group" dropdown>
+              <button class="btn btn-primary" (click)="optionCal('createCal', calend.month)" title="Crear">
+                  <i class="fa fa-plus"></i>
+              </button>
+          </div>
+      </dd>             
+  </div>
     </div>
 
   
@@ -103,28 +160,44 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          Histórico de Procesos:
+          Festivos:
         </div>
         <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
-          <ng-container matColumnDef="currentm_user">
-            <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
-            <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+
+          <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Mes:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.na}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="type_move">
-            <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
-            <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+          <ng-container matColumnDef="day_hol">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Dia:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.day_hol}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="date_move">
-            <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
-            <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Estado:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.sta}}</td>
           </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+                <button class="btn  btn-ghost-secondary"
+                    (click)="optionCal('updateCal',element.cal_id,element.month)" title="Editar">
+                    <i class="fa fa-edit fa-lg"></i>
+                </button>
+                <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
+                    title="PDF">
+                    <i class="fa fa-file-pdf-o"></i>
+                </button> -->
+            </td>
+        </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
       </div>
     </div>
   </div>
+  
 </div>

@@ -32,6 +32,7 @@ import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../../../services/web-api.service";
 import { decimalDigest } from "@angular/compiler/src/i18n/digest";
 import { exists } from "fs";
+import { TrainingDialog } from "../training.dialog.component";
 interface Food {
   value: string;
   viewValue: string;
@@ -155,7 +156,7 @@ export class InspectionDialog {
         this.name = this.data.name;
         this.num = this.data.num;
         this.idIns = this.data.isnp;
-        console.log('id',this.data)
+        // console.log('id',this.data)
         this.idreq = this.data.id
         this.stateReq = this.data.state
        
@@ -165,7 +166,7 @@ export class InspectionDialog {
           for (let day = 1; day <= this.num; day++) {
             this.element.push(day); 
           }
-          console.log( this.element.length )
+          // console.log( this.element.length )
         }
 
         this.initForms();
@@ -186,7 +187,7 @@ export class InspectionDialog {
           for (let pre = 1; pre <= this.nume; pre++) {
             this.element.push(pre); 
           }
-          console.log( this.element.length )
+          // console.log( this.element.length )
         }
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint+"/"+this.idSel, {
@@ -222,6 +223,7 @@ export class InspectionDialog {
         break;
     }
   }
+  
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({

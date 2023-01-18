@@ -20,15 +20,11 @@ import {
 } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-// import { MatPaginator } from "@angular/material/paginator";
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, FormBuilder, FormArray } from '@angular/forms';
 import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.component";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
-// import { EntryDialog } from "./entry/entry.dialog.component";
 import { emit } from "process";
-// import { InspectionDialog } from "./inspection/inspection.dialog.component";
-// import { StateDialog } from "./inspection/formation/formation.dialog.component";
 
 
 @Component({
@@ -40,8 +36,6 @@ export class OwnerDialog {
   form:FormGroup;
 
   endpoint:      string = '/technology';
-  // component      = "/selection/vacant";
-  // component      = "/selection/technology";
   component = "/inventory/technology";
   maskDNI        = global.maskDNI;
   view:          string = null;
@@ -104,7 +98,6 @@ export class OwnerDialog {
      switch (this.view) {
       
        case 'user':
-        console.log('user',this.data)
         this.idTec = this.data.codigo;
           this.initForms();
           this.title = "ID"; 
@@ -122,13 +115,13 @@ export class OwnerDialog {
         this.idTec = this.data.codigo;
         // this.loading.emit(true);
         // this.loading = true;
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idTec, {}).subscribe(
+        this.WebApiService.getRequest(this.endpoint + "/"+ this.idTec, {
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        }).subscribe(
           (data) => {
             if (data.success == true) {
-              // this.selection = data.data["getDataTechno"][0];
-              // this.acti = data.data['getSubActivo'];
-              // this.list = data.data['getSubActivo'];
-              // this.sub = this.techno.listSub;
               this.selection = data.data["getDataUpda"];
               this.generateTable(data.data["getDatHistory"]);
               // this.loading.emit(false);
@@ -150,115 +143,13 @@ export class OwnerDialog {
      }
    }
   
-   //---------------------------------------------------------------------------------------------
    ngOnInit(): void {
     this.getDataInit();
-    // this.formSelec = new FormGroup({
-    //   est_for: new FormControl(""),
-    //   create_User: new FormControl("")
-    // });
-  }
-
-  // creatForm(){
-
-  //   this.form = this.fb.group(
-  //     {
-        
-  //       contacts: this.fb.array([this.contactFrom()])
-  //     }
-  //   );
-
-  // }
-  
-  // get contacts(){
-  //   return this.form.get("contacts") as FormArray;
-  //   }
-
-  // contactFrom(){
-  //   return this.fb.group(
-  //     {
-  //       fec_sel:  new FormControl(""),
-  //       tip_doc: new FormControl(""),
-  //       document: new FormControl(""),
-  //       nom_com: new FormControl(""),
-  //       birthDate: new FormControl(""),
-  //       ciu_nac: new FormControl(""),
-  //       dep_nac: new FormControl(""),
-  //       are_tra: new FormControl(""),
-  //       // car_sol: new FormControl(""),
-  //       car_sol: new FormControl(this.cargo),
-  //       eps: new FormControl(""),
-  //       pension: new FormControl(""),
-  //       obs_vac: new FormControl(""),
-  //       create_User: new FormControl(this.cuser.iduser),
-  //       idTec: new FormControl(this.idTec),
-  //       matrizarp: new FormControl(this.matriz),
-  //       idGender: new FormControl(""),
-  //       ages: new FormControl(""),
-  //   }
-  //   );
-  // }
-  // addNewContacts(){
-  //   this.contacts.push(this.contactFrom());
-  // }
-
-  // removeContact(i:Required<number>){
-  //   this.contacts.removeAt(i);
-  // }
-
-  // onSubmit() {
     
-  //   if (this.form.valid) {
-  //     // this.loading.emit(true);
-  //     // this.loading = true;
-  //     let body = {
-  //       listas: this.form.value['contacts'],
-  //     };
-  //     console.log('body=>',body);
-         
-  //     this.WebApiService.postRequest(this.endpoint, body, {}).subscribe(
-  //       (data) => {
-  //         if (data.success) {
-  //           this.handler.showSuccess(data.message);
-  //           this.reload.emit();
-  //           this.closeDialog();
-  //         } else {
-  //           this.handler.handlerError(data);
-  //           // this.loading.emit(false);
-  //           // this.loading = false;
-  //         }
-  //       },
-  //       (error) => {
-  //         this.handler.showError();
-  //         // this.loading.emit(false);
-  //         // this.loading = false;
-  //       }
-      
-  //     );
-  //   } else {
-  //     this.handler.showError("Complete la informacion necesaria");
-  //     // this.loading.emit(false);
-  //     // this.loading = false;
-  //   // }
-  // }
-  // }
-  // closeDialog() {
-  //   // this.dialogRef.close();
-  // }
-  
-//------------------------------------------------------------------------------------------------------------
+  }
    initForms(){
-    // this.getDataInit();
-    // this.formSelec = new FormGroup({
-    //   est_for: new FormControl(""),
-    //   create_User: new FormControl("")
-    // });
+    
     this.sendRequest();
-    // this.formProces = new FormGroup({
-    //   fecini: new FormControl(""), 
-    //   fecfin: new FormControl(""), 
-    //   tipmatriz: new FormControl("")
-    // });
    }
    onSubmitUpdate(){
 
@@ -304,12 +195,13 @@ export class OwnerDialog {
     //  this.loading = true;
      this.WebApiService.getRequest(this.endpoint, {
       action: "getParamUpdateUser",
+      // idTec: this.data.codigo,
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component,
       id: this.idTec,
       cc:this.data.id
-      // idTec: this.cuser.idTec,
-      // role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
-      // idPersonale:this.cuser.idPersonale
+    
      }).subscribe(
        (data) => {
 
@@ -318,7 +210,6 @@ export class OwnerDialog {
           
            this.generateTable(data.data["getDataUpda"]);
            this.contenTable = data.data["getDataUpda"];
-           console.log('user',this.contenTable)
           //  this.loading.emit(false);
           //  this.loading = false;
          } else {
@@ -379,6 +270,10 @@ export class OwnerDialog {
     // this.loading = true
     this.WebApiService.getRequest(this.endpoint, {
         action: 'getParamView',
+        idTec: this.data.codigo,
+        idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component
         // tipMat: this.tipogesti 
     })
     .subscribe(
@@ -417,17 +312,7 @@ export class OwnerDialog {
     //   }
     //   this.contaClick = this.contaClick + 1;
     // }
-    onSelectBirth(idState:any):void{
-        
-      // this.loading.emit(true);
-
-      setTimeout(()=>{       
-          this.citieswork = this.citytBirth.filter(item => item.idState == idState);
-          //console.log(this.citieswork);
-      },3);   
-
-      // this.loading.emit(false);
-  }
+   
 
   option(action,codigo=null,name, id){
     var dialogRef;
@@ -508,12 +393,7 @@ openc(){
   }    
   this.contaClick = this.contaClick + 1;
 }
-// applyFilter(search) {
-//   this.dataSource.filter = search.trim().toLowerCase();
-// }
-// onTriggerSheetClick(){
-//   this.matBottomSheet.open(ReportsTechnologyComponent)
-// }
+
 // generateTable(data) {
 //   this.displayedColumns = ["currentm_user", "date_move", "type_move"];
 //   this.historyMon = data;
@@ -529,11 +409,7 @@ ageCalculator(){
    
   }
   
-//   if( this.view == 'repor1vmrq' && this.form.value['contacts'] ){
-//     // this.formSelec.get('aprobacion1').setValue('30/3'); 
-//     this.form.value['age'] =  this.showAge; 
-// console.log('==>',this.form.value['age']);
-// }
+
 }
 
 

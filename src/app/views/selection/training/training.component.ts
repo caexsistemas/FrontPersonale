@@ -205,9 +205,12 @@ export class TrainingComponent implements OnInit {
         dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
+        // dialogRef.afterClosed().subscribe((result) => {
+        //   console.log("The dialog was closed");
+        //   console.log(result);
+        // });
+        dialogRef.componentInstance.reload.subscribe(val=>{
+          this.sendRequest();
         });
         break;
       }

@@ -73,36 +73,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Numero Serial </th>
             <td mat-cell *matCellDef="let row"> {{row.sub_serial}} </td>
           </ng-container>  
-           <!-- <ng-container matColumnDef="document">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Numero Documento </th>
-            <td mat-cell *matCellDef="let row"> {{row.document}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="nom_com">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Completo </th>
-            <td mat-cell *matCellDef="let row"> {{row.nom_com}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="car_sol">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo Solicitado </th>
-            <td mat-cell *matCellDef="let row"> {{row.lab}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="matrizarp">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo Matriz </th>
-            <td mat-cell *matCellDef="let row"> {{row.mat}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="pro_gen">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Promedio General </th>
-            <td mat-cell *matCellDef="let row"> {{row.pro_gen}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="con_fin">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Concepto Final Formación </th>
-            <td mat-cell *matCellDef="let row"> {{row.final}} </td>
-          </ng-container> -->
-
+        
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
             <td mat-cell *matCellDef="let row">
@@ -156,47 +127,4 @@
           </div> -->
   </mat-dialog-content>
 </div>
-<div class="card mt-6">
-  <div *ngIf="view === 'update'">
-    <div class="card-header">
-      <h5 class="modal-title button_header">
-        <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
-        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </h5>
-    </div>
-    <div class="card-body">
-      <mat-dialog-content>
-        <mat-accordion class="example-headers-align">
-          <form form *ngIf="view == 'update'" [formGroup]="formSelec">
-            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Actualizar Formación &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                  Información Detallada
-                </mat-panel-description>
-                <mat-icon>work</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Estado de Formación:</mat-label>
-                    <mat-select formControlName="est_for">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </form>
-        </mat-accordion>
-      </mat-dialog-content>
-    </div>
-  </div>
-</div>
+ 

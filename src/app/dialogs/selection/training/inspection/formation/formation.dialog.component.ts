@@ -11,7 +11,6 @@ import {
   ViewChildren,
   QueryList,
 } from "@angular/core";
-// import { WebApiService } from "../../services/web-api.service";
 import {
   FormGroup,
   FormControl,
@@ -63,7 +62,6 @@ export class FormationDialog {
   rol: number;
   typeMatriz: any = [];
   component = "/selection/assignment";
-  // component = "/selection/requisition";
   dataSource: any = [];
   archivo = {
     nombre: null,
@@ -112,61 +110,18 @@ export class FormationDialog {
     switch (this.view) {
       case "state":
         this.idSel = this.data.codigo;
-        console.log('=state=>',this.data)
         this.idIns = this.data.isnp;
         this.idvac = this.data.codigo;
 
         this.initForms();
         this.title = "Actualizar Formación";
       break;
-      // case "create":
-      //   this.initForms();
-      //   this.title = "Nueva Requisicion";
-      // break;
-      // case "update":
-      //   this.idSel = this.data.codigo;
-      //   // console.log('idsel=>',this.idSel);
-      //   this.initForms();
-      //   this.title = "Actualizar Requisicion";
-      // break;
-      case "view":
-        this.idSel = this.data.codigo;
-        this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
-          token: this.cuser.token,
-          idUser: this.cuser.iduser,
-          modulo: this.component
-        }).subscribe(
-          (data) => {
-            if (data.success == true) {
-              this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection.car_sol);
-              this.typeCargo = this.selection.car_sol
-              this.generateTable(data.data["getDatHistory"]);
-              this.loading.emit(false);
-            } else {
-              this.handler.handlerError(data);
-              this.closeDialog();
-              this.loading.emit(false);
-            }
-          },
-          (error) => {
-            this.handler.showError("Se produjo un error");
-            this.loading.emit(false);
-          }
-        );
-        break;
     }
   }
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      // car_sol: new FormControl(""),
-      // num_vac: new FormControl(""),
-      // salary: new FormControl(""),
-      // tip_req: new FormControl(""),
-      // matrizarp: new FormControl(""),
-      // justification: new FormControl(""),
+      
       state: new FormControl(""),
       aprobacion1: new FormControl(""),
       aprobacion2: new FormControl(""),
@@ -175,23 +130,10 @@ export class FormationDialog {
       create_User: new FormControl(this.cuser.iduser),
 
     });this.formVac = new FormGroup({
-      // fec_sel:  new FormControl(""),
-      // tip_doc: new FormControl(""),
-      // document: new FormControl(""),
-      // nom_com: new FormControl(""),
-      // birthDate: new FormControl(""),
-      // ciu_nac: new FormControl(""),
-      // dep_nac: new FormControl(""),
-      // are_tra: new FormControl(""),
-      // car_sol: new FormControl(""),
-      // eps: new FormControl(""),
-      // pension: new FormControl(""),
-      // obs_vac: new FormControl(""),
+      
       create_User: new FormControl(this.cuser.iduser),
       con_fin: new FormControl(""),
-      // idGender: new FormControl(""),
-      // age: new FormControl(""),
-      // idsel: new FormControl(this.idTec)
+      
     });
     this.formTraining = new FormGroup({
       tip_for: new FormControl(""),
@@ -258,19 +200,8 @@ export class FormationDialog {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-        // this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        // this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        // this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        // this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        // this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        // this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
-        // this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
-        // this.formSelec.get("est_for").setValue(data.data["getSelecUpdat"][0].est_for);
 
         this.formTraining.get("est").setValue(data.data["getSelecUpdat"][0].est);
       },
@@ -338,21 +269,5 @@ export class FormationDialog {
   prevStep() {
     this.step--;
   }
-  // onSelectionAttributes(idet){
-  //   console.log('cargo=>',idet)
-  //   if(idet =='16/1'){
-  //     this.matriz = true
-  //   }else{
-  //     this.matriz = false
-
-  //   }
-
-  // }
-  // onSelectionPerson(event){
-  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
-  //   if( exitsPersonal ){
-  //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-  //   }        
-  // }
 }

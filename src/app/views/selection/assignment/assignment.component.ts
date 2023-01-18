@@ -71,7 +71,6 @@ export class AssignmentComponent implements OnInit {
       action: "getTrainer",
       idUser: this.cuser.iduser,
       role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
       idPersonale:this.cuser.idPersonale,
       token: this.cuser.token,
       modulo: this.component
@@ -124,26 +123,6 @@ export class AssignmentComponent implements OnInit {
   option(action,codigo=null,matriz, id,state,idPersonale){
     var dialogRef;
     switch(action){
-      case 'create':
-        this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog,{
-          data: {
-            window: 'create',
-            codigo,
-            id:id
-            // tipoMat: tipoMat
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
-          this.sendRequest();
-        });
-      break;
       case 'update':
         this.loading = true;
         dialogRef = this.dialog.open(TrainerDataDialog,{
@@ -152,7 +131,6 @@ export class AssignmentComponent implements OnInit {
             codigo,
             id:id,
             tipoMat: matriz
-
           }
         });
         dialogRef.disableClose = true;
@@ -165,25 +143,7 @@ export class AssignmentComponent implements OnInit {
           this.sendRequest();
         });
         break;
-
-      case 'view':
-        this.loading = true;
-        dialogRef = this.dialog.open(VacantDialog,{
-          data: {
-            window: 'view',
-            codigo
-          }
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe(result => {
-         
-        });
-      break;
-      case "trainer":
+        case "trainer":
         this.loading = true;
         dialogRef = this.dialog.open(AssignmentDialog, {
           data: {
@@ -193,28 +153,6 @@ export class AssignmentComponent implements OnInit {
             matriz,
             state:state,
             idPersonale
-            // cargo:this.num_vac
-          },
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe((val) => {
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
-        });
-        break;
-        case "training":
-        this.loading = true;
-        dialogRef = this.dialog.open(TrainerDataDialog, {
-          data: {
-            window: "training",
-            codigo,
-            id:id,
-            matriz
-            // cargo:this.num_vac
           },
         });
         dialogRef.disableClose = true;

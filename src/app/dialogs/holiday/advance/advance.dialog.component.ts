@@ -139,25 +139,14 @@ export class AdvanceDialog  {
           token: this.cuser.token,
           modulo: this.component,
           role: this.cuser.role,
-          // matrizarp: this.cuser.matrizarp,
           idPersonale: this.cuser.idPersonale,
         }).subscribe(
           (data) => {
             this.permissions = this.handler.getPermissions(this.component);
-            console.log(this.permissions);
-            console.log(data.success);
-            
-    
+            // console.log(this.permissions);
+            // console.log(data.success);
+          
               if (data.success == true) {
-              this.contenTable = data.data["getHoliday"];
-              // this.contenTable = ["getHoliday"];
-               this.arrDayHol = this.contenTable;
-
-               this.arrDayHol.forEach(element => {
-                this.arrholiday = [element.day_hol, element.month];
-                
-               });
-              
               this.loading.emit(false);
             } else {
               this.handler.handlerError(data);
@@ -240,11 +229,6 @@ export class AdvanceDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
-          // console.log(this.PersonaleInfo);
-        //  this.exitsPersonal = this.PersonaleInfo.find(element => element.idPersonale == this.cuser.idPersonale);
-        //  this.name = this.exitsPersonal.jef_idPersonale;
-        //  console.log(this.exitsPersonal);
-
           this.position        = data.data["getPosition"];
 
           if (this.view == "update") {
@@ -304,7 +288,6 @@ export class AdvanceDialog  {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
         this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
@@ -382,7 +365,6 @@ export class AdvanceDialog  {
   }
   onSelectionChange(event){
         
-       
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
     if( exitsPersonal ){    
@@ -401,7 +383,7 @@ export class AdvanceDialog  {
       this.CheckTrue = false;
         this.prue = event;
         // this.calculateDays(this.prue,this.prue2);
-        this.holiday.holiday(this.prue,this.prue2,this.arrholiday);
+        this.holiday.holiday(this.prue,this.prue2);
     }
     }
    
@@ -409,16 +391,15 @@ export class AdvanceDialog  {
     if(event){
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
-        this.holiday.holiday(this.prue,this.prue2,this.arrholiday);
+        this.holiday.holiday(this.prue,this.prue2);
     
-        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2,this.arrholiday);
+        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
         this.fec_fin = this.totaLfecHol[0];
         this.sumTotalMen = this.totaLfecHol[1];
         this.formSelec.get('fec_fin').setValue(this.fec_fin);
         this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
         // this.formSelec.get('immediateBoss').setValue(this.jefe);
-    }
-    
+    }  
 
   }
   totalDays(event){

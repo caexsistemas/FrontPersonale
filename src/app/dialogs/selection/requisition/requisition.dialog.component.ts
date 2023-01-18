@@ -72,9 +72,10 @@ export class RequisitionDialog {
   };
   //History
   historyMon: any = [];
-  check: 0;
+  check: boolean;
   displayedColumns: any = [];
   checked = false;
+  typeReq: any = [];
   disabled = false;
   matriz: boolean;
   requ: boolean;
@@ -131,6 +132,10 @@ export class RequisitionDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
+              this.typeReq = this.selection.tip_req;
+              ( !(this.typeReq == '62/1' || this.typeReq == '62/2' ) ? this.checked = true : this.checked );
+              ( this.typeReq == '62/4' ) ? this.check = false : this.check = true;
+
               this.cancel= this.selection.state;
               ( this.cancel == '65/6') ? this.title = ' Requisición Cancelada': '';
               this.typeCargo = this.selection.car_sol;

@@ -114,7 +114,6 @@ export class PreselectedDialog {
       break;
       case "cancel":
           this.idSel = this.data.codigo;
-          console.log('canc', this.idSel)
           this.title = "Cancelar Requisición";
           this.initForms();
           // this.initFormsCancel();
@@ -130,6 +129,7 @@ export class PreselectedDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
+              ( this.selection.obs_vac === null) ? this.selection.obs_vac = "Ninguna": this.selection.obs_vac;
               this.contra = this.selection.vac_cont;
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -161,6 +161,7 @@ export class PreselectedDialog {
       vac_aux: new FormControl(""),
       vac_per: new FormControl(""),
       sta_cont: new FormControl(""),
+      obs_vac: new FormControl(""),
       matrizarp: new FormControl(this.tipoMat),
       idsel: new FormControl(this.idSel),
       create_User: new FormControl(this.cuser.iduser),
@@ -241,18 +242,11 @@ export class PreselectedDialog {
         this.formSelec.get("vac_aux").setValue(data.data["getSelecUpdat"][0].vac_aux);
         this.formSelec.get("vac_per").setValue(data.data["getSelecUpdat"][0].vac_per);
         this.formSelec.get("sta_cont").setValue(data.data["getSelecUpdat"][0].sta_cont);
-
-        // this.formVac.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        // this.formVac.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        // this.formVac.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        // this.formVac.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        // this.formVac.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        // this.formVac.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        // this.formVac.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        // this.formVac.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        // this.formVac.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        // this.formVac.get("aprobacion3").setValue(data.data["getSelecUpdat"][0].aprobacion3);
-        // this.formVac.get("state").setValue(data.data["getSelecUpdat"][0].state);
+          if(data.data["getSelecUpdat"][0].obs_vac === null){
+              this.formSelec.get("obs_vac").setValue('Ninguna');
+            }else{
+              this.formSelec.get("obs_vac").setValue(data.data["getSelecUpdat"][0].obs_vac);
+            }
       },
       (error) => {
         this.handler.showError();
