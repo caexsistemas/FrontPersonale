@@ -1,7 +1,7 @@
 import {
   Component,
   OnInit,
-  Input ,
+  Input,
   ViewChild,
   QueryList,
   ViewChildren,
@@ -28,7 +28,7 @@ import { RequisitionDialog } from "../../../dialogs/selection/requisition/requis
 import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
 import { empty } from "rxjs";
 
-import { DatePipe } from '@angular/common';
+import { DatePipe } from "@angular/common";
 import * as moment from "moment";
 import { exit } from "process";
 import { AdvanceDialog } from "../../../dialogs/holiday/advance/advance.dialog.component";
@@ -39,7 +39,6 @@ import { AdvanceDialog } from "../../../dialogs/holiday/advance/advance.dialog.c
   styleUrls: ["./advance.component.css"],
 })
 export class AdvanceComponent implements OnInit {
-  
   contenTable: any = [];
   contenTableVacation: any = [];
   loading: boolean = false;
@@ -67,15 +66,15 @@ export class AdvanceComponent implements OnInit {
   prue: any = [];
   laterFec: any = [];
   content: any = [];
-  pipe = new DatePipe('en-US');
+  pipe = new DatePipe("en-US");
   role: any = [];
   stateVac: any = [];
   ini: any = [];
+  daysPro: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
-  
 
   component = "/selfManagement/advance";
 
@@ -86,14 +85,12 @@ export class AdvanceComponent implements OnInit {
     public dialog: MatDialog,
     private matBottomSheet: MatBottomSheet
   ) {}
-  
 
   ngOnInit(): void {
     this.sendRequest();
     this.sendRequestVacation();
 
     this.permissions = this.handler.permissionsApp;
-    
   }
 
   sendRequest() {
@@ -111,27 +108,23 @@ export class AdvanceComponent implements OnInit {
         this.permissions = this.handler.getPermissions(this.component);
         console.log(this.permissions);
         console.log(data.success);
-        
 
-          if (data.success == true) {
-              this.contenTable = data.data["getSelectData"]["vac"];
-              this.fec_in = data.data["getSelectData"]["vac"];
-              this.role = this.cuser.role;
-           
-              this.generateTable(data.data["getSelectData"]["vac"]);
-          
-          
+        if (data.success == true) {
+          this.contenTable = data.data["getSelectData"]["vac"];
+          this.fec_in = data.data["getSelectData"]["vac"];
+          this.role = this.cuser.role;
+
+          this.generateTable(data.data["getSelectData"]["vac"]);
+
           this.content = data.data["getSelectData"][0];
-          if(this.content){
-              this.content.forEach(element => {
-                  this.line = element.state;
-                  this.laterFec = element.fec_rei;
-                  this.stateVac = element.state;
-                  this.ini = element.fec_ini;
-              });
+          if (this.content) {
+            this.content.forEach((element) => {
+              this.line = element.state;
+              this.laterFec = element.fec_rei;
+              this.stateVac = element.state;
+              this.ini = element.fec_ini;
+            });
           }
-
-          // console.log('=>',this.laterFec);
 
           this.daysFor = data.data["getSelectData"][0];
           // for()
@@ -141,7 +134,6 @@ export class AdvanceComponent implements OnInit {
             // console.log('*', this.daysFor[i].day_vac);
 
             this.total = this.total + this.daysFor[i].day_vac;
-
           }
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
@@ -156,11 +148,9 @@ export class AdvanceComponent implements OnInit {
         this.handler.showError("Se produjo un error");
         this.loading = false;
       }
-      
     );
   }
   generateTable(data) {
-
     this.displayedColumns = [
       // "view",
       "document",
@@ -182,64 +172,63 @@ export class AdvanceComponent implements OnInit {
 
     let search;
     if (document.contains(document.querySelector("search-input-table"))) {
-          search = document.querySelector(".search-input-table");
-          search.value = "";
+      search = document.querySelector(".search-input-table");
+      search.value = "";
     }
   }
-  calculateDaysAll(fecha){
-      var convertAge = new Date(fecha);
-      var timeDiff = Math.abs(Date.now() - convertAge.getTime());
-          // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
-          this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
-      // console.log(this.showAge)
-      this.days = (this.showAge * 15); // dias de vacaciones
+  days2:any = [];
+  vac2: any = [];
+  calculateDaysAll(fecha) {
+  
+    let date11 = new Date(fecha);
+    
+    let date22 = new Date();
+  
+    let diff = moment(date22).diff(moment(date11));
+    let duration = moment.duration(diff);
+
+    let months = duration.asMonths();
+    this.days = (months * 30).toFixed(2);
+    this.days2 = (this.days/360*15);
+    this.vac2 = (this.days/30);
+     
   }
-  calculateDays(fecha){
-     var convertAge = new Date(fecha);
-     var timeDiff = Math.abs(Date.now() - convertAge.getTime());
-    //  console.log(timeDiff)
-      // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
-      this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24)); //todos los dias laborados hasta la fecha
-  // console.log(this.showAge)
-  // console.log((this.showAge*15)/360)
-  this.days = ((this.showAge*15)/360); // dias proporcionales de vacaciones
-}
-  calculateDaysRest(totDays){
+
+  calculateDays(fecha) {
+   
+    let date11 = new Date(fecha);
+    
+    let date22 = new Date();
+    let diff = moment(date22).diff(moment(date11));
+    let duration = moment.duration(diff);
+
+    let months = duration.asMonths();
+     this.daysPro = (months * 30).toFixed(2);     
+   
+  }
+  calculateDaysRest(totDays) {
     // if(state == '79/2'){
     //   console.log(totDays,"=>", state);
-    //   this.totalDays = ( this.days - totDays) 
+    //   this.totalDays = ( this.days - totDays)
     // }else{
     //   this.totalDays = 0 ; // Dias restanstes
     // }
-    ( totDays)? this.totalDays = ( this.days - totDays):  this.totalDays = 0 ;
+    totDays ? (this.totalDays = this.days2 - totDays) : (this.totalDays = 0);
   }
-  
+
   option(action, codigo = null, id, create_User) {
     var dialogRef;
     switch (action) {
       case "create":
-        // this.laterFec = new Date().toISOString().split("T")[0];
-        // if(this.days < 1){
-        //  this.handler.showError("No tienes días disponibles");
-        //  this.loading = false;
-        // break;
-        // }
-          // if(this.line == '79/1'){
-          //   this.handler.showError("Tienes una solicitud pendiente");
-          //   this.loading = false;
-          // break;
-          // }
-
         this.loading = true;
         dialogRef = this.dialog.open(AdvanceDialog, {
           data: {
             window: "create",
             codigo: this.username,
             id: this.name,
-            later:this.laterFec,
+            later: this.laterFec,
             state: this.stateVac,
-            ini:this.ini
-            // tipoMat: tipoMat
+            ini: this.ini,
           },
         });
         dialogRef.disableClose = true;
@@ -251,7 +240,6 @@ export class AdvanceComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
           this.sendRequestVacation();
-
         });
         break;
       case "update":
@@ -261,8 +249,6 @@ export class AdvanceComponent implements OnInit {
             window: "update",
             codigo,
             id: id,
-
-            // tipoMat: tipoMat
           },
         });
         dialogRef.disableClose = true;
@@ -274,7 +260,6 @@ export class AdvanceComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
           this.sendRequestVacation();
-
         });
         break;
     }
@@ -287,7 +272,6 @@ export class AdvanceComponent implements OnInit {
       token: this.cuser.token,
       modulo: this.component,
       role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
       idPersonale: this.cuser.idPersonale,
     }).subscribe(
       (data) => {
@@ -298,12 +282,6 @@ export class AdvanceComponent implements OnInit {
         if (data.success == true) {
           this.generateTableVacation(data.data["getSelectData"][0]);
           this.contenTableVacation = data.data["getSelectData"][0];
-          // (this.days === 0) ? alert("No tienes dias disponibles"): '';
-          // if(this.days == '0'){
-          //   this.handler.showError("No tienes dias disponibles");
-          // }
-          // this.name = this.contenTableVacation;
-          // this.username = this.cuser.username;
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -357,7 +335,6 @@ export class AdvanceComponent implements OnInit {
     var dialogRef;
     switch (action) {
       case "create":
-
         this.loading = true;
 
         dialogRef = this.dialog.open(AdvanceDialog, {
@@ -377,7 +354,6 @@ export class AdvanceComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
           this.sendRequestVacation();
-
         });
         break;
       case "update":
@@ -400,7 +376,6 @@ export class AdvanceComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
           this.sendRequestVacation();
-
         });
         break;
 

@@ -184,7 +184,7 @@ export class HolidayComponent implements OnInit {
       "idPersonale",
       "idPosition",
       "admissionDate",
-      "daysGained",
+      // "daysGained",
       "daysPeople",
       "total_adv",
       "total",
@@ -204,7 +204,9 @@ export class HolidayComponent implements OnInit {
     }
   }
   calculateDaysAll(fecha){
+    
       var convertAge = new Date(fecha);
+      
       var timeDiff = Math.abs(Date.now() - convertAge.getTime());
           // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
           this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
@@ -318,6 +320,7 @@ export class HolidayComponent implements OnInit {
         if (data.success == true) {
           this.generateTableVacation(data.data["getSelectData"][0]);
           this.contenTableVacation = data.data["getSelectData"][0];
+          
           // (this.days === 0) ? alert("No tienes dias disponibles"): '';
           if(this.days == '0'){
             this.handler.showError("No tienes dias disponibles");
