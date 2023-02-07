@@ -116,6 +116,7 @@ import { LiquidationDialog } from './dialogs/holiday/liquidation/liquidation.dia
 import { AdvanceDialog } from './dialogs/holiday/advance/advance.dialog.component';
 import { ReportsManagementComponent } from './dialogs/reports/management/reports-management.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { CertificatesDialog } from './dialogs/certificates/certificates.dialogs.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -225,8 +226,8 @@ const routes: Routes = [];
     AcceptanceDialog,
     LiquidationDialog,
     AdvanceDialog,
-    ReportsManagementComponent
-  
+    ReportsManagementComponent,
+    CertificatesDialog
   ],
   providers: [{
     

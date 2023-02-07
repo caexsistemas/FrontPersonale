@@ -26,6 +26,7 @@ import { MatInputModule }  from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { CertificatesComponent } from './certificates/certificates.component';
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -58,6 +59,7 @@ const ngWizardConfig: NgWizardConfig = {
   ],
   declarations: [
     ManagementComponent,
+    CertificatesComponent
   ],
 })
 export class ManagementModule { }

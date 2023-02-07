@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManagementComponent } from './management.component';
+import { CertificatesComponent } from './certificates/certificates.component';
 
 
 
@@ -20,6 +21,13 @@ const routes: Routes = [
                 component: ManagementComponent,
                 data: {
                     title: 'Gestion de personal'
+                }
+            },
+            {
+                path: 'certificates',
+                component: CertificatesComponent,
+                data: {
+                    title: 'Gestion de Certificados'
                 }
             },
         ]
