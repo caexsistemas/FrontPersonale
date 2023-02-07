@@ -1,36 +1,79 @@
 import { Injectable } from '@angular/core';
+import { WebApiService } from "../services/web-api.service";
+
 import * as moment from 'moment';
+import { HandlerAppService } from './handler-app.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class calculateDays {
-    constructor() {
-    }
-    holiday(f1, f2){
 
-      if(f1 && f2){
-        var festivos  = [
-            [9,1],
-            [20,3],
-            [6,4],
-            [7,4],
-            [1,5],
-            [22,5],
-            [12,6],
-            [19,6],
-            [3,7],
-            [20,7],
-            [7,8],
-            [21,8],
-            [16,10],
-            [6,11],
-            [13,11],
-            [8,12],
+export class calculateDays {
+  // arrFor: any = [];
+
+  endpoint: string = "/holiday";
+  public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
+  component = "/selfManagement/holiday";
+  permissions: any = null;
+  loading: boolean = false;
+  getHoliday: any = [];
+
+    constructor(
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    ) {
+    }
+    
+    holiday(f1, f2){
+      this.loading = true;
+      this.WebApiService.getRequest(this.endpoint,{
+        action: "getHoliday",
+        idUser: this.cuser.iduser,
+        token: this.cuser.token,
+        modulo: this.component,
+      }).subscribe(data =>{
+        this.permissions = this.handler.getPermissions(this.component);
+        // console.log(this.permissions);
+        console.log(data.success);
+          if(data.success == true){
+              this.getHoliday = data.data["getHoliday"];
+              this.loading = false;
+              // console.log("prueba de service=>",this.getHoliday);
+          }else{
+              this.handler.handlerError(data);
+              this.loading = false;
+          }
+      }, (error)=>{
+          this.handler.showError("Se produce un error");
+          this.loading = false;
+      });
+   
+
+      if(f1 && f2 && this.getHoliday){
+        // var festivos  = [
+        //     [9,1],
+        //     [20,3],
+        //     [6,4],
+        //     [7,4],
+        //     [1,5],
+        //     [22,5],
+        //     [12,6],
+        //     [19,6],
+        //     [3,7],
+        //     [20,7],
+        //     [7,8],
+        //     [21,8],
+        //     [16,10],
+        //     [6,11],
+        //     [13,11],
+        //     [8,12],
             
             
-          ];
-        // console.log(festivos.length)
+        //   ];
+        const arrFor = [];
+        this.getHoliday.forEach(element => {
+            arrFor.push([element.day_hol, element.month]);
+        });
           
             // var ini = moment(f1);
             var ini2 = (f1);
@@ -45,12 +88,14 @@ export class calculateDays {
             // console.log(fecha)
         
             for (var i = 0; i < diff; i++) {
+        // console.log("fesServicefor2=>",this.arrFor);
              
              var diaInvalido = false;
               fecha.setDate(fecha.getDate() + 1); // Sumamos de dia en dia
-                for (var j = 0; j < festivos.length; j++) { // Verificamos si el dia + 1 es festivo
-                  var mesDia =festivos[j];
+                for (var j = 0; j < arrFor.length; j++) { // Verificamos si el dia + 1 es festivo
+                  var mesDia =arrFor[j];
                   // console.log(mesDia[1])
+                  // console.log(mesDia)
         
                   // var ite= festivos[mes][j]                                                  //ejemplo
                   if (fecha.getMonth() +1 == mesDia[1] && fecha.getDate() == mesDia[0]) {

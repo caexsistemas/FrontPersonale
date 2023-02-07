@@ -72,9 +72,10 @@ export class RequisitionDialog {
   };
   //History
   historyMon: any = [];
-  check: 0;
+  check: boolean;
   displayedColumns: any = [];
   checked = false;
+  typeReq: any = [];
   disabled = false;
   matriz: boolean;
   requ: boolean;
@@ -116,7 +117,6 @@ export class RequisitionDialog {
       break;
       case "cancel":
         this.idSel = this.data.codigo;
-        console.log('canc', this.idSel)
         this.title = "Cancelar Requisición";
         this.initForms();
         // this.initFormsCancel();
@@ -132,7 +132,10 @@ export class RequisitionDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection);
+              this.typeReq = this.selection.tip_req;
+              ( !(this.typeReq == '62/1' || this.typeReq == '62/2' ) ? this.checked = true : this.checked );
+              ( this.typeReq == '62/4' ) ? this.check = false : this.check = true;
+
               this.cancel= this.selection.state;
               ( this.cancel == '65/6') ? this.title = ' Requisición Cancelada': '';
               this.typeCargo = this.selection.car_sol;
@@ -241,7 +244,6 @@ export class RequisitionDialog {
         vacant: this.formVac.value,
         // seguimiento: this.formInsp.value
       };
-      console.log('req=>',body);
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

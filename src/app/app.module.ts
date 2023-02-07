@@ -114,6 +114,7 @@ import { HolidayDialog } from './dialogs/holiday/holiday.dialog.component';
 import { AcceptanceDialog } from './dialogs/holiday/acceptance/acceptance.dialog.component';
 import { LiquidationDialog } from './dialogs/holiday/liquidation/liquidation.dialog.component';
 import { AdvanceDialog } from './dialogs/holiday/advance/advance.dialog.component';
+import { CalendarDialog } from './dialogs/calendar/calendar.dialog.component';
 import { ReportsManagementComponent } from './dialogs/reports/management/reports-management.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CertificatesDialog } from './dialogs/certificates/certificates.dialogs.component';
@@ -226,8 +227,14 @@ const routes: Routes = [];
     AcceptanceDialog,
     LiquidationDialog,
     AdvanceDialog,
+<<<<<<< HEAD
     ReportsManagementComponent,
     CertificatesDialog
+=======
+    CalendarDialog,
+    ReportsManagementComponent
+  
+>>>>>>> 32fa0af7b943ebe1b38063c31721ffb163735558
   ],
   providers: [{
     

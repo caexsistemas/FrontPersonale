@@ -111,67 +111,20 @@ export class TrainerDataDialog {
   ) {
     this.view = this.data.window;
     this.idSel = null;
-    // this.rol = this.cuser.role;
 
     switch (this.view) {
-      case "create":
-        this.initForms();
-        this.title = "Formador";
-      break;
       case "update":
         this.rol = this.cuser.role;
         this.idSel = this.data.codigo;
         this.matriz = this.data.tipoMat
         this.initForms();
         this.title = "Asignación de Formador";
-        break;
-      case "training":
-        // this.rol = this.cuser.role;
-        this.idSel = this.data.codigo;
-        // console.log('dat=>',this.data);
-        // console.log('idsel=>',this.idSel);
-        console.log('num=>',this.data);
-        this.initForms();
-        this.title = "Ingresar Formador";
       break;
-      case "view":
-        this.idSel = this.data.codigo;
-        this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
-          token: this.cuser.token,
-          idUser: this.cuser.iduser,
-          modulo: this.component
-        }).subscribe(
-          (data) => {
-            if (data.success == true) {
-              this.selection = data.data["getSelectData"][0];
-              console.log('==>',this.selection.car_sol);
-              this.typeCargo = this.selection.car_sol
-              this.generateTable(data.data["getDatHistory"]);
-              this.loading.emit(false);
-            } else {
-              this.handler.handlerError(data);
-              this.closeDialog();
-              this.loading.emit(false);
-            }
-          },
-          (error) => {
-            this.handler.showError("Se produjo un error");
-            this.loading.emit(false);
-          }
-        );
-        break;
     }
   }
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      // car_sol: new FormControl(""),
-      // num_vac: new FormControl(""),
-      // salary: new FormControl(""),
-      // tip_req: new FormControl(""),
-      // matrizarp: new FormControl(""),
-      // justification: new FormControl(""),
       state: new FormControl(""),
       aprobacion1: new FormControl(""),
       aprobacion2: new FormControl(""),
@@ -180,23 +133,8 @@ export class TrainerDataDialog {
       create_User: new FormControl(this.cuser.iduser),
 
     });this.formVac = new FormGroup({
-      // fec_sel:  new FormControl(""),
-      // tip_doc: new FormControl(""),
-      // document: new FormControl(""),
-      // nom_com: new FormControl(""),
-      // birthDate: new FormControl(""),
-      // ciu_nac: new FormControl(""),
-      // dep_nac: new FormControl(""),
-      // are_tra: new FormControl(""),
-      // car_sol: new FormControl(""),
-      // eps: new FormControl(""),
-      // pension: new FormControl(""),
-      // obs_vac: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
       con_fin: new FormControl(""),
-      // idGender: new FormControl(""),
-      // age: new FormControl(""),
-      // idsel: new FormControl(this.idTec)
     });
     this.formTraining = new FormGroup({
       tip_for: new FormControl(""),
@@ -212,12 +150,9 @@ export class TrainerDataDialog {
       day_for: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
 
-
     });this.formInsp = new FormGroup({
-     
       idsel: new FormControl(this.idSel),
-    create_User: new FormControl(this.cuser.iduser),
-
+      create_User: new FormControl(this.cuser.iduser),
   });
   }
   getDataInit() {
@@ -242,11 +177,6 @@ export class TrainerDataDialog {
           if(this.matriz)
           this.trainingType = data.data['getTraining'];
 
-              // this.typeMatriz.slice(0, 2);
-        
-          // console.log('==>mt',this.typeMatriz)
-
-
           if (this.view == "update") {
             this.getDataUpdate();
           }
@@ -262,39 +192,6 @@ export class TrainerDataDialog {
       }
     );
   }
-  onSubmit() {
-    if (this.formSelec.valid) {
-      // this.loading.emit(true);
-      let body = {
-        listas: this.formSelec.value,
-        formacion: this.formTraining.value
-      };
-      console.log('req=>',body);
-      this.WebApiService.postRequest(this.endpoint, body, {
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      this.loading.emit(false);
-    }
-  }
   getDataUpdate() {
 
     this.loading.emit(true);
@@ -304,23 +201,8 @@ export class TrainerDataDialog {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
-
-        // this.formSelec.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
-        // this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
-        // this.formSelec.get("car_sol").setValue(data.data["getSelecUpdat"][0].car_sol);
-        // this.formSelec.get("num_vac").setValue(data.data["getSelecUpdat"][0].num_vac);
-        // this.formSelec.get("salary").setValue(data.data["getSelecUpdat"][0].salary);
-        // this.formSelec.get("matrizarp").setValue(data.data["getSelecUpdat"][0].matrizarp);
-        // this.formSelec.get("tip_req").setValue(data.data["getSelecUpdat"][0].tip_req);
-        // this.formSelec.get("justification").setValue(data.data["getSelecUpdat"][0].justification);
-        // this.formSelec.get("observations").setValue(data.data["getSelecUpdat"][0].observations);
-        // this.formSelec.get("aprobacion1").setValue(data.data["getSelecUpdat"][0].aprobacion1);
-        // this.formSelec.get("aprobacion2").setValue(data.data["getSelecUpdat"][0].aprobacion2);
-        // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
-
         this.formTraining.get("document").setValue(data.data["getSelecUpdat"][0].document);
         this.formTraining.get("idPersonale").setValue(data.data["getSelecUpdat"][0].idPersonale);
         this.formTraining.get("tip_for").setValue(data.data["getSelecUpdat"][0].tip_for);
@@ -331,7 +213,6 @@ export class TrainerDataDialog {
         this.formTraining.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formTraining.get("est").setValue(data.data["getSelecUpdat"][0].est);
         this.formTraining.get("day_for").setValue(data.data["getSelecUpdat"][0].day_for);
-
       },
       (error) => {
         this.handler.showError();
@@ -398,14 +279,12 @@ export class TrainerDataDialog {
     this.step--;
   }
   onSelectionAttributes(idet){
-    console.log('cargo=>',idet)
     if(idet =='16/1'){
       this.matriz = true
     }else{
       this.matriz = false
 
     }
-
   }
   onSelectionPerson(event){
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
@@ -414,50 +293,6 @@ export class TrainerDataDialog {
         this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
     }        
   }
-  days = 0;
-  
-//   calculate1(event){
-//     if(event){
-//       this.CheckTrue = false;
-//       this.prue = event;
-//       // this.calculateDays(this.prue,this.prue2);
-//       this.holiday.holiday(this.prue,this.prue2);
-//     }
-   
-//   }
-//    calculate(event){  
-//     if(event){
-//       this.prue2 = event;
-//       // this.calculateDays(this.prue,this.prue2);
-//       this.totalDays(this.prue2);
-//       this.holiday.holiday(this.prue,this.prue2);
-  
-//       this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
-//       this.fec_fin = this.totaLfecHol[0];
-//       this.sumTotalMen = this.totaLfecHol[1];
-//       this.formTraining.get('fec_fin').setValue(this.fec_fin);
-//       // this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
-//       // this.formSelec.get('immediateBoss').setValue(this.jefe);
-//     }
-    
-
-//   }
-//   // daysCom(event){
-//   //   this.comp = event;
-//   //   this.totalDays(this.prue2,this.comp);
-
-//   // }
-//   totalDays(d1){
-//     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
-//     this.totalFin = (d1);
-//     // console.log("total dias solicitados =>",this.totalFin);
-//     if(this.totalFin > 15){
-//       this.handler.showError("No puedes solicitar mas de 15 dias!");
-//       this.reload.emit();
-//       this.loading.emit(false);
-//     }
-//      // this.totalFii(this.totalFin,this.prue2);
-// }
 }
   
   

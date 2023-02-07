@@ -13,7 +13,7 @@
     <div class="card-body">
       <mat-dialog-content>
         <mat-accordion class="example-headers-align">
-          <form form *ngIf="view == 'create' " [formGroup]="formSelec">
+          <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSelec">
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -29,7 +29,7 @@
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Requisición:</mat-label>
                     <mat-select formControlName="tip_req">
-                      <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue">
+                      <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
@@ -42,7 +42,7 @@
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargo a Solicitar:</mat-label>
                     <mat-select formControlName="car_sol" (ngModelChange)="onSelectionAttributes($event)">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
+                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
@@ -54,7 +54,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Salario</mat-label>
-                    <input matInput formControlName="salary" type="number">
+                    <input matInput formControlName="salary" type="number" [readonly]="view == 'update'">
                     <mat-error *ngIf="getSalaryInvalid()">
                       <strong> Ingrese salario.</strong>
                   </mat-error>
@@ -66,7 +66,7 @@
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Matriz:</mat-label>
                     <mat-select formControlName="matrizarp">
-                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" >
+                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
@@ -75,7 +75,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Numero de Vacantes:</mat-label>
-                    <input matInput formControlName="num_vac" type="number">
+                    <input matInput formControlName="num_vac" type="number" [readonly]="view == 'update'">
                     <mat-error *ngIf="getNumInvalid()">
                       <strong> Ingrese # vacantes.</strong>
                   </mat-error>
@@ -99,7 +99,7 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label> Justificación de la Requisición:</mat-label>
-                    <textarea matInput formControlName="justification"></textarea>
+                    <textarea matInput formControlName="justification" [readonly]="view == 'update'"></textarea>
                     <mat-error *ngIf="getJustInvalid()">
                       <strong> Ingrese Justificación.</strong>
                   </mat-error>
@@ -124,114 +124,7 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label>Observaciones:</mat-label>
-                    <textarea matInput formControlName="observations"></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-action-row>
-                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-          </form>
-
-          <form form *ngIf="view == 'update' " [formGroup]="formSelec">
-            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Requisición de Personal &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                  Información Detallada
-                </mat-panel-description>
-                <mat-icon>work</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Cargo a Solicitar:</mat-label>
-                    <mat-select formControlName="car_sol" (ngModelChange)="onSelectionAttributes($event)">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" disabled>
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4" *ngIf="matriz">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp">
-                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" disabled>
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Requisición:</mat-label>
-                    <mat-select formControlName="tip_req" required>
-                      <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue" disabled>
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Salario</mat-label>
-                    <input matInput formControlName="salary" type="number" readonly>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Numero de Vacantes:</mat-label>
-                    <input matInput formControlName="num_vac" type="number" readonly>
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-action-row>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Justificación de la Requisición&nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-                <mat-icon>description</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <mat-label> Justificación de la Requisición:</mat-label>
-                    <textarea matInput formControlName="justification" required readonly></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-action-row>
-                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Observaciones y/o consideraciones especiales &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-                <mat-icon>assignment</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Observaciones:</mat-label>
-                    <textarea matInput formControlName="observations" readonly></textarea>
+                    <textarea matInput formControlName="observations" [readonly]="view == 'update'"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -422,7 +315,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+          <mat-expansion-panel *ngIf="checked" [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Aprobaciones &nbsp; &nbsp;
@@ -444,7 +337,7 @@
                 <dd>{{selection.ma}}</dd>
               </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-2" *ngIf="check">
               <div class="col-md-4">
                 <dt>Juan Olaya </dt>
                 <dd>{{selection.ju}}</dd>

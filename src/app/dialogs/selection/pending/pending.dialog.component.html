@@ -25,42 +25,42 @@
                 <mat-icon>work</mat-icon>
               </mat-expansion-panel-header>
               <div class="row">
+                <div class="col-sm-4"> 
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Requisición:</mat-label>
+                    <mat-select formControlName="tip_req">
+                      <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue" disabled >
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargo a Solicitar:</mat-label>
                     <mat-select formControlName="car_sol" (ngModelChange)="onSelectionAttributes($event)">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" [disabled]="true">
+                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue" disabled>
                         {{idet.description}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4" *ngIf="matriz">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Matriz:</mat-label>
-                    <mat-select formControlName="matrizarp" required>
-                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" [disabled]="true">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Tipo de Requisición:</mat-label>
-                    <mat-select formControlName="tip_req" required>
-                      <mat-option *ngFor="let idet of typeRequisition" [value]="idet.ls_codvalue" [disabled]="true">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Salario</mat-label>
                     <input matInput formControlName="salary" type="number" readonly>
+                  </mat-form-field>
+                </div> 
+              </div>
+              <div class="row">
+                <div class="col-sm-4" *ngIf="matriz">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de Matriz:</mat-label>
+                    <mat-select formControlName="matrizarp">
+                      <mat-option *ngFor="let idet of typeMatriz" [value]="idet.ls_codvalue" disabled>
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
@@ -80,7 +80,6 @@
                   Justificación de la Requisición&nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                  <!--{}-->
                 </mat-panel-description>
                 <mat-icon>description</mat-icon>
               </mat-expansion-panel-header>
@@ -88,7 +87,7 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label> Justificación de la Requisición:</mat-label>
-                    <textarea matInput formControlName="justification" placeholder="" [readonly]="true"></textarea>
+                    <textarea matInput formControlName="justification" readonly></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -110,13 +109,13 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label>Observaciones:</mat-label>
-                    <textarea matInput formControlName="observations" [readonly]="true"></textarea>
+                    <textarea matInput formControlName="observations" readonly></textarea>
                   </mat-form-field>
                 </div>
               </div>
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
             <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>

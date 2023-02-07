@@ -98,6 +98,8 @@ export class AdvanceDialog  {
   checkAvd: boolean;
   checkSol: boolean;
   CheckTrue:boolean = true;
+  arrDayHol: any = [];
+  arrholiday: any = [];
   // document = new FormControl('', [Validators.required]);
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -129,6 +131,33 @@ export class AdvanceDialog  {
         // (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
         this.people = this.cuser.idPersonale;
         this.title = "Anticipo de Vacaciones";
+
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.endpoint + "/" , {
+          action: "getHoliday",
+          idUser: this.cuser.iduser,
+          token: this.cuser.token,
+          modulo: this.component,
+          role: this.cuser.role,
+          idPersonale: this.cuser.idPersonale,
+        }).subscribe(
+          (data) => {
+            this.permissions = this.handler.getPermissions(this.component);
+            // console.log(this.permissions);
+            // console.log(data.success);
+          
+              if (data.success == true) {
+              this.loading.emit(false);
+            } else {
+              this.handler.handlerError(data);
+              this.loading.emit(false);
+            }
+          },
+          (error) => {
+            this.handler.showError("Se produjo un error");
+              this.loading.emit(false);
+          }
+        ); 
       break;
       case "update":
         this.idSel = this.data.codigo;
@@ -200,11 +229,6 @@ export class AdvanceDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
-          // console.log(this.PersonaleInfo);
-        //  this.exitsPersonal = this.PersonaleInfo.find(element => element.idPersonale == this.cuser.idPersonale);
-        //  this.name = this.exitsPersonal.jef_idPersonale;
-        //  console.log(this.exitsPersonal);
-
           this.position        = data.data["getPosition"];
 
           if (this.view == "update") {
@@ -264,7 +288,6 @@ export class AdvanceDialog  {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
         this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
@@ -342,7 +365,6 @@ export class AdvanceDialog  {
   }
   onSelectionChange(event){
         
-       
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
     if( exitsPersonal ){    
@@ -377,8 +399,7 @@ export class AdvanceDialog  {
         this.formSelec.get('fec_fin').setValue(this.fec_fin);
         this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
         // this.formSelec.get('immediateBoss').setValue(this.jefe);
-    }
-    
+    }  
 
   }
   totalDays(event){

@@ -91,7 +91,6 @@ export class PendingDialog  {
   check: 0;
   displayedColumns: any = [];
   checked = false;
-  disabled = false;
   typeMatriz: any = [];
   matriz: boolean = false;
   typeCargo: any = [];
@@ -424,5 +423,6 @@ onSelectionAttributes(idet){
 
   }
 }
+
 }
 

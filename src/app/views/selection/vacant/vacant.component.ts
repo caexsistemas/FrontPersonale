@@ -90,7 +90,6 @@ export class VacantComponent implements OnInit {
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
           this.state = data.data["getSelectData"]['state']
-          console.log('state=>',this.state)
          this.loading = false;
         } else {
           this.handler.handlerError(data);

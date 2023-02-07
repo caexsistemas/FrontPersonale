@@ -26,7 +26,7 @@ import { environment } from "../../../environments/environment";
 import { global } from "../../services/global";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
-import { Observable, pipe } from "rxjs";
+import { concat, Observable, pipe } from "rxjs";
 import { NovedadesnominaServices } from "../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../services/web-api.service";
@@ -98,6 +98,8 @@ export class HolidayDialog  {
   checkAvd: boolean;
   checkSol: boolean;
   CheckTrue:boolean = true;
+  arrDayHol: any = [];
+  arrholiday: any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -129,6 +131,34 @@ export class HolidayDialog  {
         (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
         this.people = this.cuser.idPersonale;
         this.title = "Solicitud de Vacaciones";
+
+        this.loading.emit(true);
+        this.WebApiService.getRequest(this.endpoint + "/" , {
+          action: "getHoliday",
+          idUser: this.cuser.iduser,
+          token: this.cuser.token,
+          modulo: this.component,
+          role: this.cuser.role,
+          idPersonale: this.cuser.idPersonale,
+        }).subscribe(
+          (data) => {
+            this.permissions = this.handler.getPermissions(this.component);
+            // console.log(this.permissions);
+            // console.log(data.success);
+            
+    
+              if (data.success == true) { 
+                  this.loading.emit(false);
+            } else {
+                  this.handler.handlerError(data);
+                  this.loading.emit(false);
+            }
+          },
+          (error) => {
+               this.handler.showError("Se produjo un error");
+               this.loading.emit(false);
+          }
+        ); 
       break;
       case "update":
         this.idSel = this.data.codigo;
@@ -197,12 +227,9 @@ export class HolidayDialog  {
         if (data.success == true) {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
-          // console.log(this.PersonaleInfo);
          this.exitsPersonal = this.PersonaleInfo.find(element => element.idPersonale == this.cuser.idPersonale);
          this.name = this.exitsPersonal.jef_idPersonale;
          this.formSelec.get('day_adv').setValue(0);
-        //  console.log(this.exitsPersonal);
-
           this.position        = data.data["getPosition"];
 
           if (this.view == "update") {
@@ -262,7 +289,6 @@ export class HolidayDialog  {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
         this.formSelec.get("document").setValue(data.data["getSelecUpdat"][0].document);
@@ -339,17 +365,10 @@ export class HolidayDialog  {
   }
   onSelectionChange(event){
         
-       
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-    // console.log(exitsPersonal);
-  
-    if( exitsPersonal ){    
-        // this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
-        this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
 
-        // this.jefe =this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
-        
-        // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);  
+    if( exitsPersonal ){    
+        this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
     }        
   }
   
@@ -358,34 +377,29 @@ export class HolidayDialog  {
           this.CheckTrue = false;
           this.prue = event;
           // this.calculateDays(this.prue,this.prue2);
-          this.holiday.holiday(this.prue,this.prue2);
+          this.holiday.holiday(this.prue,this.prue2 );
       }
-    
   }
    calculate(event){  
     if(event){
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
         this.totalDays(this.prue2,this.comp);
-        this.holiday.holiday(this.prue,this.prue2);
+        this.holiday.holiday(this.prue,this.prue2 );
     
-        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
+        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2 );
         this.fec_fin = this.totaLfecHol[0];
         this.sumTotalMen = this.totaLfecHol[1];
         this.formSelec.get('fec_fin').setValue(this.fec_fin);
         this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
         // this.formSelec.get('immediateBoss').setValue(this.jefe);
     }
-   
-
   }
   daysCom(event){
     if(event){
       this.comp = event;
       this.totalDays(this.prue2,this.comp);
     }
-    
-
   }
   totalDays(d1,d2){
     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
