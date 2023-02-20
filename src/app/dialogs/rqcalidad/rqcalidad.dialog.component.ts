@@ -57,58 +57,45 @@ export class RqcalidadDialog  {
   conCumpleGen:     number = 0;
   conNoCumpGen:     number = 0;
   conNoACumGen:     number = 0;
-  campGeneralAny:   any = [
-                          'atn_cont_ini',
-                          'atn_gest_tim',
-                          'hab_dej_exp_rea_preg',
-                          'hab_esc_act_par_con_nec_cli',
-                          'hab_man_de_obj',
-                          'proc_rea_ofr_ven_cru',                         
-                          'tyt_cie_cod',
-                          //'tyt_ate_ama_emp' 
-                          'tyt_ate_con_ini',
-                          'tyt_hab_com_esc_act_par_con_nec_cli',
-                          'tyt_hab_com_man_obj'
-
+  campGeneralAny:   any = [                   
+                          'atn_ama_emp',
+                          'tyt_ate_ama_emp',
+                          'atn_gest_tim'
                           ];
   //Datos Procesos
   conCumplePro:     number = 0;
   conNoCumpPro:     number = 0;
   conNoACumPro:     number = 0;
   campProcesosAny:  any = [
-                          'proc_brin_inf_corr_com_pro_ofer',
-                          'proc_brin_inf_corr_cam_vig',
-                          'proc_brin_inf_corr_tar',
-                          'proc_brin_inf_corr_fac',
-                          'proc_brin_inf_corr_com_port',
-                          'proc_brin_inf_corr_tie_ent_act_ac',
-                          'proc_brin_inf_com_corr_otr_sol',
-                          'proc_brin_inf_otr_pro',
-                          'proc_res_ben_tod_cla',
-                          'proc_rea_res_ges',
-                          'cie_cie_com',
-                          'cie_ofr_adi',
-                          'hogar_pro_ven_bri_inf_cor_tie_ins_apr',
+                          'hab_dej_exp_rea_preg',
                           'tyt_hab_com_int_con_nes_cli',
-                          'tyt_pro_ven_bri_inf_cor_ben_ban_vig',
-                          'tyt_pro_ven_bri_inf_cor_ent_equ',
-                          'tyt_cie_rea_res_ges',
-                          'tyt_hab_com_met_pag'
-                                                   
+                          'tyt_hab_com_esc_act_par_con_nec_cli',
+                          'hab_esc_act_par_con_nec_cli'                                            
                           ];
   //Datos Criticos
   contCriticos:     number = 0;
   cammpCriticoAny:  any = [
-                          'cri_ama',
-                          'cri_uso_corr_tod_cla',
-                          'cri_aba_lla',
+                          'proc_brin_inf_corr_com_pro_ofer',
+                          'hab_man_de_obj',
+                          'proc_brin_inf_corr_com_pro_ofer',
+                          'tyt_hab_com_man_obj',
                           'cri_rea_dev_lla',
-                          'cri_gui_tra_dat',
-                          'cri_val_tit',
-                          'cri_val_cor_cob',
-                          'cri_fal_exp_mal_pra',
-                          'tyt_cri_fra_com_seg_pol_fra'
+                          'cie_cie_com'
                           ];
+  //(A2)
+  campAinfo:        any = [
+                          'tyt_hab_com_met_pag',
+                          'cri_val_tit',
+                          'tyt_cie_rea_res_ges',
+                          'proc_res_ben_tod_cla',
+                          'cri_gui_tra_dat',
+                          'proc_rea_res_ges',
+                          'cie_ofr_adi',
+                          'proc_rea_ofr_ven_cru',
+                          'cri_fal_exp_mal_pra',
+                          'cri_val_cor_cob'
+                          ];
+
   //Observacion
   observAspect:     string = "";
   //Tipo Matriz
@@ -402,92 +389,67 @@ export class RqcalidadDialog  {
   }
 
   validcheked(){
-    //General
-    this.conCumpleGen = 0;
-    this.conNoCumpGen = 0;
-    this.conNoACumGen = 0;
-    //Procesos
-    this.conCumplePro = 0;
-    this.conNoCumpPro = 0;
-    this.conNoACumPro = 0;
-    //Criticos
-    this.contCriticos = 0;
-    //sumador 
-    let contSumGen = 0;
-    let contSumPro = 0;
+  
+    //Valor (G)
+    let sum_G   = 0.1;
+    let sum_AU  = 0.125;
+    let sum_N   = 0.0875;
+    let sum_AD  = 0.029;
+    let sum_ADT = 0.04;
+    //Total Informacion
+    let total_G   = 0;
+    let total_AU  = 0;
+    let total_N   = 0;
+    let total_AD  = 0;
+    let total_ADT = 0;
 
-    if( this.tipMatriz == '40/3' ){
-      contSumGen = 0.60;
-      contSumPro = 0.64;
-    }else{
-      contSumGen = 1;
-      contSumPro = 1;
-    }
+    let Total    = 0;
 
     for (const field in this.formProces.controls) { 
-        
-      //Contador General
+
+      //(G)
       if( this.campGeneralAny.indexOf(field) !== -1 ){
-
         if( this.formProces.controls[field].value == '34/1'){
-          this.conCumpleGen = this.conCumpleGen + contSumGen;
-        }
-        if( this.formProces.controls[field].value == '34/2'){
-          this.conNoCumpGen = this.conNoCumpGen + contSumGen;
-        }
-        if( this.formProces.controls[field].value == '34/3'){
-          this.conNoACumGen = this.conNoACumGen + contSumGen;
-        }
+          total_G = total_G + sum_G;
+        }    
       }
-
-      //Contador Procesos
+      //(A1)
       if( this.campProcesosAny.indexOf(field) !== -1 ){
-
         if( this.formProces.controls[field].value == '34/1'){
-          this.conCumplePro = this.conCumplePro + contSumPro;
-        }
-        if( this.formProces.controls[field].value == '34/2'){
-          this.conNoCumpPro = this.conNoCumpPro + contSumPro;
-        }
-        if( this.formProces.controls[field].value == '34/3'){
-          this.conNoACumPro = this.conNoACumPro + contSumPro;
+          total_AU = total_AU + sum_AU;
         }
       }
-
-      //Contador Criticos
+      //(N)
       if( this.cammpCriticoAny.indexOf(field) !== -1 ){
-
-        if( this.formProces.controls[field].value == '34/2'){
-          this.contCriticos = this.contCriticos + 1;
+        if( this.formProces.controls[field].value == '34/1'){
+          total_N = total_N + sum_N;
         }
       }
-        
+      //(A2) 
+      if( this.campAinfo.indexOf(field) !== -1 && this.tipMatriz != '40/3' ){
+        if( this.formProces.controls[field].value == '34/1'){
+          total_AD = total_AD + sum_AD;
+        }
+      }
+      //(A2) (TYT)
+      if( this.campAinfo.indexOf(field) !== -1 && this.tipMatriz == '40/3' ){
+        if( this.formProces.controls[field].value == '34/1'){
+          total_ADT = total_ADT + sum_ADT;
+        }
+      }
+
     }
-    //General
-    let totaltrein;
-    let totalfinaGen;
-    totaltrein = this.conCumpleGen / (this.conCumpleGen + this.conNoCumpGen);
-    //Procesos
-    let totaltreproc;
-    let totalfinProc
-    totaltreproc = this.conCumplePro / (this.conCumplePro + this.conNoCumpPro);
-    //Total Puntaje
-    totalfinaGen = totaltrein * 30;
-    totalfinProc = totaltreproc * 70;
 
-    if( this.contCriticos >= 1 ){
-      this.formProces.get('final_note').setValue(Math.round(0));
-    }else if( totalfinaGen >= 0 && totalfinProc >= 0 ){
-      let TotalPuntaj = totalfinaGen + totalfinProc;
-      this.formProces.get('final_note').setValue(Math.round(TotalPuntaj));
-    }else if( totalfinaGen >= 0 ){
-      this.formProces.get('final_note').setValue(Math.round(totalfinaGen));
-    }else if(totalfinProc >= 0){
-      this.formProces.get('final_note').setValue(Math.round(totalfinProc));
-    }else{
-      this.formProces.get('final_note').setValue(Math.round(0));
-    }      
+    //Sumatoria valores 
+    Total = total_G + total_AU + total_N + total_AD + total_ADT;
+    console.log(total_G);
+    console.log(total_AU);
+    console.log(total_N);
+    console.log(total_AD);
+    console.log(total_ADT);
 
+
+    this.formProces.get('final_note').setValue(Math.round(Total*100));
   }
 
   onSelectLabor(){

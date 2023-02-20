@@ -32,6 +32,7 @@ import { IngresoComponent } from './ingreso/ingreso.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { TemplateComponent } from '../../template/template.component';
+import { CommisionComponent } from './commision/commision.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -67,7 +68,8 @@ const ngWizardConfig: NgWizardConfig = {
     MatBottomSheetModule
   ],
   declarations: [
-    IngresoComponent
+    IngresoComponent,
+    CommisionComponent
   ],
   entryComponents:[
     TemplateComponent

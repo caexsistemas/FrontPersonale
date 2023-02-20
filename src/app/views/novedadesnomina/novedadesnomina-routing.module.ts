@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IngresoComponent } from './ingreso/ingreso.component';
+import { CommisionComponent } from './commision/commision.component';
+
 
 const routes: Routes = [
 
@@ -19,6 +21,13 @@ const routes: Routes = [
           component: IngresoComponent,
           data: {
             title: 'Ingreso-Retiro'
+          }
+        },
+        {
+          path: 'commisions',
+          component: CommisionComponent,
+          data: {
+            title: 'Comision/Bono'
           }
         }
       ]

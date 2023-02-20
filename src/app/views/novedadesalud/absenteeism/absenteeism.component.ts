@@ -244,7 +244,6 @@ export class AbsenteeismComponent implements OnInit {
         response => {
           this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
-            console.log("repo: "+response);
             this.handler.showSuccess('El archivo se cargo exitosamente');
             this.personaleData = response.data;
             this.loading = false;

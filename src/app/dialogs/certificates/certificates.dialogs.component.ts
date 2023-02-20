@@ -11,6 +11,12 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
+export interface PeriodicElement {
+    currentm_user: string,
+    date_move:string,
+    type_move: string
+  }
+
 @Component({
     selector: 'app-certificates',
     templateUrl: './certificates.dialogs.component.html',
@@ -74,7 +80,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
                         data => {
                             if (data.success == true) {
                                 this.dataAbs = data.data['getDatPer'][0];
-                                //this.generateTable(data.data['getDatHistory']);   
+                                this.generateTable(data.data['getDatHistory']);   
                                 this.loading.emit(false);
                             } else {
                                 this.handler.handlerError(data);
@@ -246,6 +252,14 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
     );
   }
 
-  
+  generateTable(data){
+    this.displayedColumns = [
+      'currentm_user',
+      'date_move',
+      'type_move'  
+    ];
+    this.historyMon = data;
+    this.clickedRows = new Set<PeriodicElement>();
+  }
 
   }

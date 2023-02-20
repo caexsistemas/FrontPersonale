@@ -200,7 +200,7 @@ export class CertificatesComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(data);
+        //console.log(data);
         if (data.success == true) {
               
               const link = document.createElement("a");
