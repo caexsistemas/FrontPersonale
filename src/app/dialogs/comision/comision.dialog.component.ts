@@ -11,6 +11,12 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
+export interface PeriodicElement {
+    currentm_user: string,
+    date_move:string,
+    type_move: string
+  }
+
 @Component({
   selector: 'app-comision',
   templateUrl: './comision.dialog.component.html',
@@ -42,6 +48,7 @@ export class ComisionDialog {
    //Control Campos Update
    conStyle:      String = "";
    conReadOnly:   boolean = false;
+   dataAbs:     any = []; 
 
   constructor(
     public dialogRef: MatDialogRef<ComisionDialog>,
@@ -63,6 +70,32 @@ export class ComisionDialog {
             this.title = "Actualizar Comisión/Bono";
             this.idAds = this.data.codigo;
           break;
+          case 'view':
+            this.idAds = this.data.codigo;
+            this.loading.emit(true);
+            this.WebApiService.getRequest(this.endpoint + '/' + this.idAds, {
+                token: this.cuser.token,
+                idUser: this.cuser.iduser,
+                modulo: this.component
+            })
+                .subscribe(
+                    data => {
+                        if (data.success == true) {
+                            this.dataAbs = data.data['getDatPer'][0];
+                            this.generateTable(data.data['getDatHistory']);   
+                            this.loading.emit(false);
+                        } else {
+                            this.handler.handlerError(data);
+                            this.closeDialog(); 
+                            this.loading.emit(false);
+                        }
+                    },
+                    error => {
+                        this.handler.showError('Se produjo un error');
+                        this.loading.emit(false);
+                    }
+                );
+        break;
       }
    }
 
@@ -188,6 +221,48 @@ export class ComisionDialog {
         }
     );
   }
+
+  onSubmitUpdate(){
+
+    let body = {
+        absen: this.formProces.value,
+    }
+        this.loading.emit(true);
+        //Validados incapcidad
+
+        this.WebApiService.putRequest(this.endpoint+'/'+this.idAds,body,{
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+        })
+        .subscribe(
+            data=>{
+                if(data.success){
+                    this.handler.showSuccess(data.message);
+                    this.reload.emit();
+                    this.closeDialog();
+                }else{
+                    this.handler.handlerError(data);
+                    this.loading.emit(false);
+                }
+            },
+            error=>{
+                this.handler.showError();
+                this.loading.emit(false);
+            }
+        );
+
+   }
+
+   generateTable(data){
+        this.displayedColumns = [
+        'currentm_user',
+        'date_move',
+        'type_move'  
+        ];
+        this.historyMon = data;
+        this.clickedRows = new Set<PeriodicElement>();
+    }
 
 
 }

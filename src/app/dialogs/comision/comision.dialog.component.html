@@ -82,7 +82,7 @@
             <div mat-dialog-actions>
                 <div class="text-center col-12">
                     <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                        (click)="valIncapaAusen()">Actualizar</button>
+                        (click)="onSubmitUpdate()">Actualizar</button>
 
                     <button *ngIf="view == 'create'" mat-button class="btn btn-success"
                         (click)="onSubmi()">Guardar</button>
@@ -93,4 +93,89 @@
         </div>
 
     </div>
+</div>
+
+
+<div *ngIf="view == 'view'">
+    <div class="modal-header button_header">
+        <h5 class="modal-title">Información Detallada de la Ausencia</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <mat-dialog-content style="min-width: 500px;">
+
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <dt>Documento de Identificaci&oacute;n:</dt>
+                <dd>{{dataAbs.document}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Nombre Completo:</dt>
+                <dd>{{dataAbs.name}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Tipo Comisi&oacute;n:</dt>
+                <dd>{{dataAbs.tipo_comi}}</dd>
+            </div>
+
+            <div class="col-md-3">
+                <dt>Fecha Comisi&oacute;n:</dt>
+                <dd>{{dataAbs.fecha_commi}}</dd>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <dt>Tipo Motivo:</dt>
+                <dd>{{dataAbs.motivo}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Quincena:</dt>
+                <dd>{{dataAbs.quincena}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Valor:</dt>
+                <dd>{{dataAbs.valor_commi}}</dd>
+            </div>
+        </div>
+      
+        <div class="row mt-3">
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        Histórico de Procesos:  
+                    </div>
+
+                    <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                        <!-- Position Column -->
+                        
+                        <ng-container matColumnDef="currentm_user">
+                        <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                        <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="type_move">
+                            <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                            <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="date_move">
+                            <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                            <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                        </ng-container>
+                                
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </mat-dialog-content>
 </div>

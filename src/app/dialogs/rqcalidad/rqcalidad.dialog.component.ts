@@ -402,6 +402,18 @@ export class RqcalidadDialog  {
     let total_N   = 0;
     let total_AD  = 0;
     let total_ADT = 0;
+    //Contador
+    let cump_G   = 0;
+    let noap_G   = 0;
+    let cump_AU  = 0;
+    let noap_AU  = 0;
+    let cump_N   = 0;
+    let noap_N   = 0;
+    let cump_AD = 0;
+    let noap_AD = 0;
+    let cump_ADT = 0;
+    let noap_ADT = 0;
+
 
     let Total    = 0;
 
@@ -409,45 +421,40 @@ export class RqcalidadDialog  {
 
       //(G)
       if( this.campGeneralAny.indexOf(field) !== -1 ){
-        if( this.formProces.controls[field].value == '34/1'){
-          total_G = total_G + sum_G;
-        }    
+        if( this.formProces.controls[field].value == '34/1' ){cump_G++;} else 
+        if( this.formProces.controls[field].value == '34/3' ){noap_G++;}    
       }
       //(A1)
       if( this.campProcesosAny.indexOf(field) !== -1 ){
-        if( this.formProces.controls[field].value == '34/1'){
-          total_AU = total_AU + sum_AU;
-        }
+        if( this.formProces.controls[field].value == '34/1' ){cump_AU++;} else 
+        if( this.formProces.controls[field].value == '34/3' ){noap_AU++;}    
       }
       //(N)
       if( this.cammpCriticoAny.indexOf(field) !== -1 ){
-        if( this.formProces.controls[field].value == '34/1'){
-          total_N = total_N + sum_N;
-        }
+        if( this.formProces.controls[field].value == '34/1' ){cump_N++;} else 
+        if( this.formProces.controls[field].value == '34/3' ){noap_N++;}    
       }
       //(A2) 
       if( this.campAinfo.indexOf(field) !== -1 && this.tipMatriz != '40/3' ){
-        if( this.formProces.controls[field].value == '34/1'){
-          total_AD = total_AD + sum_AD;
-        }
+        if( this.formProces.controls[field].value == '34/1' ){cump_AD++;} else 
+        if( this.formProces.controls[field].value == '34/3' ){noap_AD++;}    
       }
       //(A2) (TYT)
       if( this.campAinfo.indexOf(field) !== -1 && this.tipMatriz == '40/3' ){
-        if( this.formProces.controls[field].value == '34/1'){
-          total_ADT = total_ADT + sum_ADT;
-        }
+        if( this.formProces.controls[field].value == '34/1' ){cump_ADT++;} else 
+        if( this.formProces.controls[field].value == '34/3' ){noap_ADT++;} 
       }
 
     }
 
     //Sumatoria valores 
-    Total = total_G + total_AU + total_N + total_AD + total_ADT;
-    console.log(total_G);
-    console.log(total_AU);
-    console.log(total_N);
-    console.log(total_AD);
-    console.log(total_ADT);
+    total_G   = (sum_G * cump_G) + (sum_G * noap_G);
+    total_AU  = (sum_AU * cump_AU) + (sum_AU * noap_AU);
+    total_N   = (sum_N * cump_N) + (sum_N * noap_N);
+    total_AD  = (sum_AD * cump_AD) + (sum_AD * noap_AD);
+    total_ADT = (sum_ADT * cump_ADT) + (sum_ADT * noap_ADT);
 
+    Total = total_G + total_AU + total_N + total_AD + total_ADT;
 
     this.formProces.get('final_note').setValue(Math.round(Total*100));
   }
