@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TemplateComponent } from '../../../template/template.component';
 import { ComisionDialog } from '../../../dialogs/comision/comision.dialog.component';
-//import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
+import { ReportsComisionComponent } from '../../../dialogs/reports/comision/reports-comision.component';
 import { environment } from '../../../../environments/environment';
 import { Console } from 'console';
 
@@ -255,6 +255,10 @@ export class CommisionComponent implements OnInit {
             });
         break;
         }
+    }
+
+    onTriggerSheetClick(){
+      this.matBottomSheet.open(ReportsComisionComponent)
     }
 
 }

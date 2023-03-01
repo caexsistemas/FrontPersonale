@@ -455,7 +455,7 @@ export class RqcalidadDialog  {
     total_ADT = (sum_ADT * cump_ADT) + (sum_ADT * noap_ADT);
 
     Total = total_G + total_AU + total_N + total_AD + total_ADT;
-
+    
     this.formProces.get('final_note').setValue(Math.round(Total*100));
   }
 
@@ -697,12 +697,14 @@ export class RqcalidadDialog  {
           this.formProces.get('asp_pos_bri_inf_cor_ser_ofe').setValue(data.data['getDataUpda'][0].asp_pos_bri_inf_cor_ser_ofe);
           this.formProces.get('asp_pos_rea_lec_cor_con').setValue(data.data['getDataUpda'][0].asp_pos_rea_lec_cor_con);
           this.formProces.get('asp_pos_apl_lin_mod_gana').setValue(data.data['getDataUpda'][0].asp_pos_apl_lin_mod_gana);
+          
         },
         error => {
             this.handler.showError();
             this.loading.emit(false);
         }
     );
+
   }
 
   labelMatriz(event){

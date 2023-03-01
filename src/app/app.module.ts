@@ -119,6 +119,7 @@ import { ReportsManagementComponent } from './dialogs/reports/management/reports
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CertificatesDialog } from './dialogs/certificates/certificates.dialogs.component';
 import { ComisionDialog } from './dialogs/comision/comision.dialog.component';
+import { ReportsComisionComponent } from './dialogs/reports/comision/reports-comision.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -231,7 +232,8 @@ const routes: Routes = [];
     CertificatesDialog,
     CalendarDialog,
     ReportsManagementComponent,
-    ComisionDialog
+    ComisionDialog,
+    ReportsComisionComponent
   ],
   providers: [{
     
