@@ -87,7 +87,7 @@
                         <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Con o Sin Salario:</mat-label>
-                                <mat-select formControlName="desplesal"  required>
+                                <mat-select formControlName="desplesal" (ngModelChange)="onSelecTipoCerti($event)" required>
                                   <mat-option *ngFor="let idet of ListConSin" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
@@ -98,13 +98,81 @@
                         <div class="col-md-4" *ngIf="view == 'update'">
                             <mat-form-field class="example-full-width readonly-wrapper">
                                 <mat-label>Con o Sin Salario:</mat-label>
-                                <mat-select formControlName="desplesal" [readonly] = "true" required>
+                                <mat-select formControlName="desplesal" [readonly] = "true" (ngModelChange)="onSelecTipoCerti($event)" required>
                                   <mat-option *ngFor="let idet of ListConSin" [value]="idet.ls_codvalue" >
                                     {{idet.description}}
                                   </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                    </div>
+
+                    <div class="row" *ngIf="tup_sala == true">
+
+                        <div class="col-md-4" *ngIf="view == 'create'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Comisi&oacute;n/Bonificaci&oacute;n:</mat-label>
+                                <mat-select formControlName="tipo_comi"   [required]="requi_sal" (ngModelChange)="onSelectioncomibonos($event)">
+                                  <mat-option *ngFor="let idet of ListTipoComis" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>   
+
+                        <div class="col-md-4" *ngIf="view == 'update'">
+                            <mat-form-field class="example-full-width readonly-wrapper">
+                                <mat-label>Comisi&oacute;n/Bonificaci&oacute;n:</mat-label>
+                                <mat-select formControlName="tipo_comi" [readonly] = "true"  (ngModelChange)="onSelectioncomibonos($event)" >
+                                  <mat-option *ngFor="let idet of ListTipoComis" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>  
+                        
+                        <div class="col-md-4" *ngIf="view == 'create' && viscamp_cb == true" >
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Meses a consultar</mat-label>
+                                <input matInput formControlName="men_num" type="number" [required]="requi_sal">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'update' && viscamp_cb == true" >
+                            <mat-form-field class="example-full-width readonly-wrapper" >
+                                <mat-label>Meses a consultar</mat-label>
+                                <input matInput formControlName="men_num" type="number" [readonly] = "true" [required]="requi_sal">
+                            </mat-form-field>
+                        </div>
+                        
+                        <!--<div class="col-md-4" *ngIf="view == 'create' && viscamp_cb == true" >
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Fecha Inicio</mat-label>
+                                <input matInput formControlName="fi_inicio" type="date" [required]="requi_sal">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'update' && viscamp_cb == true" >
+                            <mat-form-field class="example-full-width readonly-wrapper" >
+                                <mat-label>Fecha Inicio</mat-label>
+                                <input matInput formControlName="fi_inicio" [readonly] = "true" type="date">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'create' && viscamp_cb == true" >
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Fecha Fin</mat-label>
+                                <input matInput formControlName="ff_fin" type="date" [required]="requi_sal">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'update' && viscamp_cb == true" >
+                            <mat-form-field class="example-full-width readonly-wrapper" >
+                                <mat-label>Fecha Fin</mat-label>
+                                <input matInput formControlName="ff_fin" [readonly] = "true" type="date">
+                            </mat-form-field>
+                        </div>-->
 
                     </div>
 
@@ -168,7 +236,16 @@
                 <dt>Fecha Radicaci&oacute;n:</dt>
                 <dd>{{dataAbs.fech_ing | date: 'medium'}}</dd>
             </div>
+            <div class="col-md-3">
+                <dt>Comisi&oacute;n/Bonificaci&oacute;n:</dt>
+                <dd>{{dataAbs.tipo_comi}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Meses a consultar:</dt>
+                <dd>{{dataAbs.men_num}}</dd>
+            </div>
         </div>
+
       
         <div class="row mt-3">
             <div class="col-md-12">

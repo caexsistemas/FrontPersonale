@@ -48,6 +48,10 @@ export interface PeriodicElement {
     ListTipCer:    any = [];
     dataAbs:       any = []; 
     ListConSin:    any = [];
+    ListTipoComis: any = [];
+    tup_sala:      boolean = false;
+    requi_sal:     boolean = false;
+    viscamp_cb:    boolean = false;
 
     constructor(        
         public dialogRef: MatDialogRef<CertificatesDialog>,
@@ -106,7 +110,11 @@ export interface PeriodicElement {
           token: new FormControl(""),
           document: new FormControl(""),
           desplesal: new FormControl(""),
-          createUser: new FormControl(this.cuser.iduser)
+          createUser: new FormControl(this.cuser.iduser),
+          fi_inicio: new FormControl(""),
+          tipo_comi: new FormControl(""),
+          men_num: new FormControl(""),
+          ff_fin: new FormControl("")
       });
     }
 
@@ -127,6 +135,8 @@ export interface PeriodicElement {
                   this.ListTipCer    = data.data['getDatTipoCer'];
                   this.ListPersonale = data.data['getDataPersonale'];
                   this.ListConSin    = data.data['getDatconsin'];
+                  this.ListTipoComis = data.data['getDatcomibono'];
+
                   this.formProces.get('token').setValue(data.data['getDatToken']);
                   this.formProces.get('status').setValue('82/1');
 
@@ -155,11 +165,49 @@ export interface PeriodicElement {
       let exitsPersonal = personale.find(element => element.document == event);
       if( exitsPersonal ){
           this.formProces.get('idPersonale').setValue(exitsPersonal.idPersonale);
+          if( exitsPersonal.tipsalarywork == '81/2'){
+            this.tup_sala = true;
+          }
       }        
     }
 
-      //Enviar Informacion
-  onSubmi(){
+    onSelectioncomibonos(event){
+        if( event != '' ){
+            this.viscamp_cb = true;
+        }      
+    }
+
+    onSelecTipoCerti(event){
+
+        if( event == '84/2'){
+            this.tup_sala = false;
+            this.viscamp_cb = false;
+            this.formProces.get('tipo_comi').setValue("");
+            this.formProces.get('fi_inicio').setValue("");
+            this.formProces.get('ff_fin').setValue("");
+            this.formProces.get('men_num').setValue("");
+            
+        }else{
+            this.tup_sala = true;
+        }
+        
+    }
+
+    //Enviar Informacion
+    onSubmi(){
+
+        if( this.viscamp_cb == true
+            && this.tup_sala == true
+            && this.formProces.value.tipo_comi.length > 0
+            && ( this.formProces.value.men_num < 0
+                 || this.formProces.value.men_num == '' 
+                 || this.formProces.value.men_num == null
+               )
+            ){
+            this.handler.showError('Por favor ingresar el numero de meses');
+            this.loading.emit(false);
+            return;
+        }
 
         if (this.formProces.valid) {
             this.loading.emit(true);
@@ -195,6 +243,14 @@ export interface PeriodicElement {
   }
 
   onSubmitUpdate(){
+
+    if( this.formProces.value.fi_inicio >= this.formProces.value.ff_fin 
+        && this.requi_sal == true
+        ){
+        this.handler.showError('Por favor validar el rango de fechas');
+        this.loading.emit(false);
+        return;
+    }
 
     let body = {
         absen: this.formProces.value,
@@ -243,7 +299,12 @@ export interface PeriodicElement {
             this.formProces.get('token').setValue(data.data['getDataUpda'][0].token);
             this.formProces.get('status').setValue(data.data['getDataUpda'][0].status);
             this.formProces.get('tip_certi').setValue(data.data['getDataUpda'][0].tip_certi);  
-            this.formProces.get('desplesal').setValue(data.data['getDataUpda'][0].desplesal);          
+            this.formProces.get('desplesal').setValue(data.data['getDataUpda'][0].desplesal);
+            this.formProces.get('fi_inicio').setValue(data.data['getDataUpda'][0].fi_inicio);
+            this.formProces.get('ff_fin').setValue(data.data['getDataUpda'][0].ff_fin);
+            this.formProces.get('tipo_comi').setValue(data.data['getDataUpda'][0].tipo_comi); 
+            this.formProces.get('men_num').setValue(data.data['getDataUpda'][0].men_num);   
+
         },
         error => {
             this.handler.showError();
