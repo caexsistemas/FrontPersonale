@@ -118,6 +118,7 @@ import { CalendarDialog } from './dialogs/calendar/calendar.dialog.component';
 import { ReportsManagementComponent } from './dialogs/reports/management/reports-management.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CertificatesDialog } from './dialogs/certificates/certificates.dialogs.component';
+import { SuspendDialog } from './dialogs/suspend/suspend.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -170,7 +171,7 @@ const routes: Routes = [];
     MatCardModule,
     MatRadioModule,
     MatSnackBarModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
     
   ],
   declarations: [
@@ -227,14 +228,9 @@ const routes: Routes = [];
     AcceptanceDialog,
     LiquidationDialog,
     AdvanceDialog,
-<<<<<<< HEAD
     ReportsManagementComponent,
-    CertificatesDialog
-=======
-    CalendarDialog,
-    ReportsManagementComponent
-  
->>>>>>> 32fa0af7b943ebe1b38063c31721ffb163735558
+    CertificatesDialog,
+    SuspendDialog
   ],
   providers: [{
     

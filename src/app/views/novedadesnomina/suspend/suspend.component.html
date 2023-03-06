@@ -1,0 +1,144 @@
+<div class="content">
+  <div class="card">
+      <div class="card-header">
+          Suspensiones
+      </div>
+      <div class="content-table">
+          <div class="toolbar-table" *ngIf="permissions != null">
+              <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+               
+                  <div class="btn-group" *ngIf="permissions.create" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-primary ">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer"  role="menu">
+                        <li role="menuitem"><a class="dropdown-item" (click)="successModal.show()" >Importar Archivo</a></li>
+                        <li role="menuitem"><a class="dropdown-item" (click)="option('create')">Ingresar nuevo registro</a></li>                        
+                    </ul>
+                </div>
+              </div>
+
+              <div class="container">
+                  <mat-form-field appearance="standard" style="width: 100%;">
+                      <mat-label>Buscar..</mat-label>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                  </mat-form-field>
+              </div>
+          </div>
+
+          <div class="section-table first-action">
+              <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                  *ngIf="contenTable.length > 0">
+                  <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
+
+                  <ng-container matColumnDef="view">
+                      <th mat-header-cell *matHeaderCellDef > Ver </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.sus_id)"
+                              title="Ver">
+                              <i class="fa fa-eye fa-lg"></i>
+                          </button>
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="fec_rec">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha de Radicaci&oacute;n  </th>
+                      <td mat-cell *matCellDef="let element"> {{element.fec_rec | date}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Documento </th>
+                    <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+                </ng-container>
+                  
+                  <ng-container matColumnDef="idPersonale">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombres </th>
+                    <td mat-cell *matCellDef="let element"> {{element.emp}} </td>
+                </ng-container>
+                <ng-container matColumnDef="month">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Mes </th>
+                  <td mat-cell *matCellDef="let element"> {{element.month}} </td>
+              </ng-container>
+
+                  <ng-container matColumnDef="fec_ini">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha de Inicio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fec_ini | date}} </td>
+                </ng-container>
+
+                  <ng-container matColumnDef="fec_fin">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Finalizacion</th>
+                      <td mat-cell *matCellDef="let element"> {{element.fec_fin | date}} </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef > Acciones </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',element.sus_id)"
+                              title="Editar">
+                              <i class="fa fa-edit fa-lg"></i>
+                          </button>
+                      </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+          </div>
+          <div *ngIf="contenTable.length == 0">
+              <h4 class="no-records">No hay registros...</h4>
+          </div>
+      </div>
+  </div>
+</div>
+<div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>
+<ng-container>
+  <div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Importar información</h4>
+              <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group row">
+                  <div class="col-md-12">
+                      <label class="col-form-label" for="file">Archivo excel</label>
+                    <div class="file-select" id="src-file1" >
+                      <input type="file" name="src-file" aria-label="Archivo" (change)="onFileChange($event)" ng-model="files">
+                    </div>
+                    <hr>
+                    <div *ngIf="data" class="container mt-6">
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                            <div class="modal-header2" *ngIf="data">
+                              <h5 class="modal-title"> Información Detallada</h5>
+                              <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+                              </button>
+                          </div>
+                    <table  class="table table-hover" id="excelTable">             
+                        <tbody>
+                          <tr *ngFor="let row of data" id="excelTable">
+                            <td *ngFor="let cell of row" id="excelTable">{{cell}}</td>
+                          </tr>
+                        </tbody>       
+                    </table>
+                    </div>
+                      </div>
+                    </div>
+                  </div>                 
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" id="fileupload" type="submit" #fileInput (click)="upload()"  accept=".xlsx" [disabled]="!data">Guardar</button>
+              <button type="button" class="btn btn-danger" (click)="successModal.hide()">Cancelar</button>
+          </div>      
+      </div>      
+  </div> 
+  </div>
+</ng-container>
+
+

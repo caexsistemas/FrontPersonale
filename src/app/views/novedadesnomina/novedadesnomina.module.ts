@@ -32,6 +32,9 @@ import { IngresoComponent } from './ingreso/ingreso.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { TemplateComponent } from '../../template/template.component';
+import { SuspendComponent } from './suspend/suspend.component';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -64,10 +67,12 @@ const ngWizardConfig: NgWizardConfig = {
     MatNativeDateModule,
     MatMenuModule,
     MatCardModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    AngularFileUploaderModule,
   ],
   declarations: [
-    IngresoComponent
+    IngresoComponent,
+    SuspendComponent
   ],
   entryComponents:[
     TemplateComponent

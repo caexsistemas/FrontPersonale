@@ -92,6 +92,10 @@ export class CalendarDialog
           break;
           case "view":
             this.idfeed = this.data.id;
+            console.log('****');
+            console.log(this.feed);
+            
+            
             // this.idfeed = this.data.codigo;
             this.title = "Información General";
             this.loading.emit(true);

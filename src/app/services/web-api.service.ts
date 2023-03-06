@@ -45,6 +45,23 @@ export class WebApiService{
     url = this.urlKaysenBackend+url;
     return this._http.post<any>(url,body,{headers,params});
   }
+  //METODO CARGUE EXCEL
+  uploadRequest(url:any,file:any,params:any):Observable<any>{
+    // header
+    // let headers = this.setHeaders();
+    // let formData = new FormData();
+    // formData.append('file', file, file.name);
+    // url = this.urlKaysenBackend+url;
+    // return this._http.post<any>(url, formData,{headers,params});
+    
+    let headers = this.setHeaders();
+    let formData = new FormData();
+    formData.append('file', file, file.name);
+    
+    // body = JSON.stringify(body);
+    url = this.urlKaysenBackend+url;
+    return this._http.post<any>(url,formData,{headers,params});
+  }
 
   // METODO PUT
   putRequest(url:string,body:any,params:any):Observable<any>{
