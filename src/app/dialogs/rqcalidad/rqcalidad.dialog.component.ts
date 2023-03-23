@@ -413,6 +413,12 @@ export class RqcalidadDialog  {
     let noap_AD = 0;
     let cump_ADT = 0;
     let noap_ADT = 0;
+    //Nueva Sumatoria
+    let val_G   = 2;
+    let val_AU  = 2;
+    let val_N   = 4;
+    let val_AD  = 7;
+    let val_ADT = 5;
 
 
     let Total    = 0;
@@ -448,15 +454,20 @@ export class RqcalidadDialog  {
     }
 
     //Sumatoria valores 
-    total_G   = (sum_G * cump_G) + (sum_G * noap_G);
+    /*total_G   = (sum_G * cump_G) + (sum_G * noap_G);
     total_AU  = (sum_AU * cump_AU) + (sum_AU * noap_AU);
     total_N   = (sum_N * cump_N) + (sum_N * noap_N);
     total_AD  = (sum_AD * cump_AD) + (sum_AD * noap_AD);
-    total_ADT = (sum_ADT * cump_ADT) + (sum_ADT * noap_ADT);
+    total_ADT = (sum_ADT * cump_ADT) + (sum_ADT * noap_ADT);*/
+
+    total_G   = 20/(val_G-noap_G)*cump_G;
+    total_AU  = 25/(val_AU-noap_AU)*cump_AU;
+    total_N   = 35/(val_N-noap_N)*cump_N;
+    total_AD  = 20/(val_AD-noap_AD)*cump_AD;
+    total_ADT = 20/(val_ADT-noap_ADT)*cump_ADT;
 
     Total = total_G + total_AU + total_N + total_AD + total_ADT;
-    
-    this.formProces.get('final_note').setValue(Math.round(Total*100));
+    this.formProces.get('final_note').setValue(Math.round(Total));
   }
 
   onSelectLabor(){

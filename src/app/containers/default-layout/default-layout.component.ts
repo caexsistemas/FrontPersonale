@@ -175,6 +175,7 @@ export class DefaultLayoutComponent{
       iduser: this.cuser.iduser,
       token: this.cuser.token
     }
+   
     //Validar Informacion del token
     if (this.cuser != null) {
 
@@ -184,7 +185,7 @@ export class DefaultLayoutComponent{
         
           if (this.cuser.user != null && this.cuser.token != null 
             && this.cuser.username != null && response.success ) {
-    
+              
             let route = window.location.pathname;
             if (route == "/") {
               this._router.navigate(['dashboard']);
@@ -278,7 +279,11 @@ export class DefaultLayoutComponent{
     //console.log('eve'+e);
   }
 
-
+  prueba_cli(){
+    /*this.loading = true;
+    console.log("ensayo"+window.location.pathname);
+    this.handler.showSuccess('Sesión culminada con éxito, gracias hasta pronto.');*/
+  }
 
 
 
