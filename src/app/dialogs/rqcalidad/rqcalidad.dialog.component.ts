@@ -461,13 +461,30 @@ export class RqcalidadDialog  {
     total_ADT = (sum_ADT * cump_ADT) + (sum_ADT * noap_ADT);*/
 
     total_G   = 20/(val_G-noap_G)*cump_G;
+    if( isNaN(total_G) ){
+      total_G = 0;
+    }
     total_AU  = 25/(val_AU-noap_AU)*cump_AU;
+    if( isNaN(total_AU) ){
+      total_AU = 0;
+    }
     total_N   = 35/(val_N-noap_N)*cump_N;
+    if( isNaN(total_N) ){
+      total_N = 0;
+    }
     total_AD  = 20/(val_AD-noap_AD)*cump_AD;
+    if( isNaN(total_AD) ){
+      total_AD = 0;
+    }
     total_ADT = 20/(val_ADT-noap_ADT)*cump_ADT;
+    if( isNaN(total_ADT) ){
+      total_ADT = 0;
+    }
 
     Total = total_G + total_AU + total_N + total_AD + total_ADT;
     this.formProces.get('final_note').setValue(Math.round(Total));
+
+    
   }
 
   onSelectLabor(){
