@@ -11,13 +11,13 @@
         class="cui-account-logout icons font-2xl d-block"></i></a>
 </app-header>
 
-<div class="app-body">
-  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)" >
-    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+<div class="app-body" (click)="prueba_cli()" >
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" (click)="prueba_cli()"  [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)" >
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"  ></app-sidebar-nav>
     <app-sidebar-minimizer></app-sidebar-minimizer>
   </app-sidebar>
   
-  <main class="main">
+  <main class="main"  >
     <cui-breadcrumb></cui-breadcrumb>
     <div class="container-fluid">
       <router-outlet></router-outlet>
