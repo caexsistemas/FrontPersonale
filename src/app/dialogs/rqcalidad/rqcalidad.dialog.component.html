@@ -139,45 +139,29 @@
                 <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      Atenci&oacute;n   &nbsp; &nbsp;
-                      <mat-icon>phone_in_talk</mat-icon>
+                      <!--Atenci&oacute;n   &nbsp; &nbsp;--> 
+                      <b><h3>(G)</h3></b> 
+                      <br><!--<mat-icon>phone_in_talk</mat-icon>-->
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      
+                      Genero la mejor experiencia, siendo yo mismo, cercano, cálido y atento manteniendo contacto todo el tiempo con mi Cliente                     
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
                   <div class="row">
-                    <div class="col-sm-4">
-                        <dt>Saludo:</dt>
-                        <dd>{{dataCad.atn_sal}}</dd>
-                    </div>
-
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>Contacto Inicial:</dt>
-                        <dd>{{dataCad.atn_cont_ini}}</dd>
-                    </div>
-                    <!--Campo TYT-->
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                        <dt>Contacto Inicial:</dt>
-                        <dd>{{dataCad.tyt_ate_con_ini}}</dd>
-                    </div>
-
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>Amabilidad y Empat&iacute;a:</dt>
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2' ">
+                        <dt>Amabilidad y empatia:</dt>
                         <dd>{{dataCad.atn_ama_emp}}</dd>
                     </div>
-                    <!--Campo TYT-->
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                        <dt>Amabilidad y Empat&iacute;a:</dt>
+
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
+                        <dt>Amabilidad y empatia:</dt>
                         <dd>{{dataCad.tyt_ate_ama_emp}}</dd>
                     </div>
-                  </div>
 
-                  <div class="row">
                     <div class="col-sm-12">
-                        <dt>Gestiona los tiempos de espera:</dt>
+                        <dt>Acompaño al cliente evitando abandono, atiendo mi llamada a tiempo y gestiono correctamente los tiempos de espera:</dt>
                         <dd>{{dataCad.atn_gest_tim}}</dd>
                     </div>
                   </div>
@@ -191,19 +175,20 @@
                 <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                    Habilidad Comercial  &nbsp; &nbsp;
-                    <mat-icon>perm_phone_msg</mat-icon>
+                        <b><h3>(A1)</h3></b>
+                        <!--Habilidad Comercial  &nbsp; &nbsp;-->
+                        <!--<mat-icon>perm_phone_msg</mat-icon>-->
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      
+                      Atiendo, escucho e indago sobre lo que mi Cliente esta solicitando
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
                   <div class="row">
-                      <!--Campo TYT-->
-                      <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
-                        <dt>Interés por conocer las necesidades del cliente:</dt>
+                    <!--Campo TYT-->
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
+                        <dt>Deja Expresar O Realizar Preguntas:</dt>
                         <dd>{{dataCad.tyt_hab_com_int_con_nes_cli}}</dd>
                     </div>
 
@@ -214,36 +199,18 @@
                   </div>
 
                   <div class="row">
-                      <!--Hogar y Movil-->
+                    <!--Hogar y Movil-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>Escucha Activa Para Conocer Las Necesidades Del Cliente:</dt>
+                        <dt>Escucha Activa:</dt>
                         <dd>{{dataCad.hab_esc_act_par_con_nec_cli}}</dd>
                     </div>
                     <!--Campo TYT-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                        <dt>Escucha Activa Para Conocer Las Necesidades Del Cliente:</dt>
+                        <dt>Escucha Activa:</dt>
                         <dd>{{dataCad.tyt_hab_com_esc_act_par_con_nec_cli}}</dd>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
-                        <dt>Manejo De Objeciones:</dt>
-                        <dd>{{dataCad.hab_man_de_obj}}</dd>
-                    </div>
-
-                    <!--Campo TYT-->
-                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'" >
-                        <dt>Manejo De Objeciones:</dt>
-                        <dd>{{dataCad.tyt_hab_com_man_obj}}</dd>
-                    </div>
-                    <!--Campo TYT-->
-                    <div class="col-sm-12"  *ngIf=" tipMatriz == '40/3'">
-                        <dt>Metodos de Pago:</dt>
-                        <dd>{{dataCad.tyt_hab_com_met_pag}}</dd>
-                    </div>
-                </div>
-              
                   <mat-action-row>
                     <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -253,12 +220,13 @@
                 <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
-                        Proceso de Venta  &nbsp; &nbsp;
-                        <mat-icon>attach_money</mat-icon>
+                        <!--Proceso de Venta  &nbsp; &nbsp;-->
+                        <!--<mat-icon>attach_money</mat-icon>-->
+                        <b><h3>(N)</h3></b>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        
+                        Necesidad Solucionada
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
@@ -268,104 +236,34 @@
                             <dd>{{dataCad.proc_brin_inf_corr_com_pro_ofer}}</dd>
                         </div>
                         <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2' ">
+                            <dt>Manejo De Objeciones:</dt>
+                            <dd>{{dataCad.hab_man_de_obj}}</dd>
+                        </div>                     
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <dt>información correcta del producto:</dt>
+                            <dt>Brinda información Correcta Campañas Vigentes:</dt>
                             <dd>{{dataCad.proc_brin_inf_corr_com_pro_ofer}}</dd>
                         </div>
                         <!--Campo TYT-->
                         <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <dt>Brinda información Correcta Beneficios de  Bancos Vigentes:</dt>
-                            <dd>{{dataCad.tyt_pro_ven_bri_inf_cor_ben_ban_vig}}</dd>
+                            <dt>Manejo De Objeciones:</dt>
+                            <dd>{{dataCad.tyt_hab_com_man_obj}}</dd>
                         </div>
-                        <!--Campos TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <dt> Brinda Información Correcta De Entrega de Equipos: </dt>
-                            <dd>{{dataCad.tyt_pro_ven_bri_inf_cor_ent_equ}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
-                            <dt>Brinda información Correcta Campañas Vigentes:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_cam_vig}}</dd>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <dt>Información Correcta Campañas Vigentes:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_cam_vig}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
-                            <dt>Brinda información Correcta De Tarifas:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_tar}}</dd>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <dt>Información Correcta De Tarifas y Facturacion:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_tar}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'" >
-                            <dt>Brinda información Correcta De Facturación:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_fac}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
-                            <dt>Brinda información correcta y completa De Portabilidad:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_com_port}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <!--CAMPO DE MOVIL-->
-                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1' ">
-                            <dt>Brinda información correcta Tiempos de entrega / Activacion en AC:</dt>
-                            <dd>{{dataCad.proc_brin_inf_corr_tie_ent_act_ac}}</dd>
-                        </div>
-                        <!--Campo pertence HOGAR-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/2'" >
-                            <dt>Brinda información correcta Tiempos de instalación / Aprovisionamiento:</dt>
-                            <dd>{{dataCad.hogar_pro_ven_bri_inf_cor_tie_ins_apr}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/2'|| tipMatriz=='40/1'" >
-                            <dt>Brinda información completa y correcta otras solicitudes:</dt>
-                            <dd>{{dataCad.proc_brin_inf_com_corr_otr_sol}}</dd>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf="tipMatriz == '40/3'">
-                            <dt>Brinda información completa y correcta otras solicitudes o Procesos:</dt>
-                            <dd>{{dataCad.proc_brin_inf_com_corr_otr_sol}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <dt>Brinda Información de otros procesos:</dt>
-                            <dd>{{dataCad.proc_brin_inf_otr_pro}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <dt>Resalta Beneficios Todo Claro:</dt>
-                            <dd>{{dataCad.proc_res_ben_tod_cla}}</dd>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <dt>Realiza Ofrecimiento de venta Cruzada:</dt>
-                            <dd>{{dataCad.proc_rea_ofr_ven_cru}}</dd>
-                        </div>
-                      </div>
+                    </div>
 
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <dt>Realiza resumen de la gestión:</dt>
-                            <dd>{{dataCad.proc_rea_res_ges}}</dd>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <dt>Realiza La Devolución De Llamada:</dt>
+                            <dd>{{dataCad.cri_rea_dev_lla}}</dd>
                         </div>
-                      </div>
-                
+                        <div class="col-sm-12">
+                            <dt>Cierre Comercial:</dt>
+                            <dd>{{dataCad.cie_cie_com}}</dd>
+                        </div>
+                    </div>
+                      
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                         <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -375,111 +273,80 @@
                   <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
-                        Cierre  &nbsp; &nbsp;
-                        <mat-icon>call_end</mat-icon>
+                         <!--Cierre  &nbsp; &nbsp;-->
+                        <!--<mat-icon>call_end</mat-icon>-->
+                        <b><h3>(A2)</h3></b>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        
+                        Aseguro requerimientos Administrativos  para la toma de decisiones e implementación de las mejoras necesarias por parte de la Compañía
+                     
                       </mat-panel-description>
                     </mat-expansion-panel-header>
-                
+
                     <div class="row">
-                        <div class="col-sm-4">
-                            <dt>Cierre Comercial:</dt>
-                            <dd>{{dataCad.cie_cie_com}}</dd>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Métodos De Pago:</dt>
+                            <dd>{{dataCad.tyt_hab_com_met_pag}}</dd>
                         </div>
-                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Validación de Titularidad/Cobretura:</dt>
+                            <dd>{{dataCad.cri_val_tit}}</dd>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <dt>Realiza Resumen de la Gestión:</dt>
+                            <dd>{{dataCad.tyt_cie_rea_res_ges}}</dd>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+                            <dt>Resalta Beneficios/Uso correcto Todo Claro:</dt>
+                            <dd>{{dataCad.proc_res_ben_tod_cla}}</dd>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+                            <dt>Tratamiento de datos/Titularidad/Cobertura:</dt>
+                            <dd>{{dataCad.cri_gui_tra_dat }}</dd>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+                            <dt>Realiza resumen de la gestión:</dt>
+                            <dd>{{dataCad.proc_rea_res_ges}}</dd>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
                             <dt>Ofrecimientos Adicionales:</dt>
                             <dd>{{dataCad.cie_ofr_adi}}</dd>
                         </div>
-                        <div class="col-sm-4">
-                            <dt>Despedida:</dt>
-                            <dd>{{dataCad.cie_des}}</dd>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                            <dt>Codificación:</dt>
-                            <dd>{{dataCad.tyt_cie_cod}}</dd>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                            <dt>Realiza Resumen de la Gestión :</dt>
-                            <dd>{{dataCad.tyt_cie_rea_res_ges}}</dd>
-                        </div>
-                    </div>
-                
-                    <mat-action-row>
-                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-                    </mat-action-row>
-                  </mat-expansion-panel>
 
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' "  [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
-                    <mat-expansion-panel-header class="example-vismenu-enc">
-                      <mat-panel-title>
-                        Criticos &nbsp; &nbsp;
-                        <mat-icon>report</mat-icon>
-                      </mat-panel-title>
-                      <mat-panel-description>
-                        <!--{}-->
-                        
-                      </mat-panel-description>
-                    </mat-expansion-panel-header>
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+                            <dt>Realiza Ofrecimiento de venta Cruzada:</dt>
+                            <dd>{{dataCad.proc_rea_ofr_ven_cru}}</dd>
+                        </div>
+
+                    </div>
+
                 
                     <div class="row">
+                        
                         <div class="col-sm-12">
-                            <dt>Amabilidad :</dt>
-                            <dd>{{dataCad.cri_ama}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
-                            <dt>Uso correcto Todo Claro :</dt>
-                            <dd>{{dataCad.cri_uso_corr_tod_cla}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <dt>Abandono de llamada:</dt>
-                            <dd>{{dataCad.cri_aba_lla}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <dt>Realiza La Devolución De Llamada:</dt>
-                            <dd>{{dataCad.cri_rea_dev_lla}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                            <dt>Guion tratamiento de datos:</dt>
-                            <dd>{{dataCad.cri_gui_tra_dat}}</dd>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <dt>Fraudes Comerciales Según Políticas De Fraude:</dt>
-                            <dd>{{dataCad.tyt_cri_fra_com_seg_pol_fra}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <dt>Validación de Titularidad:</dt>
-                            <dd>{{dataCad.cri_val_tit}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <dt>Valida Correctamente Cobertura:</dt>
-                            <dd>{{dataCad.cri_val_cor_cob}}</dd>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <dt>Falsa Expectativa / Malas Practicas:</dt>
+                            <dt>Malas Practicas:</dt>
                             <dd>{{dataCad.cri_fal_exp_mal_pra}}</dd>
                         </div>
+                    
+                        <div class="col-sm-12">
+                            <dt>Falsa Expectativa:</dt>
+                            <dd>{{dataCad.cri_val_cor_cob}}</dd>
+                        </div>
+                       
                     </div>
+                
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                         <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -487,7 +354,7 @@
                   </mat-expansion-panel>
 
                   <!--{Campos Matriz Movil Sim/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/1' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/1' " [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Sim/Afinidad/Escala &nbsp; &nbsp;
@@ -529,7 +396,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <dt>Escala Saludo:</dt>
                             <dd>{{dataCad.ns_esc_sal}}</dd>
@@ -542,7 +409,7 @@
                             <dt>Escala Despedida:</dt>
                             <dd>{{dataCad.ns_esc_des}}</dd>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -566,7 +433,7 @@
                   </mat-expansion-panel>
 
                   <!--{Campos Matriz Hogar Tecnologia/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2'" [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2'" [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tecnologia/Afinidad/Escala &nbsp; &nbsp;
@@ -607,7 +474,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <dt>Escala Saludo::</dt>
                             <dd>{{dataCad.hogar_esc_sal}}</dd>
@@ -620,7 +487,7 @@
                             <dt>Escala Despedida:</dt>
                             <dd>{{dataCad.hogar_esc_des}}</dd>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -644,7 +511,7 @@
                   </mat-expansion-panel>
 
                   <!--{Campos Matriz TYT Tecnologia/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/3' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/3' " [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tecnologia/Afinidad/Escala &nbsp; &nbsp;
@@ -686,7 +553,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <dt> Escala Saludo:</dt>
                             <dd>{{dataCad.tyt_esc_sal}}</dd>
@@ -699,7 +566,7 @@
                             <dt> Escala Despedida:</dt>
                             <dd>{{dataCad.tyt_esc_des}}</dd>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -718,7 +585,7 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tipificacion  &nbsp; &nbsp;
@@ -782,7 +649,7 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Observacion/Aspectos Positivos &nbsp; &nbsp;
@@ -929,23 +796,14 @@
               
                   
                   <div class="row">
-                    <!--{<div class="col-sm-4">
-                        <mat-form-field class="example-full-width ContCamp">
-                            <mat-label>Tipo Matriz:</mat-label>
-                            <mat-select formControlName="matrizarp" required (ngModelChange)="labelMatriz($event)" >
-                                <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>}-->
-                    <div class="col-sm-4">
+
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>Fecha de Llamada:</mat-label>
                             <input matInput formControlName="call_date" type="date" required>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Gesti&oacute;n:</mat-label>
                             <mat-select formControlName="tipo_gestion" required>
@@ -955,7 +813,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Red:</mat-label>
                             <mat-select formControlName="tipo_red" required>
@@ -965,22 +823,23 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <div class="col-sm-3"></div>
                   </div>
                
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>Cedula:</mat-label>
                             <input matInput formControlName="document" type="number"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" (ngModelChange)="onSelectionChange($event)" required>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>Login:</mat-label>
                             <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Nombre Asesor:</mat-label>
                             <mat-select formControlName="name" required>
@@ -990,10 +849,11 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <div class="col-sm-3"></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Coordinador:</mat-label>
                             <mat-select formControlName="coordinator" required>
@@ -1003,49 +863,51 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>TMO:</mat-label>
                             <input matInput formControlName="tmo" type="text" > 
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>ID llamada:</mat-label>
                             <input matInput formControlName="call_id" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                         </mat-form-field>
                     </div>
+                    <div class="col-sm-3"></div>
                   </div>
                   
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>N&uacute;mero MIN/Cuenta Hogar:</mat-label>
                             <input matInput formControlName="min_bill" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="ContCamp">
                             <mat-label>Semana:</mat-label>
                             <input matInput formControlName="week" type="text" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>Analista:</mat-label>
                             <input matInput formControlName="analyst" type="text" >
                         </mat-form-field>
                     </div>
+                    <div class="col-sm-3"></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field>
                             <mat-label>Oferta:</mat-label>
                             <input matInput formControlName="offer" type="text" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="example-full-width">
                             <mat-label>Campaña:</mat-label>
                             <mat-select formControlName="campana" required (ngModelChange)="campaHogarDedi($event)">
@@ -1055,22 +917,25 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="example-full-width ContCamp">
                             <mat-label>Fecha de Monitoreo:</mat-label>
                             <input [readonly]="true"  matInput formControlName="monitoring_date" type="date" (ngModelChange)="getWeekNr($event)" required  >
                         </mat-form-field>
                     </div>
-                   
+                    <div class="col-sm-3"></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Final:</mat-label>
-                            <input matInput formControlName="final_note" type="number" (keyup)="validcheked()">
+                            <input matInput formControlName="final_note" type="number" >
                         </mat-form-field>
                     </div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-3"></div>
                   </div>
                   
                   <mat-action-row>
@@ -1083,30 +948,22 @@
                 <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      Atenci&oacute;n   &nbsp; &nbsp;
-                      <mat-icon>phone_in_talk</mat-icon>
+                      <!--Atenci&oacute;n   &nbsp; &nbsp;--> 
+                      <b><h3>(G)</h3></b> 
+                      <br><!--<mat-icon>phone_in_talk</mat-icon>-->
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      
+                      Genero la mejor experiencia, siendo yo mismo, cercano, cálido y atento manteniendo contacto todo el tiempo con mi Cliente                     
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
                   <div class="row">
-                    <div class="col-sm-4">
+                   
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Saludo:</mat-label>
-                            <mat-select formControlName="atn_sal" required>
-                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Contacto Inicial:</mat-label>
-                            <mat-select formControlName="atn_cont_ini" required (ngModelChange)="validcheked()">
+                            <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
+                            <mat-select formControlName="atn_ama_emp" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -1114,32 +971,10 @@
                         </mat-form-field>
                     </div>
                     <!--Campo TYT-->
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Contacto Inicial:</mat-label>
-                            <mat-select formControlName="tyt_ate_con_ini" required (ngModelChange)="validcheked()">
-                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
                         <mat-form-field class="example-full-width">
                             <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
-                            <mat-select formControlName="atn_ama_emp" required >
-                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <!--Campo TYT-->
-                    <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Amabilidad y Empat&iacute;a:</mat-label>
-                            <mat-select formControlName="tyt_ate_ama_emp" required  >
+                            <mat-select formControlName="tyt_ate_ama_emp" required  (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -1151,7 +986,7 @@
                   <div class="row">
                     <div class="col-sm-12">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Gestiona los tiempos de espera:</mat-label>
+                            <mat-label>Acompaño al cliente evitando abandono, atiendo mi llamada a tiempo y gestiono correctamente los tiempos de espera:</mat-label>
                             <mat-select formControlName="atn_gest_tim" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -1170,12 +1005,13 @@
                 <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                    Habilidad Comercial  &nbsp; &nbsp;
-                    <mat-icon>perm_phone_msg</mat-icon>
+                    <b><h3>(A1)</h3></b>
+                    <!--Habilidad Comercial  &nbsp; &nbsp;-->
+                    <!--<mat-icon>perm_phone_msg</mat-icon>-->
                     </mat-panel-title>
                     <mat-panel-description>
                       <!--{}-->
-                      
+                      Atiendo, escucho e indago sobre lo que mi Cliente esta solicitando
                     </mat-panel-description>
                   </mat-expansion-panel-header>
               
@@ -1183,7 +1019,7 @@
                       <!--Campo TYT-->
                       <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Interés por conocer las necesidades del cliente:</mat-label>
+                            <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
                             <mat-select formControlName="tyt_hab_com_int_con_nes_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -1206,7 +1042,7 @@
                       <!--Hogar y Movil-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Escucha Activa Para Conocer Las Necesidades Del Cliente:</mat-label>
+                            <mat-label>Escucha Activa:</mat-label>
                             <mat-select formControlName="hab_esc_act_par_con_nec_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -1217,7 +1053,7 @@
                     <!--Campo TYT-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Escucha Activa Para Conocer Las Necesidades Del Cliente:</mat-label>
+                            <mat-label>Escucha Activa:</mat-label>
                             <mat-select formControlName="tyt_hab_com_esc_act_par_con_nec_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -1225,41 +1061,6 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Manejo De Objeciones:</mat-label>
-                            <mat-select formControlName="hab_man_de_obj" required (ngModelChange)="validcheked()">
-                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <!--Campo TYT-->
-                    <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'" >
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Manejo De Objeciones:</mat-label>
-                            <mat-select formControlName="tyt_hab_com_man_obj" required (ngModelChange)="validcheked()">
-                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <!--Campo TYT-->
-                    <div class="col-sm-12"  *ngIf=" tipMatriz == '40/3'">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Metodos de Pago:</mat-label>
-                            <mat-select formControlName="tyt_hab_com_met_pag" required (ngModelChange)="validcheked()">
-                                <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                    {{idet.description}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                   
                   </div>
               
                   <mat-action-row>
@@ -1271,12 +1072,13 @@
                 <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
-                        Proceso de Venta  &nbsp; &nbsp;
-                        <mat-icon>attach_money</mat-icon>
+                        <!--Proceso de Venta  &nbsp; &nbsp;-->
+                        <!--<mat-icon>attach_money</mat-icon>-->
+                        <b><h3>(N)</h3></b>
                       </mat-panel-title>
                       <mat-panel-description>
                         <!--{}-->
-                        
+                        Necesidad Solucionada
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                 
@@ -1294,7 +1096,7 @@
                         <!--Campo TYT-->
                         <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
                             <mat-form-field class="example-full-width">
-                                <mat-label> información correcta del producto:</mat-label>
+                                <mat-label>Brinda información correcta y completa:</mat-label>
                                 <mat-select formControlName="proc_brin_inf_corr_com_pro_ofer" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
@@ -1302,324 +1104,28 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label> Brinda información Correcta Beneficios de  Bancos Vigentes :</mat-label>
-                                <mat-select formControlName="tyt_pro_ven_bri_inf_cor_ben_ban_vig" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campos TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label> Brinda Información Correcta De Entrega de Equipos :</mat-label>
-                                <mat-select formControlName="tyt_pro_ven_bri_inf_cor_ent_equ" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información Correcta Campañas Vigentes:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_cam_vig" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>información Correcta Campañas Vigentes:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_cam_vig" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información Correcta De Tarifas:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_tar" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Información Correcta De Tarifas y Facturacion:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_tar" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1' || tipMatriz == '40/2'" >
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información Correcta De Facturación:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_fac" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información correcta y completa De Portabilidad:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_com_port" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <!--CAMPO DE MOVIL-->
-                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1' ">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información correcta Tiempos de entrega / Activacion en AC:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_corr_tie_ent_act_ac" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo pertence HOGAR-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/2'" >
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información correcta Tiempos de instalación / Aprovisionamiento:</mat-label>
-                                <mat-select formControlName="hogar_pro_ven_bri_inf_cor_tie_ins_apr" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/2'|| tipMatriz=='40/1'" >
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información completa y correcta otras solicitudes:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_com_corr_otr_sol" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf="tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda información completa y correcta otras solicitudes o Procesos:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_com_corr_otr_sol" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Brinda Información de otros procesos:</mat-label>
-                                <mat-select formControlName="proc_brin_inf_otr_pro" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Resalta Beneficios Todo Claro:</mat-label>
-                                <mat-select formControlName="proc_res_ben_tod_cla" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Realiza Ofrecimiento de venta Cruzada:</mat-label>
-                                <mat-select formControlName="proc_rea_ofr_ven_cru" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Realiza resumen de la gestión:</mat-label>
-                                <mat-select formControlName="proc_rea_res_ges" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                      </div>
-                
-                    <mat-action-row>
-                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-                    </mat-action-row>
-                  </mat-expansion-panel>
-
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Cierre  &nbsp; &nbsp;
-                        <mat-icon>call_end</mat-icon>
-                      </mat-panel-title>
-                      <mat-panel-description>
-                        <!--{}-->
-                        
-                      </mat-panel-description>
-                    </mat-expansion-panel-header>
-                
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Cierre Comercial:</mat-label>
-                                <mat-select formControlName="cie_cie_com" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Ofrecimientos Adicionales:</mat-label>
-                                <mat-select formControlName="cie_ofr_adi" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Despedida:</mat-label>
-                                <mat-select formControlName="cie_des" required>
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Codificación:</mat-label>
-                                <mat-select formControlName="tyt_cie_cod" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-4" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Realiza Resumen de la Gestión :</mat-label>
-                                <mat-select formControlName="tyt_cie_rea_res_ges" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                
-                    <mat-action-row>
-                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-                    </mat-action-row>
-                  </mat-expansion-panel>
-
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' "  [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
-                    <mat-expansion-panel-header class="example-vismenu-enc">
-                      <mat-panel-title>
-                        Criticos &nbsp; &nbsp;
-                        <mat-icon>report</mat-icon>
-                      </mat-panel-title>
-                      <mat-panel-description>
-                        <!--{}-->
-                        
-                      </mat-panel-description>
-                    </mat-expansion-panel-header>
-                
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Amabilidad:</mat-label>
-                                <mat-select formControlName="cri_ama" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'" >
                             <mat-form-field class="example-full-width">
-                                <mat-label>Uso correcto Todo Claro:</mat-label>
-                                <mat-select formControlName="cri_uso_corr_tod_cla" required (ngModelChange)="validcheked()">
+                                <mat-label>Manejo De Objeciones:</mat-label>
+                                <mat-select formControlName="hab_man_de_obj" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'" >
                             <mat-form-field class="example-full-width">
-                                <mat-label>Abandono de llamada:</mat-label>
-                                <mat-select formControlName="cri_aba_lla" required (ngModelChange)="validcheked()">
+                                <mat-label>Manejo De Objeciones:</mat-label>
+                                <mat-select formControlName="tyt_hab_com_man_obj" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
+                        
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Realiza La Devolución De Llamada:</mat-label>
@@ -1630,65 +1136,18 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Guion tratamiento de datos:</mat-label>
-                                <mat-select formControlName="cri_gui_tra_dat" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!--Campo TYT-->
-                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Fraudes Comerciales Según Políticas De Fraude:</mat-label>
-                                <mat-select formControlName="tyt_cri_fra_com_seg_pol_fra" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
+
                         <div class="col-sm-12">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Validación de Titularidad:</mat-label>
-                                <mat-select formControlName="cri_val_tit" required (ngModelChange)="validcheked()">
+                                <mat-label>Cierre Comercial:</mat-label>
+                                <mat-select formControlName="cie_cie_com" required (ngModelChange)="validcheked()">
                                     <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Valida Correctamente Cobertura:</mat-label>
-                                <mat-select formControlName="cri_val_cor_cob" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Falsa Expectativa / Malas Practicas:</mat-label>
-                                <mat-select formControlName="cri_fal_exp_mal_pra" required (ngModelChange)="validcheked()">
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                        
                     </div>
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -1696,8 +1155,142 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <!--Cierre  &nbsp; &nbsp;-->
+                        <!--<mat-icon>call_end</mat-icon>-->
+                        <b><h3>(A2)</h3></b>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <!--{}-->
+                        Aseguro requerimientos Administrativos  para la toma de decisiones e implementación de las mejoras necesarias por parte de la Compañía
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                
+                    <div class="row">
+                        
+                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/3'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Metodos de Pago:</mat-label>
+                                <mat-select formControlName="tyt_hab_com_met_pag" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12"  *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Resalta Beneficios/Uso correcto Todo Claro:</mat-label>
+                                <mat-select formControlName="proc_res_ben_tod_cla" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Validación de Titularidad/Cobretura:</mat-label>
+                                <mat-select formControlName="cri_val_tit" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tratamiento de datos/Titularidad/Cobertura:</mat-label>
+                                <mat-select formControlName="cri_gui_tra_dat" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Realiza resumen de la gestión:</mat-label>
+                                <mat-select formControlName="proc_rea_res_ges" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <!--Campo TYT-->
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/3'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Realiza Resumen de la Gestión:</mat-label>
+                                <mat-select formControlName="tyt_cie_rea_res_ges" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Malas Practicas:</mat-label>
+                                <mat-select formControlName="cri_fal_exp_mal_pra" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Falsa Expectativa:</mat-label>
+                                <mat-select formControlName="cri_val_cor_cob" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'" >
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ofrecimientos Adicionales:</mat-label>
+                                <mat-select formControlName="cie_ofr_adi" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz=='40/2'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Realiza Ofrecimiento de venta Cruzada:</mat-label>
+                                <mat-select formControlName="proc_rea_ofr_ven_cru" required (ngModelChange)="validcheked()">
+                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                
+                    <mat-action-row>
+                        <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                        <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>
+
                   <!--{Campos Matriz Movil Sim/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/1' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/1' " [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Sim/Afinidad/Escala &nbsp; &nbsp;
@@ -1775,7 +1368,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Escala Saludo:</mat-label>
@@ -1806,7 +1399,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -1848,7 +1441,7 @@
                   </mat-expansion-panel>
 
                   <!--{Campos Matriz Hogar Tecnologia/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/2' " [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tecnologia/Afinidad/Escala &nbsp; &nbsp;
@@ -1925,7 +1518,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Escala Saludo:</mat-label>
@@ -1956,7 +1549,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -1998,7 +1591,7 @@
                   </mat-expansion-panel>
 
                   <!--{Campos Matriz TYT Tecnologia/Afinidad/Escala }-->
-                  <mat-expansion-panel *ngIf=" tipMatriz == '40/3' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz == '40/3' " [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tecnologia/Afinidad/Escala &nbsp; &nbsp;
@@ -2076,7 +1669,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Escala Saludo:</mat-label>
@@ -2107,7 +1700,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-sm-4">
@@ -2138,7 +1731,7 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Tipificacion  &nbsp; &nbsp;
@@ -2244,7 +1837,7 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
-                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+                  <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         Observacion/Aspectos Positivos &nbsp; &nbsp;

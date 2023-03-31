@@ -119,6 +119,12 @@ import { ReportsManagementComponent } from './dialogs/reports/management/reports
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { CertificatesDialog } from './dialogs/certificates/certificates.dialogs.component';
 import { SuspendDialog } from './dialogs/suspend/suspend.dialog.component';
+import { ComisionDialog } from './dialogs/comision/comision.dialog.component';
+import { ReportsComisionComponent } from './dialogs/reports/comision/reports-comision.component';
+import { ReportsLiquidationComponent } from './dialogs/reports/liquidation/reports-liquidation.component';
+import { ReportsSuspendComponent } from './dialogs/reports/suspend/reports-suspend.component';
+import { SigComponent } from './views/sig/sig.component';
+import { SigDialog } from './dialogs/sig/sig.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -230,7 +236,15 @@ const routes: Routes = [];
     AdvanceDialog,
     ReportsManagementComponent,
     CertificatesDialog,
-    SuspendDialog
+    SuspendDialog,
+    CalendarDialog,
+    ReportsManagementComponent,
+    ComisionDialog,
+    ReportsComisionComponent,
+    ReportsLiquidationComponent,
+    ReportsSuspendComponent,
+    SigComponent,
+    SigDialog
   ],
   providers: [{
     

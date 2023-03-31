@@ -35,6 +35,8 @@ import { TemplateComponent } from '../../template/template.component';
 import { SuspendComponent } from './suspend/suspend.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 
+import { CommisionComponent } from './commision/commision.component';
+// import { AngularFileUploaderModule } from "angular-file-uploader";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -72,8 +74,12 @@ const ngWizardConfig: NgWizardConfig = {
   ],
   declarations: [
     IngresoComponent,
-    SuspendComponent
+    SuspendComponent,
+    CommisionComponent,
+
+    // AngularFileUploaderModule
   ],
+  
   entryComponents:[
     TemplateComponent
   ]

@@ -2,7 +2,7 @@
     <div *ngIf="view == 'create' || view == 'update'">
         <div class="card-header">
             <h5 class="modal-title button_header">
-                <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'create'">{{title}}</p>
                 <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
                 <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -16,10 +16,17 @@
 
                     <div class="row">
                         <!--{Creacion}-->
-                        <div class="col-md-4" >
+                        <div class="col-md-4" *ngIf="view == 'create'" >
                             <mat-form-field class="example-full-width">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
                                 <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)" required>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="view == 'update'" >
+                            <mat-form-field class="example-full-width readonly-wrapper">
+                                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                                <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)" [readonly]="true" required>
                             </mat-form-field>
                         </div>
                         
@@ -54,8 +61,9 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
+
+                        <div class="col-md-4" *ngIf="view == 'create'">
+                            <mat-form-field class="example-full-width" >
                                 <mat-label>Tipo Certificado:</mat-label>
                                 <mat-select formControlName="tip_certi"  required>
                                   <mat-option *ngFor="let idet of ListTipCer" [value]="idet.ls_codvalue" >
@@ -64,7 +72,19 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>   
-                        <div class="col-md-4">
+
+                        <div class="col-md-4" *ngIf="view == 'update'" >
+                            <mat-form-field class="example-full-width readonly-wrapper">
+                                <mat-label>Tipo Certificado:</mat-label>
+                                <mat-select formControlName="tip_certi" [readonly] = "true" required>
+                                  <mat-option *ngFor="let idet of ListTipCer" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>   
+
+                        <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Con o Sin Salario:</mat-label>
                                 <mat-select formControlName="desplesal"  required>
@@ -73,7 +93,19 @@
                                   </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>                     
+                        </div>   
+                        
+                        <div class="col-md-4" *ngIf="view == 'update'">
+                            <mat-form-field class="example-full-width readonly-wrapper">
+                                <mat-label>Con o Sin Salario:</mat-label>
+                                <mat-select formControlName="desplesal" [readonly] = "true" required>
+                                  <mat-option *ngFor="let idet of ListConSin" [value]="idet.ls_codvalue" >
+                                    {{idet.description}}
+                                  </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
                     </div>
 
                 </form>
@@ -138,7 +170,7 @@
             </div>
         </div>
       
-        <!--<div class="row mt-3">
+        <div class="row mt-3">
             <div class="col-md-12">
 
                 <div class="card">
@@ -169,7 +201,7 @@
                     </table>
                 </div>
             </div>
-        </div>-->
+        </div>
 
     </mat-dialog-content>
 </div>

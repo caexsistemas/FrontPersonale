@@ -57,10 +57,17 @@ export class ReportsTechnologyComponent implements OnInit {
   dataIni() {
       this.loading.emit(true);
       this.WebApiService.getRequest(this.ndpoint, {
+        // action: 'getParamView',
+        // role: this.cuser.role,
+        // idUser: this.cuser.iduser,
+        // token: this.cuser.token,
+        // modulo: this.component
+
         action: 'getParamView',
         role: this.cuser.role,
-        idUser: this.cuser.iduser,
+        matrizarp: this.cuser.matrizarp,
         token: this.cuser.token,
+        idUser: this.cuser.iduser,
         modulo: this.component
         // matrizarp: this.cuser.matrizarp
       })
@@ -94,8 +101,12 @@ export class ReportsTechnologyComponent implements OnInit {
                 }
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.ndpoint, {
-                    action: 'downloadFiles',
-                    report:  ""+JSON.stringify({body})
+                  action: 'downloadFiles',
+                  report:  ""+JSON.stringify({body}),
+                  token: this.cuser.token,
+                  idUser: this.cuser.iduser,
+                  modulo: this.component,
+                    // report:  ""+JSON.stringify({body})
                 })
                 .subscribe(
                     data => {

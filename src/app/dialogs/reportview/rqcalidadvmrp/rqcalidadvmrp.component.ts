@@ -134,11 +134,11 @@ export class RqcalidadvmrpComponent {
       "campana",
       "statusagen",
       "final_note",
-      "afec_cero",
+      //"afec_cero",
       "ventas",
       "no_ventas",
       "total_gesti",
-      "critico"
+      //"critico"
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];

@@ -25,6 +25,7 @@ import { RequisitionDialog } from "../../../dialogs/selection/requisition/requis
 import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
 import { AcceptanceDialog } from "../../../dialogs/holiday/acceptance/acceptance.dialog.component";
 import { LiquidationDialog } from "../../../dialogs/holiday/liquidation/liquidation.dialog.component";
+import { ReportsLiquidationComponent } from "../../../dialogs/reports/liquidation/reports-liquidation.component";
 
 @Component({
   selector: 'app-liquidation',
@@ -207,6 +208,9 @@ export class LiquidationComponent implements OnInit {
   }
   applyFilter(search) {
     this.dataSource.filter = search.trim().toLowerCase();
+  }
+  onTriggerSheetClick(){
+    this.matBottomSheet.open(ReportsLiquidationComponent)
   }
 }
 

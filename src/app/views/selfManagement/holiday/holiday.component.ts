@@ -75,6 +75,10 @@ export class HolidayComponent implements OnInit {
   role: any = [];
   stateVac: any = [];
   ini: any = [];
+  daysPro: any = [];
+  daysPropor:any = [];
+  daysDom: any = [];
+
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -125,34 +129,31 @@ export class HolidayComponent implements OnInit {
           
           
        
-          this.content = data.data["getSelectData"][0];
-            // console.log('fech',this.content);
+          this.content = data.data["getSelectData"]["vac"];
           if(this.content){
               this.content.forEach(element => {
-                  this.line = element.state;
-                  this.laterFec = element.fec_rei;
-                  this.stateVac = element.state;
-                  this.ini = element.fec_ini;
-                  // console.log("total state =>",element.state + "total dias =>",element.tot_day);
-                  if(element.state == '79/2'){
-                    // this.totalSol= element.tot_day;
-                    // console.log("=>",(this.totalSol))
-                    this.totalSol= this.content.map(item => item.tot_day).reduce((prev, curr) => prev + curr, 0);
-                  }
+
+                (element.Dias_suspension) ? element.Dias_suspension : element.Dias_suspension = 0;
+
+                  // this.line = element.state;
+                  // this.laterFec = element.fec_rei;
+                  // this.stateVac = element.state;
+                  // this.ini = element.fec_ini;
+                  // if(element.state == '79/2'){
+                  //   // this.totalSol= element.tot_day;
+                  //   this.totalSol= this.content.map(item => item.tot_day).reduce((prev, curr) => prev + curr, 0);
+                  // }
                   
-                  // console.log("total dias =>",this.totalSol)
 
               });
           }
 
-          // console.log('=>',this.laterFec);
 
           this.daysFor = data.data["getSelectData"][0];
           // for()
           // this.daysTo = data.data["getSelectData"][0][0].day_vac;
 
           for (let i = 0; i < this.daysFor.length; i++) {
-            // console.log('*', this.daysFor[i].day_vac);
 
             // this.total = this.total + this.daysFor[i].day_vac;
             if(this.daysFor){
@@ -162,7 +163,6 @@ export class HolidayComponent implements OnInit {
           }
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
-          // console.log('=>',this.cuser)
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -186,11 +186,11 @@ export class HolidayComponent implements OnInit {
       "admissionDate",
       // "daysGained",
       "daysPeople",
+      "day_sus",
       "total_adv",
       "total",
       "remainingDays",
-      // "salary",
-      // "num_vac",
+      // "num_vac",s
       // "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -203,6 +203,21 @@ export class HolidayComponent implements OnInit {
           search.value = "";
     }
   }
+  // calculateDaysExa(fecha) {
+   
+  //   let date11 = new Date(fecha);
+    
+  //   let date22 = new Date();
+  //   let diff = moment(date22).diff(moment(date11));
+  //   let duration = moment.duration(diff);
+
+  //   let months = duration.asMonths();
+  //    this.daysPro = (months * 30).toFixed(2); 
+  //   this.daysPropor = (this.days/360*15);
+  //   this.days =  (this.daysPro/30);
+
+   
+  // }
   calculateDaysAll(fecha){
     
       var convertAge = new Date(fecha);
@@ -210,32 +225,83 @@ export class HolidayComponent implements OnInit {
       var timeDiff = Math.abs(Date.now() - convertAge.getTime());
           // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
           this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
-      // console.log(this.showAge)
       this.days = (this.showAge * 15); // dias de vacaciones
   }
-  calculateDays(fecha){
-     var convertAge = new Date(fecha);
-     var timeDiff = Math.abs(Date.now() - convertAge.getTime());
-    //  console.log(timeDiff)
-      // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
-      this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24)); //* todos los dias laborados hasta la fecha
-  // console.log(this.showAge)
-  // console.log((this.showAge*15)/360)
-  this.days = ((this.showAge*15)/360); // dias proporcionales de vacaciones
-}
-  calculateDaysRest(totDays,state,adv){
-    if(totDays){
-      // console.log("=>", adv);
-      this.totalDays = ( this.days - totDays);
-      // this.totalDays = ( this.days - adv);
-    // }else if(state =='79/2'){
-    //   this.totalDays = ( this.days - adv);
+//   calculateDays(fecha){
+//      var convertAge = new Date(fecha);
+//      var timeDiff = Math.abs(Date.now() - convertAge.getTime());
+//     //  console.log(timeDiff)
+//       // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
+//       this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24)); //* todos los dias laborados hasta la fecha
+//   // console.log(this.showAge)
+//   // console.log((this.showAge*15)/360)
+//   this.days = ((this.showAge*15)/360); // dias proporcionales de vacaciones
+// }
+calculateDaysExa(fecha,dom) {
+   
+  let date11 = new Date(fecha);
 
-    }else{
-      this.totalDays = 0 ; // Dias restanstes
-    }
-    // ( state == '79/2')? this.totalDays = ( this.days - totDays):  this.totalDays = 0 ;
+  date11.setHours(0, 0, 0, 0);
+  let dia11 = date11.getDate().toString().padStart(2, '0');
+  let mes11 = (date11.getMonth() + 1).toString().padStart(2, '0');
+  let anio11 = date11.getFullYear();
+  let horas11 = date11.getHours().toString().padStart(2, '0');
+  let minutos11 = date11.getMinutes().toString().padStart(2, '0');
+  let segundos11 = date11.getSeconds().toString().padStart(2, '0');
+  let fechaYHoraActualEnFormatoTexto11 = `${anio11}-${mes11}-${dia11} ${horas11}:${minutos11}:${segundos11}`;
+  
+  let date22 = new Date();
+  // let fechaActual = new Date();
+ 
+  // let fechaActual = new Date();
+date22.setHours(24, 0, 0, 0);
+let dia = date22.getDate().toString().padStart(2, '0');
+let mes = (date22.getMonth() + 1).toString().padStart(2, '0');
+let anio = date22.getFullYear();
+let horas = date22.getHours().toString().padStart(2, '0');
+let minutos = date22.getMinutes().toString().padStart(2, '0');
+let segundos = date22.getSeconds().toString().padStart(2, '0');
+let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+  
+  let diff = moment(fechaYHoraActualEnFormatoTexto).diff(moment(fechaYHoraActualEnFormatoTexto11));
+  let duration = moment.duration(diff);
+
+  let months = duration.asMonths();
+   this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
+   this.days = ((this.daysPro)/30);
+  //  (this.days % 15 == 0) ? this.days: this.days;
+    (this.days >= 15 ) ? this.days: this.days = 0;
+   
+  //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
+  if(dom){
+    this.daysDom = (this.daysPro - dom);
+    this.days = ((this.daysDom)/30)
+    
+    
+    // this.days2 = (this.daysDom/360*15);
+  }else{
+    this.daysDom = 0
   }
+   
+ 
+}
+  // calculateDaysRest(totDays,adv,sus){
+  //   // console.log('adv=>>',adv);
+  //   // console.log('sus=>>',sus);
+    
+  //   if(totDays || sus){
+  //     // console.log("=>", adv);
+  //     this.totalDays = ( this.days - totDays - sus);
+  //     // this.totalDays = ( this.days - adv);
+  //   // }else if(state =='79/2'){
+  //   //   this.totalDays = ( this.days - adv);
+
+  //   }else{
+  //     this.totalDays = 0 ; // Dias restanstes
+  //   }
+  //   // ( state == '79/2')? this.totalDays = ( this.days - totDays):  this.totalDays = 0 ;
+  // }
   
   option(action, codigo = null, id, create_User) {
     var dialogRef;
@@ -322,7 +388,7 @@ export class HolidayComponent implements OnInit {
           this.contenTableVacation = data.data["getSelectData"][0];
           
           // (this.days === 0) ? alert("No tienes dias disponibles"): '';
-          if(this.days == '0'){
+          if(this.days <= '0'){
             this.handler.showError("No tienes dias disponibles");
           }
           // this.name = this.contenTableVacation;
@@ -356,8 +422,8 @@ export class HolidayComponent implements OnInit {
       // "actions",
     ];
     this.dataSourceVacation = new MatTableDataSource(data);
-    this.dataSourceVacation.sort = this.sort.toArray()[0];
-    this.dataSourceVacation.paginator = this.paginator.toArray()[0];
+    this.dataSourceVacation.sort = this.sort.toArray()[1];
+    this.dataSourceVacation.paginator = this.paginator.toArray()[1];
     let search;
     if (document.contains(document.querySelector("search-input-table"))) {
       search = document.querySelector(".search-input-table");
@@ -367,7 +433,7 @@ export class HolidayComponent implements OnInit {
 
   openc() {
     if (this.contaClick == 0) {
-      this.sendRequest();
+      // this.sendRequest();
       this.sendRequestVacation();
     }
     this.contaClick = this.contaClick + 1;

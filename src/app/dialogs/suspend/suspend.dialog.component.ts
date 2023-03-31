@@ -65,6 +65,18 @@ export class SuspendDialog  {
   PersonaleInfo: any = [];
   suspend: any = [];
   getHoliday: any = [];
+  fecSus: any = [];
+  daySus: any = [];
+  totaLfecHol: any = [];
+  fec_fin: any = [];
+  sumTotalMen: any = [];
+  monthAll: any = [];
+  sundaySus: any = [];
+  totalSunday: any = [];
+  typeSuspen: any = [];
+  count:number = 0;
+  sundayDesc:any = [];
+
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -108,6 +120,7 @@ export class SuspendDialog  {
           (data) => {
             if (data.success == true) {
               this.suspend = data.data["getSelectData"][0];
+              (this.suspend.obs_sus == null) ? this.suspend.obs_sus = 'Ninguna': '';
              
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -129,13 +142,17 @@ export class SuspendDialog  {
   initForms() {
     this.getDataInit();
     this.formSelec = new FormGroup({
-      month: new FormControl("", [Validators.required]),
+      month: new FormControl(""),
       idPersonale: new FormControl(""),
-      document: new FormControl("",[Validators.required]),
-      fec_ini: new FormControl("",[Validators.required]),
-      fec_fin: new FormControl("",[Validators.required]),
+      document: new FormControl("",),
+      fec_ini: new FormControl("",),
+      fec_fin: new FormControl("",),
       fec_rei: new FormControl(""),
       day_sus: new FormControl(""),
+      sus_dom: new FormControl(""),
+      type_sus: new FormControl(""),
+      obs_sus: new FormControl(""),
+      tot_dom:new FormControl(""),
       createUser: new FormControl(this.cuser.iduser),
     });
    
@@ -154,6 +171,8 @@ export class SuspendDialog  {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
           this.getHoliday = data.data["getHoliday"];
+          this.monthAll = data.data["month"];
+          this.typeSuspen = data.data["getTypeSuspend"]
 
           
           if (this.view == "update") {
@@ -175,7 +194,8 @@ export class SuspendDialog  {
     if (this.formSelec.valid) {
       this.loading.emit(true);
       let body = {
-        listas: this.formSelec.value,
+        susp: this.formSelec.value,
+        listas: null
         
       };
       this.WebApiService.postRequest(this.endpoint, body, {
@@ -221,6 +241,8 @@ export class SuspendDialog  {
         this.formSelec.get("fec_fin").setValue(data.data["getSelecUpdat"][0].fec_fin);
         this.formSelec.get("day_sus").setValue(data.data["getSelecUpdat"][0].day_sus);
         this.formSelec.get("fec_rei").setValue(data.data["getSelecUpdat"][0].fec_rei);
+        this.formSelec.get("type_sus").setValue(data.data["getSelecUpdat"][0].type_sus);
+        this.formSelec.get("obs_sus").setValue(data.data["getSelecUpdat"][0].obs_sus);
       },
       (error) => {
         this.handler.showError();
@@ -317,16 +339,89 @@ getMes(){
 }
 
 suspendFech(event){
-console.log(event);
-let fec = event
-this.getHoliday;
-console.log('********');
-this.holiday.holiday(fec,5);
+     this.fecSus = event;
+     this.holiday.holiday( this.fecSus,this.daySus);
+}
 
-// console.log(this.holiday.holiday(fec,10 ));
+calculate(event){
+  this.daySus = event;
+  this.holiday.holiday( this.fecSus,this.daySus );
+  this.totaLfecHol = this.holiday.holiday(this.fecSus,this.daySus );
+  // console.log(this.totaLfecHol);
+  
+        this.fec_fin = this.totaLfecHol[0];
+        this.sumTotalMen = this.totaLfecHol[1];
+        this.sundaySus = this.totaLfecHol[2];
+        if(this.sundaySus.length >= 2){
+          this.count= this.sundaySus.length++
 
+          // this.formSelec.get('sus_dom').setValue(this.sundaySus);   
+          // this.formSelec.get('tot_dom').setValue(this.count);   
+
+          // console.log('suma los domingos =>',this.count);
+          this.sundaySus.forEach(element => {
+            
+
+            var sunday = new Date(element);
+            var sundayFormt = `${sunday.getDate()}-${sunday.getMonth() + 1}-${sunday.getFullYear()}`;
+            this.sundayDesc.push(sundayFormt);
+            this.formSelec.get('sus_dom').setValue(this.sundayDesc);   
+            this.formSelec.get('tot_dom').setValue(this.count);   
+           
+        // console.log(`${prueba.getDate()}-${prueba.getMonth() + 1}-${prueba.getFullYear()}`);                      
+        // this.data[index][10] =this.sun[0].concat(this.sun[1]); 
+        // this.data[index][10] =this.sundayDesc[0].concat(',').concat(' ').concat(this.sundayDesc[1]);
+        // this.data[index][11] = this.count;
+        // console.log(this.data[index][10]);
+        
+
+          });
+        }else{
+          this.count= this.sundaySus.length++
+          // var sunday = new Date(this.sundaySus);
+          // var sundayFormt = `${sunday.getDate()}-${sunday.getMonth() + 1}-${sunday.getFullYear()}`;
+          // console.log(`${prueba2.getDate()}-${prueba2.getMonth() + 1}-${prueba2.getFullYear()}` );
+          // this.sundayDesc = sundayFormt;
+          this.formSelec.get('sus_dom').setValue(this.sundaySus);   
+          this.formSelec.get('tot_dom').setValue(this.count);   
+            // this.data[index][10] =this.sundayDesc;
+          // this.data[index][11] = this.count;
+
+        }
+        this.sundaySus.forEach(element => {
+          
+            
+          const data = new Date(element);
+
+          this.formatDate(data);
+          
+        });
+        // var arrFecha = this.sundaySus.split('-');
+        // var fecha = new Date(arrFecha[0], arrFecha[1] - 1, arrFecha[2]);
+
+     
+        
+        this.formSelec.get('fec_fin').setValue(this.fec_fin);
+        this.formSelec.get('fec_rei').setValue(this.sumTotalMen);   
+        
+  
+  
 
 }
+
+ formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  this.totalSunday = `${year}-${month}-${day}`;
+  
+    
+
+  
+}
+getObcerInvalid(){
+  return this.formSelec.get('obs_sus').invalid && this.formSelec.get('obs_sus').touched;
+ }
 }
 
   

@@ -85,29 +85,45 @@
                   </td>
               </ng-container> -->
               <!-- campo para todos -->
-                <ng-container matColumnDef="daysPeople">
+                <!-- <ng-container matColumnDef="daysPeople">
                     <th mat-header-cell *matHeaderCellDef> Dias Habilitados </th>
                     <td mat-cell *matCellDef="let element">
                         {{calculateDaysAll(element.admissionDate)}} {{days}}     
                     </td>
-                </ng-container>
+                </ng-container> -->
+
+                <ng-container matColumnDef="daysPeople">
+                  <th mat-header-cell *matHeaderCellDef> Dias Habilitados </th>
+                  <td mat-cell *matCellDef="let element" style="text-align: center;">
+                      {{calculateDaysExa(element.admissionDate,element.Dias_suspension)}} {{days | number:'1.0-0'}}     
+                  </td>
+              </ng-container>
+
+                
+              <ng-container matColumnDef="day_sus">
+                <th mat-header-cell *matHeaderCellDef> Dias Suspensión
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.Dias_suspension}}</td> 
+            </ng-container>
   
                 <ng-container matColumnDef="total_adv">
                   <th mat-header-cell *matHeaderCellDef> Dias Anticipados
                   </th>
-                  <td mat-cell *matCellDef="let element">{{element.aad}}</td> 
+                  <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.dia_anticipo}}</td> 
               </ng-container>
+
             
               <ng-container matColumnDef="total">
                 <th mat-header-cell *matHeaderCellDef>Total Dias Tomados
                 </th>
-                <td mat-cell *matCellDef="let element">{{element.tt}}</td> 
+                <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.total_vaca}}</td> 
             </ng-container>
   
               <ng-container matColumnDef="remainingDays">
                 <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
-                <td mat-cell *matCellDef="let element">
-                    {{calculateDaysRest(element.tt,element.aad)}} {{totalDays }}     
+                <td mat-cell *matCellDef="let element" style="text-align: center;">
+                    <!-- {{calculateDaysRest(element.tt,element.aad,element.dom)}} {{totalDays | number:'1.0-0' }}      -->
+                    {{days-element.dia_anticipo-element.total_vaca | number:'1.0-0'}}
                 </td>
             </ng-container>
   
@@ -180,12 +196,12 @@
             </ng-container>
       
           <ng-container matColumnDef="fec_rad" sticky>
-            <th mat-header-cell *matHeaderCellDef>Fecha Solicitud </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Solicitud </th>
             <td mat-cell *matCellDef="let rw"> {{rw.fec_rad | date}} </td>
           </ng-container>
 
           <ng-container matColumnDef="document" >
-            <th mat-header-cell *matHeaderCellDef> Documento </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Documento </th>
             <td mat-cell *matCellDef="let rw"> {{rw.document}} </td>
           </ng-container>
       
@@ -200,23 +216,23 @@
           </ng-container>
 
           <ng-container matColumnDef="fec_ini">
-            <th mat-header-cell *matHeaderCellDef> Fecha de Inicio </th>
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header (click)="openc()"> Fecha de Inicio </th>
             <td mat-cell *matCellDef="let rw"> {{rw.fec_ini | date}} </td>
           </ng-container>
 
           <ng-container matColumnDef="day_vac">
             <th mat-header-cell *matHeaderCellDef> Dias a Disfrutar </th> 
-            <td mat-cell *matCellDef="let rw"> {{rw.day_vac}} </td>
+            <td mat-cell *matCellDef="let rw" style="text-align: center;"> {{rw.day_vac}} </td>
           </ng-container>
 
           <ng-container matColumnDef="day_adv">
             <th mat-header-cell *matHeaderCellDef># Dias Anticipados </th> 
-            <td mat-cell *matCellDef="let rw"> {{rw.day_adv}} </td>
+            <td mat-cell *matCellDef="let rw" style="text-align: center;"> {{rw.day_adv}} </td>
           </ng-container>
 
           <ng-container matColumnDef="day_com">
             <th mat-header-cell *matHeaderCellDef> Dias a Compensar </th>
-            <td mat-cell *matCellDef="let rw"> {{rw.day_com}} </td>
+            <td mat-cell *matCellDef="let rw" style="text-align: center;"> {{rw.day_com}} </td>
           </ng-container>
 
           <ng-container matColumnDef="fec_fin">
@@ -253,7 +269,8 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumnsVacation; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumnsVacation;"></tr>
           </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          <mat-paginator [length]="100"
+          [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"  showFirstLastButtons></mat-paginator>
 
       </div>
       <div *ngIf="contenTable.length == 0">

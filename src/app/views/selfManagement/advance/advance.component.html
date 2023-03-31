@@ -76,37 +76,49 @@
               </ng-container>
               <!-- Campo para talento humano -->
               <ng-container matColumnDef="daysGained">
-                <th mat-header-cell *matHeaderCellDef>   Total Dias Servicio Neto  </th>
-                <td mat-cell *matCellDef="let element">
-                  
-                      {{calculateDays(element.admissionDate)}} {{daysPro | number:'1.0-1'}}     
-                  
+                <th mat-header-cell *matHeaderCellDef>   Total Dias <br>Servicio Neto  </th>
+                <td mat-cell *matCellDef="let element" style="text-align: center;">
+                      {{calculateDays(element.admissionDate, element.Dias_suspension)}} {{daysPro | number:'1.0-0'}}     
                 </td>
             </ng-container>
+
+            <ng-container matColumnDef="daysWork">
+              <th mat-header-cell *matHeaderCellDef>   Total Dias laborales<br>(si tiene Suspensiones o L. No remunerada)  </th>
+              <td mat-cell *matCellDef="let element" style="text-align: center;">
+                     {{daysDom | number:'1.0-0'}}     
+              </td>
+          </ng-container>
             <!-- campo para todos -->
               <ng-container matColumnDef="daysPeople">
-                  <th mat-header-cell *matHeaderCellDef> Dias vacaciones proporcionales </th>
-                  <td mat-cell *matCellDef="let element">
-                      {{calculateDaysAll(element.admissionDate)}} {{days2 | number:'1.0-2'}}     
+                  <th mat-header-cell *matHeaderCellDef> Dias vacaciones<br> proporcionales </th>
+                  <td mat-cell *matCellDef="let element" style="text-align: center;">
+                      {{calculateDaysAll(daysPro,daysDom)}} {{sundayTot | number:'1.0-2'}}     
                   </td>
               </ng-container>
 
               <ng-container matColumnDef="total_adv">
                 <th mat-header-cell *matHeaderCellDef> Dias Anticipados
                 </th>
-                <td mat-cell *matCellDef="let element">{{element.aad}}</td> 
+                <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.dia_anticipo}}</td> 
             </ng-container>
+
+            <ng-container matColumnDef="day_sus">
+              <th mat-header-cell *matHeaderCellDef> Dias Suspensión<br>L. No remunerada
+              </th>
+              <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.Dias_suspension}}</td> 
+          </ng-container>
           
             <ng-container matColumnDef="total">
               <th mat-header-cell *matHeaderCellDef>Total Dias Tomados
               </th>
-              <td mat-cell *matCellDef="let element">{{element.tt}}</td> 
+              <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.total_vaca}}</td> 
           </ng-container>
 
             <ng-container matColumnDef="remainingDays">
               <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
-              <td mat-cell *matCellDef="let element">
-                  {{calculateDaysRest(element.tt,element.aad)}} {{totalDays  | number:'1.0-2'}}     
+              <td mat-cell *matCellDef="let element" style="text-align: center;">
+                  <!-- {{calculateDaysRest(element.aad,element.tt)}} {{totalDays  | number:'1.0-2'}}      -->
+                  {{sundayTot-element.total_vaca-element.dia_anticipo | number:'1.0-2'}}
               </td>
           </ng-container>
 
@@ -205,17 +217,17 @@
 
         <ng-container matColumnDef="day_vac">
           <th mat-header-cell *matHeaderCellDef> Dias a Disfrutar </th> 
-          <td mat-cell *matCellDef="let rw"> {{rw.day_vac}} </td>
+          <td mat-cell *matCellDef="let rw" style="text-align: center;"> {{rw.day_vac}} </td>
         </ng-container>
 
         <ng-container matColumnDef="day_adv">
           <th mat-header-cell *matHeaderCellDef># Dias Anticipados </th> 
-          <td mat-cell *matCellDef="let rw"> {{rw.day_adv}} </td>
+          <td mat-cell *matCellDef="let rw" style="text-align: center;"> {{rw.day_adv}} </td>
         </ng-container>
 
         <ng-container matColumnDef="day_com">
           <th mat-header-cell *matHeaderCellDef> Dias a Compensar </th>
-          <td mat-cell *matCellDef="let rw"> {{rw.day_com}} </td>
+          <td mat-cell *matCellDef="let rw" style="text-align: center;"> {{rw.day_com}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fec_fin">

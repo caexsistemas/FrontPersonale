@@ -35,7 +35,11 @@ table {
   #excelTable {
     font-family: Arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    width: 105%;
+    font-size: 12px;
+  }
+  #excelTable .star{
+    font-weight: bold;
   }
   
   #excelTable td, #excelTable th {
@@ -59,6 +63,7 @@ table {
     color: white;
     border-radius: 3px;
     text-align: center;
+    width: 105%;
   }
   .modal-header{
     background-color: rgb(64, 131, 255);
@@ -68,4 +73,30 @@ table {
   }
   .pointer{
     cursor: pointer;
+  }
+  .modal-fade .modal-dialog{
+    margin: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 200%;
+    height: 200%;
+  }
+  /* @media (min-width: 768px) {
+    .fullscreen-modal .modal-dialog {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .fullscreen-modal .modal-dialog {
+      width: 970px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .fullscreen-modal .modal-dialog {
+       width: 1170px;
+    }
+    
+  } */
+  .modal-content{
+    width: 115%;
   }

@@ -12,6 +12,8 @@ import { Tools } from '../../../Tools/tools.page';
 import * as XLSX from 'xlsx';
 import { element } from 'protractor';
 import { calculateDays } from '../../../services/holiday.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ReportsSuspendComponent } from '../../../dialogs/reports/suspend/reports-suspend.component';
 // import {
 //   MatDialog,
 //   MatDialogRef,
@@ -41,10 +43,15 @@ export class SuspendComponent implements OnInit {
   contaClick:  number = 0;
   selectedFile:any;
   data: any[][];
+  dataNew: any[][];
   file: any;
   totaLfecHol:any = [];
   fin_susp: any = [];
   reg_susp: any = [];
+  sundaySus: any = [];
+  totalSunday:any = [];
+  sundayDesc:any = [];
+
   public detaSuspend = [];
 
   component = "/nomi/suspend";
@@ -92,6 +99,7 @@ export class SuspendComponent implements OnInit {
     public handler: HandlerAppService,
     public dialog: MatDialog,
     private holiday: calculateDays,
+    private matBottomSheet : MatBottomSheet
   ) { }
   step = 0;
 
@@ -143,10 +151,13 @@ export class SuspendComponent implements OnInit {
       "fec_rec",
       "document",
       "idPersonale",
+      "type_sus",
       "month",
+      "day_sus",
       "fec_ini",
       "fec_fin",
-      "actions",
+      "fec_rei",
+      // "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -263,10 +274,9 @@ export class SuspendComponent implements OnInit {
         }
       );
   }
- 
+ count: number = 0;
   onFileChange(event) {
       this.loading = true;
-      // console.log(event);
     if(!event.target.files[0]){
         this.handler.showError("Seleccione Archivo Correctamente");
         this.loading = false;
@@ -279,26 +289,29 @@ export class SuspendComponent implements OnInit {
           reader.onload = (e: any) => {
           /* read workbook */
           const wb = XLSX.read(e.target.result, {type: 'array'});
-          console.log('=>**',wb);
+          // console.log('=>**',wb);
       
           /* grab first sheet */
           const wsname = wb.SheetNames[0];
-          console.log(wsname);
           
-          const ws = wb.Sheets[wsname];
-            console.log(ws);
+          var ws = wb.Sheets[wsname];
             
           /* save data */
           this.data = XLSX.utils.sheet_to_json(ws, {header: 1});
-          // console.log('data=>>>',this.data);
+          
+          
           this.data.forEach(element =>{
               // console.log(element[8]);
               
             // element.splice(8,1)              
           });          
-          this.data.forEach((row, index) => {
+          /* add new headers */
+           
+            this.data.forEach((row, index) => {
             
             row.forEach((col, colIndex) => {
+              // ws['I1'] = {v: 'FECHA DE FINALIZACION'};
+              // ws['J1'] = {v: 'FECHA DE REINTEGRO'};
               
                 if(typeof col === 'number' && col > 1 && col < 4294967296 && colIndex != 2 && colIndex != 6) {
                 
@@ -310,40 +323,88 @@ export class SuspendComponent implements OnInit {
                         this.holiday.holiday(this.data[index][5],this.data[index][6]);
                         this.totaLfecHol = this.holiday.holiday(this.data[index][5],this.data[index][6]);
                         this.fin_susp = this.totaLfecHol[0];
-                        this.reg_susp = this.totaLfecHol[1]
-                        // console.log('fin =>', this.fin_susp);
-                        // console.log('data=>>>',this.data);
+                        this.reg_susp = this.totaLfecHol[1];
+                        this.sundaySus =  this.totaLfecHol[2];
+                        // console.log( this.sundaySus);
+                        this.sundaySus.forEach(element => {
+                          // console.log(element);
+                        
+                          // var fecha =  new Date(element)
+                          
+                          
+                        });
+                        
+                        if(this.sundaySus.length >= 2){
+                          this.count= this.sundaySus.length++
+                          // console.log('suma los domingos =>',this.count);
+                          this.sundaySus.forEach(element => {
+                            
+
+                            var sunday = new Date(element);
+                            var sundayFormt = `${sunday.getDate()}-${sunday.getMonth() + 1}-${sunday.getFullYear()}`;
+                            this.sundayDesc.push(sundayFormt);
+                        // console.log(`${prueba.getDate()}-${prueba.getMonth() + 1}-${prueba.getFullYear()}`);                      
+                        // this.data[index][10] =this.sun[0].concat(this.sun[1]);
+                        this.data[index][10] =this.sundayDesc[0].concat(',').concat(' ').concat(this.sundayDesc[1]);
+                        this.data[index][11] = this.count;
+                        // // console.log(this.data[index][10]);
+                        // for (let index = 0; index < this.sundaySus.length; index++) {
+                        //   // const element = this.sundaySus[index];
+                          
+                          
+                        // }
+                        
+
+                          });
+                        }else{
+                          this.count= this.sundaySus.length++
+                          var sunday = new Date(this.sundaySus);
+                          var sundayFormt = `${sunday.getDate()}-${sunday.getMonth() + 1}-${sunday.getFullYear()}`;
+                          // console.log(`${prueba2.getDate()}-${prueba2.getMonth() + 1}-${prueba2.getFullYear()}` );
+                          this.sundayDesc = sundayFormt;
+                          this.data[index][10] =this.sundayDesc;
+                          this.data[index][11] = this.count;
+
+                        }
+                        // console.log(this.sundaySus);
+                        
+                        // console.log(`${this.sundaySus.getDate()}-${this.sundaySus.getMonth() + 1}-${this.sundaySus.getFullYear()}` )                        
+                        
+                     /* add new data to row */
+                        this.data[index][8] = this.fin_susp;
+                        this.data[index][9] = this.reg_susp;
+                        //------fecha inicio
+                        this.data[0][5] = 'FECHA INICIO DE SUSPENSIÓN'
                         // ---fecha fin
-                        this.data[0][8] = '  FECHA DE FINALIZACION  ';
+                        this.data[0][8] = 'FECHA DE FINALIZACION';
                         this.data[index][8] = this.fin_susp;
                         //------------------------------------
                         //--------fecha regreso ----------------
-                        this.data[0][9] = '  FECHA DE  REINTEGRO  '
+                        this.data[0][9] = 'FECHA DE  REINTEGRO'
                         this.data[index][9] = this.reg_susp;
-                        //----------------------------------------
-                        // this.data[0][10] ='prueba';
-                        // this.data[index][10] = this.fin_susp;
-                        // this.data[index][7].push(this.reg_susp);
-                        // console.log('fec_fin => ',this.totaLfecHol[0]);
-                        // console.log('fec_regre => ',this.totaLfecHol[1]);
-                        // this.data[index].push(this.fin_susp)
-                        console.log(this.data);
-                        if(this.data){
-                          // ws['I'+index] =  {t: 'n',v:this.data[index][8],w:this.data[index][8]};
-                          ws['I'+index] =  {t: 'n',v:'Wednesday, January 04, 2023,',w:'Wednesday, January 04, 2023,'};
-                          // this.data = XLSX.utils.sheet_to_json(ws, {header: 1});
-                          console.log('=>>>>',ws);
-                          return ws;
-                        }
-                       
-
-                        // ws['I2'] = this.fin_susp;
-                        // ws['I3'] = this.fin_susp;
-
+                        //---------------------------------------
+                        this.data[0][10] ='DOMINGO';
+                        this.data[0][11] ='TOTAL';
+                        // this.data[index][10]=  this.sundaySus;
+                        // this.data[index].slice(10);
+                        // this.data.slice(10);
                         
+                         
+                        // return this.data.slice(10);
                       }
+                      // this.data[10][10] = this.sundaySus;
+                      // let p1 = this.data[index][10];
+                      // let arr =  Array.from(p1)
+                     
+                      // console.log(p1);
+                      
             });
+            /* save data */
+          // this.data = XLSX.utils.sheet_to_json(ws, {header: 1});      
+          // console.log('new =>',this.data);
+          
           });
+          // return this.data[1];
         };
         reader.readAsArrayBuffer(blob);
         this.fileInput.nativeElement.value = '';
@@ -362,11 +423,12 @@ export class SuspendComponent implements OnInit {
       return date.toLocaleDateString('fr-CA');
     }
   }
+  
 
   upload(){
     this.loading = true;
     if(this.file){
-      // console.log('****',this.file);
+      console.log('****',this.file);
       // console.log(this.file);
       // console.log(this.cuser.iduser);
     let body = {
@@ -410,5 +472,54 @@ export class SuspendComponent implements OnInit {
   removeFile() {
     this.selectedFile = null;
     this.fileInput.nativeElement.value = '';
+  }
+
+  onSubmit() {
+    if (this.data.length) {
+      console.log(this.data);
+      
+      this.loading = true;
+    // this.loading.emit(true);
+      let body = {
+        listas: this.data.slice(1),
+        susp:null
+        
+      };
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      }).subscribe(
+        (data) => {
+          if (data.success) {
+            this.handler.showSuccess(data.message);
+            this.successModal.hide();
+            this.data = null;
+            this.sendRequest();
+            this.loading = false;
+    // this.reload.emit();
+            // this.closeDialog();
+          } else {
+            this.handler.handlerError(data);
+             this.loading = false;
+             this.data = null;
+             this.successModal.hide();
+    // this.loading.emit(false);
+          }
+        },
+        (error) => {
+          this.handler.showError();
+             this.loading = false;
+             // this.loading.emit(false);
+        }
+      );
+    } else {
+      this.handler.showError("Complete la informacion necesaria");
+             this.loading = false;
+             // this.loading.emit(false);
+    }
+  }
+  onTriggerSheetClick(){
+    this.matBottomSheet.open(ReportsSuspendComponent)
   }
 }

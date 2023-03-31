@@ -28,6 +28,7 @@ export class ReportsRqcalidadComponent implements OnInit {
   displayedColumns: any = [];
   ListEstGes: any = [];
   listipomatriz: any = [];
+  listiVersionRepr: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   component = "/callcenter/rqcalidad";
@@ -50,7 +51,8 @@ export class ReportsRqcalidadComponent implements OnInit {
       role: new FormControl(this.cuser.role),
       iduser: new FormControl(this.cuser.iduser),
       tipogesti: new FormControl(''),
-      ident: new FormControl('')
+      ident: new FormControl(''),
+      vienue: new FormControl('')
     });
   }
 
@@ -69,6 +71,7 @@ export class ReportsRqcalidadComponent implements OnInit {
            // this.dataCad = data.data['getContData'][0];
            // this.tipMatriz = this.dataCad.matrizarp_cod;
            this.listipomatriz = data.data['tipmatriz']; //40
+           this.listiVersionRepr = data.data['reportVers']; //87
           
             //  this.ListEstGes = data.data['stadgestion'];
             this.loading.emit(false);

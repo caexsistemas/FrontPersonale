@@ -1,0 +1,655 @@
+<div class="card mt-6">
+  <div *ngIf="view == 'create' || view == 'update'">
+    <div class="card-header">
+      <h5 class="modal-title button_header">
+        <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+        <mat-accordion class="example-headers-align">
+          <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSelec">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Reporte No Conformidades &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Información Detallada
+                </mat-panel-description>
+                <mat-icon>work</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row">
+                
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width ">
+                    <mat-label>Cliente, entidad o área que reporta la NC:</mat-label>
+                    <!-- <mat-select formControlName="idPersonale" required >
+                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select> -->
+                    <input  matInput type="text" formControlName="resp">
+                    <!-- <textarea matInput formControlName="idPersonale" ></textarea> -->
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de no conformidad:</mat-label>
+                    <mat-select formControlName="type">
+                      <mat-option *ngFor="let idet of confor" [value]="idet.ls_codvalue" >
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> 
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Fecha de reporte:</mat-label>
+                    <input matInput formControlName="fec_rep" type="date">
+                    <mat-error *ngIf="getNumInvalid()">
+                      <strong> Ingrese # vacantes.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Fecha de plan de accion:</mat-label>
+                    <input matInput formControlName="fec_pla" type="date">
+                    <mat-error *ngIf="getNumInvalid()">
+                      <strong> Ingrese # vacantes.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Area Responsable:</mat-label>
+                    <mat-select formControlName="are_res" (ngModelChange)="onSelectionAttributes($event)">
+                      <mat-option *ngFor="let idet of work" [value]="idet.ls_codvalue" >
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> 
+                <div class="col-sm-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Proceso Responsable:</mat-label>
+                    <mat-select formControlName="pro_res">
+                      <mat-option *ngFor="let idet of responsibleProcess" [value]="idet.ls_codvalue" >
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> 
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-4"> 
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Numero Identificaci&oacute;n</mat-label>
+                    <input matInput formControlName="document" type="number" (ngModelChange)="onSelectionChange($event)"
+                     >
+                      <mat-error *ngIf="getDocuInvalid()">
+                        <strong> Ingrese # documento.</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width ContCamp">
+                    <mat-label>Responsable</mat-label>
+                    <mat-select formControlName="idPersonale" required >
+                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+               
+               
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Descripción de la no conformidad:</mat-label>
+                    <textarea matInput formControlName="des_conf" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+              <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Descripción&nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Información Detallada
+                </mat-panel-description>
+                <mat-icon>description</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Factor:</mat-label>
+                    <mat-select formControlName="fact">
+                      <mat-option *ngFor="let idet of factor" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Causas de la no conformidad:</mat-label>
+                    <textarea matInput formControlName="cau_conf" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Correcion:</mat-label>
+                    <textarea matInput formControlName="corr" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Plan de acción
+                      (Acciones propuestas):</mat-label>
+                    <textarea matInput formControlName="pla_acc" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Responsables de la acción</mat-label>
+                    <textarea matInput formControlName="res_acc" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Fecha propuesta de implementación:</mat-label>
+                    <input matInput formControlName="fec_prop" type="date" (ngModelChange)="onSelectionImplement($event)">
+                    <mat-error *ngIf="getNumInvalid()">
+                      <strong> Ingrese # vacantes.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Fecha real de ejecución:</mat-label>
+                    <input matInput formControlName="fec_eje" type="date" (ngModelChange)="onSelectionEjecc($event)">
+                    <mat-error *ngIf="getNumInvalid()">
+                      <strong> Ingrese # vacantes.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Oportunidad en el cierre:</mat-label>
+                    <input matInput formControlName="opo_cier" type="text" [value]="typeNo" readonly>
+
+                    <!-- <mat-select formControlName="opo_cier">
+                      <mat-option *ngFor="let idet of cierr"  [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select> -->
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select formControlName="state">
+                      <mat-option *ngFor="let idet of state" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-8">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Evidencias</mat-label>
+                    <textarea matInput formControlName="evi" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Concepto del área de calidad:</mat-label>
+                    <mat-select formControlName="con_are_cal">
+                      <mat-option *ngFor="let idet of calidad" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-8">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput formControlName="obs_sig" ></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <!-- <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button> -->
+                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+              
+              <!-- <mat-action-row>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row> -->
+            <!-- </mat-expansion-panel> -->
+            <!-- <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Justificación de la Requisición&nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+                <mat-icon>description</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Justificación de la Requisición:</mat-label>
+                    <textarea matInput formControlName="justification" [readonly]="view == 'update'"></textarea>
+                    <mat-error *ngIf="getJustInvalid()">
+                      <strong> Ingrese Justificación.</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Observaciones y/o consideraciones especiales &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+                <mat-icon>assignment</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observaciones:</mat-label>
+                    <textarea matInput formControlName="observations" [readonly]="view == 'update'"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              </mat-action-row>
+            </mat-expansion-panel> -->
+          </form>
+
+        </mat-accordion>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Cancelar requisicion -->
+  <div class="card mt-6"  style="margin: auto;">
+    <div *ngIf="view == 'cancel' ">
+      <div class="card-header">
+        <h5 class="modal-title">
+          <p class="title-modal" *ngIf="view == 'cancel' ">{{title}} {{idSel}}</p>
+          <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+            style="position: absolute;left: 88%;top: 2%;font-size: 7px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </h5>
+      </div>
+  
+      <div class="card-body">
+        <mat-dialog-content>
+          <form *ngIf="view == 'cancel' " [formGroup]="formSelec">
+  
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Company</mat-label>
+              <input matInput disabled value="Cali Express">
+            </mat-form-field>
+  
+           
+            <div class="row mt-6">
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Estado Requisición</mat-label>
+                  <mat-select formControlName="state" required>
+                    <mat-option *ngFor="let idet of state" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+             
+            </div>
+             
+              <div class="row mt-6">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Motivo de cancelar?:</mat-label>
+                    <textarea matInput formControlName="can_req" required></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+  
+          </form>
+        </mat-dialog-content>
+        <!-- <div mat-dialog-actions>
+          <div class="text-center col-12">
+            <button *ngIf="view == 'cancel' " mat-button class="btn btn-success"
+              (click)="onSubmitUpdate()">Actualizar</button>    
+            <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+          </div>
+        </div> -->
+      </div>
+  
+    </div>
+  </div>
+  </div>
+<!-- </div> -->
+<!-- <p>view</p> -->
+<div class="card mt-6">
+  <div *ngIf="view == 'view'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'view'">Información Detallada  {{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Reporte de no conformidad&nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Información Detallada
+              </mat-panel-description>
+              <mat-icon>work</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Cliente, entidad o área que reporta la NC</dt>
+                <dd>{{selection.resp}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Tipo</dt>
+                <dd>{{selection.type}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Fecha del reporte</dt>
+                <dd>{{selection.fec_rep}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Fecha del plan de acción</dt>
+                <dd>{{selection.fec_pla}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Área responsable</dt>
+                <dd>{{selection.are_res}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Área responsable</dt>
+                <dd>{{selection.pro_res}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Responsable</dt>
+                <dd>{{selection.idPersonale}}</dd>
+              </div>
+              <div class="col-md-8">
+                <dt>Descripción de la no conformidad</dt>
+                <dd>{{selection.des_conf}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-dark mr-3" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Reporte &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Información Detallada
+              </mat-panel-description>
+              <mat-icon>description</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Factor</dt>
+                <dd>{{selection.fact}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-8">
+                <dt>Causas de la no conformidad </dt>
+                <dd>{{selection.cau_conf}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-8">
+                <dt>Corrección </dt>
+                <dd>{{selection.corr}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-8">
+                <dt>Plan de acción
+                  (Acciones propuestas) </dt>
+                <dd>{{selection.pla_acc}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-8">
+                <dt>Responsables de la acción </dt>
+                <dd>{{selection.res_acc}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Fecha propuesta de implementación </dt>
+                <dd>{{selection.fec_prop}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Fecha real de ejecución </dt>
+                <dd>{{selection.fec_eje}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Oportunidad en el cierre </dt>
+                <dd>{{selection.opo_cier}}</dd>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <dt>Estado </dt>
+                <dd>{{selection.state}}</dd>
+              </div>
+              <div class="col-md-8">
+                <dt>Evidencias </dt>
+                <dd>{{selection.evi}}</dd>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <dt>Concepto del área de calidad </dt>
+                <dd>{{selection.con_are_cal}}</dd>
+              </div>
+              <div class="col-md-8">
+                <dt>Observaciones </dt>
+                <dd>{{selection.obs_sig}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Exit</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <!-- <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Observaciones y/o consideraciones especiales &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+              <mat-icon>assignment</mat-icon>
+            </mat-expansion-panel-header>
+           
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel> -->
+          <!-- <mat-expansion-panel *ngIf="checked" [expanded]="step === 3" (opened)="setStep(3)" hideToggle> -->
+            <!-- <mat-expansion-panel-header>
+              <mat-panel-title>
+                Aprobaciones &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+              <mat-icon>thumbs_up_down</mat-icon>
+            </mat-expansion-panel-header>
+            <hr> -->
+            <!-- <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Diego Fernado Lopez </dt>
+                <dd>{{selection.die}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Maria Esmeralda </dt>
+                <dd>{{selection.ma}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2" *ngIf="check">
+              <div class="col-md-4">
+                <dt>Juan Olaya </dt>
+                <dd>{{selection.ju}}</dd>
+              </div>
+            </div> -->
+            <!-- <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+            </mat-action-row>
+          </mat-expansion-panel> -->
+          <!-- <mat-expansion-panel *ngIf="cancel == '65/6' " [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Requisición Cancelada &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+              <mat-icon>cancel</mat-icon>
+            </mat-expansion-panel-header> -->
+            <!-- <div class="row mt-2">
+              <div class="col-md-4">
+                <dt> Motivo por el cual se cancela? </dt>
+                <dd>{{selection.can_req}}</dd>
+              </div>
+            </div> -->
+            <!-- <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+            </mat-action-row>
+          </mat-expansion-panel> -->
+        </mat-accordion>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Histórico de Procesos:
+              </div>
+              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="currentm_user">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="type_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>
+
+   
+    
+   

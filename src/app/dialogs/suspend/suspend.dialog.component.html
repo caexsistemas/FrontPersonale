@@ -44,6 +44,21 @@
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
+                <mat-label>Motivo novedad:</mat-label>
+                <mat-select formControlName="type_sus">
+                  <mat-option *ngFor="let idet of typeSuspen" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
+                    {{idet.description}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="getMes()">
+                  <strong> Ingrese Mes.</strong>
+              </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
                 <input matInput formControlName="fec_ini" value="fec_ini" type="date" (ngModelChange)="suspendFech($event)" [readonly]="view == 'update'">
                 <mat-error *ngIf="getFecIni()">
@@ -51,12 +66,10 @@
                 </mat-error>
               </mat-form-field>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias de Suspensiones</mat-label>
-                <input matInput formControlName="day_sus" value="day_sus" [readonly]="view == 'update'">
+                <input matInput formControlName="day_sus" value="day_sus" (ngModelChange)="calculate($event)" [readonly]="view == 'update'">
                 <mat-error *ngIf="getMes()">
                   <strong> Ingrese Mes.</strong>
                 </mat-error>
@@ -64,25 +77,43 @@
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
-                <mat-label>Mes</mat-label>
-                <input matInput formControlName="month" value="month" [readonly]="view == 'update'">
+                <mat-label>Mes:</mat-label>
+                <mat-select formControlName="month">
+                  <mat-option *ngFor="let idet of monthAll" [value]="idet.mon_id" [disabled]="view == 'update'">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
                 <mat-error *ngIf="getMes()">
                   <strong> Ingrese Mes.</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="col-sm-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Fecha Fin</mat-label>
-                <input matInput formControlName="fec_fin" value="fec_fin" type="date">
+              </mat-error>
               </mat-form-field>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
+                <mat-label>Fecha Fin</mat-label>
+                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Reintegro</mat-label>
-                <input matInput formControlName="fec_rei" value="fec_rei" type="date" [readonly]="view == 'update'">
+                <input matInput formControlName="fec_rei" [value]="sumTotalMen" type="date" [readonly]="view == 'update'">
+              </mat-form-field>
+            </div>
+          </div>
+          <hr>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width" >
+                <mat-label>Observación:</mat-label>
+                <textarea matInput formControlName="obs_sus"></textarea>
+                <mat-error *ngIf="getObcerInvalid()">
+                  <strong>
+                    Ingrese observación.
+                  </strong>
+              </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -111,7 +142,6 @@
 
   <mat-dialog-content style="min-width: 500px;">
     <div class="row mt-2">
-
       <div class="col-md-4">
         <dt>Fecha Radicación</dt>
         <dd>{{suspend.fec_rec}}</dd>
@@ -124,24 +154,39 @@
         <dt>Nombres</dt>
         <dd>{{suspend.emp}}</dd>
       </div>
-
-
     </div>
     <div class="row mt-2">
       <div class="col-md-4">
+        <dt>Novedad</dt>
+        <dd>{{suspend.type}}</dd>
+      </div>
+      <div class="col-md-4">
         <dt>Mes</dt>
-        <dd>{{suspend.month}}</dd>
+        <dd>{{suspend.me}}</dd>
       </div>
       <div class="col-md-4">
         <dt>Fecha Inicio</dt>
         <dd>{{suspend.fec_ini}}</dd>
       </div>
-      <div class="col-md-4">
-        <dt>Fecha Fin</dt>
-        <dd>{{suspend.fec_fin}}</dd>
+     </div>
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <dt>Fecha Fin</dt>
+          <dd>{{suspend.fec_fin}}</dd>
+        </div>
+        <div class="col-md-4">
+          <dt>Domingos a descontar</dt>
+          <dd>{{suspend.sus_dom}}</dd>
+        </div>
+      </div>
+      <hr>
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <dt>Observaciones</dt>
+          <dd>{{suspend.obs_sus}}</dd>
+        </div>
       </div>
 
-    </div>
   </mat-dialog-content>
   <div class="row mt-3">
     <div class="col-md-12">

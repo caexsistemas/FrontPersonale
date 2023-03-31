@@ -32,8 +32,28 @@
                     <mat-label>Numero Identificaci&oacute;n:</mat-label>
                     <input matInput formControlName="ident" type="number" >
                 </mat-form-field>
-              </div>
+              </div>      
           </div>
+
+          <div class="row">
+
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                  <mat-label>Versi&oacute;n Reporte:</mat-label>
+                  <mat-select formControlName="vienue"  required>
+                    <mat-option *ngFor="let idet of listiVersionRepr" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+
+          </div>
+
       </form>
 
   </mat-dialog-content>
