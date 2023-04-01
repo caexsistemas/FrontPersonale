@@ -271,7 +271,7 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
    this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
    this.days = ((this.daysPro)/30);
   //  (this.days % 15 == 0) ? this.days: this.days;
-    (this.days >= 15 ) ? this.days: this.days = 0;
+    // (this.days >= 15 ) ? this.days: this.days = 0;
    
   //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
   if(dom){
@@ -388,9 +388,9 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
           this.contenTableVacation = data.data["getSelectData"][0];
           
           // (this.days === 0) ? alert("No tienes dias disponibles"): '';
-          if(this.days <= '0'){
-            this.handler.showError("No tienes dias disponibles");
-          }
+          // if(this.days <= '0'){
+          //   this.handler.showError("No tienes dias disponibles");
+          // }
           // this.name = this.contenTableVacation;
           // this.username = this.cuser.username;
           this.loading = false;
