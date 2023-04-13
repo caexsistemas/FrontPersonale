@@ -11,7 +11,7 @@ import { addDays, differenceInWeeks, isSunday, startOfWeek } from 'date-fns';
 export class calculateDays {
   // arrFor: any = [];
 
-  endpoint: string = "/holiday";
+  endpoint: string = "/validation";
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   component = "/selfManagement/holiday";
   permissions: any = null;
@@ -29,13 +29,13 @@ export class calculateDays {
       this.loading = true;
       this.WebApiService.getRequest(this.endpoint,{
         action: "getHoliday",
-        idUser: this.cuser.iduser,
-        token: this.cuser.token,
-        modulo: this.component,
+        // idUser: this.cuser.iduser,
+        // token: this.cuser.token,
+        // modulo: this.component,
       }).subscribe(data =>{
         this.permissions = this.handler.getPermissions(this.component);
         // console.log(this.permissions);
-        console.log(data.success);
+        // console.log(data.success);
           if(data.success == true){
               this.getHoliday = data.data["getHoliday"];
               this.loading = false;

@@ -391,7 +391,9 @@ export class HolidayDialog  {
         this.fec_fin = this.totaLfecHol[0];
         this.sumTotalMen = this.totaLfecHol[1];
         this.formSelec.get('fec_fin').setValue(this.fec_fin);
-        this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+        this.formSelec.get('fec_rei').setValue(this.sumTotalMen);  
+      this.loading.emit(false);
+            
         // this.formSelec.get('immediateBoss').setValue(this.jefe);
     }
   }
