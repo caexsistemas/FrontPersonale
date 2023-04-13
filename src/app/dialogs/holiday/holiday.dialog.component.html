@@ -76,7 +76,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Compensar</mat-label>
-                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" [readonly]="CheckTrue">
+                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice( this.maxLength);" [readonly]="CheckTrue">
                   <mat-error *ngIf="getCompInvalid()">
                     <strong>
                       Ingrese # dias.

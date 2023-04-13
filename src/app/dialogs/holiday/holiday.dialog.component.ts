@@ -396,14 +396,16 @@ export class HolidayDialog  {
     }
   }
   daysCom(event){
-    if(event){
+
+    if(event >= 0){
       this.comp = event;
+      
       this.totalDays(this.prue2,this.comp);
     }
   }
   totalDays(d1,d2){
     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
-    this.totalFin = (d1+d2);
+      this.totalFin = (d1+d2);
     // console.log("total dias solicitados =>",this.totalFin);
     if(this.totalFin > 15){
       this.handler.showError("No puedes solicitar mas de 15 dias!");
