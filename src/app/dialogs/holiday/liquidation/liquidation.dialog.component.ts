@@ -35,6 +35,7 @@ import * as moment from "moment";
 import { element } from "protractor";
 import { exit } from "process";
 import { MatPaginator } from "@angular/material/paginator";
+import { isArray } from "util";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -88,6 +89,11 @@ export class LiquidationDialog  {
   totalSol: any = [];
   check: boolean;
   checkS: boolean;
+  nuevoArchivo:any = [];
+  rutasVisualizacion: any =[];
+  caract: boolean;
+  caractJson: boolean;
+  element: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -134,6 +140,14 @@ export class LiquidationDialog  {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelecUpdat"][0];
+
+              if(!(this.selection.file_sp)){
+                   this.caract = false;
+                }else{
+                    this.caract = true;
+                    this.selection.file_sp = JSON.parse(this.selection.file_sp);
+                }
+
               (this.selection.day_adv)? this.checkAvd = true: this.checkAvd = false;
               (this.selection.tot_day)? this.checkSol = true: this.checkSol = false;
               this.generateTable(data.data["getDatHistory"]);
@@ -288,7 +302,8 @@ export class LiquidationDialog  {
         this.formSelec.get("day_adv").setValue(data.data["getSelecUpdat"][0].day_adv);
         this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
         // this.formSelec.get("sta_liq").setValue(data.data["getSelecUpdat"][0].sta_liq);
-        this.archivo.nombre = data.data["getSelecUpdat"][0].file_sp;
+        // this.archivo.nombre = data.data["getSelecUpdat"][0].file_sp;
+        this.nuevoArchivo.nombre = data.data["getSelecUpdat"][0].file_sp;
         this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
         this.advance = (data.data["getSelecUpdat"][0].day_adv);
         // console.log(this.advance);
@@ -305,7 +320,8 @@ export class LiquidationDialog  {
 
     let body = {
       listas: this.formSelec.value,
-      archivoRes: this.archivo
+      // archivoRes: this.archivo
+      archivoRes:  this.nuevoArchivo
         //  id: this.idHol
     }
     if (this.formSelec.valid) {
@@ -370,21 +386,121 @@ export class LiquidationDialog  {
        
     }        
   }
-  seleccionarArchivo(event){
-    var files = event.target.files;
-    var file  = files[0];
-    this.archivo.nombreArchivo = file.name;
+//   seleccionarArchivo(event){
+//     // var files = event.target.files;
+//     // var file  = files[0];
+//     // console.log(file);
+    
+//     // this.archivo.nombreArchivo = file.name;
 
-    if(files && file){
-        var reader = new FileReader();
-        reader.onload = this._handleReaderLoaded.bind(this);
-        reader.readAsBinaryString(file);
+//     // if(files && file){
+//     //     var reader = new FileReader();
+//     //     reader.onload = this._handleReaderLoaded.bind(this);
+//     //     reader.readAsBinaryString(file);
+//     // }
+
+//     var files = event.target.files;
+//     var archivos = [];
+//     for (var i = 0; i < files.length; i++) {
+//         var file = files[i];
+//         var archivo = {
+//             nombreArchivo: file.name,
+//             archivoData: null
+//         };
+//         archivos.push(archivo);
+
+//         if (files && file) {
+//             var reader = new FileReader();
+//             reader.onload = (function(archivo) {
+//                 return function(e) {
+//                     archivo.archivoData = e.target.result;
+//                 }
+//             })(archivo);
+//             reader.readAsBinaryString(file);
+//         }
+//     }
+// }
+// _handleReaderLoaded(readerEvent){
+//   var binaryString = readerEvent.target.result;
+//   this.archivo.base64textString = btoa(binaryString);
+// }
+// seleccionarArchivo(event){
+//   var files = event.target.files;
+//   // var archivos = [];
+//   // this.nuevoArchivo
+//   for (var i = 0; i < files.length; i++) {
+//       var file = files[i];
+//       // console.log(file);
+      
+//       // Crear un objeto para cada archivo seleccionado
+//       var archivo = {
+//           nombreArchivo: file.name,
+//           base64textString: ''
+//       };
+
+//       // Leer el archivo como Blob usando FileReader
+//       if(files && file){
+//           var reader = new FileReader();
+//           reader.onload = (readerEvent) => {
+//               // Obtener el resultado como Blob
+//               var blob = new Blob([readerEvent.target.result]);
+//               var readerText = new FileReader();
+//               readerText.onloadend = (readerTextEvent) => {
+//                   // Obtener el resultado como cadena de texto
+//                   archivo.base64textString = btoa(readerTextEvent.target.result.toString());
+//                   this.nuevoArchivo.push(archivo); // Agregar el archivo al arreglo de archivos
+//               };
+//               readerText.readAsBinaryString(blob);
+//           };
+//           reader.readAsArrayBuffer(file);
+//       }
+//   }
+
+//   // Aquí puedes hacer lo que necesites con el arreglo de archivos, por ejemplo, enviarlo al backend para su procesamiento
+//   console.log(this.nuevoArchivo);
+// }
+seleccionarArchivo(event) {
+  var files = event.target.files;
+  var archivos = [];
+
+  // Función para leer archivos de manera secuencial con Promesas
+  const leerArchivo = (file) => {
+    return new Promise<void>((resolve) => {
+      var reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        var archivo = {
+          nombreArchivo: file.name,
+          base64textString: btoa(readerEvent.target.result.toString())
+        };
+        archivos.push(archivo);
+        resolve();
+      };
+      reader.readAsBinaryString(file);
+    });
+  };
+
+  // Utilizar async/await para leer archivos secuencialmente
+  const leerArchivosSecuencialmente = async () => {
+    for (var i = 0; i < files.length; i++) {
+      await leerArchivo(files[i]);
     }
+    this.nuevoArchivo = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
+    console.log(this.nuevoArchivo); // Aquí puedes hacer lo que necesites con el arreglo de archivos
+  };
+
+  leerArchivosSecuencialmente();
 }
-_handleReaderLoaded(readerEvent){
+
+
+
+
+
+_handleReaderLoaded(readerEvent, archivo){
   var binaryString = readerEvent.target.result;
-  this.archivo.base64textString = btoa(binaryString);
+  archivo.base64textString = btoa(binaryString);
 }
+
+
 getStateInvalid(){
   return this.formSelec.get('sta_liq').invalid && this.formSelec.get('sta_liq').touched;
 }

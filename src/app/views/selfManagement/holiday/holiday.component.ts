@@ -57,6 +57,7 @@ export class HolidayComponent implements OnInit {
   name: any = [];
   username: any = [];
   // days: number = 0;
+  daysExt: any = [];
   days: any = [];
   totalDays: any = [];
   fec_in: any = [];
@@ -269,14 +270,14 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
 
   let months = duration.asMonths();
    this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
-   this.days = ((this.daysPro)/30);
+   this.daysExt = ((this.daysPro)/30);
   //  (this.days % 15 == 0) ? this.days: this.days;
     // (this.days >= 15 ) ? this.days: this.days = 0;
    
   //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
   if(dom){
     this.daysDom = (this.daysPro - dom);
-    this.days = ((this.daysDom)/30)
+    this.daysExt = ((this.daysDom)/30)
     
     
     // this.days2 = (this.daysDom/360*15);
@@ -285,6 +286,40 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
   }
    
  
+}
+// correo concurso
+email() {
+
+  this.WebApiService.getRequest(this.endpoint, {
+    action: "email",
+    token: this.cuser.token,
+    idUser: this.cuser.iduser,
+    modulo: this.component
+  }).subscribe(
+    (data) => {
+      this.permissions = this.handler.getPermissions(this.component);
+      if (data.success == true) {
+        console.log(data);
+        
+            
+            // const link = document.createElement("a");
+            // link.href = data.data.url;
+            // link.download = data.data.file;
+            // link.target = "_blank";
+            // link.click();
+            // this.handler.showSuccess(data.data.file);
+            this.loading = false;
+      } else {
+              this.handler.handlerError(data);
+              this.loading = false;
+      }
+    },
+    (error) => {
+            console.log(error);
+            this.handler.showError("Se produjo un error");
+            this.loading = false;
+    }
+);
 }
   // calculateDaysRest(totDays,adv,sus){
   //   // console.log('adv=>>',adv);
@@ -327,7 +362,9 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
             id: this.name,
             later:this.laterFec,
             state: this.stateVac,
-            ini:this.ini
+            ini:this.ini,
+            days:this.days,
+            role:this.role
             // tipoMat: tipoMat
           },
         });

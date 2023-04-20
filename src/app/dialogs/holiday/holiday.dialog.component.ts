@@ -100,6 +100,8 @@ export class HolidayDialog  {
   CheckTrue:boolean = true;
   arrDayHol: any = [];
   arrholiday: any = [];
+  daysVac:any = [];
+  vald: boolean;
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -123,7 +125,17 @@ export class HolidayDialog  {
 
     switch (this.view) {
       case "create":
-        this.initForms();
+        if(!( this.data.role == 5 || this.data.role == 20 )){
+          this.vald = true;
+          this.rol = this.data.role;
+          this.initForms();
+        }else{
+          this.initFormsCaex();
+          this.vald = false;
+          this.rol = this.data.role;
+
+        }
+        this.daysVac = this.data.days;
         this.document = this.cuser.username;
         this.document;
         this.stateVac = this.data.state;
@@ -201,6 +213,24 @@ export class HolidayDialog  {
     this.formSelec = new FormGroup({
       document: new FormControl(this.cuser.username),
       idPersonale: new FormControl(this.cuser.idPersonale),
+      immediateBoss: new FormControl(""),
+      fec_ini: new FormControl("",[Validators.required]),
+      fec_fin: new FormControl(""),
+      fec_rei: new FormControl(""),
+      day_vac: new FormControl("",[Validators.required]),
+      day_adv: new FormControl(""),
+      day_com: new FormControl("", [Validators.required]),
+      tot_day: new FormControl(""),
+      state: new FormControl(""),
+      create_User: new FormControl(this.cuser.iduser),
+    });
+   
+  }
+  initFormsCaex() {
+    this.getDataInit();
+    this.formSelec = new FormGroup({
+      document: new FormControl(""),
+      idPersonale: new FormControl(""),
       immediateBoss: new FormControl(""),
       fec_ini: new FormControl("",[Validators.required]),
       fec_fin: new FormControl(""),
@@ -368,6 +398,7 @@ export class HolidayDialog  {
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
 
     if( exitsPersonal ){    
+      this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
         this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
     }        
   }
@@ -409,7 +440,7 @@ export class HolidayDialog  {
     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
       this.totalFin = (d1+d2);
     // console.log("total dias solicitados =>",this.totalFin);
-    if(this.totalFin > 15){
+    if(this.totalFin > 15 && this.daysVac < 15 ){
       this.handler.showError("No puedes solicitar mas de 15 dias!");
       this.reload.emit();
       this.loading.emit(false);

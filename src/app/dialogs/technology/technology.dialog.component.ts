@@ -134,7 +134,6 @@ export class TechnologyDialog {
         this.idTec = this.data.codigo;
         this.initForms();
         this.title = "Actualizar Activos";
-        console.log("=>",this.cuser)
         break;
       case "view":
         this.idTec = this.data.codigo;
@@ -156,8 +155,7 @@ export class TechnologyDialog {
               this.repo = this.techno.sta_equ;
               this.chaType = this.techno.car_tipo;
               ( this.chaType == '49/1')? true: false;
-              // console.log('===>',this.techno)
-              // console.log(this.sub)
+             
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
@@ -517,11 +515,9 @@ export class TechnologyDialog {
       this.product = this.listSub.slice(17, 21);
     }
 
-    // console.log("id=>", idet);
     
   }
   onSelectionAttributes(idet){
-      console.log("idSub=>", idet);
      
       for(let i = idet; i>='48/1'; i++ ){
 
@@ -537,7 +533,6 @@ export class TechnologyDialog {
         this.formNomi.get('car_user').setValue(exitsPersonal.idPosition);       
 
     }        
-    console.log('=>',exitsPersonal)
 
   }
   // onSelectionPerson(event){
@@ -551,17 +546,14 @@ export class TechnologyDialog {
   // }
   onSelectCampus(idet){ 
     
-    // console.log('sede=>',idet);
     if( idet == '58'){
       this.typeflat = this.typeCampusCambu;
       // this.typeflat = this.typeCampus;
-      // console.log('sede 1=>',this.typeflat);
       return this.typeflat;
 
     }else if(idet == '59'){
       this.typeflat= this.typeCampusCedro;
       // this.typeflat= this.typeCampus;
-      // console.log('sede 2=>',this.typeflat);
       return this.typeflat;
     }
 
@@ -569,7 +561,6 @@ export class TechnologyDialog {
   obs: boolean;
   rep:boolean;
   onSelectEstate(e){
-    // console.log('=>',e)
     if(e == '73/2'){
       this.obs = true
     }else{
@@ -583,7 +574,6 @@ export class TechnologyDialog {
   }
   
   onCargador($event){
-      // console.log($event);
       this.origin = $event;
       (this.origin == '49/1')? this.TypeCarg = true : this.TypeCarg = false;
   }
