@@ -440,7 +440,8 @@ export class HolidayDialog  {
     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
       this.totalFin = (d1+d2);
     // console.log("total dias solicitados =>",this.totalFin);
-    if(this.totalFin > 15 && this.daysVac < 15 ){
+    // if(this.totalFin >= 15 && this.daysVac < 15 ){
+      if(this.totalFin > 15  && this.daysVac <= 15 ){
       this.handler.showError("No puedes solicitar mas de 15 dias!");
       this.reload.emit();
       this.loading.emit(false);
