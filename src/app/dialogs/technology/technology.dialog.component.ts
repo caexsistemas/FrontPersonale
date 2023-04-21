@@ -101,10 +101,10 @@ export class TechnologyDialog {
   stateCerti: any = [];
   repo: any = [];
   charger: any = [];
-  chaType: any = [];
-  TypeCarg: any = [];
+  chaType: boolean;
+  TypeCarg: boolean;
   origin: any = [];
-  actP: any = [];
+  actP: boolean;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -153,8 +153,9 @@ export class TechnologyDialog {
               this.list = data.data['getSubActivo'];
               this.sub = this.techno.listSub;
               this.repo = this.techno.sta_equ;
-              this.chaType = this.techno.car_tipo;
-              ( this.chaType == '49/1')? true: false;
+              // this.chaType = this.techno.car_tipo;
+              (this.techno.pc_car == '49/3') ? this.chaType = false : this.chaType = true;
+              // ( this.chaType == '49/1')? true: false;
              
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -314,6 +315,9 @@ export class TechnologyDialog {
               this.listPosition = data.data['getPosition'];
               this.stateCerti = data.data["getCertificate"];
               this.charger = data.data["typeCharger"];
+              // console.log(this.listOpcion);
+              
+              // (this.charger = '49/1') ? this.actP = true : this.actP = false;
 
           if (this.view == 'update') {
               this.getDataUpdate();
@@ -385,9 +389,9 @@ export class TechnologyDialog {
         this.formNomi.get("pc_car").setValue(data.data["getDataUpda"][0].pc_car);
         this.formNomi.get("pc_tam_pan").setValue(data.data["getDataUpda"][0].pc_tam_pan);
         this.formNomi.get("car_tipo").setValue(data.data["getDataUpda"][0].car_tipo);
-        this.actP = this.formNomi.get("car_tipo").value;
+        // this.actP = this.formNomi.get("car_tipo").value;
         // console.log('>>',this.actP);
-        ( this.actP == '78/2') ? true : false;
+        // ( this.actP == '78/2') ? true : false;
         // this.formNomi.get("mon_mar").setValue(data.data["getDataUpda"][0].mon_mar);
         // this.formNomi.get("mon_mod").setValue(data.data["getDataUpda"][0].mon_mod);
         // this.formNomi.get("mon_tam").setValue(data.data["getDataUpda"][0].mon_tam);
@@ -574,6 +578,7 @@ export class TechnologyDialog {
   }
   
   onCargador($event){
+    
       this.origin = $event;
       (this.origin == '49/1')? this.TypeCarg = true : this.TypeCarg = false;
   }
