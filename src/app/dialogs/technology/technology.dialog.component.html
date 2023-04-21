@@ -106,7 +106,7 @@
                     </mat-select>
                   </mat-form-field> 
                 </div>       
-                <div class="col-md-4" *ngIf="attribute == '48/1'|| attribute == '48/2' && actP">
+                <div class="col-md-4" *ngIf="attribute == '48/1' && TypeCarg || attribute == '48/2' && TypeCarg">
                   <mat-form-field class="example-full-width">
                     <mat-label>Tipo de Cargador:</mat-label>
                     <mat-select formControlName="car_tipo">
@@ -815,17 +815,22 @@
                 <dt>Cargador: </dt>
                 <dd>{{techno.car}}</dd>
               </div>
-              <div class="col-md-4"  *ngIf="sub == '48/1'|| sub == '48/2' && chaType">
+              <div class="col-md-4"  *ngIf="sub == '48/1' && chaType || sub == '48/2' && chaType">
                 <dt> Tipo de Cargador: </dt>
                 <dd>{{techno.tcarg}}</dd>
               </div>
-            </div>
-            <!--  -->
-            <div class="row mt-2">
               <div class="col-md-4" *ngIf="sub == '48/2'">
                 <dt>Tamaño de Pantalla: </dt>
                 <dd>{{techno.pc_tam_pan}}</dd>
               </div>
+              <div class="col-md-4"  *ngIf="sub == '48/1'|| sub == '48/2'">
+                <dt> # Licencia: </dt>
+                <dd>{{techno.coa}}</dd>
+              </div>
+            </div>
+            <!--  -->
+            <div class="row mt-2">
+             
               <!--  -->
               <div class="col-md-4" *ngIf="sub == '48/3'|| sub == '48/4'">
                 <dt>Marca Monitor: </dt>

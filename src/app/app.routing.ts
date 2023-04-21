@@ -101,6 +101,10 @@ export const routes: Routes = [
       {
         path: 'selfManagement',
         loadChildren:()=> import('./views/selfManagement/selfManagement.module').then(m=>m.SelfManagementModule)
+      },
+      {
+        path:'sig',
+        loadChildren:()=> import('./views/sig/sig.module').then(m=> m.SigModule)
       }
     ]
   }

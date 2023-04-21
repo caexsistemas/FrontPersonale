@@ -12,6 +12,10 @@ table {
     background-color: #ffa9a4;
     
   }
+  .dropdown-menu2.pointer{
+    background-color:none;
+    
+  }
   .mat-row .mat-cell {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;

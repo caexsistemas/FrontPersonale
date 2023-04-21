@@ -1,0 +1,102 @@
+table {
+    width: 100%;
+  }
+  .file-select {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .file-select::before {
+    background-color: rgb(64, 131, 255);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    content: 'Seleccionar';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  
+  .file-select input[type="file"] {
+    opacity: 0;
+    width: 90px;
+    height: 32px;
+    display: inline-block;
+  }
+  
+  #src-file::before {
+    content: 'Seleccionar Archivo 1';
+  }
+  
+  #excelTable {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 105%;
+    font-size: 12px;
+  }
+  #excelTable .star{
+    font-weight: bold;
+  }
+  
+  #excelTable td, #excelTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #excelTable tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #excelTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #005b8f;
+    color: white;
+  }
+  .modal-header2{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: rgb(64, 131, 255);
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+    width: 105%;
+  }
+  .modal-header{
+    background-color: rgb(64, 131, 255);
+    border-radius: 3px;
+    color: white;
+
+  }
+  .pointer{
+    cursor: pointer;
+  }
+  .modal-fade .modal-dialog{
+    margin: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 200%;
+    height: 200%;
+  }
+  /* @media (min-width: 768px) {
+    .fullscreen-modal .modal-dialog {
+      width: 750px;
+    }
+  }
+  @media (min-width: 992px) {
+    .fullscreen-modal .modal-dialog {
+      width: 970px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .fullscreen-modal .modal-dialog {
+       width: 1170px;
+    }
+    
+  } */
+  .modal-content{
+    width: 115%;
+  }

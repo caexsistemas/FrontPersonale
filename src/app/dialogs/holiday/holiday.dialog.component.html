@@ -22,9 +22,9 @@
 
           <div class="row">
             <div class="col-md-4">
-              <mat-form-field class="example-full-width ContCamp">
+              <mat-form-field class="example-full-width ">
                 <mat-label>Numero Identificaci&oacute;n</mat-label>
-                <input matInput formControlName="document"  (ngModelChange)="onSelectionChange($event)">
+                <input matInput formControlName="document"  (ngModelChange)="onSelectionChange($event)" [readonly]="vald">
               </mat-form-field>
             </div>
             <div class="col-md-4 ContCamp">
@@ -76,7 +76,8 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Compensar</mat-label>
-                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" [readonly]="CheckTrue">
+                <!-- <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice( this.maxLength);" [readonly]="CheckTrue"> -->
+                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" [readonly]="CheckTrue">
                   <mat-error *ngIf="getCompInvalid()">
                     <strong>
                       Ingrese # dias.
@@ -108,12 +109,14 @@
           </div>
 
         </form>
+        
         <div mat-dialog-actions>
           <div class="text-center col-12">
             <button *ngIf="view == 'update'" mat-button class="btn btn-success"
               (click)="onSubmitUpdate()">Actualizar</button>
             
-            <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" totalFin > 15">Guardar</button>
+            <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" totalFin > 15">Guardar</button>
+            <button *ngIf="view == 'create' && daysVac > 15" mat-button class="btn btn-success" (click)="onSubmit()" >Guardar</button>
   
             <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
           </div>
@@ -196,8 +199,15 @@
         <dd>{{selection.liq}}</dd>
       </div>
     </div>
+    <hr>
+    <div class="row mt-3">
+      <div class="col-md-8">
+        <dt>Observaciones</dt>
+        <dd>{{selection.obc_apr}}</dd>
+      </div>
+    </div>
   </mat-dialog-content>
-  <div class="row mt-3">
+  <div class="row mt-4">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">

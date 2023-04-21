@@ -111,6 +111,7 @@ export class AcceptanceComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
+      "fec_rad",
       "document",
       "idPersonale",
       "fec_ini",

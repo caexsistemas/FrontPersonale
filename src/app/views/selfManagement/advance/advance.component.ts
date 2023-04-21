@@ -71,6 +71,9 @@ export class AdvanceComponent implements OnInit {
   stateVac: any = [];
   ini: any = [];
   daysPro: any = [];
+  sumTot: any = [];
+  daysDom: any = [];
+  day2:any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -111,6 +114,12 @@ export class AdvanceComponent implements OnInit {
 
         if (data.success == true) {
           this.contenTable = data.data["getSelectData"]["vac"];
+          this.contenTable.forEach(element => {
+            
+            (element.Dias_suspension) ? element.Dias_suspension : element.Dias_suspension = 0;
+            
+          });
+          
           this.fec_in = data.data["getSelectData"]["vac"];
           this.role = this.cuser.role;
 
@@ -123,6 +132,7 @@ export class AdvanceComponent implements OnInit {
               this.laterFec = element.fec_rei;
               this.stateVac = element.state;
               this.ini = element.fec_ini;
+              this.sumTot = element.susp
             });
           }
 
@@ -131,13 +141,11 @@ export class AdvanceComponent implements OnInit {
           // this.daysTo = data.data["getSelectData"][0][0].day_vac;
 
           for (let i = 0; i < this.daysFor.length; i++) {
-            // console.log('*', this.daysFor[i].day_vac);
 
             this.total = this.total + this.daysFor[i].day_vac;
           }
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
-          // console.log('=>',this.cuser)
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -158,6 +166,8 @@ export class AdvanceComponent implements OnInit {
       "idPosition",
       "admissionDate",
       "daysGained",
+      "day_sus",
+      "daysWork",
       "daysPeople",
       "total_adv",
       "total",
@@ -178,43 +188,145 @@ export class AdvanceComponent implements OnInit {
   }
   days2:any = [];
   vac2: any = [];
-  calculateDaysAll(fecha) {
+  sundayTot: any = [];
+  calculateDaysAll(daysPro,daysDom) {
   
-    let date11 = new Date(fecha);
+    // let date11 = new Date(fecha);
     
-    let date22 = new Date();
+    // let date22 = new Date();
   
-    let diff = moment(date22).diff(moment(date11));
-    let duration = moment.duration(diff);
+    // let diff = moment(date22).diff(moment(date11));
+    // let duration = moment.duration(diff);
 
-    let months = duration.asMonths();
-    this.days = (months * 30).toFixed(2);
-    this.days2 = (this.days/360*15);
+    // let months = duration.asMonths();
+    // this.days = (months * 30).toFixed(2);
+    //   this.days2 = (this.days/360*15);
+      // console.log('sus-',dom);
+      
+
+    if(daysDom >= 1){
+      this.sundayTot = (daysDom/360*15);
+      
+      // this.days2 = (this.sundayTot/360*15);
+    }else{
+
+    this.sundayTot = (daysPro/360*15);
+
+    }
+    // this.days = (months * 30).toFixed(2);
+    // this.days2 = (this.days/360*15);
+   
+    // (dom) ? (this.daysDom = (this.days - dom)):
+    // console.log(this.sumTot);
+    
+    // this.days2 = (this.days/360*15)-this.contenTable.susp - this.contenTable.dom;
+
     this.vac2 = (this.days/30);
      
   }
 
-  calculateDays(fecha) {
+  calculateDays(fecha,dom) {
    
     let date11 = new Date(fecha);
+
+    date11.setHours(0, 0, 0, 0);
+    let dia11 = date11.getDate().toString().padStart(2, '0');
+    let mes11 = (date11.getMonth() + 1).toString().padStart(2, '0');
+    let anio11 = date11.getFullYear();
+    let horas11 = date11.getHours().toString().padStart(2, '0');
+    let minutos11 = date11.getMinutes().toString().padStart(2, '0');
+    let segundos11 = date11.getSeconds().toString().padStart(2, '0');
+    let fechaYHoraActualEnFormatoTexto11 = `${anio11}-${mes11}-${dia11} ${horas11}:${minutos11}:${segundos11}`;
     
     let date22 = new Date();
-    let diff = moment(date22).diff(moment(date11));
+    // let fechaActual = new Date();
+   
+    // let fechaActual = new Date();
+  date22.setHours(24, 0, 0, 0);
+  let dia = date22.getDate().toString().padStart(2, '0');
+  let mes = (date22.getMonth() + 1).toString().padStart(2, '0');
+  let anio = date22.getFullYear();
+  let horas = date22.getHours().toString().padStart(2, '0');
+  let minutos = date22.getMinutes().toString().padStart(2, '0');
+  let segundos = date22.getSeconds().toString().padStart(2, '0');
+  let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+    
+    let diff = moment(fechaYHoraActualEnFormatoTexto).diff(moment(fechaYHoraActualEnFormatoTexto11));
     let duration = moment.duration(diff);
 
     let months = duration.asMonths();
-     this.daysPro = (months * 30).toFixed(2);     
+     this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
+      this.day2 = ((this.daysPro)/30);
+     
+    //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
+    if(dom){
+      this.daysDom = (this.daysPro - dom);
+
+    // if(dom >= 1){
+    //   this.sundayTot = (dom/360*15);
+      
+    //   // this.days2 = (this.sundayTot/360*15);
+    // }else{
+
+    // this.sundayTot = (this.days/360*15);
+
+    // }
+    // this.days2 = (this.daysDom/360*15);
+    }else{
+      this.daysDom = 0
+    }
+     
    
   }
-  calculateDaysRest(totDays) {
-    // if(state == '79/2'){
-    //   console.log(totDays,"=>", state);
-    //   this.totalDays = ( this.days - totDays)
-    // }else{
-    //   this.totalDays = 0 ; // Dias restanstes
-    // }
-    totDays ? (this.totalDays = this.days2 - totDays) : (this.totalDays = 0);
-  }
+  // calculateDays(fecha,dom) {
+   
+  //   let date1 = moment(fecha, 'YYYY-MM-DD');
+  // let date2 = moment();
+  // let diffDays = date2.diff(date1, 'days');
+  // let years = date2.diff(date1, 'years');
+  // let leapYears = 0;
+  // for (let i = 1; i <= years; i++) {
+  //   let year = date1.year() + i;
+  //   if (moment([year]).isLeapYear()) {
+  //     leapYears++;
+  //   }
+  // }
+  // let totalDays = diffDays - leapYears;
+  // this.daysPro = totalDays.toFixed(2);
+  //   //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
+  //   if(dom){
+  //     this.daysDom = (this.daysPro - dom);
+  //     // this.days2 = (this.daysDom/360*15);
+  //   }else{
+  //     this.daysDom = 0
+  //   }
+     
+   
+  // }
+  // calculateDaysRest(adv,tt) {
+  //   // console.log('suspensiopn',totDays);
+  //   console.log('anticipo',adv);
+  //   console.log('tomados',tt);
+  //   console.log('propor',this.sundayTot);
+
+  //   if (this.sundayTot){
+  //     tt = 0
+  //     this.totalDays = (this.sundayTot-tt);
+  //     console.log('==',this.totalDays);
+      
+  //   // }else if(totDays){
+  //   //   this.totalDays = ((totDays + adv + tt) - sundayTot);
+
+  //   }
+  //   // if(state == '79/2'){
+  //   //   console.log(totDays,"=>", state);
+  //   //   this.totalDays = ( this.days - totDays)
+  //   // }else{
+  //   //   this.totalDays = 0 ; // Dias restanstes
+  //   // }
+  //   // (tt) ? (this.totalDays = this.days2 - totDays ) : (this.totalDays = 0);
+  // }
 
   option(action, codigo = null, id, create_User) {
     var dialogRef;
@@ -311,8 +423,8 @@ export class AdvanceComponent implements OnInit {
       // "actions",
     ];
     this.dataSourceVacation = new MatTableDataSource(data);
-    this.dataSourceVacation.sort = this.sort.toArray()[0];
-    this.dataSourceVacation.paginator = this.paginator.toArray()[0];
+    this.dataSourceVacation.sort = this.sort.toArray()[1];
+    this.dataSourceVacation.paginator = this.paginator.toArray()[1];
     let search;
     if (document.contains(document.querySelector("search-input-table"))) {
       search = document.querySelector(".search-input-table");
