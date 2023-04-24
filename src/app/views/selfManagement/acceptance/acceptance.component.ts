@@ -24,6 +24,7 @@ import { ReportsTechnologyComponent } from "../../../dialogs/reports/technology/
 import { RequisitionDialog } from "../../../dialogs/selection/requisition/requisition.dialog.component";
 import { HolidayDialog } from "../../../dialogs/holiday/holiday.dialog.component";
 import { AcceptanceDialog } from "../../../dialogs/holiday/acceptance/acceptance.dialog.component";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-acceptance',
@@ -95,6 +96,19 @@ export class AcceptanceComponent implements OnInit {
 
           this.generateTable(data.data["getSelecUpdat"]);
           this.contenTable = data.data["getSelecUpdat"];
+
+          this.contenTable.forEach(element => {
+
+            if(element.fec_rei == null || element.fec_fin == null){
+              element.fec_rei = 'No Aplica';
+              element.fec_fin = 'No Aplica';
+            }else{
+              const newDateFin = moment(element.fec_rei);
+              const newDateRei = moment(element.fec_fin);
+              element.fec_rei = newDateFin.format("MMM D, YYYY");   
+              element.fec_fin = newDateRei.format("MMM D, YYYY");   
+            }            
+          });
          
           this.loading = false;
         } else {

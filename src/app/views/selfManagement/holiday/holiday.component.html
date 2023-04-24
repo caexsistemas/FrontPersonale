@@ -135,7 +135,7 @@
               <ng-container matColumnDef="remainingDays">
                 <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
                 <td mat-cell *matCellDef="let element" style="text-align: center;">
-                    <!-- {{calculateDaysRest(element.tt,element.aad,element.dom)}} {{totalDays | number:'1.0-0' }}      -->
+                    {{totalAll(days,element.dia_anticipo,element.total_vaca)}}     
                     {{days-element.dia_anticipo-element.total_vaca | number:'1.0-0'}}
                 </td>
             </ng-container>
@@ -253,9 +253,14 @@
             <td mat-cell *matCellDef="let rw"> {{rw.fec_fin | date}} </td>
           </ng-container>
 
+          <!-- <ng-container matColumnDef="fec_rei2" *ngIf="fec_rei == null">
+            <th mat-header-cell *matHeaderCellDef> Fecha Regreso </th>
+            <td mat-cell *matCellDef="let rw">  {{rw.fec_rei}} </td>
+          </ng-container> -->
+
           <ng-container matColumnDef="fec_rei">
             <th mat-header-cell *matHeaderCellDef> Fecha Regreso </th>
-            <td mat-cell *matCellDef="let rw"> {{rw.fec_rei | date}} </td>
+            <td mat-cell *matCellDef="let rw"> {{rw.fec_rei }} </td>
           </ng-container>
 
           <ng-container matColumnDef="state">

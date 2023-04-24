@@ -28,7 +28,7 @@ export class ReportsTechnologyComponent implements OnInit {
     historyMon: any = [];
     listipomatriz: any = [];
     displayedColumns:any  = [];
-    tipMatriz:        string = "";
+    tipActi:any =  [];
     matrizarp: string="";
     dataCad : string = "";
 
@@ -48,7 +48,7 @@ export class ReportsTechnologyComponent implements OnInit {
       this.formDownoadTechnology = new FormGroup({
       fi: new FormControl(''),
       ff: new FormControl(''),
-      // matrizarp: new FormControl(this.cuser.matrizarp),
+      listSub: new FormControl(''),
       document: new FormControl(''),
       // role: new FormControl(this.cuser.role),
       // iduser: new FormControl(this.cuser.iduser)
@@ -76,7 +76,7 @@ export class ReportsTechnologyComponent implements OnInit {
             if (data.success == true) {
               this.dataCad = data.data['getContData'];
             //  console.log( this.dataCad );
-             this.tipMatriz = this.listipomatriz.matrizarp_cod;
+             this.tipActi = data.data['getSubActivo'];
               this.loading.emit(false);
             } else {
               this.handler.handlerError(data);
@@ -138,7 +138,7 @@ export class ReportsTechnologyComponent implements OnInit {
         }
     }
     labelMatriz(event){
-      this.tipMatriz = event;
+      // this.tipMatriz = event;
     }
 
 }

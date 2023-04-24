@@ -8,21 +8,21 @@
 
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
 
-                    <!-- <div class="btn-group" dropdown>
+                    <div class="btn-group" dropdown>
                         <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
                             title="Reporte Excel">
                             <i class="fa fa-feed"></i>
                         </button>
-                    </div> -->
-                    <div class="btn-group" dropdown>
+                    </div>
+                    <!-- <div class="btn-group" dropdown>
                         <button dropdownToggle type="button" *ngIf="permissions.create" class="btn btn-success">
                             <i class="fa fa-plus"></i>
                         </button>
                         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer2"  role="menu">
-                            <li role="menuitem" ><a class="dropdown-item" id="1" (click)="onTriggerSheetClick(event)" >Documento</a></li>
-                            <li role="menuitem"><a class="dropdown-item"  id="2" (click)="onTriggerSheetClick(event)">Articulo</a></li>                        
+                            <li role="menuitem" ><a class="dropdown-item" id="1" (click)="onTriggerSheetClick($event)" >Documento</a></li>
+                            <li role="menuitem"><a class="dropdown-item"  id="2" (click)="onTriggerSheetClick($event)">Articulo</a></li>                        
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="btn-group" dropdown>
                         <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')"
                             title="Crear">
