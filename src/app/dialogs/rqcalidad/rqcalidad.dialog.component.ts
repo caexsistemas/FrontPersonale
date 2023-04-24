@@ -101,6 +101,8 @@ export class RqcalidadDialog  {
   //Tipo Matriz
   tipMatriz:        string = "";
   component = "/callcenter/rqcalidad";
+  oculcap: String = "conhidden";
+  oculori: String = "";
 
   archivo = {
     nombre: null,
@@ -479,6 +481,14 @@ export class RqcalidadDialog  {
     total_ADT = 20/(val_ADT-noap_ADT)*cump_ADT;
     if( isNaN(total_ADT) ){
       total_ADT = 0;
+    }
+    //Malas practicas y Espectativas
+    if( this.formProces.value.cri_fal_exp_mal_pra == "34/2" || this.formProces.value.cri_val_cor_cob == "34/2" ){
+      this.oculori = "conhidden";
+      this.oculcap = "convisual";
+    }else{
+      this.oculori = "convisual";
+      this.oculcap = "conhidden";
     }
 
     Total = total_G + total_AU + total_N + total_AD + total_ADT;

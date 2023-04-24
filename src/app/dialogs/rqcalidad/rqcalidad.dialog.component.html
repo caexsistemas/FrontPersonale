@@ -529,50 +529,16 @@
                             <dd>{{dataCad.tyt_ven_tec}}</dd>
                         </div>
                         <div class="col-sm-4">
-                            <dt> Todo Claro:</dt>
-                            <dd>{{dataCad.tyt_tod_cla}}</dd>
-                        </div>
-                        <div class="col-sm-4">
-                            <dt> Television:</dt>
-                            <dd>{{dataCad.tyt_tv}}</dd>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <dt> Telefonia:</dt>
-                            <dd>{{dataCad.tyt_tel}}</dd>
-                        </div>
-                        <div class="col-sm-4">
-                            <dt> Internet:</dt>
-                            <dd>{{dataCad.tyt_int}}</dd>
-                        </div>
-                        <div class="col-sm-4">
                             <dt> Validacion de Identidad:</dt>
                             <dd>{{dataCad.tyt_val_ide}}</dd>
                         </div>
-                    </div>
-
-                    <!--<div class="row">
-                        <div class="col-sm-4">
-                            <dt> Escala Saludo:</dt>
-                            <dd>{{dataCad.tyt_esc_sal}}</dd>
-                        </div>
-                        <div class="col-sm-4">
-                            <dt> Escala Amabilidad:</dt>
-                            <dd>{{dataCad.tyt_esc_ama}}</dd>
-                        </div>
-                        <div class="col-sm-4">
-                            <dt> Escala Despedida:</dt>
-                            <dd>{{dataCad.tyt_esc_des}}</dd>
-                        </div>
-                    </div>-->
-
-                    <div class="row">
                         <div class="col-sm-4">
                             <dt> CLARO  UP:</dt>
                             <dd>{{dataCad.tyt_cla_up}}</dd>
                         </div>
+                    </div>
+
+                    <div class="row">                     
                         <div class="col-sm-4">
                             <dt> Accesorios:</dt>
                             <dd>{{dataCad.tyt_ult_wif}}</dd>
@@ -927,13 +893,19 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" class="{{this.oculori}}">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Final:</mat-label>
                             <input matInput formControlName="final_note" type="number" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
+
+                    <div class="col-sm-3" class="{{this.oculcap}}">
+                        <mat-form-field class="ContCamp">
+                            <mat-label>Nota Final:</mat-label>
+                            <input matInput  type="number"  value="0">
+                        </mat-form-field>
+                    </div>
                     <div class="col-sm-3"></div>
                     <div class="col-sm-3"></div>
                   </div>
@@ -1614,49 +1586,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Todo Claro:</mat-label>
-                                <mat-select formControlName="tyt_tod_cla" required>
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Television:</mat-label>
-                                <mat-select formControlName="tyt_tv" required>
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Telefonia:</mat-label>
-                                <mat-select formControlName="tyt_tel" required>
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Internet:</mat-label>
-                                <mat-select formControlName="tyt_int" required>
-                                    <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Validacion de Identidad:</mat-label>
@@ -1667,42 +1597,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
 
-                    <!--<div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Escala Saludo:</mat-label>
-                                <mat-select formControlName="tyt_esc_sal" required>
-                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Escala Amabilidad:</mat-label>
-                                <mat-select formControlName="tyt_esc_ama" required>
-                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Escala Despedida:</mat-label>
-                                <mat-select formControlName="tyt_esc_des" required>
-                                    <mat-option *ngFor="let idet of listEscala" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>-->
-
-                    <div class="row">
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>CLARO  UP:</mat-label>
@@ -1713,6 +1608,11 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                    </div>
+
+                    <div class="row">
+                       
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Accesorios:</mat-label>
@@ -1723,6 +1623,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
                     </div>
                 
                     <mat-action-row>
