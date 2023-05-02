@@ -210,8 +210,8 @@ export class AdvanceDialog  {
       day_adv: new FormControl("",[Validators.required]),
       state: new FormControl(""),
       type_sol:new FormControl(""),
-      obc_ant: new FormControl("", [Validators.required]),
-      obc_apr:new FormControl(""),
+      obc_apr: new FormControl("", [Validators.required]),
+      // obc_apr:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
    
@@ -416,7 +416,7 @@ export class AdvanceDialog  {
   return this.formSelec.get('day_adv').invalid && this.formSelec.get('day_adv').touched;
  }
  getObcerInvalid(){
-  return this.formSelec.get('obc_ant').invalid && this.formSelec.get('obc_ant').touched;
+  return this.formSelec.get('obc_apr').invalid && this.formSelec.get('obc_apr').touched;
 
  }
 }
