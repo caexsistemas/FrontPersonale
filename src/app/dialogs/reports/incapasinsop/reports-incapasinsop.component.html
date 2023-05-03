@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-4">
                     <mat-form-field class="example-full-width">
-                        <mat-label>Tipo Gestion:</mat-label>
+                        <mat-label>Estado Gestion:</mat-label>
                         <mat-select formControlName="tipogesti"  required>
                           <mat-option *ngFor="let idet of ListEstGes" [value]="idet.ls_codvalue" required>
                             {{idet.description}}

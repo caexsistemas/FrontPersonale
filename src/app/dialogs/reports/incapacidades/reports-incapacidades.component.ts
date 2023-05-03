@@ -21,6 +21,7 @@ import { ActivatedRoute } from '@angular/router';
   displayedColumns:any  = [];
   public clickedRows;
   ListEstGes: any = [];
+  ListCurso:  any = [];
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   component = "/incapacidades/gestion";
 
@@ -40,7 +41,8 @@ import { ActivatedRoute } from '@angular/router';
             role: new FormControl(this.cuser.role),
             iduser: new FormControl(this.cuser.iduser),
             sopor: new FormControl('17/1'),
-            tipogesti: new FormControl('')
+            tipogesti: new FormControl(''),
+            stapincapc: new FormControl('')
           });
     }
 
@@ -57,6 +59,7 @@ import { ActivatedRoute } from '@angular/router';
                 data => {
                     if (data.success == true) {
                         this.ListEstGes = data.data['stadgestion'];
+                        this.ListCurso  = data.data['stadcurso'];
                         this.loading.emit(false);
                     } else {
                         this.handler.handlerError(data);
