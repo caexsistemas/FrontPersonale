@@ -125,6 +125,7 @@ import { ReportsLiquidationComponent } from './dialogs/reports/liquidation/repor
 import { ReportsSuspendComponent } from './dialogs/reports/suspend/reports-suspend.component';
 import { SigComponent } from './views/sig/sig.component';
 import { SigDialog } from './dialogs/sig/sig.dialog.component';
+import { ReportsPersonaleComponent } from './dialogs/reports/personale/reports-personale.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -244,7 +245,8 @@ const routes: Routes = [];
     ReportsLiquidationComponent,
     ReportsSuspendComponent,
     SigComponent,
-    SigDialog
+    SigDialog,
+    ReportsPersonaleComponent
   ],
   providers: [{
     

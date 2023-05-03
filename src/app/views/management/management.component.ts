@@ -16,6 +16,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 import { ManagementDialog } from '../../dialogs/management/management.dialog.component';
 import { environment } from '../../../environments/environment';
+import { ReportsPersonaleComponent } from '../../dialogs/reports/personale/reports-personale.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 
 
@@ -26,6 +28,7 @@ import { environment } from '../../../environments/environment';
   providers: [Tools, ManagementService]
 })
 export class ManagementComponent implements OnInit {
+  [x: string]: any;
 
   public data
   public detailUser = []
@@ -105,7 +108,9 @@ export class ManagementComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
+    private matBottomSheet: MatBottomSheet,
     public dialog: MatDialog) { }
+
 
   getAllPersonal() {
     this.WebApiService.getRequest(this.endpoint, {
@@ -176,6 +181,7 @@ export class ManagementComponent implements OnInit {
       'document',
       'email',
       'phone',
+      'description',
       'actions'
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -392,5 +398,9 @@ export class ManagementComponent implements OnInit {
       this.sendRequest();
     }    
     this.contaClick = this.contaClick + 1;
+  }
+  onTriggerSheetClick(){
+    this.matBottomSheet.open(ReportsPersonaleComponent);
+
   }
 }
