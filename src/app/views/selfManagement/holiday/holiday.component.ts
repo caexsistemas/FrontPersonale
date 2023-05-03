@@ -79,7 +79,7 @@ export class HolidayComponent implements OnInit {
   daysPro: any = [];
   daysPropor:any = [];
   daysDom: any = [];
-
+  totAll:any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -284,8 +284,14 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
   }else{
     this.daysDom = 0
   }
-   
- 
+}
+// dias restantes
+totalAll(tt1,tt2,tt3){
+// console.log('tt1=>',tt1,'tt2=>',tt2,'tt3=>',tt3);
+this.totAll =(tt1-tt2-tt3);
+// console.log('dias restantes=>',this.totAll);
+
+
 }
 // correo concurso
 email() {
@@ -343,7 +349,7 @@ email() {
     switch (action) {
       case "create":
         // this.laterFec = new Date().toISOString().split("T")[0];
-        if(this.days < 1){
+        if(this.days < 1 || this.totAll < 1){
          this.handler.showError("No tienes días disponibles");
          this.loading = false;
         break;
@@ -364,7 +370,8 @@ email() {
             state: this.stateVac,
             ini:this.ini,
             days:this.days,
-            role:this.role
+            role:this.role,
+            daysRest:this.totAll
             // tipoMat: tipoMat
           },
         });
@@ -423,6 +430,16 @@ email() {
         if (data.success == true) {
           this.generateTableVacation(data.data["getSelectData"][0]);
           this.contenTableVacation = data.data["getSelectData"][0];
+          this.contenTableVacation.forEach(element => {
+
+            if(element.fec_rei == null){
+              element.fec_rei = 'No Aplica';
+            }else{
+              const newDate = moment(element.fec_rei);     
+              element.fec_rei = newDate.format("MMM D, YYYY"); 
+            }            
+          });
+          
           
           // (this.days === 0) ? alert("No tienes dias disponibles"): '';
           // if(this.days <= '0'){
@@ -454,6 +471,7 @@ email() {
       "day_com",
       "day_adv",
       "fec_rei",
+      // "fec_rei2",
       "state",
       // "num_vac",
       // "actions",

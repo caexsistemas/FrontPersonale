@@ -3,10 +3,14 @@
         <form [formGroup]="formDownoadTechnology" method="POST">
 
             <div class="row">
-                <!-- <div class="col-md-4">
+                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
-                      <mat-label>Fecha inicio:</mat-label>
-                      <input matInput formControlName="fi" type="date" required>
+                      <mat-label>Producto:</mat-label>
+                      <mat-select formControlName="listSub">
+                        <mat-option *ngFor="let idet of tipActi" [value]="idet.ls_codvalue">
+                          {{idet.description}}
+                        </mat-option>
+                      </mat-select>
                   </mat-form-field>
               </div>
                 <!-- <mat-form-field class="example-full-width">

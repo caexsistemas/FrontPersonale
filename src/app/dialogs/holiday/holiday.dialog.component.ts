@@ -102,6 +102,7 @@ export class HolidayDialog  {
   arrholiday: any = [];
   daysVac:any = [];
   vald: boolean;
+  daysRest: any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -129,12 +130,15 @@ export class HolidayDialog  {
           this.vald = true;
           this.rol = this.data.role;
           this.initForms();
+          // console.log(this.data);
+          
         }else{
           this.initFormsCaex();
           this.vald = false;
           this.rol = this.data.role;
 
         }
+        this.daysRest = this.data.daysRest;
         this.daysVac = this.data.days;
         this.document = this.cuser.username;
         this.document;
@@ -441,10 +445,12 @@ export class HolidayDialog  {
       this.totalFin = (d1+d2);
     // console.log("total dias solicitados =>",this.totalFin);
     // if(this.totalFin >= 15 && this.daysVac < 15 ){
-      if(this.totalFin > 15  && this.daysVac <= 15 ){
-      this.handler.showError("No puedes solicitar mas de 15 dias!");
-      this.reload.emit();
-      this.loading.emit(false);
+      // console.log(this.daysRest);
+      
+      if(this.totalFin > 15  && this.daysVac <= 15  ){
+          this.handler.showError("No puedes solicitar mas de 15 dias!");
+          this.reload.emit();
+          this.loading.emit(false);
     }
      // this.totalFii(this.totalFin,this.prue2);
 }

@@ -217,8 +217,8 @@ export class TechnologyComponent implements OnInit {
   applyFilter(search) {
     this.dataSource.filter = search.trim().toLowerCase();
   }
-  onTriggerSheetClick(event) {
-    console.log(event);    
+  onTriggerSheetClick(event: MouseEvent) {
+    // console.log(event.target['id']);    
     this.matBottomSheet.open(ReportsTechnologyComponent);
   }
 
