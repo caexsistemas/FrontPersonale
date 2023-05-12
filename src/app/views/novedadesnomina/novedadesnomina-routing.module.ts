@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IngresoComponent } from './ingreso/ingreso.component';
 import { SuspendComponent } from './suspend/suspend.component';
 import { CommisionComponent } from './commision/commision.component';
+import { RetributionComponent } from './retribution/retribution.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,13 @@ const routes: Routes = [
           component: CommisionComponent,
           data: {
             title: 'Comision/Bono'
+          }
+        },
+        {
+          path: 'retribution',
+          component: RetributionComponent,
+          data: {
+            title: 'Retribución'
           }
         }
       ]

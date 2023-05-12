@@ -36,6 +36,7 @@ import { SuspendComponent } from './suspend/suspend.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 import { CommisionComponent } from './commision/commision.component';
+import { RetributionComponent } from './retribution/retribution.component';
 // import { AngularFileUploaderModule } from "angular-file-uploader";
 
 const ngWizardConfig: NgWizardConfig = {
@@ -76,6 +77,7 @@ const ngWizardConfig: NgWizardConfig = {
     IngresoComponent,
     SuspendComponent,
     CommisionComponent,
+    RetributionComponent
 
     // AngularFileUploaderModule
   ],

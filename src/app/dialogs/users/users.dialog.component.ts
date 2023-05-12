@@ -183,6 +183,10 @@ export class UsersDialog {
                     this.typeRol = data.data['typeRol'];
                     this.typeRolAsesor = data.data['typeRolAsesor'];
                     this.person = data.data['personale'];
+                    // console.log(this.person);
+                    
+                   
+
 
                     let datos = data.data;
                     this.loading.emit(false);
@@ -321,8 +325,45 @@ export class UsersDialog {
     exitsPersonal: any = []
     onSelectionPerson(event){
         this.exitsPersonal = this.person.find(element => element.document == event);
+        console.log(this.exitsPersonal);
+        
+         // separar nombre
+        //  this.person = data.data['personale']; //supongamos que this.person es el arreglo de objetos que mencionaste
+        //  for (let i = 0; i < this.exitsPersonal.length; i++) { //recorrer el arreglo
+        //    const fullName = this.exitsPersonal[i].name.trim(); //quitar espacios en blanco adicionales
+        //    const nameArray = fullName.split(' '); //dividir la cadena en un arreglo utilizando un espacio como separador
+        //    const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
+        //    const lastName = nameArray.slice(1).join(' '); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
+        //    console.log(firstName); //imprimirá el nombre de cada objeto en el arreglo
+        //    console.log(lastName); //imprimirá el apellido de cada objeto en el arreglo
+        //  }
+        
+        // this.person = data.data['personale']; //supongamos que this.person es "John Doe"
+    
+
+
+
+
+
+         // const fullName = "Juan José Pérez García";
+         // const nameArray = fullName.split(' '); //dividir la cadena en un arreglo utilizando un espacio como separador
+         // const firstName = nameArray[0] + ' ' + nameArray[1]; //obtener el primer y segundo elemento del arreglo (nombre compuesto)
+         // const lastName = nameArray.slice(2).join(' '); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
+         // console.log(firstName); //imprimirá "Juan José"
+         // console.log(lastName); //imprimirá "Pérez García"
+
 
         if( this.exitsPersonal ){
+
+            const fullName = this.exitsPersonal.name.trim(); //quitar espacios en blanco adicionales
+            const nameArray = fullName.split(' '); //dividir la cadena en un arreglo utilizando un espacio como separador
+            console.log(nameArray);
+            console.log(nameArray.length);
+            
+            const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
+            const lastName = nameArray.slice(1).join(' '); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
+            console.log(firstName); //imprimirá "John"
+            console.log(lastName); //imprimirá "Doe"
             this.formUsuario.get('idPersonale').setValue(this.exitsPersonal.idPersonale);       
         }        
         // console.log('=>',this.exitsPersonal)

@@ -31,6 +31,7 @@ import { empty } from "rxjs";
 import { DatePipe } from '@angular/common';
 import * as moment from "moment";
 import { exit } from "process";
+import { ReportsVacationComponent } from "../../../dialogs/reports/vacation/reports-vacation.component";
 
 @Component({
   selector: "app-holiday",
@@ -564,5 +565,9 @@ email() {
         dialogRef.afterClosed().subscribe((result) => {});
         break;
     }
+  }
+  onTriggerSheetClick() {
+    // console.log(event.target['id']);    
+    this.matBottomSheet.open(ReportsVacationComponent);
   }
 }
