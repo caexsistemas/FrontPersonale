@@ -101,7 +101,7 @@ export class ReportsLiquidationComponent implements OnInit {
         if (this.formDownoadIngreso.valid) {
 
             // if( fecha1 <= fecha2 && fecha1 != '' && fecha2 != '' ){
-              if( this.formDownoadIngreso.value['fi'] <= this.formDownoadIngreso.value['ff'] && this.formDownoadIngreso.value['fi'] != '' && this.formDownoadIngreso.value['ff'] != '' ){
+              // if( this.formDownoadIngreso.value['fi'] <= this.formDownoadIngreso.value['ff'] && this.formDownoadIngreso.value['fi'] != '' && this.formDownoadIngreso.value['ff'] != '' ){
                 // if( this.pipe.transform(this.formDownoadIngreso.value['fi'], 'dd/MM/yyyy') <= this.pipe.transform( this.formDownoadIngreso.value['ff'], 'dd/MM/yyyy') && this.pipe.transform(this.formDownoadIngreso.value['fi'], 'dd/MM/yyyy') != '' && this.pipe.transform(this.formDownoadIngreso.value['ff'], 'dd/MM/yyyy') != '' ){
                   
                   
@@ -141,10 +141,11 @@ export class ReportsLiquidationComponent implements OnInit {
                         this.loading.emit(false);
                     }
                 );
-            }else{
-                this.handler.showError('Periodo de consulta invalido'); 
-                this.loading.emit(false);
-            }
+            // }
+            // else{
+            //     this.handler.showError('Periodo de consulta invalido'); 
+            //     this.loading.emit(false);
+            // }
         }else {
             this.handler.showError('Complete la informacion necesaria');
             this.loading.emit(false);

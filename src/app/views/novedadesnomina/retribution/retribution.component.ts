@@ -1,3 +1,4 @@
+// import { stringify} from 'fast-json-stable-stringify';
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA,} from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,6 +15,7 @@ import { element } from 'protractor';
 import { calculateDays } from '../../../services/holiday.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsSuspendComponent } from '../../../dialogs/reports/suspend/reports-suspend.component';
+import { RetributionDialog } from '../../../dialogs/retribution/retribution.dialog.component';
 // import {
 //   MatDialog,
 //   MatDialogRef,
@@ -160,7 +162,7 @@ export class RetributionComponent implements OnInit {
       "val_pri",
       "others_dev",
       "others_ded",
-      // "actions",
+      "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -194,7 +196,7 @@ export class RetributionComponent implements OnInit {
       switch(action){
           case 'create':
             this.loading = true;
-            dialogRef = this.dialog.open(SuspendDialog,{
+            dialogRef = this.dialog.open(RetributionDialog,{
               data: {
                 window: 'create',
                 codigo
@@ -212,7 +214,7 @@ export class RetributionComponent implements OnInit {
         break;
         case 'update':
             this.loading = true;
-            dialogRef = this.dialog.open(SuspendDialog,{
+            dialogRef = this.dialog.open(RetributionDialog,{
               data: {
                 window: 'update',
                 codigo
@@ -230,7 +232,7 @@ export class RetributionComponent implements OnInit {
           break;
         case 'view':
             this.loading = true;
-            dialogRef = this.dialog.open(SuspendDialog,{
+            dialogRef = this.dialog.open(RetributionDialog,{
               data: {
                 window: 'view',
                 codigo
@@ -292,7 +294,6 @@ export class RetributionComponent implements OnInit {
           reader.onload = (e: any) => {
           /* read workbook */
           const wb = XLSX.read(e.target.result, {type: 'array'});
-          // console.log('=>**',wb);
       
           /* grab first sheet */
           const wsname = wb.SheetNames[0];
@@ -301,16 +302,12 @@ export class RetributionComponent implements OnInit {
             
           /* save data */
           this.data = XLSX.utils.sheet_to_json(ws, {header: 1});
-          // console.log('excel =>',this.data);
           
           
           
           this.data.forEach(element =>{
-              // console.log(element[8]);
               
-            // element.splice(8,1)              
           });          
-          /* add new headers */
            
             this.data.forEach((row, index) => {
             
@@ -322,12 +319,9 @@ export class RetributionComponent implements OnInit {
                   }  
                       
             });
-            /* save data */
-          // this.data = XLSX.utils.sheet_to_json(ws, {header: 1});      
-          // console.log('new =>',this.data);
+          
           
           });
-          // return this.data[1];
         };
         reader.readAsArrayBuffer(blob);
         this.fileInput.nativeElement.value = '';
@@ -342,7 +336,6 @@ export class RetributionComponent implements OnInit {
     if (value) {
       // const date = new Date(Math.round((value - 25569) * 86400 * 1000));
       const date = new Date(1900, 0, value - 1, 0, 0, 0, 0);
-      // console.log(date);
       return date.toLocaleDateString('fr-CA');
     }
   }
@@ -351,19 +344,15 @@ export class RetributionComponent implements OnInit {
   upload(){
     this.loading = true;
     if(this.file){
-      console.log('****',this.file);
-      // console.log(this.file);
-      // console.log(this.cuser.iduser);
+     
     let body = {
-      // tool: this._tools,
       user:this.cuser.iduser
     }; 
       this.WebApiService.uploadRequest(this.endpointup,this.file,this._tools.getIdentity()
       ).subscribe(
         (data) => {
           if (data) {
-            // console.log('dta');
-            // console.log(data);
+           
             this.handler.showSuccess(data.message);
             this.successModal.hide();
               this.data = null;
@@ -399,13 +388,11 @@ export class RetributionComponent implements OnInit {
 
   onSubmit() {
     if (this.data.length) {
-      console.log(this.data);
       
       this.loading = true;
-    // this.loading.emit(true);
       let body = {
         listas: this.data.slice(1),
-        susp:null
+        retribution:null
         
       };
       this.WebApiService.postRequest(this.endpoint, body, {
@@ -420,29 +407,57 @@ export class RetributionComponent implements OnInit {
             this.data = null;
             this.sendRequest();
             this.loading = false;
-    // this.reload.emit();
-            // this.closeDialog();
+    
           } else {
             this.handler.handlerError(data);
              this.loading = false;
              this.data = null;
              this.successModal.hide();
-    // this.loading.emit(false);
           }
         },
         (error) => {
           this.handler.showError();
              this.loading = false;
-             // this.loading.emit(false);
         }
       );
     } else {
       this.handler.showError("Complete la informacion necesaria");
              this.loading = false;
-             // this.loading.emit(false);
     }
   }
   onTriggerSheetClick(){
     this.matBottomSheet.open(ReportsSuspendComponent)
   }
+  pdf(id) {
+
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        if (data.success == true) {
+              
+              const link = document.createElement("a");
+              link.href = data.data.url;
+              link.download = data.data.file;
+              link.target = "_blank";
+              link.click();
+              this.handler.showSuccess(data.data.file);
+              this.loading = false;
+        } else {
+                this.handler.handlerError(data);
+                this.loading = false;
+        }
+      },
+      (error) => {
+              console.log(error);
+              this.handler.showError("Se produjo un error");
+              this.loading = false;
+      }
+);
+}
 }

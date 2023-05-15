@@ -1,0 +1,259 @@
+<div class="card mt-6">
+  <div *ngIf=" view == 'update' || view == 'create'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}} {{user}} {{ape}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+
+        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSelec">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput disabled value="Cali Express">
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <!-- <mat-form-field appearance="fill"> -->
+                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)"
+                  [readonly]="view == 'update'">
+                <mat-error *ngIf="getDocument()">
+                  <strong> Ingrese Documento.</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 ContCamp">
+              <mat-form-field class="example-full-width ContCamp">
+                <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                <mat-select formControlName="idPersonale">
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Perido:</mat-label>
+                <mat-select formControlName="semester">
+                  <mat-option *ngFor="let idet of perid" [value]="idet.ls_codvalue">
+                    {{idet.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha Inicial</mat-label>
+                <input matInput formControlName="fec_ini" value="fec_ini" type="date">
+                <!-- <mat-error *ngIf="getFecIni()">
+                  <strong> Ingrese Fecha de inicio.</strong>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha Final</mat-label>
+                <input matInput formControlName="fec_fin" value="fec_fin" type="date">
+                <!-- <mat-error *ngIf="getFecIni()">
+                  <strong> Ingrese Fecha de inicio.</strong>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Dias Periodo</mat-label>
+                <input matInput formControlName="day_per" value="day_per">
+                <!-- <mat-error *ngIf="getMes()">
+                  <strong> Ingrese Mes.</strong>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Dias Ausencia</mat-label>
+                <input matInput formControlName="day_aus" value="day_aus">
+                <!-- <mat-error *ngIf="getMes()">
+                  <strong> Ingrese Mes.</strong>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label> Días a Liquidar:</mat-label>
+                <input matInput formControlName="day_liq" [value]="day_liq">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label> Sueldo promedio:</mat-label>
+                <input matInput formControlName="sal_pro" [value]="sal_pro">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label> Valor Prima:</mat-label>
+                <input matInput formControlName="val_pri" [value]="val_pri">
+              </mat-form-field>
+            </div>
+          </div>
+          <hr>
+          <div class="row mt-3">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label> Anticipo Prima:</mat-label>
+                <input matInput formControlName="ant_pri" [value]="ant_pri">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label> Otros Devengados:</mat-label>
+                <input matInput formControlName="others_dev" [value]="others_dev">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label> Otros Deducidos:</mat-label>
+                <input matInput formControlName="others_ded" [value]="others_ded">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12 mt-3">
+          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+
+          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="view == 'view'">
+  <div class="modal-header">
+    <h5 class="modal-title">{{title}}</h5>
+    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <mat-dialog-content style="min-width: 500px;">
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <dt>Fecha Radicación</dt>
+        <dd>{{selection.fec_rad}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Documento</dt>
+        <dd>{{selection.document}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Nombres</dt>
+        <dd>{{selection.name}}</dd>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <dt>Periodo</dt>
+        <dd>{{selection.perio}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Fecha Inicio</dt>
+        <dd>{{selection.fec_ini}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Fecha Fin</dt>
+        <dd>{{selection.fec_fin}}</dd>
+      </div>
+     </div>
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <dt>Dias Periodo</dt>
+          <dd>{{selection.day_per}}</dd>
+        </div>
+        <div class="col-md-4">
+          <dt>Dias Ausencia</dt>
+          <dd>{{selection.day_aus}}</dd>
+        </div>
+        <div class="col-md-4">
+          <dt>Dias a Liquidar</dt>
+          <dd>{{selection.day_liq}}</dd>
+        </div>
+      </div>
+      <hr>
+      <div class="row mt-2">
+        <div class="col-md-4">
+          <dt>Sueldo promedio</dt>
+          <dd>{{selection.sal_pro}}</dd>
+        </div>
+        <div class="col-md-4">
+          <dt>Valor Prima</dt>
+          <dd>{{selection.val_pri}}</dd>
+        </div>
+        <div class="col-md-4">
+          <dt>Anticipo Prima</dt>
+          <dd>{{selection.ant_pri}}</dd>
+        </div>
+      
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <dt>Otros Devengados</dt>
+          <dd>{{selection.others_dev}}</dd>
+        </div>
+        <div class="col-md-4">
+          <dt>SOtros Deducidos</dt>
+          <dd>{{selection.others_ded}}</dd>
+        </div>
+      </div>
+
+  </mat-dialog-content>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Histórico de Procesos:
+        </div>
+        <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+          <ng-container matColumnDef="currentm_user">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type_move">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="date_move">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
