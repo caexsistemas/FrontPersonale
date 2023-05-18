@@ -290,7 +290,6 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
 totalAll(tt1,tt2,tt3){
 // console.log('tt1=>',tt1,'tt2=>',tt2,'tt3=>',tt3);
 this.totAll =(tt1-tt2-tt3);
-// console.log('dias restantes=>',this.totAll);
 
 
 }
@@ -350,7 +349,7 @@ email() {
     switch (action) {
       case "create":
         // this.laterFec = new Date().toISOString().split("T")[0];
-        if(this.days < 1 || this.totAll < 1){
+        if(this.days < 1 || this.totAll < 15){
          this.handler.showError("No tienes días disponibles");
          this.loading = false;
         break;
