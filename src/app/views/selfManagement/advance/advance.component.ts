@@ -74,6 +74,7 @@ export class AdvanceComponent implements OnInit {
   sumTot: any = [];
   daysDom: any = [];
   day2:any = [];
+  totAll:any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -304,21 +305,18 @@ export class AdvanceComponent implements OnInit {
      
    
   // }
-  // calculateDaysRest(adv,tt) {
-  //   // console.log('suspensiopn',totDays);
-  //   console.log('anticipo',adv);
-  //   console.log('tomados',tt);
-  //   console.log('propor',this.sundayTot);
+  calculateDaysRest(tt1,tt2,tt3) {
+    // console.log('suspensiopn',totDays);
+    // console.log('anticipo',adv);
+    // console.log('tomados',tt);
+    // console.log('propor',this.sundayTot);
 
-  //   if (this.sundayTot){
-  //     tt = 0
-  //     this.totalDays = (this.sundayTot-tt);
-  //     console.log('==',this.totalDays);
-      
-  //   // }else if(totDays){
-  //   //   this.totalDays = ((totDays + adv + tt) - sundayTot);
+this.totAll =(tt1-tt2-tt3);
+// console.log('===>',this.totAll);
 
-  //   }
+    
+
+    }
   //   // if(state == '79/2'){
   //   //   console.log(totDays,"=>", state);
   //   //   this.totalDays = ( this.days - totDays)

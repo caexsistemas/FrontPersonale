@@ -313,7 +313,7 @@ export class RetributionComponent implements OnInit {
             
             row.forEach((col, colIndex) => {
               
-                if(typeof col === 'number' && col > 1 && col < 4294967296 && colIndex != 0  && colIndex != 4  && colIndex != 6  && colIndex != 7  && colIndex != 8) {
+                if(typeof col === 'number' && col > 1 && col < 4294967296 && colIndex != 0  && colIndex != 4 && colIndex != 5  && colIndex != 6  && colIndex != 7  && colIndex != 8 && colIndex != 9 && colIndex != 10) {
                 
                     this.data[index][colIndex] =this.convertDate(this.data[index][colIndex]);     
                   }  
