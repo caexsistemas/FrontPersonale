@@ -30,6 +30,7 @@ import { Observable } from "rxjs";
 import { NovedadesnominaServices } from "../../services/novedadesnomina.service";
 import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../services/web-api.service";
+import { element } from "protractor";
 interface Food {
   value: string;
   viewValue: string;
@@ -65,27 +66,9 @@ export class RetributionDialog  {
   check: boolean;
   displayedColumns: any = [];
   selection:any = [];
-  // confor:any = [];
-  // work:any = [];
-  // factor:any = [];
-  // cierr: any = [];
-  // state:any = [];
-  // calidad:any = []
+ 
   PersonaleInfo:any = [];
-  // managemenProcess: any = []
-  // responsibleProcess:any = [];
-  // sigProcess:any = [];
-  // logProcess:any = [];
-  // contactProcess:any = [];
-  // comProcess:any = [];
-  // comunProcess:any = [];
-  // adminProcess:any = [];
-  // talentProcess:any = [];
-  // tecnoProcess:any = [];
-  // fecPro:any = [];
-  // fecEje:any =[];
-  // typeNo:any = []
-  // typeejc:any = []
+  
   perid:any = []
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -127,6 +110,17 @@ export class RetributionDialog  {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
+              const formatoPeso = new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP'
+             });
+
+                this.selection.sal_pro= formatoPeso.format(this.selection.sal_pro);
+                this.selection.val_pri = formatoPeso.format(this.selection.val_pri);
+                this.selection.ant_pri = formatoPeso.format(this.selection.ant_pri);
+                this.selection.others_dev = formatoPeso.format(this.selection.others_dev);
+                this.selection.others_ded = formatoPeso.format(this.selection.others_ded);
+
               // this.typeReq = this.selection.tip_req;
               // ( !(this.typeReq == '62/1' || this.typeReq == '62/2' ) ? this.checked = true : this.checked );
               // ( this.typeReq == '62/4' ) ? this.check = false : this.check = true;
