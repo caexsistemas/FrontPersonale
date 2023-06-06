@@ -167,7 +167,7 @@
                 
                 </mat-expansion-panel>
               
-                <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       Acercaminto  &nbsp; &nbsp;
@@ -241,7 +241,7 @@
                   </mat-action-row>
                 </mat-expansion-panel>
               
-                <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                     Negociacion  &nbsp; &nbsp;
@@ -348,7 +348,7 @@
                   </mat-action-row>
                 </mat-expansion-panel>
             
-                <mat-expansion-panel *ngIf=" tipMatriz != '' " [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                     Cierre &nbsp; &nbsp;
