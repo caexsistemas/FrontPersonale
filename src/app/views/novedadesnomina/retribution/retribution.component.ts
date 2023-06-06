@@ -16,6 +16,9 @@ import { calculateDays } from '../../../services/holiday.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsSuspendComponent } from '../../../dialogs/reports/suspend/reports-suspend.component';
 import { RetributionDialog } from '../../../dialogs/retribution/retribution.dialog.component';
+import * as moment from 'moment';
+import { CurrencyPipe } from '@angular/common';
+// import { CurrencyPipe } from '@angular/common';
 // import {
 //   MatDialog,
 //   MatDialogRef,
@@ -101,7 +104,8 @@ export class RetributionComponent implements OnInit {
     public handler: HandlerAppService,
     public dialog: MatDialog,
     private holiday: calculateDays,
-    private matBottomSheet : MatBottomSheet
+    private matBottomSheet : MatBottomSheet,
+    // private currencyPipe: CurrencyPipe
   ) { }
   step = 0;
 
@@ -133,6 +137,25 @@ export class RetributionComponent implements OnInit {
 
           this.generateTable(data.data["getSuspend"]);
           this.contenTable = data.data["getSuspend"];
+          this.contenTable.forEach(element => {
+
+        
+              const newDateFin = moment(element.fec_ini);
+              const newDateRei = moment(element.fec_fin);
+              element.fec_ini = newDateFin.format("DD, MMM YYYY");   
+              element.fec_fin = newDateRei.format("DD, MMM YYYY");   
+              const formatoPeso = new Intl.NumberFormat('es-CO', {
+                        style: 'currency',
+                        currency: 'COP'
+                     });
+              element.sal_pro= formatoPeso.format(element.sal_pro);
+              element.val_pri = formatoPeso.format(element.val_pri);
+              element.ant_pri = formatoPeso.format(element.ant_pri);
+              element.others_dev = formatoPeso.format(element.others_dev);
+              element.others_ded = formatoPeso.format(element.others_ded);
+
+                     
+          });
          
          
           this.loading = false;

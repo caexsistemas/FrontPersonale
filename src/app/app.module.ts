@@ -263,7 +263,7 @@ const routes: Routes = [];
     
   }],
   exports: [
-    RouterModule
+    RouterModule,
   ],
   bootstrap: [ AppComponent ]
 })
