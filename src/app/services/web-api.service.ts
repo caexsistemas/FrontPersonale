@@ -11,6 +11,7 @@ export class WebApiService{
   // VARIABLES
   token:string = "";
   urlKaysenBackend      = environment.url;
+  urlApiContact = environment.apiContact;
 
   // PERMISOS DE APLICACION
   permission = null;
@@ -90,6 +91,19 @@ export class WebApiService{
     }
     return new HttpParams({fromObject:queryParams});
   }
+//---------------------------------------------------------------
+// METOD GET USER CONTACT
+// METODO GET
+getRequestContact(url:string):Observable<any>{
+   url = this.urlApiContact+url;
+  return this._http.get(url);
+}
+ // METOD POST CONTACT
+ postRequestContact(url:string,body:any):Observable<any>{
+    url = this.urlApiContact+url;
+    return this._http.post(url, body);
+ }
 
+//-----------------------------------------------------------------
 
 }

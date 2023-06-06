@@ -42,6 +42,7 @@ import { MatInputModule }  from '@angular/material/input';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { RolesComponent } from './roles/roles.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ContactComponent } from './contact/contact.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -77,7 +78,8 @@ const ngWizardConfig: NgWizardConfig = {
     ListsComponent,
     StateComponent,
     RolesComponent,
-    CalendarComponent
+    CalendarComponent,
+    ContactComponent
 
 
   ]

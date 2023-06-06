@@ -128,6 +128,7 @@ import { SigDialog } from './dialogs/sig/sig.dialog.component';
 import { ReportsPersonaleComponent } from './dialogs/reports/personale/reports-personale.component';
 import { ReportsVacationComponent } from './dialogs/reports/vacation/reports-vacation.component';
 import { RetributionDialog } from './dialogs/retribution/retribution.dialog.component';
+import { ContactDialog } from './dialogs/contact/contact.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -250,7 +251,8 @@ const routes: Routes = [];
     SigDialog,
     ReportsPersonaleComponent,
     ReportsVacationComponent,
-    RetributionDialog
+    RetributionDialog,
+    ContactDialog
   ],
   providers: [{
     
