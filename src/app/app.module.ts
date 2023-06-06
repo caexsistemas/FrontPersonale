@@ -128,12 +128,9 @@ import { SigDialog } from './dialogs/sig/sig.dialog.component';
 import { ReportsPersonaleComponent } from './dialogs/reports/personale/reports-personale.component';
 import { ReportsVacationComponent } from './dialogs/reports/vacation/reports-vacation.component';
 import { RetributionDialog } from './dialogs/retribution/retribution.dialog.component';
-<<<<<<< HEAD
 import { ContactDialog } from './dialogs/contact/contact.dialog.component';
-=======
 import { CustomerDialog } from './dialogs/customer/customer.dialog.component';
 import { ReportsCustomerComponent } from './dialogs/reports/customer/reports-customer.component';
->>>>>>> 14f838e03ee9970686bb5cd1ee044763bf3c4805
 
 const routes: Routes = []; 
 @NgModule({
@@ -257,12 +254,9 @@ const routes: Routes = [];
     ReportsPersonaleComponent,
     ReportsVacationComponent,
     RetributionDialog,
-<<<<<<< HEAD
-    ContactDialog
-=======
+    ContactDialog,
     CustomerDialog,
     ReportsCustomerComponent
->>>>>>> 14f838e03ee9970686bb5cd1ee044763bf3c4805
   ],
   providers: [{
     
