@@ -15,6 +15,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { from } from 'rxjs';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
+import { CustomerComponent } from './customer/customer.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,13 @@ const routes: Routes = [
         component: FeedbackComponent,
         data: {
           title: 'Feedback'
+        }
+      },
+      {
+        path: 'customer',
+        component: CustomerComponent,
+        data: {
+          title: 'Medicion Customer Journey'
         }
       },
     ]
