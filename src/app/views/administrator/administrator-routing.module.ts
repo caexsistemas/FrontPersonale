@@ -19,6 +19,7 @@ import { ListsComponent } from './lists/lists.component';
 import { StateComponent } from './state/state.component';
 import { RolesComponent } from './roles/roles.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 const routes: Routes = [
@@ -67,6 +68,13 @@ const routes: Routes = [
           title: 'Festivos'
         }
       },
+      {
+        path: 'contact',
+        component: ContactComponent,
+        data: {
+          title: 'Contact User'
+        }
+      }
     ]
   }
 ];
