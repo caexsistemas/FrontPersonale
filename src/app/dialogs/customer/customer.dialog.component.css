@@ -40,3 +40,11 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   .convisual{
     display: block;
   }
+
+  .cdk-overlay-pane{
+    overflow: scroll;
+  }
+
+  .mat-form-field {
+    display: block;
+  }

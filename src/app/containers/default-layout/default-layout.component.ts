@@ -133,6 +133,7 @@ export class DefaultLayoutComponent{
       url: '/dashboard',
       icon: 'icon-speedometer',
     }
+    
     var title = {
       title: true,
       name: ''
