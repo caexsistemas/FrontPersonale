@@ -1,3 +1,16 @@
 .navbar {
-    /*justify-content: flex-start !important;*/
+    justify-content: flex-start !important
+}
+
+.sep-button {
+
+    margin-left: 30px;
+}
+
+@media (max-width: 991.98px)
+{
+    .app-header .navbar-brand {
+        left: 90%; 
+
+    }
 }

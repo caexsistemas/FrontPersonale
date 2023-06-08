@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Injectable,OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, Injectable,OnInit,  ViewEncapsulation} from '@angular/core';
 import { Tools } from '../../Tools/tools.page';
 import { navItems } from '../../_nav';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.css'],
+  encapsulation: ViewEncapsulation.None,
   providers: [Tools]
 })
 

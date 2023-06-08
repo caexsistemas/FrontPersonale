@@ -3,10 +3,11 @@
   [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="false" [mobileAsideMenuToggler]="false">
 
-  <button type="button" ng-reflect-breakpoint class="btn-shadow d-inline-flex align-items-center btn btn-light" (click)="logout()" 
-    tooltip="Cerrar sesion" placement="left" title="Cerrar sesion">
-    <i class="cui-account-logout icons font-2xl d-block"></i>
-  </button>
+  <button type="button" ng-reflect-breakpoint class="btn-shadow d-inline-flex align-items-center btn btn-light sep-button" (click)="logout()" 
+  tooltip="Cerrar sesion" placement="left" title="Cerrar sesion">
+  <i class="cui-account-logout icons font-2xl d-block"></i>
+</button>
+  
 </app-header>
 
 <div class="app-body" (click)="prueba_cli()" >
