@@ -4,12 +4,13 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
 
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  .card {
-    margin-left: 70px !important;
-  }
 
 }
 
 table {
   width: 100%;
+}
+
+.mat-form-field {
+  display: block;
 }
