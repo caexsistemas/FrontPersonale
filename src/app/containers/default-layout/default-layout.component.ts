@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.css'],
   providers: [Tools]
 })
 
