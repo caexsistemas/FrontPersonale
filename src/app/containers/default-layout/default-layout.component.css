@@ -11,6 +11,9 @@
 {
     .app-header .navbar-brand {
         left: 90%; 
+    }
 
+    .mat-dialog-container{
+        margin-top: 20%;
     }
 }
