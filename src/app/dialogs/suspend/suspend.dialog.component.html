@@ -118,17 +118,18 @@
             </div>
           </div>
         </form>
-      </mat-dialog-content>
-      <div mat-dialog-actions>
-        <div class="text-center col-12 mt-3">
-          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-            (click)="onSubmitUpdate()">Actualizar</button>
-
-          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
-
-          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        <div mat-dialog-actions>
+          <div class="text-center col-12 mt-3">
+            <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+              (click)="onSubmitUpdate()">Actualizar</button>
+  
+            <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+  
+            <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+          </div>
         </div>
-      </div>
+      </mat-dialog-content>
+
     </div>
   </div>
 </div>

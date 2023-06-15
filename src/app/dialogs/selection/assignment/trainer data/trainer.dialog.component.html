@@ -114,15 +114,16 @@
             </mat-expansion-panel>     
           </form>
         </mat-accordion>
-      </mat-dialog-content>
-      <div mat-dialog-actions>
-        <div class="text-center col-12">
-          <button *ngIf="view == 'update'" mat-button class="btn btn-success" [disabled]=" totalFin > 15"
-            (click)="onSubmitUpdate()">Actualizar</button>
-          <!-- <button *ngIf="view == 'training'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button> -->
-          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        <div mat-dialog-actions>
+          <div class="text-center col-12">
+            <button *ngIf="view == 'update'" mat-button class="btn btn-success" [disabled]=" totalFin > 15"
+              (click)="onSubmitUpdate()">Actualizar</button>
+            <!-- <button *ngIf="view == 'training'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button> -->
+            <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+          </div>
         </div>
-      </div>
+      </mat-dialog-content>
+
     </div>
   </div>
 </div>
