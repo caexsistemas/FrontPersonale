@@ -11,3 +11,7 @@
   .ContCamp{
     pointer-events: none;
   }
+
+  .mat-form-field {
+    display: block;
+  }

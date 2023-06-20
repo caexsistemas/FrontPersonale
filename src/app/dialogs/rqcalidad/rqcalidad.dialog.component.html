@@ -763,13 +763,13 @@
                   
                   <div class="row">
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Fecha de Llamada:</mat-label>
                             <input matInput formControlName="call_date" type="date" required>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Gesti&oacute;n:</mat-label>
                             <mat-select formControlName="tipo_gestion" required>
@@ -779,7 +779,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Red:</mat-label>
                             <mat-select formControlName="tipo_red" required>
@@ -789,23 +789,23 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
                   </div>
                
                   <div class="row">
-                    <div class="col-sm-3">
+
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Cedula:</mat-label>
                             <input matInput formControlName="document" type="number"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" (ngModelChange)="onSelectionChange($event)" required>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Login:</mat-label>
                             <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Nombre Asesor:</mat-label>
                             <mat-select formControlName="name" required>
@@ -815,11 +815,12 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
+
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-3">
+
+                    <div class="col-sm-4">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Coordinador:</mat-label>
                             <mat-select formControlName="coordinator" required>
@@ -829,51 +830,53 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>TMO:</mat-label>
                             <input matInput formControlName="tmo" type="text" > 
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>ID llamada:</mat-label>
                             <input matInput formControlName="call_id" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
+ 
                   </div>
                   
                   <div class="row">
-                    <div class="col-sm-3">
+
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>N&uacute;mero MIN/Cuenta Hogar:</mat-label>
                             <input matInput formControlName="min_bill" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field class="ContCamp">
                             <mat-label>Semana:</mat-label>
                             <input matInput formControlName="week" type="text" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Analista:</mat-label>
                             <input matInput formControlName="analyst" type="text" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
+                    
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-3">
+
+                    <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Oferta:</mat-label>
                             <input matInput formControlName="offer" type="text" >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Campaña:</mat-label>
                             <mat-select formControlName="campana" required (ngModelChange)="campaHogarDedi($event)">
@@ -883,31 +886,31 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <mat-form-field class="example-full-width ContCamp">
                             <mat-label>Fecha de Monitoreo:</mat-label>
                             <input [readonly]="true"  matInput formControlName="monitoring_date" type="date" (ngModelChange)="getWeekNr($event)" required  >
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
+                
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-3" class="{{this.oculori}}">
+                    <div class="col-sm-4" class="{{this.oculori}}">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Final:</mat-label>
                             <input matInput formControlName="final_note" type="number" >
                         </mat-form-field>
                     </div>
 
-                    <div class="col-sm-3" class="{{this.oculcap}}">
+                    <div class="col-sm-4" class="{{this.oculcap}}">
                         <mat-form-field class="ContCamp">
                             <mat-label>Nota Final:</mat-label>
                             <input matInput  type="number"  value="0">
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-3"></div>
+                    <div class="col-sm-4"></div>
+                
                   </div>
                   
                   <mat-action-row>
@@ -1806,8 +1809,7 @@
 
               </form> 
               </mat-accordion>
-            </mat-dialog-content>
-            <div mat-dialog-actions>
+              <div mat-dialog-actions>
                 <div class="text-center col-12">
                     <button *ngIf="view == 'update'" mat-button class="btn btn-success"
                         (click)="onSubmitUpdate()">Actualizar</button>
@@ -1818,6 +1820,8 @@
                     <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                 </div>
             </div>
+            </mat-dialog-content>
+
         </div>
 
     </div>

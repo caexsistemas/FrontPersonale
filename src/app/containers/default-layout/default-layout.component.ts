@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Injectable,OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, Injectable,OnInit,  ViewEncapsulation} from '@angular/core';
 import { Tools } from '../../Tools/tools.page';
 import { navItems } from '../../_nav';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.css'],
+  encapsulation: ViewEncapsulation.None,
   providers: [Tools]
 })
 
@@ -133,9 +135,10 @@ export class DefaultLayoutComponent{
       url: '/dashboard',
       icon: 'icon-speedometer',
     }
+    
     var title = {
       title: true,
-      name: ''
+      name: this.userLogin.user
     }
     option.push(op);
     option.push(title);
