@@ -104,6 +104,7 @@ export class HolidayDialog  {
   vald: boolean;
   daysRest: any = [];
   blockDaysRest: boolean;
+  holidayAll:any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -425,9 +426,9 @@ export class HolidayDialog  {
         this.totalDays(this.prue2,this.comp);
         this.holiday.holiday(this.prue,this.prue2 );
     
-        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2 );
-        this.fec_fin = this.totaLfecHol[0];
-        this.sumTotalMen = this.totaLfecHol[1];
+        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2 );  
+        this.fec_fin = this.totaLfecHol[0];        
+        this.sumTotalMen = this.totaLfecHol[1];        
         this.formSelec.get('fec_fin').setValue(this.fec_fin);
         this.formSelec.get('fec_rei').setValue(this.sumTotalMen);  
       this.loading.emit(false);

@@ -13,7 +13,7 @@
     <div class="card-body">
       <mat-dialog-content>
 
-        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSelec">
+        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formSelec" method="post">
 
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Company</mat-label>

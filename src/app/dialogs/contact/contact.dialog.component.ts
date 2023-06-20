@@ -52,7 +52,7 @@ export class ContactDialog  {
   endpointContact: string = "/campana";
   endpointSuper: string = "/supervisor";
   endpointRolContact: string = "/roles"
-  endpointCreate: string = "createUsers";
+  endpointCreate: string = "create";
   maskDNI = global.maskDNI;
   title: string = null;
   view: string = null;
@@ -286,7 +286,7 @@ export class ContactDialog  {
       // console.log('form =>',this.formSelec.value);
       console.log('form =>',contact);
       
-      this.WebApiService.postRequestContact(this.endpointCreate,contact).subscribe(
+      this.WebApiService.postRequestContact(this.endpointCreate,this.formSelec.value).subscribe(
         (data) => {
           if (data && data.status === 'true') {
 

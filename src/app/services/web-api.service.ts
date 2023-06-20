@@ -44,6 +44,7 @@ export class WebApiService{
     let headers = this.setHeaders();
     body = JSON.stringify(body);
     url = this.urlKaysenBackend+url;
+    
     return this._http.post<any>(url,body,{headers,params});
   }
   //METODO CARGUE EXCEL
@@ -96,13 +97,51 @@ export class WebApiService{
 // METODO GET
 getRequestContact(url:string):Observable<any>{
    url = this.urlApiContact+url;
+   console.log(url);
+   
   return this._http.get(url);
 }
  // METOD POST CONTACT
+// header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+// setHeadersCont(){
+//   let headers = new HttpHeaders()
+//     .append('Authorization');
+//   return headers;
+// }
  postRequestContact(url:string,body:any):Observable<any>{
+  
     url = this.urlApiContact+url;
-    return this._http.post(url, body);
+    // const headersC = new HttpHeaders().set('Content-Type', 'application/json');
+
+
+      // const headers =  new HttpHeaders({
+      //   'Content-Type': 'application/json',
+      //   'Access-Control-Allow-Origin': '*', // Permitir acceso desde cualquier origen
+      //   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE' // Métodos permitidos
+      // })
+    
+   
+    // const headers = new HttpHeaders()
+    // .set('Content-Type', 'application/json')
+    // .set('Access-Control-Allow-Origin', 'http://localhost:4200'); // Cambia la URL a la permitida en tu caso
+    console.log(url, body );
+    
+  
+    return this._http.post(url, body  );
  }
+
+// postRequestContact(url: string, body: any): Observable<any> {
+//   url = this.urlApiContact + url;
+
+//   const headers = new HttpHeaders({
+//     'Content-Type': 'application/json',
+//     'Access-Control-Allow-Origin': '*', // Permitir acceso desde cualquier origen
+//     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE', // Métodos permitidos
+//     'Access-Control-Allow-Headers': 'Content-Type' // Permitir envío de la cabecera Content-Type
+//   });
+
+//   return this._http.post(url, body, { headers });
+// }
 
 //-----------------------------------------------------------------
 
