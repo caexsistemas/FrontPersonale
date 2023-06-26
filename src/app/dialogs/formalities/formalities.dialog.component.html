@@ -28,10 +28,9 @@
                 <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Numero Identificaci&oacute;n</mat-label>
-                        <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)">
+                        <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)"  [readonly]="view == 'update'">
                     </mat-form-field>
                 </div>
-               
                 <div class="col-md-4">
                     <mat-form-field class="example-full-width ContCamp">
                         <mat-label>Nombre(s) y Apellido(s):</mat-label>
@@ -43,7 +42,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width ContCamp">
                       <mat-label>Area de trabajo:</mat-label>
                       <mat-select formControlName="pro_res">
                         <mat-option *ngFor="let idet of area" [value]="idet.ls_codvalue" >
@@ -52,11 +51,10 @@
                       </mat-select>
                   </mat-form-field>
               </div>
-               
             </div>
             <div class="row">
               <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width ContCamp">
                       <mat-label>Cargo:</mat-label>
                       <mat-select formControlName="idPosition">
                         <mat-option *ngFor="let idet of idPosition" [value]="idet.ls_codvalue" >
@@ -65,12 +63,6 @@
                       </mat-select>
                   </mat-form-field>
               </div>
-              <!-- <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                      <mat-label>Identificaci&oacute;n Jefe:</mat-label>
-                      <input matInput formControlName="immediateBoss" type="number" (ngModelChange)="onSelectionJFChange($event)" required>
-                  </mat-form-field>
-              </div> -->
               <div class="col-md-4">
                   <mat-form-field class="example-full-width ContCamp">
                       <mat-label>Jefe Directo:</mat-label>
@@ -84,7 +76,7 @@
               <div class="col-md-4">
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha Retiro:</mat-label>
-                    <input matInput formControlName="fec_ret" type="date">
+                    <input matInput formControlName="fec_ret" type="date" [readonly]="view == 'update'">
                 </mat-form-field>
             </div>
            
@@ -94,8 +86,6 @@
               </mat-action-row>
               <div mat-dialog-actions *ngIf="view == 'create'" >
                 <div class="text-center col-12">
-                  <!-- <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                    (click)="onSubmitUpdate()">Actualizar</button> -->
                   <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmi()">Guardar</button>
                   <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                 </div>
@@ -115,43 +105,22 @@
                 <mat-icon [ngStyle]="{'color': colorElem ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
              <!-- info -->
-             <!-- <div class="row">
-              <div class="col-md-12 guia" *ngFor="let ide of guiaTecno" [value]="ide.ls_codvalue">
-                <p> {{ide.val}}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" value="state" (ngModelChange)="openDialog(ide.id_guide, $event)" >
-                  <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio" >
-                    {{idet.description}}</mat-radio-button>
-                </mat-radio-group>
-              </div>
-             </div> -->
-            
-             <!-- <div class="row" formArrayName="guias">
-              <div *ngFor="let guia of formGuia.get('guias').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
-                <p>{{ guia.controls.ls_codvalue.value }}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event)">
-                  <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio">
-                    {{ idet.description }}
-                  </mat-radio-button>
-                </mat-radio-group>
-              </div>
-            </div> -->
-            
-            
             <div class="row" formArrayName="elemt">
               <div *ngFor="let guia of formGuia.get('elemt').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event,guia.controls.form_id.value)">
+                <mat-radio-group aria-label="Select an option" formControlName="state">
                   <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;">
                     {{ idet.description }}
                   </mat-radio-button>
                 </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Observaciones</mat-label>
+                    <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-            
-            
-            
-
-            
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -167,54 +136,29 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorTecno ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
-             <!-- info -->
-             <!-- <div class="row">
-              <div class="col-md-12 guia" *ngFor="let ide of guiaTecno" [value]="ide.ls_codvalue">
-                <p> {{ide.val}}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" value="state" (ngModelChange)="openDialog(ide.id_guide, $event)" >
-                  <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio" >
-                    {{idet.description}}</mat-radio-button>
-                </mat-radio-group>
-              </div>
-             </div> -->
-            
-             <!-- <div class="row" formArrayName="guias">
-              <div *ngFor="let guia of formGuia.get('guias').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
-                <p>{{ guia.controls.ls_codvalue.value }}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event)">
-                  <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio">
-                    {{ idet.description }}
-                  </mat-radio-button>
-                </mat-radio-group>
-              </div>
-            </div> -->
-            
             
             <div class="row" formArrayName="tecno">
               <div *ngFor="let guia of formGuia.get('tecno').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event,guia.controls.form_id.value)">
+                <mat-radio-group aria-label="Select an option" formControlName="state">
                   <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;">
                     {{ idet.description }}
                   </mat-radio-button>
                 </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Observaciones</mat-label>
+                    <textarea maxlength="65" matInput formControlName="obs_guia" ></textarea>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-            
-            
-            
-
             
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-              
-              <!-- <mat-action-row>
-                <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
-              </mat-action-row> -->
-            <!-- </mat-expansion-panel> -->
              <mat-expansion-panel *ngIf="view == 'update' && rolTH" [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -225,16 +169,20 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorTH ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
-
-
             <div class="row" formArrayName="th">
                   <div *ngFor="let guia of formGuia.get('th').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
-                    <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event,guia.controls.form_id.value)">
+                    <mat-radio-group aria-label="Select an option" formControlName="state">
                       <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio">
                         {{ idet.description }}
                       </mat-radio-button>
                     </mat-radio-group>
+                    <div class="col-md-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label> Observaciones</mat-label>
+                        <textarea maxlength="65"matInput formControlName="obs_guia" ></textarea>
+                      </mat-form-field>
+                    </div>
                   </div>
                 </div>
               <mat-action-row>
@@ -256,11 +204,17 @@
                 <div class="row" formArrayName="nom">
                   <div *ngFor="let guia of formGuia.get('nom').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
-                    <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event,guia.controls.form_id.value)">
+                    <mat-radio-group aria-label="Select an option" formControlName="state">
                       <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio">
                         {{ idet.description }}
                       </mat-radio-button>
                     </mat-radio-group>
+                    <div class="col-md-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label> Observaciones</mat-label>
+                        <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                      </mat-form-field>
+                    </div>
                   </div>
                 </div>
               <mat-action-row>
@@ -278,23 +232,21 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorCont ? 'green' : 'red'}">assignment</mat-icon>
               </mat-expansion-panel-header>
-            <!-- <div class="row">
-              <div class="col-md-12 guia" *ngFor="let ide of guiaCont" [value]="ide.ls_codvalue">
-                <p> {{ide.val}}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" value="state" >
-                  <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio" >
-                    {{idet.description}}</mat-radio-button>
-                </mat-radio-group>
-              </div>
-             </div> -->
+        
              <div class="row" formArrayName="cont">
               <div *ngFor="let guia of formGuia.get('cont').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event,guia.controls.form_id.value)">
+                <mat-radio-group aria-label="Select an option" formControlName="state">
                   <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio">
                     {{ idet.description }}
                   </mat-radio-button>
                 </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Observaciones</mat-label>
+                    <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
               <mat-action-row>
@@ -312,23 +264,21 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorSig ? 'green' : 'red'}">assignment</mat-icon>
               </mat-expansion-panel-header>
-            <!-- <div class="row">
-              <div class="col-md-12 guia" *ngFor="let ide of guiaSig" [value]="ide.ls_codvalue">
-                <p> {{ide.val}}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" value="state" >
-                  <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio" >
-                    {{idet.description}}</mat-radio-button>
-                </mat-radio-group>
-              </div>
-             </div> -->
+          
              <div class="row" formArrayName="sig">
               <div *ngFor="let guia of formGuia.get('sig').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
-                <mat-radio-group aria-label="Select an option" formControlName="state" (ngModelChange)="openDialog(guia.controls.id_guide.value, $event,guia.controls.form_id.value)">
+                <mat-radio-group aria-label="Select an option" formControlName="state">
                   <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio">
                     {{ idet.description }}
                   </mat-radio-button>
                 </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label> Observaciones</mat-label>
+                    <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
               <mat-action-row *ngIf="view == 'update'">
@@ -336,7 +286,6 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel> 
-    <!-- </div> -->
 
           </form>
 
@@ -351,9 +300,7 @@
         </div>
       </div>
     </div>
-
   </div>
-  
   </div>
 
 <!-- <p>view</p> -->
@@ -406,7 +353,7 @@
               </div>
               <div class="col-md-4">
                 <dt>Estado</dt>
-                <dd>{{selection.state}}</dd>
+                <dd>{{selection.Estado}}</dd>
               </div>
             </div>
             <mat-action-row>
@@ -427,10 +374,18 @@
               <div class="col-md-4" *ngFor="let elem of viewElem">
                 <dt>{{elem.val}}</dt>
                 <dd>{{elem.sta}}</dd><br>
+                <dt>Observaciones</dt>
+                <dd>{{elem.obs_guia}}</dd><br>
                 <dt>Fecha de verificación</dt>
-                <dd>{{elem.updated_at}}</dd>
+                <dd>{{elem.updated_at}}</dd><br>
+                <hr>
               </div>
             </div>
+            <!-- <div class="row">
+              <div class="col-md-12">
+              
+              </div>
+            </div> -->
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -450,8 +405,11 @@
               <div class="col-md-4" *ngFor="let tecno of viewTecno">
                 <dt>{{tecno.val}}</dt>
                 <dd>{{tecno.sta}}</dd><br>
+                <dt>Observaciones</dt>
+                <dd>{{tecno.obs_guia}}</dd><br>
                 <dt>Fecha de verificación</dt>
                 <dd>{{tecno.updated_at}}</dd>
+                <hr>
               </div>
             </div>
             <mat-action-row>
@@ -473,8 +431,11 @@
               <div class="col-md-4" *ngFor="let th of viewTh">
                 <dt>{{th.val}}</dt>
                 <dd>{{th.sta}}</dd><br>
+                <dt>Observaciones</dt>
+                <dd>{{th.obs_guia}}</dd><br>
                 <dt>Fecha de verificación</dt>
                 <dd>{{th.updated_at}}</dd>
+                <hr>
               </div>
             </div>
             <hr>
@@ -482,8 +443,11 @@
               <div class="col-md-4" *ngFor="let nomi of viewNom">
                 <dt>{{nomi.val}}</dt>
                 <dd>{{nomi.sta}}</dd><br>
+                <dt>Observaciones</dt>
+                <dd>{{nomi.obs_guia}}</dd><br>
                 <dt>Fecha de verificación</dt>
                 <dd>{{nomi.updated_at}}</dd>
+                <hr>
               </div>
             </div>
             <mat-action-row>
@@ -506,8 +470,11 @@
               <div class="col-md-4" *ngFor="let cont of viewCont">
                 <dt>{{cont.val}}</dt>
                 <dd>{{cont.sta}}</dd><br>
+                <dt>Observaciones</dt>
+                <dd>{{cont.obs_guia}}</dd><br>
                 <dt>Fecha de verificación</dt>
                 <dd>{{cont.updated_at}}</dd>
+                <hr>
               </div>
             </div>
             <mat-action-row>
@@ -530,8 +497,11 @@
               <div class="col-md-4" *ngFor="let sig of viewSig">
                 <dt>{{sig.val}}</dt>
                 <dd>{{sig.sta}}</dd><br>
+                <dt>Observaciones</dt>
+                <dd>{{sig.obs_guia}}</dd><br>
                 <dt>Fecha de verificación</dt>
                 <dd>{{sig.updated_at}}</dd>
+                <hr>
               </div>
             </div>
             <mat-action-row>
@@ -551,17 +521,14 @@
                   <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
                   <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
                 </ng-container>
-
                 <ng-container matColumnDef="type_move">
                   <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
                   <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
                 </ng-container>
-
                 <ng-container matColumnDef="date_move">
                   <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
                   <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
                 </ng-container>
-
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>

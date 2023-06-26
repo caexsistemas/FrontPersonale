@@ -112,21 +112,12 @@ export class FormalitiesDialog  {
   rolCont: boolean = false
   rolSig: boolean = false;
   processAct: any [];
-  // managemenProcess: any = []
-  // responsibleProcess:any = [];
-  // sigProcess:any = [];
-  // logProcess:any = [];
-  // contactProcess:any = [];
-  // comProcess:any = [];
-  // comunProcess:any = [];
-  // adminProcess:any = [];
-  // talentProcess:any = [];
-  // tecnoProcess:any = [];
-  // fecPro:any = [];
-  // fecEje:any =[];
-  // typeNo:any = []
-  // typeejc:any = []
-  // typimp:any = []
+  lisTecno: any = [];
+  lisTh: any = [];
+  listNom: any = [];
+  listTeso: any = [];
+  listSig: any = [];
+  
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -150,23 +141,14 @@ export class FormalitiesDialog  {
     switch (this.view) {
       case "create":
         this.initForms();
-        this.title = "Crear Paz y salvo";
-        console.log(this.data);
-        console.log(this.cuser);
-        
-        
+        this.title = "Crear Paz y salvo";        
       break;
       case "update":
-        // console.log('===>',this.cuser);
         this.rol = this.cuser.role;
-        // if(this.rol == 1 || this.rol == 4 || this.rol == 20){
-        //   this.check = true;
-        // }else if(this.rol == 7){
-        //         this.checkTh = true;
-        // }
+       
         this.idSig = this.data.codigo;       
         this.initForms();
-        this.title = "Actualizar Reporte de no conformidades";
+        this.title = "Actualizar Reporte Paz y salvo";
       break;
       case "view":
         this.idSig = this.data.codigo;
@@ -181,13 +163,30 @@ export class FormalitiesDialog  {
               this.selection = data.data["getSelectData"][0];
               this.verification = data.data["getSelecUpdat"];
               this.viewTecno = this.verification.filter(guia => guia.list_id === 102);
-              this.viewTh = this.verification.filter(guia => guia.list_id === 103);
-              this.viewNom = this.verification.filter(guia => guia.list_id === 104);
-              this.viewCont = this.verification.filter(guia => guia.list_id === 105);
-              this.viewSig = this.verification.filter(guia => guia.list_id === 106);
-              this.viewElem = this.verification.filter(guia => guia.list_id === 107);
-              console.log(this.viewTecno);
+                this.viewTecno.forEach(element => {
+                  (element.sta == null) ? element.updated_at = '': element.updated_at;
+                });
               
+              this.viewTh = this.verification.filter(guia => guia.list_id === 103);
+                this.viewTh.forEach(element => {
+                  (element.sta == null) ? element.updated_at = '': element.updated_at;
+                });
+              this.viewNom = this.verification.filter(guia => guia.list_id === 104);
+                this.viewNom.forEach(element => {
+                  (element.sta == null) ? element.updated_at = '': element.updated_at;
+                });
+              this.viewCont = this.verification.filter(guia => guia.list_id === 105);
+                this.viewCont.forEach(element => {
+                  (element.sta == null) ? element.updated_at = '': element.updated_at;
+                });
+              this.viewSig = this.verification.filter(guia => guia.list_id === 106);
+                this.viewSig.forEach(element => {
+                  (element.sta == null) ? element.updated_at = '': element.updated_at;
+                });
+              this.viewElem = this.verification.filter(guia => guia.list_id === 107);
+                this.viewElem.forEach(element => {
+                  (element.sta == null) ? element.updated_at = '': element.updated_at;
+                });
 
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -216,13 +215,7 @@ export class FormalitiesDialog  {
       immediateBoss: new FormControl("",[Validators.required]),
       create_User: new FormControl(this.cuser.iduser),
     });
-    // this.formGuia = new FormGroup({
-    //   list_id:new FormControl(""),
-    //   state:new FormControl(""),
-    //   rol_id:new FormControl(""),
-    //   form_id:new FormControl(""),
-    //   ls_codvalue:new FormControl("")
-    // })
+    
     this.formGuia = this.fb.group({
       guias: this.fb.array([]) , // FormArray para almacenar los registros de guía
       tecno:this.fb.array([]),
@@ -232,40 +225,13 @@ export class FormalitiesDialog  {
       sig: this.fb.array([]),
       elemt: this.fb.array([])
     });
-    // this.formGuiaTecno = this.tc.group({
-    //   tecno: this.tc.array([])
-    // });
-    // this.formGuiaTh = this.fb.group({
-    //   th: this.fb.array([])
-    // });
-    // this.formGuiaNo = this.fb.group({
-    //   nom: this.fb.array([])
-    // });
-    // this.formGuiaCon = this.fb.group({
-    //   cont: this.fb.array([])
-    // });
-    // this.formGuiaSig = this.fb.group({
-    //   sig: this.fb.array([])
-    // });
-  
-    // this.guiaTecno.forEach(registro => {
-    //   // Crear un nuevo FormGroup para cada registro utilizando el list_id como clave
-    //   const registroFormGroup = new FormGroup({
-    //     state: new FormControl(registro.state),
-    //     rol_id: new FormControl(registro.rol_id),
-    //     form_id: new FormControl(registro.form_id)
-    //   });
     
-    //   // Agregar el FormGroup del registro al FormGroup principal utilizando el list_id como clave
-    //   this.formGroupRegistros.addControl(registro.list_id.toString(), registroFormGroup);
-    // });
     
   }
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      // idSel: this.data.codigo,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
@@ -273,17 +239,9 @@ export class FormalitiesDialog  {
       (data) => {
         if (data.success == true) {
           //DataInfo
-        
           this.PersonaleInfo = data.data['getDataPersonale']; 
-          // console.log('personal =>', this.PersonaleInfo);
           this.area = data.data["getArea"];
           this.idPosition = data.data["getPosition"];
-
-          
-        
-          // this.typeRequisition = data.data["getRequisition"];sigProcess
-          // this.typeMatriz      = data.data["getMatriz"].slice(0, 3);getFactorstateConf
-          // this.state         = data.data['getCancel'].slice(5);
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -302,12 +260,10 @@ export class FormalitiesDialog  {
   }
   onSubmi() {
     if (this.formSelec.valid) {
-      // this.loading.emit(true);
+      this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
-       
       };
-      
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
@@ -335,20 +291,17 @@ export class FormalitiesDialog  {
   }
   onSelectionChange(event){
         
-       
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
     if( exitsPersonal ){
         this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
         this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
         this.formSelec.get('pro_res').setValue(exitsPersonal.idArea);
         this.formSelec.get('idPosition').setValue(exitsPersonal.idPosition);     
-       
     }        
 }
 
 onSelectionJFChange(event){
     
-   
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
     if( exitsPersonal ){
         this.formSelec.get('directboss_nc').setValue(exitsPersonal.idPersonale);
@@ -363,7 +316,6 @@ onSelectionJFChange(event){
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-      // tipRole:this.tipRole
     }).subscribe(
       (data) => {
 
@@ -373,67 +325,45 @@ onSelectionJFChange(event){
         this.formSelec.get('idPosition').setValue(data.data['getPersonGuia'][0].idPosition);
         this.formSelec.get('pro_res').setValue(data.data['getPersonGuia'][0].pro_res);
         this.formSelec.get('immediateBoss').setValue(data.data['getPersonGuia'][0].immediateBoss);
-
         this.processAct = data.data['getPersonGuia'][0].area;
-        // data.data["getSelecUpdat"].forEach(element => {
-              console.log('====>', this.processAct );
-              
-        //     this.formGuia.get("list_id").setValue(element.list_id);
-        //     this.formGuia.get("state").setValue(element.state);
-        //     this.formGuia.get("rol_id").setValue(element.rol_id);
-        //     this.formGuia.get("ls_codvalue").setValue(element.ls_codvalue);
-        // this.formGuia.get('list_id').setValue(data.data['getSelecUpdat'][0].list_id);
-        //     });
-           
+      //-------------------listas-------------------
+        this.lisTecno = data.data['listTecno'];
+        this.lisTh = data.data['listTH'];
+        this.listNom = data.data['listNom'];
+        this.listTeso = data.data['listTes'];
+        this.listSig = data.data['listSig'];
         // prueba-----------------------------------------
         const list = data.data["getSelecUpdat"];
 
         const guiasArray = this.formGuia.get('guias') as FormArray;
         guiasArray.clear();
-        // const guiasArray = this.formGuia.get('guias') as FormArray;
 
-      list.forEach(element => {
-        // Crear un FormGroup para cada registro de guía
-        // console.log(element);
-        
-        const guiaGroup = this.fb.group({
-          id_guide: new FormControl(element.id_guide),
-          list_id: new FormControl(element.list_id),
-          state: new FormControl(element.state),
-          rol_id: new FormControl(element.rol_id),
-          ls_codvalue: new FormControl(element.val)
+        list.forEach(element => {
+          // Crear un FormGroup para cada registro de guía
+          const guiaGroup = this.fb.group({
+            id_guide: new FormControl(element.id_guide),
+            list_id: new FormControl(element.list_id),
+            state: new FormControl(element.state),
+            rol_id: new FormControl(element.rol_id),
+            ls_codvalue: new FormControl(element.val)
+          });
+
+          guiasArray.push(guiaGroup); // Agregar el FormGroup al FormArray
         });
-
-        guiasArray.push(guiaGroup); // Agregar el FormGroup al FormArray
-      });
-
-
 // ----------------------------------tecno---------------------------
-        // console.log('update => ',data.data["getSelecUpdat"]);
         this.rol
-        // const rol_id = "[41,1]";
-        // const numbers = rol_id.slice(1, -1).split(",").map(Number);
-
-        // console.log(numbers); // [41, 1]
-
         this.guiaTecno = list.filter(guia => guia.list_id === 102);
-        // const numbers = this.guiaTecno.rol_id.slice(1, -1).split(",").map(Number);
-        // console.log(numbers);
         
-        // console.log(this.guiaTecno);
-        const nuevoArreglo = this.guiaTecno.map(obj => {
-          const numbers = obj.rol_id.slice(1, -1).split(",").map(Number);
-          // console.log( this.rol);
-          // console.log( numbers);
-          let exitsRol = numbers.find(element => element == this.rol);
-          if(exitsRol){
+        const nuevoArreglo = this.lisTecno.map(obj => {
+          const numbers = obj.complemento.slice(1, -1).split(",").map(Number);
+          let exitsRolTecno = numbers.find(element => element == this.rol);
+          
+          if(exitsRolTecno){
             this.rolTecno = true;
-          }
-          return { ...obj, rol_id: numbers };
-        });
+            }
+          // return { ...obj, rol_id: numbers };
+          });
         
-        // console.log(nuevoArreglo);
-
         for (const item of this.guiaTecno) {
           if (item.state !== '39/1') {
             this.colorTecno = false;
@@ -451,29 +381,25 @@ onSelectionJFChange(event){
               state: new FormControl(element.state),
               rol_id: new FormControl(element.rol_id),
               ls_codvalue: new FormControl(element.val),
-              form_id: new FormControl(element.form_id)
-
+              form_id: new FormControl(element.form_id),
+              obs_guia: new FormControl(element.obs_guia)
             });
             tecnoArray.push(tecnoGuia);
-            // console.log(tecnoArray);
-            
         });
         //-----------------------------------------------------------------
 
         // ----------------------------------th---------------------------
        
         this.guiaTaHm = list.filter(guia => guia.list_id === 103);
-        const nuevoArregloTH = this.guiaTecno.map(obj => {
-          const numbersTH = obj.rol_id.slice(1, -1).split(",").map(Number);
-        
-          let exitsRol = numbersTH.find(element => element == this.rol);
-          if(exitsRol){
+          const nuevoArregloTH = this.lisTh.map(obj => {
+          const numbersTH = obj.complemento.slice(1, -1).split(",").map(Number);
+          let exitsRolTH = numbersTH.find(element => element == this.rol);
+
+          if(exitsRolTH){
             this.rolTH = true;
           }
           return { ...obj, rol_id: numbersTH };
         });
-
-
         // style color
         for (const itemTh of this.guiaTaHm) {
           if (itemTh.state !== '39/1') {
@@ -492,8 +418,8 @@ onSelectionJFChange(event){
               state: new FormControl(element.state),
               rol_id: new FormControl(element.rol_id),
               ls_codvalue: new FormControl(element.val),
-              form_id: new FormControl(element.form_id)
-
+              form_id: new FormControl(element.form_id),
+              obs_guia: new FormControl(element.obs_guia)
             });
             thArray.push(thGuia);
         });
@@ -501,47 +427,48 @@ onSelectionJFChange(event){
 
          // ----------------------------------Nomina---------------------------
          this.guiaNom = list.filter(guia => guia.list_id === 104);
-         const nuevoArregloNom = this.guiaTecno.map(obj => {
-          const numberNom = obj.rol_id.slice(1, -1).split(",").map(Number);
-        
-          let exitsRol = numberNom.find(element => element == this.rol);
-          if(exitsRol){
+          const nuevoArregloNom = this.listNom.map(obj => {
+          const numberNom = obj.complemento.slice(1, -1).split(",").map(Number);
+          let exitsRolNom = numberNom.find(element => element == this.rol);
+
+          if(exitsRolNom){
             this.rolNom = true;
           }
           return { ...obj, rol_id: numberNom };
-        });
-
-          for (const itemNom of this.guiaNom) {
-            if (itemNom.state !== '39/1') {
-              this.colorNom = false;
-              break;
-            }else{
-              this.colorNom = true;
-            }
-          }
-         const nomArray = this.formGuia.get('nom') as FormArray;
- 
-         this.guiaNom.forEach(element =>{
-             const nomGuia = this.tc.group({
-               id_guide: new FormControl(element.id_guide),
-               list_id: new FormControl(element.list_id),
-               state: new FormControl(element.state),
-               rol_id: new FormControl(element.rol_id),
-               ls_codvalue: new FormControl(element.val),
-               form_id: new FormControl(element.form_id)
-
-             });
-             nomArray.push(nomGuia);
          });
+            for (const itemNom of this.guiaNom) {
+              if (itemNom.state !== '39/1') {
+                this.colorNom = false;
+                break;
+              }else{
+                this.colorNom = true;
+              }
+            }
+          const nomArray = this.formGuia.get('nom') as FormArray;
+  
+          this.guiaNom.forEach(element =>{
+              const nomGuia = this.tc.group({
+                id_guide: new FormControl(element.id_guide),
+                list_id: new FormControl(element.list_id),
+                state: new FormControl(element.state),
+                rol_id: new FormControl(element.rol_id),
+                ls_codvalue: new FormControl(element.val),
+                form_id: new FormControl(element.form_id),
+                obs_guia: new FormControl(element.obs_guia)
+
+
+              });
+              nomArray.push(nomGuia);
+          });
          //-----------------------------------------------------------------
          
-          // ----------------------------------Nomina---------------------------
+          // ----------------------------------Contabilidad---------------------------
           this.guiaCont = list.filter(guia => guia.list_id === 105);
-          const nuevoArregloCont = this.guiaTecno.map(obj => {
-            const numberCont = obj.rol_id.slice(1, -1).split(",").map(Number);
-          
-            let exitsRol = numberCont.find(element => element == this.rol);
-            if(exitsRol){
+            const nuevoArregloCont = this.listTeso.map(obj => {
+            const numberCont = obj.complemento.slice(1, -1).split(",").map(Number);
+            let exitsRolCont = numberCont.find(element => element == this.rol);
+
+            if(exitsRolCont){
               this.rolCont = true;
             }
             return { ...obj, rol_id: numberCont };
@@ -564,8 +491,8 @@ onSelectionJFChange(event){
                 state: new FormControl(element.state),
                 rol_id: new FormControl(element.rol_id),
                 ls_codvalue: new FormControl(element.val),
-                form_id: new FormControl(element.form_id)
-
+                form_id: new FormControl(element.form_id),
+                obs_guia: new FormControl(element.obs_guia)
               });
               contArray.push(contGuia);
           });
@@ -573,16 +500,15 @@ onSelectionJFChange(event){
           
            // ----------------------------------SIG---------------------------
            this.guiaSig = list.filter(guia => guia.list_id === 106);
-           const nuevoArregloSig = this.guiaTecno.map(obj => {
-            const numberSig = obj.rol_id.slice(1, -1).split(",").map(Number);
-          
-            let exitsRol = numberSig.find(element => element == this.rol);
-            if(exitsRol){
+            const nuevoArregloSig = this.listSig.map(obj => {
+            const numberSig = obj.complemento.slice(1, -1).split(",").map(Number);
+            let exitsRolSig = numberSig.find(element => element == this.rol);
+
+            if(exitsRolSig){
               this.rolSig = true;
             }
             return { ...obj, rol_id: numberSig };
           });
-
             for(const itemSig of this.guiaSig){
                 if(itemSig.state !== '39/1'){
                     this.colorSig = false;
@@ -599,8 +525,8 @@ onSelectionJFChange(event){
                  state: new FormControl(element.state),
                  rol_id: new FormControl(element.rol_id),
                  ls_codvalue: new FormControl(element.val),
-                 form_id: new FormControl(element.form_id)
-
+                 form_id: new FormControl(element.form_id),
+                 obs_guia: new FormControl(element.obs_guia)
                });
                sigArray.push(sigGuia);
            });
@@ -609,17 +535,6 @@ onSelectionJFChange(event){
             // -----------------------------ENTREGA ELEMENTOS---------------------------
 
             this.guiaElemt = list.filter(guia => guia.list_id === 107);
-            console.log('***',this.guiaElemt);
-            
-            const nuevoArregloElem = this.guiaTecno.map(obj => {
-             const numberElem = obj.rol_id.slice(1, -1).split(",").map(Number);
-           
-             let exitsRol = numberElem.find(element => element == this.rol);
-             if(exitsRol){
-               this.rolSig = true;
-             }
-             return { ...obj, rol_id: numberElem };
-           });
  
              for(const itemElem of this.guiaElemt){
                  if(itemElem.state !== '39/1'){
@@ -637,40 +552,13 @@ onSelectionJFChange(event){
                   state: new FormControl(element.state),
                   rol_id: new FormControl(element.rol_id),
                   ls_codvalue: new FormControl(element.val),
-                  form_id: new FormControl(element.form_id)
+                  form_id: new FormControl(element.form_id),
+                  obs_guia: new FormControl(element.obs_guia)
                 });
                 elemArray.push(elemGuia);
             });
             //-----------------------------------------------------------------
-    
- 
-
-        // console.log('tecno => ',this.guiaTecno);
-        // this.guiaTecno.forEach(element => {
-        //   console.log(element.ls_codvalue);
-        //   if(element.ls_codvalue ==='102/1' || element.ls_codvalue === '102/2' || element.ls_codvalue === '102/3' ){
-        //     // this.formGuia.get("state").setValue(data.data["getSelecUpdat"][0].state);
-            // this.formGuia.get("list_id").setValue(data.data["getSelecUpdat"][0].list_id);
-            // this.formGuia.get("state").setValue(data.data["getSelecUpdat"][0].state);
-            // this.formGuia.get("rol_id").setValue(data.data["getSelecUpdat"][0].rol_id);
-            // this.formGuia.get("ls_codvalue").setValue(data.data["getSelecUpdat"][0].ls_codvalue);
-        //   }
-
-          
-        // });
-        // this.guiaTaHm = list.filter(guia => guia.list_id === 103);
-        // console.log('th =>', this.guiaTaHm);
-        
-        // this.guiaNom = list.filter(guia => guia.list_id === 104);
-        // this.guiaCont = list.filter(guia => guia.list_id === 105);
-        // this.guiaSig = list.filter(guia => guia.list_id === 106);
         this.afirm = data.data["afirmative"];
-        
-        // this.formGuia.get("list_id").setValue(data.data["getSelecUpdat"][0].list_id);
-        // this.formGuia.get("state").setValue(data.data["getSelecUpdat"][0].state);
-        // this.formGuia.get("rol_id").setValue(data.data["getSelecUpdat"][0].rol_id);
-        // this.formGuia.get("ls_codvalue").setValue(data.data["getDataUpda"][0].ls_codvalue);
-        
       },
       (error) => {
         this.handler.showError();
@@ -678,21 +566,30 @@ onSelectionJFChange(event){
       }
     );
   }
-  formGuias: { id_guide: number, state: string, form_id:string }[] = [];
-  openDialog(id_guide: number, state: string, form_id:string){
-    console.log(id_guide,'=>', state, '**', form_id);
-     this.formGuias.push({id_guide: id_guide,state: state, form_id:form_id })
-    
-
-  }
+ 
   onSubmitUpdate(){
-
+    // this.formGuias.push(this.observa)
+    // this.formGuias.forEach(element => {
+    //   element.obs_guia = this.observa
+      
+    // });
+    // console.log(this.formGuias.values['obs_guia'] = this.observa);
+    
     let body = {
-      listas: this.formGuias
+      tecno: this.formGuia.get('tecno').value,
+      th:   this.formGuia.get('th').value,
+      nom:  this.formGuia.get('nom').value,
+      cont: this.formGuia.get('cont').value,
+      sig:  this.formGuia.get('sig').value,
+      elemt: this.formGuia.get('elemt').value,
+      listas: [this.formSelec.value]
       
     }
+    console.log(body);
+    
     
     if (this.formGuia.valid) {
+
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint+'/'+this.idSig,body,{
         token: this.cuser.token,
@@ -722,9 +619,6 @@ onSelectionJFChange(event){
     }
   }
 
-  
-
-
   generateTable(data) {
     this.displayedColumns = ["currentm_user", "date_move", "type_move"];
     this.historyMon = data;
@@ -750,75 +644,7 @@ onSelectionJFChange(event){
   // onSelectMat(e){
   //   this.mat = e
 
-  // }
   
-  // onSelectionAttributes(event){
-  //  // gerencia 14/17
-  //  //sig 14/5
-   
-  //  if(event == '14/17'){
-  //       this.responsibleProcess =  this.managemenProcess;
-  //     }else if(event == '14/5'){
-  //       this.responsibleProcess = this.sigProcess;
-  //       }else if(event == '14/22'){
-  //         this.responsibleProcess = this.logProcess;
-  //         }else if (event == '14/23'){
-  //           this.responsibleProcess = this.comProcess;
-  //          }else if(event == '14/24'){
-  //           this.responsibleProcess = this.comunProcess;
-  //           }else if(event == '14/25'){
-  //             this.responsibleProcess = this.adminProcess;
-  //            }else if (event == '14/4'){
-  //             this.responsibleProcess = this.tecnoProcess;
-  //             }else if ( event == '14/6'){
-  //               this.responsibleProcess = this.talentProcess;
-  //               }else if(event == '14/1'){
-  //                 this.responsibleProcess = this.contactProcess;
-                
-  //             }else{
-  //               this.responsibleProcess = null;
-  //             }
-    
-  
-  // }
-  // onSelectionImplement(event){
-  //   this.fecPro = event
-  //   this.onSelectionClosing(this.fecPro,this.fecEje);
-    
-
-  // }
-  // onSelectionEjecc(event){
-  //   this.fecEje = event;
-  //  this.onSelectionClosing(this.fecPro,this.fecEje);
-
-  // }
-  
-  // onSelectionClosing(imp,ejec){
-  //   this.typeejc = new Date(ejec)
-  //   this.typimp = new Date(imp)
-   
-
-  //   if(this.typeejc <=  this.typimp){
-  //         this.typeNo = 'Oportuno';
-  //         this.formSelec.get('opo_cier').setValue( this.typeNo);
-          
-  //   }else if ( this.typeejc > this.typimp){
-  //         this.typeNo = 'Inoportuno';
-  //         this.formSelec.get('opo_cier').setValue( this.typeNo);
-
-  //   }else{
-  //     this.cierr = null;
-  //   }
-    
-
-  // }
-  // onSelectionPerson(event){
-  //   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  
-  //   if( exitsPersonal ){
-  //       this.formTraining.get('idPersonale').setValue(exitsPersonal.idPersonale);       
-  //   }        
-  // }
   getDocuInvalid(){
       //  return this.formSelec.get('car_sol').invalid && this.formSelec.get('car_sol').touched;
   }

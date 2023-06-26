@@ -70,11 +70,7 @@ export class FormalitiesComponent implements OnInit {
                 this.permissions = this.handler.getPermissions(this.component);
                 this.generateTable(data.data['getSelectData']);
                 this.contenTable = data.data['getSelectData'];
-                this.verficationAll = data.data['getSelecUpdat'];
-                let exist = this.contenTable.find(element => element.form_id == this.verficationAll.form_id);
-                // console.log('table => ', this.contenTable);
-                // console.log('guide => ', this.verficationAll);
-                // console.log(exist);
+               
                 
                 
                 this.loading = false;
@@ -198,7 +194,6 @@ export class FormalitiesComponent implements OnInit {
   }
 
   pdf(id) {
-    console.log(id);
     //this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "pdf",
