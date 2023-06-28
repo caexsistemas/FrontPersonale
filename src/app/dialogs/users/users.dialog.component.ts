@@ -325,7 +325,7 @@ export class UsersDialog {
     exitsPersonal: any = []
     onSelectionPerson(event){
         this.exitsPersonal = this.person.find(element => element.document == event);
-        console.log(this.exitsPersonal);
+        // console.log(this.exitsPersonal);
         
          // separar nombre
         //  this.person = data.data['personale']; //supongamos que this.person es el arreglo de objetos que mencionaste
@@ -357,13 +357,13 @@ export class UsersDialog {
 
             const fullName = this.exitsPersonal.name.trim(); //quitar espacios en blanco adicionales
             const nameArray = fullName.split(' '); //dividir la cadena en un arreglo utilizando un espacio como separador
-            console.log(nameArray);
-            console.log(nameArray.length);
+            // console.log(nameArray);
+            // console.log(nameArray.length);
             
             const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
             const lastName = nameArray.slice(1).join(' '); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
-            console.log(firstName); //imprimirá "John"
-            console.log(lastName); //imprimirá "Doe"
+            // console.log(firstName); //imprimirá "John"
+            // console.log(lastName); //imprimirá "Doe"
             this.formUsuario.get('idPersonale').setValue(this.exitsPersonal.idPersonale);       
         }        
         // console.log('=>',this.exitsPersonal)

@@ -131,6 +131,7 @@ import { RetributionDialog } from './dialogs/retribution/retribution.dialog.comp
 import { ContactDialog } from './dialogs/contact/contact.dialog.component';
 import { CustomerDialog } from './dialogs/customer/customer.dialog.component';
 import { ReportsCustomerComponent } from './dialogs/reports/customer/reports-customer.component';
+import { FormalitiesDialog } from './dialogs/formalities/formalities.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -256,7 +257,8 @@ const routes: Routes = [];
     RetributionDialog,
     ContactDialog,
     CustomerDialog,
-    ReportsCustomerComponent
+    ReportsCustomerComponent,
+    FormalitiesDialog
   ],
   providers: [{
     

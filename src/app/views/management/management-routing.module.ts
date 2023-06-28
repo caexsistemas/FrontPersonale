@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ManagementComponent } from './management.component';
 import { CertificatesComponent } from './certificates/certificates.component';
+import { FormalitiesComponent } from './formalities/formalities.component';
 
 
 
@@ -30,6 +31,13 @@ const routes: Routes = [
                     title: 'Gestion de Certificados'
                 }
             },
+            {
+                path: 'formalities',
+                component: FormalitiesComponent,
+                data: {
+                    title: 'Paz y Salvos'
+                }
+            }
         ]
     }
 ];
