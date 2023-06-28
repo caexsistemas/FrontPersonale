@@ -349,11 +349,11 @@ email() {
     switch (action) {
       case "create":
         // this.laterFec = new Date().toISOString().split("T")[0];
-        if(this.days < 1 || this.totAll < 15){
-         this.handler.showError("No tienes días disponibles");
-         this.loading = false;
-        break;
-        }
+        // if(this.days < 1 || this.totAll < 15){
+        //  this.handler.showError("No tienes días disponibles");
+        //  this.loading = false;
+        // break;
+        // }
           // if(this.line == '79/1'){
           //   this.handler.showError("Tienes una solicitud pendiente");
           //   this.loading = false;
