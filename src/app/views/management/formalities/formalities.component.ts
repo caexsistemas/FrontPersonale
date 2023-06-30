@@ -60,6 +60,7 @@ export class FormalitiesComponent implements OnInit {
       action: 'getFormalitiesData',
       idUser: this.cuser.iduser,
       role: this.cuser.role,
+      idPersonale:this.cuser.idPersonale,
       token: this.cuser.token,
       modulo: this.component
     })
