@@ -73,13 +73,27 @@
                       </mat-select>
                   </mat-form-field>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="view == 'create'">
                 <mat-form-field class="example-full-width">
                     <mat-label>Fecha Retiro:</mat-label>
-                    <input matInput formControlName="fec_ret" type="date" [readonly]="view == 'update'">
+                    <input matInput formControlName="fec_ret" type="date" [value]="fec_ret" [readonly]="fec_block">
+                </mat-form-field>
+            </div>
+              <div class="col-md-4" *ngIf="view == 'update'">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Fecha Retiro:</mat-label>
+                    <input matInput formControlName="fec_ret" type="date" [value]="fec_ret" [readonly]="view == 'update'">
                 </mat-form-field>
             </div>
            
+          </div>
+          <div class="row" *ngIf="status">
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                  <mat-label>Motivo Retiro: </mat-label>
+                  <input matInput formControlName="reason">
+              </mat-form-field>
+          </div>
           </div>
               <mat-action-row *ngIf="view == 'update'">
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -105,7 +119,7 @@
                 <mat-icon [ngStyle]="{'color': colorElem ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
              <!-- info -->
-            <div class="row" formArrayName="elemt">
+            <!-- <div class="row" formArrayName="elemt">
               <div *ngFor="let guia of formGuia.get('elemt').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -120,7 +134,31 @@
                   </mat-form-field>
                 </div>
               </div>
+            </div> -->
+            <div class="row" formArrayName="elemt">
+              <div *ngFor="let guia of formGuia.get('elemt').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
+                <p>{{ guia.controls.ls_codvalue.value }}</p>
+                <mat-radio-group aria-label="Select an option" formControlName="state">
+                  <ng-container *ngFor="let idet of afirm">
+                    <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                      *ngIf="i !== formGuia.get('elemt').controls.length - 1 && idet.ls_codvalue !== '39/3'">
+                      {{ idet.description }}
+                    </mat-radio-button>
+                    <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                      *ngIf="i === formGuia.get('elemt').controls.length - 1">
+                      {{ idet.description }}
+                    </mat-radio-button>
+                  </ng-container>
+                </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
+
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -137,7 +175,7 @@
                 <mat-icon [ngStyle]="{'color': colorTecno ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
             
-            <div class="row" formArrayName="tecno">
+            <!-- <div class="row" formArrayName="tecno">
               <div *ngFor="let guia of formGuia.get('tecno').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -152,8 +190,32 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>
-            
+            </div> -->
+            <!-- Formulario Tecno -->
+          <!-- Formulario Tecno -->
+              <div class="row" formArrayName="tecno">
+                <div *ngFor="let guia of formGuia.get('tecno').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
+                  <p>{{ guia.controls.ls_codvalue.value }}</p>
+                  <mat-radio-group aria-label="Select an option" formControlName="state">
+                    <ng-container *ngFor="let idet of afirm">
+                      <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                        *ngIf="i !== formGuia.get('tecno').controls.length - 1 && idet.ls_codvalue !== '39/3'">
+                        {{ idet.description }}
+                      </mat-radio-button>
+                      <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                        *ngIf="i === formGuia.get('tecno').controls.length - 1">
+                        {{ idet.description }}
+                      </mat-radio-button>
+                    </ng-container>
+                  </mat-radio-group>
+                  <div class="col-md-12">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Observaciones</mat-label>
+                      <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -169,7 +231,7 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorTH ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
-            <div class="row" formArrayName="th">
+            <!-- <div class="row" formArrayName="th">
                   <div *ngFor="let guia of formGuia.get('th').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
                     <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -181,6 +243,30 @@
                       <mat-form-field class="example-full-width">
                         <mat-label> Observaciones</mat-label>
                         <textarea maxlength="65"matInput formControlName="obs_guia" ></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="row" formArrayName="th">
+                  <div *ngFor="let guia of formGuia.get('th').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
+                    <p>{{ guia.controls.ls_codvalue.value }}</p>
+                    <mat-radio-group aria-label="Select an option" formControlName="state">
+                      <ng-container *ngFor="let idet of afirm">
+                        <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                          *ngIf="i !== formGuia.get('th').controls.length - 1 && idet.ls_codvalue !== '39/3'">
+                          {{ idet.description }}
+                        </mat-radio-button>
+                        <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                          *ngIf="i === formGuia.get('th').controls.length - 1">
+                          {{ idet.description }}
+                        </mat-radio-button>
+                      </ng-container>
+                    </mat-radio-group>
+                    <div class="col-md-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
                       </mat-form-field>
                     </div>
                   </div>
@@ -201,7 +287,7 @@
                 <mat-icon [ngStyle]="{'color': colorNom ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
 
-                <div class="row" formArrayName="nom">
+                <!-- <div class="row" formArrayName="nom">
                   <div *ngFor="let guia of formGuia.get('nom').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
                     <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -213,6 +299,29 @@
                       <mat-form-field class="example-full-width">
                         <mat-label> Observaciones</mat-label>
                         <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="row" formArrayName="nom">
+                  <div *ngFor="let guia of formGuia.get('nom').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
+                    <p>{{ guia.controls.ls_codvalue.value }}</p>
+                    <mat-radio-group aria-label="Select an option" formControlName="state">
+                      <ng-container *ngFor="let idet of afirm">
+                        <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                          *ngIf="i !== formGuia.get('nom').controls.length - 1 && idet.ls_codvalue !== '39/3'">
+                          {{ idet.description }}
+                        </mat-radio-button>
+                        <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                          *ngIf="i === formGuia.get('nom').controls.length - 1">
+                          {{ idet.description }}
+                        </mat-radio-button>
+                      </ng-container>
+                    </mat-radio-group>
+                    <div class="col-md-12">
+                      <mat-form-field class="example-full-width">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
                       </mat-form-field>
                     </div>
                   </div>
@@ -232,7 +341,7 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorCont ? 'green' : 'red'}">assignment</mat-icon>
               </mat-expansion-panel-header>
-        
+<!--         
              <div class="row" formArrayName="cont">
               <div *ngFor="let guia of formGuia.get('cont').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
@@ -245,6 +354,29 @@
                   <mat-form-field class="example-full-width">
                     <mat-label> Observaciones</mat-label>
                     <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div> -->
+            <div class="row" formArrayName="cont">
+              <div *ngFor="let guia of formGuia.get('cont').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
+                <p>{{ guia.controls.ls_codvalue.value }}</p>
+                <mat-radio-group aria-label="Select an option" formControlName="state">
+                  <ng-container *ngFor="let idet of afirm">
+                    <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                      *ngIf="i !== formGuia.get('cont').controls.length - 1 && idet.ls_codvalue !== '39/3'">
+                      {{ idet.description }}
+                    </mat-radio-button>
+                    <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                      *ngIf="i === formGuia.get('cont').controls.length - 1">
+                      {{ idet.description }}
+                    </mat-radio-button>
+                  </ng-container>
+                </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -265,7 +397,7 @@
                 <mat-icon [ngStyle]="{'color': colorSig ? 'green' : 'red'}">assignment</mat-icon>
               </mat-expansion-panel-header>
           
-             <div class="row" formArrayName="sig">
+             <!-- <div class="row" formArrayName="sig">
               <div *ngFor="let guia of formGuia.get('sig').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -277,6 +409,29 @@
                   <mat-form-field class="example-full-width">
                     <mat-label> Observaciones</mat-label>
                     <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div> -->
+            <div class="row" formArrayName="sig">
+              <div *ngFor="let guia of formGuia.get('sig').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
+                <p>{{ guia.controls.ls_codvalue.value }}</p>
+                <mat-radio-group aria-label="Select an option" formControlName="state">
+                  <ng-container *ngFor="let idet of afirm">
+                    <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                      *ngIf="i !== formGuia.get('sig').controls.length - 1 && idet.ls_codvalue !== '39/3'">
+                      {{ idet.description }}
+                    </mat-radio-button>
+                    <mat-radio-button [value]="idet.ls_codvalue" class="custom-radio" style="border-color: blue;"
+                                      *ngIf="i === formGuia.get('sig').controls.length - 1">
+                      {{ idet.description }}
+                    </mat-radio-button>
+                  </ng-container>
+                </mat-radio-group>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea maxlength="65" matInput formControlName="obs_guia"></textarea>
                   </mat-form-field>
                 </div>
               </div>
