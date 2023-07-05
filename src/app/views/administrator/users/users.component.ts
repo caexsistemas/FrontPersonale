@@ -29,6 +29,8 @@ export class UsersComponent implements OnInit {
   contaClick:  number = 0;
   component = "/admin/users";
   permissions: any = null;
+  permiLogout: boolean = false;
+  contSesion: number = 0;
 
   endpoint: string = '/usuario';
   // log: any = [];
@@ -75,6 +77,12 @@ export class UsersComponent implements OnInit {
             //   }else if(this.log == '0' || this.log == null){
             //             this.sta = 'OFF'
             //       }
+
+            //Boton de Sesion
+            if( this.cuser.role == 1 || this.cuser.role == 28 || this.cuser.role == 34){
+              this.permiLogout = true;
+            }
+
             this.loading = false;
           } else {
             this.datauser = [];
@@ -173,6 +181,9 @@ export class UsersComponent implements OnInit {
           this.sendRequest();
         });
         break;
+      case 'logout':
+        this.sysConteSesion();
+        break;
       // case 'active':
       //   this.updateStatus('active');
       // break;
@@ -195,4 +206,41 @@ export class UsersComponent implements OnInit {
     }    
     this.contaClick = this.contaClick + 1;
   }
+
+  sysConteSesion(){
+    if( this.contSesion == 1){
+      this.logoutSesionSys();
+    }else{
+      this.contSesion = 1;
+      this.handler.showError('Para confirmar por favor de Click nuevamente en el botón de Cerrar Sesiones');
+    }
+  }
+
+  logoutSesionSys() {
+
+    this.loading = false;
+    this.WebApiService.getRequest(this.endpoint,{
+        action: "logoutSesionSyst",
+        role: this.cuser.role,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+    })
+    .subscribe(
+        data => {
+            if (data.success) {
+              this.contSesion = 0;
+                this.handler.showSuccess('¡Las Sesiones se cerraron con Éxito!');
+            } else {
+                this.handler.handlerError(data);
+                this.loading = false;
+            }
+        },
+        error => {
+            this.handler.showError();
+            this.loading = false;
+        }
+    );
+  }
+
 }

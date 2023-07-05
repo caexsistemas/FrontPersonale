@@ -9,8 +9,13 @@
   
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">              
                     <div class="btn-group" dropdown>
+                      <button class="btn btn-warning" *ngIf="permiLogout == true" (click)="option('logout')" title="Cerrar Sesiones">
+                          <i class="fa fa-times"></i>
+                      </button>
+                    </div>
+                    <div class="btn-group" dropdown>
                       <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
-                          <i class="fa fa-plus"></i>
+                        <i class="fa fa-plus"></i>
                       </button>
                     </div>
                 </div>
