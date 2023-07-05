@@ -34,6 +34,7 @@ import { DatePipe } from "@angular/common";
 import { WebApiService } from "../../services/web-api.service";
 import { element } from "protractor";
 import { threadId } from "worker_threads";
+import * as moment from "moment";
 interface Food {
   value: string;
   viewValue: string;
@@ -88,6 +89,7 @@ export class FormalitiesDialog  {
   guiaSig:any = [];
   guiaElemt:any = [];
   afirm:any = [];
+  afirm_fin:any = [];
   rol:any = [];
   checkTh: boolean = false;
   checkCont: boolean = false;
@@ -117,6 +119,8 @@ export class FormalitiesDialog  {
   listNom: any = [];
   listTeso: any = [];
   listSig: any = [];
+  status: boolean = false;
+  fec_block:boolean = false;
   
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -210,6 +214,7 @@ export class FormalitiesDialog  {
       document: new FormControl("",[Validators.required]),
       idPersonale: new FormControl("", [Validators.required]),
       fec_ret: new FormControl("", [Validators.required]),
+      reason: new FormControl("",),
       idPosition: new FormControl("", [Validators.required]),
       pro_res: new FormControl("",[Validators.required]),
       immediateBoss: new FormControl("",[Validators.required]),
@@ -297,6 +302,18 @@ export class FormalitiesDialog  {
         this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
         this.formSelec.get('pro_res').setValue(exitsPersonal.idArea);
         this.formSelec.get('idPosition').setValue(exitsPersonal.idPosition);     
+       (exitsPersonal.status == '13/1')? this.status = true : this.status = false;
+
+       if(exitsPersonal.status == '13/2'){
+          
+            const fec_format =  moment(exitsPersonal.withdrawalDate,"DD/MM/YYYY")
+            const fec_real = fec_format.format("YYYY-MM-DD")          
+            this.formSelec.get('fec_ret').setValue(fec_real);  
+            this.fec_block = true;
+          }else{
+            this.formSelec.get('fec_ret').setValue("");     
+            this.fec_block = false;
+          }
     }        
 }
 
@@ -353,6 +370,7 @@ onSelectionJFChange(event){
 // ----------------------------------tecno---------------------------
         this.rol
         this.guiaTecno = list.filter(guia => guia.list_id === 102);
+        this.afirm = data.data["afirmative"];
         
         const nuevoArreglo = this.lisTecno.map(obj => {
           const numbers = obj.complemento.slice(1, -1).split(",").map(Number);
@@ -365,7 +383,13 @@ onSelectionJFChange(event){
           });
         
         for (const item of this.guiaTecno) {
-          if (item.state !== '39/1') {
+          // if (item.state !== '39/1') {
+          //   this.colorTecno = false;
+          //   break;
+          // }else{
+          //   this.colorTecno = true;
+          // }
+          if (!item.state) {
             this.colorTecno = false;
             break;
           }else{
@@ -375,6 +399,7 @@ onSelectionJFChange(event){
         const tecnoArray = this.formGuia.get('tecno') as FormArray;
 
         this.guiaTecno.forEach(element =>{   
+         
             const tecnoGuia = this.tc.group({
               id_guide: new FormControl(element.id_guide),
               list_id: new FormControl(element.list_id),
@@ -391,6 +416,7 @@ onSelectionJFChange(event){
         // ----------------------------------th---------------------------
        
         this.guiaTaHm = list.filter(guia => guia.list_id === 103);
+        
           const nuevoArregloTH = this.lisTh.map(obj => {
           const numbersTH = obj.complemento.slice(1, -1).split(",").map(Number);
           let exitsRolTH = numbersTH.find(element => element == this.rol);
@@ -402,7 +428,13 @@ onSelectionJFChange(event){
         });
         // style color
         for (const itemTh of this.guiaTaHm) {
-          if (itemTh.state !== '39/1') {
+          // if (itemTh.state !== '39/1') {
+          //   this.colorTH = false;
+          //   break;
+          // }else{
+          //   this.colorTH = true;
+          // }
+          if (!itemTh.state) {
             this.colorTH = false;
             break;
           }else{
@@ -437,7 +469,13 @@ onSelectionJFChange(event){
           return { ...obj, rol_id: numberNom };
          });
             for (const itemNom of this.guiaNom) {
-              if (itemNom.state !== '39/1') {
+              // if (itemNom.state !== '39/1') {
+              //   this.colorNom = false;
+              //   break;
+              // }else{
+              //   this.colorNom = true;
+              // }
+              if (!itemNom.state) {
                 this.colorNom = false;
                 break;
               }else{
@@ -475,7 +513,13 @@ onSelectionJFChange(event){
           });
 
           for (const itemCont of this.guiaCont) {
-            if (itemCont.state !== '39/1') {
+            // if (itemCont.state !== '39/1') {
+            //   this.colorCont = false;
+            //   break;
+            // }else{
+            //   this.colorCont = true;
+            // }
+            if (!itemCont.state) {
               this.colorCont = false;
               break;
             }else{
@@ -510,11 +554,16 @@ onSelectionJFChange(event){
             return { ...obj, rol_id: numberSig };
           });
             for(const itemSig of this.guiaSig){
-                if(itemSig.state !== '39/1'){
-                    this.colorSig = false;
-                }else{
-                  this.colorSig = true;
-                }
+                // if(itemSig.state !== '39/1'){
+                //     this.colorSig = false;
+                // }else{
+                //   this.colorSig = true;
+                // }
+                if(!itemSig.state){
+                  this.colorSig = false;
+              }else{
+                this.colorSig = true;
+              }
             }
            const sigArray = this.formGuia.get('sig') as FormArray;
    
@@ -537,11 +586,16 @@ onSelectionJFChange(event){
             this.guiaElemt = list.filter(guia => guia.list_id === 107);
  
              for(const itemElem of this.guiaElemt){
-                 if(itemElem.state !== '39/1'){
-                     this.colorElem = false;
-                 }else{
-                   this.colorElem = true;
-                 }
+                //  if(itemElem.state !== '39/1'){
+                //      this.colorElem = false;
+                //  }else{
+                //    this.colorElem = true;
+                //  }
+                if(!itemElem.state){
+                  this.colorElem = false;
+              }else{
+                this.colorElem = true;
+              }
              }
             const elemArray = this.formGuia.get('elemt') as FormArray;
     
@@ -558,7 +612,6 @@ onSelectionJFChange(event){
                 elemArray.push(elemGuia);
             });
             //-----------------------------------------------------------------
-        this.afirm = data.data["afirmative"];
       },
       (error) => {
         this.handler.showError();
@@ -567,6 +620,7 @@ onSelectionJFChange(event){
     );
   }
  
+  
   onSubmitUpdate(){
     // this.formGuias.push(this.observa)
     // this.formGuias.forEach(element => {
@@ -585,7 +639,7 @@ onSelectionJFChange(event){
       listas: [this.formSelec.value]
       
     }
-    console.log(body);
+    // console.log(body);
     
     
     if (this.formGuia.valid) {
