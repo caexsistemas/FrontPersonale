@@ -119,7 +119,7 @@ export class HolidayComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
+        // console.log(this.permissions);
         
 
           if (data.success == true) {
