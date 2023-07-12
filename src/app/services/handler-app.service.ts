@@ -161,11 +161,25 @@ export class HandlerAppService {
     }
   }
 
+
+
   showSuccess(message){
     Swal.fire({
       title: '',
       text: message,
       icon: 'success'
+    });
+  }
+
+  showInfo(message, title, modulo){
+    Swal.fire({
+      title: title,
+      html: message,     
+      footer: '<a href="'+modulo+'">Ingersar al Modulo</a>',
+      icon: 'info',
+      showCloseButton: true,
+      showCancelButton: false,
+      showConfirmButton: false
     });
   }
 

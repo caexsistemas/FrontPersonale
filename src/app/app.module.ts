@@ -29,6 +29,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -132,6 +133,7 @@ import { ContactDialog } from './dialogs/contact/contact.dialog.component';
 import { CustomerDialog } from './dialogs/customer/customer.dialog.component';
 import { ReportsCustomerComponent } from './dialogs/reports/customer/reports-customer.component';
 import { FormalitiesDialog } from './dialogs/formalities/formalities.dialog.component';
+import { NotificationDialog } from './dialogs/notification/notification.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -185,6 +187,7 @@ const routes: Routes = [];
     MatRadioModule,
     MatSnackBarModule,
     MatBottomSheetModule,
+    MatBadgeModule
     
   ],
   declarations: [
@@ -258,7 +261,8 @@ const routes: Routes = [];
     ContactDialog,
     CustomerDialog,
     ReportsCustomerComponent,
-    FormalitiesDialog
+    FormalitiesDialog,
+    NotificationDialog
   ],
   providers: [{
     
@@ -268,6 +272,7 @@ const routes: Routes = [];
   }],
   exports: [
     RouterModule,
+    
   ],
   bootstrap: [ AppComponent ]
 })
