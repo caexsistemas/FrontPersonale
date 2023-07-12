@@ -444,12 +444,13 @@ export class HolidayDialog  {
       this.totalDays(this.prue2,this.comp);
     }
   }
+  primerPeri:boolean = false;
   totalDays(d1,d2){
     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
       this.totalFin = (d1+d2);
     // console.log("total dias solicitados =>",this.totalFin);
     // if(this.totalFin >= 15 && this.daysVac < 15 ){
-      // console.log(this.daysRest);
+    
       
       if(this.totalFin > 15  && this.daysVac <= 15  ){
           this.handler.showError("No puedes solicitar mas de 15 dias!");
@@ -457,11 +458,14 @@ export class HolidayDialog  {
           this.loading.emit(false);
     } else if(this.totalFin > this.daysRest){
       this.blockDaysRest = true;
+      this.primerPeri = true;
       this.handler.showError("No puedes solicitar mas dias !");
           this.reload.emit();
           this.loading.emit(false);
     }else{
       this.blockDaysRest = false;
+      this.primerPeri = false;
+
 
     }
      // this.totalFii(this.totalFin,this.prue2);

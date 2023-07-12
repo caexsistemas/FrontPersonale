@@ -119,7 +119,7 @@
                 <mat-icon [ngStyle]="{'color': colorElem ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
              <!-- info -->
-            <!-- <div class="row" formArrayName="elemt">
+            <div class="row" formArrayName="elemt">
               <div *ngFor="let guia of formGuia.get('elemt').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -134,8 +134,8 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div> -->
-            <div class="row" formArrayName="elemt">
+            </div>
+            <!-- <div class="row" formArrayName="elemt">
               <div *ngFor="let guia of formGuia.get('elemt').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -157,7 +157,7 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>
+            </div> -->
 
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -175,7 +175,7 @@
                 <mat-icon [ngStyle]="{'color': colorTecno ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
             
-            <!-- <div class="row" formArrayName="tecno">
+            <div class="row" formArrayName="tecno">
               <div *ngFor="let guia of formGuia.get('tecno').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -190,10 +190,10 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div> -->
+            </div>
             <!-- Formulario Tecno -->
           <!-- Formulario Tecno -->
-              <div class="row" formArrayName="tecno">
+              <!-- <div class="row" formArrayName="tecno">
                 <div *ngFor="let guia of formGuia.get('tecno').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                   <p>{{ guia.controls.ls_codvalue.value }}</p>
                   <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -215,7 +215,7 @@
                     </mat-form-field>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -231,7 +231,7 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorTH ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
-            <!-- <div class="row" formArrayName="th">
+            <div class="row" formArrayName="th">
                   <div *ngFor="let guia of formGuia.get('th').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
                     <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -246,9 +246,9 @@
                       </mat-form-field>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
-                <div class="row" formArrayName="th">
+                <!-- <div class="row" formArrayName="th">
                   <div *ngFor="let guia of formGuia.get('th').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
                     <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -270,7 +270,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-                </div>
+                </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -287,7 +287,7 @@
                 <mat-icon [ngStyle]="{'color': colorNom ? 'green' : 'red'}">description</mat-icon>
               </mat-expansion-panel-header>
 
-                <!-- <div class="row" formArrayName="nom">
+                <div class="row" formArrayName="nom">
                   <div *ngFor="let guia of formGuia.get('nom').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
                     <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -302,8 +302,8 @@
                       </mat-form-field>
                     </div>
                   </div>
-                </div> -->
-                <div class="row" formArrayName="nom">
+                </div>
+                <!-- <div class="row" formArrayName="nom">
                   <div *ngFor="let guia of formGuia.get('nom').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                     <p>{{ guia.controls.ls_codvalue.value }}</p>
                     <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -325,7 +325,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-                </div>
+                </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -341,7 +341,7 @@
                 </mat-panel-description>
                 <mat-icon [ngStyle]="{'color': colorCont ? 'green' : 'red'}">assignment</mat-icon>
               </mat-expansion-panel-header>
-<!--         
+        
              <div class="row" formArrayName="cont">
               <div *ngFor="let guia of formGuia.get('cont').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
@@ -357,8 +357,8 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div> -->
-            <div class="row" formArrayName="cont">
+            </div>
+            <!-- <div class="row" formArrayName="cont">
               <div *ngFor="let guia of formGuia.get('cont').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -380,7 +380,7 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>
+            </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -397,7 +397,7 @@
                 <mat-icon [ngStyle]="{'color': colorSig ? 'green' : 'red'}">assignment</mat-icon>
               </mat-expansion-panel-header>
           
-             <!-- <div class="row" formArrayName="sig">
+             <div class="row" formArrayName="sig">
               <div *ngFor="let guia of formGuia.get('sig').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -412,8 +412,8 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div> -->
-            <div class="row" formArrayName="sig">
+            </div>
+            <!-- <div class="row" formArrayName="sig">
               <div *ngFor="let guia of formGuia.get('sig').controls; let i = index" [formGroupName]="i" class="col-md-12 guia">
                 <p>{{ guia.controls.ls_codvalue.value }}</p>
                 <mat-radio-group aria-label="Select an option" formControlName="state">
@@ -435,7 +435,7 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>
+            </div> -->
               <mat-action-row *ngIf="view == 'update'">
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>

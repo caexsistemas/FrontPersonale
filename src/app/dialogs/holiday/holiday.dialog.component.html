@@ -115,8 +115,8 @@
             <button *ngIf="view == 'update'" mat-button class="btn btn-success"
               (click)="onSubmitUpdate()">Actualizar</button>
             
-            <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" totalFin > 15">Guardar</button>
-            <!-- <button *ngIf="view == 'create' && daysVac > 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" daysRest < 15" >Guardar</button> -->
+            <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" totalFin > 15 || primerPeri ">Guardar</button>
+            <!-- <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]="primerPeri" >Guardar</button> -->
             <button *ngIf="view == 'create' && daysVac > 15" mat-button class="btn btn-success" (click)="onSubmit()"  [disabled] ="blockDaysRest ">Guardar</button>
   
             <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
