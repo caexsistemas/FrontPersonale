@@ -1,3 +1,12 @@
+.mat-badge-content {
+    font-weight: 400 !important;
+    font-size: 15px !important;
+}
+
+.mat-badge-medium.mat-badge-above .mat-badge-content {
+    top: -8px !important;
+}
+
 .navbar {
     justify-content: flex-start !important
 }
@@ -7,6 +16,20 @@
     margin-left: 30px;
 }
 
+:host {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+}
+
+.demo-section + .demo-section {
+margin-top: 16px;
+}
+
+.btn-success {
+    color: #23282c !important;
+}
+
 @media (max-width: 991.98px)
 {
     .app-header .navbar-brand {
@@ -14,7 +37,7 @@
     }
 
     .mat-dialog-container{
-        margin-top: 15%;
+        margin-top: 13%;
         padding: 4px !important;
     }
 

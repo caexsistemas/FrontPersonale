@@ -6,6 +6,8 @@ import { WebApiService } from '../../services/web-api.service';
 import { INavData } from '@coreui/angular';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { Observable } from 'rxjs';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NotificationDialog } from '../../dialogs/notification/notification.dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,6 +33,7 @@ export class DefaultLayoutComponent{
   public permissions:any[]  = Array();
   public userLogin: any;
   public checktoken: boolean;
+  public conteNotifi: number = 0;
 
 
 
@@ -73,6 +76,7 @@ export class DefaultLayoutComponent{
   constructor(private _tools: Tools,
     private _router: Router,
     private WebApiService: WebApiService,
+    public dialog: MatDialog,
     private handler: HandlerAppService) {
 
 
@@ -86,7 +90,12 @@ export class DefaultLayoutComponent{
     this.checkToken();
     this.checkSession();
     this.sendRequest();
+    this.checkNotification();    
   }
+
+
+
+
 
   sendRequest() {
 
@@ -176,7 +185,8 @@ export class DefaultLayoutComponent{
     //Variables 
     let body = {
       iduser: this.cuser.iduser,
-      token: this.cuser.token
+      token: this.cuser.token,
+      role:  this.cuser.rol
     }
    
     //Validar Informacion del token
@@ -288,7 +298,64 @@ export class DefaultLayoutComponent{
     this.handler.showSuccess('Sesión culminada con éxito, gracias hasta pronto.');*/
   }
 
+  checkNotification(){
 
+    // ejecutar consulta al servidor para verificar si el token es valido aun...
+    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
+    //Variables 
+    let body = {
+      iduser: this.cuser.iduser,
+      token: this.cuser.token,
+      role:  this.cuser.role
+    }
+
+    this.WebApiService.postRequest('/checknotification', body, {})
+    .subscribe(
+      response => {
+      
+        if ( response.success ) {          
+         this.conteNotifi = response.data['cont'][0]['conteo'];
+        } else {
+          this.isLogged = false;
+          this.handler.handlerError(response.message);
+        }
+      },
+      error => {        
+          this.isLogged = false;
+          this.handler.handlerError('(E): '+error.message);
+      }
+    );
+
+    setTimeout(() => {
+      // Recargar Notificaciones - 10 Seg
+      this.checkNotification();
+    }, 30000);
+
+  }
+
+  toggleBadgeVisibility(){
+
+    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
+    var dialogRef;
+
+    this.loading = true;
+    dialogRef = this.dialog.open(NotificationDialog, {
+      data: {
+        window: 'view',
+        iduser: this.cuser.iduser      
+      }
+    });
+    dialogRef.disableClose = true;
+    // LOADING
+    dialogRef.componentInstance.loading.subscribe(val => {
+      this.loading = val;
+    });
+    // RELOAD
+    dialogRef.componentInstance.reload.subscribe(val => {
+      this.sendRequest();
+    });
+
+  }
 
 
 
