@@ -167,27 +167,33 @@ export class FormalitiesDialog  {
               this.selection = data.data["getSelectData"][0];
               this.verification = data.data["getSelecUpdat"];
               this.viewTecno = this.verification.filter(guia => guia.list_id === 102);
+              this.getColorTecno(this.viewTecno);
                 this.viewTecno.forEach(element => {
                   (element.sta == null) ? element.updated_at = '': element.updated_at;
                 });
               
               this.viewTh = this.verification.filter(guia => guia.list_id === 103);
+              this.getColorTH( this.viewTh);
                 this.viewTh.forEach(element => {
                   (element.sta == null) ? element.updated_at = '': element.updated_at;
                 });
               this.viewNom = this.verification.filter(guia => guia.list_id === 104);
+              this.getColorNom(this.viewNom);
                 this.viewNom.forEach(element => {
                   (element.sta == null) ? element.updated_at = '': element.updated_at;
                 });
               this.viewCont = this.verification.filter(guia => guia.list_id === 105);
+              this.getColorCont(this.viewCont);
                 this.viewCont.forEach(element => {
                   (element.sta == null) ? element.updated_at = '': element.updated_at;
                 });
               this.viewSig = this.verification.filter(guia => guia.list_id === 106);
+              this.getColorSig(this.viewSig);
                 this.viewSig.forEach(element => {
                   (element.sta == null) ? element.updated_at = '': element.updated_at;
                 });
               this.viewElem = this.verification.filter(guia => guia.list_id === 107);
+              this.getColorElement(this.viewElem);
                 this.viewElem.forEach(element => {
                   (element.sta == null) ? element.updated_at = '': element.updated_at;
                 });
@@ -381,21 +387,21 @@ onSelectionJFChange(event){
             }
           // return { ...obj, rol_id: numbers };
           });
-        
-        for (const item of this.guiaTecno) {
-          // if (item.state !== '39/1') {
-          //   this.colorTecno = false;
-          //   break;
-          // }else{
-          //   this.colorTecno = true;
-          // }
-          if (!item.state) {
-            this.colorTecno = false;
-            break;
-          }else{
-            this.colorTecno = true;
-          }
-        }
+        this.getColorTecno(this.guiaTecno);
+        // for (const item of this.guiaTecno) {
+        //   // if (item.state !== '39/1') {
+        //   //   this.colorTecno = false;
+        //   //   break;
+        //   // }else{
+        //   //   this.colorTecno = true;
+        //   // }
+        //   if (!item.state) {
+        //     this.colorTecno = false;
+        //     break;
+        //   }else{
+        //     this.colorTecno = true;
+        //   }
+        // }
         const tecnoArray = this.formGuia.get('tecno') as FormArray;
 
         this.guiaTecno.forEach(element =>{   
@@ -427,20 +433,21 @@ onSelectionJFChange(event){
           return { ...obj, rol_id: numbersTH };
         });
         // style color
-        for (const itemTh of this.guiaTaHm) {
-          // if (itemTh.state !== '39/1') {
-          //   this.colorTH = false;
-          //   break;
-          // }else{
-          //   this.colorTH = true;
-          // }
-          if (!itemTh.state) {
-            this.colorTH = false;
-            break;
-          }else{
-            this.colorTH = true;
-          }
-        }
+        this.getColorTH(this.guiaTaHm);
+        // for (const itemTh of this.guiaTaHm) {
+        //   // if (itemTh.state !== '39/1') {
+        //   //   this.colorTH = false;
+        //   //   break;
+        //   // }else{
+        //   //   this.colorTH = true;
+        //   // }
+        //   if (!itemTh.state) {
+        //     this.colorTH = false;
+        //     break;
+        //   }else{
+        //     this.colorTH = true;
+        //   }
+        // }
         const thArray = this.formGuia.get('th') as FormArray;
 
         this.guiaTaHm.forEach(element =>{
@@ -468,20 +475,21 @@ onSelectionJFChange(event){
           }
           return { ...obj, rol_id: numberNom };
          });
-            for (const itemNom of this.guiaNom) {
-              // if (itemNom.state !== '39/1') {
-              //   this.colorNom = false;
-              //   break;
-              // }else{
-              //   this.colorNom = true;
-              // }
-              if (!itemNom.state) {
-                this.colorNom = false;
-                break;
-              }else{
-                this.colorNom = true;
-              }
-            }
+            this.getColorNom(this.guiaNom);
+            // for (const itemNom of this.guiaNom) {
+            //   // if (itemNom.state !== '39/1') {
+            //   //   this.colorNom = false;
+            //   //   break;
+            //   // }else{
+            //   //   this.colorNom = true;
+            //   // }
+            //   if (!itemNom.state) {
+            //     this.colorNom = false;
+            //     break;
+            //   }else{
+            //     this.colorNom = true;
+            //   }
+            // }
           const nomArray = this.formGuia.get('nom') as FormArray;
   
           this.guiaNom.forEach(element =>{
@@ -511,21 +519,21 @@ onSelectionJFChange(event){
             }
             return { ...obj, rol_id: numberCont };
           });
-
-          for (const itemCont of this.guiaCont) {
-            // if (itemCont.state !== '39/1') {
-            //   this.colorCont = false;
-            //   break;
-            // }else{
-            //   this.colorCont = true;
-            // }
-            if (!itemCont.state) {
-              this.colorCont = false;
-              break;
-            }else{
-              this.colorCont = true;
-            }
-          }
+          this.getColorCont(this.guiaCont);
+          // for (const itemCont of this.guiaCont) {
+          //   // if (itemCont.state !== '39/1') {
+          //   //   this.colorCont = false;
+          //   //   break;
+          //   // }else{
+          //   //   this.colorCont = true;
+          //   // }
+          //   if (!itemCont.state) {
+          //     this.colorCont = false;
+          //     break;
+          //   }else{
+          //     this.colorCont = true;
+          //   }
+          // }
           const contArray = this.formGuia.get('cont') as FormArray;
   
           this.guiaCont.forEach(element =>{
@@ -553,18 +561,19 @@ onSelectionJFChange(event){
             }
             return { ...obj, rol_id: numberSig };
           });
-            for(const itemSig of this.guiaSig){
-                // if(itemSig.state !== '39/1'){
-                //     this.colorSig = false;
-                // }else{
-                //   this.colorSig = true;
-                // }
-                if(!itemSig.state){
-                  this.colorSig = false;
-              }else{
-                this.colorSig = true;
-              }
-            }
+          this.getColorSig(this.guiaSig);
+            // for(const itemSig of this.guiaSig){
+            //     // if(itemSig.state !== '39/1'){
+            //     //     this.colorSig = false;
+            //     // }else{
+            //     //   this.colorSig = true;
+            //     // }
+            //     if(!itemSig.state){
+            //       this.colorSig = false;
+            //   }else{
+            //     this.colorSig = true;
+            //   }
+            // }
            const sigArray = this.formGuia.get('sig') as FormArray;
    
            this.guiaSig.forEach(element =>{
@@ -584,19 +593,19 @@ onSelectionJFChange(event){
             // -----------------------------ENTREGA ELEMENTOS---------------------------
 
             this.guiaElemt = list.filter(guia => guia.list_id === 107);
- 
-             for(const itemElem of this.guiaElemt){
-                //  if(itemElem.state !== '39/1'){
-                //      this.colorElem = false;
-                //  }else{
-                //    this.colorElem = true;
-                //  }
-                if(!itemElem.state){
-                  this.colorElem = false;
-              }else{
-                this.colorElem = true;
-              }
-             }
+            this.getColorElement(this.guiaElemt);
+            //  for(const itemElem of this.guiaElemt){
+            //     //  if(itemElem.state !== '39/1'){
+            //     //      this.colorElem = false;
+            //     //  }else{
+            //     //    this.colorElem = true;
+            //     //  }
+            //     if(!itemElem.state){
+            //       this.colorElem = false;
+            //   }else{
+            //     this.colorElem = true;
+            //   }
+            //  }
             const elemArray = this.formGuia.get('elemt') as FormArray;
     
             this.guiaElemt.forEach(element =>{
@@ -699,20 +708,69 @@ onSelectionJFChange(event){
   //   this.mat = e
 
   
-  getDocuInvalid(){
-      //  return this.formSelec.get('car_sol').invalid && this.formSelec.get('car_sol').touched;
+  getColorTecno(guiaTecno){
+    for (const item of guiaTecno) {
+     
+      if (!item.state) {
+        this.colorTecno = false;
+        break;
+      }else{
+        this.colorTecno = true;
+      }
+    }
   }
-  getTypeInvalid(){
-    // return this.formSelec.get('tip_req').invalid && this.formSelec.get('tip_req').touched;
+  getColorTH(guiaTaHm){
+    for (const itemTh of guiaTaHm) {
+     
+      if (!itemTh.state) {
+        this.colorTH = false;
+        break;
+      }else{
+        this.colorTH = true;
+      }
+    }
 }
-  getSalaryInvalid(){
-    // return this.formSelec.get('salary').invalid && this.formSelec.get('salary').touched;
+  getColorNom(guiaNom){
+    for (const itemNom of guiaNom) {
+      
+      if (!itemNom.state) {
+        this.colorNom = false;
+        break;
+      }else{
+        this.colorNom = true;
+      }
+    }
   }
-  getNumInvalid(){
-    // return this.formSelec.get('num_vac').invalid && this.formSelec.get('num_vac').touched;
+  getColorCont(guiaCont){
+    for (const itemCont of guiaCont) {
+    
+      if (!itemCont.state) {
+        this.colorCont = false;
+        break;
+      }else{
+        this.colorCont = true;
+      }
+    }
 }
-  getJustInvalid(){
-    // return this.formSelec.get('justification').invalid && this.formSelec.get('justification').touched;
+  getColorSig(guiaSig){
+    for(const itemSig of guiaSig){
+     
+      if(!itemSig.state){
+        this.colorSig = false;
+    }else{
+      this.colorSig = true;
+    }
+  }
+  }
+  getColorElement(guiaElemt){
+    for(const itemElem of guiaElemt){
+      
+      if(!itemElem.state){
+        this.colorElem = false;
+    }else{
+      this.colorElem = true;
+    }
+   }
   }
 
 

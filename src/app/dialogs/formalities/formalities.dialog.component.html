@@ -523,7 +523,7 @@
               <mat-panel-description>
                 Entrega de Elementos
               </mat-panel-description>
-              <mat-icon>description</mat-icon>
+              <mat-icon [ngStyle]="{'color': colorElem ? 'green' : 'red'}">description</mat-icon>
             </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4" *ngFor="let elem of viewElem">
@@ -554,7 +554,7 @@
               <mat-panel-description>
                 Guía de verificación
               </mat-panel-description>
-              <mat-icon>description</mat-icon>
+              <mat-icon [ngStyle]="{'color': colorTecno ? 'green' : 'red'}">description</mat-icon>
             </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4" *ngFor="let tecno of viewTecno">
@@ -580,7 +580,7 @@
               <mat-panel-description>
                 Guía de verificación
               </mat-panel-description>
-              <mat-icon>assignment</mat-icon>
+              <mat-icon [ngStyle]="{'color': colorTH ? 'green' : 'red'}">assignment</mat-icon>
             </mat-expansion-panel-header>
             <div class="row mt-2">
               <div class="col-md-4" *ngFor="let th of viewTh">
@@ -593,7 +593,22 @@
                 <hr>
               </div>
             </div>
-            <hr>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Nomina
+              </mat-panel-title>
+              <mat-panel-description>
+                Guía de verificación
+              </mat-panel-description>
+              <mat-icon [ngStyle]="{'color': colorNom ? 'green' : 'red'}">assignment</mat-icon>
+            </mat-expansion-panel-header>
+            
             <div class="row mt-3">
               <div class="col-md-4" *ngFor="let nomi of viewNom">
                 <dt>{{nomi.val}}</dt>
@@ -607,10 +622,10 @@
             </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+          <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                  Contabilidad&nbsp; &nbsp;
@@ -618,7 +633,7 @@
               <mat-panel-description>
                 Guía de verificación
               </mat-panel-description>
-              <mat-icon>thumbs_up_down</mat-icon>
+              <mat-icon [ngStyle]="{'color': colorCont ? 'green' : 'red'}" >thumbs_up_down</mat-icon>
             </mat-expansion-panel-header>
             <hr>
             <div class="row mt-2">
@@ -634,10 +649,10 @@
             </div>
             <mat-action-row>
               <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-              <button mat-button class="btn btn-dark" (click)="nextStep()">End</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+          <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Sistema Integrado de Gestión&nbsp; &nbsp;
@@ -645,7 +660,7 @@
               <mat-panel-description>
                 Guía de verificación
               </mat-panel-description>
-              <mat-icon>thumbs_up_down</mat-icon>
+              <mat-icon [ngStyle]="{'color': colorSig ? 'green' : 'red'}">thumbs_up_down</mat-icon>
             </mat-expansion-panel-header>
             <hr>
             <div class="row mt-2">
