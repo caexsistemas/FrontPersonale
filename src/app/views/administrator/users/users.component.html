@@ -47,10 +47,10 @@
                         <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
                     </ng-container>
   
-                    <!-- <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre completo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.name}} {{element.surname}}</td>
-                    </ng-container> -->
+                    <ng-container matColumnDef="document">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nro Documento</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} {{element.document}}</td>
+                    </ng-container> 
 
                     <ng-container matColumnDef="idPersonale">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre completo</th>

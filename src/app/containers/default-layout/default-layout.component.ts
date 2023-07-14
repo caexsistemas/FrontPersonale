@@ -34,6 +34,7 @@ export class DefaultLayoutComponent{
   public userLogin: any;
   public checktoken: boolean;
   public conteNotifi: number = 0;
+  public icoNoti: string = "cui-bell";
 
 
 
@@ -301,6 +302,7 @@ export class DefaultLayoutComponent{
   checkNotification(){
 
     // ejecutar consulta al servidor para verificar si el token es valido aun...
+    this.icoNoti = "fa fa-spinner fa-spin"; 
     this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
     //Variables 
     let body = {
@@ -327,9 +329,10 @@ export class DefaultLayoutComponent{
     );
 
     setTimeout(() => {
-      // Recargar Notificaciones - 10 Seg
-      this.checkNotification();
-    }, 30000);
+      // Recargar Notificaciones - 5 Seg cui-account-logout / icoNoti / cui-bell
+      setTimeout(() => { this.icoNoti = "cui-bell"; }, 1000);
+      this.checkNotification();         
+    }, 5000);
 
   }
 

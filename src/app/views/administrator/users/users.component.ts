@@ -102,8 +102,8 @@ export class UsersComponent implements OnInit {
     this.displayedColumns = [
       'view',
       'idUser',
-      'idPersonale',
-      
+      'document',
+      'idPersonale',    
       'role',
       'status',
       'actions'
