@@ -75,8 +75,7 @@ export class NotificationDialog{
           'view',
           'date_create',
           'tipe_noti',
-          'date_ini',
-          'date_end'
+          'date_peri'
         ];
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort.toArray()[0];
