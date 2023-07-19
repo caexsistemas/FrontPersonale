@@ -287,9 +287,9 @@ let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:
   }
 }
 // dias restantes
-totalAll(tt1,tt2,tt3){
+totalAll(tt1,tt2){
 // console.log('tt1=>',tt1,'tt2=>',tt2,'tt3=>',tt3);
-this.totAll =(tt1-tt2-tt3);
+this.totAll =(tt1-tt2);
 
 
 }

@@ -128,7 +128,7 @@ export class HolidayDialog  {
 
     switch (this.view) {
       case "create":
-        if(!( this.data.role == 5 || this.data.role == 20 )){
+        if(!( this.data.role == 5  )){
           this.vald = true;
           this.rol = this.data.role;
           this.initForms();
