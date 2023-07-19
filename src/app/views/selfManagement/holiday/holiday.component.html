@@ -135,7 +135,7 @@
               <ng-container matColumnDef="remainingDays">
                 <th mat-header-cell *matHeaderCellDef> Dias Restantes </th>
                 <td mat-cell *matCellDef="let element" style="text-align: center;">
-                    {{totalAll(days,element.dia_anticipo,element.total_vaca)}}     
+                    {{totalAll(days,element.total_vaca)}}     
                     {{days-element.total_vaca | number:'1.0-0'}}
                 </td>
             </ng-container>
