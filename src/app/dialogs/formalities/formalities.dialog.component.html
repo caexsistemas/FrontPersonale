@@ -90,8 +90,12 @@
           <div class="row" *ngIf="status">
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
-                  <mat-label>Motivo Retiro: </mat-label>
-                  <input matInput formControlName="reason">
+                  <mat-label>Motivo: </mat-label>
+                  <mat-select formControlName="reason" name="reason">
+                      <mat-option *ngFor="let renuncia of motivoRenuncia" [value]="renuncia.ls_codvalue">
+                          {{renuncia.description}}
+                      </mat-option>
+                  </mat-select>
               </mat-form-field>
           </div>
           </div>
@@ -108,7 +112,7 @@
             </mat-expansion-panel>
           </form>
           <form *ngIf="view == 'update' " [formGroup]="formGuia">
-              <mat-expansion-panel *ngIf="view == 'update'" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel *ngIf="view == 'update' && check_proc" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                 Proceso {{processAct}} &nbsp; &nbsp;
