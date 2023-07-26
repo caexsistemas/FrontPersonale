@@ -124,6 +124,7 @@ export class FormalitiesDialog  {
   user_sesion: any = [];
   jef_inm: any = [];
   check_proc: boolean = false;
+  motivoRenuncia: any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -255,7 +256,7 @@ export class FormalitiesDialog  {
           this.PersonaleInfo = data.data['getDataPersonale']; 
           this.area = data.data["getArea"];
           this.idPosition = data.data["getPosition"];
-
+          this.motivoRenuncia = data.data['motivoRenuncia'];
           if (this.view == "update") {
             this.getDataUpdate();
           }

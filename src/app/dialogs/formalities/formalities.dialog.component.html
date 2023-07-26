@@ -90,8 +90,12 @@
           <div class="row" *ngIf="status">
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
-                  <mat-label>Motivo Retiro: </mat-label>
-                  <input matInput formControlName="reason">
+                  <mat-label>Motivo: </mat-label>
+                  <mat-select formControlName="reason" name="reason">
+                      <mat-option *ngFor="let renuncia of motivoRenuncia" [value]="renuncia.ls_codvalue">
+                          {{renuncia.description}}
+                      </mat-option>
+                  </mat-select>
               </mat-form-field>
           </div>
           </div>
