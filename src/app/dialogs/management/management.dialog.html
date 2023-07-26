@@ -380,7 +380,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <dt>Motivo: </dt>
-                                <dd>{{working.reason }}</dd>
+                                <dd>{{working.motivo }}</dd>
                             </div>
                             <div class="col-sm-4">
                                 <dt>Tipo de Salario: </dt>
@@ -1259,11 +1259,15 @@
                                         <input matInput formControlName="withdrawalDate">
                                     </mat-form-field>
                                 </div>
-
+                                
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Motivo: </mat-label>
-                                        <input matInput formControlName="reason">
+                                        <mat-select formControlName="reason" name="reason">
+                                            <mat-option *ngFor="let renuncia of motivoRenuncia" [value]="renuncia.ls_codvalue">
+                                                {{renuncia.description}}
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
 

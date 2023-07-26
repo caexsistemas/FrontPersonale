@@ -73,6 +73,7 @@ export class ManagementDialog implements AfterContentChecked{
     displayedColumns: any = [];
     personaleData: any = [];
     contaClick:  number = 0;
+    motivoRenuncia: any = [];
 
     typehouse: any = [
         {ls_codvalue: 'Apartamento', description:'Apartamento'},
@@ -330,6 +331,7 @@ export class ManagementDialog implements AfterContentChecked{
                     this.countries = data.data['states'];
                     this.countriesBirt = data.data['states'];
                     this.cities = data.data['citys'];
+                    this.motivoRenuncia = data.data['motivoRenuncia'];
                     this.optionSelect(datos);
                     this.loading.emit(false);
                     //console.log(this.countries);
