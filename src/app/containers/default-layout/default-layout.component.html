@@ -9,7 +9,7 @@
 </button>
 
 
-  <button  matBadge="{{this.conteNotifi}}" type="button" (click)="toggleBadgeVisibility()"
+  <button  matBadge="{{this.conteNotifi}}" type="button" [matBadgeHidden]="hidden" (click)="toggleBadgeVisibility()"
      ng-reflect-breakpoint class="btn-shadow d-inline-flex align-items-center btn btn-light sep-button" placement="left">
      <i class="{{this.icoNoti}} icons font-2xl d-block"></i>
   </button>

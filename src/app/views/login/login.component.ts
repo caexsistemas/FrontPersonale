@@ -101,6 +101,7 @@ export class LoginComponent {
         // PERSISTIR USUARIO
         localStorage.setItem('identity', JSON.stringify(this.identity));
         localStorage.setItem('token', JSON.stringify(this.token));
+        localStorage.setItem('cantNoti', '0');
 
         // redrigir pagina
         this._router.navigate(['./dashboard']);

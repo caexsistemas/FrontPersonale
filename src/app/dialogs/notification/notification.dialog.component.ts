@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {DefaultLayoutComponent} from '../../containers';
 
 export interface PeriodicElement {
     description: string;
@@ -27,7 +28,7 @@ export interface PeriodicElement {
     styleUrls: ['./notification.dialog.component.css'],
 })
 
-export class NotificationDialog{
+export class NotificationDialog {
 
     endpoint: string = '/personal';
     maskDNI         = global.maskDNI;
@@ -124,7 +125,7 @@ export class NotificationDialog{
 
     openc() {
         if (this.contaClick == 0) {
-          this.sendRequest();
+          this.sendRequest();       
         }
         this.contaClick = this.contaClick + 1;
     }
@@ -140,7 +141,7 @@ export class NotificationDialog{
             role:  this.cuser.role,
             id_noti: id 
         }
-
+        
         //Validar Sesion 
         if( this.cuser.iduser != 0 && this.cuser.iduser != 'NULL' ){
             this.WebApiService.postRequest('/gestionotification', body, {})
@@ -164,6 +165,7 @@ export class NotificationDialog{
                     this.loading.emit(false);
                 }
             );
+          
         }else{
             this.handler.showError('Por favor Iniciar Sesion');
             this.loading.emit(false);
