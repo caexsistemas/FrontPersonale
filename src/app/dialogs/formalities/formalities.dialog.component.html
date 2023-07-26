@@ -108,7 +108,7 @@
             </mat-expansion-panel>
           </form>
           <form *ngIf="view == 'update' " [formGroup]="formGuia">
-              <mat-expansion-panel *ngIf="view == 'update'" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel *ngIf="view == 'update' && check_proc" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                 Proceso {{processAct}} &nbsp; &nbsp;

@@ -45,3 +45,6 @@ margin-top: 16px;
         max-width: 100vw !important; 
     }
 }
+.sidebar .nav-link.active {
+    background: #02a1d9;
+}

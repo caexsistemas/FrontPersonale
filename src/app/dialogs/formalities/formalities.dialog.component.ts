@@ -121,7 +121,9 @@ export class FormalitiesDialog  {
   listSig: any = [];
   status: boolean = false;
   fec_block:boolean = false;
-  
+  user_sesion: any = [];
+  jef_inm: any = [];
+  check_proc: boolean = false;
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   //OUTPUTS
@@ -348,7 +350,11 @@ onSelectionJFChange(event){
         this.formSelec.get('idPosition').setValue(data.data['getPersonGuia'][0].idPosition);
         this.formSelec.get('pro_res').setValue(data.data['getPersonGuia'][0].pro_res);
         this.formSelec.get('immediateBoss').setValue(data.data['getPersonGuia'][0].immediateBoss);
+        this.user_sesion = this.cuser.idPersonale;
         this.processAct = data.data['getPersonGuia'][0].area;
+        this.jef_inm = data.data['getPersonGuia'][0].immediateBoss;
+        (this.user_sesion == this.jef_inm || this.rol == 1 || this.rol == 5 || this.rol == 20 ) ? this.check_proc = true : this.check_proc = false;
+
       //-------------------listas-------------------
         this.lisTecno = data.data['listTecno'];
         this.lisTh = data.data['listTH'];
