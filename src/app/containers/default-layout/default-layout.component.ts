@@ -33,8 +33,9 @@ export class DefaultLayoutComponent{
   public permissions:any[]  = Array();
   public userLogin: any;
   public checktoken: boolean;
-  public conteNotifi: number = 0;
+  public conteNotifi: number;
   public icoNoti: string = "cui-bell";
+  hidden = true;
 
 
 
@@ -85,22 +86,17 @@ export class DefaultLayoutComponent{
     this.token = _tools.getToken();
     this.cuser = localStorage.getItem('currentUser');
     this.userLogin = JSON.parse(localStorage.getItem('currentUser'));
+
   }
 
   ngOnInit(): void {
     this.checkToken();
     this.checkSession();
     this.sendRequest();
-    this.checkNotification();    
+    this.RecarNotification();    
   }
 
-
-
-
-
   sendRequest() {
-
-    
 
     this.WebApiService.postRequest(this.endpoint, this.cuser, {})
       .subscribe(
@@ -294,49 +290,29 @@ export class DefaultLayoutComponent{
   }
 
   prueba_cli(){
-    /*this.loading = true;
-    console.log("ensayo"+window.location.pathname);
-    this.handler.showSuccess('Sesión culminada con éxito, gracias hasta pronto.');*/
+    const hola = new DefaultLayoutComponent( this._tools ,
+      this._router,
+      this.WebApiService ,
+      this.dialog,
+      this.handler);
+      hola.checkNotification(this.WebApiService);
   }
 
-  checkNotification(){
-
-    // ejecutar consulta al servidor para verificar si el token es valido aun...
-    this.icoNoti = "fa fa-spinner fa-spin"; 
-    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
-    //Variables 
-    let body = {
-      iduser: this.cuser.iduser,
-      token: this.cuser.token,
-      role:  this.cuser.role
-    }
-
-    this.WebApiService.postRequest('/checknotification', body, {})
-    .subscribe(
-      response => {
-      
-        if ( response.success ) {          
-         this.conteNotifi = response.data['cont'][0]['conteo'];
-        } else {
-          this.isLogged = false;
-          this.handler.handlerError(response.message);
-        }
-      },
-      error => {        
-          this.isLogged = false;
-          this.handler.handlerError('(E): '+error.message);
-      }
-    );
-
+  RecarNotification(){
+    this.checkNotification(this.WebApiService);    
     setTimeout(() => {
       // Recargar Notificaciones - 5 Seg cui-account-logout / icoNoti / cui-bell
-      setTimeout(() => { this.icoNoti = "cui-bell"; }, 1000);
-      this.checkNotification();         
-    }, 5000);
+      this.icoNoti = "fa fa-spinner fa-spin";
+      setTimeout(() => {      
+        this.RecarNotification(); 
+      }, 1000);                  
+    }, 300000);
 
   }
 
   toggleBadgeVisibility(){
+
+    this.hidden = true;
 
     this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
     var dialogRef;
@@ -359,7 +335,40 @@ export class DefaultLayoutComponent{
     });
 
   }
+  
+  checkNotification( WebApiService: WebApiService){
+    // ejecutar consulta al servidor para verificar si el token es valido aun...
+    this.icoNoti = "cui-bell"; 
+    console.log(this.hidden); 
+    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
+    //Variables 
+    let body = {
+      iduser: this.cuser.iduser,
+      token: this.cuser.token,
+      role:  this.cuser.role
+    }
 
-
+    WebApiService.postRequest('/checknotification', body, {})
+    .subscribe(
+      response => {
+      
+        if ( response.success ) {      
+          this.conteNotifi = response.data['cont'][0]['conteo'];
+          if( this.conteNotifi > 0){
+            this.hidden = false;
+          }else{
+            this.hidden = true;
+          }
+        } else {
+          this.isLogged = false;
+          this.handler.handlerError(response.message);
+        }
+      },
+      error => {        
+          this.isLogged = false;
+          this.handler.handlerError('(E): '+error.message);
+      }
+    );
+  }
 
 }
