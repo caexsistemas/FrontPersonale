@@ -347,14 +347,18 @@ onSelectionJFChange(event){
 
         this.formSelec.get('idPersonale').setValue(data.data['getPersonGuia'][0].idPersonale);
         this.formSelec.get('document').setValue(data.data['getPersonGuia'][0].document);
-        this.formSelec.get('fec_ret').setValue(data.data['getPersonGuia'][0].fec_ret);
+        if(data.data['getPersonGuia'][0].fec_ret){
+            const fec_format =  moment(data.data['getPersonGuia'][0].fec_ret,"DD/MM/YYYY")
+            const fec_real = fec_format.format("YYYY-MM-DD")     
+            this.formSelec.get('fec_ret').setValue(fec_real);
+         }
         this.formSelec.get('idPosition').setValue(data.data['getPersonGuia'][0].idPosition);
         this.formSelec.get('pro_res').setValue(data.data['getPersonGuia'][0].pro_res);
         this.formSelec.get('immediateBoss').setValue(data.data['getPersonGuia'][0].immediateBoss);
         this.user_sesion = this.cuser.idPersonale;
         this.processAct = data.data['getPersonGuia'][0].area;
         this.jef_inm = data.data['getPersonGuia'][0].immediateBoss;
-        (this.user_sesion == this.jef_inm || this.rol == 1 || this.rol == 5 || this.rol == 20 ) ? this.check_proc = true : this.check_proc = false;
+        (this.user_sesion == this.jef_inm || this.rol == 1 || this.rol == 5 ) ? this.check_proc = true : this.check_proc = false;
 
       //-------------------listas-------------------
         this.lisTecno = data.data['listTecno'];
@@ -779,6 +783,12 @@ onSelectionJFChange(event){
     }
    }
   }
-
+  // getObservacion(index: number) {
+  //   const thArray = this.formGuia.get('th') as FormArray;
+  //   const thFormGroup = thArray.at(index) as FormGroup;
+  //   const obsControl = thFormGroup.get('obs_guia');
+  //   return obsControl.invalid && obsControl.touched;
+  // }
+  
 
 }

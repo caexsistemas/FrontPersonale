@@ -33,6 +33,7 @@ export class FormalitiesComponent implements OnInit {
   stadValue:   number = 0;
   rol: any = [];
   chekPdf:boolean = false;
+  checkUpdate: boolean= false;
   //Control Permiso
   component = "/management/formalities";
   //History
@@ -72,7 +73,8 @@ export class FormalitiesComponent implements OnInit {
             if (data.success == true) {
                 this.permissions = this.handler.getPermissions(this.component);
                 this.generateTable(data.data['getSelectData']);
-                this.contenTable = data.data['getSelectData'];
+                this.contenTable = data.data['getSelectData'];              
+                
                 this.rol = this.cuser.role;
                 (!(this.rol == 5 || this.rol == 7 || this.rol == 20 || this.rol == 1)) ? this.chekPdf = false : this.chekPdf = true;
                 this.loading = false;

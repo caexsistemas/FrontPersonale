@@ -190,7 +190,7 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label> Observaciones</mat-label>
-                    <textarea maxlength="65" matInput formControlName="obs_guia" ></textarea>
+                    <textarea maxlength="65" matInput formControlName="obs_guia" required ></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -246,7 +246,10 @@
                     <div class="col-md-12">
                       <mat-form-field class="example-full-width">
                         <mat-label> Observaciones</mat-label>
-                        <textarea maxlength="65"matInput formControlName="obs_guia" ></textarea>
+                        <textarea maxlength="65"matInput formControlName="obs_guia" required></textarea>
+                        <!-- <mat-error *ngIf="getObservacion(i)">
+                          <strong> Ingrese Justificación.</strong>
+                      </mat-error> -->
                       </mat-form-field>
                     </div>
                   </div>
@@ -302,7 +305,7 @@
                     <div class="col-md-12">
                       <mat-form-field class="example-full-width">
                         <mat-label> Observaciones</mat-label>
-                        <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                        <textarea maxlength="65"matInput formControlName="obs_guia" required></textarea>
                       </mat-form-field>
                     </div>
                   </div>
@@ -357,7 +360,7 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label> Observaciones</mat-label>
-                    <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                    <textarea maxlength="65"matInput formControlName="obs_guia" required></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -412,7 +415,7 @@
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
                     <mat-label> Observaciones</mat-label>
-                    <textarea maxlength="65"matInput formControlName="obs_guia"></textarea>
+                    <textarea maxlength="65"matInput formControlName="obs_guia" required></textarea>
                   </mat-form-field>
                 </div>
               </div>
