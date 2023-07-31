@@ -396,23 +396,9 @@ onSelectionJFChange(event){
           if(exitsRolTecno){
             this.rolTecno = true;
             }
-          // return { ...obj, rol_id: numbers };
           });
         this.getColorTecno(this.guiaTecno);
-        // for (const item of this.guiaTecno) {
-        //   // if (item.state !== '39/1') {
-        //   //   this.colorTecno = false;
-        //   //   break;
-        //   // }else{
-        //   //   this.colorTecno = true;
-        //   // }
-        //   if (!item.state) {
-        //     this.colorTecno = false;
-        //     break;
-        //   }else{
-        //     this.colorTecno = true;
-        //   }
-        // }
+      
         const tecnoArray = this.formGuia.get('tecno') as FormArray;
 
         this.guiaTecno.forEach(element =>{   
@@ -428,8 +414,6 @@ onSelectionJFChange(event){
             });
             tecnoArray.push(tecnoGuia);
         });
-        //-----------------------------------------------------------------
-
         // ----------------------------------th---------------------------
        
         this.guiaTaHm = list.filter(guia => guia.list_id === 103);
@@ -445,20 +429,7 @@ onSelectionJFChange(event){
         });
         // style color
         this.getColorTH(this.guiaTaHm);
-        // for (const itemTh of this.guiaTaHm) {
-        //   // if (itemTh.state !== '39/1') {
-        //   //   this.colorTH = false;
-        //   //   break;
-        //   // }else{
-        //   //   this.colorTH = true;
-        //   // }
-        //   if (!itemTh.state) {
-        //     this.colorTH = false;
-        //     break;
-        //   }else{
-        //     this.colorTH = true;
-        //   }
-        // }
+    
         const thArray = this.formGuia.get('th') as FormArray;
 
         this.guiaTaHm.forEach(element =>{
@@ -473,7 +444,6 @@ onSelectionJFChange(event){
             });
             thArray.push(thGuia);
         });
-        //-----------------------------------------------------------------
 
          // ----------------------------------Nomina---------------------------
          this.guiaNom = list.filter(guia => guia.list_id === 104);
@@ -487,20 +457,7 @@ onSelectionJFChange(event){
           return { ...obj, rol_id: numberNom };
          });
             this.getColorNom(this.guiaNom);
-            // for (const itemNom of this.guiaNom) {
-            //   // if (itemNom.state !== '39/1') {
-            //   //   this.colorNom = false;
-            //   //   break;
-            //   // }else{
-            //   //   this.colorNom = true;
-            //   // }
-            //   if (!itemNom.state) {
-            //     this.colorNom = false;
-            //     break;
-            //   }else{
-            //     this.colorNom = true;
-            //   }
-            // }
+            
           const nomArray = this.formGuia.get('nom') as FormArray;
   
           this.guiaNom.forEach(element =>{
@@ -517,7 +474,6 @@ onSelectionJFChange(event){
               });
               nomArray.push(nomGuia);
           });
-         //-----------------------------------------------------------------
          
           // ----------------------------------Contabilidad---------------------------
           this.guiaCont = list.filter(guia => guia.list_id === 105);
@@ -531,20 +487,7 @@ onSelectionJFChange(event){
             return { ...obj, rol_id: numberCont };
           });
           this.getColorCont(this.guiaCont);
-          // for (const itemCont of this.guiaCont) {
-          //   // if (itemCont.state !== '39/1') {
-          //   //   this.colorCont = false;
-          //   //   break;
-          //   // }else{
-          //   //   this.colorCont = true;
-          //   // }
-          //   if (!itemCont.state) {
-          //     this.colorCont = false;
-          //     break;
-          //   }else{
-          //     this.colorCont = true;
-          //   }
-          // }
+        
           const contArray = this.formGuia.get('cont') as FormArray;
   
           this.guiaCont.forEach(element =>{
@@ -559,7 +502,6 @@ onSelectionJFChange(event){
               });
               contArray.push(contGuia);
           });
-          //-----------------------------------------------------------------
           
            // ----------------------------------SIG---------------------------
            this.guiaSig = list.filter(guia => guia.list_id === 106);
@@ -573,18 +515,7 @@ onSelectionJFChange(event){
             return { ...obj, rol_id: numberSig };
           });
           this.getColorSig(this.guiaSig);
-            // for(const itemSig of this.guiaSig){
-            //     // if(itemSig.state !== '39/1'){
-            //     //     this.colorSig = false;
-            //     // }else{
-            //     //   this.colorSig = true;
-            //     // }
-            //     if(!itemSig.state){
-            //       this.colorSig = false;
-            //   }else{
-            //     this.colorSig = true;
-            //   }
-            // }
+           
            const sigArray = this.formGuia.get('sig') as FormArray;
    
            this.guiaSig.forEach(element =>{
@@ -599,24 +530,11 @@ onSelectionJFChange(event){
                });
                sigArray.push(sigGuia);
            });
-           //-----------------------------------------------------------------
-           
-            // -----------------------------ENTREGA ELEMENTOS---------------------------
 
+            // -----------------------------ENTREGA ELEMENTOS---------------------------
             this.guiaElemt = list.filter(guia => guia.list_id === 107);
             this.getColorElement(this.guiaElemt);
-            //  for(const itemElem of this.guiaElemt){
-            //     //  if(itemElem.state !== '39/1'){
-            //     //      this.colorElem = false;
-            //     //  }else{
-            //     //    this.colorElem = true;
-            //     //  }
-            //     if(!itemElem.state){
-            //       this.colorElem = false;
-            //   }else{
-            //     this.colorElem = true;
-            //   }
-            //  }
+            
             const elemArray = this.formGuia.get('elemt') as FormArray;
     
             this.guiaElemt.forEach(element =>{
@@ -642,13 +560,13 @@ onSelectionJFChange(event){
  
   
   onSubmitUpdate(){
-    // this.formGuias.push(this.observa)
-    // this.formGuias.forEach(element => {
-    //   element.obs_guia = this.observa
-      
-    // });
-    // console.log(this.formGuias.values['obs_guia'] = this.observa);
     
+    const isTecnoValid = this.formGuia.get('tecno').valid;
+    const isThValid = this.formGuia.get('th').valid;
+    const isNomValid = this.formGuia.get('nom').valid;
+    const isContValid = this.formGuia.get('cont').valid;
+    const isSigValid = this.formGuia.get('sig').valid;
+
     let body = {
       tecno: this.formGuia.get('tecno').value,
       th:   this.formGuia.get('th').value,
@@ -659,38 +577,66 @@ onSelectionJFChange(event){
       listas: [this.formSelec.value]
       
     }
-    // console.log(body);
-    
-    
-    if (this.formGuia.valid) {
-
-      this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint+'/'+this.idSig,body,{
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component
-      })
-      .subscribe(
-          data=>{
-              if(data.success){
-                  this.handler.showSuccess(data.message);
-                  this.reload.emit();
-                  this.closeDialog();
-              }else{
-                  this.handler.handlerError(data);
+    if(!(this.rol == 1 || this.rol == 5)){
+      
+        if (isTecnoValid && isThValid && isNomValid && isContValid && isSigValid) {
+        this.loading.emit(true);
+        this.WebApiService.putRequest(this.endpoint+'/'+this.idSig,body,{
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component
+        })
+        .subscribe(
+            data=>{
+                if(data.success){
+                    this.handler.showSuccess(data.message);
+                    this.reload.emit();
+                    this.closeDialog();
+                }else{
+                    this.handler.handlerError(data);
+                    this.loading.emit(false);
+                }
+            },
+            error=>{
+              console.log(error);
+                this.handler.showError(error);
+                this.loading.emit(false);
+            }
+        );
+      }else {
+        this.handler.showError('Complete la informacion necesaria');
+        this.loading.emit(false);
+      }
+  }else{
+        if (isTecnoValid || isThValid || isNomValid || isContValid || isSigValid) {
+          this.loading.emit(true);
+          this.WebApiService.putRequest(this.endpoint+'/'+this.idSig,body,{
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component
+          })
+          .subscribe(
+              data=>{
+                  if(data.success){
+                      this.handler.showSuccess(data.message);
+                      this.reload.emit();
+                      this.closeDialog();
+                  }else{
+                      this.handler.handlerError(data);
+                      this.loading.emit(false);
+                  }
+              },
+              error=>{
+                console.log(error);
+                  this.handler.showError(error);
                   this.loading.emit(false);
               }
-          },
-          error=>{
-            console.log(error);
-              this.handler.showError(error);
-              this.loading.emit(false);
-          }
-      );
-    }else {
-      this.handler.showError('Complete la informacion necesaria');
-      this.loading.emit(false);
-    }
+          );
+        }else {
+          this.handler.showError('Complete la informacion necesaria');
+          this.loading.emit(false);
+        }
+      }
   }
 
   generateTable(data) {

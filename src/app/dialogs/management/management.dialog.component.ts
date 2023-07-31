@@ -591,6 +591,11 @@ export class ManagementDialog implements AfterContentChecked{
                         this.formWorking.get('admissionDate').setValue("");
                     }    
                     this.formWorking.get('withdrawalDate').setValue(this.workininf.withdrawalDate);
+                    if( this.workininf.withdrawalDate != null ){
+                        this.formWorking.get('withdrawalDate').setValue(this.workininf.withdrawalDate.split('-').reverse().join('-'));
+                    }else{
+                        this.formWorking.get('withdrawalDate').setValue("");
+                    }  
                     this.formWorking.get('reason').setValue(this.workininf.reason);
                     this.formWorking.get('bringResume').setValue(this.workininf.bringResume);
                     //Family
