@@ -729,12 +729,8 @@ onSelectionJFChange(event){
     }
    }
   }
-  // getObservacion(index: number) {
-  //   const thArray = this.formGuia.get('th') as FormArray;
-  //   const thFormGroup = thArray.at(index) as FormGroup;
-  //   const obsControl = thFormGroup.get('obs_guia');
-  //   return obsControl.invalid && obsControl.touched;
-  // }
   
-
+  isObsRequired(stateValue: string): boolean {
+    return stateValue === '39/1' || stateValue === '39/3';
+  }
 }
