@@ -154,7 +154,16 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Tipo Solicitud:</mat-label>
+                            <mat-select formControlName="tip_solitud" required>
+                                <mat-option *ngFor="let idet of ListgessClar" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
 
                   </div>
                    <!--{ROW //////////}-->
@@ -536,7 +545,10 @@
                             <dd>{{dataCad.final_note}}</dd>
                         </div>
   
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <dt>Tipo Solicitud:</dt>
+                            <dd>{{dataCad.tip_solitud}}</dd>                         
+                        </div>
   
                     </div>
                      <!--{ROW //////////}-->

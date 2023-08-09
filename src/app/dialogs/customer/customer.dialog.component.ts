@@ -51,6 +51,7 @@ export interface PeriodicElement {
     Listipocampana:   any = [];
     Listcampafilter:  any = [];
     ListCumnocum:     any = [];
+    ListgessClar:     any = [];
     camp_acer:        any = [
                               'acer_presta',
                               'acer_empati',
@@ -163,6 +164,7 @@ export interface PeriodicElement {
           tipo_gestion: new FormControl(""),
           retro: new FormControl(""),     
           document: new FormControl(""),   
+          tip_solitud: new FormControl(""),
 
           acer_presta: new FormControl(""),
           acer_empati: new FormControl(""),
@@ -208,6 +210,7 @@ export interface PeriodicElement {
                   this.Listipocampana = data.data['tipocamp'];
                   this.ListCumnocum   = data.data['cumnocum'];
                   this.personalData   = data.data['getDataPersonal'];  //Data Personal
+                  this.ListgessClar   = data.data['gessClar'];
   
                   if (this.view == 'update') {
                       this.getDataUpdate();
@@ -350,8 +353,8 @@ export interface PeriodicElement {
             this.formProces.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
             this.formProces.get('campana').setValue(data.data['getDataUpda'][0].campana);
             this.formProces.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
+            this.formProces.get('tip_solitud').setValue(data.data['getDataUpda'][0].tip_solitud);           
             this.upd_document = data.data['getDataUpda'][0].document;
-            console.log(this.upd_document);
             //ACERCAMIENTO
             this.formProces.get('acer_presta').setValue(data.data['getDataUpda'][0].acer_presta);
             this.formProces.get('acer_empati').setValue(data.data['getDataUpda'][0].acer_empati);
