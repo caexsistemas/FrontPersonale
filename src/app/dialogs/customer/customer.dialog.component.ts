@@ -165,6 +165,7 @@ export interface PeriodicElement {
           retro: new FormControl(""),     
           document: new FormControl(""),   
           tip_solitud: new FormControl(""),
+          obs_custo: new FormControl(""),
 
           acer_presta: new FormControl(""),
           acer_empati: new FormControl(""),

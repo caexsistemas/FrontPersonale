@@ -168,6 +168,16 @@
                   </div>
                    <!--{ROW //////////}-->
 
+                   <!--{ROW *********}-->
+                   <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>Observaciones:</mat-label>
+                            <textarea matInput formControlName="obs_custo"  placeholder="" ></textarea>
+                        </mat-form-field>
+                    </div>
+                   </div>
+                   <!--{ROW //////////}-->
                   
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -552,6 +562,15 @@
   
                     </div>
                      <!--{ROW //////////}-->
+
+                    <!--{ROW *********}-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Observaciones:</dt>
+                            <dd>{{dataCad.obs_custo}}</dd>                         
+                        </div>
+                    </div>
+                    <!--{ROW //////////}-->
   
                     
                     <mat-action-row>
