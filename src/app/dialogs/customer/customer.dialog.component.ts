@@ -354,7 +354,8 @@ export interface PeriodicElement {
             this.formProces.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
             this.formProces.get('campana').setValue(data.data['getDataUpda'][0].campana);
             this.formProces.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
-            this.formProces.get('tip_solitud').setValue(data.data['getDataUpda'][0].tip_solitud);           
+            this.formProces.get('tip_solitud').setValue(data.data['getDataUpda'][0].tip_solitud);   
+            this.formProces.get('obs_custo').setValue(data.data['getDataUpda'][0].obs_custo);            
             this.upd_document = data.data['getDataUpda'][0].document;
             //ACERCAMIENTO
             this.formProces.get('acer_presta').setValue(data.data['getDataUpda'][0].acer_presta);
