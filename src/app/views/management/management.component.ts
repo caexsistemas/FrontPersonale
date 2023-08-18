@@ -121,12 +121,12 @@ export class ManagementComponent implements OnInit {
       .subscribe(
         response => {
           console.log(this.permissions);
-          if (response.success) {
-            this.handler.showSuccess('El archivo se cargo exitosamente');
+          if (response.success) {          
             this.personaleData = response.data;
             this.loading = false;
             this.successModal.hide();
             this.sendRequest();
+            this.handler.showSuccess('El archivo se cargo exitosamente');
           } else {
             this.datapersonale = [];
             this.handler.handlerError(response);

@@ -286,7 +286,6 @@ export class DefaultLayoutComponent{
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
-    //console.log('eve'+e);
   }
 
   prueba_cli(){
@@ -339,7 +338,6 @@ export class DefaultLayoutComponent{
   checkNotification( WebApiService: WebApiService){
     // ejecutar consulta al servidor para verificar si el token es valido aun...
     this.icoNoti = "cui-bell"; 
-    console.log(this.hidden); 
     this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
     //Variables 
     let body = {
