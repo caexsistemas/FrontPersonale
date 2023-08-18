@@ -134,6 +134,7 @@ import { CustomerDialog } from './dialogs/customer/customer.dialog.component';
 import { ReportsCustomerComponent } from './dialogs/reports/customer/reports-customer.component';
 import { FormalitiesDialog } from './dialogs/formalities/formalities.dialog.component';
 import { NotificationDialog } from './dialogs/notification/notification.dialog.component';
+import { ModuleDialog } from './dialogs/module/module.dialog.component';
 
 const routes: Routes = []; 
 @NgModule({
@@ -262,7 +263,8 @@ const routes: Routes = [];
     CustomerDialog,
     ReportsCustomerComponent,
     FormalitiesDialog,
-    NotificationDialog
+    NotificationDialog,
+    ModuleDialog
   ],
   providers: [{
     

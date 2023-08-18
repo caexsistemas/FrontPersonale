@@ -43,6 +43,7 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { RolesComponent } from './roles/roles.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { ContactComponent } from './contact/contact.component';
+import { ModuleComponent } from './permission/module.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -79,7 +80,8 @@ const ngWizardConfig: NgWizardConfig = {
     StateComponent,
     RolesComponent,
     CalendarComponent,
-    ContactComponent
+    ContactComponent,
+    ModuleComponent
 
 
   ]

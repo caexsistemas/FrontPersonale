@@ -1,0 +1,189 @@
+<div class="card mt-6">
+  <div *ngIf=" view == 'updateCal' || view == 'createCal' || view == 'create' || view == 'update'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'createCal' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'create'">{{title}} </p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}} </p>
+        <p class="title-modal" *ngIf="view == 'updateCal'">{{title}} </p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    
+    <div class="card-body">
+      <mat-dialog-content>
+        <!-- formulario para crear modulo -->
+        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput disabled value="Cali Express">
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="name" value="name" required>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>url</mat-label>
+                <input matInput formControlName="url" required>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field  class="example-full-width">
+                  <mat-label>Estado</mat-label>
+                  <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field  class="example-full-width">
+                  <mat-label>Item</mat-label>
+                  <mat-select formControlName="iditem" required>
+                    <mat-option *ngFor="let idet of item" [value]="idet.id">
+                      {{idet.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <!-- formulario de permisos -->
+        <form *ngIf="view == 'createCal'|| view == 'updateCal'" [formGroup]="formModule">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput disabled value="Cali Express">
+        </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field  appearance="fill">
+                <mat-label>Roles</mat-label>
+                <mat-select formControlName="idrol" required>
+                  <mat-option *ngFor="let idet of roles" [value]="idet.idRole" >
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field  appearance="fill">
+                <mat-label>Módulo</mat-label>
+                <input matInput formControlName="iditem" value="iditem" readonly>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field  appearance="fill">
+                  <mat-label>Permisos</mat-label>
+                  <mat-select formControlName="perm" multiple (ngModelChange)="onSelectionPerson($event)" required>
+                    <mat-option *ngFor="let idet of authorization" [value]="idet.description">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+        </div> 
+    </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12 mt-3">
+          <button *ngIf="view == 'updateCal'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+            <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdateMod()">Actualizar</button>
+
+          <button *ngIf="view == 'createCal'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmiMod()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="view == 'view'">
+  <div class="modal-header">
+    <h5 class="modal-title">{{title}} {{module.name}}</h5>
+    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close" style="background-color: #0d95c5; width: 30px; height: 30px; font-size: 76%; display: flex; align-items: center; justify-content: center;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <mat-dialog-content style="min-width: 700px;">
+  <div class="row mt-2">
+    <div class="col-md-4">
+      <dd>
+          <div class="btn-group mt-2" dropdown>
+              <button class="btn btn-primary" (click)="optionCal('createCal', module.id)" style="background-color: #0d95c5; width: 92px; height: 30px; font-size:12px; 
+              line-height: 1.2;">
+                  Agregar Rol
+              </button>
+          </div>
+      </dd>             
+  </div>
+ </div>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Roles Asignados
+        </div>
+        <div class="container mt-3">
+          <mat-form-field appearance="standard" style="width: 101%;">
+            <mat-label>Buscar..</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+          </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="dataSource" style="width: 100%;" class="mat-elevation-z8 demo-table mt-2">
+
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef class="p-3">ID:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.id}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Rol:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.role}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="perm">
+            <th mat-header-cell *matHeaderCellDef class="p-3">Permisos:</th>
+            <td mat-cell *matCellDef="let element" class="p-3">{{element.perm}}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+                <button class="btn  btn-ghost-secondary"
+                    (click)="optionCal('updateCal',element.id)" title="Editar">
+                    <i class="fa fa-edit fa-lg"></i>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25,100]" showFirstLastButtons></mat-paginator>
+      </div>
+      <div *ngIf="dataSource.length == 0">
+        <h4 class="no-records">No hay registros...</h4>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+</div>

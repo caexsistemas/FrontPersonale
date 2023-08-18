@@ -20,6 +20,7 @@ import { StateComponent } from './state/state.component';
 import { RolesComponent } from './roles/roles.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { ContactComponent } from './contact/contact.component';
+import { ModuleComponent } from './permission/module.component';
 
 
 const routes: Routes = [
@@ -73,6 +74,13 @@ const routes: Routes = [
         component: ContactComponent,
         data: {
           title: 'Contact User'
+        }
+      },
+      {
+        path: 'module',
+        component: ModuleComponent,
+        data: {
+          title: 'Módulo'
         }
       }
     ]
