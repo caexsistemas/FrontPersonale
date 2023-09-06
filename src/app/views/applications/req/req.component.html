@@ -67,6 +67,11 @@
           <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="req_tip_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de req</th>
+          <td mat-cell *matCellDef="let element"> {{element.req_tip_id}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="req_cam">
           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Campaña Req</th>
           <td mat-cell *matCellDef="let element"> {{element.campana }} </td>

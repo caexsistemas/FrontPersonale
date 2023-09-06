@@ -4,16 +4,13 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-
   production: false,
 
-     
-     url: 'http://127.0.0.1:8000/api',
-     baseUrl: 'http://localhost:4200',
-     //url: "http://192.168.0.10/BackPersonale/api",
+  url: "http://127.0.0.1:8000/api",
+  baseUrl: "http://localhost:4200",
+  //url: "http://192.168.0.10/BackPersonale/api",
 
-    // api contact 
-    apiContact:"http://190.145.107.211/sistema_personalizado/index.php/Contact360/"
-
-
+  // api contact
+  apiContact:
+    "http://190.145.107.211/sistema_personalizado/index.php/Contact360/",
 };

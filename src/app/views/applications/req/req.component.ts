@@ -134,6 +134,7 @@ export class ReqComponent implements OnInit {
       "view",
       "fec_rad",
       "req_tip",
+      "req_tip_id",
       "req_cam",
       "req_mot",
       "req_updated_at",
