@@ -156,6 +156,7 @@ export class UsersDialog {
       usu_wolk: new FormControl(""),
       idPersonale: new FormControl(""),
       login: new FormControl(this.sesion),
+      us_red: new FormControl(""),
     });
   }
 
@@ -168,6 +169,7 @@ export class UsersDialog {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamsUpdate",
       id: this.data.codigo,
+      role: this.cuser.role,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
@@ -293,6 +295,9 @@ export class UsersDialog {
           this.formUsuario
             .get("login")
             .setValue(data.data["getDataUpda"][0].login);
+          this.formUsuario
+            .get("us_red")
+            .setValue(data.data["getDataUpda"][0].us_red);
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -348,48 +353,31 @@ export class UsersDialog {
     this.exitsPersonal = this.person.find(
       (element) => element.document == event
     );
-    // console.log(this.exitsPersonal);
-
-    // separar nombre
-    //  this.person = data.data['personale']; //supongamos que this.person es el arreglo de objetos que mencionaste
-    //  for (let i = 0; i < this.exitsPersonal.length; i++) { //recorrer el arreglo
-    //    const fullName = this.exitsPersonal[i].name.trim(); //quitar espacios en blanco adicionales
-    //    const nameArray = fullName.split(' '); //dividir la cadena en un arreglo utilizando un espacio como separador
-    //    const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
-    //    const lastName = nameArray.slice(1).join(' '); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
-    //    console.log(firstName); //imprimirá el nombre de cada objeto en el arreglo
-    //    console.log(lastName); //imprimirá el apellido de cada objeto en el arreglo
-    //  }
-
-    // this.person = data.data['personale']; //supongamos que this.person es "John Doe"
-
-    // const fullName = "Juan José Pérez García";
-    // const nameArray = fullName.split(' '); //dividir la cadena en un arreglo utilizando un espacio como separador
-    // const firstName = nameArray[0] + ' ' + nameArray[1]; //obtener el primer y segundo elemento del arreglo (nombre compuesto)
-    // const lastName = nameArray.slice(2).join(' '); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
-    // console.log(firstName); //imprimirá "Juan José"
-    // console.log(lastName); //imprimirá "Pérez García"
 
     if (this.exitsPersonal) {
       const fullName = this.exitsPersonal.name.trim(); //quitar espacios en blanco adicionales
       const nameArray = fullName.split(" "); //dividir la cadena en un arreglo utilizando un espacio como separador
-      // console.log(nameArray);
-      // console.log(nameArray.length);
 
-      const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
-      const lastName = nameArray.slice(1).join(" "); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
-      console.log(firstName); //imprimirá "John"
-      console.log(lastName); //imprimirá "Doe"
-      this.formUsuario
-        .get("idPersonale")
-        .setValue(this.exitsPersonal.idPersonale);
+      if (nameArray.length <= 3) {
+        const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
+        const lastName = nameArray.slice(1).join(" "); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
+
+        this.formUsuario
+          .get("idPersonale")
+          .setValue(this.exitsPersonal.idPersonale);
+        this.formUsuario.get("name").setValue(firstName);
+        this.formUsuario.get("surname").setValue(lastName);
+      } else if (nameArray.length >= 3) {
+        const firstName = nameArray[0] + " " + nameArray[1];
+        const lastName = nameArray.slice(2).join(" ");
+
+        this.formUsuario
+          .get("idPersonale")
+          .setValue(this.exitsPersonal.idPersonale);
+        this.formUsuario.get("name").setValue(firstName);
+        this.formUsuario.get("surname").setValue(lastName);
+      }
     }
-    // console.log('=>',this.exitsPersonal)
-    // this.newUser = this.exitsPersonal.name.slice(0,4)
-    // this.newSurname = this.exitsPersonal.name.slice(5,12)
-
-    // console.log('name=>',this.newUser)
-    // console.log('surname=>',this.newSurname)
   }
 
   // mayus(e) {

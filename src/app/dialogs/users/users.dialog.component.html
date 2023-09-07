@@ -183,7 +183,8 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Nombre</mat-label>
-                                <input matInput formControlName="name" autocomplete="off" oninput="javascript:this.value=this.value.toUpperCase();">
+                                <input matInput formControlName="name" autocomplete="off"
+                                    oninput="javascript:this.value=this.value.toUpperCase();" readonly>
                                 <mat-error *ngIf="name.hasError('required')">
                                     Name is <strong>required</strong>
                                 </mat-error>
@@ -192,21 +193,22 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Apellido</mat-label>
-                                <input matInput formControlName="surname" autocomplete="off" oninput="javascript:this.value=this.value.toUpperCase();">
+                                <input matInput formControlName="surname" autocomplete="off"
+                                    oninput="javascript:this.value=this.value.toUpperCase();" readonly>
                                 <mat-error *ngIf="surname.hasError('required')">
                                     Surname is <strong>required</strong>
                                 </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
-                                <mat-label>last Login</mat-label>
-                                <input matInput formControlName="lastLogin">
+                                <mat-label>Usuario de red</mat-label>
+                                <input matInput formControlName="us_red">
                             </mat-form-field>
                         </div>
-                    </div> -->
+                    </div>
                 </form>
             </mat-dialog-content>
             <div mat-dialog-actions>

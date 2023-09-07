@@ -21,7 +21,7 @@ import {
   styleUrls: ["./reports-formalities.component.css"],
 })
 export class ReportsFormalitiesComponent implements OnInit {
-  ndpoint: string = "/holiday";
+  ndpoint: string = "/formalities";
   formDownoadIngreso: FormGroup;
   loading_: boolean = false;
   //History
@@ -35,7 +35,7 @@ export class ReportsFormalitiesComponent implements OnInit {
   pipe = new DatePipe("en-US");
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
-  component = "/selfManagement/holiday";
+  component = "/management/formalities";
 
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
