@@ -17,10 +17,10 @@
                 <div class="col-md-4">
                     <mat-form-field class="example-full-width">
                         <mat-label>Estado Gestion:</mat-label>
-                        <mat-select formControlName="tipogesti"  required>
-                          <mat-option *ngFor="let idet of ListEstGes" [value]="idet.ls_codvalue" required>
-                            {{idet.description}}
-                          </mat-option>
+                        <mat-select formControlName="tipogesti">
+                            <mat-option *ngFor="let idet of ListEstGes" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -31,9 +31,9 @@
                     <mat-form-field class="example-full-width">
                         <mat-label>Estado Incapacidad:</mat-label>
                         <mat-select formControlName="stapincapc">
-                          <mat-option *ngFor="let idet of ListCurso" [value]="idet.ls_codvalue" required>
-                            {{idet.description}}
-                          </mat-option>
+                            <mat-option *ngFor="let idet of ListCurso" [value]="idet.ls_codvalue" required>
+                                {{idet.description}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -44,9 +44,7 @@
     </mat-dialog-content>
     <div mat-dialog-actions>
         <div class="text-center col-12">
-           <button mat-button class="btn btn-success" (click)="descargarArchivos()">Descargar</button>  
+            <button mat-button class="btn btn-success" (click)="descargarArchivos()">Descargar</button>
         </div>
     </div>
 </div>
-
-
