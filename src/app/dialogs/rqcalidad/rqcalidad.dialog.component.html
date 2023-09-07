@@ -125,9 +125,31 @@
                             <dt>Nota Final:</dt>
                             <dd>{{dataCad.final_note_caex}}</dd>
                         </div>
+
+                        <div class="col-sm-4">
+                            <dt>Nombre de la Base:</dt>
+                            <dd>{{dataCad.nom_base}}</dd>
+                        </div>
                     </div>
 
-                  <!--**-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>ID Venta:</dt>
+                            <dd>{{dataCad.id_venta}}</dd>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>¿Registra de Manera Correcta la Venta?:</dt>
+                            <dd>{{dataCad.mancorrven}}</dd>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <dt>¿La llamada es Postulada?:</dt>
+                            <dd>{{dataCad.postucall}}</dd>
+                        </div>
+                    </div>
+
+                  <!--**--> 
                   
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -425,6 +447,17 @@
                             <dd>{{dataCad.ns_ofr_esc}}</dd>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>¿Es Reincidente?:</dt>
+                            <dd>{{dataCad.reciente}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Motivo de la afectación:</dt>
+                            <dd>{{dataCad.moti_afect}}</dd>
+                        </div>
+                    </div>
                 
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -503,6 +536,17 @@
                             <dd>{{dataCad.hogar_ofr_esc}}</dd>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>¿Es Reincidente?:</dt>
+                            <dd>{{dataCad.reciente}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Motivo de la afectación:</dt>
+                            <dd>{{dataCad.moti_afect}}</dd>
+                        </div>
+                    </div>
                 
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -543,8 +587,16 @@
                             <dt> Accesorios:</dt>
                             <dd>{{dataCad.tyt_ult_wif}}</dd>
                         </div>
+                        <div class="col-sm-4">
+                            <dt>¿Es Reincidente?:</dt>
+                            <dd>{{dataCad.reciente}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Motivo de la afectación:</dt>
+                            <dd>{{dataCad.moti_afect}}</dd>
+                        </div>
                     </div>
-                
+
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                         <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -909,8 +961,44 @@
                             <input matInput  type="number"  value="0">
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4"></div>
+
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Nombre de la Base:</mat-label>
+                            <input matInput formControlName="nom_base" type="text" required>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>ID Venta:</mat-label>
+                            <input matInput formControlName="id_venta" type="text">
+                        </mat-form-field>
+                    </div>
                 
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>¿Registra de Manera Correcta la Venta?:</mat-label>
+                            <mat-select formControlName="mancorrven" required>
+                                <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>¿La llamada es Postulada?:</mat-label>
+                            <mat-select formControlName="postucall" required>
+                                <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                   </div>
                   
                   <mat-action-row>
@@ -1408,6 +1496,25 @@
                             </mat-form-field>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Es Reincidente?:</mat-label>
+                                <mat-select formControlName="reciente" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-8">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
+                                <textarea matInput formControlName="moti_afect"  placeholder="" ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
                 
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -1558,6 +1665,25 @@
                             </mat-form-field>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Es Reincidente?:</mat-label>
+                                <mat-select formControlName="reciente" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-8">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
+                                <textarea matInput formControlName="moti_afect"  placeholder="" ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
                 
                     <mat-action-row>
                         <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
@@ -1626,7 +1752,24 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
+                    
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Es Reincidente?:</mat-label>
+                                <mat-select formControlName="reciente" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
+                                <textarea matInput formControlName="moti_afect"  placeholder="" ></textarea>
+                            </mat-form-field>
+                        </div>
+                       
                     </div>
                 
                     <mat-action-row>

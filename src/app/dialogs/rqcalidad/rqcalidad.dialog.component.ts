@@ -306,7 +306,14 @@ export class RqcalidadDialog  {
       asp_pos_man_con_seg_lla: new FormControl(false), 
       asp_pos_bri_inf_cor_ser_ofe: new FormControl(false),
       asp_pos_rea_lec_cor_con: new FormControl(false),
-      asp_pos_apl_lin_mod_gana: new FormControl(false)
+      asp_pos_apl_lin_mod_gana: new FormControl(false),
+      //Nuevo Campos
+      reciente: new FormControl(""),
+      moti_afect: new FormControl(""),
+      nom_base: new FormControl(""),
+      id_venta: new FormControl(""),
+      mancorrven: new FormControl(""),
+      postucall: new FormControl("")
     });
 
   }
@@ -735,6 +742,22 @@ export class RqcalidadDialog  {
           this.formProces.get('asp_pos_bri_inf_cor_ser_ofe').setValue(data.data['getDataUpda'][0].asp_pos_bri_inf_cor_ser_ofe);
           this.formProces.get('asp_pos_rea_lec_cor_con').setValue(data.data['getDataUpda'][0].asp_pos_rea_lec_cor_con);
           this.formProces.get('asp_pos_apl_lin_mod_gana').setValue(data.data['getDataUpda'][0].asp_pos_apl_lin_mod_gana);
+          //Otros Campos
+          this.formProces.get('reciente').setValue(data.data['getDataUpda'][0].reciente);
+          this.formProces.get('moti_afect').setValue(data.data['getDataUpda'][0].moti_afect);
+          this.formProces.get('nom_base').setValue(data.data['getDataUpda'][0].nom_base);
+          this.formProces.get('id_venta').setValue(data.data['getDataUpda'][0].id_venta);
+          this.formProces.get('mancorrven').setValue(data.data['getDataUpda'][0].mancorrven);
+          this.formProces.get('postucall').setValue(data.data['getDataUpda'][0].postucall);
+
+          //Malas practicas y Espectativas
+          if( data.data['getDataUpda'][0].cri_fal_exp_mal_pra == "34/2" || data.data['getDataUpda'][0].cri_val_cor_cob == "34/2" ){
+            this.oculori = "conhidden";
+            this.oculcap = "convisual";
+          }else{
+            this.oculori = "convisual";
+            this.oculcap = "conhidden";
+          }
           
         },
         error => {
