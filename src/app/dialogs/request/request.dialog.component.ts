@@ -190,28 +190,9 @@ export class RequestDialog {
           this.position = data.data["idPosition"];
           this.state_sol = data.data["state"];
           this.rol_user = this.cuser.role;
-          // 23,14,21
-          if (
-            this.rol_user == "23" ||
-            this.rol_user == "14" ||
-            this.rol_user == "21"
-          ) {
-            this.typeSolit = data.data["typeSolit"].slice(0, 2);
-            this.application = data.data["application"].slice(0, 7);
 
-            this.check_user = true;
-            // 31,2, 27
-          } else if (
-            this.rol_user == "31" ||
-            this.rol_user == "2" ||
-            this.rol_user == "27" ||
-            this.rol_user == "1"
-          ) {
-            this.typeSolit = data.data["typeSolit"];
-            this.application = data.data["application"];
-
-            this.check_cood = true;
-          }
+          this.typeSolit = data.data["typeSolit"];
+          this.application = data.data["application"];
 
           this.exitsPersonal = this.PersonaleInfo.find(
             (element) => element.idPersonale == this.cuser.idPersonale
