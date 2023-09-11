@@ -414,7 +414,7 @@
               <button mat-button class="btn btn-dark mr-3" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="check_proc" [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
+          <mat-expansion-panel *ngIf="check_proc || rol ==20" [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Proceso {{selection.area}}&nbsp; &nbsp;
@@ -445,7 +445,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="rolTecno" [expanded]="step ===2" (opened)="setStep(2)" hideToggle>
+          <mat-expansion-panel *ngIf="rolTecno  || rol ==20" [expanded]="step ===2" (opened)="setStep(2)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Tecnología&nbsp; &nbsp;
@@ -497,7 +497,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="rolNom" [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+          <mat-expansion-panel *ngIf="rolNom  || rol ==20" [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Nomina
@@ -524,7 +524,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="rolCont" [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+          <mat-expansion-panel *ngIf="rolCont  || rol ==20" [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Contabilidad&nbsp; &nbsp;
@@ -551,7 +551,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel *ngIf="rolSig" [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+          <mat-expansion-panel *ngIf="rolSig  || rol ==20" [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Sistema Integrado de Gestión&nbsp; &nbsp;
