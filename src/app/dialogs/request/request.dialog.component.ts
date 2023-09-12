@@ -146,9 +146,9 @@ export class RequestDialog {
   initFormsRole() {
     this.getDataInit();
     this.formCreate = new FormGroup({
-      document: new FormControl(this.cuser.username),
+      document: new FormControl(""),
       us_document: new FormControl(""),
-      idPersonale: new FormControl(this.cuser.idPersonale),
+      idPersonale: new FormControl(""),
       us_idPersonale: new FormControl(""),
       fec_rad: new FormControl(""),
       us_red: new FormControl(""),
@@ -229,6 +229,12 @@ export class RequestDialog {
     }).subscribe(
       (data) => {
         if (data.success) {
+          this.formCreate
+            .get("document")
+            .setValue(data.data["getParamUpdate"][0].document);
+          this.formCreate
+            .get("idPersonale")
+            .setValue(data.data["getParamUpdate"][0].idPersonale);
           this.formCreate
             .get("us_red")
             .setValue(data.data["getParamUpdate"][0].us_red);
