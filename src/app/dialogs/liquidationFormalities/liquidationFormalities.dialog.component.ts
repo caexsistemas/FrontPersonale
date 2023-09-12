@@ -57,9 +57,9 @@ export class LiquidationFormalitiesDialog {
   formSelec: FormGroup;
   permissions: any = null;
   // component = "/management/formalities";
-  component = "/management/liquidation";
+  component = "/management/pazLiq";
   dataSource: any = [];
-  endpoint: string = "/liquidation";
+  endpoint: string = "/pazLiq";
   idSig: number = null;
   archivo = {
     nombre: null,
