@@ -1,13 +1,13 @@
 <app-header [navbarBrandRouterLink]="['/dashboard']" [fixed]="true"
   [navbarBrandFull]="{src: 'assets/img/brand/Icon.png', width: 100, height: 100, alt: 'CoreUI Logo'}"
-  [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/Icon.png', width: 70, height: 80, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="false" [mobileAsideMenuToggler]="false">
 
   <button type="button" ng-reflect-breakpoint class="btn-shadow d-inline-flex align-items-center btn btn-light sep-button" (click)="logout()" 
   tooltip="Cerrar sesion" placement="left" title="Cerrar sesion">
   <i class="cui-account-logout icons font-2xl d-block"></i>
 </button>
-
+ 
 
   <button  matBadge="{{this.conteNotifi}}" type="button" [matBadgeHidden]="hidden" (click)="toggleBadgeVisibility()"
      ng-reflect-breakpoint class="btn-shadow d-inline-flex align-items-center btn btn-light sep-button" placement="left">
