@@ -31,7 +31,7 @@ import { LiquidationFormalitiesDialog } from "../../../dialogs/liquidationFormal
   styleUrls: ["./liquidationFormalities.component.css"],
 })
 export class LiquidationFormalitiesComponent implements OnInit {
-  endpoint: string = "/liquidation";
+  endpoint: string = "/pazLiq";
   id: number = null;
   permissions: any = null;
   contenTable: any = [];
@@ -47,7 +47,7 @@ export class LiquidationFormalitiesComponent implements OnInit {
   chekPdf: boolean = false;
   checkUpdate: boolean = false;
   //Control Permiso
-  component = "/management/liquidation";
+  component = "/management/pazLiq";
   //History
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 

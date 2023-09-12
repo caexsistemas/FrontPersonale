@@ -38,7 +38,7 @@ const routes: Routes = [
         },
       },
       {
-        path: "liquidation",
+        path: "pazLiq",
         component: LiquidationFormalitiesComponent,
         data: {
           title: "Liquidación de paz y salvos",
