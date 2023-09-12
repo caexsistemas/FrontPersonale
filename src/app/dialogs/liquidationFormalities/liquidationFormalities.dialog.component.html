@@ -80,7 +80,8 @@
           <div class="row mt-3">
             <div class="col-md-4">
               <label>Adjuntar Documento de Soporte:</label>
-              <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)">
+              <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)"
+                multiple>
             </div>
           </div>
           <hr>
@@ -161,9 +162,15 @@
                 <dt>Estado</dt>
                 <dd>{{selection.Estado}}</dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="caract">
                 <dt>Documentos de Soporte:</dt>
-                <dd><a href="{{selection.file_sp}}" target="_blank">Download</a></dd>
+                <dd>
+                  <ul>
+                    <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                      <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                    </li>
+                  </ul>
+                </dd>
               </div>
             </div>
             <mat-action-row>

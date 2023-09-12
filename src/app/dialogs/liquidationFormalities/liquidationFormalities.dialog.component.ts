@@ -88,6 +88,8 @@ export class LiquidationFormalitiesDialog {
   idUser: any = [];
   selectedUserId: number | null = null;
   allForm: any = [];
+  nuevoArchivo: any = [];
+  caract: boolean;
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -133,6 +135,12 @@ export class LiquidationFormalitiesDialog {
           (data) => {
             if (data.success == true) {
               this.selection = data.data["getSelectData"][0];
+              if (!this.selection.file_sp) {
+                this.caract = false;
+              } else {
+                this.caract = true;
+                this.selection.file_sp = JSON.parse(this.selection.file_sp);
+              }
               this.jef_inm = data.data["getSelectData"][0].immediateBoss;
 
               this.generateTable(data.data["getDatHistory"]);
@@ -314,7 +322,7 @@ export class LiquidationFormalitiesDialog {
       this.loading.emit(true);
       let body = {
         incapacidades: this.formSelec.value,
-        archivoRes: this.archivo,
+        archivoRes: this.nuevoArchivo,
       };
       this.WebApiService.putRequest(this.endpoint + "/" + this.idSig, body, {
         token: this.cuser.token,
@@ -376,14 +384,34 @@ export class LiquidationFormalitiesDialog {
   }
   seleccionarArchivo(event) {
     var files = event.target.files;
-    var file = files[0];
-    this.archivo.nombreArchivo = file.name;
+    var archivos = [];
 
-    if (files && file) {
-      var reader = new FileReader();
-      reader.onload = this._handleReaderLoaded.bind(this);
-      reader.readAsBinaryString(file);
-    }
+    // Función para leer archivos de manera secuencial con Promesas
+    const leerArchivo = (file) => {
+      return new Promise<void>((resolve) => {
+        var reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          var archivo = {
+            nombreArchivo: file.name,
+            base64textString: btoa(readerEvent.target.result.toString()),
+          };
+          archivos.push(archivo);
+          resolve();
+        };
+        reader.readAsBinaryString(file);
+      });
+    };
+
+    // Utilizar async/await para leer archivos secuencialmente
+    const leerArchivosSecuencialmente = async () => {
+      for (var i = 0; i < files.length; i++) {
+        await leerArchivo(files[i]);
+      }
+      this.nuevoArchivo = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
+      console.log(this.nuevoArchivo); // Aquí puedes hacer lo que necesites con el arreglo de archivos
+    };
+
+    leerArchivosSecuencialmente();
   }
 
   _handleReaderLoaded(readerEvent) {
