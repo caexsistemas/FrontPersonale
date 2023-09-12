@@ -1,40 +1,40 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ManagementRoutingModule } from './management-routing.module';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ManagementRoutingModule } from "./management-routing.module";
 // Ng2-select
-import { SelectModule } from 'ng-select';
+import { SelectModule } from "ng-select";
 //dataTables
 // import { DataTableModule } from 'angular2-datatable';
 // Modal Component
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { ManagementComponent } from './management.component';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from "ngx-bootstrap/modal";
+import { ManagementComponent } from "./management.component";
+import { TabsModule } from "ngx-bootstrap/tabs";
 import { AngularFileUploaderModule } from "angular-file-uploader";
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 // Dropdowns Component
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { NgWizardModule, NgWizardConfig, THEME } from "ng-wizard";
 
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule }  from '@angular/material/input';
-import {MatTabsModule} from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { CertificatesComponent } from './certificates/certificates.component';
-import { FormalitiesComponent } from './formalities/formalities.component';
-
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatIconModule } from "@angular/material/icon";
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
+import { CertificatesComponent } from "./certificates/certificates.component";
+import { FormalitiesComponent } from "./formalities/formalities.component";
+import { LiquidationFormalitiesComponent } from "./liquidation/liquidationFormalities.component";
 
 const ngWizardConfig: NgWizardConfig = {
-  theme: THEME.arrows
+  theme: THEME.arrows,
 };
 
-@NgModule({ 
+@NgModule({
   imports: [
     CommonModule,
     ManagementRoutingModule,
@@ -56,12 +56,13 @@ const ngWizardConfig: NgWizardConfig = {
     MatIconModule,
     MatBottomSheetModule,
     BsDropdownModule.forRoot(),
-    NgWizardModule.forRoot(ngWizardConfig)
+    NgWizardModule.forRoot(ngWizardConfig),
   ],
   declarations: [
     ManagementComponent,
     CertificatesComponent,
-    FormalitiesComponent
+    FormalitiesComponent,
+    LiquidationFormalitiesComponent,
   ],
 })
-export class ManagementModule { }
+export class ManagementModule {}
