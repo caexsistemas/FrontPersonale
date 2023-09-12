@@ -16,22 +16,17 @@
         </div>
         <div class="col-md-4">
           <mat-form-field class="example-full-width">
-            <mat-label>No Documento</mat-label>
-            <input matInput formControlName="document" type="number">
+            <mat-label>Estado:</mat-label>
+            <mat-select formControlName="state" (ngModelChange)="labelMatriz($event)">
+              <mat-option *ngFor="let idet of tipState" [value]="idet.ls_codvalue">
+                {{idet.description}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
-        <!-- <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
-                      <mat-label>Tipo Matriz:</mat-label>
-                      <mat-select formControlName="matrizarp" (ngModelChange)="labelMatriz($event)">
-                          <mat-option *ngFor="let idet of listipomatriz" [value]="idet.ls_codvalue">
-                              {{idet.description}}
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-              </div> -->
+
       </div>
     </form>
   </mat-dialog-content>

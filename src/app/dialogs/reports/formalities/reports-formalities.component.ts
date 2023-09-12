@@ -29,7 +29,7 @@ export class ReportsFormalitiesComponent implements OnInit {
   listipomatriz: any = [];
   displayedColumns: any = [];
   tipMatriz: string = "";
-  matrizarp: string = "";
+  tipState: string = "";
   dataCad: string = "";
   today: Date = new Date();
   pipe = new DatePipe("en-US");
@@ -53,8 +53,7 @@ export class ReportsFormalitiesComponent implements OnInit {
     this.formDownoadIngreso = new FormGroup({
       fi: new FormControl(""),
       ff: new FormControl(""),
-      // matrizarp: new FormControl(this.cuser.matrizarp),
-      document: new FormControl(""),
+      state: new FormControl(""),
       role: new FormControl(this.cuser.role),
       iduser: new FormControl(this.cuser.iduser),
     });
@@ -72,9 +71,7 @@ export class ReportsFormalitiesComponent implements OnInit {
       (data) => {
         if (data.success == true) {
           this.dataCad = data.data["getContData"];
-
-          //  this.listipomatriz = data.data['tipmatriz']; //40
-          //  this.tipMatriz = this.listipomatriz.matrizarp_cod;
+          this.tipState = data.data["state"];
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);

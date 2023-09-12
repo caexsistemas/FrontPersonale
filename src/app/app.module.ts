@@ -146,6 +146,7 @@ import { ApplicationDialog } from "./dialogs/application/application.dialog.comp
 import { RequestDialog } from "./dialogs/request/request.dialog.component";
 import { ReqDialog } from "./dialogs/req/req.dialog.component";
 import { ReportsFormalitiesComponent } from "./dialogs/reports/formalities/reports-formalities.component";
+import { LiquidationFormalitiesDialog } from "./dialogs/liquidationFormalities/liquidationFormalities.dialog.component";
 
 const routes: Routes = [];
 @NgModule({
@@ -280,6 +281,7 @@ const routes: Routes = [];
     RequestDialog,
     ReqDialog,
     ReportsFormalitiesComponent,
+    LiquidationFormalitiesDialog,
   ],
   providers: [
     {

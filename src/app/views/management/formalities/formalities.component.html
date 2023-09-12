@@ -9,8 +9,8 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
 
                     <div class="btn-group" dropdown>
-                        <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                            title="Reporte Excel">
+                        <button class="btn btn-success" *ngIf="permissions.create && chekPdf"
+                            (click)="onTriggerSheetClick()" title="Reporte Excel">
                             <i class="fa fa-feed"></i>
                         </button>
                     </div>
@@ -57,12 +57,12 @@
 
                     <ng-container matColumnDef="idPosition">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.cargo}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.cargo | uppercase}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="pro_res">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Proceso</th>
-                        <td mat-cell *matCellDef="let element"> {{element.area}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.area | uppercase}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="immediateBoss">
@@ -72,7 +72,7 @@
 
                     <ng-container matColumnDef="state">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.Estado}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.Estado | uppercase}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
