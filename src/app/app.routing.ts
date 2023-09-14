@@ -146,6 +146,11 @@ export const routes: Routes = [
             (m) => m.ApplicationsModule
           ),
       },
+      {
+        path: "process",
+        loadChildren: () =>
+          import("./views/process/process.module").then((m) => m.ProcessModule),
+      },
     ],
   },
 ];
