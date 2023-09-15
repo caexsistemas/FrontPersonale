@@ -84,7 +84,7 @@ export class CustomerComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
+        //console.log(error);
         this.handler.showError("Se produjo un error");
         this.loading = false;
       }
@@ -194,12 +194,47 @@ export class CustomerComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
+          //console.log("The dialog was closed");
+          //console.log(result);
         });
       break;
 
     }
+  }
+
+  pdf(id) {
+    //console.log(id);
+    //this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        //console.log(data);
+        if (data.success == true) {
+              
+              const link = document.createElement("a");
+              link.href = data.data.url;
+              link.download = data.data.file;
+              link.target = "_blank";
+              link.click();
+              this.handler.showSuccess(data.data.file);
+              this.loading = false;
+        } else {
+                this.handler.handlerError(data);
+                this.loading = false;
+        }
+      },
+      (error) => {
+              //console.log(error);
+              this.handler.showError("Se produjo un error");
+              this.loading = false;
+      }
+    );
   }
 
 }
