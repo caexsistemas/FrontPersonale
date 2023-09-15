@@ -119,21 +119,13 @@ export class DisciplinaryComponent implements OnInit {
     this.detailRoles = item;
     this.infoModal.show();
   }
-  show() {
+
+  ShowDisciplinary() {
     Swal.fire({
       title: "",
-      text: "El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud.",
+      html: `<p class="custom-swal" style="text-align:justify; font-weight: 610;">El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud.",
+      </p>`,
       icon: "success",
-      customClass: {
-        popup: "custom-sweetalert",
-        // container: "container",
-      },
-      // customClass: {
-      //   // Agregar clases personalizadas al contenedor principal
-      //   popup: 'custom-popup',
-      //   // Agregar clases personalizadas al texto
-      //   content: 'custom-content'
-      // }
     });
   }
   option(action, codigo = null) {
@@ -160,7 +152,7 @@ export class DisciplinaryComponent implements OnInit {
         break;
       case "create":
         this.loading = true;
-        this.show();
+        this.ShowDisciplinary();
         // this.handler.showSuccess(
         //   "El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud."
         // );
