@@ -1,6 +1,7 @@
 <div class="card">
   <div class="card-header">
-    Aplicativos Usuarios
+    Solicitud Procesos Disciplinarios
+
   </div>
   <!-- <mat-dialog-content> -->
 
@@ -44,71 +45,53 @@
         <ng-container matColumnDef="view">
           <th mat-header-cell *matHeaderCellDef> Ver </th>
           <td mat-cell *matCellDef="let element">
-            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.idapp)"
+            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.dis_id)"
               title="Ver">
               <i class="fa fa-eye fa-lg"></i>
             </button>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="fec_rad">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Inicio</th>
-          <td mat-cell *matCellDef="let element"> {{element.fec_rad | date}} </td>
+        <ng-container matColumnDef="dis_fec">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Radicacion</th>
+          <td mat-cell *matCellDef="let element"> {{element.dis_fec | date}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="document">
+        <ng-container matColumnDef="dis_doc">
           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento</th>
-          <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.dis_doc}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="idPersonale">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombres y Apellidos</th>
-          <td mat-cell *matCellDef="let element"> {{element.name | titlecase }} </td>
+        <ng-container matColumnDef="dis_idPersonale">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Trabajador</th>
+          <td mat-cell *matCellDef="let element"> {{element.empleado }} </td>
         </ng-container>
 
-        <ng-container matColumnDef="us_role">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Rol de usuario</th>
-          <td mat-cell *matCellDef="let element"> {{element.rol }} </td>
+        <ng-container matColumnDef="dis_pos">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo</th>
+          <td mat-cell *matCellDef="let element"> {{element.cargo_emp }} </td>
         </ng-container>
 
-        <ng-container matColumnDef="us_app">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aplicativo</th>
-          <td mat-cell *matCellDef="let element"> {{element.aplicativo }} </td>
+        <ng-container matColumnDef="dis_fal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de falta</th>
+          <td mat-cell *matCellDef="let element"> {{element.falta }} </td>
         </ng-container>
 
-        <ng-container matColumnDef="us_tip_sol">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de solicitud</th>
-          <td mat-cell *matCellDef="let element"> {{element.tipo }} </td>
+        <ng-container matColumnDef="dis_idp_sol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombre del solicitante</th>
+          <td mat-cell *matCellDef="let element"> {{element.solicitante }} </td>
         </ng-container>
 
-        <ng-container matColumnDef="us_are_tra">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Area de trabajo</th>
-          <td mat-cell *matCellDef="let element"> {{element.area }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Ultima actualizacion</th>
-          <td mat-cell *matCellDef="let element"> {{element.updated_at }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="us_state">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"
-            style="justify-content: center; text-align: center;">
-            Estado solicitud
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <div class="mt-1"
-              [ngStyle]="{'backgroundColor': colorState(element.us_state),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'77%','height':'5','font-weight':'500','color':'white'}">
-              {{ element.estado }}
-            </div>
-          </td>
+        <ng-container matColumnDef="dis_po_sol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo del solicitante</th>
+          <td mat-cell *matCellDef="let element"> {{element.cargo_solicitante }} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Acciones </th>
           <td mat-cell *matCellDef="let element">
-            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',element.idapp)"
-              title="Editar">
+            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
+              (click)="option('update',element.dis_id)" title="Editar">
               <i class="fa fa-edit fa-lg"></i>
             </button>
             <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"

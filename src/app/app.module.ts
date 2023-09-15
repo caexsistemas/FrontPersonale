@@ -147,6 +147,9 @@ import { RequestDialog } from "./dialogs/request/request.dialog.component";
 import { ReqDialog } from "./dialogs/req/req.dialog.component";
 import { ReportsFormalitiesComponent } from "./dialogs/reports/formalities/reports-formalities.component";
 import { LiquidationFormalitiesDialog } from "./dialogs/liquidationFormalities/liquidationFormalities.dialog.component";
+import { ProcessComponent } from "./views/process/process.component";
+import { DisciplinaryDialog } from "./dialogs/disciplinary/disciplinary.dialog.component";
+import { MatStepperModule } from "@angular/material/stepper";
 
 const routes: Routes = [];
 @NgModule({
@@ -201,6 +204,7 @@ const routes: Routes = [];
     MatSnackBarModule,
     MatBottomSheetModule,
     MatBadgeModule,
+    MatStepperModule,
   ],
   declarations: [
     AppComponent,
@@ -282,6 +286,8 @@ const routes: Routes = [];
     ReqDialog,
     ReportsFormalitiesComponent,
     LiquidationFormalitiesDialog,
+    ProcessComponent,
+    DisciplinaryDialog,
   ],
   providers: [
     {
