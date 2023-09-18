@@ -27,14 +27,14 @@
               <div class="row">
                 <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Numero Identificaci&oacute;n</mat-label>
+                    <mat-label>Cédula del solicitante</mat-label>
                     <input matInput formControlName="dis_doc_sol" (ngModelChange)="onSelectionChange($event)"
                       [readonly]="view == 'update'">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                    <mat-label>Nombre completo del solicitante:</mat-label>
                     <mat-select formControlName="dis_idp_sol">
                       <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                         {{idet.name}}
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Cargo:</mat-label>
+                    <mat-label>Cargo del trabajador que solicita la diligencia:</mat-label>
                     <mat-select formControlName="dis_po_sol">
                       <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
                         {{idet.description}}
@@ -56,13 +56,13 @@
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Numero Identificaci&oacute;n</mat-label>
+                    <mat-label>Cédula del trabajador que cometió la falta:</mat-label>
                     <input matInput formControlName="dis_doc" (ngModelChange)="onSelectionChange($event)" required>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Empleado:</mat-label>
+                    <mat-label>Nombre completo del trabajador que cometió la falta:</mat-label>
                     <mat-select formControlName="dis_idPersonale">
                       <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
                         {{idet.name}}
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Cargo Empelado:</mat-label>
+                    <mat-label>Cargo del trabajador que cometió la falta:</mat-label>
                     <mat-select formControlName="dis_pos">
                       <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
                         {{idet.description}}
@@ -336,25 +336,25 @@
                 <dd>{{selection.dis_fec}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Numero Documento</dt>
+                <dt>Cédula del trabajador que cometió la falta</dt>
                 <dd>{{selection.dis_doc}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Nombre y Apellidos</dt>
+                <dt>Nombre completo del trabajador que cometió la falta</dt>
                 <dd>{{selection.empleado}}</dd>
               </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-4">
               <div class="col-md-4">
-                <dt>Cargo</dt>
+                <dt>Cargo del trabajador que cometió la falta</dt>
                 <dd>{{selection.cargo_emp}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Persona solicitante</dt>
+                <dt>Nombre completo del solicitante</dt>
                 <dd>{{selection.solicitante}}</dd>
               </div>
               <div class="col-md-4">
-                <dt>Cargo Solicitante</dt>
+                <dt>Cargo del trabajador que solicita la diligencia</dt>
                 <dd>{{selection.cargo_solicitante}}</dd>
               </div>
             </div>

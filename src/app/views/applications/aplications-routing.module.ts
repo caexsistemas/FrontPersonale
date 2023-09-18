@@ -4,6 +4,7 @@ import { from } from "rxjs";
 import { ApplicationUserComponent } from "./application-user/application-user.component";
 import { RequestsUserComponent } from "./requests-user/requests-user.component";
 import { ReqComponent } from "./req/req.component";
+import { UpdateAplicationsComponent } from "./update-aplications/update-aplications.component";
 
 const routes: Routes = [
   {
@@ -35,6 +36,13 @@ const routes: Routes = [
         component: ReqComponent,
         data: {
           title: "REQ",
+        },
+      },
+      {
+        path: "update_applications",
+        component: UpdateAplicationsComponent,
+        data: {
+          title: "Aplicativos de usuarios",
         },
       },
     ],

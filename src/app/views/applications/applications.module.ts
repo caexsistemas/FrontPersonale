@@ -28,6 +28,7 @@ import { ApplicationUserComponent } from "./application-user/application-user.co
 import { RequestsUserComponent } from "./requests-user/requests-user.component";
 import { ReqComponent } from "./req/req.component";
 import { AngularFileUploaderModule } from "angular-file-uploader";
+import { UpdateAplicationsComponent } from "./update-aplications/update-aplications.component";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -57,6 +58,11 @@ const ngWizardConfig: NgWizardConfig = {
     NgWizardModule.forRoot(ngWizardConfig),
     AngularFileUploaderModule,
   ],
-  declarations: [ApplicationUserComponent, RequestsUserComponent, ReqComponent],
+  declarations: [
+    ApplicationUserComponent,
+    RequestsUserComponent,
+    ReqComponent,
+    UpdateAplicationsComponent,
+  ],
 })
 export class ApplicationsModule {}

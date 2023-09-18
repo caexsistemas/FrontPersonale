@@ -20,27 +20,24 @@ import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { UserServices } from "../../../services/user.service";
 import { ApplicationDialog } from "../../../dialogs/application/application.dialog.component";
-import { RequestDialog } from "../../../dialogs/request/request.dialog.component";
-import { DisciplinaryDialog } from "../../../dialogs/disciplinary/disciplinary.dialog.component";
-import Swal from "sweetalert2";
-
 @Component({
-  selector: "app-disciplinary",
-  templateUrl: "./disciplinary.component.html",
-  styleUrls: ["./disciplinary.component.css"],
+  selector: "app-update-aplications",
+  templateUrl: "./update-aplications.component.html",
+  styleUrls: ["./update-aplications.component.css"],
 })
-export class DisciplinaryComponent implements OnInit {
+export class UpdateAplicationsComponent implements OnInit {
   dataSource: any = [];
   displayedColumns: any = [];
   loading: boolean = false;
   ValorRol: any = [];
   public detailRoles = [];
 
-  component = "/process/disciplinary";
+  component = "/applications/application-user";
   permissions: any = null;
   contaClick: number = 0;
-  endpoint: string = "/disciplinary";
+  endpoint: string = "/application";
   contenTable: any = [];
+  color_state: any = [];
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -95,13 +92,13 @@ export class DisciplinaryComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "dis_fec",
-      "dis_doc",
-      "dis_idPersonale",
-      "dis_pos",
-      "dis_fal",
-      "dis_idp_sol",
-      "dis_po_sol",
+      "fec_rad",
+      "document",
+      "idPersonale",
+      "us_red",
+      "us_are_tra",
+      "updated_at",
+      "us_state",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -121,21 +118,12 @@ export class DisciplinaryComponent implements OnInit {
     this.detailRoles = item;
     this.infoModal.show();
   }
-
-  ShowDisciplinary() {
-    Swal.fire({
-      title: "",
-      html: `<p class="custom-swal" style="text-align:justify; font-weight: 610;">El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud.",
-      </p>`,
-      icon: "success",
-    });
-  }
   option(action, codigo = null) {
     var dialogRef;
     switch (action) {
       case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(DisciplinaryDialog, {
+        dialogRef = this.dialog.open(ApplicationDialog, {
           data: {
             window: "view",
             codigo,
@@ -154,18 +142,13 @@ export class DisciplinaryComponent implements OnInit {
         break;
       case "create":
         this.loading = true;
-        this.ShowDisciplinary();
-        // this.handler.showSuccess(
-        //   "El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud."
-        // );
-        dialogRef = this.dialog.open(DisciplinaryDialog, {
+        dialogRef = this.dialog.open(ApplicationDialog, {
           data: {
             window: "create",
             codigo,
           },
         });
         dialogRef.disableClose = true;
-
         // LOADING
         dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
@@ -177,15 +160,13 @@ export class DisciplinaryComponent implements OnInit {
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(DisciplinaryDialog, {
+        dialogRef = this.dialog.open(ApplicationDialog, {
           data: {
             window: "update",
             codigo,
           },
         });
         dialogRef.disableClose = true;
-        this.sendRequest();
-
         // LOADING
         dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
@@ -213,7 +194,7 @@ export class DisciplinaryComponent implements OnInit {
   };
 
   colorState(state) {
-    return this.colorMap[state] || "";
+    return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
   }
   // openc(){
   //   if(this.contaClick == 0){
@@ -224,4 +205,9 @@ export class DisciplinaryComponent implements OnInit {
   // applyFilter(search) {
   //   this.dataSource.filter = search.trim().toLowerCase();
   // }
+  // closeDialog() {
+  //   this.dialogRef.close();
+  //   this.reload.emit(true);
+
+  //   }
 }
