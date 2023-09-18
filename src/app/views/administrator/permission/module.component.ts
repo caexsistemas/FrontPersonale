@@ -9,21 +9,18 @@ import { Tools } from "../../../Tools/tools.page";
 import { WebApiService } from "../../../services/web-api.service";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { HandlerAppService } from "../../../services/handler-app.service";
-import {
-  MatDialog,
-} from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { ModuleDialog } from "../../../dialogs/module/module.dialog.component";
 
 @Component({
-  selector: 'app-module',
-  templateUrl: './module.component.html',
-  styleUrls: ['./module.component.css']
+  selector: "app-module",
+  templateUrl: "./module.component.html",
+  styleUrls: ["./module.component.css"],
 })
 export class ModuleComponent implements OnInit {
-
   contenTable: any = [];
   loading: boolean = false;
   endpoint: string = "/module";
@@ -50,10 +47,10 @@ export class ModuleComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog,
-    // private matBottomSheet : MatBottomSheet
-  ) { }
-  ngOnInit():void {
+    public dialog: MatDialog
+  ) // private matBottomSheet : MatBottomSheet
+  {}
+  ngOnInit(): void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
   }
@@ -65,8 +62,7 @@ export class ModuleComponent implements OnInit {
       token: this.cuser.token,
       modulo: this.component,
       role: this.cuser.role,
-      idPersonale:this.cuser.idPersonale,
-
+      idPersonale: this.cuser.idPersonale,
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
@@ -74,10 +70,9 @@ export class ModuleComponent implements OnInit {
         console.log(data.success);
 
         if (data.success == true) {
-
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-         
+
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -91,14 +86,7 @@ export class ModuleComponent implements OnInit {
     );
   }
   generateTable(data) {
-    this.displayedColumns = [
-      "view",
-      "id",
-      "name",
-      "url",
-      "iditem",
-      "actions", 
-    ];
+    this.displayedColumns = ["view", "id", "name", "iditem", "url", "actions"];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];
@@ -108,71 +96,71 @@ export class ModuleComponent implements OnInit {
       search.value = "";
     }
   }
-  option(action,codigo=null, id,){
+  option(action, codigo = null, id) {
     var dialogRef;
-    switch(action){
-      case 'create':
+    switch (action) {
+      case "create":
         this.loading = true;
         dialogRef = this.dialog.open(ModuleDialog, {
           data: {
-            window: 'create',
-            codigo
-          }
+            window: "create",
+            codigo,
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val => {
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val => {
+        dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
         });
         break;
-      case 'update':
+      case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(ModuleDialog,{
+        dialogRef = this.dialog.open(ModuleDialog, {
           data: {
-            window: 'update',
+            window: "update",
             codigo,
-            id:id,
-          }
+            id: id,
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
+        dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
         });
         break;
 
-      case 'view':
+      case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(ModuleDialog,{
+        dialogRef = this.dialog.open(ModuleDialog, {
           data: {
-            window: 'view',
+            window: "view",
             codigo,
-            id:id
-          }
+            id: id,
+          },
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe(val=>{
+        dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
         });
         // RELOAD
-        dialogRef.componentInstance.reload.subscribe(val=>{
+        dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
         });
         // dialogRef.afterClosed().subscribe(result => {
-         
+
         // });
-      break;
-      }
+        break;
     }
+  }
   openc() {
     if (this.contaClick == 0) {
       this.sendRequest();
