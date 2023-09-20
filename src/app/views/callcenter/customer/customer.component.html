@@ -105,10 +105,10 @@
                                 <i class="fa fa-edit fa-lg"></i>
                             </button>
 
-                            <!--<button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.custo_id)"
+                            <button class="btn btn-ghost-danger" *ngIf="permissions.view" (click)="pdf(element.custo_id)"
                                 title="PDF">
                                 <i class="fa fa-file-pdf-o"></i>
-                            </button>-->       
+                            </button>   
                         </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
