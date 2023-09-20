@@ -29,6 +29,7 @@ import { RequestsUserComponent } from "./requests-user/requests-user.component";
 import { ReqComponent } from "./req/req.component";
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { UpdateAplicationsComponent } from "./update-aplications/update-aplications.component";
+import { ViewApplicationsComponent } from "./view-applications/view-applications.component";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -62,6 +63,7 @@ const ngWizardConfig: NgWizardConfig = {
     ApplicationUserComponent,
     RequestsUserComponent,
     ReqComponent,
+    ViewApplicationsComponent,
     UpdateAplicationsComponent,
   ],
 })

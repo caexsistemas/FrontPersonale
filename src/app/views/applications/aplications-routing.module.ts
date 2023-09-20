@@ -5,6 +5,7 @@ import { ApplicationUserComponent } from "./application-user/application-user.co
 import { RequestsUserComponent } from "./requests-user/requests-user.component";
 import { ReqComponent } from "./req/req.component";
 import { UpdateAplicationsComponent } from "./update-aplications/update-aplications.component";
+import { ViewApplicationsComponent } from "./view-applications/view-applications.component";
 
 const routes: Routes = [
   {
@@ -39,10 +40,17 @@ const routes: Routes = [
         },
       },
       {
+        path: "view_applications",
+        component: ViewApplicationsComponent,
+        data: {
+          title: "Aplicativos de usuarios",
+        },
+      },
+      {
         path: "update_applications",
         component: UpdateAplicationsComponent,
         data: {
-          title: "Aplicativos de usuarios",
+          title: "Actualizacion Aplicativos",
         },
       },
     ],

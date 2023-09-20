@@ -150,6 +150,8 @@ import { LiquidationFormalitiesDialog } from "./dialogs/liquidationFormalities/l
 import { ProcessComponent } from "./views/process/process.component";
 import { DisciplinaryDialog } from "./dialogs/disciplinary/disciplinary.dialog.component";
 import { MatStepperModule } from "@angular/material/stepper";
+import { ClipboardModule } from "@angular/cdk/clipboard";
+import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 
 const routes: Routes = [];
 @NgModule({
@@ -205,6 +207,7 @@ const routes: Routes = [];
     MatBottomSheetModule,
     MatBadgeModule,
     MatStepperModule,
+    ClipboardModule,
   ],
   declarations: [
     AppComponent,
@@ -288,6 +291,7 @@ const routes: Routes = [];
     LiquidationFormalitiesDialog,
     ProcessComponent,
     DisciplinaryDialog,
+    UpdateApplicationsDialog,
   ],
   providers: [
     {
