@@ -62,8 +62,10 @@ export class RequestsUserComponent implements OnInit {
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: "getAplication",
-      token: this.cuser.token,
       idUser: this.cuser.iduser,
+      role: this.cuser.role,
+      idPersonale: this.cuser.idPersonale,
+      token: this.cuser.token,
       modulo: this.component,
     }).subscribe(
       (data) => {

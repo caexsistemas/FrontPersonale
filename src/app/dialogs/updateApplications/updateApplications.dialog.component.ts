@@ -63,6 +63,7 @@ export class UpdateApplicationsDialog {
   formCreate: FormGroup;
   formUpdate: FormGroup;
   formCampos: FormGroup;
+  formArray: FormArray;
   PersonaleInfo: any = [];
   exitsPersonal: any = [];
   typeSolit: any = [];
@@ -76,6 +77,8 @@ export class UpdateApplicationsDialog {
   title_us: any = [];
   campos: any = [];
   view_campos: any = [];
+  maxForms = 3; // Número máximo de formularios permitidos
+  formsCount = 0; // Contador de formularios creados
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -152,11 +155,14 @@ export class UpdateApplicationsDialog {
       us_app: new FormControl(""),
       us_role: new FormControl(""),
       app_pass: new FormControl(""),
+      us_are_tra: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
     this.formCampos = this.fb.group({
       listas: this.fb.array([]),
+      new: this.fb.array([]),
     });
+    this.formArray = this.fb.array([this.createForm()]);
   }
 
   closeDialog() {
@@ -225,6 +231,9 @@ export class UpdateApplicationsDialog {
           this.formCreate
             .get("us_red")
             .setValue(data.data["getParamUpdate"][0].us_red);
+          this.formCreate
+            .get("us_are_tra")
+            .setValue(data.data["getParamUpdate"][0].us_are_tra);
 
           const tecnoArray = this.formCampos.get("listas") as FormArray;
 
@@ -237,6 +246,13 @@ export class UpdateApplicationsDialog {
             });
             tecnoArray.push(tecnoGuia);
           });
+          // const newCampos = this.formCampos.get('new') as FormArray;
+          // const formNew = this.fb.group({
+          //   us_app: new FormControl(""),
+          //   app_user: new FormControl(""),
+          //   app_pass: new FormControl(""),
+          // })
+
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -251,12 +267,29 @@ export class UpdateApplicationsDialog {
     );
   }
 
+  createForm(): FormGroup {
+    return this.fb.group({
+      us_app: new FormControl(""),
+      app_user: new FormControl(""),
+      app_pass: new FormControl(""),
+    });
+  }
+  addForm() {
+    this.formArray.push(this.createForm());
+    this.formsCount++;
+  }
+  removeForm(index: number) {
+    this.formArray.removeAt(index);
+    this.formsCount--;
+  }
   onSubmitUpdate() {
     if (this.formCreate.valid) {
       let body = {
         listas: this.formCreate.value,
         campos: this.formCampos.get("listas").value,
+        newApp: this.formArray.value,
       };
+      console.log("body", body);
 
       this.loading.emit(true);
       this.WebApiService.putRequest(this.endpoint + "/" + this.idRol, body, {

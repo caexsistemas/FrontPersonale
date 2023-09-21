@@ -95,8 +95,9 @@ export class ViewApplicationsComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       // "view",
-      "us_app",
       "us_red",
+      "us_app",
+      "app_user",
       "app_pass",
       "updated_at",
       // "actions",

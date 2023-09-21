@@ -91,8 +91,47 @@
                   <!-- </mat-form-field> -->
                 </div>
               </div>
+
             </div>
           </form>
+          <button mat-button class="btn btn-success" (click)="addForm()" [disabled]="formsCount >= maxForms">+</button>
+          <div class="row mt-3">
+
+            <div *ngFor="let formCampos of formArray.controls; let i = index">
+              <form [formGroup]="formCampos">
+                <!-- Definir tus campos de formulario aquí -->
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Aplicativo:</mat-label>
+                    <mat-select formControlName="us_app" required>
+                      <mat-option *ngFor="let idet of application" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Usuario:</mat-label>
+                    <input matInput formControlName="app_user" value="app_user">
+
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Contraseña:</mat-label>
+                    <input matInput formControlName="app_pass" value="app_pass">
+
+                  </mat-form-field>
+                </div>
+                <div mat-dialog-actions>
+                  <div class="text-center col-12">
+                    <button mat-button class="btn btn-danger" (click)="removeForm(i)">X</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
 
         </form>
       </mat-dialog-content>
