@@ -134,7 +134,7 @@ export class UpdateAplicationsComponent implements OnInit {
     this.displayedColumns = [
       "view",
       "us_red",
-      "document",
+      "username",
       "idPersonale",
       "us_role",
       "campana",
