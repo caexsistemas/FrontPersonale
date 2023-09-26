@@ -27,6 +27,7 @@ import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { DisciplinaryComponent } from "./disciplinary/disciplinary.component";
 import { ProcessRoutingModule } from "./process-routing.module";
+import { ReceptionComponent } from "./reception/reception.component";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -56,6 +57,6 @@ const ngWizardConfig: NgWizardConfig = {
     NgWizardModule.forRoot(ngWizardConfig),
     AngularFileUploaderModule,
   ],
-  declarations: [DisciplinaryComponent],
+  declarations: [DisciplinaryComponent, ReceptionComponent],
 })
 export class ProcessModule {}

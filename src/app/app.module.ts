@@ -152,6 +152,7 @@ import { DisciplinaryDialog } from "./dialogs/disciplinary/disciplinary.dialog.c
 import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
+import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
 
 const routes: Routes = [];
 @NgModule({
@@ -292,6 +293,7 @@ const routes: Routes = [];
     ProcessComponent,
     DisciplinaryDialog,
     UpdateApplicationsDialog,
+    ReceptionDialogComponent,
   ],
   providers: [
     {
