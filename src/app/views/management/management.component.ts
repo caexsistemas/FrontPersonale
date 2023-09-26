@@ -119,6 +119,7 @@ export class ManagementComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
+      role: this.cuser.role,
       modulo: this.component,
     }).subscribe(
       (response) => {
