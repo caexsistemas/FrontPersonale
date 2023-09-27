@@ -88,13 +88,29 @@
 
                     </mat-form-field>
                   </div>
+
                   <!-- </mat-form-field> -->
+                  <div class="row mt-3">
+                    <div class="col-md-4">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Activo/Inactivo:</mat-label>
+                        <mat-select formControlName="us_state_fin" required>
+                          <mat-option *ngFor="let idet of act_inac" [value]="idet.ls_codvalue">
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <hr style="margin-top: 35%; width: 330%;border-top: 2px solid rgba(0, 0, 0, 0.2);">
                 </div>
+
               </div>
 
             </div>
           </form>
-          <button class="btn btn-success" (click)="addForm()" [disabled]="formsCount >= maxForms" style="background-color: #06720f; height: 30px; font-size:12px; 
+          <button class="btn btn-success mt-3" (click)="addForm()" [disabled]="formsCount >= maxForms" style="background-color: #06720f; height: 30px; font-size:12px; 
             line-height: 1.2;">+</button>
           <div class="row mt-3">
 
@@ -124,6 +140,16 @@
                     <mat-label>Contraseña:</mat-label>
                     <input matInput formControlName="app_pass" value="app_pass">
 
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Activo/Inactivo:</mat-label>
+                    <mat-select formControlName="us_state_fin" required>
+                      <mat-option *ngFor="let idet of act_inac" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
                 <div mat-dialog-actions>

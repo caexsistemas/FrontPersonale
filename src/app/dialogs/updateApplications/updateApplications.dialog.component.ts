@@ -80,6 +80,7 @@ export class UpdateApplicationsDialog {
   maxForms = 3; // Número máximo de formularios permitidos
   formsCount = 0; // Contador de formularios creados
   checkIfCamp: boolean;
+  act_inac: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -158,6 +159,7 @@ export class UpdateApplicationsDialog {
       app_pass: new FormControl(""),
       us_are_tra: new FormControl(""),
       us_position: new FormControl(""),
+      us_state_fin: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
     this.formCampos = this.fb.group({
@@ -193,6 +195,7 @@ export class UpdateApplicationsDialog {
           this.position = data.data["idPosition"];
           this.rol_user = this.cuser.role;
           this.application = data.data["application"];
+          this.act_inac = data.data["act_inac"].slice(0, 2);
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -257,6 +260,7 @@ export class UpdateApplicationsDialog {
               us_app: new FormControl(element.us_app),
               app_user: new FormControl(element.app_user),
               app_pass: new FormControl(element.app_pass),
+              us_state_fin: new FormControl(element.us_state_fin),
             });
             tecnoArray.push(tecnoGuia);
           });
@@ -280,6 +284,7 @@ export class UpdateApplicationsDialog {
       us_app: new FormControl(""),
       app_user: new FormControl(""),
       app_pass: new FormControl(""),
+      us_state_fin: new FormControl(""),
     });
   }
   addForm() {
