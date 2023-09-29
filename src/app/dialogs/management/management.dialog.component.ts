@@ -196,7 +196,8 @@ export class ManagementDialog implements AfterContentChecked {
               !(
                 this.cuser.role == 1 ||
                 this.cuser.role == 5 ||
-                this.cuser.role == 20
+                this.cuser.role == 20 ||
+                this.cuser.role == 34
               )
             ) {
               this.checkCreate = false;
