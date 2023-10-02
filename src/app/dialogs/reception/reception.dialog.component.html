@@ -24,35 +24,7 @@
                 </mat-panel-description>
                 <mat-icon>account_circle</mat-icon>
               </mat-expansion-panel-header>
-              <div class="row">
-                <!-- <div class="col-md-4 ContCamp">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Cédula del solicitante</mat-label>
-                    <input matInput formControlName="dis_doc_sol" (ngModelChange)="onSelectionChange($event)"
-                      [readonly]="view == 'update'">
-                  </mat-form-field>
-                </div> -->
-                <!-- <div class="col-md-4 ContCamp">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Nombre completo del solicitante:</mat-label>
-                    <mat-select formControlName="dis_idp_sol">
-                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
-                        {{idet.name}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div> -->
-                <!-- <div class="col-md-4 ContCamp">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Cargo del trabajador que solicita la diligencia:</mat-label>
-                    <mat-select formControlName="dis_po_sol">
-                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div> -->
-              </div>
+
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
@@ -85,7 +57,7 @@
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width ">
                     <mat-label>Ciudad</mat-label>
-                    <mat-select formControlName="cas_city" (ngModelChange)="onRadioChange($event)" required>
+                    <mat-select formControlName="cityWork" (ngModelChange)="onRadioChange($event)" required>
                       <mat-option *ngFor="let idet of city" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>

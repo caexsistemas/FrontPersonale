@@ -79,6 +79,7 @@ export class ReceptionDialogComponent {
   city: any = [];
   state: any = [];
   caract: boolean;
+  conclu_fin: any = [];
   archivo = {
     nombre: null,
     nombreArchivo: null,
@@ -165,7 +166,7 @@ export class ReceptionDialogComponent {
       dis_pos: new FormControl(),
       dis_doc_sol: new FormControl(this.cuser.username),
       idPosition: new FormControl(this.cuser.idPersonale),
-      cas_city: new FormControl(""),
+      cityWork: new FormControl(""),
       dis_est: new FormControl(""),
       cas_op_clo: new FormControl(""),
       dis_fal: new FormControl(""),
@@ -204,6 +205,7 @@ export class ReceptionDialogComponent {
           this.position = data.data["idPosition"];
           this.mod = data.data["modali"];
           this.rol_user = this.cuser.role;
+          this.conclu_fin = data.data["conclu_fin"];
           // 23,14,21
 
           this.typeFalt = data.data["typeFal"];
@@ -269,8 +271,8 @@ export class ReceptionDialogComponent {
             .get("idPosition")
             .setValue(data.data["getParamUpdate"][0].idPosition);
           this.formCreate
-            .get("cas_city")
-            .setValue(data.data["getParamUpdate"][0].cas_city);
+            .get("cityWork")
+            .setValue(data.data["getParamUpdate"][0].cityWork);
           this.formCreate
             .get("dis_est")
             .setValue(data.data["getParamUpdate"][0].dis_est);
