@@ -7,21 +7,23 @@
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
 
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3" *ngIf="permissions.create">   
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3" *ngIf="permissions.create">
                     <div class="btn-group" dropdown>
                         <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
                             title="Reporte Excel">
                             <i class="fa fa-feed"></i>
                         </button>
-                    </div>    
-                           
-                    <div class="btn-group" dropdown>
+                    </div>
+
+                    <div class="btn-group" dropdown *ngIf="checkCreate">
                         <button dropdownToggle type="button" class="btn btn-primary ">
                             <i class="fa fa-plus"></i>
                         </button>
                         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="successModal.show()" >Importar Archivo</a></li>
-                            <li role="menuitem"><a class="dropdown-item" (click)="option('create')">Ingresar nuevo registro</a></li>                        
+                            <li role="menuitem"><a class="dropdown-item" [routerLink]=""
+                                    (click)="successModal.show()">Importar Archivo</a></li>
+                            <li role="menuitem"><a class="dropdown-item" (click)="option('create')">Ingresar nuevo
+                                    registro</a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,21 +37,23 @@
             </div>
 
             <div class="section-table first-action">
-                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="personaleData.length > 0">
-                <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                    *ngIf="personaleData.length > 0">
+                    <!-- <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" > -->
 
                     <ng-container matColumnDef="view">
-                        <th mat-header-cell *matHeaderCellDef > Ver </th>
+                        <th mat-header-cell *matHeaderCellDef> Ver </th>
                         <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.idPersonale)"
-                                title="Ver">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                (click)="option('view',element.idPersonale)" title="Ver">
                                 <i class="fa fa-eye fa-lg"></i>
                             </button>
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="createAt">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha de Radicaci&oacute;n </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha de
+                            Radicaci&oacute;n </th>
                         <td mat-cell *matCellDef="let element"> {{element.createAt | date: 'medium'}} </td>
                     </ng-container>
 
@@ -59,19 +63,22 @@
                     </ng-container>
 
                     <ng-container matColumnDef="document">
+
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Documento</th>
                         <td mat-cell *matCellDef="let element"> {{element.document}} </td>
                     </ng-container>
-
                     <ng-container matColumnDef="email">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Correo </th>
-                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        <td mat-cell *matCellDef="let element"> {{(checkCreate == false ) ? '*******' :
+                            element.email}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="phone">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Telefono </th>
-                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                        <td mat-cell *matCellDef="let element"> {{(checkCreate == false ) ? '******' : element.phone}}
+                        </td>
                     </ng-container>
+
 
                     <ng-container matColumnDef="description">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado </th>
@@ -79,10 +86,10 @@
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef > Acciones </th>
+                        <th mat-header-cell *matHeaderCellDef> Acciones </th>
                         <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',element.idPersonale)"
-                                title="Editar">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
+                                (click)="option('update',element.idPersonale)" title="Editar">
                                 <i class="fa fa-edit fa-lg"></i>
                             </button>
                         </td>
@@ -93,8 +100,8 @@
                 <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
             </div>
             <div *ngIf="personaleData.length == 0">
-            <h4 class="no-records">No hay registros...</h4>
-          </div>
+                <h4 class="no-records">No hay registros...</h4>
+            </div>
         </div>
     </div>
 </div>
@@ -117,8 +124,7 @@
                     <div class="col-md-12">
                         <label class="col-form-label" for="file">Archivo excel</label>
                         <!-- <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar -->
-                        <angular-file-uploader [config]="afuConfig"
-                            (ApiResponse)="getAllPersonal()">
+                        <angular-file-uploader [config]="afuConfig" (ApiResponse)="getAllPersonal()">
                         </angular-file-uploader>
                     </div>
                 </div>

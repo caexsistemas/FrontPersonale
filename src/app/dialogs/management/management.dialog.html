@@ -39,6 +39,9 @@
                                 <dt>Número de documento</dt>
                                 <dd>{{personale.document}}</dd>
                             </div>
+                        </div>
+                        <div class="row" *ngIf="checkCreate">
+
                             <div class="col-sm-4">
                                 <dt>Email</dt>
                                 <dd>{{personale.email}}</dd>
@@ -53,7 +56,8 @@
                             </div>
                         </div>
 
-                        <div class="row">
+
+                        <div class="row" *ngIf="checkCreate">
                             <div class="col-sm-4">
                                 <dt>Fecha Nacimiento</dt>
                                 <dd>{{personale.birthDate}}</dd>
@@ -66,6 +70,8 @@
                                 <dt>Estado Civil</dt>
                                 <dd>{{personale.vlmarriage }}</dd>
                             </div>
+                        </div>
+                        <div class="row" *ngIf="checkCreate">
                             <div class="col-sm-4">
                                 <dt>Genero</dt>
                                 <dd>{{personale.vlgender }}</dd>
@@ -80,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" *ngIf="checkCreate">
                             <div class="col-sm-4">
                                 <dt>Teléfono</dt>
                                 <dd>{{personale.phone }}</dd>
@@ -93,15 +99,17 @@
                                 <dt>Ciudad de Nacimiento</dt>
                                 <dd>{{personale.cicitybBirth}}</dd>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-4">
                                 <dt>Estado</dt>
                                 <dd>{{personale.vlstatus}}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Certificado</dt>
                                 <dd>{{personale.vlcertificate}}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Correo Corporativo</dt>
                                 <dd>{{personale.businessEmail }}</dd>
                             </div>
@@ -112,7 +120,7 @@
                     </mat-expansion-panel>
 
                     <!--{Segunda Seccion Ubicacion}-->
-                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Ubicaci&oacute;n
@@ -166,7 +174,7 @@
                     </mat-expansion-panel>
 
                     <!--{Tecera Seccion Datos de Emergencia}-->
-                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Contacto de Emergencia
@@ -197,7 +205,7 @@
 
 
                     <!--{Cuarta Seccion Informacion Medica}-->
-                    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Datos Medicos
@@ -243,7 +251,7 @@
 
 
                     <!--{Quinta Seccion Foncep}-->
-                    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Fondos (Prestación economica,cesantias,pensión)
@@ -285,7 +293,7 @@
                     </mat-expansion-panel>
 
                     <!--{Sexta Seccion Academica}-->
-                    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Datos Academicos
@@ -335,7 +343,7 @@
                         </mat-expansion-panel-header>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Tipo de Contrato:</dt>
                                 <dd>{{working.idContract }}</dd>
                             </div>
@@ -351,22 +359,22 @@
                                 <dt>Jefe Inmediato: </dt>
                                 <dd>{{working.immediateBoss }}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Departamento donde Labora:</dt>
                                 <dd>{{working.department }}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Ciudad donde Labora:</dt>
                                 <dd>{{working.cityWork }}</dd>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Vacante ¿Como se Entero?: </dt>
                                 <dd>{{working.vacantInformation }}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>¿Como Trajo la H.V?: </dt>
                                 <dd>{{working.bringResume }}</dd>
                             </div>
@@ -378,17 +386,17 @@
                                 <dt>Fecha Retiro:</dt>
                                 <dd>{{working.withdrawalDate }}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Motivo: </dt>
                                 <dd>{{working.motivo }}</dd>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" *ngIf="checkCreate">
                                 <dt>Tipo de Salario: </dt>
                                 <dd>{{working.tipsalarywork }}</dd>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" *ngIf="checkCreate">
                             <div class="col-sm-4">
                                 <dt>Fecha Actualizaci&oacute;n de Salario: </dt>
                                 <dd>{{working.fechactusalary }}</dd>
@@ -402,8 +410,8 @@
                     </mat-expansion-panel>
 
 
-                     <!--{Septima Seccion Salary}-->
-                     <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+                    <!--{Septima Seccion Salary}-->
+                    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Auxilios y Salario
@@ -435,7 +443,7 @@
                     </mat-expansion-panel>
 
                     <!--{Septima Seccion Family}-->
-                    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+                    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Datos Familiares
@@ -498,7 +506,7 @@
                     </mat-expansion-panel>
 
                     <!--{Octava Informacion Hijos}-->
-                    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle
+                    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle *ngIf="checkCreate"
                         style="margin-bottom: 10px;">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -508,21 +516,21 @@
                                 <mat-icon class="Iconmanagement">child_friendly</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
-                                 <div class="row" *ngFor="let children of children">
-                                    <div class="col-sm-4">
-                                        <dt>ID Hijo:</dt>
-                                        <dd>{{children.idChildren }}</dd>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <dt>Nombre Completo: </dt>
-                                        <dd>{{children.name }}</dd>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <dt>Fecha Nacimiento:</dt>
-                                        <dd>{{children.birthDate }}</dd>
-                                    </div>
-                                    
-                                </div> 
+                        <div class="row" *ngFor="let children of children">
+                            <div class="col-sm-4">
+                                <dt>ID Hijo:</dt>
+                                <dd>{{children.idChildren }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Nombre Completo: </dt>
+                                <dd>{{children.name }}</dd>
+                            </div>
+                            <div class="col-sm-4">
+                                <dt>Fecha Nacimiento:</dt>
+                                <dd>{{children.birthDate }}</dd>
+                            </div>
+
+                        </div>
                         <mat-action-row>
                             <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
                             <button mat-button class="btn btn-dark" (click)="nextStep()">Fin</button>
@@ -530,82 +538,90 @@
                     </mat-expansion-panel>
 
 
-            <div class="card">
-                <div class="card-header">
-                    Historico personal
-                </div>
-                <div class="content-table">
-                    <div class="toolbar-table">
-        
-                        <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3" >              
-                            <div class="btn-group" dropdown>
-                                <button dropdownToggle type="button" class="btn btn-success">
-                                    <i class="fa fa-feed"></i>
-                                </button>
-                                <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="descarReporteempleado(personale.idPersonale)" >Exportar Historia</a></li>                     
-                                </ul>
+                    <div class="card" *ngIf="checkCreate">
+                        <div class="card-header">
+                            Historico personal
+                        </div>
+                        <div class="content-table">
+                            <div class="toolbar-table">
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                                    <div class="btn-group" dropdown>
+                                        <button dropdownToggle type="button" class="btn btn-success">
+                                            <i class="fa fa-feed"></i>
+                                        </button>
+                                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li role="menuitem"><a class="dropdown-item" [routerLink]=""
+                                                    (click)="descarReporteempleado(personale.idPersonale)">Exportar
+                                                    Historia</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="container">
+                                    <mat-form-field appearance="standard" style="width: 100%;">
+                                        <mat-label>Buscar..</mat-label>
+                                        <input matInput (keyup)="applyFilter($event)" placeholder="Cali express" #input>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="section-table first-action">
+                                <table mat-table [dataSource]="dataSource" matSort
+                                    class="table-large table-responsive-lg" *ngIf="personaleData.length > 0">
+
+                                    <ng-container matColumnDef="date_intof">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de
+                                            Radicaci&oacute;n </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.date_intof | date: 'medium'}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="idPosition">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cargo</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.idPosition}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="idContract">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Contrato</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.idContract}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tipsalarywork">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Salario</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.tipsalarywork}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="idArea">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.idArea}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="salary">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Salario </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.salary| currency: 'USD'|
+                                            lowercase}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="transportation">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Auxilio de Transporte
+                                        </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.transportation| currency:
+                                            'USD'| lowercase}} </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <div *ngIf="personaleData.length == 0">
+                                <h4 class="no-records">No hay registros...</h4>
                             </div>
                         </div>
-        
-                        <div class="container">
-                            <mat-form-field appearance="standard" style="width: 100%;">
-                                <mat-label>Buscar..</mat-label>
-                                <input matInput (keyup)="applyFilter($event)" placeholder="Cali express" #input>
-                            </mat-form-field>
-                        </div>
                     </div>
-        
-                    <div class="section-table first-action">
-                        <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="personaleData.length > 0">
-              
-                            <ng-container matColumnDef="date_intof">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Fecha de Radicaci&oacute;n </th>
-                                <td mat-cell *matCellDef="let element"> {{element.date_intof | date: 'medium'}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="idPosition">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Cargo</th>
-                                <td mat-cell *matCellDef="let element"> {{element.idPosition}} </td>
-                            </ng-container>
-        
-                            <ng-container matColumnDef="idContract">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Contrato</th>
-                                <td mat-cell *matCellDef="let element"> {{element.idContract}} </td>
-                            </ng-container>
-        
-                            <ng-container matColumnDef="tipsalarywork">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Tipo Salario</th>
-                                <td mat-cell *matCellDef="let element"> {{element.tipsalarywork}} </td>
-                            </ng-container>
-        
-                            <ng-container matColumnDef="idArea">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Area </th>
-                                <td mat-cell *matCellDef="let element"> {{element.idArea}} </td>
-                            </ng-container>
-        
-                            <ng-container matColumnDef="salary">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Salario </th>
-                                <td mat-cell *matCellDef="let element"> {{element.salary| currency: 'USD'| lowercase}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="transportation">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Auxilio de Transporte </th>
-                                <td mat-cell *matCellDef="let element"> {{element.transportation| currency: 'USD'| lowercase}} </td>
-                            </ng-container>
-        
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-                    </div>
-                    <div *ngIf="personaleData.length == 0">
-                    <h4 class="no-records">No hay registros...</h4>
-                  </div>
-                </div>
-            </div>
-            </mat-accordion>
-        </mat-dialog-content>
+                </mat-accordion>
+            </mat-dialog-content>
 
             <div mat-dialog-actions>
                 <div class="text-center col-12">
@@ -1259,12 +1275,13 @@
                                         <input matInput formControlName="withdrawalDate" type="date">
                                     </mat-form-field>
                                 </div>
-                                
+
                                 <div class="col-sm-4">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>Motivo: </mat-label>
                                         <mat-select formControlName="reason" name="reason">
-                                            <mat-option *ngFor="let renuncia of motivoRenuncia" [value]="renuncia.ls_codvalue">
+                                            <mat-option *ngFor="let renuncia of motivoRenuncia"
+                                                [value]="renuncia.ls_codvalue">
                                                 {{renuncia.description}}
                                             </mat-option>
                                         </mat-select>
@@ -1521,10 +1538,10 @@
                     <div class="text-center col-12">
                         <button *ngIf="view == 'update'" mat-button class="btn btn-success"
                             (click)="onSubmitUpdate()">Actualizar</button>
-    
+
                         <button *ngIf="view == 'create'" mat-button class="btn btn-success"
                             (click)="onSubmit()">Guardar</button>
-    
+
                         <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                     </div>
                 </div>

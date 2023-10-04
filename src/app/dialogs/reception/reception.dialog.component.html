@@ -1,0 +1,629 @@
+<div class="card mt-6">
+  <div *ngIf="view == 'create' || view == 'update'">
+    <div class="card-header">
+      <h5 class="modal-title button_header">
+        <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+        <mat-accordion class="example-headers-align">
+          <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Solicitud &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Información Detallada
+                </mat-panel-description>
+                <mat-icon>account_circle</mat-icon>
+              </mat-expansion-panel-header>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Cédula del trabajador que cometió la falta:</mat-label>
+                    <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 ContCamp">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Nombre completo del trabajador que cometió la falta:</mat-label>
+                    <mat-select formControlName="dis_idPersonale">
+                      <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 ContCamp">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Cargo del trabajador que cometió la falta:</mat-label>
+                    <mat-select formControlName="idPosition">
+                      <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width ">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select formControlName="cityWork" (ngModelChange)="onRadioChange($event)" required>
+                      <mat-option *ngFor="let idet of city" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width ">
+                    <mat-label>Estado Diligencia</mat-label>
+                    <mat-select formControlName="dis_est" (ngModelChange)="onRadioChange($event)" required>
+                      <mat-option *ngFor="let idet of state" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width ">
+                    <mat-label>Abierto/Cerrado</mat-label>
+                    <mat-select formControlName="cas_op_clo" (ngModelChange)="onRadioChange($event)" required>
+                      <mat-option *ngFor="let idet of ab_cer" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <!-- <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Descripción de la situación &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Falta
+                </mat-panel-description>
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="content">
+                <p>En esta sección usted deberá describir brevemente, pero con suficiencia, la situación que se ha
+                  presentado con el trabajador que usted considera que ha cometido una falta a sus obligaciones y
+                  responsabilidades. Tenga en cuenta que una buena descripción de la situación debe darse en términos
+                  de:
+                </p>
+
+                <ol class="left-align">
+                  <li>Tiempo.</li>
+                  <li>Modo.</li>
+                  <li>Lugar.</li>
+                </ol>
+
+                <p>Adicionalmente, deberá exponer los aspectos que para usted resultan más relevantes para demostrar la
+                  comisión de la falta por parte del trabajador, así como adjuntar todos los elementos probatorios con
+                  los que cuente.</p>
+              </div>
+              <div class="row-12">
+                <mat-vertical-stepper [linear]="true" #stepper>
+                  <mat-step>
+                    <ng-template matStepLabel>Tipo de falta</ng-template>
+                    <form (ngSubmit)="nextStep()" [formGroup]="formCreate">
+                      <div class="row">
+                        <div class="col-sm-12" style="padding: 10px;">
+                          <mat-label>Seleccione el tipo de falta que considera que más se ajusta a la presentada por
+                            el
+                            trabajador:</mat-label>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width ">
+                            <mat-label>Elige una opcion</mat-label>
+                            <mat-select formControlName="dis_fal" (ngModelChange)="onRadioChange($event)" required>
+                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="row mt-2" *ngIf="checkUs">
+                          <div class="col-md-12">
+                            <mat-form-field class="example-full-width">
+                              <mat-label>Escriba su respuesta:</mat-label>
+                              <textarea matInput formControlName="dis_oth_fal" [required]="checkUs"></textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('dis_fal').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Descripción de falta</ng-template>
+                    <form (ngSubmit)="nextStep()" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+                            <mat-label>Exponga de manera descriptiva la falta cometida por el trabajador en términos de
+                              tiempo, modo y lugar.</mat-label>
+                            <textarea matInput formControlName="dis_fal_des" required></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('dis_fal_des').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Elementos relevantes</ng-template>
+                    <form (ngSubmit)="nextStep()" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+                            <mat-label>Indique cuáles son, para usted, los elementos más relevantes que demostrarían que
+                              el trabajador cometió una falta</mat-label>
+                            <textarea matInput formControlName="dis_des_rel" required></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary" [disabled]="!formCreate.get('dis_des_rel').valid"
+                          matStepperNext>Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Nivel de falta</ng-template>
+                    <form (ngSubmit)="finish()" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <div class="col-sm-12" style="padding: 10px;">
+                          <mat-label>Para usted, la falta cometida por el trabajador es:</mat-label>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width ">
+                            <mat-label>Elige una opcion:</mat-label>
+                            <mat-select formControlName="dis_niv" required>
+                              <mat-option *ngFor="let idet of level" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button (click)="stepper.previous()">Atrás</button>
+                        <button mat-button color="primary" [disabled]="!formCreate.get('dis_niv').valid"
+                          (click)="nextStep1()">Finalizar</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                </mat-vertical-stepper>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Documentos de Soporte&nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Adjuntar elementos
+                </mat-panel-description>
+                <mat-icon>attach_file</mat-icon>
+              </mat-expansion-panel-header>
+              <div class="row mt-3 panel">
+                <div class="col-md-6">
+                  <mat-label>¿Cuenta con soportes, documentos, correos electrónicos, grabaciones de audio y/o vídeos,
+                    retroalimentaciones escritas o cualquier tipo de soporte respecto a su posición?</mat-label>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <div class="col-md-4 soporte">
+                  <mat-form-field class="afirm">
+                    <mat-label>Si/No</mat-label>
+                    <mat-select formControlName="dis_sop" (ngModelChange)="onChangeAfirm($event)" required>
+                      <mat-option *ngFor="let idet of afirm" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 document" *ngIf="check_cood">
+                  <label>Adjuntar Documento de Soporte:</label>
+                  <input formControlName="file_sp" class="form-control" type="file"
+                    (change)="seleccionarArchivo($event)" multiple>
+                </div>
+              
+                <div class="col-md-4" *ngIf="view == 'update' && caract">
+                  <dt>Documentos de Soporte:</dt>
+                  <dd>
+                    <ul>
+                      <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                        <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+              </div>
+              <div class="row mt-5 panel">
+                <div class="col-sm-6">
+                  <mat-label>¿Considera que la información que ha suministrado en este formulario es suficiente para
+                    demostrar inequívocamente que el trabajador ha cometido la falta que usted refiere?</mat-label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 soporte">
+                  <mat-form-field class="afirm">
+                    <mat-label>Si/No</mat-label>
+                    <mat-select formControlName="dis_con" required>
+                      <mat-option *ngFor="let idet of afirm" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel> -->
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Descripción de la situación &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+                  Motivo
+                </mat-panel-description>
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </mat-expansion-panel-header>
+
+              <div class="row-12" style="min-width: 1000px;">
+                <mat-vertical-stepper [linear]="true" #stepper>
+                  <mat-step>
+                    <ng-template matStepLabel>Motivo</ng-template>
+                    <form (ngSubmit)="nextStep(0)" [formGroup]="formCreate">
+                      <div class="row">
+
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width ">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="dis_fal" (ngModelChange)="onRadioChange($event)" required>
+                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('dis_fal').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <mat-step>
+                    <ng-template matStepLabel>Descripción</ng-template>
+                    <form (ngSubmit)="nextStep(1)" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+
+                            <textarea matInput formControlName="cas_des" required></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('cas_des').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <mat-step>
+                    <ng-template matStepLabel>Modalidad</ng-template>
+                    <form (ngSubmit)="nextStep(2)" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <!-- <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+
+                            <textarea matInput formControlName="cas_mod" required></textarea>
+                          </mat-form-field>
+                        </div> -->
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width ">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="cas_mod" (ngModelChange)="onRadioChange($event)" required>
+                              <mat-option *ngFor="let idet of mod" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary" [disabled]="!formCreate.get('cas_mod').valid"
+                          matStepperNext>Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <mat-step>
+                    <ng-template matStepLabel>Fecha Recepcion del caso</ng-template>
+                    <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <!-- <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+
+                            <textarea matInput formControlName="cas_fec_recep" required></textarea>
+                          </mat-form-field>
+                        </div> -->
+                        <div class="col-md-4">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput formControlName="cas_fec_recep" value="cas_fec_recep" type="date" required>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('cas_fec_recep').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Fecha Conclusión</ng-template>
+                    <!-- <form (ngSubmit)="finish()" [formGroup]="formCreate"> -->
+                    <form (ngSubmit)="nextStep(4)" [formGroup]="formCreate">
+                      <div class="row mt-2">
+                        <div class="col-md-4">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Fecha </mat-label>
+                            <input matInput formControlName="cas_fec_conc" value="cas_fec_conc" type="date" required>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <!-- <div>
+                        <button mat-button (click)="stepper.previous()">Atrás</button>
+                        <button mat-button color="primary" [disabled]="!formCreate.get('dis_niv').valid"
+                          (click)="nextStep1()">Finalizar</button>
+                      </div> -->
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('cas_fec_conc').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Resumen</ng-template>
+                    <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
+                      <!-- Mostrar resumen de datos aquí -->
+                      <p>Motivo seleccionado: {{ getSelectedReasonName() }}</p>
+                      <p>Descripción: {{ formCreate.get('cas_des').value }}</p>
+                      <p>Modalidad: {{ getSelectedModalityName() }}</p>
+                      <p>Fecha Recepcion: {{ formCreate.get('cas_fec_recep').value }}</p>
+                      <p>Fecha Conclusión: {{ formCreate.get('cas_fec_conc').value }}</p>
+                    </div>
+                    <!-- <div>
+                      <button mat-button (click)="stepper.previous()">Atrás</button>
+                      <button mat-button color="primary" [disabled]="!formCreate.get('dis_niv').valid"
+                        (click)="nextStep1()">Finalizar</button>
+                    </div> -->
+                  </mat-step>
+                </mat-vertical-stepper>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </form>
+        </mat-accordion>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <p>view</p> -->
+<div *ngIf="view == 'view'">
+  <div class="card mt-6">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'view'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content style="min-width: 1000px;">
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Solicitud&nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Información Detallada
+              </mat-panel-description>
+              <mat-icon>account_circle</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Fecha de radicacion</dt>
+                <dd>{{selection.dis_fec}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Cédula del trabajador que cometió la falta</dt>
+                <dd>{{selection.dis_doc}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Nombre completo del trabajador que cometió la falta</dt>
+                <dd>{{selection.empleado}}</dd>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-4">
+                <dt>Cargo del trabajador que cometió la falta</dt>
+                <dd>{{selection.cargo_emp}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Nombre completo del solicitante</dt>
+                <dd>{{selection.solicitante}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Cargo del trabajador que solicita la diligencia</dt>
+                <dd>{{selection.cargo_solicitante}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-dark mr-3" (click)="nextStep1()">Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step ===1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Descripción de la situación &nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Falta
+              </mat-panel-description>
+              <mat-icon>chrome_reader_mode</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Falta</dt>
+                <dd>{{selection.falta}}</dd>
+              </div>
+              <div class="col-md-6" *ngIf="checkUs">
+                <dt>Otro tipo de falta </dt>
+                <dd>{{selection.observations}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <dt>Descripción de falta</dt>
+                <dd>{{selection.descripcion_falta}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <dt>Elementos Relevantes</dt>
+                <dd>{{selection.elementos_relev}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-4">
+              <div class="col-md-4">
+                <dt>Nivel de Falta</dt>
+                <dd>{{selection.nivel}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Atrás</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep1()">Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step ===2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Documentos de Soporte&nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Adjuntar elementos
+              </mat-panel-description>
+              <mat-icon>attach_file</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-4">
+                <dt>Cuenta con documentos de soporte?</dt>
+                <dd>{{selection.soportes}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="caract">
+                <dt>Documentos de Soporte:</dt>
+                <dd>
+                  <ul>
+                    <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                      <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+              <div class="col-md-4 consid">
+                <dt>¿Considera que la información que ha suministrado en este formulario es suficiente para demostrar
+                  inequívocamente que el trabajador ha cometido la falta que usted refiere?</dt>
+                <dd>{{selection.consideracion}}</dd>
+              </div>
+            </div>
+
+            <mat-action-row>
+              <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Atrás</button>
+              <button mat-button class="btn btn-dark" (click)="nextStep1()">Siguiente</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Histórico de Procesos:
+              </div>
+              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="currentm_user">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                </ng-container>
+                <ng-container matColumnDef="type_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                </ng-container>
+                <ng-container matColumnDef="date_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>

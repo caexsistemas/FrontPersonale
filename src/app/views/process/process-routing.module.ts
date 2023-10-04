@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { from } from "rxjs";
 import { DisciplinaryComponent } from "./disciplinary/disciplinary.component";
+import { ReceptionComponent } from "./reception/reception.component";
 
 const routes: Routes = [
   {
@@ -19,6 +20,13 @@ const routes: Routes = [
         component: DisciplinaryComponent,
         data: {
           title: "Solicitud procesos disciplinarios",
+        },
+      },
+      {
+        path: "reception",
+        component: ReceptionComponent,
+        data: {
+          title: "Recepción",
         },
       },
     ],

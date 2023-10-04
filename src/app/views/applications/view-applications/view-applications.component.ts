@@ -21,60 +21,25 @@ import { MatPaginator } from "@angular/material/paginator";
 import { UserServices } from "../../../services/user.service";
 import { ApplicationDialog } from "../../../dialogs/application/application.dialog.component";
 import { Clipboard } from "@angular/cdk/clipboard";
-import { UpdateApplicationsDialog } from "../../../dialogs/updateApplications/updateApplications.dialog.component";
-import { environment } from "../../../../environments/environment";
 @Component({
-  selector: "app-update-aplications",
-  templateUrl: "./update-aplications.component.html",
-  styleUrls: ["./update-aplications.component.css"],
+  selector: "app-view-applications",
+  templateUrl: "./view-applications.component.html",
+  styleUrls: ["./view-applications.component.css"],
 })
-export class UpdateAplicationsComponent implements OnInit {
+export class ViewApplicationsComponent implements OnInit {
   dataSource: any = [];
   displayedColumns: any = [];
   loading: boolean = false;
   ValorRol: any = [];
   public detailRoles = [];
 
-  component = "/applications/update_applications";
+  component = "/applications/view_applications";
   permissions: any = null;
   contaClick: number = 0;
-  endpoint: string = "/updApp";
+  endpoint: string = "/viewApp";
   contenTable: any = [];
   color_state: any = [];
   ifCheck: boolean;
-  endpointup: string = "/applicationupload";
-  urlKaysenBackend = environment.url;
-  url = this.urlKaysenBackend + this.endpointup;
-  personaleData: any = [];
-  datapersonale: any = [];
-  modal: "successModal";
-
-  public afuConfig = {
-    multiple: false,
-    formatsAllowed: ".xlsx,.xls",
-    maxSize: "20",
-    uploadAPI: {
-      url: this.url,
-      method: "POST",
-      headers: {
-        Authorization: this._tools.getToken(),
-      },
-    },
-    theme: "dragNDrop",
-    hideProgressBar: false,
-    hideResetBtn: true,
-    hideSelectBtn: false,
-    replaceTexts: {
-      selectFileBtn: "Seleccione Archivo",
-      resetBtn: "Limpiar",
-      uploadBtn: "Subir Archivo",
-      attachPinBtn: "Sube información usuarios",
-      hideProgressBar: false,
-      afterUploadMsg_success: "",
-      afterUploadMsg_error: "Fallo al momento de cargar el archivo!",
-      sizeLimit: "Límite de tamaño",
-    },
-  };
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -88,9 +53,6 @@ export class UpdateAplicationsComponent implements OnInit {
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
-  @ViewChild("successModal", { static: false })
-  public successModal: ModalDirective;
-
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   ngOnInit(): void {
@@ -132,14 +94,13 @@ export class UpdateAplicationsComponent implements OnInit {
 
   generateTable(data) {
     this.displayedColumns = [
-      "view",
+      // "view",
       "us_red",
-      "username",
-      "idPersonale",
-      "us_role",
-      "campana",
+      "us_app",
+      "app_user",
+      "app_pass",
       "updated_at",
-      "actions",
+      // "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
@@ -163,7 +124,7 @@ export class UpdateAplicationsComponent implements OnInit {
     switch (action) {
       case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(UpdateApplicationsDialog, {
+        dialogRef = this.dialog.open(ApplicationDialog, {
           data: {
             window: "view",
             codigo,
@@ -182,7 +143,7 @@ export class UpdateAplicationsComponent implements OnInit {
         break;
       case "create":
         this.loading = true;
-        dialogRef = this.dialog.open(UpdateApplicationsDialog, {
+        dialogRef = this.dialog.open(ApplicationDialog, {
           data: {
             window: "create",
             codigo,
@@ -200,7 +161,7 @@ export class UpdateAplicationsComponent implements OnInit {
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(UpdateApplicationsDialog, {
+        dialogRef = this.dialog.open(ApplicationDialog, {
           data: {
             window: "update",
             codigo,
@@ -268,34 +229,5 @@ export class UpdateAplicationsComponent implements OnInit {
     } else {
       this.ifCheck = false;
     }
-  }
-
-  getAllPersonal() {
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "getAplication",
-      idUser: this.cuser.iduser,
-      token: this.cuser.token,
-      modulo: this.component,
-    }).subscribe(
-      (response) => {
-        this.permissions = this.handler.getPermissions(this.component);
-
-        if (response.success) {
-          this.handler.showSuccess("El archivo se cargo exitosamente");
-          this.personaleData = response.data;
-          this.loading = false;
-          this.successModal.hide();
-          this.sendRequest();
-        } else {
-          this.datapersonale = [];
-          this.handler.handlerError(response);
-        }
-      },
-      (error) => {
-        this.loading = false;
-        //this.permissions = this.handler.getPermissions(this.component);
-        this.handler.showError();
-      }
-    );
   }
 }

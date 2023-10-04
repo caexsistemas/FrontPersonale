@@ -1,0 +1,262 @@
+<div class="card mt-6">
+  <div *ngIf="view == 'create' || view == 'update'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'update'">{{title}} {{user}} {{ape}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <mat-dialog-content>
+        <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput disabled value="Cali Express">
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-4 ContCamp">
+              <mat-form-field appearance="fill">
+                <mat-label>Numero Identificaci&oacute;n</mat-label>
+                <input matInput formControlName="document" readonly>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 ContCamp">
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre(s) y Apellido(s):</mat-label>
+                <mat-select formControlName="idPersonale">
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+            <div class="col-md-4 ContCamp">
+              <mat-form-field appearance="fill">
+                <mat-label>Rol:</mat-label>
+                <mat-select formControlName="us_role">
+                  <mat-option *ngFor="let idet of RolInfo" [value]="idet.idRole">
+                    {{idet.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Usuario Red:</mat-label>
+                <input matInput formControlName="us_red" value="us_red" readonly>
+
+              </mat-form-field>
+            </div>
+          </div>
+          <hr>
+          <form *ngIf="view == 'update' && checkIfCamp" [formGroup]="formCampos">
+            <div class="row mt-3">
+              <div class="col-md-4" formArrayName="listas">
+                <div *ngFor="let guia of formCampos.get('listas').controls; let i = index" [formGroupName]="i">
+
+                  <div class="col-md-4 ContCamp" style="padding: 1px; display: inline-block;">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Aplicativo:</mat-label>
+                      <mat-select formControlName="us_app" required>
+                        <mat-option *ngFor="let idet of application" [value]="idet.ls_codvalue">
+                          {{idet.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4" style="margin: -70px -50px 10px 220px;">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Usuario:</mat-label>
+                      <input matInput formControlName="app_user" value="app_user">
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4" style="margin: -80px -50px 10px 440px;">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Contraseña:</mat-label>
+                      <input matInput formControlName="app_pass" value="app_pass">
+
+                    </mat-form-field>
+                  </div>
+
+                  <!-- </mat-form-field> -->
+                  <div class="row mt-3">
+                    <div class="col-md-4">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Activo/Inactivo:</mat-label>
+                        <mat-select formControlName="us_state_fin" required>
+                          <mat-option *ngFor="let idet of act_inac" [value]="idet.ls_codvalue">
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <hr style="margin-top: 35%; width: 330%;border-top: 2px solid rgba(0, 0, 0, 0.2);">
+                </div>
+
+              </div>
+
+            </div>
+          </form>
+          <button class="btn btn-success mt-3" (click)="addForm()" [disabled]="formsCount >= maxForms" style="background-color: #06720f; height: 30px; font-size:12px; 
+            line-height: 1.2;">+</button>
+          <div class="row mt-3">
+
+            <div *ngFor="let formCampos of formArray.controls; let i = index">
+
+              <form [formGroup]="formCampos">
+                <!-- Definir tus campos de formulario aquí -->
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Aplicativo:</mat-label>
+                    <mat-select formControlName="us_app" required>
+                      <mat-option *ngFor="let idet of application" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Usuario:</mat-label>
+                    <input matInput formControlName="app_user" value="app_user">
+
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Contraseña:</mat-label>
+                    <input matInput formControlName="app_pass" value="app_pass">
+
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Activo/Inactivo:</mat-label>
+                    <mat-select formControlName="us_state_fin" required>
+                      <mat-option *ngFor="let idet of act_inac" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div mat-dialog-actions>
+                  <div class="col-12">
+                    <button class="btn btn-danger" (click)="removeForm(i)" style="background-color: #910404; height: 30px; font-size:12px; 
+                    line-height: 1.2;">X</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12 mt-4">
+          <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+
+          <button *ngIf="view == 'create'" mat-button class="btn btn-success" (click)="onSubmit()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="view == 'view'">
+  <div class="modal-header">
+    <h5 class="modal-title">Información de usuario</h5>
+    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <mat-dialog-content style="min-width: 600px;">
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <dt>Documento</dt>
+        <dd>{{view_user.document}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Nombres</dt>
+        <dd>{{view_user.name | titlecase}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Rol del usuario</dt>
+        <dd>{{view_user.rol}}</dd>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <dt>Usuario de red</dt>
+        <dd>{{view_user.us_red}}</dd>
+      </div>
+    </div>
+    <hr>
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <div *ngFor="let guia of view_campos; let i = index">
+          <div class="col-md-4" style="padding: 1px; max-width: 90%;display: inline-block;">
+            <dt>Aplicativo:</dt>
+            <dd>{{(!guia.aplicativo)? "no tiene asignado":guia.aplicativo }}</dd>
+          </div>
+          <div class="col-md-4" style="padding: 1px; max-width: 90%; margin: -51px -50px 10px 150px;">
+            <dt>usuario:</dt>
+            <dd>{{(!guia.app_user)? "no tiene asignado": guia.app_user }}</dd>
+          </div>
+          <div class="col-md-4" style="padding: 1px; max-width: 90%;margin: -61px -50px 10px 320px;">
+            <dt>Contraseña:</dt>
+            <dd>{{(!guia.app_pass)? "no tiene asignada": guia.app_pass}}</dd>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            Histórico de Procesos:
+          </div>
+          <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+            <ng-container matColumnDef="currentm_user">
+              <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+              <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="type_move">
+              <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+              <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="date_move">
+              <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+              <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+  </mat-dialog-content>
+</div>

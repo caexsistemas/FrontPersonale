@@ -20,61 +20,27 @@ import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { UserServices } from "../../../services/user.service";
 import { ApplicationDialog } from "../../../dialogs/application/application.dialog.component";
-import { Clipboard } from "@angular/cdk/clipboard";
-import { UpdateApplicationsDialog } from "../../../dialogs/updateApplications/updateApplications.dialog.component";
-import { environment } from "../../../../environments/environment";
+import { RequestDialog } from "../../../dialogs/request/request.dialog.component";
+import { DisciplinaryDialog } from "../../../dialogs/disciplinary/disciplinary.dialog.component";
+import Swal from "sweetalert2";
+import { ReceptionDialogComponent } from "../../../dialogs/reception/reception.dialog.component";
 @Component({
-  selector: "app-update-aplications",
-  templateUrl: "./update-aplications.component.html",
-  styleUrls: ["./update-aplications.component.css"],
+  selector: "app-reception",
+  templateUrl: "./reception.component.html",
+  styleUrls: ["./reception.component.css"],
 })
-export class UpdateAplicationsComponent implements OnInit {
+export class ReceptionComponent implements OnInit {
   dataSource: any = [];
   displayedColumns: any = [];
   loading: boolean = false;
   ValorRol: any = [];
   public detailRoles = [];
 
-  component = "/applications/update_applications";
+  component = "/process/reception";
   permissions: any = null;
   contaClick: number = 0;
-  endpoint: string = "/updApp";
+  endpoint: string = "/reception";
   contenTable: any = [];
-  color_state: any = [];
-  ifCheck: boolean;
-  endpointup: string = "/applicationupload";
-  urlKaysenBackend = environment.url;
-  url = this.urlKaysenBackend + this.endpointup;
-  personaleData: any = [];
-  datapersonale: any = [];
-  modal: "successModal";
-
-  public afuConfig = {
-    multiple: false,
-    formatsAllowed: ".xlsx,.xls",
-    maxSize: "20",
-    uploadAPI: {
-      url: this.url,
-      method: "POST",
-      headers: {
-        Authorization: this._tools.getToken(),
-      },
-    },
-    theme: "dragNDrop",
-    hideProgressBar: false,
-    hideResetBtn: true,
-    hideSelectBtn: false,
-    replaceTexts: {
-      selectFileBtn: "Seleccione Archivo",
-      resetBtn: "Limpiar",
-      uploadBtn: "Subir Archivo",
-      attachPinBtn: "Sube información usuarios",
-      hideProgressBar: false,
-      afterUploadMsg_success: "",
-      afterUploadMsg_error: "Fallo al momento de cargar el archivo!",
-      sizeLimit: "Límite de tamaño",
-    },
-  };
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -83,14 +49,10 @@ export class UpdateAplicationsComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog,
-    private clipboard: Clipboard
+    public dialog: MatDialog
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
-  @ViewChild("successModal", { static: false })
-  public successModal: ModalDirective;
-
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   ngOnInit(): void {
@@ -133,12 +95,13 @@ export class UpdateAplicationsComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "us_red",
-      "username",
-      "idPersonale",
-      "us_role",
-      "campana",
-      "updated_at",
+      "dis_fec",
+      "dis_doc",
+      "dis_idPersonale",
+      "dis_pos",
+      "dis_fal",
+      "dis_idp_sol",
+      "dis_po_sol",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -158,12 +121,21 @@ export class UpdateAplicationsComponent implements OnInit {
     this.detailRoles = item;
     this.infoModal.show();
   }
+
+  ShowDisciplinary() {
+    Swal.fire({
+      title: "",
+      html: `<p class="custom-swal" style="text-align:justify; font-weight: 610;">El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud.",
+      </p>`,
+      icon: "success",
+    });
+  }
   option(action, codigo = null) {
     var dialogRef;
     switch (action) {
       case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(UpdateApplicationsDialog, {
+        dialogRef = this.dialog.open(ReceptionDialogComponent, {
           data: {
             window: "view",
             codigo,
@@ -182,13 +154,18 @@ export class UpdateAplicationsComponent implements OnInit {
         break;
       case "create":
         this.loading = true;
-        dialogRef = this.dialog.open(UpdateApplicationsDialog, {
+        this.ShowDisciplinary();
+        // this.handler.showSuccess(
+        //   "El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud."
+        // );
+        dialogRef = this.dialog.open(ReceptionDialogComponent, {
           data: {
             window: "create",
             codigo,
           },
         });
         dialogRef.disableClose = true;
+
         // LOADING
         dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
@@ -200,13 +177,15 @@ export class UpdateAplicationsComponent implements OnInit {
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(UpdateApplicationsDialog, {
+        dialogRef = this.dialog.open(ReceptionDialogComponent, {
           data: {
             window: "update",
             codigo,
           },
         });
         dialogRef.disableClose = true;
+        this.sendRequest();
+
         // LOADING
         dialogRef.componentInstance.loading.subscribe((val) => {
           this.loading = val;
@@ -234,7 +213,7 @@ export class UpdateAplicationsComponent implements OnInit {
   };
 
   colorState(state) {
-    return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
+    return this.colorMap[state] || "";
   }
   // openc(){
   //   if(this.contaClick == 0){
@@ -245,57 +224,4 @@ export class UpdateAplicationsComponent implements OnInit {
   // applyFilter(search) {
   //   this.dataSource.filter = search.trim().toLowerCase();
   // }
-  // closeDialog() {
-  //   this.dialogRef.close();
-  //   this.reload.emit(true);
-
-  //   }
-  hidePassword(password: string): string {
-    if (password) {
-      this.ifCheck = true;
-
-      return "*".repeat(password.length);
-    } else {
-      this.ifCheck = false;
-
-      return "no hay contraseña asignada";
-    }
-  }
-  copyPassword(password: string): void {
-    if (password) {
-      this.ifCheck = true;
-      this.clipboard.copy(password);
-    } else {
-      this.ifCheck = false;
-    }
-  }
-
-  getAllPersonal() {
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "getAplication",
-      idUser: this.cuser.iduser,
-      token: this.cuser.token,
-      modulo: this.component,
-    }).subscribe(
-      (response) => {
-        this.permissions = this.handler.getPermissions(this.component);
-
-        if (response.success) {
-          this.handler.showSuccess("El archivo se cargo exitosamente");
-          this.personaleData = response.data;
-          this.loading = false;
-          this.successModal.hide();
-          this.sendRequest();
-        } else {
-          this.datapersonale = [];
-          this.handler.handlerError(response);
-        }
-      },
-      (error) => {
-        this.loading = false;
-        //this.permissions = this.handler.getPermissions(this.component);
-        this.handler.showError();
-      }
-    );
-  }
 }
