@@ -192,7 +192,7 @@ export class RqcalidadDialog  {
       call_id: new FormControl(""), 
       min_bill: new FormControl(""), 
       week: new FormControl(""), 
-      analyst: new FormControl(""), 
+      analyst: new FormControl(this.cuser.user), 
       offer: new FormControl(""), 
       monitoring_date: new FormControl(this.dateStrinMoni), 
       call_date: new FormControl(""), 
