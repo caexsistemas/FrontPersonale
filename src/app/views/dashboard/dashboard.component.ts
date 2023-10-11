@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, QueryList, ViewChildren,AfterViewInit } from "@angular/core";
+import { Component, OnInit, ViewChild, QueryList, ViewChildren,Output,EventEmitter,AfterViewInit,ChangeDetectorRef  } from "@angular/core";
 import { Tools } from "../../Tools/tools.page";
 import { WebApiService } from "../../services/web-api.service";
 import { ModalDirective } from "ngx-bootstrap/modal";
@@ -22,7 +22,6 @@ export class DashboardComponent implements AfterViewInit  {
   public identity;
   public token;
   public data;
-  loading: boolean = false;
   permissions: any = null;
   public GrafiHogar: any = [];
   public GrafiMovil: any = [];
@@ -30,7 +29,7 @@ export class DashboardComponent implements AfterViewInit  {
   public NotaHogar = 0;
   public NotaMovil = 0;
   public NotaTyt  = 0;
-  public rolC: boolean = false;
+  public rolC: boolean;
 // direccion para laravel
   endpoint: string = "/grafiContact";
 // permisos 
@@ -38,25 +37,30 @@ export class DashboardComponent implements AfterViewInit  {
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 // trae informacion de modales 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+  @Output() loading = new EventEmitter();
+  @Output() reload = new EventEmitter();
 
   constructor(    
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog ){
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef ){
       this.identity=_tools.getIdentity();
       this.token=_tools.getToken();
   }
   ngAfterViewInit(): void {
-    
-    if( this.cuser.role == 21 || this.cuser.role == 22 ){ 
-    this.rolC == true
+    console.log( this.cuser.role);
+    if( this.cuser.role == 21 || this.cuser.role == 22  ){ 
+    this.rolC = true;
     this.sendRequest()
     .then(()=>{
       this.graCalid();
     });
-
-  }else{}
+  }else{
+    this.rolC = false;
+  }
+  this.cdr.detectChanges();
 }
 graCalid(){
     //Cargue de Graficos
@@ -80,7 +84,7 @@ graCalid(){
 sendRequest(): Promise<void> {
 
   return new Promise<void>((resolve) => {
-    this.loading = true;
+    this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "getDataCustomer",
       idUser: this.cuser.iduser,
@@ -97,16 +101,16 @@ sendRequest(): Promise<void> {
           this.GrafiTyt   = data.data['GrafiTYT']; 
           resolve();
           
-          this.loading = false;
+          this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
-          this.loading = false;
+          this.loading.emit(false);
         }
       },
       (error) => {
         //console.log(error);
         this.handler.showError("Se produjo un error");
-        this.loading = false;
+        this.loading.emit(false);
       }
     );
   });
@@ -183,7 +187,7 @@ grama_linea(infodata,divdata) {
 
   //console.log((arreglo.length-2)+"arreglo:"+infodata['dato']['model_gana_barra']);
   //console.log((valgras.length-2)+"valgra"+infodata['dato']['grafico_lineal']);
-  console.log("can: "+(dataRes.length - 2));
+  //console.log("can: "+(dataRes.length - 2));
 
   var contBar = dataRes.length;
   var seriesOptions = {};
