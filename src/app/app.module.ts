@@ -154,6 +154,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
 
+
 const routes: Routes = [];
 @NgModule({
   imports: [

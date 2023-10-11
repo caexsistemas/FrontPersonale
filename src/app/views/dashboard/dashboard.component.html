@@ -1,11 +1,66 @@
-<div class="animated fadeIn">
-  <mat-card class="example-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-    </mat-card-header>
-    <img mat-card-image style="display: block;margin: 0px auto;opacity: 0.3;" src="assets/img/brand/360spin.png" alt="Photo of a Shiba Inu">
-    <mat-card-content> 
-    </mat-card-content>
-  </mat-card>
- 
+<div class="container"> 
+  <!-- Inicio normal 360 -->
+  <div class="animated fadeIn" *ngIf="rolC  == false">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+      </mat-card-header>
+      <img mat-card-image style="display: block;margin: 0px auto;opacity: 0.3;" src="assets/img/brand/360spin.png" alt="Photo of a Shiba Inu">
+      <mat-card-content> 
+      </mat-card-content>
+    </mat-card>
+  </div>    
+<!-- Grafico de calidad -->
+    <div class="animated fadeIn" *ngIf="rolC  == true">
+      <mat-card class="example-card">
+        <mat-card-header class="containerCalidad2">
+          <h1 >HOGAR</h1> 
+          <h2>N°Calificaciones: {{ this.NotaHogar }} </h2>
+        </mat-card-header>
+        <div class="containerCalidad2"> 
+          <div id="grama_hogar_barra_carga" class="carga">
+            <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+            <p>Cargando gráfico...</p>
+          </div>
+          <div id="grama_hogar_barra" style="width: 550px; height: 500px;" ></div>
+          <div id="grama_hogar_lineal" style="width: 540px; height: 500px"></div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="animated fadeIn" *ngIf="rolC  == true">
+      <mat-card class="example-card">
+        <mat-card-header  class="containerCalidad2">
+          <h1>MOVIL</h1>
+          <h2>N°Calificaciones: {{ this.NotaMovil}} </h2>
+        </mat-card-header>
+        <div class="containerCalidad2"> 
+          <div id="grama_movil_barra_carga" class="carga">
+            <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+            <p>Cargando gráfico...</p>
+          </div>
+          <div id="grama_movil_barra" style="width: 550px; height: 500px;" ></div>
+          <div id="grama_movil_lineal" style="width: 540px; height: 500px"></div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="animated fadeIn" *ngIf="rolC  == true">
+      <mat-card class="example-card">
+        <mat-card-header  class="containerCalidad2">
+          <h1>TYT</h1>
+          <h2>N°Calificaciones: {{ this.NotaTyt }} </h2>
+        </mat-card-header>
+        <div class="containerCalidad2"> 
+          <div id="grama_tyt_barra_carga" class="carga">
+            <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+            <p>Cargando gráfico...</p>
+          </div>
+          <div id="grama_tyt_barra" style="width: 550px; height: 500px;" ></div>
+          <div id="grama_tyt_lineal" style="width: 540px; height: 500px"></div>
+        </div>
+      </mat-card>
+    </div>
+
 </div>
+
