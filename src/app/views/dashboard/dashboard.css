@@ -1,10 +1,7 @@
-
 .containerCalidad2{
     width: auto;
     height: auto;
     margin: 10;
-/*    padding: 0.5rem;*/
-/*    border-radius: 0.5rem;*/
     font-size: 1rem;
     color:rgb(21, 21, 21);
     background-image: linear-gradient(#dae8f2 ) !important;
@@ -18,10 +15,51 @@
     justify-content: space-around;
   }
 
+  .containerCalidad2Agente{
+    width: auto;
+    height: 80px;
+    margin: 10;
+    font-size: 1rem;
+    color:rgb(21, 21, 21);
+    background-image: linear-gradient(#dae8f2 ) !important;
+    background: rgba(255, 255, 255, 0.816);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    display: flex;
+    box-shadow: 5px 5px 10px 5px #DADADA;
+    overflow: auto;
+    justify-content: space-around;
+  }
+
+
+  .containerCalidadA2{
+    width: auto;
+    height: auto;
+    margin: 10;
+    font-size: 1.5rem !important;
+    color:rgb(21, 21, 21);
+    background-image: linear-gradient(#dae8f2 ) !important;
+    background: rgba(255, 255, 255, 0.816);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    display: flex;
+    box-shadow: 5px 5px 10px 5px #DADADA;
+    overflow: auto;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+  }
+
+  .button1{
+    display: flex;
+  }
+
+
+
  .animated{
   padding-bottom: 20px;
  }
-
  .carga {
   display: flex;
   flex-direction: column;
@@ -36,7 +74,6 @@
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 1000;
 }
-
 .carga img {
   width: 50px; /* Ajusta el tamaño de la animación de carga según tus necesidades */
 }
@@ -44,7 +81,6 @@
 .text {
   fill: rgb(175, 0, 0);
 }
-
 
   .containerCalidad3{
     width: auto;
@@ -120,6 +156,7 @@ text-align: center;
 
 .btn .btn1{
     font-size: 1.8rem;
+    font-weight: 700 !important;
 }
 
 .badge-pq{
@@ -128,4 +165,8 @@ text-align: center;
 
 #chart-container text {
   fill: red; /* Cambia el color del título a rojo */
+}
+
+.btn {
+  font-weight: 700 !important;
 }

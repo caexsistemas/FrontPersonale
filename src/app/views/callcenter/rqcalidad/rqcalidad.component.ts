@@ -70,7 +70,8 @@ export class RqcalidadComponent implements OnInit {
       idUser: this.cuser.iduser,
       role: this.cuser.role,
       token: this.cuser.token,
-      modulo: this.component
+      modulo: this.component,
+      tipMat: this.cuser.matrizarp
     }).subscribe(
       (data) => {
         
