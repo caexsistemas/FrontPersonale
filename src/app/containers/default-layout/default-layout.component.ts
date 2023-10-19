@@ -144,7 +144,7 @@ export class DefaultLayoutComponent{
     
     var title = {
       title: true,
-      name: this.userLogin.user
+      name: this.userLogin.user+" \n ("+this.userLogin.userProfile+")"
     }
     option.push(op);
     option.push(title);

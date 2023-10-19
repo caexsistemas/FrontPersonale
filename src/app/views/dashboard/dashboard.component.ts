@@ -120,8 +120,8 @@ graCalid(){
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.load('current', {'packages':['bar']});
     //Grafico Hogar
-    google.charts.setOnLoadCallback(()  =>{this.grama_barra(this.GrafiSupe, 'grama_hogar_barra','model_gana_barra', 'grafico_barra');});
-    google.charts.setOnLoadCallback(() => {this.grama_linea(this.GrafiSupe, 'grama_hogar_lineal','campanas_lineal', 'grafico_lineal');});
+    google.charts.setOnLoadCallback(()  =>{this.grama_barra(this.GrafiHogar, 'grama_hogar_barra','model_gana_barra', 'grafico_barra');});
+    google.charts.setOnLoadCallback(() => {this.grama_linea(this.GrafiHogar, 'grama_hogar_lineal','campanas_lineal', 'grafico_lineal');});
     this.NotaHogar = this.GrafiHogar['dato']['califica'];
 
     //Grafico Movil
@@ -346,13 +346,9 @@ grama_linea(infodata,divdata,cabecera,valores) {
     console.error('Datos incorrectos o no definidos: DataAsesor no encontrado');
   }
 }
-
 // Grafico barras Agentes
     grama_barra2(infodata,divdata,NotaA) {
-     
-
-      const campana = infodata['dato']['DataAsesor'][0]['campana'];
-
+     const campana = infodata['dato']['DataAsesor'][0]['campana'];
       var finaG = 0;
       var finaA = 0;
       var finaN = 0;
@@ -360,8 +356,8 @@ grama_linea(infodata,divdata,cabecera,valores) {
 
       if(campana == '44/6' || campana == '44/5'){
           finaG =parseInt(infodata['dato']['NotaAsesor'][0]['GT_F']); 
+          finaA  =parseInt(infodata['dato']['NotaAsesor'][0]['A1T_F']); 
           finaN =parseInt(infodata['dato']['NotaAsesor'][0]['NT_F']); 
-          finaA =parseInt(infodata['dato']['NotaAsesor'][0]['A1T_F']); 
           finaA2=parseInt(infodata['dato']['NotaAsesor'][0]['A2T_F']); 
         }else{
           finaG =parseInt(infodata['dato']['NotaAsesor'][0]['G_F']); 
@@ -375,21 +371,21 @@ grama_linea(infodata,divdata,cabecera,valores) {
       var colorN = "";
       var colorA2 = "";
 
-      colorG = (finaG < 50)  ? "#FF3D04": "#2789FF ";
-      colorA = (finaA < 50)  ? "#FF3D04": "#2789FF ";
-      colorN = (finaN< 50)  ? "#FF3D04": "#2789FF ";
-      colorA2 = (finaA2 < 50)  ? "#FF3D04": "#2789FF ";
-      console.log('"'+colorG+'"');
-      console.log('"'+colorN+'"'+finaN);
+      colorG  =    (finaG < 50)  ? "#FF3D04": "#2789FF ";
+      colorA  =    (finaA < 50)  ? "#FF3D04": "#2789FF ";
+      colorN  =    (finaN < 50)  ? "#FF3D04": "#2789FF ";
+      colorA2 =    (finaA2< 50)  ? "#FF3D04": "#2789FF ";
+      // console.log('"'+colorG+'"');
+      // console.log('"'+colorN+'"'+finaN);
 
       const data = new google.visualization.DataTable();
       data.addColumn('string', 'Modelo');
       data.addColumn('number', 'Calificacion');
       data.addColumn({ type: 'string', role: 'style' });
       data.addRows([       
-      ['G', finaG,  colorG],
+      ['G',  finaG,   colorG],
       ['A1', finaA,   colorA],
-      ['N', finaN,   colorN],
+      ['N',  finaN,   colorN],
       ['A2', finaA2, colorA2] 
     ]);
 
