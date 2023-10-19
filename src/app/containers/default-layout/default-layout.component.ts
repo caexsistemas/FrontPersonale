@@ -139,7 +139,6 @@ export class DefaultLayoutComponent{
     var op = {
       name: 'TH 360 / '+this.userLogin.userProfile+'',
       url: '/dashboard',
-      icon: 'icon-speedometer',
     }
     
     var title = {

@@ -12,6 +12,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { log } from 'console';
 
+
 declare var google: any;
 
 @Component({
@@ -30,6 +31,7 @@ export class DashboardComponent implements AfterViewInit  {
   public GrafiTyt: any = [];
   public GrafiSupe: any = [];
   public GrafiA: any = [];
+  public selectCampan: any = [];
 // variables para renderizado
   public NotaHogar = 0;
   public NotaMovil = 0;
@@ -55,6 +57,7 @@ export class DashboardComponent implements AfterViewInit  {
   public grafico_a1="";
   public grafico_n="";
   public grafico_a2="";
+ 
 // tyt 
   public grafico_gt="";
   public grafico_a1t="";
@@ -75,6 +78,7 @@ export class DashboardComponent implements AfterViewInit  {
 // permisos 
   component = "/callcenter/grafiContact";
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
+  public campanaConsu=this.cuser.campana;
 // trae informacion de modales 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
   @Output() loading = new EventEmitter();
@@ -90,7 +94,7 @@ export class DashboardComponent implements AfterViewInit  {
       this.token=_tools.getToken();
   }
   ngAfterViewInit(): void {
-    console.log( this.cuser.role);
+    // console.log( this.cuser.role);
     if( this.cuser.role == 21 || this.cuser.role == 22  ){ 
     this.rolC = true;
     this.sendRequest()
@@ -98,14 +102,14 @@ export class DashboardComponent implements AfterViewInit  {
       this.graCalid();
     });
   }else if(this.cuser.role == 31 || this.cuser.role == 2){
-    console.log( this.cuser.role);
+    // console.log( this.cuser.role);
     this.grafiSuper = true;
     this.sendRequest()
     .then(()=>{
       this.grafiSupervisor();
     });
   }else if(this.cuser.role == 23){
-    console.log( this.cuser.role);
+    // console.log( this.cuser.role);
     this.grafiAgentes = true;
     this.sendRequest()
     .then(()=>{
@@ -146,19 +150,49 @@ grafiSupervisor(){
 }
 // Graficos agentes
 grafiAgente(){
+
   google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.load('current', {'packages':['bar']});
- 
-  google.charts.setOnLoadCallback(()  =>{this.grama_barra2(this.GrafiA, 'grama_agente_barra','NotaAsesor');});
-  google.charts.setOnLoadCallback(()  =>{this.grama_donugnt(this.GrafiA, 'grama_agente_dona','nota_final');});
-  this.conteoA = this.GrafiA.dato.DataAsesor[0].conteo;
-  this.descripCampana = this.GrafiA.dato.DataAsesor[0].des_campana;
-  this.documentoA = this.GrafiA.dato.DataAsesor[0].document;
-  this.nombreA = this.GrafiA.dato.DataAsesor[0].nombre;
-  this.colors = this.GrafiA.dato.UtilAser.colors;
-  this.mensajeA = this.GrafiA.dato.UtilAser.mensaje;
-  this.nota_utilaB = this.GrafiA.dato.UtilAser.nota_util;
 
+  if(Array.isArray(this.GrafiA.dato.DataAsesor)){
+
+    google.charts.setOnLoadCallback(()  =>{this.grama_barra2(this.GrafiA, 'grama_agente_barra','NotaAsesor');});
+    google.charts.setOnLoadCallback(()  =>{this.grama_donugnt(this.GrafiA, 'grama_agente_dona','nota_final');});
+    this.conteoA = this.GrafiA.dato.DataAsesor[0].conteo;
+    this.descripCampana = this.GrafiA.dato.DataAsesor[0].des_campana;
+    this.documentoA = this.GrafiA.dato.DataAsesor[0].document;
+    this.nombreA = this.GrafiA.dato.DataAsesor[0].nombre;
+    this.colors = this.GrafiA.dato.UtilAser.colors;
+    this.mensajeA = this.GrafiA.dato.UtilAser.mensaje;
+    this.nota_utilaB = this.GrafiA.dato.UtilAser.nota_util;
+  }else{
+
+    document.getElementById('grama_agente_dona').innerHTML  = '';
+    document.getElementById('grama_agente_barra').innerHTML  = '';
+    document.getElementById('grama_agente_barra_carga').style.display = 'flex';
+    this.conteoA = 0;
+    this.descripCampana = 0;
+    this.documentoA = 0;
+    this.nombreA = "";
+    this.colors = "";
+    this.mensajeA = "";
+    this.nota_utilaB = 0; 
+  }
+
+}
+
+
+campanasMenu(event){
+
+
+  this.campanaConsu = event;
+  this.grafiAgentes = true;
+  this.sendRequest()
+  .then(()=>{
+    this.grafiAgente();
+  });
+  this.cdr.detectChanges();
+  
 }
 
 modalComent(event){
@@ -175,14 +209,9 @@ modalComent(event){
     titulo = "Oportunidades de Mejora";
   }
  }
-
-
   this.handler.showInfo(texto,titulo,"#/callcenter/rqcalidad");
 }
-
-
 sendRequest(): Promise<void> {
-
   return new Promise<void>((resolve) => {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
@@ -193,10 +222,9 @@ sendRequest(): Promise<void> {
       modulo: this.component,
       matriz: this.cuser.matrizarp,
       document: this.cuser.username,
-      campana: this.cuser.campana
+      campana: this.campanaConsu
     }).subscribe(
       (data) => {
-        
         if (data.success == true) {
           if( this.cuser.role == 21 || this.cuser.role == 22  ){ 
             this.GrafiHogar = data.data['GrafiHogar']; 
@@ -206,9 +234,9 @@ sendRequest(): Promise<void> {
             this.GrafiSupe = data.data['GrafiSupe']; 
           }else if(this.cuser.role == 23){
             this.GrafiA = data.data ['GrafiA'];
+            this.selectCampan = data.data['tipicampana'];
           }
           resolve();
-          
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -339,11 +367,10 @@ grama_linea(infodata,divdata,cabecera,valores) {
         }
       }
     };
-
     const chart = new google.visualization.PieChart(document.getElementById(divdata));
     chart.draw(data, options);
   } else {
-    console.error('Datos incorrectos o no definidos: DataAsesor no encontrado');
+    // console.error('Datos incorrectos o no definidos: DataAsesor no encontrado');
   }
 }
 // Grafico barras Agentes
