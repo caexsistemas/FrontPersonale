@@ -137,9 +137,8 @@ export class DefaultLayoutComponent{
     var optionItem;
     var optionSubitem;
     var op = {
-      name: 'TH 360',
+      name: 'TH 360 / '+this.userLogin.userProfile+'',
       url: '/dashboard',
-      icon: 'icon-speedometer',
     }
     
     var title = {

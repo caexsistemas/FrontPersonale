@@ -153,6 +153,9 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
+import {MatMenuModule} from '@angular/material/menu';
+
+
 
 const routes: Routes = [];
 @NgModule({
@@ -172,6 +175,7 @@ const routes: Routes = [];
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
     ToasterModule.forRoot(),
     AlertModule.forRoot(),
     // DataTableModule,

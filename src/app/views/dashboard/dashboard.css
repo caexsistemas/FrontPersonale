@@ -1,0 +1,176 @@
+.containerCalidad2{
+    width: auto;
+    height: auto;
+    margin: 10;
+    font-size: 1rem;
+    color:rgb(21, 21, 21);
+    background-image: linear-gradient(#dae8f2 ) !important;
+    background: rgba(255, 255, 255, 0.816);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    display: flex;
+    box-shadow: 5px 5px 10px 5px #DADADA;
+    overflow: auto;
+    justify-content: space-around;
+  }
+
+  .containerCalidad2Agente{
+    width: auto;
+    height: 80px;
+    margin: 10;
+    font-size: 1rem;
+    color:rgb(21, 21, 21);
+    background-image: linear-gradient(#dae8f2 ) !important;
+    background: rgba(255, 255, 255, 0.816);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    display: flex;
+    box-shadow: 5px 5px 10px 5px #DADADA;
+    overflow: auto;
+    justify-content: space-around;
+  }
+
+
+  .containerCalidadA2{
+    width: auto;
+    height: auto;
+    margin: 10;
+    font-size: 1.5rem !important;
+    color:rgb(21, 21, 21);
+    background-image: linear-gradient(#dae8f2 ) !important;
+    background: rgba(255, 255, 255, 0.816);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    display: flex;
+    box-shadow: 5px 5px 10px 5px #DADADA;
+    overflow: auto;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+  }
+
+  .button1{
+    display: flex;
+  }
+
+  /* .bottonMenu{
+    background-color: #3E93F9;
+    color: #fff;
+  } */
+
+
+ .animated{
+  padding-bottom: 20px;
+ }
+ .carga {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+}
+.carga img {
+  width: 50px; /* Ajusta el tamaño de la animación de carga según tus necesidades */
+}
+
+.text {
+  fill: rgb(175, 0, 0);
+}
+
+  .containerCalidad3{
+    width: auto;
+    height: auto;
+    margin: 10;
+    font-size: 1rem;
+    color:white;
+    background-image: linear-gradient(#D8E9F4 ) !important;
+    background: rgba(255, 255, 255, .25);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    display: flex;
+    box-shadow: 5px 5px 10px 5px #DADADA;
+    overflow: auto;
+  }
+
+
+.aspectos12{
+   display: flex;
+/*   align-items: flex-start;*/
+text-align: center;
+/* flex-direction: row | row-reverse ; */
+}
+
+
+.btn .btn-primary{
+   font-size: 4rem !important;
+    }
+
+.gramas1{
+     display: flex;
+     align-items: flex-start;  
+     margin: 5;
+}
+
+.b ,strong {
+    font-size: 0 !important;
+}
+
+
+.agentes11{
+    width: auto;
+    height: 50px;
+    overflow: auto !important;
+    color: black;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, .25);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+}
+
+
+.numero12{
+      
+  height: auto;   
+  width: auto;
+  align-content: flex-start !important
+
+}
+
+.nom{
+    overflow: auto;
+}
+
+.card-body-pq{
+  padding: 0.5rem !important;
+}
+
+.btn .btn1{
+    font-size: 1.8rem;
+    font-weight: 700 !important;
+}
+
+.badge-pq{
+  font-size: 100% !important;
+}
+
+#chart-container text {
+  fill: red; /* Cambia el color del título a rojo */
+}
+
+.btn {
+  font-weight: 700 !important;
+}

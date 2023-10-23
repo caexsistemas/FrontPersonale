@@ -23,6 +23,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { DatafilterModule } from '../../Tools/pipe/datafilter.module';
 import { MatInputModule }  from '@angular/material/input';
 import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -38,6 +40,8 @@ const ngWizardConfig: NgWizardConfig = {
     CommonModule,
     ReactiveFormsModule,
     TextMaskModule,
+    MatButtonModule,
+    MatMenuModule,
     SelectModule,
     MatPaginatorModule,
     MatSortModule,
