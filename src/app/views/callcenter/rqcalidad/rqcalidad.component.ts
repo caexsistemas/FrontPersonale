@@ -86,8 +86,7 @@ export class RqcalidadComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
-        this.handler.showError("Se produjo un error");
+        this.handler.showError("Se produjo un error"+error);
         this.loading = false;
       }
     );
@@ -98,6 +97,7 @@ export class RqcalidadComponent implements OnInit {
     this.displayedColumns = [
       "view",
       "monitoring_date",
+      "status_cal",
       "login",
       "name",
       "coordinator",
@@ -182,8 +182,6 @@ export class RqcalidadComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
         });
         break;
         case "repor1vmrq":
@@ -200,8 +198,6 @@ export class RqcalidadComponent implements OnInit {
             this.loading = val;
           });
           dialogRef.afterClosed().subscribe((result) => {
-            console.log("The dialog was closed");
-            console.log(result);
           });
           break;
     }
@@ -215,7 +211,6 @@ export class RqcalidadComponent implements OnInit {
   }
 
   pdf(id) {
-          console.log(id);
           //this.loading.emit(true);
           this.WebApiService.getRequest(this.endpoint, {
             action: "pdf",
@@ -226,7 +221,6 @@ export class RqcalidadComponent implements OnInit {
           }).subscribe(
             (data) => {
               this.permissions = this.handler.getPermissions(this.component);
-              console.log(data);
               if (data.success == true) {
                     
                     const link = document.createElement("a");
@@ -242,8 +236,7 @@ export class RqcalidadComponent implements OnInit {
               }
             },
             (error) => {
-                    console.log(error);
-                    this.handler.showError("Se produjo un error");
+                    this.handler.showError("Se produjo un error"+error);
                     this.loading = false;
             }
     );
@@ -252,4 +245,21 @@ export class RqcalidadComponent implements OnInit {
   onTriggerSheetClick(){
     this.matBottomSheet.open(ReportsRqcalidadComponent)
   }
+
+  colorMap = {
+    "136/0": "#E57300",
+    "136/1": "#A4A4A4",
+    "136/2": "#CBCD15",
+    "136/3": "#E42E15",
+    "136/4": "#4CBC04"
+  };
+
+  colorState(state, retro) {
+    //Color Critico 
+    if(retro == '17/2' && state == '136/3'){
+      state = "136/0";
+    }
+    return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
+  }
+
 }

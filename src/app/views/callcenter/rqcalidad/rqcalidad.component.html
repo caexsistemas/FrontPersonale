@@ -63,6 +63,19 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha del Monitoreo</th>
                         <td mat-cell *matCellDef="let element"> {{element.monitoring_date}} </td>
                     </ng-container>
+
+                    <ng-container matColumnDef="status_cal">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"
+                          style="justify-content: center; text-align: center;">
+                          Estado Gestion
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div class="mt-1"
+                            [ngStyle]="{'backgroundColor': colorState(element.status_retro, element.retro_call),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
+                            {{element.retro_descr}}  
+                          </div>
+                        </td>
+                      </ng-container>
   
                     <ng-container matColumnDef="document">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> C&eacute;dula Asesor</th>

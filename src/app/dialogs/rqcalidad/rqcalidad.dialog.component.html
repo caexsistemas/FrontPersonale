@@ -149,6 +149,15 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>¿Retroalimentaci&oacute;n?:</dt>
+                            <dd>{{dataCad.retro_call}}</dd>
+                        </div>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4"></div>
+                    </div>
+
                   <!--**--> 
                   
                   <mat-action-row>
@@ -999,7 +1008,18 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>¿Retroalimentaci&oacute;n?:</mat-label>
+                            <mat-select formControlName="retro_call" required>
+                                <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                   </div>
+
                   
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
