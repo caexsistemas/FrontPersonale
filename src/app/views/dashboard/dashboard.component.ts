@@ -69,6 +69,7 @@ export class DashboardComponent implements AfterViewInit  {
   public NotaAsesor =""; 
   public obs_asp_pos ="";
   public obs_obs ="";
+  public textSelecamp="Seleccionar...";
 // variable boolean
   public rolC: boolean = false;
   public grafiSuper: boolean = false;
@@ -178,21 +179,18 @@ grafiAgente(){
     this.mensajeA = "";
     this.nota_utilaB = 0; 
   }
-
 }
 
+campanasMenu(event,text){
 
-campanasMenu(event){
-
-
+  this.textSelecamp = text;
   this.campanaConsu = event;
   this.grafiAgentes = true;
   this.sendRequest()
   .then(()=>{
     this.grafiAgente();
   });
-  this.cdr.detectChanges();
-  
+  this.cdr.detectChanges(); 
 }
 
 modalComent(event){

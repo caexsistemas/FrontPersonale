@@ -103,7 +103,8 @@
           <span>
             <button class="p-1 mb-2 bg-dark text-white"   mat-button [matMenuTriggerFor]="menu">Campaña</button>
               <mat-menu #menu="matMenu">
-                <button *ngFor="let idet of selectCampan" (click)="campanasMenu(idet.ls_codvalue)"  mat-menu-item>
+                <button mat-menu-item class="btn btn-info">{{textSelecamp}}</button>
+                <button *ngFor="let idet of selectCampan" (click)="campanasMenu(idet.ls_codvalue,idet.description)"  mat-menu-item>
                   {{idet.description}}</button>
               </mat-menu>
           </span>
