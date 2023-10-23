@@ -29,19 +29,25 @@ export class WebApiService {
     params = this.processParams(params);
     let headers = this.setHeaders();
     url = this.urlKaysenBackend + url;
-    //console.log('Parametro: '+params+ 'Headers: ' +headers+ 'Url: '+url);
     return this._http.get<any>(url, { headers, params });
   }
 
   // METODO POST
   postRequest(url: string, body: any, params: any): Observable<any> {
-    // header
     let headers = this.setHeaders();
     body = JSON.stringify(body);
     url = this.urlKaysenBackend + url;
-
     return this._http.post<any>(url, body, { headers, params });
   }
+
+  // METODO PUT
+  putRequest(url: string, body: any, params: any): Observable<any> {
+    let headers = this.setHeaders();
+    body = JSON.stringify(body);
+    url = this.urlKaysenBackend + url;
+    return this._http.put<any>(url, body, { headers, params });
+  }
+
   //METODO CARGUE EXCEL
   uploadRequest(url: any, file: any, params: any): Observable<any> {
     // header
@@ -60,14 +66,6 @@ export class WebApiService {
     return this._http.post<any>(url, formData, { headers, params });
   }
 
-  // METODO PUT
-  putRequest(url: string, body: any, params: any): Observable<any> {
-    // header
-    let headers = this.setHeaders();
-    body = JSON.stringify(body);
-    url = this.urlKaysenBackend + url;
-    return this._http.put<any>(url, body, { headers, params });
-  }
 
   // METODO DELETE
   deleteRequest(url: string, body: any, params: any) {
