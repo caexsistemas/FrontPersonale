@@ -1,11 +1,126 @@
-<div class="animated fadeIn">
-  <mat-card class="example-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-    </mat-card-header>
-    <img mat-card-image style="display: block;margin: 0px auto;opacity: 0.3;" src="assets/img/brand/360spin.png" alt="Photo of a Shiba Inu">
-    <mat-card-content> 
-    </mat-card-content>
-  </mat-card>
- 
-</div>
+<div class="container"> 
+  <!-- Inicio normal 360 -->
+  <div class="animated fadeIn" *ngIf="rolC  == false && grafiSuper == false && grafiAgentes == false" >
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+      </mat-card-header>
+      <img mat-card-image style="display: block;margin: 0px auto;opacity: 0.3;" src="assets/img/brand/360spin.png" alt="Photo of a Shiba Inu">
+      <mat-card-content> 
+      </mat-card-content>
+    </mat-card>
+  </div>    
+<!-- Grafico de calidad -->
+    <div class="animated fadeIn" *ngIf="rolC  == true  " >
+      <mat-card class="example-card">
+        <mat-card-header class="containerCalidad2">
+          <h1 >HOGAR</h1> 
+          <h2>N°Calificaciones: {{ this.NotaHogar }} </h2>
+        </mat-card-header>
+        <div class="containerCalidad2"> 
+          <div id="grama_hogar_barra_carga" class="carga">
+            <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+            <p>Cargando gráfico...</p>
+          </div>
+          <div id="grama_hogar_barra" style="width: 550px; height: 500px;" ></div>
+          <div id="grama_hogar_lineal" style="width: 540px; height: 500px"></div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="animated fadeIn" *ngIf="rolC  == true " >
+      <mat-card class="example-card">
+        <mat-card-header  class="containerCalidad2">
+          <h1>MOVIL</h1>
+          <h2>N°Calificaciones: {{ this.NotaMovil}} </h2>
+        </mat-card-header>
+        <div class="containerCalidad2"> 
+          <div id="grama_movil_barra_carga" class="carga">
+            <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+            <p>Cargando gráfico...</p>
+          </div>
+          <div id="grama_movil_barra" style="width: 550px; height: 500px;" ></div>
+          <div id="grama_movil_lineal" style="width: 540px; height: 500px"></div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="animated fadeIn" *ngIf="rolC  == true " >
+      <mat-card class="example-card">
+        <mat-card-header  class="containerCalidad2">
+          <h1>TYT</h1>
+          <h2>N°Calificaciones: {{ this.NotaTyt }} </h2>
+        </mat-card-header>
+        <div class="containerCalidad2"> 
+          <div id="grama_tyt_barra_carga" class="carga">
+            <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+            <p>Cargando gráfico...</p>
+          </div>
+          <div id="grama_tyt_barra" style="width: 550px; height: 500px;" ></div>
+          <div id="grama_tyt_lineal" style="width: 540px; height: 500px"></div>
+        </div>
+      </mat-card>
+    </div>
+
+<!-- Grafico Supervisor     -->
+      <div class="animated fadeIn"  *ngIf="grafiSuper == true  "> 
+        <mat-card class="example-card">
+          <mat-card-header class="containerCalidad2">
+            <h1>{{this.GrafiSuperv }}</h1>
+            <h2>N°Calificaciones: {{ this.GrafiSuper}} </h2>
+          </mat-card-header>
+          <div class="containerCalidad2"> 
+            <div id="grama_super_barra_carga" class="carga">
+              <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+              <p>Cargando gráfico...</p>
+            </div> 
+            <div id="grama_super_lineal" style="width: 540px; height: 500px"></div>
+            <div id="grama_super_barra" style="width: 550px; height: 500px;" ></div>
+          </div>
+        </mat-card>
+      </div>
+
+
+<!-- Graficos Agentes -->
+      <div class="animated fadeIn"  *ngIf="grafiAgentes == true  " >
+        <mat-card class="example-card">
+          <div class="containerCalidad2Agente container">
+          <div class="num"> 
+          <h5 style="font-size: 1.5rem;"> <b>Campaña: </b> {{this.descripCampana }} </h5>
+
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" (click)="modalComent(1)">
+            Aspectos Positivos
+          </button>
+        
+          <button style="padding: 2re;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style=" background-color: orangered  ;  " (click)="modalComent(2)">
+            Oportunidades de mejora
+        </button>
+
+         </div>
+          <span >
+            <button  type="button" class="btn btn1 btn-{{this.colors}}">{{this.mensajeA}} <span class="badge badge-light badge-pq">{{this.nota_utilaB}}</span></button>
+          </span>
+          <span>
+            <button class="p-1 mb-2 bg-dark text-white"   mat-button [matMenuTriggerFor]="menu">Campaña</button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item class="btn btn-info">{{textSelecamp}}</button>
+                <button *ngFor="let idet of selectCampan" (click)="campanasMenu(idet.ls_codvalue,idet.description)"  mat-menu-item>
+                  {{idet.description}}</button>
+              </mat-menu>
+          </span>
+
+          <h5 style="font-size: 1.5rem;" >N°Calificaciones: {{this.conteoA}}</h5>
+        </div>
+          <div class="containerCalidad2">
+            <div id="grama_agente_barra_carga" class="carga">
+              <img src="assets/img/brand/loading-circle.gif" alt="Cargando..." />
+              <p>Cargando gráfico...</p>
+            </div>  
+            <div id="grama_agente_dona" style="width: 600px; height: 500px;" ></div>
+            <div id="grama_agente_barra" style="width: 600px; height: 500px"></div>
+            
+          </div>
+    </mat-card> 
+      </div>
+      </div>
+

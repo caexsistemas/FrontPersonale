@@ -153,11 +153,17 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
+<<<<<<< HEAD
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CitationDialog } from "./dialogs/citation/citation.dialog.component";
 import { ClarificationDialog } from "./dialogs/clarification/clarification.dialog.component";
 import { PostponementDialog } from "./dialogs/postponement/postponement.dialog.component";
 import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.component";
+=======
+import {MatMenuModule} from '@angular/material/menu';
+
+
+>>>>>>> e9877dbd3d1458ae588adc4c4edb08a6ca1830ce
 
 const routes: Routes = [];
 @NgModule({
@@ -177,6 +183,7 @@ const routes: Routes = [];
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
     ToasterModule.forRoot(),
     AlertModule.forRoot(),
     // DataTableModule,

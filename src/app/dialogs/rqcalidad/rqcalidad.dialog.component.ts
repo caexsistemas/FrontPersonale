@@ -151,7 +151,8 @@ export class RqcalidadDialog  {
                 this.WebApiService.getRequest(this.endpoint + '/' + this.idPam, {
                   token: this.cuser.token,
                   idUser: this.cuser.iduser,
-                  modulo: this.component
+                  modulo: this.component,
+                  role: this.cuser.role
                 })
                     .subscribe(
                         data => {
@@ -192,7 +193,7 @@ export class RqcalidadDialog  {
       call_id: new FormControl(""), 
       min_bill: new FormControl(""), 
       week: new FormControl(""), 
-      analyst: new FormControl(""), 
+      analyst: new FormControl(this.cuser.user), 
       offer: new FormControl(""), 
       monitoring_date: new FormControl(this.dateStrinMoni), 
       call_date: new FormControl(""), 
@@ -313,7 +314,8 @@ export class RqcalidadDialog  {
       nom_base: new FormControl(""),
       id_venta: new FormControl(""),
       mancorrven: new FormControl(""),
-      postucall: new FormControl("")
+      postucall: new FormControl(""),
+      retro_call: new FormControl("")
     });
 
   }
@@ -742,6 +744,7 @@ export class RqcalidadDialog  {
           this.formProces.get('asp_pos_bri_inf_cor_ser_ofe').setValue(data.data['getDataUpda'][0].asp_pos_bri_inf_cor_ser_ofe);
           this.formProces.get('asp_pos_rea_lec_cor_con').setValue(data.data['getDataUpda'][0].asp_pos_rea_lec_cor_con);
           this.formProces.get('asp_pos_apl_lin_mod_gana').setValue(data.data['getDataUpda'][0].asp_pos_apl_lin_mod_gana);
+          this.formProces.get('retro_call').setValue(data.data['getDataUpda'][0].retro_call);
           //Otros Campos
           this.formProces.get('reciente').setValue(data.data['getDataUpda'][0].reciente);
           this.formProces.get('moti_afect').setValue(data.data['getDataUpda'][0].moti_afect);
@@ -870,5 +873,40 @@ export class RqcalidadDialog  {
     }
 
   }
+  
+// comrpomisoC(action, codigo=null, titlelist=null){
+
+//   var dialogRef;
+
+//   switch(action){
+
+//       case 'view':
+//           this.loading.emit(true);
+//           dialogRef = this.dialog.open(RqcalidadComponent,{
+//           data: {
+//               window: 'view',
+//               codigo,
+//               titlelist
+//           }
+//           });
+//           this.loading.emit(false); 
+
+//       break;
+
+//       case 'createsub':
+//           this.loading.emit(true);
+//           dialogRef = this.dialog.open(RqcalidadComponent,{
+//           data: {
+//               window: 'createsub',
+//               codigo,
+//               titlelist
+//           }
+//           });
+//           this.loading.emit(false);
+//           this.closeDialog();
+//       break;
+
+//    }
+//  }
 
 }

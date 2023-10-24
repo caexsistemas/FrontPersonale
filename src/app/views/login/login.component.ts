@@ -141,6 +141,7 @@ export class LoginComponent {
               idPersonale: data.idPersonale, //+
               matrizarp: data.matrizarp,
               us_red: data.us_red,
+              campana: data.campana 
             };
             //console.log(data)
             localStorage.setItem("currentUser", JSON.stringify(objData));
