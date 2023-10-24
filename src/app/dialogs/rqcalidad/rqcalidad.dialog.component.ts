@@ -873,5 +873,40 @@ export class RqcalidadDialog  {
     }
 
   }
+  
+// comrpomisoC(action, codigo=null, titlelist=null){
+
+//   var dialogRef;
+
+//   switch(action){
+
+//       case 'view':
+//           this.loading.emit(true);
+//           dialogRef = this.dialog.open(RqcalidadComponent,{
+//           data: {
+//               window: 'view',
+//               codigo,
+//               titlelist
+//           }
+//           });
+//           this.loading.emit(false); 
+
+//       break;
+
+//       case 'createsub':
+//           this.loading.emit(true);
+//           dialogRef = this.dialog.open(RqcalidadComponent,{
+//           data: {
+//               window: 'createsub',
+//               codigo,
+//               titlelist
+//           }
+//           });
+//           this.loading.emit(false);
+//           this.closeDialog();
+//       break;
+
+//    }
+//  }
 
 }
