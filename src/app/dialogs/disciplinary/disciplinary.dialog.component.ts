@@ -174,6 +174,7 @@ export class DisciplinaryDialog {
       dis_sop: new FormControl(""),
       file_sp: new FormControl(""),
       dis_con: new FormControl(""),
+      dis_est: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
   }

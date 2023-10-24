@@ -1,0 +1,129 @@
+<div *ngIf="view == 'createApla' || view == 'updateConc'">
+  <div class="card mt-6">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'createApla'">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'updateConc'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+        <form *ngIf="view == 'createApla' || view == 'updateConc'" [formGroup]="formCreate">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput disabled value="Cali Express">
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Fecha Conclusión del caso</mat-label>
+                <input matInput formControlName="con_fec_ela" type="datetime-local" required="">
+
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-md-4" *ngIf="view == 'updateConc'">
+              <mat-form-field appearance="fill">
+                <mat-label>Fecha Diligencia</mat-label>
+                <input matInput formControlName="con_fec_di" type="datetime-local">
+              </mat-form-field>
+            </div> -->
+
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label> Falta</mat-label>
+                <mat-select formControlName="con_fal">
+                  <mat-option *ngFor="let idet of falt" [value]="idet.ls_codvalue" [matTooltip]="idet.description">
+                    {{idet.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Conclusión Final</mat-label>
+                <mat-select formControlName="con_final" required (ngModelChange)="upload($event)" required>
+                  <mat-option *ngFor="let idet of conclu_fin" [value]="idet.ls_codvalue">
+                    {{idet.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-3" *ngIf="checkUp">
+            <div class="col-md-6">
+
+              <dt>Adjuntar Documento,imagenes o video de Soporte:</dt>
+              <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)"
+                multiple>
+            </div>
+            <!-- <div class="col-md-4" *ngIf="view == 'update'">
+                <label>Documentos de Soporte:</label>
+                <a href="{{archivo.nombre}}" target="_blank">Download</a>
+              </div> -->
+            <div class="col-md-4" *ngIf="soporte">
+              <dt>Documentos de Soporte:</dt>
+              <dd>
+                <ul>
+                  <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                    <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+
+          </div>
+
+          <mat-form-field class="title-conclu mt-3" appearance="fill" *ngIf="suspen">
+            <mat-label>Cali Express</mat-label>
+            <input matInput disabled value="Fecha de suspension">
+          </mat-form-field>
+          <div class="row mt-2" *ngIf="suspen">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Fecha Inicio</mat-label>
+                <input matInput formControlName="con_fec_ini" value="con_fec_ini" type="date"
+                  (ngModelChange)="suspendFech($event)">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Dias </mat-label>
+                <input matInput formControlName="con_day" value="con_day" (ngModelChange)="calculate($event)">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Fecha Reintegro</mat-label>
+                <input matInput formControlName="con_fec_rei" [value]="sumTotalMen" type="date">
+              </mat-form-field>
+            </div>
+          </div>
+          <hr>
+          <div class="row mt-4">
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Descripción </mat-label>
+                <textarea matInput formControlName="con_descrip"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12 mt-2">
+          <button *ngIf="view == 'updateConc'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+
+          <button *ngIf="view == 'createApla'" mat-button class="btn btn-success" (click)="onSubmi()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -35,33 +35,29 @@ export interface PeriodicElement {
   date_move: string;
   type_move: string;
 }
-
 @Component({
-  selector: "app-role",
-  templateUrl: "./role.dialog.component.html",
-  styleUrls: ["./role.dialog.component.css"],
+  selector: "app-clarification.dialog",
+  templateUrl: "./clarification.dialog.component.html",
+  styleUrls: ["./clarification.dialog.component.css"],
 })
-export class RoleDialog {
-  endpoint: string = "/rol";
+export class ClarificationDialog {
+  endpoint: string = "/reception";
+  component = "/process/reception";
   maskDNI = global.maskDNI;
   view: string = null;
   title: string = null;
-  idRol: number = null;
+  idCit: number = null;
 
   permissions: any = null;
   ValorRol: any = [];
   valoresList: any = [];
   //loading: boolean = false;
-  component = "/admin/roles";
   dataSource: any = [];
   RolInfo: any[];
   formLista: FormGroup;
-
   role: any = [];
-  formRole: FormGroup;
   formCreate: FormGroup;
-  formUpdate: FormGroup;
-
+  citaTable: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -76,30 +72,33 @@ export class RoleDialog {
   public clickedRows;
 
   constructor(
-    public dialogRef: MatDialogRef<RoleDialog>,
+    public dialogRef: MatDialogRef<ClarificationDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog
   ) {
     this.view = this.data.window;
-    this.idRol = null;
+    this.idCit = null;
 
     switch (this.view) {
-      case "create":
+      case "createAcla":
         this.initFormsRole();
-        this.title = "Crear Nuevo Rol";
+        this.title = "Crear Nueva aclaracion";
+        this.citaTable = this.data.codigo[0];
+
         break;
-      case "update":
+      case "updateAcla":
         this.initFormsRole();
-        this.title = "Editar Rol";
-        this.idRol = this.data.codigo;
+
+        this.title = "Editar Aclaración";
+        this.idCit = this.data.codigo;
         break;
-      case "view":
-        this.idRol = this.data.codigo;
+      case "viewCit":
+        this.idCit = this.data.codigo;
         this.title = "Información detallada";
         this.loading.emit(true);
-        this.WebApiService.getRequest(this.endpoint + "/" + this.idRol, {
+        this.WebApiService.getRequest(this.endpoint + "/" + this.idCit, {
           token: this.cuser.token,
           idUser: this.cuser.iduser,
           modulo: this.component,
@@ -123,11 +122,17 @@ export class RoleDialog {
     }
   }
   initFormsRole() {
-    this.getDataInit();
+    this.getDataInitAc();
+    // this.citaTable = this.data.codigo[0];
     this.formCreate = new FormGroup({
-      name: new FormControl(""),
-      status: new FormControl(""),
-      createdBy: new FormControl(this.cuser.iduser),
+      idPersonale: new FormControl(""),
+      dis_id: new FormControl(""),
+      cit_id: new FormControl(""),
+      cas_id: new FormControl(""),
+      cla_fec_ref: new FormControl(""),
+      cla_fec_pres: new FormControl(""),
+      cla_description: new FormControl(""),
+      create_User: new FormControl(this.cuser.iduser),
     });
   }
 
@@ -140,10 +145,12 @@ export class RoleDialog {
   }
   sendRequest() {}
 
-  getDataInit() {
+  getDataInitAc() {
+    this.idCit = this.data.codigo;
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamsUpdate",
+      action: "getParamsViewAc",
+      idCit: this.idCit,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
@@ -151,9 +158,12 @@ export class RoleDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          this.RolInfo = data.data["getDataRole"];
+          // this.RolInfo = data.data["getDataRole"];
 
-          if (this.view == "update") {
+          this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
+          this.formCreate.get("cit_id").setValue(this.data.codigo);
+          this.formCreate.get("dis_id").setValue(this.data.dis_id);
+          if (this.view == "updateAcla") {
             this.getDataUpdate();
           }
           this.loading.emit(false);
@@ -170,10 +180,11 @@ export class RoleDialog {
   }
 
   getDataUpdate() {
+    this.idCit = this.data.codigo;
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamsUpdateSub",
-      idRol: this.idRol,
+      action: "getParamsUpdateAcla",
+      id: this.idCit,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
@@ -181,11 +192,17 @@ export class RoleDialog {
       (data) => {
         if (data.success) {
           this.formCreate
-            .get("name")
-            .setValue(data.data["getSelecUpdat"][0].name);
+            .get("idPersonale")
+            .setValue(data.data["getSelecUpdat"][0].idPersonale);
           this.formCreate
-            .get("status")
-            .setValue(data.data["getSelecUpdat"][0].status);
+            .get("dis_id")
+            .setValue(data.data["getSelecUpdat"][0].dis_id);
+          this.formCreate
+            .get("cla_fec_ref")
+            .setValue(data.data["getSelecUpdat"][0].cla_fec_ref);
+          this.formCreate
+            .get("cla_fec_pres")
+            .setValue(data.data["getSelecUpdat"][0].cla_fec_pres);
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -200,44 +217,18 @@ export class RoleDialog {
     );
   }
 
-  onSubmitUpdate() {
-    if (this.formCreate.valid) {
-      let body = {
-        listas: this.formCreate.value,
-      };
-      this.loading.emit(true);
-      this.WebApiService.putRequest(this.endpoint + "/" + this.idRol, body, {
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component,
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
-    } else {
-      this.handler.showError("Complete la información necesaria");
-    }
-  }
-
   onSubmi() {
     if (this.formCreate.valid) {
       this.loading.emit(true);
       let body = {
         listas: this.formCreate.value,
       };
-      this.WebApiService.postRequest(this.endpoint, body, {
+
+      this.WebApiService.getRequest(this.endpoint, {
+        action: "insertAcla",
+        idvalist: this.idCit,
+        fechref: this.data.fechref,
+        forma: "" + JSON.stringify({ body }),
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -260,6 +251,39 @@ export class RoleDialog {
     } else {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);
+    }
+  }
+  onSubmitUpdate() {
+    if (this.formCreate.valid) {
+      let body = {
+        listas: this.formCreate.value,
+      };
+      this.loading.emit(true);
+      this.WebApiService.getRequest(this.endpoint, {
+        action: "updateAcla",
+        idCit: this.idCit,
+        forma: "" + JSON.stringify({ body }),
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
+      }).subscribe(
+        (data) => {
+          if (data.success) {
+            this.handler.showSuccess(data.message);
+            this.reload.emit();
+            this.closeDialog();
+          } else {
+            this.handler.handlerError(data);
+            this.loading.emit(false);
+          }
+        },
+        (error) => {
+          this.handler.showError();
+          this.loading.emit(false);
+        }
+      );
+    } else {
+      this.handler.showError("Complete la información necesaria");
     }
   }
 }

@@ -153,6 +153,11 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { CitationDialog } from "./dialogs/citation/citation.dialog.component";
+import { ClarificationDialog } from "./dialogs/clarification/clarification.dialog.component";
+import { PostponementDialog } from "./dialogs/postponement/postponement.dialog.component";
+import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.component";
 
 const routes: Routes = [];
 @NgModule({
@@ -209,6 +214,7 @@ const routes: Routes = [];
     MatBadgeModule,
     MatStepperModule,
     ClipboardModule,
+    MatTooltipModule,
   ],
   declarations: [
     AppComponent,
@@ -294,6 +300,10 @@ const routes: Routes = [];
     DisciplinaryDialog,
     UpdateApplicationsDialog,
     ReceptionDialogComponent,
+    CitationDialog,
+    ClarificationDialog,
+    PostponementDialog,
+    ConclusionDialog,
   ],
   providers: [
     {

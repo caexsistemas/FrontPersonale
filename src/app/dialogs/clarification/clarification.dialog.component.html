@@ -1,0 +1,47 @@
+<div *ngIf="view == 'createAcla' || view == 'updateAcla'">
+  <div class="card mt-6">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'createAcla'">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'updateAcla'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content style="min-width: 500px;">
+        <form *ngIf="view == 'createAcla' || view == 'updateAcla'" [formGroup]="formCreate">
+
+          <div class="row">
+            <div class="col-md-6" *ngIf="view == 'createAcla'">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha y hora de Aclaracion</mat-label>
+                <input matInput formControlName="cla_fec_ref" type="datetime-local">
+
+              </mat-form-field>
+            </div>
+            <div class="col-md-6" *ngIf="view == 'updateAcla'">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha de elaboración</mat-label>
+                <input matInput formControlName="cla_fec_pres" type="datetime-local">
+
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button *ngIf="view == 'updateAcla'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+
+          <button *ngIf="view == 'createAcla'" mat-button class="btn btn-success" (click)="onSubmi()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

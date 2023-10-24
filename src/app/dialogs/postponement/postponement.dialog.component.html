@@ -1,0 +1,71 @@
+<div *ngIf="view == 'viewCit'">
+  <div class="modal-header">
+    <h5 class="modal-title">{{title}}</h5>
+    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <mat-dialog-content style="min-width: 500px;">
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <dt>ID</dt>
+        <dd>{{role.idRole}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Name</dt>
+        <dd>{{role.name}}</dd>
+      </div>
+      <div class="col-md-4">
+        <dt>Description</dt>
+        <dd>{{role.description}}</dd>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>
+<div class="card mt-6">
+  <div *ngIf="view == 'createApla' || view == 'updateApla'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'createApla'">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'updateApla'">{{title}}</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content style="min-width: 500px;">
+        <form *ngIf="view == 'createApla' || view == 'updateApla'" [formGroup]="formCreate">
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha y hora de Aplazamiento</mat-label>
+                <input matInput formControlName="pos_fec_ela" type="datetime-local">
+
+              </mat-form-field>
+            </div>
+            <div class="col-md-6" *ngIf="view == 'updateApla'">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha de elaboración</mat-label>
+                <input matInput formControlName="pos_apl" type="datetime-local">
+
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-dialog-content>
+      <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button *ngIf="view == 'updateApla'" mat-button class="btn btn-success"
+            (click)="onSubmitUpdate()">Actualizar</button>
+
+          <button *ngIf="view == 'createApla'" mat-button class="btn btn-success" (click)="onSubmi()">Guardar</button>
+
+          <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -29,6 +29,11 @@ import { MatSort } from "@angular/material/sort";
 import { Observable } from "rxjs";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatStepper, MatStepperModule } from "@angular/material/stepper";
+import { calculateDays } from "../../services/holiday.service";
+import { CitationDialog } from "../citation/citation.dialog.component";
+import { PostponementDialog } from "../postponement/postponement.dialog.component";
+import { ClarificationDialog } from "../clarification/clarification.dialog.component";
+import { ConclusionDialog } from "../conclusion/conclusion.dialog.component";
 export interface PeriodicElement {
   currentm_user: string;
   date_move: string;
@@ -42,6 +47,8 @@ export interface PeriodicElement {
 })
 export class ReceptionDialogComponent {
   @ViewChild("stepper") stepper: MatStepper;
+  @ViewChild("stepCase") stepCase: MatStepper;
+  @ViewChild("stepCon") stepCon: MatStepper;
   endpoint: string = "/reception";
   // endpoint: string = "/rol";
   maskDNI = global.maskDNI;
@@ -52,17 +59,17 @@ export class ReceptionDialogComponent {
   permissions: any = null;
   ValorRol: any = [];
   valoresList: any = [];
-  //loading: boolean = false;
+  loadingCit: boolean = false;
   component = "/process/reception";
   // component = "/admin/roles";
   dataSource: any = [];
+  dataSourceCli: any = [];
+  dataSourcePost: any = [];
+  dataSourceConc: any = [];
   RolInfo: any[];
-  formLista: FormGroup;
 
   selection: any = [];
-  formRole: FormGroup;
-  formCreate: FormGroup;
-  formUpdate: FormGroup;
+
   PersonaleInfo: any = [];
   exitsPersonal: any = [];
   typeFalt: any = [];
@@ -80,11 +87,46 @@ export class ReceptionDialogComponent {
   state: any = [];
   caract: boolean;
   conclu_fin: any = [];
+  respec_jornad: any = [];
+  respec_mate: any = [];
+  respec_rela: any = [];
+  respec_orde: any = [];
+  contraHones: any = [];
+  respect_acti: any = [];
+  concer_ord: any = [];
+  fecSus: any = [];
+  daySus: any = [];
+  totaLfecHol: any = [];
+  fec_fin: any = [];
+  sumTotalMen: any = [];
+  monthAll: any = [];
+  sundaySus: any = [];
+  totalSunday: any = [];
+  typeSuspen: any = [];
+  count: number = 0;
+  sundayDesc: any = [];
+  level: any = [];
+  afirm: any = [];
+  contenTable: any = [];
+  checkCita: boolean;
+  checkAcla: boolean;
+  checkAp: boolean;
+  checkConc: boolean;
+  citTable: any = [];
+  cantidad: string;
   archivo = {
     nombre: null,
     nombreArchivo: null,
     base64textString: null,
   };
+  // formularios
+  formCreate: FormGroup;
+  formCase: FormGroup;
+  formCitation: FormGroup;
+  formPostpo: FormGroup;
+  formClasifi: FormGroup;
+  formConclu: FormGroup;
+
   checkOther: boolean;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -96,6 +138,9 @@ export class ReceptionDialogComponent {
 
   historyMon: any = [];
   displayedColumns: any = [];
+  displayedColumnsCla: any = [];
+  displayedColumnsPost: any = [];
+  displayedColumnsConc: any = [];
 
   public clickedRows;
 
@@ -104,7 +149,8 @@ export class ReceptionDialogComponent {
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private holiday: calculateDays
   ) {
     this.view = this.data.window;
     this.idRol = null;
@@ -118,6 +164,7 @@ export class ReceptionDialogComponent {
         this.initFormsRole();
         this.title = "Actualizar Solicitud procesos disciplinarios";
         this.idRol = this.data.codigo;
+        // this.sendRequest();
 
         break;
       case "view":
@@ -161,32 +208,68 @@ export class ReceptionDialogComponent {
   initFormsRole() {
     this.getDataInit();
     this.formCreate = new FormGroup({
-      document: new FormControl(""),
+      dis_doc: new FormControl(""),
       dis_idPersonale: new FormControl(""),
       dis_pos: new FormControl(),
       dis_doc_sol: new FormControl(this.cuser.username),
-      idPosition: new FormControl(this.cuser.idPersonale),
+      dis_idp_sol: new FormControl(this.cuser.idPersonale),
+      dis_po_sol: new FormControl(""),
+      dis_fal: new FormControl(""),
+      dis_oth_fal: new FormControl(""),
+      dis_fal_des: new FormControl(""),
+      dis_des_rel: new FormControl(""),
+      dis_niv: new FormControl(""),
+      dis_sop: new FormControl(""),
+      file_sp: new FormControl(""),
+      dis_con: new FormControl(""),
       cityWork: new FormControl(""),
       dis_est: new FormControl(""),
       cas_op_clo: new FormControl(""),
+      create_User: new FormControl(this.cuser.iduser),
+    });
+    this.formCase = new FormGroup({
       dis_fal: new FormControl(""),
       cas_des: new FormControl(""),
       cas_mod: new FormControl(""),
-      cas_fec_recep: new FormControl(""),
-      cas_fec_conc: new FormControl(""),
-      // dis_con: new FormControl(""),
-      create_User: new FormControl(this.cuser.iduser),
+      dis_est: new FormControl(""),
+      cas_op_clo: new FormControl(""),
+      cas_reasons_falt: new FormControl(""),
+    });
+    this.formCitation = new FormGroup({
+      idPersonale: new FormControl(""),
+      dis_id: new FormControl(""),
+      cit_fec_hor: new FormControl(""),
+      cit_fec_elab: new FormControl(""),
+      cit_con: new FormControl(""),
+      cit_fec_two: new FormControl(""),
+    });
+    this.formClasifi = new FormGroup({
+      idPersonale: new FormControl(""),
+      dis_id: new FormControl(""),
+      cit_id: new FormControl(""),
+      cla_fec_ref: new FormControl(""),
+      cla_fec_pres: new FormControl(""),
+      cla_description: new FormControl(""),
+    });
+    this.formPostpo = new FormGroup({
+      idPersonale: new FormControl(""),
+      dis_id: new FormControl(""),
+      cit_id: new FormControl(""),
+      pos_fec_ela: new FormControl(""),
+      pos_apl: new FormControl(""),
+      cla_description: new FormControl(""),
     });
   }
 
   closeDialog() {
     this.dialogRef.close();
+    this.reload.emit();
   }
   ngOnInit(): void {
     this.permissions = this.handler.permissionsApp;
-    this.sendRequest();
+    // this.sendRequest();
   }
-  sendRequest() {}
+  // sendRequest() {}
 
   getDataInit() {
     this.loading.emit(false);
@@ -206,10 +289,20 @@ export class ReceptionDialogComponent {
           this.mod = data.data["modali"];
           this.rol_user = this.cuser.role;
           this.conclu_fin = data.data["conclu_fin"];
-          // 23,14,21
+          this.level = data.data["level"];
+          this.afirm = data.data["afirm"];
+
+          // faltas regalamento
+          this.respec_jornad = data.data["respec_jornad"];
+          this.respec_mate = data.data["respec_mate"];
+          this.respec_rela = data.data["respec_rela"];
+          this.respec_orde = data.data["respec_orde"];
+          this.contraHones = data.data["contraHones"];
+          this.respect_acti = data.data["respect_acti"];
+          this.concer_ord = data.data["concer_ord"];
 
           this.typeFalt = data.data["typeFal"];
-          this.city = data.data["city"];
+          this.city = data.data["citys"];
           this.state = data.data["state"];
           // this.typeFalt.forEach((element) => {
           //   console.log("****", element.ls_codvalue);afirm
@@ -248,7 +341,8 @@ export class ReceptionDialogComponent {
   }
 
   getDataUpdate() {
-    this.loading.emit(true);
+    // this.loading.emit(true);
+    this.loadingCit = true;
     this.WebApiService.getRequest(this.endpoint, {
       action: "getParamsUpdateSub",
       id: this.idRol,
@@ -258,77 +352,295 @@ export class ReceptionDialogComponent {
     }).subscribe(
       (data) => {
         if (data.success) {
-          // this.formCreate
-          //   .get("dis_fec")
-          //   .setValue(data.data["getParamUpdate"][0].dis_fec);
-          this.formCreate
-            .get("document")
-            .setValue(data.data["getParamUpdate"][0].document);
+          this.formCreate.get("dis_doc").setValue(data.data[0][0].dis_doc);
           this.formCreate
             .get("dis_idPersonale")
-            .setValue(data.data["getParamUpdate"][0].dis_idPersonale);
+            .setValue(data.data[0][0].dis_idPersonale);
           this.formCreate
-            .get("idPosition")
-            .setValue(data.data["getParamUpdate"][0].idPosition);
+            .get("dis_idp_sol")
+            .setValue(data.data[0][0].dis_idp_sol);
+          this.formCreate.get("dis_pos").setValue(data.data[0][0].dis_pos);
           this.formCreate
-            .get("cityWork")
-            .setValue(data.data["getParamUpdate"][0].cityWork);
+            .get("dis_po_sol")
+            .setValue(data.data[0][0].dis_po_sol);
+          this.formCreate.get("dis_fal").setValue(data.data[0][0].dis_fal);
+          this.formCreate.get("dis_niv").setValue(data.data[0][0].dis_niv);
           this.formCreate
-            .get("dis_est")
-            .setValue(data.data["getParamUpdate"][0].dis_est);
+            .get("dis_oth_fal")
+            .setValue(data.data[0][0].dis_oth_fal);
+          this.formCreate
+            .get("dis_fal_des")
+            .setValue(data.data[0][0].descripcion_falta);
+          this.formCreate
+            .get("dis_des_rel")
+            .setValue(data.data[0][0].elementos_relev);
+          this.formCreate.get("dis_sop").setValue(data.data[0][0].dis_sop);
+          this.formCreate.get("cityWork").setValue(data.data[0][0].cityWork);
+          // this.formCreate.get("dis_est").setValue(data.data[0][0].dis_est);
           this.formCreate
             .get("cas_op_clo")
-            .setValue(data.data["getParamUpdate"][0].cas_op_clo);
-
-          this.formCreate
-            .get("cas_des")
-            .setValue(data.data["getParamUpdate"][0].cas_des);
-          this.formCreate
-            .get("cas_mod")
-            .setValue(data.data["getParamUpdate"][0].cas_mod);
-          this.formCreate
-            .get("cas_fec_recep")
-            .setValue(data.data["getParamUpdate"][0].cas_fec_recep);
-          this.formCreate
-            .get("cas_fec_conc")
-            .setValue(data.data["getParamUpdate"][0].cas_fec_conc);
-          this.formCreate
-            .get("dis_fal")
-            .setValue(data.data["getParamUpdate"][0].dis_fal);
-          // this.formCreate
-          //   .get("file_sp")
-          //   .setValue(data.data["getParamUpdate"][0].file_sp);
-          // if (!data.data["getParamUpdate"][0].file_sp) {
-          //   this.caract = false;
-          // } else {
-          //   this.caract = true;
-          //   this.selection.file_sp = JSON.parse(
-          //     data.data["getParamUpdate"][0].file_sp
-          //   );
-          // }
-
+            .setValue(data.data[0][0].cas_op_clo);
+          if (!data.data[0][0].file_sp) {
+            this.caract = false;
+          } else {
+            this.caract = true;
+            this.selection.file_sp = JSON.parse(data.data[0][0].file_sp);
+          }
           // this.archivo.nombre = JSON.parse(
-          //   data.data["getParamUpdate"][0].file_sp
+          //   data.data[0][0].file_sp
           // );
-          // this.formCreate
-          //   .get("dis_con")
-          //   .setValue(data.data["getParamUpdate"][0].dis_con);
+          this.formCreate.get("dis_con").setValue(data.data[0][0].dis_con);
+          this.archivo.nombre = JSON.parse(data.data[0][0].file_sp);
+          this.formCreate.get("dis_niv").setValue(data.data[0][0].dis_niv);
 
-          this.loading.emit(false);
+          //CASE
+          this.formCase.get("dis_fal").setValue(data.data[1][0].dis_fal);
+          this.formCase.get("cas_des").setValue(data.data[1][0].cas_des);
+          this.formCase.get("cas_mod").setValue(data.data[1][0].cas_mod);
+          this.formCase.get("dis_est").setValue(data.data[1][0].dis_est);
+          this.formCase.get("cas_op_clo").setValue(data.data[1][0].cas_op_clo);
+
+          this.formCase
+            .get("cas_reasons_falt")
+            .setValue(data.data[1][0].cas_reasons_falt);
+
+          //citacion cit_fec_hor
+          this.formCitation
+            .get("idPersonale")
+            .setValue(data.data[1][0].dis_idPersonale);
+          this.formCitation.get("dis_id").setValue(data.data[1][0].dis_id);
+          if (data.data[2].length > 0 && data.data[2][0].cit_fec_hor) {
+            this.checkCita = true;
+
+            this.formCitation
+              .get("cit_fec_hor")
+              .setValue(data.data[2][0].cit_fec_hor);
+          }
+          //aclaracion
+          if (data.data[4].length > 0) {
+            this.checkAcla = true;
+            this.formClasifi
+              .get("cla_fec_ref")
+              .setValue(data.data[4][0].cla_fec_ref);
+          }
+          //aplazamiento
+          if (data.data[3].length > 0) {
+            this.checkAp = true;
+            this.formPostpo
+              .get("pos_fec_ela")
+              .setValue(data.data[3][0].pos_fec_ela);
+          }
+          //conclusion
+          if (data.data[5][0].cas_reasons_falt) {
+            this.checkConc = true;
+          }
+
+          this.nametext(data.data[2], data.data[4], data.data[3], data.data[5]);
+
+          this.generateTableCitation(data.data[2]);
+          this.tableClarification(data.data[4]);
+          this.tablePostponement(data.data[3]);
+          this.tableConclusion(data.data[5]);
+          // this.loading.emit(false);
+          this.loadingCit = false;
         } else {
           this.handler.handlerError(data);
-          this.loading.emit(false);
+          // this.loading.emit(false);
+          this.loadingCit = false;
+
           this.closeDialog();
         }
       },
       (error) => {
         this.handler.showError();
-        this.loading.emit(false);
+        this.loadingCit = false;
+        // this.loading.emit(false);
       }
     );
   }
+
+  colorMap = {
+    "1ra Citación": "#CE9E08",
+    "1ra Aclaración": "#CE9E08",
+    "1ra Aplazamiento": "#CE9E08",
+    "1ra Proceso": "#CE9E08",
+    "2do Citación": "#CA342B",
+    "2do Aclaración": "#CA342B",
+    "2do Aplazamiento": "#CA342B",
+    "2do Proceso": "#CA342B",
+    "3ro Citación": "#CA342B",
+    "3ro Aclaración": "#CA342B",
+    "3ro Aplazamiento": "#CA342B",
+    "3ro Proceso": "#CA342B",
+    "4to Citación": "#CA342B",
+    "4to Aclaración": "#CA342B",
+    "4to Aplazamiento": "#CA342B",
+    "4to Proceso": "#CA342B",
+  };
+
+  colorState(state) {
+    return this.colorMap[state] || "";
+  }
+  fechref: any = [];
+  nametext(cita, acla, apla, conc) {
+    if (cita) {
+      for (let index = 0; index < cita.length; index++) {
+        const elemento = cita[index];
+        this.citTable = cita[index].cit_id;
+        this.fechref = cita[index].cit_fec_hor;
+
+        if (index === 0) {
+          elemento.cantidadTexto = "1ra Citación";
+        } else if (index === 1) {
+          elemento.cantidadTexto = "2do Citación";
+        } else if (index === 2) {
+          elemento.cantidadTexto = "3ra Citación";
+        } else if (index === 3) {
+          elemento.cantidadTexto = "4to Citación";
+        }
+      }
+    }
+    if (acla) {
+      for (let index = 0; index < acla.length; index++) {
+        const elemento = acla[index];
+
+        if (index === 0) {
+          elemento.cantidadAcla = "1ra Aclaración";
+        } else if (index === 1) {
+          elemento.cantidadAcla = "2do Aclaración";
+        } else if (index === 2) {
+          elemento.cantidadAcla = "3ra Aclaración";
+        } else if (index === 3) {
+          elemento.cantidadAcla = "4to Aclaración";
+        }
+      }
+    }
+    if (apla) {
+      for (let index = 0; index < apla.length; index++) {
+        const elemento = apla[index];
+
+        if (index === 0) {
+          elemento.cantidadAcla = "1ra Aplazamiento";
+        } else if (index === 1) {
+          elemento.cantidadAcla = "2do Aplazamiento";
+        } else if (index === 2) {
+          elemento.cantidadAcla = "3ra Aplazamiento";
+        } else if (index === 3) {
+          elemento.cantidadAcla = "4to Aplazamiento";
+        }
+      }
+    }
+    if (conc) {
+      for (let index = 0; index < conc.length; index++) {
+        const elemento = conc[index];
+
+        if (index === 0) {
+          elemento.cantidadConc = "1ra Proceso";
+        } else if (index === 1) {
+          elemento.cantidadConc = "2do Proceso";
+        } else if (index === 2) {
+          elemento.cantidadConc = "3ra Proceso";
+        } else if (index === 3) {
+          elemento.cantidadConc = "4to Proceso";
+        }
+      }
+    }
+  }
+  generateTableCitation(data) {
+    this.displayedColumns = [
+      // "view",
+      "cantidadTexto",
+      "cit_fec_hor",
+      "idPersonale",
+      "description",
+      "cit_fec_elab",
+      "actions",
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+  getEstado(data, estado) {
+    if (data == "135/1") {
+      return estado;
+    }
+    if (data == "135/2") {
+      return estado;
+    }
+  }
+  tableClarification(data) {
+    this.displayedColumnsCla = [
+      // "view",
+      "cantidadAcla",
+      "cla_fec_ref",
+      "idPersonale",
+      "description",
+      "cla_fec_pres",
+      "actions",
+    ];
+    this.dataSourceCli = new MatTableDataSource(data);
+    this.dataSourceCli.sort = this.sort.toArray()[0];
+    this.dataSourceCli.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+  tablePostponement(data) {
+    this.displayedColumnsPost = [
+      // "view",
+      "cantidadAcla",
+      "pos_fec_ela",
+      "idPersonale",
+      "pos_apl",
+      "actions",
+    ];
+    this.dataSourcePost = new MatTableDataSource(data);
+    this.dataSourcePost.sort = this.sort.toArray()[0];
+    this.dataSourcePost.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+  tableConclusion(data) {
+    this.displayedColumnsConc = [
+      // "view",
+      "cantidadConc",
+      "idPersonale",
+      "description",
+      "con_fec_ela",
+      "con_final",
+      "actions",
+    ];
+    this.dataSourceConc = new MatTableDataSource(data);
+    this.dataSourceConc.sort = this.sort.toArray()[0];
+    this.dataSourceConc.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+
+  applyFilter(event: Event) {
+    console.log(event);
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   getSelectedModalityName(): string {
-    const selectedValue = this.formCreate.get("cas_mod").value;
+    const selectedValue = this.formCase.get("cas_mod").value;
     const selectedOption = this.mod.find(
       (option) => option.ls_codvalue === selectedValue
     );
@@ -341,14 +653,27 @@ export class ReceptionDialogComponent {
     );
     return optionReason ? optionReason.description : "";
   }
+  getSelectedConclusion(): string {
+    const selectConclusion = this.formCase.get("cas_reasons_falt").value;
+    const selectOptionCon = this.typeFalt.find(
+      (option) => option.ls_codvalue === selectConclusion
+    );
+    return selectConclusion ? selectOptionCon.description : "";
+  }
+  getNivel(): string {
+    const selectLevel = this.formCreate.get("dis_niv").value;
+    const optionLev = this.level.find(
+      (option) => option.ls_codvalue === selectLevel
+    );
+    return optionLev ? optionLev.description : "";
+  }
 
   onSubmitUpdate() {
-    if (this.formCreate.valid) {
-      // if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
+    if (this.formCitation.valid) {
       this.loading.emit(true);
       let body = {
-        incapacidades: this.formCreate.value,
-        archivoRes: this.nuevoArchivo,
+        case: this.formCase.value,
+        citation: this.formCitation.value,
       };
 
       this.WebApiService.putRequest(this.endpoint + "/" + this.idRol, body, {
@@ -371,10 +696,6 @@ export class ReceptionDialogComponent {
           this.loading.emit(false);
         }
       );
-      // }else {
-      //     this.handler.showError('Por favor validar el rango de fechas');
-      //     this.loading.emit(false);
-      // }
     } else {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);
@@ -423,7 +744,7 @@ export class ReceptionDialogComponent {
       this.formCreate
         .get("dis_idPersonale")
         .setValue(exitsPersonal.idPersonale);
-      this.formCreate.get("dis_pos").setValue(exitsPersonal.idPosition);
+      this.formCreate.get("dis_pos").setValue(exitsPersonal.dis_pos);
       // this.formCreate
       //   .get("immediateBoss")
       //   .setValue(exitsPersonal.jef_idPersonale);
@@ -443,12 +764,17 @@ export class ReceptionDialogComponent {
   }
   nextStep1() {
     this.step++;
-    // this.stepper.next();
   }
   nextStep(stepIndex: number) {
-    // this.step++;
-    // this.stepper.next();
+    this.stepper.selectedIndex = 4;
     this.stepper.selectedIndex = stepIndex + 1;
+  }
+
+  nextStepConclu(index: number) {
+    this.stepCon.selectedIndex = index + 1;
+  }
+  nextStepCase(index: number) {
+    this.stepCase.selectedIndex = index + 1;
   }
   prevStep() {
     this.step--;
@@ -460,13 +786,6 @@ export class ReceptionDialogComponent {
   }
   onRadioChange(event) {
     event === "121/16" ? (this.checkUs = true) : (this.checkUs = false);
-    // if (event === "121/16") {
-    //   this.checkUs = true;
-    //   this.checkOther = true;
-    // } else {
-    //   this.checkUs = false;
-    //   this.checkOther = true;
-    // }
   }
   onChangeAfirm(event) {
     event === "17/1" ? (this.check_cood = true) : (this.check_cood = false);
@@ -510,5 +829,206 @@ export class ReceptionDialogComponent {
     };
 
     leerArchivosSecuencialmente();
+  }
+
+  // Tabla Contenido
+  option(action, codigo = null, idPersonale, dis_id) {
+    var dialogRef;
+    switch (action) {
+      case "viewCit":
+        this.loading.emit(true);
+        // this.loading = true;
+        dialogRef = this.dialog.open(CitationDialog, {
+          data: {
+            window: "viewCit",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          // this.sendRequest();
+          console.log("The dialog was closed");
+          console.log(result);
+        });
+        break;
+      case "createCit":
+        // this.loading.emit(true);createApla
+        // this.loading = true;
+        dialogRef = this.dialog.open(CitationDialog, {
+          data: {
+            window: "createCit",
+            codigo: this.citTable,
+            fechref: this.fechref,
+          },
+        });
+        dialogRef.disableClose = true;
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+      case "updateCit":
+        // this.loading.emit(true);
+        // this.loading = true;
+        dialogRef = this.dialog.open(CitationDialog, {
+          data: {
+            window: "updateCit",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
+        // this.getDataUpdate();
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+
+      case "updateAc":
+        // this.loading.emit(true);
+        // this.loading = true;
+        dialogRef = this.dialog.open(CitationDialog, {
+          data: {
+            window: "updateCit",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
+        // this.getDataUpdate();
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+      case "createApla":
+        // this.loading.emit(true);updateApla
+        // this.loading = true;
+        dialogRef = this.dialog.open(CitationDialog, {
+          data: {
+            window: "createApla",
+            codigo,
+            idPersonale,
+            dis_id,
+          },
+        });
+        dialogRef.disableClose = true;
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+      case "updateApla":
+        // this.loading.emit(true);updateAcla
+        // this.loading = true;
+        dialogRef = this.dialog.open(PostponementDialog, {
+          data: {
+            window: "updateApla",
+            codigo,
+            idPersonale,
+            dis_id,
+          },
+        });
+        dialogRef.disableClose = true;
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+      case "createAcla":
+        // this.loading.emit(true);updateConc
+        // this.loading = true;
+        dialogRef = this.dialog.open(ClarificationDialog, {
+          data: {
+            window: "createAcla",
+            codigo,
+            idPersonale,
+            dis_id,
+          },
+        });
+        dialogRef.disableClose = true;
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+      case "updateAcla":
+        // this.loading.emit(true);updateConc
+        // this.loading = true;
+        dialogRef = this.dialog.open(ClarificationDialog, {
+          data: {
+            window: "updateAcla",
+            codigo,
+            idPersonale,
+            dis_id,
+          },
+        });
+        dialogRef.disableClose = true;
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+      case "updateConc":
+        // this.loading.emit(true);
+        // this.loading = true;
+        dialogRef = this.dialog.open(ConclusionDialog, {
+          data: {
+            window: "updateConc",
+            codigo,
+            idPersonale,
+            dis_id,
+          },
+        });
+        dialogRef.disableClose = true;
+
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.getDataUpdate();
+        });
+        break;
+    }
   }
 }

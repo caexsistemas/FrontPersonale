@@ -102,6 +102,7 @@ export class DisciplinaryComponent implements OnInit {
       "dis_fal",
       "dis_idp_sol",
       "dis_po_sol",
+      "dis_est",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
