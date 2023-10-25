@@ -94,7 +94,7 @@ export class ReceptionComponent implements OnInit {
 
   generateTable(data) {
     this.displayedColumns = [
-      "view",
+      // "view",
       "dis_fec",
       "dis_doc",
       "dis_idPersonale",
