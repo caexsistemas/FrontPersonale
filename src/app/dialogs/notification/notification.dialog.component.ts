@@ -75,6 +75,7 @@ export class NotificationDialog {
         this.displayedColumns = [
           'view',
           'date_create',
+          'tipo_notifi',
           'tipe_noti',
           'date_peri'
         ];
@@ -171,5 +172,18 @@ export class NotificationDialog {
             this.loading.emit(false);
         }
     }
+
+    colorMap = {
+        "109/0": "#E57300",
+        "109/1": "#15CDC7",
+        "109/2": "#CD15A3",
+        "109/3": "#15CD69",
+        "109/4": "#CD1515"
+      };
+    
+      colorState(state) {
+        //Color Critico 
+        return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
+      }
 
 }

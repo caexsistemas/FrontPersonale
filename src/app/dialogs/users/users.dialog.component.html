@@ -54,7 +54,10 @@
                 <dd>{{usuario.campana_des}}</dd>
             </div>
 
-            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <dt>Supervisor</dt>
+                <dd>{{usuario.supervisor}}</dd>
+            </div>
 
             <div class="col-md-4"></div>
         </div>
@@ -208,6 +211,17 @@
                                 <input matInput formControlName="us_red">
                             </mat-form-field>
                         </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Supervisor de Usuario:</mat-label>
+                                <mat-select formControlName="supervisor" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let usert of superviso" [value]="usert.idUser">
+                                        {{usert.name}} {{usert.surname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
                     </div>
                 </form>
             </mat-dialog-content>

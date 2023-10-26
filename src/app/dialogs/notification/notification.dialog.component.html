@@ -29,13 +29,23 @@
                         </ng-container>
 
                         <ng-container matColumnDef="date_create">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3" > Fecha Radicaci&oacute;n</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3" >Fecha Radicaci&oacute;n</th>
                             <td mat-cell *matCellDef="let element" class="p-3"> {{element.date_create | date: 'medium'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="tipo_notifi">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3" >Notificaci&oacute;n</th>
+                            <td mat-cell *matCellDef="let element">
+                               <center> <div class="mt-1"
+                                  [ngStyle]="{'backgroundColor': colorState(element.tipe_noti_cod),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
+                                  {{element.tipe_noti}}
+                                </div></center>
+                              </td>
                         </ng-container>
     
                         <ng-container matColumnDef="tipe_noti">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3"> Tipo Notificaci&oacute;n</th>
-                            <td mat-cell *matCellDef="let element" class="p-3"> {{element.tipe_noti}} / {{element.mindeta_noti}} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="p-3">Descripci&oacute;n</th>
+                            <td mat-cell *matCellDef="let element" class="p-3">{{element.mindeta_noti}} </td>
                         </ng-container>
     
                         <!--<ng-container matColumnDef="date_ini">
