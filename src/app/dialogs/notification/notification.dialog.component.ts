@@ -178,7 +178,8 @@ export class NotificationDialog {
         "109/1": "#15CDC7",
         "109/2": "#CD15A3",
         "109/3": "#15CD69",
-        "109/4": "#CD1515"
+        "109/4": "#CD1515",
+        "109/5": "#1555CD"
       };
     
       colorState(state) {

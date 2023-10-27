@@ -46,6 +46,7 @@ export class UsersDialog {
   rol: any = [];
   statusLid: any = [];
   superviso: any = [];
+  formadores: any = [];
   // name: any =[];
   touched: any = [];
   // email = new FormControl('', [Validators.required, Validators.email]);
@@ -158,7 +159,8 @@ export class UsersDialog {
       idPersonale: new FormControl(""),
       login: new FormControl(this.sesion),
       us_red: new FormControl(""),
-      supervisor: new FormControl("")
+      supervisor: new FormControl(""),
+      formador: new FormControl("")
     });
   }
 
@@ -186,6 +188,7 @@ export class UsersDialog {
           this.typeRolAsesor = data.data["typeRolAsesor"];
           this.person = data.data["personale"];
           this.superviso = data.data["superviso"];
+          this.formadores = data.data["formadores"];
           // console.log(this.person);
 
           let datos = data.data;
@@ -304,6 +307,9 @@ export class UsersDialog {
           this.formUsuario
             .get("supervisor")
             .setValue(data.data["getDataUpda"][0].supervisor);
+          this.formUsuario
+            .get("formador")
+            .setValue(data.data["getDataUpda"][0].formador);         
 
           this.loading.emit(false);
         } else {

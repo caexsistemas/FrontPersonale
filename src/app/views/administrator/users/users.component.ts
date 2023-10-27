@@ -104,7 +104,6 @@ export class UsersComponent implements OnInit {
       'idUser',
       'document',
       'idPersonale',  
-      'supervisor',  
       'role',
       'status',
       'actions'
