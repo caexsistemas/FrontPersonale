@@ -81,6 +81,7 @@ export class ReceptionDialogComponent {
   rol_user: any = [];
   mod: any = [];
   checkUs: boolean = false;
+  checkOption: boolean = false;
   title_us: any = [];
   nuevoArchivo: any = [];
   city: any = [];
@@ -114,6 +115,7 @@ export class ReceptionDialogComponent {
   checkConc: boolean;
   citTable: any = [];
   cantidad: string;
+  addressCit: any = [];
   archivo = {
     nombre: null,
     nombreArchivo: null,
@@ -128,6 +130,7 @@ export class ReceptionDialogComponent {
   formConclu: FormGroup;
 
   checkOther: boolean;
+  checkAddress: boolean;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -231,8 +234,11 @@ export class ReceptionDialogComponent {
       dis_fal: new FormControl(""),
       cas_des: new FormControl(""),
       cas_mod: new FormControl(""),
+      cas_link: new FormControl(""),
       dis_est: new FormControl(""),
       cas_op_clo: new FormControl(""),
+      dis_oth_fal: new FormControl(""),
+      cas_address: new FormControl(""),
       cas_reasons_falt: new FormControl(""),
     });
     this.formCitation = new FormGroup({
@@ -304,6 +310,7 @@ export class ReceptionDialogComponent {
           this.typeFalt = data.data["typeFal"];
           this.city = data.data["citys"];
           this.state = data.data["state"];
+          this.addressCit = data.data["addressCit"];
           // this.typeFalt.forEach((element) => {
           //   console.log("****", element.ls_codvalue);afirm
 
@@ -548,7 +555,6 @@ export class ReceptionDialogComponent {
   }
   generateTableCitation(data) {
     this.displayedColumns = [
-      // "view",
       "cantidadTexto",
       "cit_fec_hor",
       "idPersonale",
@@ -575,8 +581,8 @@ export class ReceptionDialogComponent {
   }
   tableClarification(data) {
     this.displayedColumnsCla = [
-      // "view",
       "cantidadAcla",
+      "fecha_cita_anterior",
       "cla_fec_ref",
       "idPersonale",
       "description",
@@ -594,7 +600,6 @@ export class ReceptionDialogComponent {
   }
   tablePostponement(data) {
     this.displayedColumnsPost = [
-      // "view",
       "cantidadAcla",
       "pos_fec_ela",
       "idPersonale",
@@ -612,7 +617,6 @@ export class ReceptionDialogComponent {
   }
   tableConclusion(data) {
     this.displayedColumnsConc = [
-      // "view",
       "cantidadConc",
       "idPersonale",
       "description",
@@ -664,6 +668,13 @@ export class ReceptionDialogComponent {
     const selectLevel = this.formCreate.get("dis_niv").value;
     const optionLev = this.level.find(
       (option) => option.ls_codvalue === selectLevel
+    );
+    return optionLev ? optionLev.description : "";
+  }
+  getSoporte(): string {
+    const selectOpti = this.formCreate.get("dis_sop").value;
+    const optionLev = this.afirm.find(
+      (option) => option.ls_codvalue === selectOpti
     );
     return optionLev ? optionLev.description : "";
   }
@@ -786,6 +797,12 @@ export class ReceptionDialogComponent {
   }
   onRadioChange(event) {
     event === "121/16" ? (this.checkUs = true) : (this.checkUs = false);
+  }
+  onTypeMod(event) {
+    event === "127/3" ? (this.checkOption = true) : (this.checkOption = false);
+    event === "127/2"
+      ? (this.checkAddress = true)
+      : (this.checkAddress = false);
   }
   onChangeAfirm(event) {
     event === "17/1" ? (this.check_cood = true) : (this.check_cood = false);

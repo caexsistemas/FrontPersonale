@@ -41,6 +41,8 @@ export class DisciplinaryComponent implements OnInit {
   contaClick: number = 0;
   endpoint: string = "/disciplinary";
   contenTable: any = [];
+  // checkUpdate: boolean;
+  checkUpdate: any = [];
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -73,10 +75,10 @@ export class DisciplinaryComponent implements OnInit {
       (data) => {
         if (data.success) {
           this.permissions = this.handler.getPermissions(this.component);
-          // this.generateTable(response.data);
+          this.checkUpdate = this.cuser.idPersonale;
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          // this.ValorRol = data.data
+
           this.loading = false;
         } else {
           this.loading = false;
