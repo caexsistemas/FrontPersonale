@@ -78,6 +78,8 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   .example-headers-align .mat-expansion-panel-header-title,
   .example-headers-align .mat-expansion-panel-header-description {
     flex-basis: 0;
+    font-weight: 570;
+
   }
   
   .example-headers-align .mat-expansion-panel-header-description {

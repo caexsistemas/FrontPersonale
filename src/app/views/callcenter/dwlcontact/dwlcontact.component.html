@@ -1,0 +1,71 @@
+<div class="content">
+  <div class="card">
+    <div class="card-header">
+      Descargar base
+    </div>
+    <div class="card-body">
+      <form [formGroup]="dwlForm">
+        <!-- <mat-dialog-content> -->
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Seleccionar:</mat-label>
+                <mat-select formControlName="name" (ngModelChange)="getSubcampana($event)">
+                  <mat-option *ngFor="let idet of campana" [value]="idet.cam_id">
+                    {{idet.cam_nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-4 col-sm-14 col-md-3 ">
+              <select class="custom-select formPQR" name="subcampana" id="subcampana">
+                <option value=""> Seleccionar </option>
+              </select>
+            </div> -->
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Seleccionar:</mat-label>
+                <mat-select formControlName="status" (ngModelChange)="getasigBase($event)">
+                  <mat-option *ngFor="let idet of subCampana" [value]="idet.succam_id">
+                    {{idet.subcam_nom}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- <div class="col-4 col-sm-14 col-md-3">
+              <select class="custom-select formPQR" name="base" id="base">
+                <option value=""> Seleccionar </option>
+              </select>
+            </div> -->
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Seleccionar:</mat-label>
+                <mat-select formControlName="base">
+                  <mat-option *ngFor="let idet of asigBase" [value]="idet.asc_id">
+                    {{idet.asc_base}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <div mat-dialog-actions> -->
+            <div class="col-md-3 mt-1">
+              <button mat-button class="btn btn"
+                style="background-color: #0d95c5; margin:'7px';padding:1px;width: 60%; height: 55%;"
+                (click)="descargarArchivos()">Descargar Base</button>
+
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>
