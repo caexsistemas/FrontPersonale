@@ -256,7 +256,7 @@ export class RqcalidadComponent implements OnInit {
 
   colorState(state, retro) {
     //Color Critico 
-    if(retro == '17/2' && state == '136/3'){
+    if(retro == '17/0' && state == '136/3'){
       state = "136/0";
     }
     return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
