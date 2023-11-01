@@ -48,3 +48,9 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   .mat-form-field {
     display: block;
   }
+
+  mat-panel-description{
+    white-space: nowrap; 
+    font-size: 14px;
+    overflow: auto;
+  }
