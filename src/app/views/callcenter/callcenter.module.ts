@@ -41,6 +41,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UnicalldataComponent } from './unicalldata/unicalldata.component';
 import { CustomerComponent } from './customer/customer.component';
+import { CargueContactComponent } from './cargue-contact/cargue-contact.component';
 //import { ReportsRqcalidadComponent } from "../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
 
 
@@ -77,6 +78,7 @@ const ngWizardConfig: NgWizardConfig = {
   RqcalidadComponent,
   FeedbackComponent,
   UnicalldataComponent,
-  CustomerComponent]
+  CustomerComponent
+  ]
 })
 export class CallcenterModule { }

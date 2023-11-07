@@ -16,7 +16,7 @@ import { from } from 'rxjs';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
 import { CustomerComponent } from './customer/customer.component';
-
+import { CargueContactComponent } from './cargue-contact/cargue-contact.component';
 
 const routes: Routes = [
   {
@@ -46,6 +46,13 @@ const routes: Routes = [
       {
         path: 'customer',
         component: CustomerComponent,
+        data: {
+          title: 'Medicion Customer Journey'
+        }
+      },
+      {
+        path: 'cargue-contact',
+        component: CargueContactComponent,
         data: {
           title: 'Medicion Customer Journey'
         }

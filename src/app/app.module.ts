@@ -154,8 +154,8 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
 import {MatMenuModule} from '@angular/material/menu';
-
-
+import { CargueContactComponent } from './views/callcenter/cargue-contact/cargue-contact.component';
+import { cargueBaseDialog } from "./dialogs/cargueBase/cargueBase.dialog.component";
 
 const routes: Routes = [];
 @NgModule({
@@ -298,6 +298,8 @@ const routes: Routes = [];
     DisciplinaryDialog,
     UpdateApplicationsDialog,
     ReceptionDialogComponent,
+    CargueContactComponent,
+    cargueBaseDialog
   ],
   providers: [
     {
