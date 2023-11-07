@@ -29,7 +29,7 @@
                 <div class="col-md-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Cédula del trabajador que cometió la falta:</mat-label>
-                    <input matInput formControlName="document" (ngModelChange)="onSelectionChange($event)" required>
+                    <input matInput formControlName="dis_doc" (ngModelChange)="onSelectionChange($event)" required>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 ContCamp">
@@ -45,7 +45,7 @@
                 <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width">
                     <mat-label>Cargo del trabajador que cometió la falta:</mat-label>
-                    <mat-select formControlName="idPosition">
+                    <mat-select formControlName="dis_pos">
                       <mat-option *ngFor="let idet of position" [value]="idet.ls_codvalue">
                         {{idet.description}}
                       </mat-option>
@@ -54,166 +54,77 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 ContCamp">
                   <mat-form-field class="example-full-width ">
                     <mat-label>Ciudad</mat-label>
-                    <mat-select formControlName="cityWork" (ngModelChange)="onRadioChange($event)" required>
-                      <mat-option *ngFor="let idet of city" [value]="idet.ls_codvalue">
-                        {{idet.description}}
+                    <mat-select formControlName="cityWork" required>
+                      <mat-option *ngFor="let idet of city" [value]="idet.idCity">
+                        {{idet.name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
-                  <mat-form-field class="example-full-width ">
-                    <mat-label>Estado Diligencia</mat-label>
-                    <mat-select formControlName="dis_est" (ngModelChange)="onRadioChange($event)" required>
-                      <mat-option *ngFor="let idet of state" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                  <form [formGroup]="formCase">
+                    <mat-form-field class="example-full-width ">
+                      <mat-label>Estado Diligencia</mat-label>
+                      <mat-select formControlName="dis_est" required>
+                        <mat-option *ngFor="let idet of state" [value]="idet.ls_codvalue">
+                          {{idet.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </form>
                 </div>
                 <div class="col-md-4">
-                  <mat-form-field class="example-full-width ">
-                    <mat-label>Abierto/Cerrado</mat-label>
-                    <mat-select formControlName="cas_op_clo" (ngModelChange)="onRadioChange($event)" required>
-                      <mat-option *ngFor="let idet of ab_cer" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                  <form [formGroup]="formCase">
+                    <mat-form-field class="example-full-width ">
+                      <mat-label>Abierto/Cerrado</mat-label>
+                      <mat-select formControlName="cas_op_clo" required>
+                        <mat-option *ngFor="let idet of ab_cer" [value]="idet.ls_codvalue">
+                          {{idet.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </form>
                 </div>
               </div>
               <mat-action-row>
                 <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <!-- <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   Descripción de la situación &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                  Falta
+
                 </mat-panel-description>
                 <mat-icon>chrome_reader_mode</mat-icon>
               </mat-expansion-panel-header>
-              <div class="content">
-                <p>En esta sección usted deberá describir brevemente, pero con suficiencia, la situación que se ha
-                  presentado con el trabajador que usted considera que ha cometido una falta a sus obligaciones y
-                  responsabilidades. Tenga en cuenta que una buena descripción de la situación debe darse en términos
-                  de:
-                </p>
 
-                <ol class="left-align">
-                  <li>Tiempo.</li>
-                  <li>Modo.</li>
-                  <li>Lugar.</li>
-                </ol>
-
-                <p>Adicionalmente, deberá exponer los aspectos que para usted resultan más relevantes para demostrar la
-                  comisión de la falta por parte del trabajador, así como adjuntar todos los elementos probatorios con
-                  los que cuente.</p>
-              </div>
               <div class="row-12">
                 <mat-vertical-stepper [linear]="true" #stepper>
                   <mat-step>
-                    <ng-template matStepLabel>Tipo de falta</ng-template>
-                    <form (ngSubmit)="nextStep()" [formGroup]="formCreate">
-                      <div class="row">
-                        <div class="col-sm-12" style="padding: 10px;">
-                          <mat-label>Seleccione el tipo de falta que considera que más se ajusta a la presentada por
-                            el
-                            trabajador:</mat-label>
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field class="example-full-width ">
-                            <mat-label>Elige una opcion</mat-label>
-                            <mat-select formControlName="dis_fal" (ngModelChange)="onRadioChange($event)" required>
-                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue">
-                                {{idet.description}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="row mt-2" *ngIf="checkUs">
-                          <div class="col-md-12">
-                            <mat-form-field class="example-full-width">
-                              <mat-label>Escriba su respuesta:</mat-label>
-                              <textarea matInput formControlName="dis_oth_fal" [required]="checkUs"></textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <button mat-button color="primary"
-                          [disabled]="!formCreate.get('dis_fal').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Descripción de falta</ng-template>
-                    <form (ngSubmit)="nextStep()" [formGroup]="formCreate">
-                      <div class="row mt-2">
-                        <div class="col-md-12">
-                          <mat-form-field class="example-full-width">
-                            <mat-label>Exponga de manera descriptiva la falta cometida por el trabajador en términos de
-                              tiempo, modo y lugar.</mat-label>
-                            <textarea matInput formControlName="dis_fal_des" required></textarea>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary"
-                          [disabled]="!formCreate.get('dis_fal_des').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Elementos relevantes</ng-template>
-                    <form (ngSubmit)="nextStep()" [formGroup]="formCreate">
-                      <div class="row mt-2">
-                        <div class="col-md-12">
-                          <mat-form-field class="example-full-width">
-                            <mat-label>Indique cuáles son, para usted, los elementos más relevantes que demostrarían que
-                              el trabajador cometió una falta</mat-label>
-                            <textarea matInput formControlName="dis_des_rel" required></textarea>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary" [disabled]="!formCreate.get('dis_des_rel').valid"
-                          matStepperNext>Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Nivel de falta</ng-template>
-                    <form (ngSubmit)="finish()" [formGroup]="formCreate">
-                      <div class="row mt-2">
-                        <div class="col-sm-12" style="padding: 10px;">
-                          <mat-label>Para usted, la falta cometida por el trabajador es:</mat-label>
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field class="example-full-width ">
-                            <mat-label>Elige una opcion:</mat-label>
-                            <mat-select formControlName="dis_niv" required>
-                              <mat-option *ngFor="let idet of level" [value]="idet.ls_codvalue">
-                                {{idet.description}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button (click)="stepper.previous()">Atrás</button>
-                        <button mat-button color="primary" [disabled]="!formCreate.get('dis_niv').valid"
-                          (click)="nextStep1()">Finalizar</button>
-                      </div>
-                    </form>
+                    <ng-template matStepLabel>Resumen</ng-template>
+                    <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
+
+                      <p>Tipo de Falta: {{ getSelectedReasonName() }}</p>
+                      <p>Descripción de Falta: {{ formCreate.get('dis_fal_des').value }}</p>
+                      <p>Elementos Relevantes: {{ formCreate.get('dis_des_rel').value }}</p>
+                      <p>Nivel de Falta: {{ getNivel()}} </p>
+                      <p>Documentos de soporte: {{ getSoporte()}} </p>
+                      <ul>
+                        <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                          <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <button mat-button matStepperPrevious>Atrás</button>
+                      <button mat-button color="primary" (click)="nextStep1()">Finalizar</button>
+                    </div>
                   </mat-step>
                 </mat-vertical-stepper>
               </div>
@@ -225,109 +136,49 @@
             <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Documentos de Soporte&nbsp; &nbsp;
+                  Gestión de citación &nbsp; &nbsp;
                 </mat-panel-title>
                 <mat-panel-description>
-                  Adjuntar elementos
-                </mat-panel-description>
-                <mat-icon>attach_file</mat-icon>
-              </mat-expansion-panel-header>
-              <div class="row mt-3 panel">
-                <div class="col-md-6">
-                  <mat-label>¿Cuenta con soportes, documentos, correos electrónicos, grabaciones de audio y/o vídeos,
-                    retroalimentaciones escritas o cualquier tipo de soporte respecto a su posición?</mat-label>
-                </div>
-              </div>
-              <div class="row mt-5">
-                <div class="col-md-4 soporte">
-                  <mat-form-field class="afirm">
-                    <mat-label>Si/No</mat-label>
-                    <mat-select formControlName="dis_sop" (ngModelChange)="onChangeAfirm($event)" required>
-                      <mat-option *ngFor="let idet of afirm" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4 document" *ngIf="check_cood">
-                  <label>Adjuntar Documento de Soporte:</label>
-                  <input formControlName="file_sp" class="form-control" type="file"
-                    (change)="seleccionarArchivo($event)" multiple>
-                </div>
-              
-                <div class="col-md-4" *ngIf="view == 'update' && caract">
-                  <dt>Documentos de Soporte:</dt>
-                  <dd>
-                    <ul>
-                      <li *ngFor="let archivo of selection.file_sp; let i = index;">
-                        <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
-                      </li>
-                    </ul>
-                  </dd>
-                </div>
-              </div>
-              <div class="row mt-5 panel">
-                <div class="col-sm-6">
-                  <mat-label>¿Considera que la información que ha suministrado en este formulario es suficiente para
-                    demostrar inequívocamente que el trabajador ha cometido la falta que usted refiere?</mat-label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4 soporte">
-                  <mat-form-field class="afirm">
-                    <mat-label>Si/No</mat-label>
-                    <mat-select formControlName="dis_con" required>
-                      <mat-option *ngFor="let idet of afirm" [value]="idet.ls_codvalue">
-                        {{idet.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-action-row>
-                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
-                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
-              </mat-action-row>
-            </mat-expansion-panel> -->
-            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Descripción de la situación &nbsp; &nbsp;
-                </mat-panel-title>
-                <mat-panel-description>
-                  Motivo
+
                 </mat-panel-description>
                 <mat-icon>chrome_reader_mode</mat-icon>
               </mat-expansion-panel-header>
 
               <div class="row-12" style="min-width: 1000px;">
-                <mat-vertical-stepper [linear]="true" #stepper>
+                <mat-vertical-stepper [linear]="true" #stepCase>
                   <mat-step>
                     <ng-template matStepLabel>Motivo</ng-template>
-                    <form (ngSubmit)="nextStep(0)" [formGroup]="formCreate">
+                    <form (ngSubmit)="nextStepCase(0)" [formGroup]="formCase">
                       <div class="row">
-
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width ">
-                            <mat-label></mat-label>
+                            <mat-label>Motivo Inicial</mat-label>
                             <mat-select formControlName="dis_fal" (ngModelChange)="onRadioChange($event)" required>
-                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue">
+                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue" disabled>
                                 {{idet.description}}
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
                         </div>
+                        <div class="row mt-2" *ngIf="checkUs">
+                          <div class="col-md-12">
+                            <mat-form-field class="example-full-width">
+                              <mat-label>Escriba su respuesta:</mat-label>
+                              <textarea matInput formControlName="dis_oth_fal" [required]="checkUs"></textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
                       </div>
                       <div>
                         <button mat-button color="primary"
-                          [disabled]="!formCreate.get('dis_fal').valid">Siguiente</button>
+                          [disabled]="!formCase.get('dis_fal').valid">Siguiente</button>
                       </div>
                     </form>
                   </mat-step>
 
                   <mat-step>
                     <ng-template matStepLabel>Descripción</ng-template>
-                    <form (ngSubmit)="nextStep(1)" [formGroup]="formCreate">
+                    <form (ngSubmit)="nextStepCase(1)" [formGroup]="formCase">
                       <div class="row mt-2">
                         <div class="col-md-12">
                           <mat-form-field class="example-full-width">
@@ -339,26 +190,72 @@
                       <div>
                         <button mat-button matStepperPrevious>Atrás</button>
                         <button mat-button color="primary"
-                          [disabled]="!formCreate.get('cas_des').valid">Siguiente</button>
+                          [disabled]="!formCase.get('cas_des').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+
+                  <mat-step>
+                    <ng-template matStepLabel>Motivo Conclusión</ng-template>
+                    <form (ngSubmit)="nextStepCase(2)" [formGroup]="formCase">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width ">
+                            <mat-label>Motivo concluido</mat-label>
+                            <mat-select formControlName="cas_reasons_falt" (ngModelChange)="onRadioChange($event)"
+                              required>
+                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row mt-2" *ngIf="checkUs">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+                            <mat-label>Escriba su respuesta:</mat-label>
+                            <textarea matInput formControlName="dis_oth_fal" [required]="checkUs"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button color="primary"
+                          [disabled]="!formCase.get('cas_reasons_falt').valid">Siguiente</button>
                       </div>
                     </form>
                   </mat-step>
 
                   <mat-step>
                     <ng-template matStepLabel>Modalidad</ng-template>
-                    <form (ngSubmit)="nextStep(2)" [formGroup]="formCreate">
+                    <form (ngSubmit)="nextStepCase(3)" [formGroup]="formCase">
                       <div class="row mt-2">
-                        <!-- <div class="col-md-12">
-                          <mat-form-field class="example-full-width">
-
-                            <textarea matInput formControlName="cas_mod" required></textarea>
-                          </mat-form-field>
-                        </div> -->
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width ">
                             <mat-label></mat-label>
-                            <mat-select formControlName="cas_mod" (ngModelChange)="onRadioChange($event)" required>
+                            <mat-select formControlName="cas_mod" (ngModelChange)="onTypeMod($event)" required>
                               <mat-option *ngFor="let idet of mod" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row mt-2" *ngIf="checkOption">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+                            <mat-label>Escriba Link:</mat-label>
+                            <textarea matInput formControlName="dis_oth_fal" [required]="checkOption"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row mt-4" *ngIf="checkAddress">
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width">
+                            <mat-label>Dirección de citación:</mat-label>
+                            <mat-select formControlName="cas_address">
+                              <mat-option *ngFor="let idet of addressCit" [value]="idet.ls_codvalue"
+                                [required]="checkAddress">
                                 {{idet.description}}
                               </mat-option>
                             </mat-select>
@@ -367,22 +264,298 @@
                       </div>
                       <div>
                         <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary" [disabled]="!formCreate.get('cas_mod').valid"
+                        <button mat-button color="primary" [disabled]="!formCase.get('cas_mod').valid"
                           matStepperNext>Siguiente</button>
                       </div>
                     </form>
                   </mat-step>
 
                   <mat-step>
-                    <ng-template matStepLabel>Fecha Recepcion del caso</ng-template>
+                    <ng-template matStepLabel>Fecha y hora Citación</ng-template>
+                    <form (ngSubmit)="nextStepCase(4)" [formGroup]="formCitation">
+                      <div class="row mt-2">
+
+                        <div class="col-md-4">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput formControlName="cit_fec_hor" value="cit_fec_hor" type="datetime-local"
+                              required>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCitation.get('cit_fec_hor').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Resumen</ng-template>
+                    <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
+
+                      <p>Motivo seleccionado: {{ getSelectedReasonName() }}</p>
+                      <p>Descripción: {{ formCase.get('cas_des').value }}</p>
+                      <p>Conclusion: {{ getSelectedConclusion() }}</p>
+                      <p>Modalidad: {{ getSelectedModalityName() }}</p>
+                      <p>Fecha Citación: {{ formCitation.get('cit_fec_hor').value | date: 'medium'}} </p>
+                    </div>
+                  </mat-step>
+                </mat-vertical-stepper>
+              </div>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle *ngIf="checkCita">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Citación &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </mat-expansion-panel-header>
+              <mat-dialog-content>
+                <div class="card border-secondary mt-4">
+                  <div class="card-header" style="background-color: #c9c9c9;">
+                    Citación Procesos Disciplinarios
+
+                  </div>
+                  <div class="card-body">
+                    <div class="toolbar-table" *ngIf="permissions != null">
+
+                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                        <div class="btn-group" dropdown>
+
+                          <div let element></div>
+                          <button class="btn btn-primary" *ngIf="permissions.update"
+                            (click)="option('createCit',citTable.cit_id)" title="Crear">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div> -->
+                      <!-- <mat-form-field appearance="standard">
+                        <mat-label>Buscar...</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
+                      </mat-form-field> -->
+                    </div>
+                    <div class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                        *ngIf="generateTableCitation.length > 0">
+                        <ng-container matColumnDef="viewCit">
+                          <th mat-header-cell *matHeaderCellDef> Ver </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                              (click)="option('view',row.cit_id)" title="Ver">
+                              <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cantidadTexto">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">citación</th>
+                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadTexto}}</td> -->
+                          <td mat-cell *matCellDef="let row">
+                            <div class="mt-1"
+                              [ngStyle]="{'backgroundColor': colorState(row.cantidadTexto),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
+                              {{row.cantidadTexto}}
+                            </div>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cit_fec_hor">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora de
+                            Citación
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.cit_fec_hor}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="idPersonale">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre y Apellidos
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.name | titlecase}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="description">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Motivo de proceso
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cit_fec_elab">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración
+                          </th>
+                          <td mat-cell *matCellDef="let row">
+                            {{(!row.cit_fec_elab)?getEstado(row.cit_estado,row.estado):row.cit_fec_elab}} </td>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="cit_con">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Completo </th>
+                          <td mat-cell *matCellDef="let row"> {{row.cit_con}} </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="actions">
+                          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn btn-ghost-primary" *ngIf="permissions.update"
+                              (click)="option('updateCit',row.cit_id)" title="Editar">
+                              <i class="fa fa-edit fa-lg"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update"
+                              (click)="option('createApla',row.cit_id,row.idPersonale,row.dis_id)"
+                              title="Crear Aplazamiento">
+                              <i class="fa fa-plus-circle"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                            <button class="btn btn-ghost-warning" *ngIf="permissions.update"
+                              (click)="option('createAcla',row.cit_id,row.idPersonale,row.dis_id)"
+                              title="Crear aclaracion">
+                              <i class="fa fa-handshake-o"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                          </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                      </table>
+
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                        aria-label="Select page of users"></mat-paginator>
+                    </div>
+                  </div>
+                </div>
+              </mat-dialog-content>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle *ngIf="checkAp">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Aplazamiento &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </mat-expansion-panel-header>
+              <mat-dialog-content>
+                <div class="card border-secondary mt-4">
+                  <div class="card-header" style="background-color: #c9c9c9;">
+                    Aplazamiento
+
+                  </div>
+                  <div class="card-body">
+                    <div class="toolbar-table" *ngIf="permissions != null">
+
+                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                        <div class="btn-group" dropdown>
+
+                          <div let element></div>
+                          <button class="btn btn-primary" *ngIf="permissions.update"
+                            (click)="option('createCit',citTable.cit_id)" title="Crear">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div> -->
+                      <!-- <mat-form-field appearance="standard">
+                        <mat-label>Buscar...</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
+                      </mat-form-field> -->
+                    </div>
+                    <div class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataSourcePost" matSort class="table-large table-responsive-lg"
+                        *ngIf="tablePostponement.length > 0">
+                        <ng-container matColumnDef="viewCit">
+                          <th mat-header-cell *matHeaderCellDef> Ver </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                              (click)="option('view',row.cla_id)" title="Ver">
+                              <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cantidadAcla">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aclaraciones</th>
+                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadAcla}}</td> -->
+                          <td mat-cell *matCellDef="let row">
+                            <div class="mt-1"
+                              [ngStyle]="{'backgroundColor': colorState(row.cantidadAcla),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'90%','height':'5','font-weight':'500','color':'white'}">
+                              {{row.cantidadAcla}}
+                            </div>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pos_fec_ela">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora a
+                            Referenciar
+
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.pos_fec_ela}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="idPersonale">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre y Apellidos
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.name | titlecase}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pos_apl">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.pos_apl}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cla_description">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Descripcion </th>
+                          <td mat-cell *matCellDef="let row"> {{row.cla_description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn btn-ghost-primary" *ngIf="permissions.update"
+                              (click)="option('updateApla',row.pos_id)" title="update">
+                              <i class="fa fa-edit fa-lg"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                          </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsPost"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsPost;"></tr>
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                      </table>
+
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                        aria-label="Select page of users"></mat-paginator>
+                    </div>
+                  </div>
+                </div>
+              </mat-dialog-content>
+
+              <!-- <div class="row-12" style="min-width: 1000px;">
+                <mat-vertical-stepper [linear]="true" #stepper>
+
+
+                  <mat-step>
+                    <ng-template matStepLabel>Fecha Elaboración Aplazamiento</ng-template>
                     <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
                       <div class="row mt-2">
-                        <!-- <div class="col-md-12">
-                          <mat-form-field class="example-full-width">
 
-                            <textarea matInput formControlName="cas_fec_recep" required></textarea>
-                          </mat-form-field>
-                        </div> -->
                         <div class="col-md-4">
                           <mat-form-field appearance="fill">
                             <mat-label>Fecha</mat-label>
@@ -398,52 +571,326 @@
                     </form>
                   </mat-step>
                   <mat-step>
-                    <ng-template matStepLabel>Fecha Conclusión</ng-template>
-                    <!-- <form (ngSubmit)="finish()" [formGroup]="formCreate"> -->
-                    <form (ngSubmit)="nextStep(4)" [formGroup]="formCreate">
+                    <ng-template matStepLabel>Fecha y hora de Aplazamiento</ng-template>
+                    <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
                       <div class="row mt-2">
+
                         <div class="col-md-4">
                           <mat-form-field appearance="fill">
-                            <mat-label>Fecha </mat-label>
-                            <input matInput formControlName="cas_fec_conc" value="cas_fec_conc" type="date" required>
+                            <mat-label>Fecha</mat-label>
+                            <input matInput formControlName="cas_fec_recep" value="cas_fec_recep" type="date" required>
                           </mat-form-field>
                         </div>
                       </div>
-                      <!-- <div>
-                        <button mat-button (click)="stepper.previous()">Atrás</button>
-                        <button mat-button color="primary" [disabled]="!formCreate.get('dis_niv').valid"
-                          (click)="nextStep1()">Finalizar</button>
-                      </div> -->
                       <div>
                         <button mat-button matStepperPrevious>Atrás</button>
                         <button mat-button color="primary"
-                          [disabled]="!formCreate.get('cas_fec_conc').valid">Siguiente</button>
+                          [disabled]="!formCreate.get('cas_fec_recep').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Conclusión Aplazamiento</ng-template>
+                    <form (ngSubmit)="nextStepConclu(2)" [formGroup]="formCreate">
+                      <div class="row">
+
+                        <div class="col-md-4">
+                          <mat-form-field class="example-full-width ">
+                            <mat-label></mat-label>
+                            <mat-select formControlName="cas_con_fin" (ngModelChange)="onRadioChange($event)" required>
+                              <mat-option *ngFor="let idet of conclu_fin" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('cas_con_fin').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Fecha de conclusion Aplazamiento</ng-template>
+                    <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
+                      <div class="row mt-2">
+
+                        <div class="col-md-4">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput formControlName="cas_fec_recep" value="cas_fec_recep" type="date" required>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCreate.get('cas_fec_recep').valid">Siguiente</button>
                       </div>
                     </form>
                   </mat-step>
                   <mat-step>
                     <ng-template matStepLabel>Resumen</ng-template>
                     <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
-                      <!-- Mostrar resumen de datos aquí -->
-                      <p>Motivo seleccionado: {{ getSelectedReasonName() }}</p>
-                      <p>Descripción: {{ formCreate.get('cas_des').value }}</p>
-                      <p>Modalidad: {{ getSelectedModalityName() }}</p>
-                      <p>Fecha Recepcion: {{ formCreate.get('cas_fec_recep').value }}</p>
-                      <p>Fecha Conclusión: {{ formCreate.get('cas_fec_conc').value }}</p>
+                     
                     </div>
-                    <!-- <div>
-                      <button mat-button (click)="stepper.previous()">Atrás</button>
-                      <button mat-button color="primary" [disabled]="!formCreate.get('dis_niv').valid"
-                        (click)="nextStep1()">Finalizar</button>
-                    </div> -->
+                    
                   </mat-step>
                 </mat-vertical-stepper>
-              </div>
+              </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle *ngIf="checkAcla">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Aclaración &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </mat-expansion-panel-header>
+
+              <mat-dialog-content>
+                <div class="card border-secondary mt-4">
+                  <div class="card-header" style="background-color: #c9c9c9;">
+                    Aclaración
+
+                  </div>
+                  <div class="card-body">
+                    <div class="toolbar-table" *ngIf="permissions != null">
+
+                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                        <div class="btn-group" dropdown>
+
+                          <div let element></div>
+                          <button class="btn btn-primary" *ngIf="permissions.update"
+                            (click)="option('createCit',citTable.cit_id)" title="Crear">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div> -->
+                      <!-- <mat-form-field appearance="standard">
+                        <mat-label>Buscar...</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
+                      </mat-form-field> -->
+                    </div>
+                    <div class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataSourceCli" matSort class="table-large table-responsive-lg"
+                        *ngIf="tableClarification.length > 0">
+                        <ng-container matColumnDef="viewCit">
+                          <th mat-header-cell *matHeaderCellDef> Ver </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                              (click)="option('view',row.cla_id)" title="Ver">
+                              <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cantidadAcla">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aclaraciones</th>
+                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadAcla}}</td> -->
+                          <td mat-cell *matCellDef="let row">
+                            <div class="mt-1"
+                              [ngStyle]="{'backgroundColor': colorState(row.cantidadAcla),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'90%','height':'5','font-weight':'500','color':'white'}">
+                              {{row.cantidadAcla}}
+                            </div>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fecha_cita_anterior">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha primera citación
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.fecha_cita_anterior}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cla_fec_ref">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora
+                            Aclaración
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.cla_fec_ref}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="idPersonale">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre y Apellidos
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cla_fec_pres">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.cla_fec_pres}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="description">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Descripcion de motivo
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn btn-ghost-primary" *ngIf="permissions.update"
+                              (click)="option('updateAcla',row.cla_id)" title="aclaracion">
+                              <i class="fa fa-edit fa-lg"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update"
+                              (click)="option('createCit',row.cit_id)" title="crear nueva citación">
+                              <i class="fa fa-plus-circle"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                          </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsCla"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsCla;"></tr>
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                      </table>
+
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                        aria-label="Select page of users"></mat-paginator>
+                    </div>
+                  </div>
+                </div>
+              </mat-dialog-content>
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle *ngIf="checkConc">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Conclusiones &nbsp; &nbsp;
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+                <mat-icon>chrome_reader_mode</mat-icon>
+              </mat-expansion-panel-header>
+              <mat-dialog-content>
+                <div class="card border-secondary mt-4">
+                  <div class="card-header" style="background-color: #c9c9c9;">
+                    Conclusiones
+
+                  </div>
+                  <div class="card-body">
+                    <div class="toolbar-table" *ngIf="permissions != null">
+
+                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                        <div class="btn-group" dropdown>
+  
+                          <div let element></div>
+                          <button class="btn btn-primary" *ngIf="permissions.update"
+                            (click)="option('createCit',citTable.cit_id)" title="Crear">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      </div> -->
+                      <mat-form-field appearance="standard">
+                        <mat-label>Buscar...</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
+                      </mat-form-field>
+                    </div>
+                    <div class="mat-elevation-z8">
+                      <table mat-table [dataSource]="dataSourceConc" matSort class="table-large table-responsive-lg"
+                        *ngIf="tableConclusion.length > 0">
+                        <ng-container matColumnDef="viewCit">
+                          <th mat-header-cell *matHeaderCellDef> Ver </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                              (click)="option('view',row.cla_id)" title="Ver">
+                              <i class="fa fa-eye fa-lg"></i>
+                            </button>
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cantidadConc">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aclaraciones</th>
+                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadConc}}</td> -->
+                          <td mat-cell *matCellDef="let row">
+                            <div class="mt-1"
+                              [ngStyle]="{'backgroundColor': colorState(row.cantidadConc),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'90%','height':'5','font-weight':'500','color':'white'}">
+                              {{row.cantidadConc}}
+                            </div>
+                          </td>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="con_fec_ela">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora a
+                            Referenciar
+
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.con_fec_ela}} </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="idPersonale">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre y Apellidos
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.name | titlecase}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="description">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Motivo de proceso
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="con_fec_ela">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración
+                          </th>
+                          <td mat-cell *matCellDef="let row"> {{row.con_fec_ela}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="con_final">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Descripcion </th>
+                          <td mat-cell *matCellDef="let row"> {{row.final}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button class="btn btn-ghost-primary" *ngIf="permissions.update"
+                              (click)="option('updateConc',row.con_id)" title="conclusion final">
+                              <i class="fa fa-edit fa-lg"></i>
+                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                          </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsConc"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsConc;"></tr>
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                      </table>
+
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                        aria-label="Select page of users"></mat-paginator>
+                    </div>
+                  </div>
+                </div>
+              </mat-dialog-content>
+
+
+              <mat-action-row>
+                <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
+                <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+
           </form>
         </mat-accordion>
       </mat-dialog-content>

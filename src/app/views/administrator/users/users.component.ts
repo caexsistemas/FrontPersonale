@@ -103,7 +103,7 @@ export class UsersComponent implements OnInit {
       'view',
       'idUser',
       'document',
-      'idPersonale',    
+      'idPersonale',  
       'role',
       'status',
       'actions'

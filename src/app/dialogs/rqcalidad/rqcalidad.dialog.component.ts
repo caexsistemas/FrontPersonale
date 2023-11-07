@@ -29,6 +29,7 @@ export class RqcalidadDialog  {
   view:          string = null;
   title:         string = null;
   formProces:    FormGroup;
+  formProcesDialog:    FormGroup;
   dateMoni:      string;
   idPam:         number = null;
   displayedColumns:any  = [];
@@ -142,7 +143,7 @@ export class RqcalidadDialog  {
             case 'update':
                 this.tipMatriz = this.data.tipoMat;
                 this.initForms();
-                this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA";
+                this.title = " EDITAR MATRIZ DE CALIDAD CLARO CONVERGENCIA";
                 this.idPam = this.data.codigo;
             break;
             case 'view':
@@ -173,8 +174,104 @@ export class RqcalidadDialog  {
                         }
                     );
             break;
+            case 'updatesub':   
+                this.idPam = this.data.codigo;  
+                this.title = "Crear Retroalimentación: ";       
+                this.getdataIniRetro(this.idPam);
+                this.initFormsRetro();              
+            break;
+            case 'viewsub':   
+                this.idPam = this.data.codigo; 
+                this.title = "Detalle Retroalimentación";       
+                this.getdataIniRetro(this.idPam);                                           
+            break;
           }
   }
+  /*
+    Formulario Retroalimentacion
+  */
+
+  initViewRetro(){
+
+
+  }
+
+  initFormsRetro(){
+    let date = new Date();
+    this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
+
+    this.formProcesDialog = new FormGroup({
+      descri_pda: new FormControl(""),
+      compr_ases: new FormControl(""),
+      creatRetro: new FormControl(this.cuser.iduser),
+      fecha_pda: new FormControl(this.dateStrinMoni)
+    });
+  }
+
+  getdataIniRetro(id){
+
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint + '/' + id, {
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+      role: this.cuser.role
+    })
+        .subscribe(
+            data => {
+                if (data.success == true) {
+                    this.dataCad = data.data['getDatPer'][0];
+                    this.loading.emit(false);
+                } else {
+                    this.handler.handlerError(data);
+                    this.closeDialog(); 
+                    this.loading.emit(false);
+                }
+            },
+            error => {
+                this.handler.showError('Se produjo un error '+error);
+                this.loading.emit(false);
+            }
+        );
+  }
+
+  onSubmitUpdateSub(){
+
+    let body = {
+        salud: this.formProcesDialog.value  
+    }
+    if (this.formProcesDialog.valid) {
+      this.loading.emit(true);
+      this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
+      .subscribe(
+          data=>{
+              if(data.success){
+                  this.handler.showSuccess(data.message);
+                  this.reload.emit();
+                  console.log("no recargo :(");
+                  this.closeDialog();
+                  //this.retroDialog(this.idPam, '', 'view');
+              }else{
+                  this.handler.handlerError(data);
+                  this.loading.emit(false);
+              }
+          },
+          error=>{
+              this.handler.showError(error);
+              this.loading.emit(false);
+          }
+      );
+    }else {
+      this.handler.showError('Complete la informacion necesaria');
+      this.loading.emit(false);
+    }
+  }
+
+
 
   initForms(){
 

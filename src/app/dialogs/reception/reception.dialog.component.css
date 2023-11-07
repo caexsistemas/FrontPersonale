@@ -78,6 +78,8 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   .example-headers-align .mat-expansion-panel-header-title,
   .example-headers-align .mat-expansion-panel-header-description {
     flex-basis: 0;
+    font-weight: 570;
+
   }
   
   .example-headers-align .mat-expansion-panel-header-description {
@@ -132,14 +134,18 @@ margin-left: -300px;
     width: 60%;
     margin-right: -380px;
 }
-/* /* 
-display: flex;
-padding: 5px;
-width: 150%;
-flex-wrap: wrap;
-margin-right: -100px;
-margin-left: 150px; 
-font: 500 14px/20px Roboto, "Helvetica Neue", sans-serif;*
+table {
+  width: 100%;
+}
 
-margin-left: -190px;
-/ */
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 10%;
+ 
+}
+
+

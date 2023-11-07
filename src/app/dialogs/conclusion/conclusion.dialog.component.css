@@ -3,7 +3,10 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   }
   .ContCamp{
     pointer-events: none;
-  }  
+  }
+  /* .GetCamp{
+    pointer-events: none;
+  }   */
 
   .example-full-width {
     width: 100%;
@@ -32,25 +35,10 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   .ContCamp-text{
     height: 164px;
   }  
-
-  .conhidden{
-    display: none;
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
   }
-
-  .convisual{
-    display: block;
-  }
-
-  .cdk-overlay-pane{
-    overflow: scroll;
-  }
-
-  .mat-form-field {
-    display: block;
-  }
-
-  mat-panel-description{
-    white-space: nowrap; 
-    font-size: 14px;
-    overflow: auto;
+  .title-conclu{
+    width: 100%;
+    font: bold;
   }

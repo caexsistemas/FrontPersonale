@@ -7,57 +7,91 @@
     </div>
 
     <mat-dialog-content style="min-width: 500px;">
-        <div class="row mt-2">
-            <!-- <div class="col-md-4">
-                <dt>Nombres</dt>
-                <dd>{{usuario.name}}</dd>
-            </div>
 
-            <div class="col-md-4">
-                <dt>Apellidos</dt>
-                <dd>{{usuario.surname}}</dd>
-            </div> -->
-            <div class="col-md-4">
-                <dt>Documento</dt>
-                <dd>{{usuario.username}}</dd>
-            </div>
-            <div class="col-md-4">
-                <dt>Nombres</dt>
-                <dd>{{usuario.na}}</dd>
-            </div>
-            <div class="col-md-4">
-                <dt>Rol de Usuario</dt>
-                <dd>{{usuario.role}}</dd>
-            </div>
-        </div>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                   Detalle Usuario
+                </mat-card-title>
+            </mat-card-header>
+            
+            <mat-card-content>
 
-        <div class="row">
-            <div class="col-md-4">
-                <dt>Status</dt>
-                <dd>{{usuario.stat}}</dd>
-            </div>
+                <div class="row">
 
-            <div class="col-md-4">
-                <dt>Sesion</dt>
-                <dd>{{log}}</dd>
-            </div>
+                    <div class="col-md-4">
+                        <dt>Documento</dt>
+                        <dd>{{usuario.username}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Nombres</dt>
+                        <dd>{{usuario.na}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Rol de Usuario</dt>
+                        <dd>{{usuario.role}}</dd>
+                    </div>
+        
+                </div>
 
-            <div class="col-md-4">
-                <dt>Tipo Matriz</dt>
-                <dd>{{usuario.matrizarp_des}}</dd>
-            </div>
-        </div>
+                <div class="row">
 
-        <div class="row">
-            <div class="col-md-4">
-                <dt>Campaña</dt>
-                <dd>{{usuario.campana_des}}</dd>
-            </div>
+                    <div class="col-md-4">
+                        <dt>Status</dt>
+                        <dd>{{usuario.stat}}</dd>
+                    </div>
+        
+                    <div class="col-md-4">
+                        <dt>Sesion</dt>
+                        <dd>{{log}}</dd>
+                    </div>
+                    
+                </div>
 
-            <div class="col-md-4"></div>
+            </mat-card-content>
+        </mat-card>
 
-            <div class="col-md-4"></div>
-        </div>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Complemento Contact Center
+                </mat-card-title>
+            </mat-card-header>
+            
+            <mat-card-content>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <dt>Tipo Matriz</dt>
+                        <dd>{{usuario.matrizarp_des}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Campaña</dt>
+                        <dd>{{usuario.campana_des}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Usuario de Red</dt>
+                        <dd>{{usuario.us_red}}</dd>
+                    </div>
+        
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <dt>Supervisor de Agente</dt>
+                        <dd>{{usuario.supervisor}}</dd>                     
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Formador de Agente</dt>
+                        <dd>{{usuario.formador}}</dd>
+                    </div>
+
+                </div>
+
+            </mat-card-content>
+        </mat-card>
 
     </mat-dialog-content>
 </div>
@@ -79,12 +113,17 @@
             <mat-dialog-content>
                 <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formUsuario">
 
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Company</mat-label>
-                        <input matInput disabled value="Cali Express">
-                    </mat-form-field>
 
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                           Detalle Usuario
+                        </mat-card-title>
+                    </mat-card-header>
+                    
+                <mat-card-content>
                     <div class="row">
+
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Numero Identificaci&oacute;n</mat-label>
@@ -102,9 +141,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <!-- <div class="col">
-                            <input type="hidden" formArrayName="idPersonale">
-                        </div> -->
+
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Rol:</mat-label>
@@ -118,8 +155,31 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
+
                     </div>
+
                     <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="name" autocomplete="off"
+                                    oninput="javascript:this.value=this.value.toUpperCase();" readonly>
+                                <mat-error *ngIf="name.hasError('required')">
+                                    Name is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Apellido</mat-label>
+                                <input matInput formControlName="surname" autocomplete="off"
+                                    oninput="javascript:this.value=this.value.toUpperCase();" readonly>
+                                <mat-error *ngIf="surname.hasError('required')">
+                                    Surname is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Status:</mat-label>
@@ -133,6 +193,36 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Sesion:</mat-label>
+                                <mat-select formControlName="login" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let idet of login" [value]="idet.sesion">
+                                        {{idet.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                </mat-card-content>
+                </mat-card>
+
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                           Complemento Contact Center
+                        </mat-card-title>
+                    </mat-card-header>
+
+                    <div class="row">
+
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Tipo de Matriz:</mat-label>
@@ -159,56 +249,45 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Sesion:</mat-label>
-                                <mat-select formControlName="login" [errorStateMatcher]="matcher">
-                                    <mat-option *ngFor="let idet of login" [value]="idet.sesion">
-                                        {{idet.viewValue}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <!-- <div class="col-md-4">
-                            <mat-form-field class="example-form-field" appearance="fill">
-                                <mat-label>Teléfono</mat-label>
-                                <input matInput formControlName="phone" type="number" [(ngModel)]="value3">
-                                <button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value3=''">
-                                    <mat-icon>close</mat-icon>
-                                </button>
-                            </mat-form-field>
-                        </div> -->
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Nombre</mat-label>
-                                <input matInput formControlName="name" autocomplete="off"
-                                    oninput="javascript:this.value=this.value.toUpperCase();" readonly>
-                                <mat-error *ngIf="name.hasError('required')">
-                                    Name is <strong>required</strong>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Apellido</mat-label>
-                                <input matInput formControlName="surname" autocomplete="off"
-                                    oninput="javascript:this.value=this.value.toUpperCase();" readonly>
-                                <mat-error *ngIf="surname.hasError('required')">
-                                    Surname is <strong>required</strong>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Usuario de red</mat-label>
                                 <input matInput formControlName="us_red">
                             </mat-form-field>
                         </div>
+
                     </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Supervisor de Agente:</mat-label>
+                                <mat-select formControlName="supervisor" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let usert of superviso" [value]="usert.idUser">
+                                        {{usert.name}} {{usert.surname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Formador de Agente:</mat-label>
+                                <mat-select formControlName="formador" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let usert of formadores" [value]="usert.idUser">
+                                        {{usert.name}} {{usert.surname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+
+                    <mat-card-content>
+                    </mat-card-content>
+                </mat-card>
+
                 </form>
             </mat-dialog-content>
             <div mat-dialog-actions>

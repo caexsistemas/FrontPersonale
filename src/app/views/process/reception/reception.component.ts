@@ -94,7 +94,7 @@ export class ReceptionComponent implements OnInit {
 
   generateTable(data) {
     this.displayedColumns = [
-      "view",
+      // "view",
       "dis_fec",
       "dis_doc",
       "dis_idPersonale",
@@ -102,6 +102,7 @@ export class ReceptionComponent implements OnInit {
       "dis_fal",
       "dis_idp_sol",
       "dis_po_sol",
+      "dis_est",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -223,5 +224,40 @@ export class ReceptionComponent implements OnInit {
   // }
   // applyFilter(search) {
   //   this.dataSource.filter = search.trim().toLowerCase();
+  // }
+  pdf(id) {
+    //this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        //console.log(data);
+        if (data.success == true) {
+          const link = document.createElement("a");
+          link.href = data.data.url;
+          link.download = data.data.file;
+          link.target = "_blank";
+          link.click();
+          this.handler.showSuccess(data.data.file);
+          this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.handler.showError("Se produjo un error");
+        this.loading = false;
+      }
+    );
+  }
+  // onTriggerSheetClick() {
+  //   this.matBottomSheet.open(ReportsFormalitiesComponent);
   // }
 }

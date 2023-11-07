@@ -52,3 +52,10 @@ margin-top: 16px;
     text-align: justify;
     font-weight: 610;
   } */
+  .mat-tooltip {
+    font-size: 16px; /* Tamaño de fuente deseado */
+    max-width: 400px; /* Ancho máximo del tooltip */
+    white-space: normal; /* Permitir texto en varias líneas */
+    text-align: left; /* Alinear el texto del tooltip a la izquierda */
+    padding: 10px; /* Espaciado interno del tooltip */
+  }

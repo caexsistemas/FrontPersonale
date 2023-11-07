@@ -1,18 +1,241 @@
+<div class="card mt-6" *ngIf="view == 'viewsub'">
+
+    <div >
+        <div class="card-header">
+            <h5 class="modal-title" mat-dialog-title>
+                <p class="title-modal" >{{this.title}}</p>
+                <div mat-icon-button align="end"> 
+                    <button mat-button class="btn btn-primary btn-close" (click)="closeDialog()">
+                        <mat-icon>close</mat-icon>
+                    </button>               
+                </div>   
+            </h5>
+        </div>
+    </div>
+
+    <div mat-dialog-content class="card-body">
+
+            <mat-card>
+
+                <mat-card-header>
+                    <mat-card-title>
+                       Detalle Asesor
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <dt>Login:</dt>
+                            <dd>{{dataCad.login}}</dd>    
+                        </div>
+        
+                        <div class="col-md-4">
+                            <dt>Nombre Asesor:</dt>
+                            <dd>{{dataCad.name}}</dd> 
+                        </div>
+        
+                        <div class="col-md-4">
+                            <dt>Fecha de Monitoreo:</dt>
+                            <dd>{{dataCad.monitoring_date}}</dd> 
+                        </div>     
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <dt>Tipo Matriz:</dt>
+                            <dd>{{dataCad.matrizarp}}</dd> 
+                        </div>
+                        <div class="col-md-4">
+                            <dt>Campaña:</dt>
+                            <dd>{{dataCad.campana}}</dd>
+                        </div>
+                        <div class="col-md-4">
+                            <dt>Nota Final:</dt>
+                            <dd>{{dataCad.final_note_caex}}</dd>
+                        </div>
+                    </div>
+
+					<div class="row">
+                        <div class="col-md-12">
+                            <dt>Observación/Oportunidades de Mejora:</dt>
+                            <dd>{{dataCad.obs_obs}}</dd>
+                        </div>
+                    </div>
+					
+					<div class="row">
+                        <div class="col-md-12">
+                            <dt>Aspectos Positivos:</dt>
+                            <dd>{{dataCad.obs_asp_pos}}</dd>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+
+            </mat-card>
+
+            <mat-card>
+
+                <mat-card-header>
+                    <mat-card-title>
+                        Monitoreo de Calidad | Retroalimentaci&oacute;n  
+                    </mat-card-title>
+                    <mat-card-title subtitle><h6>{{dataCad.creatRetro}} | Fecha de realización: {{dataCad.fecha_pda}}</h6></mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <dt>Descripción PDA:</dt>
+                            <dd>{{dataCad.descri_pda}}</dd>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <dt>Compromiso del Asesor:</dt>
+                            <dd>{{dataCad.compr_ases}}</dd>
+                        </div>       
+                    </div>
+                </mat-card-content>
+                
+            </mat-card>
+    </div>
+
+</div>
+
+<div class="card mt-6" *ngIf="view == 'updatesub'">
+
+    <div >
+        <div class="card-header">
+            <h5 class="modal-title" mat-dialog-title>
+                <p class="title-modal" >{{this.title}}</p>
+                <div mat-icon-button align="end"> 
+                    <button mat-button class="btn btn-primary btn-close" (click)="closeDialog()">
+                        <mat-icon>close</mat-icon>
+                    </button>               
+                </div>   
+            </h5>
+        </div>
+    </div>
+
+    <div mat-dialog-content class="card-body">
+        <form form *ngIf=" view == 'updatesub' " [formGroup]="formProcesDialog" method="POST">
+
+            <mat-card>
+
+                <mat-card-header>
+                    <mat-card-title>
+                       Detalle Asesor
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <dt>Login:</dt>
+                            <dd>{{dataCad.login}}</dd>    
+                        </div>
+        
+                        <div class="col-md-4">
+                            <dt>Nombre Asesor:</dt>
+                            <dd>{{dataCad.name}}</dd> 
+                        </div>
+        
+                        <div class="col-md-4">
+                            <dt>Fecha de Monitoreo:</dt>
+                            <dd>{{dataCad.monitoring_date}}</dd> 
+                        </div>     
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>Tipo Matriz:</dt>
+                            <dd>{{dataCad.matrizarp}}</dd> 
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Campaña:</dt>
+                            <dd>{{dataCad.campana}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Nota Final:</dt>
+                            <dd>{{dataCad.final_note_caex}}</dd>
+                        </div>
+                    </div>
+
+					<div class="row">
+                        <div class="col-md-12">
+                            <dt>Observación/Oportunidades de Mejora:</dt>
+                            <dd>{{dataCad.obs_obs}}</dd>
+                        </div>
+                    </div>
+					
+					<div class="row">
+                        <div class="col-md-12">
+                            <dt>Aspectos Positivos:</dt>
+                            <dd>{{dataCad.obs_asp_pos}}</dd>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+
+            </mat-card>
+
+            <mat-card>
+
+                <mat-card-header>
+                    <mat-card-title>
+                        Monitoreo de Calidad | Retroalimentaci&oacute;n  
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Descripci&oacute;n PDA:</mat-label>
+                                <textarea matInput formControlName="descri_pda"  placeholder="" required></textarea>
+                            </mat-form-field>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field class="example-full-width" >
+                                <mat-label>Compromiso del Asesor</mat-label>
+                                <textarea matInput formControlName="compr_ases"  placeholder="" required></textarea>
+                            </mat-form-field>
+                        </div>       
+                    </div>
+                </mat-card-content>
+                
+            </mat-card>
+            <div mat-dialog-actions align="center">
+                <div class="text-center col-12 mb-3"> 
+                    <button *ngIf="view == 'updatesub'" mat-button class="btn btn-success"
+                        (click)="onSubmitUpdateSub()">Guardar</button>
+    
+                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                </div>
+              </div>
+        </form>
+    </div>
+
+</div>
+
 <div class="card mt-6">
     <div *ngIf="view == 'view'">
         <div class="card-header">
-            <h5 class="modal-title">
-                <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
-                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                
+            <h5 class="modal-title" mat-dialog-title>
+                <p class="title-modal" *ngIf="view == 'view'" >INFORMACION DETALLADA</p>
+                <div mat-icon-button align="end">
+                    <button mat-button class="btn btn-primary btn-close" (click)="closeDialog()">
+                        <mat-icon>close</mat-icon>
+                    </button>               
+                </div>   
             </h5>
         </div>
-
-        <div class="card-body">
-            <mat-dialog-content>
+      
+        <mat-dialog-content>
+            <div class="card-body">
             <mat-accordion class="example-headers-align">
                
                 <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
@@ -780,9 +1003,10 @@
                     </div>
                 </div>
             </div>
+        </div>
             </mat-dialog-content>
             
-        </div>
+        
 
     </div>
 </div>
@@ -793,20 +1017,18 @@
 <!-- ++++++++++++++++++++++-->
 
 <div class="card mt-6">
-    <div *ngIf="view == 'create' || view == 'update'">
-        <div class="card-header">
-            <h5 class="modal-title">
-                <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
-                <p class="title-modal" *ngIf="view == 'update'">Editar</p>
-                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </h5>
+    <div  *ngIf="view == 'create' || view == 'update'">
+       
+        <div mat-dialog-title class="card-header"> 
+            <p class="title-modal" *ngIf="view == 'create' || view == 'update'">{{this.title}}</p>
+            <div mat-icon-button align="end">
+                <button mat-button class="btn btn-primary btn-close" (click)="closeDialog()">
+                    <mat-icon>close</mat-icon>
+                </button>                 
+            </div>                        
         </div>
 
-        <div class="card-body">
-            <mat-dialog-content>
+        <div mat-dialog-content class="card-body">
             <mat-accordion class="example-headers-align">
                 <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formProces"> 
                 <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
@@ -1970,23 +2192,21 @@
                     </mat-action-row>
                   </mat-expansion-panel>
 
+                  <div mat-dialog-actions align="center">
+                    <div class="text-center col-12 mb-3">
+                        <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+                            (click)="onSubmitUpdate()">Actualizar</button>
+        
+                        <button *ngIf="view == 'create'" mat-button class="btn btn-success"
+                            (click)="onSubmi()">Guardar</button>
+        
+                        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                    </div>
+                  </div>
 
               </form> 
               </mat-accordion>
-              <div mat-dialog-actions>
-                <div class="text-center col-12">
-                    <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                        (click)="onSubmitUpdate()">Actualizar</button>
-
-                    <button *ngIf="view == 'create'" mat-button class="btn btn-success"
-                        (click)="onSubmi()">Guardar</button>
-
-                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
-                </div>
-            </div>
-            </mat-dialog-content>
-
         </div>
-
+        
     </div>
 </div>
