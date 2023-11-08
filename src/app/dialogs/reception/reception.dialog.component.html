@@ -177,7 +177,7 @@
                   </mat-step> -->
                   <mat-step>
                     <ng-template matStepLabel>Motivo Citación</ng-template>
-                    <form (ngSubmit)="nextStepCase(2)" [formGroup]="formCase">
+                    <form (ngSubmit)="nextStepCase(0)" [formGroup]="formCase">
                       <div class="row">
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width ">
@@ -225,7 +225,7 @@
                   </mat-step>
                   <mat-step>
                     <ng-template matStepLabel>Modalidad</ng-template>
-                    <form (ngSubmit)="nextStepCase(3)" [formGroup]="formCase">
+                    <form (ngSubmit)="nextStepCase(2)" [formGroup]="formCase">
                       <div class="row mt-2">
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width ">
@@ -269,7 +269,7 @@
 
                   <mat-step>
                     <ng-template matStepLabel>Fecha y hora Citación</ng-template>
-                    <form (ngSubmit)="nextStepCase(4)" [formGroup]="formCitation">
+                    <form (ngSubmit)="nextStepCase(3)" [formGroup]="formCitation">
                       <div class="row mt-2">
 
                         <div class="col-md-4">

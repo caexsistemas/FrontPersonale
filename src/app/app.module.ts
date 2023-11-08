@@ -153,18 +153,14 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
-<<<<<<< HEAD
-import {MatMenuModule} from '@angular/material/menu';
-import { CargueContactComponent } from './views/callcenter/cargue-contact/cargue-contact.component';
+import { CargueContactComponent } from "./views/callcenter/cargue-contact/cargue-contact.component";
 import { cargueBaseDialog } from "./dialogs/cargueBase/cargueBase.dialog.component";
-=======
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CitationDialog } from "./dialogs/citation/citation.dialog.component";
 import { ClarificationDialog } from "./dialogs/clarification/clarification.dialog.component";
 import { PostponementDialog } from "./dialogs/postponement/postponement.dialog.component";
 import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.component";
 import { MatMenuModule } from "@angular/material/menu";
->>>>>>> 0e0848471385aa5ce9a6b355148871d327ea97b1
 
 const routes: Routes = [];
 @NgModule({
@@ -308,15 +304,10 @@ const routes: Routes = [];
     DisciplinaryDialog,
     UpdateApplicationsDialog,
     ReceptionDialogComponent,
-<<<<<<< HEAD
-    CargueContactComponent,
-    cargueBaseDialog
-=======
     CitationDialog,
     ClarificationDialog,
     PostponementDialog,
     ConclusionDialog,
->>>>>>> 0e0848471385aa5ce9a6b355148871d327ea97b1
   ],
   providers: [
     {
