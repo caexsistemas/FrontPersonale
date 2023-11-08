@@ -43,6 +43,7 @@ import { CustomerComponent } from "./customer/customer.component";
 import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
+import { CargueContactComponent } from "./cargue-contact/cargue-contact.component";
 //import { ReportsRqcalidadComponent } from "../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
 
 const ngWizardConfig: NgWizardConfig = {
@@ -80,6 +81,7 @@ const ngWizardConfig: NgWizardConfig = {
     UnicalldataComponent,
     CustomerComponent,
     DwlcontactComponent,
+    CargueContactComponent,
   ],
 })
 export class CallcenterModule {}
