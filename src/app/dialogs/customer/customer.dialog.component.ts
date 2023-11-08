@@ -88,12 +88,12 @@ export interface PeriodicElement {
               switch (this.view) {
                   case 'create':
                   this.initForms();
-                  this.title = "Crear Medicion";
+                  this.title = "CREAR MEDICION CUSTOMER";
               break;
               case 'update':
                   this.tipMatriz = this.data.tipoMat;
                   this.initForms();
-                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA";
+                  this.title = "EDITAR MEDICION CUSTOMER";
                   this.idAds = this.data.codigo;
               break;
               case 'view':

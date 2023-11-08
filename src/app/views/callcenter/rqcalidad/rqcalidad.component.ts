@@ -127,7 +127,7 @@ export class RqcalidadComponent implements OnInit {
     this.infoModal.show();
   }
 
-  option(action, codigo = null, tipoMat) {
+  option(action, codigo = null, tipoMat, retro = null) {
     var dialogRef;
     switch (action) {
       case "create":
@@ -200,6 +200,50 @@ export class RqcalidadComponent implements OnInit {
           dialogRef.afterClosed().subscribe((result) => {
           });
           break;
+          
+          case "updatesub":
+            if( ( (tipoMat == '136/2' || tipoMat == '136/3') 
+                  &&  (this.cuser.role == 1 || this.cuser.role == 21 || this.cuser.role == 22)
+                ) || ( (this.cuser.role == 31 && tipoMat == '136/3' && retro == '17/0') 
+                     || (this.cuser.role == 31 && tipoMat == '136/2')
+                )
+              ){
+              this.loading = true;
+              dialogRef = this.dialog.open(RqcalidadDialog, {
+                data: {
+                  window: "updatesub",
+                  codigo
+                },
+              });
+              dialogRef.disableClose = true;
+              // LOADING
+              dialogRef.componentInstance.loading.subscribe((val) => {
+                this.loading = val;
+              });
+              // RELOAD
+              dialogRef.componentInstance.reload.subscribe((val) => {
+                this.sendRequest();
+              });             
+            }else if(tipoMat == '136/4'){
+              this.loading = true;
+              dialogRef = this.dialog.open(RqcalidadDialog, {
+                data: {
+                  window: "viewsub",
+                  codigo
+                },
+              });
+              dialogRef.disableClose = true;
+              // LOADING
+              dialogRef.componentInstance.loading.subscribe((val) => {
+                this.loading = val;
+              });
+              // RELOAD
+              dialogRef.componentInstance.reload.subscribe((val) => {
+                this.sendRequest();
+              });
+            }
+          break;
+
     }
   }
 
@@ -261,5 +305,6 @@ export class RqcalidadComponent implements OnInit {
     }
     return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
   }
+  hola(){console.log("hola")}
 
 }
