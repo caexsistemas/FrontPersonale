@@ -43,5 +43,9 @@ table {
     display: none;
     width: 100%;
   }
+
+  .btn-success {
+    color: #ffffff !important;
+  }
   
   

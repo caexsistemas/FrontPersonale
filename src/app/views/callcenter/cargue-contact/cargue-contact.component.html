@@ -51,17 +51,22 @@
 
             <div class="row">
 
-                <div class="col-md-6" >
+                <div class="col-md-8" >
                     <div class="custom-file-input-container">
                         <input type="file" id="fileInput" formControlName="file" (change)="onFileSelected($event)" #fileInput style="display: none;">
                         <button [ngStyle]="{'background-color': isFileValid ? '#007bff' : '#dc3545', 'color': '#fff'}" class="custom-file-button" (click)="fileInput.click()">Seleccionar Archivo</button>
                         <span class="selected-file-name" [ngStyle]="{'color': isFileValid ? '#333' : '#dc3545'}">{{selectedFileName}}</span>
                       </div>
                 </div>
-                <div class="col-md-6 mt-1">
-                    <button mat-button class="btn btn-primary" style="font-weight: bold;font-size: 17px;" mat-button
-                    
-                    (click)="onSubmiBase()">Cargue de Base</button>
+                <div class="col-md-2 mt-1">
+                  <button mat-button class="btn btn-primary" style="font-weight: bold;font-size: 17px;" mat-button
+                    (click)="onSubmiBase()">Cargue de Base
+                  </button>
+                </div>
+                <div class="col-md-2 mt-1">
+                  <button mat-button class="btn btn-success" style="font-weight: bold;font-size: 17px;" mat-button
+                    (click)="dowloadExcel()" [disabled]="this.isFilExist" title="{{this.dowlExcel.name}}">Base
+                  </button>
                 </div>
 
             </div>

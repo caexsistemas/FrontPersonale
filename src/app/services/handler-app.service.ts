@@ -16,6 +16,7 @@ export class HandlerAppService {
   //   delete: false
   // };  // permisos dentro de la aplicacion
   permissions:any;
+  intervalId: any;
   permissionsSecundary:any = {
     view:           true,
     update:         true,
@@ -110,6 +111,7 @@ export class HandlerAppService {
   }
 
   handlerError(data){
+    this.closeShow();
     if(data.hasOwnProperty('action')){
       if(data.action == 'closeSession'){
         Swal.fire({
@@ -146,6 +148,7 @@ export class HandlerAppService {
   }
 
   showError(message=null){
+    this.closeShow();
     if(message== null){
       Swal.fire({
         title: '',
@@ -161,17 +164,64 @@ export class HandlerAppService {
     }
   }
 
-
-
+  showTimePross(title): void {
+    let startTime: number = Date.now(); // Obtener la marca de tiempo en milisegundos
+  
+    // Limpiar el intervalo si ya está activo
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  
+    const swalInstance = Swal.fire({
+      title: title,
+      html: "Tiempo transcurrido: <b>0:00:00</b>", // Inicializado con 0 horas, 0 minutos y 0 segundos
+      imageUrl: 'assets/img/brand/loading-gear.gif', // Reemplaza 'url_del_gif_de_carga' con la URL de tu GIF
+      imageAlt: 'Cargando...',
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      showConfirmButton: false,  // Ocultar el botón "OK"
+      didOpen: () => {
+        // Actualizar el tiempo transcurrido cada segundo
+        const updateElapsedTime = () => {
+          const currentTime = Date.now();
+          const elapsedTime = currentTime - startTime;
+  
+          const hours = Math.floor(elapsedTime / 3600000); // 1 hora = 3600000 milisegundos
+          const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+          const seconds = Math.floor((elapsedTime % 60000) / 1000);
+  
+          const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+          
+          Swal.update({
+            html: `Tiempo transcurrido: <b>${formattedTime}</b>`,
+          });
+        };
+  
+        // Actualizar cada segundo
+        this.intervalId = setInterval(updateElapsedTime, 1000);
+      },
+      willClose: () => {
+        // Limpiar el intervalo cuando se cierra la alerta
+        clearInterval(this.intervalId);
+      },
+    });
+  }
+  
+  closeShow(){
+    Swal.close();
+  }
+  
   showSuccess(message){
+    this.closeShow();
     Swal.fire({
       title: '',
-      text: message,
+      html: message,
       icon: 'success'
     });
   }
 
   showInfo(message, title, modulo){
+    this.closeShow();
     Swal.fire({
       title: title,
       html: message,     

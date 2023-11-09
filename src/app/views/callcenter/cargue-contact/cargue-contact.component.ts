@@ -40,6 +40,7 @@ export class CargueContactComponent implements OnInit {
   dataPdf: any = [];
   loading: boolean = false;
   isFileValid: boolean = true;
+  isFilExist: boolean = true;
   displayedColumns: any = [];
   dataSource: any = [];
   public detaNovSal = [];
@@ -55,9 +56,14 @@ export class CargueContactComponent implements OnInit {
   selectedFile: File;
   archivo = {
     nombre: null,
-    nombreArchivo: null,
-    base64textString: null
-}
+    base64file: null,
+    extension: null
+  }
+
+  dowlExcel = {
+    name: null,
+    url: null
+  };
   //Control Permiso
   component = "/callcenter/cargue-contact";
   //History
@@ -143,6 +149,11 @@ export class CargueContactComponent implements OnInit {
         this.selectedFileName = file.name;
         this.selectedFile = event.target.files[0];
         this.isFileValid = true;       
+        var reader = new FileReader();
+        reader.onload = this._handleReaderLoaded.bind(this);
+        reader.readAsBinaryString(file);
+        this.archivo.extension = fileExtension;
+        this.archivo.nombre    = file.name.replace(/\.[^/.]+$/, '');
       } else {
         this.selectedFileName = 'Archivo no permitido';
         this.isFileValid = false;
@@ -153,14 +164,19 @@ export class CargueContactComponent implements OnInit {
     }
   }
 
+  _handleReaderLoaded(readerEvent){
+    var binaryString = readerEvent.target.result;
+    this.archivo.base64file = btoa(binaryString);
+  }
+
   onSubmiBase(){
-    if (this.cargForm.valid) {
+    if (this.cargForm.valid && this.isFileValid) {
       this.loading = true;
-      
+      this.handler.showTimePross("Procesando Base: "+this.archivo.nombre);
       
       let body = {
           carBase: this.cargForm.value,
-          fileArc: JSON.stringify(this.cargForm.value.file)
+          archivoRes: this.archivo
       }
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
@@ -170,26 +186,43 @@ export class CargueContactComponent implements OnInit {
           .subscribe(
               data => {
                   if (data.success) {
-
-                      this.handler.showSuccess(data.message);
-
+                     
+                    this.handler.closeShow();
+                    this.dowlExcel.name = data.data['name_file'];
+                    this.dowlExcel.url  = data.data['url_file'];
+                    this.isFilExist     = false;
+                    this.handler.showSuccess("La carga se completó con éxito; ahora puedes descargar haciendo clic en el botón <b>Base</b> o al siguiente <b>Link</b> <a href='"+this.dowlExcel.url+"'>"+this.dowlExcel.name+"</a>");
                       
+
+                      this.loading = false;
                   } else {
+                      this.handler.closeShow();
                       this.handler.handlerError(data);
                       this.loading = false;
                   }
               },
               error => {
+                this.handler.closeShow();
                   this.handler.showError();
                   this.loading = false;
               }
           );
     }else {
-        this.handler.showError('Complete la informacion necesaria' + this.cargForm.valid);
+      this.handler.closeShow();
+        this.handler.showError('Complete la informacion Necesaria');
         this.loading = false;
     }
   } 
   
-
+  
+  dowloadExcel() {
+    const link = document.createElement("a");
+    link.href = this.dowlExcel.url;
+    link.download = this.dowlExcel.name;
+    link.target = "_blank";
+    link.click();
+    this.handler.showSuccess(this.dowlExcel.name);
+    this.loading = false;
+ }
 
 }
