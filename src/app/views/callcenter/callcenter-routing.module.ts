@@ -1,6 +1,4 @@
 /**
-<<<<<<< HEAD
-<<<<<<< HEAD
     * @description      : 
     * @author           : Maricel Jimenez
     * @group            : 
