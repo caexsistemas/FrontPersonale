@@ -1,23 +1,32 @@
-import { Component, ComponentFactoryResolver, Injectable,OnInit,  ViewEncapsulation} from '@angular/core';
-import { Tools } from '../../Tools/tools.page';
-import { navItems } from '../../_nav';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { WebApiService } from '../../services/web-api.service';
-import { INavData } from '@coreui/angular';
-import { HandlerAppService } from '../../services/handler-app.service';
-import { Observable } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NotificationDialog } from '../../dialogs/notification/notification.dialog.component';
+import {
+  Component,
+  ComponentFactoryResolver,
+  Injectable,
+  OnInit,
+  ViewEncapsulation,
+} from "@angular/core";
+import { Tools } from "../../Tools/tools.page";
+import { navItems } from "../../_nav";
+import { Router, ActivatedRoute, Params } from "@angular/router";
+import { WebApiService } from "../../services/web-api.service";
+import { INavData } from "@coreui/angular";
+import { HandlerAppService } from "../../services/handler-app.service";
+import { Observable } from "rxjs";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
+import { NotificationDialog } from "../../dialogs/notification/notification.dialog.component";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './default-layout.component.html',
-  styleUrls: ['./default-layout.component.css'],
+  selector: "app-dashboard",
+  templateUrl: "./default-layout.component.html",
+  styleUrls: ["./default-layout.component.css"],
   encapsulation: ViewEncapsulation.None,
-  providers: [Tools]
+  providers: [Tools],
 })
-
-export class DefaultLayoutComponent{
+export class DefaultLayoutComponent {
   public sidebarMinimized = false;
   // public navItems = navItems;
   public identity;
@@ -29,15 +38,17 @@ export class DefaultLayoutComponent{
   public menu: any;
   public item: any;
   public subitem: any;
-  endpoint: string = '/menu';
-  public permissions:any[]  = Array();
+  endpoint: string = "/menu";
+  public permissions: any[] = Array();
   public userLogin: any;
   public checktoken: boolean;
   public conteNotifi: number;
+  public absNotification: any;
   public icoNoti: string = "cui-bell";
+  component = "/procesalud/absenteeisms";
+  endpointAbs: string = "/validationAbs";
+
   hidden = true;
-
-
 
   // public navItems: INavData[] = [
   //   {
@@ -46,7 +57,7 @@ export class DefaultLayoutComponent{
   //     icon: 'icon-speedometer'
   //   },
   //   {
-  //     title: true, 
+  //     title: true,
   //     name: ''
   //   },
   //   {
@@ -75,76 +86,72 @@ export class DefaultLayoutComponent{
 
   public navItems;
 
-  constructor(private _tools: Tools,
+  constructor(
+    private _tools: Tools,
     private _router: Router,
     private WebApiService: WebApiService,
     public dialog: MatDialog,
-    private handler: HandlerAppService) {
-
-
+    private handler: HandlerAppService
+  ) {
     this.identity = _tools.getIdentity();
     this.token = _tools.getToken();
-    this.cuser = localStorage.getItem('currentUser');
-    this.userLogin = JSON.parse(localStorage.getItem('currentUser'));
-
+    this.cuser = localStorage.getItem("currentUser");
+    this.userLogin = JSON.parse(localStorage.getItem("currentUser"));
   }
 
   ngOnInit(): void {
     this.checkToken();
     this.checkSession();
     this.sendRequest();
-    this.RecarNotification();    
+    this.RecarNotification();
   }
 
   sendRequest() {
-
-    this.WebApiService.postRequest(this.endpoint, this.cuser, {})
-      .subscribe(
-        response => {
-          // this.permissions = this.handler.getPermissions(this.component);
-          if (response.success) {
-            this.item = response.data[0];
-            this.subitem = response.data[1];
-            this.navItems = this.checkMenu(this.item, this.subitem);
-            this.handler.permissions = this.getpermissionsSaved(this.subitem);            
-            this.loading = false;
-          } else {
-            this.handler.handlerError(response);
-          }
-        },
-        error => {
+    this.WebApiService.postRequest(this.endpoint, this.cuser, {}).subscribe(
+      (response) => {
+        // this.permissions = this.handler.getPermissions(this.component);
+        if (response.success) {
+          this.item = response.data[0];
+          this.subitem = response.data[1];
+          this.navItems = this.checkMenu(this.item, this.subitem);
+          this.handler.permissions = this.getpermissionsSaved(this.subitem);
           this.loading = false;
-          this.handler.showError();
+        } else {
+          this.handler.handlerError(response);
         }
-      );
+      },
+      (error) => {
+        this.loading = false;
+        this.handler.showError();
+      }
+    );
   }
 
-  getpermissionsSaved(subitem){
-    var permision :any[]  = Array();
+  getpermissionsSaved(subitem) {
+    var permision: any[] = Array();
     subitem.forEach(function (row) {
       let perm = row.perm;
-      perm = perm.split('|');
+      perm = perm.split("|");
       permision[row.url] = perm;
     });
-    
+
     return permision;
   }
 
   checkMenu(item, subitem) {
-    
     var option = [];
 
     var optionItem;
     var optionSubitem;
     var op = {
-      name: 'TH 360 / '+this.userLogin.userProfile+'',
-      url: '/dashboard',
-    }
-    
+      name: "TH 360 / " + this.userLogin.userProfile + "",
+      url: "/dashboard",
+    };
+
     var title = {
       title: true,
-      name: this.userLogin.user
-    }
+      name: this.userLogin.user,
+    };
     option.push(op);
     option.push(title);
 
@@ -155,205 +162,191 @@ export class DefaultLayoutComponent{
           optionSubitem = {
             name: row.name,
             url: row.url,
-            icon: '',
-          }
+            icon: "",
+          };
           children.push(optionSubitem);
         }
-
       });
       optionItem = {
         name: value.item,
-        url: '/admin',
+        url: "/admin",
         icon: value.icon,
-        children: children
-      }
+        children: children,
+      };
       option.push(optionItem);
     });
-   
-    return option;
 
+    return option;
   }
 
   checkSession() {
-
     // ejecutar consulta al servidor para verificar si el token es valido aun...
-    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
-    //Variables 
+    this.cuser = JSON.parse(localStorage.getItem("currentUser"));
+    //Variables
     let body = {
       iduser: this.cuser.iduser,
       token: this.cuser.token,
-      role:  this.cuser.rol
-    }
-   
+      role: this.cuser.rol,
+    };
+
     //Validar Informacion del token
     if (this.cuser != null) {
-
-      this.WebApiService.postRequest('/checktoken', body, {})
-      .subscribe(
-        response => {
-        
-          if (this.cuser.user != null && this.cuser.token != null 
-            && this.cuser.username != null && response.success ) {
-              
+      this.WebApiService.postRequest("/checktoken", body, {}).subscribe(
+        (response) => {
+          if (
+            this.cuser.user != null &&
+            this.cuser.token != null &&
+            this.cuser.username != null &&
+            response.success
+          ) {
             let route = window.location.pathname;
             if (route == "/") {
-              this._router.navigate(['dashboard']);
+              this._router.navigate(["dashboard"]);
             } else {
               this._router.navigate([route]);
             }
             this.isLogged = true;
-    
           } else {
-            
             this.isLogged = false;
             this.cuser = null;
-            localStorage.removeItem('isLogged');
-            localStorage.removeItem('currentUser');
-            this._router.navigate(['/']);
+            localStorage.removeItem("isLogged");
+            localStorage.removeItem("currentUser");
+            this._router.navigate(["/"]);
             this.handler.handlerError(response.message);
           }
         },
-        error => {
-            
-            this.isLogged = false;
-            this.cuser = null;
-            localStorage.removeItem('isLogged');
-            localStorage.removeItem('currentUser');
-            this._router.navigate(['/']);
-            this.handler.handlerError('(E): '+error.message);
+        (error) => {
+          this.isLogged = false;
+          this.cuser = null;
+          localStorage.removeItem("isLogged");
+          localStorage.removeItem("currentUser");
+          this._router.navigate(["/"]);
+          this.handler.handlerError("(E): " + error.message);
         }
       );
-
     } else {
-
       this.isLogged = false;
       let search;
       let filter = {};
       if (window.location.search != "") {
-        search = window.location.search.replace('?', '');
-        search = search.split('&');
-        search.forEach(element => {
-          let aux = element.split('=');
+        search = window.location.search.replace("?", "");
+        search = search.split("&");
+        search.forEach((element) => {
+          let aux = element.split("=");
           filter[aux[0]] = aux[1];
         });
-        this._router.navigate(['/login'], { queryParams: filter });
+        this._router.navigate(["/login"], { queryParams: filter });
       } else {
-        this._router.navigate(['/login']);
+        this._router.navigate(["/login"]);
       }
     }
   }
 
   logout() {
-
     let body = {
       idPersonale: this.cuser.idPersonale,
       iduser: this.cuser.iduser,
       role: this.cuser.role,
       token: this.cuser.token,
-      username: this.cuser.username
-    }
+      username: this.cuser.username,
+    };
     //Limpieza
     this.isLogged = false;
     this.cuser = null;
 
-    this.WebApiService.postRequest('/logout', body, {
-       
-    })
-      .subscribe(
-        response => {
-        
-          if (response.success) {
-            this.handler.showSuccess('Sesión culminada con éxito, gracias hasta pronto.');
-          } else {
-            this.handler.handlerError('Error: '+response);
-          }
-        },
-        error => {
-          this.loading = false;
-          this.handler.showError(error.message);
+    this.WebApiService.postRequest("/logout", body, {}).subscribe(
+      (response) => {
+        if (response.success) {
+          this.handler.showSuccess(
+            "Sesión culminada con éxito, gracias hasta pronto."
+          );
+        } else {
+          this.handler.handlerError("Error: " + response);
         }
-      );
+      },
+      (error) => {
+        this.loading = false;
+        this.handler.showError(error.message);
+      }
+    );
 
-      localStorage.removeItem('isLogged');
-      localStorage.removeItem('currentUser');
-      this._router.navigate(['/']);
+    localStorage.removeItem("isLogged");
+    localStorage.removeItem("currentUser");
+    this._router.navigate(["/"]);
   }
 
-  checkToken(){
-    
-  }
+  checkToken() {}
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
 
-  prueba_cli(){
-    const hola = new DefaultLayoutComponent( this._tools ,
+  prueba_cli() {
+    const hola = new DefaultLayoutComponent(
+      this._tools,
       this._router,
-      this.WebApiService ,
+      this.WebApiService,
       this.dialog,
-      this.handler);
-      hola.checkNotification(this.WebApiService);
+      this.handler
+    );
+    hola.checkNotification(this.WebApiService);
   }
 
-  RecarNotification(){
-    this.checkNotification(this.WebApiService);    
+  RecarNotification() {
+    this.checkNotification(this.WebApiService);
+    this.validationAbs(this.WebApiService);
     setTimeout(() => {
       // Recargar Notificaciones - 5 Seg cui-account-logout / icoNoti / cui-bell
       this.icoNoti = "fa fa-spinner fa-spin";
-      setTimeout(() => {      
-        this.RecarNotification(); 
-      }, 1000);                  
+      setTimeout(() => {
+        this.RecarNotification();
+      }, 1000);
     }, 300000);
-
+    // }, 20000);
   }
 
-  toggleBadgeVisibility(){
-
+  toggleBadgeVisibility() {
     this.hidden = true;
 
-    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
+    this.cuser = JSON.parse(localStorage.getItem("currentUser"));
     var dialogRef;
 
     this.loading = true;
     dialogRef = this.dialog.open(NotificationDialog, {
       data: {
-        window: 'view',
-        iduser: this.cuser.iduser      
-      }
+        window: "view",
+        iduser: this.cuser.iduser,
+      },
     });
     dialogRef.disableClose = true;
     // LOADING
-    dialogRef.componentInstance.loading.subscribe(val => {
+    dialogRef.componentInstance.loading.subscribe((val) => {
       this.loading = val;
     });
     // RELOAD
-    dialogRef.componentInstance.reload.subscribe(val => {
+    dialogRef.componentInstance.reload.subscribe((val) => {
       this.sendRequest();
     });
-
   }
-  
-  checkNotification( WebApiService: WebApiService){
+
+  checkNotification(WebApiService: WebApiService) {
     // ejecutar consulta al servidor para verificar si el token es valido aun...
-    this.icoNoti = "cui-bell"; 
-    this.cuser = JSON.parse(localStorage.getItem('currentUser')); 
-    //Variables 
+    this.icoNoti = "cui-bell";
+    this.cuser = JSON.parse(localStorage.getItem("currentUser"));
+    //Variables
     let body = {
       iduser: this.cuser.iduser,
       token: this.cuser.token,
-      role:  this.cuser.role
-    }
+      role: this.cuser.role,
+    };
 
-    WebApiService.postRequest('/checknotification', body, {})
-    .subscribe(
-      response => {
-      
-        if ( response.success ) {      
-          this.conteNotifi = response.data['cont'][0]['conteo'];
-          if( this.conteNotifi > 0){
+    WebApiService.postRequest("/checknotification", body, {}).subscribe(
+      (response) => {
+        if (response.success) {
+          this.conteNotifi = response.data["cont"][0]["conteo"];
+          if (this.conteNotifi > 0) {
             this.hidden = false;
-          }else{
+          } else {
             this.hidden = true;
           }
         } else {
@@ -361,11 +354,43 @@ export class DefaultLayoutComponent{
           this.handler.handlerError(response.message);
         }
       },
-      error => {        
-          this.isLogged = false;
-          this.handler.handlerError('(E): '+error.message);
+      (error) => {
+        this.isLogged = false;
+        this.handler.handlerError("(E): " + error.message);
       }
     );
   }
+  validationAbs(WebApiService: WebApiService) {
+    // ejecutar consulta al servidor para verificar si el token es valido aun...
+    this.icoNoti = "cui-bell";
+    this.cuser = JSON.parse(localStorage.getItem("currentUser"));
 
+    WebApiService.getRequest(this.endpointAbs, {
+      action: "disciplinary",
+      iduser: this.cuser.iduser,
+      token: this.cuser.token,
+      role: this.cuser.role,
+      modulo: this.component,
+    }).subscribe(
+      (response) => {
+        if (response) {
+          // this.conteNotifi = response.data["cont"][0]["conteo"];
+          this.absNotification = response.data;
+
+          // if (this.conteNotifi > 0) {
+          //   this.hidden = false;
+          // } else {
+          //   this.hidden = true;
+          // }
+        } else {
+          this.isLogged = false;
+          // this.handler.handlerError(response.message);
+        }
+      },
+      (error) => {
+        this.isLogged = false;
+        // this.handler.handlerError("(E): " + error.message);
+      }
+    );
+  }
 }

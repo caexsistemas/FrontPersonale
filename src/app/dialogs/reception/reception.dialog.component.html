@@ -146,7 +146,7 @@
 
               <div class="row-12" style="min-width: 1000px;">
                 <mat-vertical-stepper [linear]="true" #stepCase>
-                  <mat-step>
+                  <!-- <mat-step>
                     <ng-template matStepLabel>Motivo</ng-template>
                     <form (ngSubmit)="nextStepCase(0)" [formGroup]="formCase">
                       <div class="row">
@@ -174,34 +174,14 @@
                           [disabled]="!formCase.get('dis_fal').valid">Siguiente</button>
                       </div>
                     </form>
-                  </mat-step>
-
+                  </mat-step> -->
                   <mat-step>
-                    <ng-template matStepLabel>Descripción</ng-template>
-                    <form (ngSubmit)="nextStepCase(1)" [formGroup]="formCase">
-                      <div class="row mt-2">
-                        <div class="col-md-12">
-                          <mat-form-field class="example-full-width">
-
-                            <textarea matInput formControlName="cas_des" required></textarea>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary"
-                          [disabled]="!formCase.get('cas_des').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-
-                  <mat-step>
-                    <ng-template matStepLabel>Motivo Conclusión</ng-template>
-                    <form (ngSubmit)="nextStepCase(2)" [formGroup]="formCase">
+                    <ng-template matStepLabel>Motivo Citación</ng-template>
+                    <form (ngSubmit)="nextStepCase(0)" [formGroup]="formCase">
                       <div class="row">
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width ">
-                            <mat-label>Motivo concluido</mat-label>
+                            <mat-label>Motivo Citación</mat-label>
                             <mat-select formControlName="cas_reasons_falt" (ngModelChange)="onRadioChange($event)"
                               required>
                               <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue">
@@ -225,10 +205,27 @@
                       </div>
                     </form>
                   </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>Descripción</ng-template>
+                    <form (ngSubmit)="nextStepCase(1)" [formGroup]="formCase">
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
 
+                            <textarea matInput formControlName="cas_des" required></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCase.get('cas_des').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
                   <mat-step>
                     <ng-template matStepLabel>Modalidad</ng-template>
-                    <form (ngSubmit)="nextStepCase(3)" [formGroup]="formCase">
+                    <form (ngSubmit)="nextStepCase(2)" [formGroup]="formCase">
                       <div class="row mt-2">
                         <div class="col-md-4">
                           <mat-form-field class="example-full-width ">
@@ -272,7 +269,7 @@
 
                   <mat-step>
                     <ng-template matStepLabel>Fecha y hora Citación</ng-template>
-                    <form (ngSubmit)="nextStepCase(4)" [formGroup]="formCitation">
+                    <form (ngSubmit)="nextStepCase(3)" [formGroup]="formCitation">
                       <div class="row mt-2">
 
                         <div class="col-md-4">

@@ -1,5 +1,6 @@
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
     * @description      : 
     * @author           : Maricel Jimenez
     * @group            : 
@@ -18,18 +19,6 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CargueContactComponent } from './cargue-contact/cargue-contact.component';
-
-//  * @description      :
-//  * @author           : Maricel Jimenez
-//  * @group            :
-//  * @created          : 25/06/2021 - 15:02:54
-//  *
-//  * MODIFICATION LOG
-//  * - Version         : 1.0.0
-//  * - Date            : 25/06/2021
-//  * - Author          : Maricel Jimenez
-//  * - Modification    :
-//  **/
 import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
 
 
@@ -65,26 +54,23 @@ const routes: Routes = [
           title: "Medicion Customer Journey",
         },
       },
-
-      { 
-      path: "dwcontac",
-      component: DwlcontactComponent,
-      data: {
-        title: "Descarga Base",
-      },
-    },
-
       {
-        path: 'cargue-contact',
+        path: "dwcontac",
+        component: DwlcontactComponent,
+        data: {
+          title: "Descarga Base",
+        },
+      },
+      {
+        path: "cargue-contact",
         component: CargueContactComponent,
         data: {
-          title: 'Medicion Customer Journey'
-        }
+          title: "Cargue Base",
+        },
       },
-    ]
-  }
-      
-  ];
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
