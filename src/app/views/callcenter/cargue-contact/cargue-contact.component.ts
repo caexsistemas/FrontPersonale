@@ -22,7 +22,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { cargueBaseDialog } from "../../../dialogs/cargueBase/cargueBase.dialog.component";
+//import { cargueBaseDialog } from "../../../dialogs/cargueBase/cargueBase.dialog.component";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
@@ -39,10 +39,25 @@ export class CargueContactComponent implements OnInit {
   contenTable: any = [];
   dataPdf: any = [];
   loading: boolean = false;
+  isFileValid: boolean = true;
   displayedColumns: any = [];
   dataSource: any = [];
   public detaNovSal = [];
-  contaClick: number = 0;
+  idcamp: string;
+  contaClick: number = 0; 
+  //Campos Contac
+  ListSubCamp: any = [];
+  ListCampana: any = [];
+  ListAsgCamp: any = [];
+  FiltersubCampana: any = [];
+  ListCanal: any = [];
+  cargForm: FormGroup;
+  selectedFile: File;
+  archivo = {
+    nombre: null,
+    nombreArchivo: null,
+    base64textString: null
+}
   //Control Permiso
   component = "/callcenter/cargue-contact";
   //History
@@ -61,10 +76,21 @@ export class CargueContactComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sendRequest();
-    // this.permissions = this.handler.permissionsApp;
+    this.initFormsCarbas();
+    this.permissions = this.handler.permissionsApp;
   }
 
+  initFormsCarbas() {
+    this.sendRequest();
+    this.cargForm = new FormGroup({
+      campana: new FormControl(""),
+      asc_canal: new FormControl(""),
+      subcampana: new FormControl(""),
+      date: new FormControl(""),
+      file: new FormControl(),
+      createdBy: new FormControl(""),
+    });
+  }
 
   sendRequest() {
     this.loading = true;
@@ -79,8 +105,11 @@ export class CargueContactComponent implements OnInit {
         
         if (data.success == true) {
           this.permissions = this.handler.getPermissions(this.component);
-          this.generateTable(data.data["desBaseContact"]);
-          this.contenTable = data.data["desBaseContact"];
+
+          this.ListCampana = data.data["getCampana"];
+          this.ListSubCamp = data.data["getSubCampana"];
+          this.ListCanal = data.data["getCanal"];
+
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -93,92 +122,74 @@ export class CargueContactComponent implements OnInit {
       }
     );
   }
-  //Tabla Contenido
-  generateTable(data) {
-    this.displayedColumns = [
-      "view",
-      "id_cargue",
-      "name",
-      "camapana",
-      "nomb_arch",
-      "fch_hra_reg",
-      "matriz",
-      "actions",
-    ];
 
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort.toArray()[0];
-    this.dataSource.paginator = this.paginator.toArray()[0];
-    let search;
-    if (document.contains(document.querySelector("search-input-table"))) {
-      search = document.querySelector(".search-input-table");
-      search.value = "";
+  getSubcampana(event) {
+    console.log(event);
+    this.idcamp = event;
+    this.FiltersubCampana = this.ListSubCamp.filter(
+      (subcampanaItem) => subcampanaItem.sub_camid === event
+    );
+  }
+
+
+  selectedFileName = 'Ningún archivo seleccionado (.xlsx)';
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const allowedExtensions = ['.xlsx'];
+      const fileExtension = file.name.toLowerCase().substr(file.name.lastIndexOf('.'));
+      if (allowedExtensions.includes(fileExtension)) {
+        this.selectedFileName = file.name;
+        this.selectedFile = event.target.files[0];
+        this.isFileValid = true;       
+      } else {
+        this.selectedFileName = 'Archivo no permitido';
+        this.isFileValid = false;
+        this.cargForm.get('file').setValue(null);
+      }
+    } else {
+      this.selectedFileName = 'Ningún archivo seleccionado (.xlsx)';
     }
   }
 
-  //Filtro Tabla
-  applyFilter(search) {
-    this.dataSource.filter = search.trim().toLowerCase();
-  }
+  onSubmiBase(){
+    if (this.cargForm.valid) {
+      this.loading = true;
+      
+      
+      let body = {
+          carBase: this.cargForm.value,
+          fileArc: JSON.stringify(this.cargForm.value.file)
+      }
+      this.WebApiService.postRequest(this.endpoint, body, {
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component
+      })
+          .subscribe(
+              data => {
+                  if (data.success) {
 
-  option(action, codigo = null, tipoMat) {
-    var dialogRef;
-    switch (action) {
-      case "view":
-        this.loading = true;
-        dialogRef = this.dialog.open(cargueBaseDialog, {
-          data: {
-            window: "view",
-            codigo,
-          },
-        });
-        dialogRef.disableClose = true;
-        // LOADING
-        dialogRef.componentInstance.loading.subscribe((val) => {
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-        });
-        break;
+                      this.handler.showSuccess(data.message);
 
-        case "create":
-          this.loading = true;
-          dialogRef = this.dialog.open(cargueBaseDialog, {
-            data: {
-              window: "create",
-              codigo
-            },
-          });
-          dialogRef.disableClose = true;
-          // LOADING
-          dialogRef.componentInstance.loading.subscribe((val) => {
-            this.loading = val;
-          });
-          // RELOAD
-          dialogRef.componentInstance.reload.subscribe((val) => {
-            this.sendRequest();
-          });
-          break;
-
-          case "update":
-            this.loading = true;
-            dialogRef = this.dialog.open(cargueBaseDialog, {
-              data: {
-                window: "update",
-                codigo,
-                tipoMat: tipoMat
+                      
+                  } else {
+                      this.handler.handlerError(data);
+                      this.loading = false;
+                  }
               },
-            });
-            dialogRef.disableClose = true;
-            // LOADING
-            dialogRef.componentInstance.loading.subscribe((val) => {
-              this.loading = val;
-            });
-            // RELOAD
-            dialogRef.componentInstance.reload.subscribe((val) => {
-              this.sendRequest();
-            });
-            break;
-        }
-     }
-  }
+              error => {
+                  this.handler.showError();
+                  this.loading = false;
+              }
+          );
+    }else {
+        this.handler.showError('Complete la informacion necesaria' + this.cargForm.valid);
+        this.loading = false;
+    }
+  } 
+  
+
+
+}
