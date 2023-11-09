@@ -1,3 +1,47 @@
 table {
     width: 100%;
   }
+  .custom-file-input-container {
+    display: flex;
+    align-items: center;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 5px;
+    overflow: hidden; /* Para evitar que el texto se salga del contenedor */
+    max-width: 100%; /* Ancho máximo del contenedor, ajusta según tus necesidades */
+  }
+  
+  .custom-file-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-weight: bold;
+  }
+  
+  .custom-file-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .custom-file-button:active {
+    background-color: #003d80;
+  }
+  
+  .selected-file-name {
+    margin-left: 10px;
+    color: #333;
+    font-weight: bold;
+    white-space: nowrap; /* Evitar saltos de línea */
+    overflow: hidden; /* Ocultar texto que desborde el contenedor */
+    text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto se recorta */
+    max-width: 100%; /* El texto se ajustará al ancho del contenedor */
+  }
+  
+  #fileInput {
+    display: none;
+    width: 100%;
+  }
+  
+  
