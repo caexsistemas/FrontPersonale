@@ -111,7 +111,6 @@ export class DwlcontactComponent implements OnInit {
     );
   }
   getSubcampana(event) {
-    console.log(event);
     this.idcamp = event;
     this.subCampana = this.subCampanaorigin.filter(
       (subcampanaItem) => subcampanaItem.sub_camid === event
@@ -120,8 +119,6 @@ export class DwlcontactComponent implements OnInit {
     // console.log("subcampna => ", this.subCampana);
   }
   getasigBase(event) {
-    // console.log("primer  id", this.idcamp);
-    // console.log("segundo id", event);
     this.asigBase = this.asigCampana.filter(
       (base) =>
         base.asc_campana === this.idcamp && base.asc_subcampana === event
