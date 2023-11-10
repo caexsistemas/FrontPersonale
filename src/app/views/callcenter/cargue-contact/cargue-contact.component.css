@@ -47,5 +47,14 @@ table {
   .btn-success {
     color: #ffffff !important;
   }
+
+  td {
+    padding: 10px !important; /* Puedes ajustar este valor según tus necesidades */
+    border: 1px solid #ccc; /* Añade un borde para mayor claridad visual */
+  }
   
+  th {
+    padding: 10px !important; /* Puedes ajustar este valor según tus necesidades */
+
+  }
   

@@ -22,7 +22,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
-//import { cargueBaseDialog } from "../../../dialogs/cargueBase/cargueBase.dialog.component";
+import { cargueBaseDialog } from "../../../dialogs/cargueBase/cargueBase.dialog.component";
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
@@ -40,6 +40,7 @@ export class CargueContactComponent implements OnInit {
   dataPdf: any = [];
   loading: boolean = false;
   isFileValid: boolean = true;
+  isFileAdjunt: boolean = false;
   isFilExist: boolean = true;
   displayedColumns: any = [];
   dataSource: any = [];
@@ -115,6 +116,8 @@ export class CargueContactComponent implements OnInit {
           this.ListCampana = data.data["getCampana"];
           this.ListSubCamp = data.data["getSubCampana"];
           this.ListCanal = data.data["getCanal"];
+          this.generateTable(data.data["getDescbase"]);
+          this.contenTable = data.data["getDescbase"];
 
           this.loading = false;
         } else {
@@ -128,6 +131,37 @@ export class CargueContactComponent implements OnInit {
       }
     );
   }
+
+  generateTable(data) {
+    this.displayedColumns = [
+      "bda_base",
+      "dba_desc",
+      "fech_ini",
+      "fech_fin",
+      "actions",
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+
+  //Filtro Tabla
+  applyFilter(search) {
+    this.dataSource.filter = search.trim().toLowerCase();
+  }
+
+  openc() {
+    if (this.contaClick == 0) {
+      this.sendRequest();
+    }
+    this.contaClick = this.contaClick + 1;
+  }
+  
 
   getSubcampana(event) {
     console.log(event);
@@ -148,7 +182,8 @@ export class CargueContactComponent implements OnInit {
       if (allowedExtensions.includes(fileExtension)) {
         this.selectedFileName = file.name;
         this.selectedFile = event.target.files[0];
-        this.isFileValid = true;       
+        this.isFileValid  = true; 
+        this.isFileAdjunt = true;      
         var reader = new FileReader();
         reader.onload = this._handleReaderLoaded.bind(this);
         reader.readAsBinaryString(file);
@@ -156,7 +191,8 @@ export class CargueContactComponent implements OnInit {
         this.archivo.nombre    = file.name.replace(/\.[^/.]+$/, '');
       } else {
         this.selectedFileName = 'Archivo no permitido';
-        this.isFileValid = false;
+        this.isFileValid  = false;
+        this.isFileAdjunt = false; 
         this.cargForm.get('file').setValue(null);
       }
     } else {
@@ -170,7 +206,7 @@ export class CargueContactComponent implements OnInit {
   }
 
   onSubmiBase(){
-    if (this.cargForm.valid && this.isFileValid) {
+    if (this.cargForm.valid && this.isFileAdjunt) {
       this.loading = true;
       this.handler.showTimePross("Procesando Base: "+this.archivo.nombre);
       
@@ -189,8 +225,9 @@ export class CargueContactComponent implements OnInit {
                      
                     this.handler.closeShow();
                     this.dowlExcel.name = data.data['name_file'];
-                    this.dowlExcel.url  = data.data['url_file'];
+                    this.dowlExcel.url  = data.data['url_file'];                   
                     this.isFilExist     = false;
+                    this.sendRequest();
                     this.handler.showSuccess("La carga se completó con éxito; ahora puedes descargar haciendo clic en el botón <b>Base</b> o al siguiente <b>Link</b> <a href='"+this.dowlExcel.url+"'>"+this.dowlExcel.name+"</a>");
                       
 
@@ -223,6 +260,30 @@ export class CargueContactComponent implements OnInit {
     link.click();
     this.handler.showSuccess(this.dowlExcel.name);
     this.loading = false;
- }
+  }
+
+  option(action, codigo = null, tipoMat) {
+    var dialogRef;
+    switch (action) {
+      case "update":
+        this.loading = true;
+        dialogRef = this.dialog.open(cargueBaseDialog, {
+          data: {
+            window: "update",
+            codigo
+          },
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe((val) => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe((val) => {
+          this.sendRequest();
+        });
+      break;
+    }
+  }
 
 }
