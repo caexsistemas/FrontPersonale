@@ -23,25 +23,25 @@ import { Console } from 'console';
 })
 export class AbsenteeismComponent implements OnInit {
 
-  endpoint:string   = '/absenteeisms';
+  endpoint: string = '/absenteeisms';
   id: number = null;
-  permissions:any = null;
-  contenTable : any     = [];
-  loading:boolean = false;
-  displayedColumns:any  = [];
-  dataSource:any        = [];
+  permissions: any = null;
+  contenTable: any = [];
+  loading: boolean = false;
+  displayedColumns: any = [];
+  dataSource: any = [];
   public detaNovSal = [];
-  contaClick:  number = 0;
+  contaClick: number = 0;
   //Variables Excel
   endpointup: string = '/absenteeismsupload';
   urlKaysenBackend = environment.url;
   url = this.urlKaysenBackend + this.endpointup;
   personaleData: any = [];
   datapersonale: any = [];
-  dataDelte:     any = [];
-  contDele:      number = 0;
-  stadValue:     boolean = false;
-  tmajust:       boolean = false;
+  dataDelte: any = [];
+  contDele: number = 0;
+  stadValue: boolean = false;
+  tmajust: boolean = false;
   modal: 'successModal';
   //Control Permiso
   component = "/procesalud/absenteeisms";
@@ -52,7 +52,7 @@ export class AbsenteeismComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
   @ViewChild('successModal', { static: false }) public successModal: ModalDirective;
-  @ViewChild('myCheckbox') private myCheckbox:  QueryList<any>;
+  @ViewChild('myCheckbox') private myCheckbox: QueryList<any>;
 
   public afuConfig = {
 
@@ -82,59 +82,59 @@ export class AbsenteeismComponent implements OnInit {
     }
   };
 
-  constructor(    private _tools: Tools,
-    private WebApiService:WebApiService,
-    public handler:HandlerAppService,
-    public dialog:MatDialog,
-    private matBottomSheet : MatBottomSheet) { }
+  constructor(private _tools: Tools,
+    private WebApiService: WebApiService,
+    public handler: HandlerAppService,
+    public dialog: MatDialog,
+    private matBottomSheet: MatBottomSheet) { }
 
-    onTriggerSheetClick(){
-      this.matBottomSheet.open(ReportsAbsenteeismComponent)
-    }
-    
-    ngOnInit(): void {
-        this.sendRequest();
-        this.permissions = this.handler.permissionsApp;
-    }
+  onTriggerSheetClick() {
+    this.matBottomSheet.open(ReportsAbsenteeismComponent)
+  }
 
-    sendRequest(){
-      this.loading = true;
-      this.WebApiService.getRequest(this.endpoint, {
-        action: 'getDatanovedadAll',
-        idUser: this.cuser.iduser,
-        role: this.cuser.role,
-        matrizarp: this.cuser.matrizarp,
-        token: this.cuser.token,
-        modulo: this.component
-      })
-        .subscribe(
-       
-          data => {
-            
-              if (data.success == true) {
-                  this.permissions = this.handler.getPermissions(this.component);
-                  this.generateTable(data.data['getContData']);
-                  this.contenTable = data.data['getContData'];
-                  this.loading = false;
-  
-              } else {
-                  this.handler.handlerError(data);
-                  this.loading = false;
-              }
-          },
-          error => {
-              console.log(error);
-              this.handler.showError('Se produjo un error');
-              this.loading = false;
+  ngOnInit(): void {
+    this.sendRequest();
+    this.permissions = this.handler.permissionsApp;
+  }
+
+  sendRequest() {
+    this.loading = true;
+    this.WebApiService.getRequest(this.endpoint, {
+      action: 'getDatanovedadAll',
+      idUser: this.cuser.iduser,
+      role: this.cuser.role,
+      matrizarp: this.cuser.matrizarp,
+      token: this.cuser.token,
+      modulo: this.component
+    })
+      .subscribe(
+
+        data => {
+
+          if (data.success == true) {
+            this.permissions = this.handler.getPermissions(this.component);
+            this.generateTable(data.data['getContData']);
+            this.contenTable = data.data['getContData'];
+            this.loading = false;
+
+          } else {
+            this.handler.handlerError(data);
+            this.loading = false;
           }
-        );
-    }
+        },
+        error => {
+          console.log(error);
+          this.handler.showError('Se produjo un error');
+          this.loading = false;
+        }
+      );
+  }
 
-    //Tabla Contenido
-   generateTable(data){
+  //Tabla Contenido
+  generateTable(data) {
     this.displayedColumns = [
       'check',
-      'view', 
+      'view',
       'document',
       'fecha_ingreso',
       'name',
@@ -145,18 +145,18 @@ export class AbsenteeismComponent implements OnInit {
       'fecha_finausen',
       'actions'
     ];
-    this.dataSource           = new MatTableDataSource(data);
-    this.dataSource.sort      = this.sort.toArray()[0];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];
     let search;
-    if(document.contains(document.querySelector('search-input-table'))){
+    if (document.contains(document.querySelector('search-input-table'))) {
       search = document.querySelector('.search-input-table');
       search.value = "";
     }
-   }
+  }
 
-   //Filtro Tabla
-  applyFilter(search){
+  //Filtro Tabla
+  applyFilter(search) {
     this.dataSource.filter = search.trim().toLowerCase();
   }
 
@@ -166,71 +166,71 @@ export class AbsenteeismComponent implements OnInit {
     this.infoModal.show()
   }
   //Cabecera
-  openc(){
-    if(this.contaClick == 0){
+  openc() {
+    if (this.contaClick == 0) {
       this.sendRequest();
-    }    
+    }
     this.contaClick = this.contaClick + 1;
   }
 
-  option(action,codigo=null){
+  option(action, codigo = null) {
     var dialogRef;
-      switch(action){
-          case 'create':
-            this.loading = true;
-            dialogRef = this.dialog.open(AbsenteeismDialog,{
-              data: {
-                window: 'create',
-                codigo
-              }
-            });
-            dialogRef.disableClose = true;
-            // LOADING
-            dialogRef.componentInstance.loading.subscribe(val=>{
-              this.loading = val;
-            });
-            // RELOAD
-            dialogRef.componentInstance.reload.subscribe(val=>{
-              this.sendRequest();
-            });
+    switch (action) {
+      case 'create':
+        this.loading = true;
+        dialogRef = this.dialog.open(AbsenteeismDialog, {
+          data: {
+            window: 'create',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val => {
+          this.sendRequest();
+        });
         break;
-        case 'update':
-            this.loading = true;
-            dialogRef = this.dialog.open(AbsenteeismDialog,{
-              data: {
-                window: 'update',
-                codigo
-              }
-            });
-            dialogRef.disableClose = true;
-            // LOADING
-            dialogRef.componentInstance.loading.subscribe(val=>{
-              this.loading = val;
-            });
-            // RELOAD
-            dialogRef.componentInstance.reload.subscribe(val=>{
-              this.sendRequest();
-            });
-          break;
-        case 'view':
-            this.loading = true;
-            dialogRef = this.dialog.open(AbsenteeismDialog,{
-              data: {
-                window: 'view',
-                codigo
-              }
-            });
-            dialogRef.disableClose = true;
-            // LOADING
-            dialogRef.componentInstance.loading.subscribe(val=>{
-              this.loading = val;
-            });
-            dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
-              console.log(result);
-            });
+      case 'update':
+        this.loading = true;
+        dialogRef = this.dialog.open(AbsenteeismDialog, {
+          data: {
+            window: 'update',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        // RELOAD
+        dialogRef.componentInstance.reload.subscribe(val => {
+          this.sendRequest();
+        });
         break;
-      }
+      case 'view':
+        this.loading = true;
+        dialogRef = this.dialog.open(AbsenteeismDialog, {
+          data: {
+            window: 'view',
+            codigo
+          }
+        });
+        dialogRef.disableClose = true;
+        // LOADING
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+        });
+        break;
+    }
   }
 
   getAllPersonal() {
@@ -262,95 +262,96 @@ export class AbsenteeismComponent implements OnInit {
       );
   }
 
-  validAsPect(id, checkbox){
+  validAsPect(id, checkbox) {
 
-   if(checkbox.checked){
-    this.dataDelte.push(id);
-   }else{
-    var i = this.dataDelte.indexOf( id );
-    this.dataDelte.splice( i, 1 );
-   }
+    if (checkbox.checked) {
+      this.dataDelte.push(id);
+    } else {
+      var i = this.dataDelte.indexOf(id);
+      this.dataDelte.splice(i, 1);
+    }
 
     console.log(this.dataDelte);
   }
 
-  deleInfo(){
+  deleInfo() {
 
-    if(this.dataDelte.length > 0){
-      if( this.contDele == 0 ){
-        this.handler.showError('Si está seguro de borrar los registros, por favor de Click de nuevo en eliminar. Total a eliminar: '+this.dataDelte.length);
+    if (this.dataDelte.length > 0) {
+      if (this.contDele == 0) {
+        this.handler.showError('Si está seguro de borrar los registros, por favor de Click de nuevo en eliminar. Total a eliminar: ' + this.dataDelte.length);
         this.contDele++;
         this.stadValue = true;
-      }else{
+      } else {
         this.loading = true;
         this.WebApiService.getRequest(this.endpoint, {
-            action: 'getDelinfo',
-            idDel:  ""+JSON.stringify(this.dataDelte),
-            idUser: this.cuser.iduser,
-            token: this.cuser.token,
-            modulo: this.component
+          action: 'getDelinfo',
+          idDel: "" + JSON.stringify(this.dataDelte),
+          idUser: this.cuser.iduser,
+          token: this.cuser.token,
+          modulo: this.component
         })
-        .subscribe(
-           
+          .subscribe(
+
             data => {
-                if (data.success == true) {
-                    //DataInfo
-                    this.handler.showSuccess('Registros eliminados exitosamente.');
-                    this.loading = false;
-                    this.stadValue = false;
-                    this.sendRequest();
-                } else {
-                    this.handler.handlerError(data);
-                    this.loading = false;
-                    this.stadValue = false;
-                }
-            },
-            error => {
-                this.handler.showError('Se produjo un error');
+              if (data.success == true) {
+                //DataInfo
+                this.handler.showSuccess('Registros eliminados exitosamente.');
                 this.loading = false;
                 this.stadValue = false;
+                this.sendRequest();
+              } else {
+                this.handler.handlerError(data);
+                this.loading = false;
+                this.stadValue = false;
+              }
+            },
+            error => {
+              this.handler.showError('Se produjo un error');
+              this.loading = false;
+              this.stadValue = false;
             }
-        );
+          );
         this.contDele = 0;
       }
-    }else{
+    } else {
       this.handler.showError('Por favor seleccionar algún registro.');
     }
 
 
   }
 
-  validatAjust(fechaing){
-    
+  validatAjust(fechaing) {
+
     var fecha = fechaing;
     var horas = 43;
     //Fecha De Radicacion
-	  fecha = new Date(fecha);
-		fecha.setHours(fecha.getHours()+horas);
-		fecha =  fecha.toISOString();
+    fecha = new Date(fecha);
+    fecha.setHours(fecha.getHours() + horas);
+    fecha = fecha.toISOString();
     var fecha_date = fecha.split('T');
     var fecha_time = fecha_date[1].split('.');
-		fecha_date = fecha_date[0];
-    var fechaFin = fecha_date+' '+fecha_time[0];
+    fecha_date = fecha_date[0];
+    var fechaFin = fecha_date + ' ' + fecha_time[0];
     //Se Compara Fecha Actual 
     var hoy = new Date();
-    var fechAct = hoy.getFullYear() +'-'+ `0${hoy.getMonth() + 1}`.slice(-2) +'-'+ `0${hoy.getDate()}`.slice(-2);
+    var fechAct = hoy.getFullYear() + '-' + `0${hoy.getMonth() + 1}`.slice(-2) + '-' + `0${hoy.getDate()}`.slice(-2);
     var horAtc = `0${hoy.getHours()}`.slice(-2) + ':' + `0${hoy.getMinutes()}`.slice(-2) + ':' + `0${hoy.getSeconds()}`.slice(-2);
-    var timeActu = fechAct+' '+horAtc;
+    var timeActu = fechAct + ' ' + horAtc;
+
     //Validacion
-    if( timeActu >= fechaing && timeActu <= fechaFin ){
+    if (timeActu >= fechaing && timeActu <= fechaFin) {
       this.tmajust = true;
 
-    }else{
+    } else {
       this.tmajust = false;
     }
-      //Proceso  
-      /*console.log('------------');
-      console.log(fechaing);
-      console.log(fechaFin);
-      console.log(timeActu);
-      console.log(this.tmajust);
-      console.log('------------');*/
+    //Proceso  
+    /*console.log('------------');
+    console.log(fechaing);
+    console.log(fechaFin);
+    console.log(timeActu);
+    console.log(this.tmajust);
+    console.log('------------');*/
   }
 
 }
