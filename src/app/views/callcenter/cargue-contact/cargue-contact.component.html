@@ -51,17 +51,22 @@
 
             <div class="row">
 
-                <div class="col-md-6" >
+                <div class="col-md-8" >
                     <div class="custom-file-input-container">
                         <input type="file" id="fileInput" formControlName="file" (change)="onFileSelected($event)" #fileInput style="display: none;">
                         <button [ngStyle]="{'background-color': isFileValid ? '#007bff' : '#dc3545', 'color': '#fff'}" class="custom-file-button" (click)="fileInput.click()">Seleccionar Archivo</button>
                         <span class="selected-file-name" [ngStyle]="{'color': isFileValid ? '#333' : '#dc3545'}">{{selectedFileName}}</span>
                       </div>
                 </div>
-                <div class="col-md-6 mt-1">
-                    <button mat-button class="btn btn-primary" style="font-weight: bold;font-size: 17px;" mat-button
-                    
-                    (click)="onSubmiBase()">Cargue de Base</button>
+                <div class="col-md-2 mt-1">
+                  <button mat-button class="btn btn-primary" style="font-weight: bold;font-size: 17px;" mat-button
+                    (click)="onSubmiBase()">Cargue de Base
+                  </button>
+                </div>
+                <div class="col-md-2 mt-1">
+                  <button mat-button class="btn btn-success" style="font-weight: bold;font-size: 17px;" mat-button
+                    (click)="dowloadExcel()" [disabled]="this.isFilExist" title="{{this.dowlExcel.name}}">Base
+                  </button>
                 </div>
 
             </div>
@@ -71,6 +76,69 @@
       </div>
     </div>
   </div>
+
+
+  <div class="content">
+    <div class="card">
+        <div class="card-header">
+           Cargue Base Detalle
+        </div>
+        <div class="content-table">
+            <div class="toolbar-table" *ngIf="permissions != null">
+
+                <div class="container">
+                    <mat-form-field appearance="standard" style="width: 100%;">
+                        <mat-label>Buscar..</mat-label>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+                    </mat-form-field>
+                </div>
+
+            </div>
+  
+            <div class="section-table first-action">
+                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg" *ngIf="contenTable.length > 0">
+  
+                    <ng-container matColumnDef="bda_base">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Base</th>
+                        <td mat-cell *matCellDef="let element"> {{element.bda_base}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="dba_desc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Descripci&oacute;n</th>
+                        <td mat-cell *matCellDef="let element"> {{element.dba_desc}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fech_ini">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Inicio</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fech_ini | date: 'medium'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fech_fin">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Fin</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fech_fin | date: 'medium'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update" (click)="option('update',element.dba_id)"
+                                title="Editar">
+                                <i class="fa fa-edit fa-lg"></i>
+                            </button>  
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="contenTable.length == 0">
+            <h4 class="no-records">No hay registros...</h4>
+          </div>
+        </div>
+    </div>
+  </div>
+
   
   <div *ngIf="loading" class="loading">
     <mat-spinner [diameter]="50"></mat-spinner>

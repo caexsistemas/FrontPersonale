@@ -185,7 +185,7 @@ export class CustomerComponent implements OnInit {
         dialogRef = this.dialog.open(CustomerDialog, {
           data: {
             window: "view",
-            codigo,
+            codigo
           },
         });
         dialogRef.disableClose = true;

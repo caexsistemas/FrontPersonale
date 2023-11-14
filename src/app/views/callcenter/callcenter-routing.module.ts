@@ -62,7 +62,7 @@ const routes: Routes = [
         path: "cargue-contact",
         component: CargueContactComponent,
         data: {
-          title: "Medicion Customer Journey",
+          title: "Cargue Base",
         },
       },
     ],
