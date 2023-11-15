@@ -1242,8 +1242,40 @@
                         </mat-form-field>
                     </div>
                   </div>
+                    <!-- campos supervisor y formadores -->
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width ContCamp" >
+                            <mat-label>Supervisor:</mat-label>
+                            <mat-select formControlName="supervisor" required>
+                              <mat-option *ngFor="let idet of supervisor" [value]="idet.idPersonale">
+                                {{idet.name}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width ContCamp" >
+                            <mat-label>Formador:</mat-label>
+                            <mat-select formControlName="formador" required>
+                              <mat-option *ngFor="let idet of formador" [value]="idet.idPersonale">
+                                {{idet.name}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width ContCamp" >
+                            <mat-label>Formador2:</mat-label>
+                            <mat-select formControlName="formador_tw" required>
+                              <mat-option *ngFor="let idet of formador" [value]="idet.idPersonale">
+                                {{idet.name}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                  </div>
 
-                  
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
                   </mat-action-row>
