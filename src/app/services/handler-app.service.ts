@@ -175,7 +175,7 @@ export class HandlerAppService {
     const swalInstance = Swal.fire({
       title: title,
       html: "Tiempo transcurrido: <b>0:00:00</b>", // Inicializado con 0 horas, 0 minutos y 0 segundos
-      imageUrl: 'assets/img/brand/loading-gear.gif', // Reemplaza 'url_del_gif_de_carga' con la URL de tu GIF
+      /*imageUrl: 'assets/img/brand/loading-gear.gif',*/ // Reemplaza 'url_del_gif_de_carga' con la URL de tu GIF
       imageAlt: 'Cargando...',
       timerProgressBar: true,
       allowOutsideClick: false,
