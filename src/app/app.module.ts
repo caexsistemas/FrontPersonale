@@ -309,6 +309,7 @@ const routes: Routes = [];
     ClarificationDialog,
     PostponementDialog,
     ConclusionDialog,
+    cargueBaseDialog
   ],
   providers: [
     {
