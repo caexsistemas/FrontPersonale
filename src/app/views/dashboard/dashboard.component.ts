@@ -96,7 +96,7 @@ export class DashboardComponent implements AfterViewInit  {
   }
   ngAfterViewInit(): void {
     // console.log( this.cuser.role);
-    if( this.cuser.role == 21 || this.cuser.role == 22  ){ 
+    if( this.cuser.role == 21 || this.cuser.role == 22 ){ 
     this.rolC = true;
     this.sendRequest()
     .then(()=>{
@@ -224,7 +224,7 @@ sendRequest(): Promise<void> {
     }).subscribe(
       (data) => {
         if (data.success == true) {
-          if( this.cuser.role == 21 || this.cuser.role == 22  ){ 
+          if( this.cuser.role == 21 || this.cuser.role == 22 ){ 
             this.GrafiHogar = data.data['GrafiHogar']; 
             this.GrafiMovil = data.data['GrafiMovil']; 
             this.GrafiTyt   = data.data['GrafiTYT']; 

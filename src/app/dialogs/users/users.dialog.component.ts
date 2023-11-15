@@ -160,7 +160,8 @@ export class UsersDialog {
       login: new FormControl(this.sesion),
       us_red: new FormControl(""),
       supervisor: new FormControl(""),
-      formador: new FormControl("")
+      formador: new FormControl(""),
+      formador_tw: new FormControl("")
     });
   }
 
@@ -309,7 +310,10 @@ export class UsersDialog {
             .setValue(data.data["getDataUpda"][0].supervisor);
           this.formUsuario
             .get("formador")
-            .setValue(data.data["getDataUpda"][0].formador);         
+            .setValue(data.data["getDataUpda"][0].formador); 
+          this.formUsuario
+            .get("formador_tw")
+            .setValue(data.data["getDataUpda"][0].formador_tw);        
 
           this.loading.emit(false);
         } else {
