@@ -31,6 +31,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 
 // Modal Component
+
 import { ModalModule } from "ngx-bootstrap/modal";
 import { DatafilterModule } from "../../Tools/pipe/datafilter.module";
 import { MatInputModule } from "@angular/material/input";
@@ -58,7 +59,7 @@ const ngWizardConfig: NgWizardConfig = {
     ReactiveFormsModule,
     SelectModule,
     TextMaskModule,
-    ModalModule,
+    ModalModule, 
     DatafilterModule,
     MatPaginatorModule,
     MatSortModule,
@@ -83,5 +84,6 @@ const ngWizardConfig: NgWizardConfig = {
     DwlcontactComponent,
     CargueContactComponent,
   ],
+
 })
 export class CallcenterModule {}
