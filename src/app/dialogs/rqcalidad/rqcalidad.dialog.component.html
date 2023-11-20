@@ -377,8 +377,18 @@
                             <dt>¿Retroalimentaci&oacute;n?:</dt>
                             <dd>{{dataCad.retro_call}}</dd>
                         </div>
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <dt>Supervisor</dt>
+                            <dd> {{dataCad.supervisor}}</dd>
+                        </div>
+                        <div class="col-sm-4" >
+                            <dt>Formador</dt>
+                            <dd> {{dataCad.formador}}</dd>
+                        </div>
+                        <div class="col-sm-4" *ngIf="tipMatriz != '40/3' ">
+                            <dt>Formador2</dt>
+                            <dd>{{dataCad.formador_tw}}</dd>
+                        </div>
                     </div>
 
                   <!--**--> 
@@ -1245,7 +1255,7 @@
                     <!-- campos supervisor y formadores -->
                   <div class="row">
                     <div class="col-sm-4">
-                        <mat-form-field class="example-full-width ContCamp" >
+                        <mat-form-field class="example-full-width" >
                             <mat-label>Supervisor:</mat-label>
                             <mat-select formControlName="supervisor" required>
                               <mat-option *ngFor="let idet of supervisor" [value]="idet.idPersonale">
@@ -1255,7 +1265,7 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
-                        <mat-form-field class="example-full-width ContCamp" >
+                        <mat-form-field class="example-full-width " >
                             <mat-label>Formador:</mat-label>
                             <mat-select formControlName="formador" required>
                               <mat-option *ngFor="let idet of formador" [value]="idet.idPersonale">
@@ -1264,7 +1274,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" *ngIf="tipMatriz != '40/3'">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Formador2:</mat-label>
                             <mat-select formControlName="formador_tw" required>

@@ -918,21 +918,24 @@ export class RqcalidadDialog  {
   }
 
   onSelectionChange(event){
-             
     let exitsPersonal = this.personalData.find(element => element.document == event);
     if( exitsPersonal ){
         this.formProces.get('name').setValue(exitsPersonal.idPersonale);
         this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
+        if(exitsPersonal.supervisor == null ){ this.handler.showError("Falta Supervisor");return;}
+        if(exitsPersonal.formador == null ){ this.handler.showError("Falta Formador 1");return;} 
         this.formProces.get('supervisor').setValue(exitsPersonal.supervisor);
         this.formProces.get('formador').setValue(exitsPersonal.formador);
-        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw);
-        
-    }        
+        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+        if(this.tipMatriz != '40/3' ){
+        if(exitsPersonal.formador_tw == null ){ this.handler.showError("Falta Formador 2");return;}
+        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+        } 
+      }  
   }
-
+  
   //Numero de semanas
   getWeekNr(event){
-
         //var currentdate  = new Date(event);
         var now = new Date(event),i=0,f,sem=(new Date(now.getFullYear(), 0,1).getDay()>0)?1:0;
         while( (f=new Date(now.getFullYear(), 0, ++i)) < now ){
