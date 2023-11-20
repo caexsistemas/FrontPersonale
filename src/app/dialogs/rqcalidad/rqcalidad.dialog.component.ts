@@ -51,7 +51,11 @@ export class RqcalidadDialog  {
   ListipifiHogarDed: any = [];
   ListTipiConsHogar: any = [];
   ListTodoclaro:     any = [];
+  supervisor:        any = [];
+  formador :         any = [];
   numberOfDays: number = 0;
+
+
   //String Date
   dateStrinMoni: String = "";
  //Datos Generales
@@ -412,7 +416,12 @@ export class RqcalidadDialog  {
       id_venta: new FormControl(""),
       mancorrven: new FormControl(""),
       postucall: new FormControl(""),
-      retro_call: new FormControl("")
+      retro_call: new FormControl(""),
+      //campos supervisor y formadores 
+      supervisor: new FormControl(""),
+      formador: new FormControl(""),
+      formador_tw: new FormControl("")
+
     });
 
   }
@@ -471,6 +480,8 @@ export class RqcalidadDialog  {
                 this.ListipifiHogarDed = data.data['tipificaHogarDed'];  //45
                 this.ListTodoclaro = data.data['ofertodcla'];  //45
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
+                this.supervisor = data.data['getSupervisor'];
+                this.formador = data.data['getFomacion'];
                 //Fecha
                 let date = new Date();
                 this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
@@ -907,18 +918,24 @@ export class RqcalidadDialog  {
   }
 
   onSelectionChange(event){
-             
     let exitsPersonal = this.personalData.find(element => element.document == event);
     if( exitsPersonal ){
         this.formProces.get('name').setValue(exitsPersonal.idPersonale);
         this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
-        
-    }        
+        if(exitsPersonal.supervisor == null ){ this.handler.showError("Falta Supervisor");return;}
+        if(exitsPersonal.formador == null ){ this.handler.showError("Falta Formador 1");return;} 
+        this.formProces.get('supervisor').setValue(exitsPersonal.supervisor);
+        this.formProces.get('formador').setValue(exitsPersonal.formador);
+        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+        if(this.tipMatriz != '40/3' ){
+        if(exitsPersonal.formador_tw == null ){ this.handler.showError("Falta Formador 2");return;}
+        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+        } 
+      }  
   }
-
+  
   //Numero de semanas
   getWeekNr(event){
-
         //var currentdate  = new Date(event);
         var now = new Date(event),i=0,f,sem=(new Date(now.getFullYear(), 0,1).getDay()>0)?1:0;
         while( (f=new Date(now.getFullYear(), 0, ++i)) < now ){
