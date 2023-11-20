@@ -29,6 +29,9 @@ import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { CertificatesComponent } from "./certificates/certificates.component";
 import { FormalitiesComponent } from "./formalities/formalities.component";
 import { LiquidationFormalitiesComponent } from "./liquidation/liquidationFormalities.component";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -55,6 +58,8 @@ const ngWizardConfig: NgWizardConfig = {
     MatTabsModule,
     MatIconModule,
     MatBottomSheetModule,
+    MatMenuModule,
+    MatButtonModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
   ],
