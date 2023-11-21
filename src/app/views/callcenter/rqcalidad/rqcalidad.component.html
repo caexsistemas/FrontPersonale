@@ -5,36 +5,42 @@
         </div>
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
-  
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3"> 
-                    
-                    <!--{<div class="btn-group" dropdown>
-                        <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                            title="Reporte Excel Detallado">
-                            <i class="fa fa-feed"></i>
-                        </button>
-                    </div>}-->
 
-                    <div class="btn-group" *ngIf="permissions.create" dropdown>
-                        <button dropdownToggle type="button" class="btn btn-success">
-                            <i class="fa fa-feed"></i>
+                <div class="m-2 text-right">        
+                          
+                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+                        <span>Menu</span>
+                    </button>
+                      
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>Acciones Disponibles… </button>
+      
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('create', '', '40/1')" title="Crear Matriz Movil">
+                            <mat-icon>call</mat-icon>
+                            <span>Crear Matriz Movil</span>
                         </button>
-                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer" role="excel">
-                            <li role="excelitem"><a class="dropdown-item"  (click)="onTriggerSheetClick()">Reporte Excel Detallado</a></li> 
-                            <li role="excelitem"><a class="dropdown-item"  (click)="option('repor1vmrq','')">Reporte Excel Ponderado</a></li>
-                         </ul>
-                    </div>
 
-                    <div class="btn-group" *ngIf="permissions.create" dropdown>
-                        <button dropdownToggle type="button" class="btn btn-primary ">
-                            <i class="fa fa-plus"></i>
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('create', '', '40/2')" title="Crear Matriz Hogar">
+                            <mat-icon>tv_gen</mat-icon>
+                            <span>Crear Matriz Hogar</span>
                         </button>
-                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer" role="menu">
-                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/1')">Ingresar Matriz Movil</a></li> 
-                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/2')">Ingresar Matriz Hogar</a></li>
-                            <li role="menuitem "><a class="dropdown-item" (click)="option('create', '', '40/3')">Ingresar Matriz TYT</a></li>                         
-                        </ul>
-                    </div>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('create', '', '40/3')" title="Crear Matriz TYT">
+                            <mat-icon>smartphone</mat-icon>
+                            <span>Crear Matriz TYT</span>
+                        </button>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Detallado Calidad">
+                            <mat-icon>download</mat-icon>
+                            <span>Reporte Detallado Calidad</span>
+                        </button>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('repor1vmrq','')" title="Reporte Ponderado Calidad">
+                            <mat-icon>view_list</mat-icon>
+                            <span>Ponderado Calidad</span>
+                        </button>
+      
+                    </mat-menu>       
                 </div>
   
                 <div class="container">

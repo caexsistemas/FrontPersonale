@@ -21,9 +21,8 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
-
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -49,6 +48,8 @@ const ngWizardConfig: NgWizardConfig = {
     FormsModule,
     AngularFileUploaderModule,
     MatBottomSheetModule,
+    MatMenuModule,
+    MatButtonModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     MatFormFieldModule

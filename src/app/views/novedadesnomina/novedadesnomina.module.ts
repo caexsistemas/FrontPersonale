@@ -38,6 +38,8 @@ import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { CommisionComponent } from './commision/commision.component';
 import { RetributionComponent } from './retribution/retribution.component';
 // import { AngularFileUploaderModule } from "angular-file-uploader";
+import {MatButtonModule} from '@angular/material/button';
+
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -72,6 +74,7 @@ const ngWizardConfig: NgWizardConfig = {
     MatCardModule,
     MatBottomSheetModule,
     AngularFileUploaderModule,
+    MatButtonModule
   ],
   declarations: [
     IngresoComponent,

@@ -10,22 +10,21 @@
 
     <div class="toolbar-table" *ngIf="permissions != null">
 
-      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+      <div class="m-2 text-right">        
+                          
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+            <span>Menu</span>
+        </button>
+          
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Acciones Disponibles… </button>
 
-        <!-- <div class="btn-group" dropdown>
-          <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-            title="Reporte Excel">
-            <i class="fa fa-feed"></i>
-          </button>
-        </div> -->
-        <div class="btn-group" dropdown>
+            <button mat-menu-item *ngIf="permissions.create" (click)="option('create')" title="Crear">
+                <mat-icon>add_circle</mat-icon>
+                <span>Crear</span>
+            </button>
 
-          <div let element></div>
-          <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
-            <i class="fa fa-plus"></i>
-          </button>
-        </div>
-
+        </mat-menu>       
       </div>
 
       <div class="container">

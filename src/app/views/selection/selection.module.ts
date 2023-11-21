@@ -31,6 +31,9 @@ import { VacantComponent } from './vacant/vacant.component';
 import { TrainingComponent } from './training/training.component';
 import { HiringComponent } from './hiring/hiring.component';
 import { AssignmentComponent } from './assignment/assignment.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -58,9 +61,9 @@ const ngWizardConfig: NgWizardConfig = {
     NgWizardModule.forRoot(ngWizardConfig),
     MatBottomSheetModule,
     SelectionRoutingModule,
-    
-    
-
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     RequisitionComponent,
