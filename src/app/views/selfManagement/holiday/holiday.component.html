@@ -10,8 +10,26 @@
       <div class=" mat-elevation-z8">
   
         <div class="toolbar-table" *ngIf="permissions != null">
+
+          <div class="m-2 text-right">        
+                          
+            <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+                <span>Menu</span>
+            </button>
+              
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>Acciones Disponibles… </button>
+
+                <button mat-menu-item *ngIf="permissions.create" (click)="option('create',document, idPersonale)" title="Crear">
+                    <mat-icon>add_circle</mat-icon>
+                    <span>Crear</span>
+                </button>
+
+            </mat-menu>  
+                 
+          </div>
   
-            <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+            <!--<div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">-->
   
                 <!-- <div class="btn-group" dropdown >
                     <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
@@ -19,13 +37,13 @@
                         <i class="fa fa-feed"></i>
                     </button>
                 </div> -->
-                <div class="btn-group" dropdown>
+                <!--<div class="btn-group" dropdown>
   
                   <di let element ></di>
                   <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create',document, idPersonale)"
                       title="Crear">
                       <i class="fa fa-plus"></i>
-                  </button>
+                  </button>-->
 
                   <!-- boton de correo de personla para concurso dia de los niños -->
                   <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="email()"
@@ -33,9 +51,9 @@
                   <i class="fa fa-file-pdf-o"></i>
               </button> -->
               <!-- *********************************************************************************** -->
-              </div>
+              <!--</div>-->
                
-            </div>
+            <!--</div>-->
   
             <div class="container">
                 <mat-form-field appearance="standard" style="width: 100%;">

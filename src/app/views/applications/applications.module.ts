@@ -30,6 +30,9 @@ import { ReqComponent } from "./req/req.component";
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { UpdateAplicationsComponent } from "./update-aplications/update-aplications.component";
 import { ViewApplicationsComponent } from "./view-applications/view-applications.component";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -58,6 +61,9 @@ const ngWizardConfig: NgWizardConfig = {
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     AngularFileUploaderModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     ApplicationUserComponent,

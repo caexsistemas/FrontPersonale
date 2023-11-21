@@ -26,6 +26,9 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { InventoryComponent } from "./InventoryComponent";
 import { TechnologyComponent } from './technology/technology.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -54,8 +57,9 @@ const ngWizardConfig: NgWizardConfig = {
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     MatBottomSheetModule,
-    
-
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     TechnologyComponent
