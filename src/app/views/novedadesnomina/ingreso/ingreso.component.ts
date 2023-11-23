@@ -92,10 +92,11 @@ export class IngresoComponent implements OnInit {
                 this.loading = false;
             }
         },
-        error => {
-            console.log(error);
-            this.handler.showError('Se produjo un error');
-            this.loading = false;
+        (mistake) => {
+          let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
+          this.loading = false;
         }
       );
   }

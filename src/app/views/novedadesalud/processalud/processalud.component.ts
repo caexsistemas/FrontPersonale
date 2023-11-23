@@ -80,10 +80,11 @@ export class ProcessaludComponent implements OnInit {
                 this.loading = false;
             }
         },
-        error => {
-            //console.log(error);
-            this.handler.showError('Se produjo un error');
-            this.loading = false;
+        (mistake) => {
+          let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
+          this.loading = false;
         }
       );
   }
@@ -186,7 +187,7 @@ export class ProcessaludComponent implements OnInit {
           if( estado == '30/1' ){
             if( this.contDele == 0 ){
 
-              this.handler.showError('Si está seguro de eliminar el registro, por favor de Click de nuevo en Eliminar');
+              this.handler.shoWarning('¿Esta Seguro?', 'De estar seguro, por favor de Click de nuevo en Eliminar');
               this.contDele++;
               this.stadValue = codigo;
             }else if( this.stadValue == codigo){
@@ -202,7 +203,7 @@ export class ProcessaludComponent implements OnInit {
             }
           }else{
 
-              this.handler.showError('Por favor escoger registros que estén en estado Pendiente, Gracias');
+              this.handler.shoWarning('¡Atento!', 'Escoger registros que estén en estado Pendiente, Gracias');
               this.contDele = 0;
               this.stadValue = 0;
           }
@@ -245,7 +246,7 @@ export class ProcessaludComponent implements OnInit {
             }            
         },
         error => {
-            this.handler.showError('Se produjo un error: '+error);
+            this.handler.showError('Se produjo un error al eliminar el registro');
             this.loading = false;
         }
       );

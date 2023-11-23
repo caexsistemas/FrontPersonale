@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 // import { KaysenComponent } from '../kaysen/kaysen.component';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class HandlerAppService {
   };
   constructor(
     public router:Router,
+    private location: Location
     // private kaysen:KaysenComponent
     
   ){}
@@ -147,23 +149,6 @@ export class HandlerAppService {
     }
   }
 
-  showError(message=null){
-    this.closeShow();
-    if(message== null){
-      Swal.fire({
-        title: '',
-        text: "Se produjo un error",
-        icon: 'warning'
-      });
-    }else{
-      Swal.fire({
-        title: '',
-        text: message,
-        icon: 'warning'
-      });
-    }
-  }
-
   showTimePross(title): void {
     let startTime: number = Date.now(); // Obtener la marca de tiempo en milisegundos
   
@@ -220,6 +205,15 @@ export class HandlerAppService {
     });
   }
 
+  shoWarning(title, message){
+    this.closeShow();
+    Swal.fire({
+      title: title,
+      html: message,
+      icon: 'warning'
+    });
+  }
+
   showInfo(message, title, modulo){
     this.closeShow();
     Swal.fire({
@@ -231,6 +225,32 @@ export class HandlerAppService {
       showCancelButton: false,
       showConfirmButton: false
     });
+  }
+
+  showError(message=null){
+    this.closeShow();
+    //Validar Entorno
+    let urlEnt = location.protocol+"//";
+    if( location.hostname == 'localhost' ){
+      urlEnt += location.hostname+':'+location.port+'/';
+    }else{
+      urlEnt += location.hostname+'/360/';
+    }
+
+    Swal.fire({
+      title: 'Error Inesperado',
+      html: message,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonText: 'Ir al Inicio',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Aquí puedes redirigir al usuario a la página deseada
+        window.location.href = urlEnt+'#/login';
+      }
+    });
+
   }
 
   closeSession(){

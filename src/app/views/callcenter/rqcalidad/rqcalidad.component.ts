@@ -50,6 +50,7 @@ export class RqcalidadComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
 
+
   constructor(
     private _tools: Tools,
     private WebApiService: WebApiService,
@@ -85,10 +86,13 @@ export class RqcalidadComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
-        this.handler.showError("Se produjo un error"+error);
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
       }
+      
     );
   }
 
@@ -100,7 +104,7 @@ export class RqcalidadComponent implements OnInit {
       "status_cal",
       "login",
       "name",
-      "coordinator",
+      "supervisor",
       "campana",
       "tipo_gestion",
       "final_note",
@@ -279,9 +283,11 @@ export class RqcalidadComponent implements OnInit {
                       this.loading = false;
               }
             },
-            (error) => {
-                    this.handler.showError("Se produjo un error"+error);
-                    this.loading = false;
+            (mistake) => {
+              let msjErr = "Error al generar Pdf";
+              //let msjErr = mistake.error.message;
+              this.handler.showError(msjErr);
+              this.loading = false;
             }
     );
   }

@@ -104,8 +104,10 @@ export class DwlcontactComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
-        this.handler.showError("Se produjo un error");
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
       }
     );
@@ -158,12 +160,13 @@ export class DwlcontactComponent implements OnInit {
             // this.loading.emit(false);
           }
         },
-        (error) => {
-          this.handler.showError(error);
-          console.log(error);
+        (mistake) => {
+          let msjErr = "Se produjo un Error al descargar el Archivo";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
           this.loading = false;
-          // this.loading.emit(false);
         }
+        
       );
       // }else{
       //     this.handler.showError('Periodo de consulta invalido');
