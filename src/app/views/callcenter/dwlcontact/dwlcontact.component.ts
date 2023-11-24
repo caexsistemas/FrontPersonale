@@ -138,6 +138,7 @@ export class DwlcontactComponent implements OnInit {
       };
       // this.loading.emit(true);
       this.loading = true;
+      this.handler.showLoadin("Generando Reporte", "Por favor espere...");
       this.WebApiService.getRequest(this.endpoint, {
         action: "downloadFiles",
         report: "" + JSON.stringify({ body }),

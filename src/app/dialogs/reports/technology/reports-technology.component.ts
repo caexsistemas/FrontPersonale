@@ -56,6 +56,8 @@ export class ReportsTechnologyComponent implements OnInit {
   }
   dataIni() {
       this.loading.emit(true);
+      this.handler.showLoadin("Generando Reporte", "Por favor espere...");
+
       this.WebApiService.getRequest(this.ndpoint, {
         // action: 'getParamView',
         // role: this.cuser.role,

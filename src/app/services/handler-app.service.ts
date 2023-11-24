@@ -149,6 +149,21 @@ export class HandlerAppService {
     }
   }
 
+  showLoadin(title, text){
+    this.closeShow();
+    Swal.fire({
+      title: title,
+      html: text,
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      showConfirmButton: false,  // Ocultar el botón "OK"
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  }
+
   showTimePross(title): void {
     let startTime: number = Date.now(); // Obtener la marca de tiempo en milisegundos
   
