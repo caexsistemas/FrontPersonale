@@ -921,8 +921,6 @@ export class RqcalidadDialog  {
 
     if(event !== null && event !== ""){
       let pruse: string = event.toString();
-      console.log(pruse.length);
-  
       let exitsPersonal = this.personalData.find(element => element.document == pruse);
       let contDocu = pruse.length;
   
