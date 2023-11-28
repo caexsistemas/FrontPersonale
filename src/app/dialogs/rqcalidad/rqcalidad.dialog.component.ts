@@ -1,5 +1,5 @@
 import { MatDialog,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Component, Inject, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, ViewChildren, QueryList, ViewEncapsulation  } from '@angular/core';
 import { WebApiService } from '../../services/web-api.service';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
@@ -918,20 +918,27 @@ export class RqcalidadDialog  {
   }
 
   onSelectionChange(event){
-    let exitsPersonal = this.personalData.find(element => element.document == event);
-    if( exitsPersonal ){
-        this.formProces.get('name').setValue(exitsPersonal.idPersonale);
-        this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
-        if(exitsPersonal.supervisor == null ){ this.handler.showError("Falta Supervisor");return;}
-        if(exitsPersonal.formador == null ){ this.handler.showError("Falta Formador 1");return;} 
-        this.formProces.get('supervisor').setValue(exitsPersonal.supervisor);
-        this.formProces.get('formador').setValue(exitsPersonal.formador);
-        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
-        if(this.tipMatriz != '40/3' ){
-        if(exitsPersonal.formador_tw == null ){ this.handler.showError("Falta Formador 2");return;}
-        this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+
+    if(event !== null && event !== ""){
+      let pruse: string = event.toString();
+      let exitsPersonal = this.personalData.find(element => element.document == pruse);
+      let contDocu = pruse.length;
+  
+      if( exitsPersonal && contDocu >= 5 ){
+          this.formProces.get('name').setValue(exitsPersonal.idPersonale);
+          this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
+          if(exitsPersonal.supervisor == null ){ this.handler.showError("Falta Supervisor");return;}
+          if(exitsPersonal.formador == null ){ this.handler.showError("Falta Formador 1");return;} 
+          this.formProces.get('supervisor').setValue(exitsPersonal.supervisor);
+          this.formProces.get('formador').setValue(exitsPersonal.formador);
+          this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+          if(this.tipMatriz != '40/3' ){
+          if(exitsPersonal.formador_tw == null ){ this.handler.showError("Falta Formador 2");return;}
+          this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+          } 
         } 
-      }  
+    }
+ 
   }
   
   //Numero de semanas

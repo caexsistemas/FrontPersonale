@@ -139,8 +139,10 @@ export class SuspendComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
-        this.handler.showError("Se produjo un error");
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
       }
     );
@@ -270,7 +272,7 @@ export class SuspendComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.handler.showError();
+          this.handler.showError("Se produjo un error al cargar el Archivo");
         }
       );
   }
@@ -460,7 +462,7 @@ export class SuspendComponent implements OnInit {
           console.log(error);
             this.loading = false;
             this.data = null;
-            this.handler.showError('Error de documento');
+            this.handler.showError('Error en el documento');
         }
       );
     }else{
@@ -508,7 +510,7 @@ export class SuspendComponent implements OnInit {
           }
         },
         (error) => {
-          this.handler.showError();
+          this.handler.showError("Se produjo un error al cargar la data");
              this.loading = false;
              // this.loading.emit(false);
         }

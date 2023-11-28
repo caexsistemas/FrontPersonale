@@ -90,10 +90,11 @@ export class UsersComponent implements OnInit {
             this.loading = false;
           }
         },
-        error => {
+        (mistake) => {
+          let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
           this.loading = false;
-          this.permissions = this.handler.getPermissions(this.component);
-          this.handler.showError(error);
         }
       );
   }
@@ -212,7 +213,7 @@ export class UsersComponent implements OnInit {
       this.logoutSesionSys();
     }else{
       this.contSesion = 1;
-      this.handler.showError('Para confirmar por favor de Click nuevamente en el botón de Cerrar Sesiones');
+      this.handler.showInfo('Para confirmar por favor de Click nuevamente en el botón de Cerrar Sesiones', '¿Esta Seguro?', '#/admin/users');
     }
   }
 
@@ -236,9 +237,11 @@ export class UsersComponent implements OnInit {
                 this.loading = false;
             }
         },
-        error => {
-            this.handler.showError();
-            this.loading = false;
+        (mistake) => {
+          let msjErr = "Error al cerrar la sesión.";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
+          this.loading = false;
         }
     );
   }

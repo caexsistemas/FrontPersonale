@@ -81,7 +81,7 @@ export class ReportsRqcalidadComponent implements OnInit {
           }
         },
         error => {
-          this.handler.showError('Se produjo un error');
+          this.handler.showError('Se produjo un error al consultar los parametros');
           this.loading.emit(false);
         }
       );
@@ -91,7 +91,8 @@ export class ReportsRqcalidadComponent implements OnInit {
     if (this.formDownoadIngreso.valid) {
 
         if( this.formDownoadIngreso.value['fi'] <= this.formDownoadIngreso.value['ff'] && this.formDownoadIngreso.value['fi'] != '' && this.formDownoadIngreso.value['ff'] != '' ){
-
+            
+            this.handler.showLoadin("Generando Reporte", "Por favor espere...");
             let body = {
                 valest: this.formDownoadIngreso.value,      
             }
@@ -106,6 +107,7 @@ export class ReportsRqcalidadComponent implements OnInit {
             .subscribe(
                 data => {                   
                     if(data.success){
+                        
                         const link = document.createElement("a");
                         link.href = data.data.url;
                         link.download = data.data.file;
@@ -113,11 +115,13 @@ export class ReportsRqcalidadComponent implements OnInit {
                         this.handler.showSuccess(data.data.file);
                         this.loading.emit(false);
                     }else{
+                        
                         this.handler.handlerError(data);
                         this.loading.emit(false);
                     }          
                 },
                 error => {
+                  
                     this.handler.showError('El documento no contiene información.');
                     console.log(error);
                     this.loading.emit(false);

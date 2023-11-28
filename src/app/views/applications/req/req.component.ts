@@ -121,10 +121,11 @@ export class ReqComponent implements OnInit {
           this.handler.handlerError(data);
         }
       },
-      (error) => {
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
-        this.permissions = this.handler.getPermissions(this.component);
-        this.handler.showError();
       }
     );
   }
@@ -278,10 +279,11 @@ export class ReqComponent implements OnInit {
           this.handler.handlerError(response);
         }
       },
-      (error) => {
+      (mistake) => {
+        let msjErr = "Problema al cargar el Archivo";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
-        //this.permissions = this.handler.getPermissions(this.component);
-        this.handler.showError();
       }
     );
   }
@@ -328,9 +330,10 @@ export class ReqComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
-        console.log(error);
-        this.handler.showError("Se produjo un error");
+      (mistake) => {
+        let msjErr = "Problema al descargar el archivo";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
       }
     );

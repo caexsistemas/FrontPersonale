@@ -180,9 +180,11 @@ export class ManagementComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
-        this.handler.showError();
       }
     );
   }

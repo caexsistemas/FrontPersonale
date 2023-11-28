@@ -122,10 +122,11 @@ export class AbsenteeismComponent implements OnInit {
                   this.loading = false;
               }
           },
-          error => {
-              console.log(error);
-              this.handler.showError('Se produjo un error');
-              this.loading = false;
+          (mistake) => {
+            let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+            //let msjErr = mistake.error.message;
+            this.handler.showError(msjErr);
+            this.loading = false;
           }
         );
     }
@@ -254,10 +255,11 @@ export class AbsenteeismComponent implements OnInit {
             this.handler.handlerError(response);
           }
         },
-        error => {
+        (mistake) => {
+          let msjErr = "Se produjo un Error al cargar el Archivo";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
           this.loading = false;
-          //this.permissions = this.handler.getPermissions(this.component);
-          this.handler.showError();
         }
       );
   }
@@ -278,7 +280,7 @@ export class AbsenteeismComponent implements OnInit {
 
     if(this.dataDelte.length > 0){
       if( this.contDele == 0 ){
-        this.handler.showError('Si está seguro de borrar los registros, por favor de Click de nuevo en eliminar. Total a eliminar: '+this.dataDelte.length);
+        this.handler.shoWarning('¿Esta Seguro?', 'De estar seguro, por favor de Click de nuevo en eliminar. Total a eliminar: '+this.dataDelte.length);
         this.contDele++;
         this.stadValue = true;
       }else{
@@ -306,7 +308,7 @@ export class AbsenteeismComponent implements OnInit {
                 }
             },
             error => {
-                this.handler.showError('Se produjo un error');
+                this.handler.showError('Se produjo un error al eliminar los registros');
                 this.loading = false;
                 this.stadValue = false;
             }

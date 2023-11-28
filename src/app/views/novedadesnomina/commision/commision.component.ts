@@ -117,11 +117,13 @@ export class CommisionComponent implements OnInit {
                 this.loading = false;
             }
         },
-        error => {
-            console.log(error);
-            this.handler.showError('Se produjo un error');
-            this.loading = false;
+        (mistake) => {
+          let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+          //let msjErr = mistake.error.message;
+          this.handler.showError(msjErr);
+          this.loading = false;
         }
+        
       );
   }
 
@@ -192,7 +194,7 @@ export class CommisionComponent implements OnInit {
           error => {
             this.loading = false;
             //this.permissions = this.handler.getPermissions(this.component);
-            this.handler.showError();
+            this.handler.showError("Se produjo un error al cargar el Archivo");
           }
         );
     }

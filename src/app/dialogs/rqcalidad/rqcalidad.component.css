@@ -54,3 +54,8 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
     font-size: 14px;
     overflow: auto;
   }
+
+  .mat-dialog-container{
+    width: 70% !important;
+    margin: auto;
+  }

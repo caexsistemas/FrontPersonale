@@ -95,8 +95,10 @@ export class ContactComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
-        this.handler.showError("Se produjo un error");
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
       }
     );

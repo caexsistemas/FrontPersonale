@@ -114,6 +114,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/materia
                     
                   
                   this.loading.emit(true);
+                  this.handler.showLoadin("Generando Reporte", "Por favor espere...");
                   this.WebApiService.getRequest(this.ndpoint, {
                       action: 'downloadFiles',
                       report:  ""+JSON.stringify({body}),
