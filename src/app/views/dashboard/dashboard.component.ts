@@ -32,7 +32,16 @@ export class DashboardComponent implements AfterViewInit  {
   public GrafiSupe: any = [];
   public GrafiA: any = [];
   public selectCampan: any = [];
+  public TablAnalista: any = [];
+  public dataSource: any = [];
+  public displayedColumns: any = [];
 // variables para renderizado
+  public mensajeNc = 0; 
+  public colornC = 0;
+  public TablAnalistac = 0;
+  public TablAnalistacN = 0;
+  public TablAnalistacus = 0;
+  public analistaNota = 0;
   public NotaHogar = 0;
   public NotaMovil = 0;
   public NotaTyt  = 0;
@@ -57,7 +66,6 @@ export class DashboardComponent implements AfterViewInit  {
   public grafico_a1="";
   public grafico_n="";
   public grafico_a2="";
- 
 // tyt 
   public grafico_gt="";
   public grafico_a1t="";
@@ -81,7 +89,9 @@ export class DashboardComponent implements AfterViewInit  {
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   public campanaConsu=this.cuser.campana;
 // trae informacion de modales 
-  @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+  @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective; 
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>(); 
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();                                                                                                                                                                              
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
 
@@ -119,13 +129,29 @@ export class DashboardComponent implements AfterViewInit  {
   }
   this.cdr.detectChanges();
 }
-// graficos pára calidad 
+
+// customer(){
+//   console.log('Monitores:', this.TablAnalista.dato.monitorCalCus);
+// }
+
+// getColorForNota(nota: number): string {
+//   if (nota >= 0 && nota <= 50) {
+//     return '#DB0E0E'; 
+//   } else if (nota > 50 && nota <= 100) {
+//     return '#FAE128'; 
+//   } else {
+//     return '#1674E3';
+//   }
+// }
+
+
+    // graficos pára calidad 
 graCalid(){
     //Cargue de Graficos
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.load('current', {'packages':['bar']});
     //Grafico Hogar
-    google.charts.setOnLoadCallback(()  =>{this.grama_barra(this.GrafiHogar, 'grama_hogar_barra','model_gana_barra', 'grafico_barra');});
+    google.charts.setOnLoadCallback(() => {this.grama_barra(this.GrafiHogar, 'grama_hogar_barra','model_gana_barra', 'grafico_barra');});
     google.charts.setOnLoadCallback(() => {this.grama_linea(this.GrafiHogar, 'grama_hogar_lineal','campanas_lineal', 'grafico_lineal');});
     this.NotaHogar = this.GrafiHogar['dato']['califica'];
 
@@ -228,6 +254,11 @@ sendRequest(): Promise<void> {
             this.GrafiHogar = data.data['GrafiHogar']; 
             this.GrafiMovil = data.data['GrafiMovil']; 
             this.GrafiTyt   = data.data['GrafiTYT']; 
+            this.generateTable(data.data['TablAnalista']['dato']['monitorCalCus']);
+            this.TablAnalista   = data.data['TablAnalista']['dato']['monitorCalCus']; 
+            console.log('==>',this.TablAnalista);
+            console.log('==>',this.GrafiTyt);
+            
           }else if(this.cuser.role == 31 || this.cuser.role == 2){
             this.GrafiSupe = data.data['GrafiSupe']; 
           }else if(this.cuser.role == 23){
@@ -249,6 +280,46 @@ sendRequest(): Promise<void> {
     );
   });
 }
+
+  //Tabla Contenido
+  generateTable(data) {
+    this.displayedColumns = [
+      "nombre_apellido",
+      "description",
+      "final_note",
+      "modlo",
+    ];
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort.toArray()[0];
+    this.dataSource.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+
+    if(this.cuser.role == 21 ){
+      this.applyFilter(this.cuser.iduser, 'createUser');
+    }
+  }
+
+   //Filtro Tabla
+   applyFilter(filterValue: string | number, column: string) {
+   // Si el valor del filtro es un número, conviértelo a cadena
+   const filterString = typeof filterValue === 'number' ? filterValue.toString() : filterValue;
+
+   // Define el filtro personalizado para la columna 'final_note'
+   const customFilter = (data: any, filter: string) => {
+     const columnValue = data[column].toString();
+     return columnValue.includes(filter);
+   };
+ 
+   // Asigna el filtro personalizado para la columna
+   this.dataSource.filterPredicate = customFilter;
+ 
+   // Aplica el filtro
+   this.dataSource.filter = filterString.trim().toLowerCase();
+  }
 
 // GRAFICO BARRAS
 grama_barra(infodata,divdata,cabecera,valores) {
