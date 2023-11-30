@@ -252,8 +252,12 @@ export class HandlerAppService {
       urlEnt += location.hostname+'/360/';
     }
 
+    if(message == null || message == "" ){
+      message = 'Comunícate con nuestro equipo de soporte para obtener asistencia.';
+    }
+
     Swal.fire({
-      title: 'Error Inesperado',
+      title: '¡Ups! Ocurrió un contratiempo inesperado.',
       html: message,
       icon: 'error',
       showCancelButton: true,
@@ -263,6 +267,8 @@ export class HandlerAppService {
       if (result.isConfirmed) {
         // Aquí puedes redirigir al usuario a la página deseada
         window.location.href = urlEnt+'#/login';
+        window.location.reload();
+
       }
     });
 
