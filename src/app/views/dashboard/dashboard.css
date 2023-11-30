@@ -32,7 +32,6 @@
     justify-content: space-around;
   }
 
-
   .containerCalidadA2{
     width: auto;
     height: auto;
@@ -51,20 +50,38 @@
     justify-content: space-around !important;
   }
 
-  .button1{
+.monitoresCalidad{
+  width: auto;
+  height: auto;
+  margin: 10;
+  padding:10px;
+  margin-bottom: 15px;
+  font-size: 1.5rem !important;
+  color:rgb(21, 21, 21);
+  background-image: linear-gradient(#dae8f2 ) !important;
+  background: rgba(255, 255, 255, 0.816);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1.5px solid rgba(209, 213, 219, 0.3);
+  display: flex;
+  box-shadow: 5px 5px 10px 5px #DADADA;
+  overflow: auto;
+  flex-direction: column !important;
+  justify-content: space-around !important;
+}
+
+.union{
+  float: left;
+}
+
+.button1{
     display: flex;
   }
 
-  /* .bottonMenu{
-    background-color: #3E93F9;
-    color: #fff;
-  } */
-
-
- .animated{
+.animated{
   padding-bottom: 20px;
  }
- .carga {
+.carga {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -15,6 +15,7 @@ import { WebApiService } from "../../services/web-api.service";
 import { from } from "rxjs";
 import Swal from "sweetalert2";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { HandlerAppService } from "../../services/handler-app.service";
 
 @Component({
   selector: "app-dashboard",
@@ -45,7 +46,8 @@ export class LoginComponent {
     private _route: ActivatedRoute,
     private _tools: Tools,
     private WebApiService: WebApiService,
-    private Encrypt: EncryptService
+    private Encrypt: EncryptService,
+    public handler: HandlerAppService,
   ) {
     this.loginData = new User(1, "", "", "", "", "", 0);
   }
@@ -128,7 +130,7 @@ export class LoginComponent {
       this.loading = true;
       this.WebApiService.postRequest("/login", body, {}).subscribe(
         (data) => {
-          if (data.success == true) {
+          if (data.success == true && data.info == false) {
             // seteo localstorage.
             let objData = {
               token: data.token,
@@ -149,15 +151,16 @@ export class LoginComponent {
             this.WebApiService.token = data.token;
             this._tools.isLogged = true;
             this._router.navigate(["/dashboard"]);
-          } else {
+          } else if(data.success == true && data.info == true) {
             this.loading = false;
             this._tools.isLogged = false;
             this.loginForm.get("fpass").setValue("");
-            Swal.fire({
-              title: "",
-              text: data.message,
-              icon: "warning",
-            });
+            this.handler.showInfo(data.message, data.title, '#/login');
+          }else{
+            this.loading = false;
+            this._tools.isLogged = false;
+            this.loginForm.get("fpass").setValue("");
+            this.handler.showError(data.message);
           }
         },
         (error) => {

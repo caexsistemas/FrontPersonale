@@ -29,6 +29,9 @@ import { selfManagementRoutingModule } from './selfManagement-routing.module';
 import { AcceptanceComponent } from './acceptance/acceptance.component';
 import { LiquidationComponent } from './liquidation/liquidation.component';
 import { AdvanceComponent } from './advance/advance.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -55,10 +58,10 @@ const ngWizardConfig: NgWizardConfig = {
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     MatBottomSheetModule,
-    selfManagementRoutingModule
-    
-    
-
+    selfManagementRoutingModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     

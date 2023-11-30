@@ -10,7 +10,41 @@
       </mat-card-content>
     </mat-card>
   </div>    
-<!-- Grafico de calidad -->
+  <!--Calificaciones monitores customer y pq -->
+  
+  <div class="animated fadeIn  monitoresCalidad " *ngIf="rolC  == true  " >
+    <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="nombre_apellido">
+      <th mat-header-cell *matHeaderCellDef> Nombre Apellido </th>
+      <td mat-cell *matCellDef="let element">{{element.nombre_apellido}} </td>
+    </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="final_note">
+        <th mat-header-cell *matHeaderCellDef> Nota Final </th>
+        <td mat-cell *matCellDef="let element"> {{element.final_note}} </td>
+      </ng-container>
+       
+    <!-- Name Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Tipo de Matriz </th>
+      <td mat-cell *matCellDef="let element">{{element.description}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="modlo">
+      <th mat-header-cell *matHeaderCellDef> Segmento </th>
+      <td mat-cell *matCellDef="let element"> {{element.modlo}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+  
+  <!-- Grafico de calidad -->
     <div class="animated fadeIn" *ngIf="rolC  == true  " >
       <mat-card class="example-card">
         <mat-card-header class="containerCalidad2">

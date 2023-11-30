@@ -84,8 +84,12 @@
                         <dd>{{usuario.supervisor}}</dd>                     
                     </div>
                     <div class="col-md-4">
-                        <dt>Formador de Agente</dt>
+                        <dt>Formador de Agente 1</dt>
                         <dd>{{usuario.formador}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Formador de Agente 2</dt>
+                        <dd>{{usuario.formador_tw}}</dd>
                     </div>
 
                 </div>
@@ -264,7 +268,7 @@
                             <mat-form-field appearance="fill">
                                 <mat-label>Supervisor de Agente:</mat-label>
                                 <mat-select formControlName="supervisor" [errorStateMatcher]="matcher">
-                                    <mat-option *ngFor="let usert of superviso" [value]="usert.idUser">
+                                    <mat-option *ngFor="let usert of superviso" [value]="usert.idPersonale">
                                         {{usert.name}} {{usert.surname}}
                                     </mat-option>
                                 </mat-select>
@@ -272,15 +276,24 @@
                         </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
-                                <mat-label>Formador de Agente:</mat-label>
+                                <mat-label>Formador de Agente 1:</mat-label>
                                 <mat-select formControlName="formador" [errorStateMatcher]="matcher">
-                                    <mat-option *ngFor="let usert of formadores" [value]="usert.idUser">
+                                    <mat-option *ngFor="let usert of formadores" [value]="usert.idPersonale">
                                         {{usert.name}} {{usert.surname}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Formador de Agente 2:</mat-label>
+                                <mat-select formControlName="formador_tw" [errorStateMatcher]="matcher">
+                                    <mat-option *ngFor="let usert of formadores" [value]="usert.idPersonale">
+                                        {{usert.name}} {{usert.surname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
 
                     </div>
 

@@ -153,7 +153,6 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { UpdateApplicationsDialog } from "./dialogs/updateApplications/updateApplications.dialog.component";
 import { ReceptionDialogComponent } from "./dialogs/reception/reception.dialog.component";
-import { CargueContactComponent } from "./views/callcenter/cargue-contact/cargue-contact.component";
 import { cargueBaseDialog } from "./dialogs/cargueBase/cargueBase.dialog.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CitationDialog } from "./dialogs/citation/citation.dialog.component";
@@ -162,6 +161,7 @@ import { PostponementDialog } from "./dialogs/postponement/postponement.dialog.c
 import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.component";
 import { MatMenuModule } from "@angular/material/menu";
 import { ReportsDisciplinaryComponent } from "./dialogs/reports/disciplinary/reports-disciplinary.component";
+
 
 const routes: Routes = [];
 @NgModule({
@@ -305,6 +305,7 @@ const routes: Routes = [];
     DisciplinaryDialog,
     UpdateApplicationsDialog,
     ReceptionDialogComponent,
+    cargueBaseDialog,
     CitationDialog,
     ClarificationDialog,
     PostponementDialog,

@@ -7,7 +7,34 @@
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
 
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3" *ngIf="permissions.create">
+                <div class="m-2 text-right">        
+                          
+                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+                        <span>Menu</span>
+                    </button>
+                      
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>Acciones Disponibles… </button>
+      
+                        <button mat-menu-item *ngIf="checkCreate" (click)="option('create')" title="Crear">
+                            <mat-icon>add_circle</mat-icon>
+                            <span>Crear</span>
+                        </button>
+
+                        <button mat-menu-item *ngIf="checkCreate" (click)="successModal.show()" title="Importar Archivo Personal">
+                            <mat-icon>upload_file</mat-icon>
+                            <span>Importar Archivo Personal</span>
+                        </button>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Mod. Personal">
+                            <mat-icon>download</mat-icon>
+                            <span>Reporte Mod. Personal</span>
+                        </button>
+      
+                    </mat-menu>       
+                </div>
+
+                <!--<div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3" *ngIf="permissions.create">
                     <div class="btn-group" dropdown>
                         <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
                             title="Reporte Excel">
@@ -20,13 +47,15 @@
                             <i class="fa fa-plus"></i>
                         </button>
                         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+
                             <li role="menuitem"><a class="dropdown-item" [routerLink]=""
                                     (click)="successModal.show()">Importar Archivo</a></li>
+
                             <li role="menuitem"><a class="dropdown-item" (click)="option('create')">Ingresar nuevo
                                     registro</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="container">
                     <mat-form-field appearance="standard" style="width: 100%;">

@@ -94,6 +94,7 @@ import {
                     valest: this.formDownoadIngreso.value,      
                 }
                 this.loading.emit(true);
+                this.handler.showLoadin("Generando Reporte", "Por favor espere...");
                 this.WebApiService.getRequest(this.ndpoint, {
                     action: 'downloadFiles',
                     report:  ""+JSON.stringify({body}),

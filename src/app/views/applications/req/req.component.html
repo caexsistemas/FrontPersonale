@@ -10,28 +10,21 @@
 
     <div class="toolbar-table" *ngIf="permissions != null">
 
-      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+      <div class="m-2 text-right">        
+                          
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+            <span>Menu</span>
+        </button>
+          
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Acciones Disponibles… </button>
 
-        <!-- <div class="btn-group" dropdown>
-          <button class="btn btn-success" *ngIf="permissions.create" (click)="successModal.show()"
-            title="Adjuntar Excel">
-            <i class="fa fa-feed"></i>
-          </button>
-        </div> -->
+            <button mat-menu-item *ngIf="permissions.create" (click)="option('create')" title="Crear">
+                <mat-icon>add_circle</mat-icon>
+                <span>Crear</span>
+            </button>
 
-        <!-- <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="successModal.show()" >Importar Archivo</a></li> -->
-
-        <div class="btn-group" dropdown>
-
-          <div let element></div>
-          <button class="btn btn-primary" *ngIf="permissions.create" (click)="option('create')" title="Crear">
-            <i class="fa fa-plus"></i>
-          </button>
-        </div>
-        <!-- <angular-file-uploader [config]="afuConfig" (ApiResponse)="uploadFile()">
-          <span>Arrastra y suelta archivos aquí o selecciona un archivo haciendo clic.</span>
-        </angular-file-uploader> -->
-
+        </mat-menu>       
       </div>
 
       <div class="container">

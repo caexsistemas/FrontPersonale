@@ -88,10 +88,11 @@ export class ReceptionComponent implements OnInit {
           this.handler.handlerError(data);
         }
       },
-      (error) => {
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
-        this.permissions = this.handler.getPermissions(this.component);
-        this.handler.showError();
       }
     );
   }
@@ -256,7 +257,7 @@ export class ReceptionComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.handler.showError("Se produjo un error");
+        this.handler.showError("Se produjo un error al descargar Pdf");
         this.loading = false;
       }
     );

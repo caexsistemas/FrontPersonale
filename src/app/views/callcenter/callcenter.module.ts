@@ -31,6 +31,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 
 // Modal Component
+
 import { ModalModule } from "ngx-bootstrap/modal";
 import { DatafilterModule } from "../../Tools/pipe/datafilter.module";
 import { MatInputModule } from "@angular/material/input";
@@ -45,6 +46,9 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
 import { CargueContactComponent } from "./cargue-contact/cargue-contact.component";
 //import { ReportsRqcalidadComponent } from "../../dialogs/reports/rqcalidad/ReportsRqcalidadComponent";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -58,7 +62,7 @@ const ngWizardConfig: NgWizardConfig = {
     ReactiveFormsModule,
     SelectModule,
     TextMaskModule,
-    ModalModule,
+    ModalModule, 
     DatafilterModule,
     MatPaginatorModule,
     MatSortModule,
@@ -69,6 +73,9 @@ const ngWizardConfig: NgWizardConfig = {
     MatFormFieldModule,
     BsDropdownModule,
     TabsModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     MatBottomSheetModule,
@@ -83,5 +90,6 @@ const ngWizardConfig: NgWizardConfig = {
     DwlcontactComponent,
     CargueContactComponent,
   ],
+
 })
 export class CallcenterModule {}

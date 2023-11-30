@@ -125,8 +125,10 @@ export class CargueContactComponent implements OnInit {
           this.loading = false;
         }
       },
-      (error) => {
-        this.handler.showError("Se produjo un error"+error);
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
         this.loading = false;
       }
     );
@@ -238,10 +240,12 @@ export class CargueContactComponent implements OnInit {
                       this.loading = false;
                   }
               },
-              error => {
+              mistake => {
                 this.handler.closeShow();
-                  this.handler.showError();
-                  this.loading = false;
+                let msjErr = "Se presento problema al cargar el archivo";
+                //let msjErr = mistake.error.message;
+                this.handler.showError(msjErr);
+                this.loading = false;
               }
           );
     }else {

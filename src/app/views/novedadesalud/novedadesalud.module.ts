@@ -25,6 +25,9 @@ import { ProcessaludComponent } from './processalud/processalud.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { AbsenteeismComponent } from './absenteeism/absenteeism.component';
 import { AngularFileUploaderModule } from "angular-file-uploader";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -50,6 +53,9 @@ const ngWizardConfig: NgWizardConfig = {
     MatInputModule,
     ProcessaludRoutingModule,
     MatBottomSheetModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     AngularFileUploaderModule

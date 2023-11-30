@@ -26,6 +26,9 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { SigReportComponent } from './sigReport/sigReport.component';
 import { sigRoutingModule } from './sig-routing.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -52,10 +55,10 @@ const ngWizardConfig: NgWizardConfig = {
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig),
     MatBottomSheetModule,
-    sigRoutingModule
-    
-    
-
+    sigRoutingModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     

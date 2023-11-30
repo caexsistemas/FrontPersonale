@@ -44,6 +44,9 @@ import { RolesComponent } from './roles/roles.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { ContactComponent } from './contact/contact.component';
 import { ModuleComponent } from './permission/module.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -69,6 +72,9 @@ const ngWizardConfig: NgWizardConfig = {
     MatFormFieldModule,
     BsDropdownModule,
     TabsModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
     BsDropdownModule.forRoot(),
     NgWizardModule.forRoot(ngWizardConfig)
 
