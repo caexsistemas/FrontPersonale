@@ -50,26 +50,21 @@ export class ReceptionDialogComponent {
   @ViewChild("stepCase") stepCase: MatStepper;
   @ViewChild("stepCon") stepCon: MatStepper;
   endpoint: string = "/reception";
-  // endpoint: string = "/rol";
   maskDNI = global.maskDNI;
   view: string = null;
   title: string = null;
   idRol: number = null;
-
   permissions: any = null;
   ValorRol: any = [];
   valoresList: any = [];
   loadingCit: boolean = false;
   component = "/process/reception";
-  // component = "/admin/roles";
   dataSource: any = [];
   dataSourceCli: any = [];
   dataSourcePost: any = [];
   dataSourceConc: any = [];
   RolInfo: any[];
-
   selection: any = [];
-
   PersonaleInfo: any = [];
   exitsPersonal: any = [];
   typeFalt: any = [];
@@ -132,7 +127,6 @@ export class ReceptionDialogComponent {
   checkOther: boolean;
   checkAddress: boolean;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
-
   //OUTPUTS
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
@@ -144,6 +138,8 @@ export class ReceptionDialogComponent {
   displayedColumnsCla: any = [];
   displayedColumnsPost: any = [];
   displayedColumnsConc: any = [];
+  updateButtonEnabled:boolean[] = [];
+
 
   public clickedRows;
 
@@ -167,8 +163,6 @@ export class ReceptionDialogComponent {
         this.initFormsRole();
         this.title = "Actualizar Solicitud procesos disciplinarios";
         this.idRol = this.data.codigo;
-        // this.sendRequest();
-
         break;
       case "view":
         this.idRol = this.data.codigo;
@@ -232,6 +226,7 @@ export class ReceptionDialogComponent {
     });
     this.formCase = new FormGroup({
       dis_fal: new FormControl(""),
+      dis_id: new FormControl(""),
       cas_des: new FormControl(""),
       cas_mod: new FormControl(""),
       cas_link: new FormControl(""),
@@ -243,7 +238,7 @@ export class ReceptionDialogComponent {
     });
     this.formCitation = new FormGroup({
       idPersonale: new FormControl(""),
-      dis_id: new FormControl(""),
+      cit_id: new FormControl(""),
       cit_fec_hor: new FormControl(""),
       cit_fec_elab: new FormControl(""),
       cit_con: new FormControl(""),
@@ -251,7 +246,7 @@ export class ReceptionDialogComponent {
     });
     this.formClasifi = new FormGroup({
       idPersonale: new FormControl(""),
-      dis_id: new FormControl(""),
+      // dis_id: new FormControl(""),
       cit_id: new FormControl(""),
       cla_fec_ref: new FormControl(""),
       cla_fec_pres: new FormControl(""),
@@ -259,24 +254,20 @@ export class ReceptionDialogComponent {
     });
     this.formPostpo = new FormGroup({
       idPersonale: new FormControl(""),
-      dis_id: new FormControl(""),
+      // dis_id: new FormControl(""),
       cit_id: new FormControl(""),
       pos_fec_ela: new FormControl(""),
       pos_apl: new FormControl(""),
       cla_description: new FormControl(""),
     });
   }
-
   closeDialog() {
     this.dialogRef.close();
     this.reload.emit();
   }
   ngOnInit(): void {
     this.permissions = this.handler.permissionsApp;
-    // this.sendRequest();
   }
-  // sendRequest() {}
-
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
@@ -311,25 +302,8 @@ export class ReceptionDialogComponent {
           this.city = data.data["citys"];
           this.state = data.data["state"];
           this.addressCit = data.data["addressCit"];
-          // this.typeFalt.forEach((element) => {
-          //   console.log("****", element.ls_codvalue);afirm
-
-          //   element.ls_codvalue = "121/16"
-          //     ? (this.checkUs = true)
-          //     : this.checkUs;
-          // });
-
-          // this.typeFalt === "121/16";
-
-          // this.check_cood = true;
-
           this.exitsPersonal = this.PersonaleInfo.find(
-            (element) => element.idPersonale == this.cuser.idPersonale
-          );
-          // this.formCreate.get("us_are_tra").setValue(this.exitsPersonal.idArea);
-          // this.formCreate
-          //   .get("dis_po_sol")
-          //   .setValue(this.exitsPersonal.idPosition);
+            (element) => element.idPersonale == this.cuser.idPersonale);
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -346,7 +320,6 @@ export class ReceptionDialogComponent {
       }
     );
   }
-
   getDataUpdate() {
     // this.loading.emit(true);
     this.loadingCit = true;
@@ -383,7 +356,6 @@ export class ReceptionDialogComponent {
             .setValue(data.data[0][0].elementos_relev);
           this.formCreate.get("dis_sop").setValue(data.data[0][0].dis_sop);
           this.formCreate.get("cityWork").setValue(data.data[0][0].cityWork);
-          // this.formCreate.get("dis_est").setValue(data.data[0][0].dis_est);
           this.formCreate
             .get("cas_op_clo")
             .setValue(data.data[0][0].cas_op_clo);
@@ -393,60 +365,54 @@ export class ReceptionDialogComponent {
             this.caract = true;
             this.selection.file_sp = JSON.parse(data.data[0][0].file_sp);
           }
-          // this.archivo.nombre = JSON.parse(
-          //   data.data[0][0].file_sp
-          // );
           this.formCreate.get("dis_con").setValue(data.data[0][0].dis_con);
           this.archivo.nombre = JSON.parse(data.data[0][0].file_sp);
           this.formCreate.get("dis_niv").setValue(data.data[0][0].dis_niv);
-
           //CASE
+          this.formCase.get("dis_id").setValue(data.data[1][0].dis_id);
           this.formCase.get("dis_fal").setValue(data.data[1][0].dis_fal);
           this.formCase.get("cas_des").setValue(data.data[1][0].cas_des);
           this.formCase.get("cas_mod").setValue(data.data[1][0].cas_mod);
           this.formCase.get("dis_est").setValue(data.data[1][0].dis_est);
           this.formCase.get("cas_op_clo").setValue(data.data[1][0].cas_op_clo);
+          this.formCase.get("cas_address").setValue(data.data[1][0].cas_address);
+          this.formCase.get("cas_reasons_falt").setValue(data.data[1][0].cas_reasons_falt);
+          //citacion 
+          this.formCitation.get("idPersonale").setValue(data.data[1][0].dis_idPersonale);
+          this.formCitation.get("cit_id").setValue(data.data[2][0].cit_id);
 
-          this.formCase
-            .get("cas_reasons_falt")
-            .setValue(data.data[1][0].cas_reasons_falt);
-
-          //citacion cit_fec_hor
-          this.formCitation
-            .get("idPersonale")
-            .setValue(data.data[1][0].dis_idPersonale);
-          this.formCitation.get("dis_id").setValue(data.data[1][0].dis_id);
           if (data.data[2].length > 0 && data.data[2][0].cit_fec_hor) {
             this.checkCita = true;
-
-            this.formCitation
-              .get("cit_fec_hor")
-              .setValue(data.data[2][0].cit_fec_hor);
+            this.formCitation.get("cit_fec_hor").setValue(data.data[2][0].cit_fec_hor);
           }
           //aclaracion
           if (data.data[4].length > 0) {
             this.checkAcla = true;
-            this.formClasifi
-              .get("cla_fec_ref")
-              .setValue(data.data[4][0].cla_fec_ref);
+            this.formClasifi.get("cla_fec_ref").setValue(data.data[4][0].cla_fec_ref);
           }
           //aplazamiento
           if (data.data[3].length > 0) {
             this.checkAp = true;
-            this.formPostpo
-              .get("pos_fec_ela")
-              .setValue(data.data[3][0].pos_fec_ela);
+            this.formPostpo.get("pos_fec_ela").setValue(data.data[3][0].pos_fec_ela);
           }
           //conclusion
           if (data.data[5][0].cas_reasons_falt) {
             this.checkConc = true;
           }
-
+          
           this.nametext(data.data[2], data.data[4], data.data[3], data.data[5]);
-
           this.generateTableCitation(data.data[2]);
           this.tableClarification(data.data[4]);
           this.tablePostponement(data.data[3]);
+         
+          // habilitar boton de conclusion
+          this.updateButtonEnabled = data.data[5].map((row, index) => {
+            if (data.data[5].slice(index + 1).every(subsequentRow => subsequentRow.con_fec_ela !== null) ) {
+              return true; 
+            }
+          });
+          
+
           this.tableConclusion(data.data[5]);
           // this.loading.emit(false);
           this.loadingCit = false;
@@ -454,7 +420,6 @@ export class ReceptionDialogComponent {
           this.handler.handlerError(data);
           // this.loading.emit(false);
           this.loadingCit = false;
-
           this.closeDialog();
         }
       },
@@ -475,9 +440,9 @@ export class ReceptionDialogComponent {
     "2do Aclaración": "#CA342B",
     "2do Aplazamiento": "#CA342B",
     "2do Proceso": "#CA342B",
-    "3ro Citación": "#CA342B",
-    "3ro Aclaración": "#CA342B",
-    "3ro Aplazamiento": "#CA342B",
+    "3ra Citación": "#CA342B",
+    "3ra Aclaración": "#CA342B",
+    "3ra Aplazamiento": "#CA342B",
     "3ro Proceso": "#CA342B",
     "4to Citación": "#CA342B",
     "4to Aclaración": "#CA342B",
@@ -546,7 +511,7 @@ export class ReceptionDialogComponent {
         } else if (index === 1) {
           elemento.cantidadConc = "2do Proceso";
         } else if (index === 2) {
-          elemento.cantidadConc = "3ra Proceso";
+          elemento.cantidadConc = "3ro Proceso";
         } else if (index === 3) {
           elemento.cantidadConc = "4to Proceso";
         }
@@ -571,6 +536,7 @@ export class ReceptionDialogComponent {
       search.value = "";
     }
   }
+  
   getEstado(data, estado) {
     if (data == "135/1") {
       return estado;
@@ -650,8 +616,10 @@ export class ReceptionDialogComponent {
     );
     return selectedOption ? selectedOption.description : "";
   }
+  checkMotiv: boolean;
   getSelectedReasonName(): string {
     const selectedReason = this.formCreate.get("dis_fal").value;
+    (selectedReason === '121/19') ? this.checkMotiv = false : this.checkMotiv = true;
     const optionReason = this.typeFalt.find(
       (option) => option.ls_codvalue === selectedReason
     );
@@ -686,7 +654,6 @@ export class ReceptionDialogComponent {
         case: this.formCase.value,
         citation: this.formCitation.value,
       };
-
       this.WebApiService.putRequest(this.endpoint + "/" + this.idRol, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
@@ -712,7 +679,6 @@ export class ReceptionDialogComponent {
       this.loading.emit(false);
     }
   }
-
   onSubmit() {
     if (this.formCreate.valid) {
       this.loading.emit(true);
@@ -752,14 +718,8 @@ export class ReceptionDialogComponent {
     );
 
     if (exitsPersonal) {
-      this.formCreate
-        .get("dis_idPersonale")
-        .setValue(exitsPersonal.idPersonale);
+      this.formCreate.get("dis_idPersonale").setValue(exitsPersonal.idPersonale);
       this.formCreate.get("dis_pos").setValue(exitsPersonal.dis_pos);
-      // this.formCreate
-      //   .get("immediateBoss")
-      //   .setValue(exitsPersonal.jef_idPersonale);
-      // this.formCreate.get("us_are_tra").setValue(this.exitsPersonal.idPosition);
     }
   }
   generateTable(data) {
@@ -767,7 +727,6 @@ export class ReceptionDialogComponent {
     this.historyMon = data;
     this.clickedRows = new Set<PeriodicElement>();
   }
-
   step = 0;
 
   setStep(index: number) {
@@ -780,7 +739,6 @@ export class ReceptionDialogComponent {
     this.stepper.selectedIndex = 4;
     this.stepper.selectedIndex = stepIndex + 1;
   }
-
   nextStepConclu(index: number) {
     this.stepCon.selectedIndex = index + 1;
   }
@@ -789,11 +747,6 @@ export class ReceptionDialogComponent {
   }
   prevStep() {
     this.step--;
-  }
-  finish() {
-    // Aquí puedes acceder a los valores de los campos dis_fal y dis_fal_des
-    // const disFalValue = this.formCreate.get("dis_fal").value;
-    // const disFalDesValue = this.formCreate.get("dis_fal_des").value;
   }
   onRadioChange(event) {
     event === "121/16" ? (this.checkUs = true) : (this.checkUs = false);
@@ -816,11 +769,9 @@ export class ReceptionDialogComponent {
   isObsRequired(stateValue: string): boolean {
     return stateValue === "39/1" || stateValue === "39/3";
   }
-
   seleccionarArchivo(event) {
     var files = event.target.files;
     var archivos = [];
-
     // Función para leer archivos de manera secuencial con Promesas
     const leerArchivo = (file) => {
       return new Promise<void>((resolve) => {
@@ -836,18 +787,15 @@ export class ReceptionDialogComponent {
         reader.readAsBinaryString(file);
       });
     };
-
     // Utilizar async/await para leer archivos secuencialmente
     const leerArchivosSecuencialmente = async () => {
       for (var i = 0; i < files.length; i++) {
         await leerArchivo(files[i]);
       }
-      this.nuevoArchivo = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
+      this.nuevoArchivo = archivos; 
     };
-
     leerArchivosSecuencialmente();
   }
-
   // Tabla Contenido
   option(action, codigo = null, idPersonale, dis_id) {
     var dialogRef;
@@ -878,8 +826,8 @@ export class ReceptionDialogComponent {
         dialogRef = this.dialog.open(CitationDialog, {
           data: {
             window: "createCit",
-            codigo: this.citTable,
-            fechref: this.fechref,
+            codigo,
+            
           },
         });
         dialogRef.disableClose = true;
@@ -939,7 +887,8 @@ export class ReceptionDialogComponent {
       case "createApla":
         // this.loading.emit(true);updateApla
         // this.loading = true;
-        dialogRef = this.dialog.open(CitationDialog, {
+        // dialogRef = this.dialog.open(CitationDialog, {
+          dialogRef = this.dialog.open(PostponementDialog, {
           data: {
             window: "createApla",
             codigo,
@@ -1046,6 +995,35 @@ export class ReceptionDialogComponent {
           this.getDataUpdate();
         });
         break;
+        case "pdfCitation":
+          dialogRef = this.dialog.open(CitationDialog, {
+            data: {
+              window: "pdfCitation",
+              codigo,
+              idPersonale
+            },
+          });
+        break;
+        case "pdfClarification":
+          dialogRef = this.dialog.open(ClarificationDialog, {
+            data: {
+              window: "pdfClarification",
+              codigo,
+              idPersonale
+            },
+          });
+        break;
+        case "pdfPostponement":
+          dialogRef = this.dialog.open(PostponementDialog, {
+            data: {
+              window: "pdfPostponement",
+              codigo,
+              idPersonale
+            },
+          });
+        break;
     }
   }
+
+ 
 }

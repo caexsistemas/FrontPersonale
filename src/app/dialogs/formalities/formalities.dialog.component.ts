@@ -128,6 +128,7 @@ export class FormalitiesDialog {
   idUser: any = [];
   selectedUserId: number | null = null;
   allForm: any = [];
+  checkRead:boolean
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -655,8 +656,8 @@ export class FormalitiesDialog {
       }
     }
   }
-
   onRadioChange(userId: number, guiacompleta) {
+    
     this.selectedUserId = userId;
     this.allForm = guiacompleta;
 
@@ -807,8 +808,25 @@ export class FormalitiesDialog {
       }
     }
   }
-
   isObsRequired(stateValue: string): boolean {
+    if(stateValue){
+      this.checkRead = false;
+    }else{
+      this.checkRead = true;
+    }
     return stateValue === "39/1" || stateValue === "39/3";
   }
+checkreadBu:boolean;
+
+  isObRead(stateValue: string): boolean {
+    if(stateValue === "39/1" || stateValue === "39/3"){
+      return true;
+  }
+}
+radioGroupClicked = true;
+onRadioGroupClick(state: string):boolean {
+ 
+  return state !== "39/1" && state !== "39/3";
+  
+}
 }
