@@ -480,8 +480,8 @@ export class RqcalidadDialog  {
                 this.ListipifiHogarDed = data.data['tipificaHogarDed'];  //45
                 this.ListTodoclaro = data.data['ofertodcla'];  //45
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
-                this.supervisor = data.data['getSupervisor'];
-                this.formador = data.data['getFomacion'];
+                this.supervisor = data.data['getSupervisor'];//Data Supervisor 
+                this.formador = data.data['getFomacion']; //Data Formacion 
                 //Fecha
                 let date = new Date();
                 this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');

@@ -24,6 +24,8 @@ import { RequestDialog } from "../../../dialogs/request/request.dialog.component
 import { DisciplinaryDialog } from "../../../dialogs/disciplinary/disciplinary.dialog.component";
 import Swal from "sweetalert2";
 import { ReceptionDialogComponent } from "../../../dialogs/reception/reception.dialog.component";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { ReportsDisciplinaryComponent } from "../../../dialogs/reports/disciplinary/reports-disciplinary.component";
 @Component({
   selector: "app-reception",
   templateUrl: "./reception.component.html",
@@ -49,7 +51,9 @@ export class ReceptionComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private matBottomSheet: MatBottomSheet
+
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
@@ -258,7 +262,7 @@ export class ReceptionComponent implements OnInit {
       }
     );
   }
-  // onTriggerSheetClick() {
-  //   this.matBottomSheet.open(ReportsFormalitiesComponent);
-  // }
+  onTriggerSheetClick() {
+    this.matBottomSheet.open(ReportsDisciplinaryComponent);
+  }
 }

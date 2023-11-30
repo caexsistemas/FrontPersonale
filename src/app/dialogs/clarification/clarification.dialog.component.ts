@@ -41,7 +41,8 @@ export interface PeriodicElement {
   styleUrls: ["./clarification.dialog.component.css"],
 })
 export class ClarificationDialog {
-  endpoint: string = "/reception";
+  // endpoint: string = "/reception";
+  endpoint: string = "/clarification";
   component = "/process/reception";
   maskDNI = global.maskDNI;
   view: string = null;
@@ -85,6 +86,8 @@ export class ClarificationDialog {
       case "createAcla":
         this.initFormsRole();
         this.title = "Crear Nueva aclaracion";
+        console.log(this.data);
+        
         this.citaTable = this.data.codigo[0];
 
         break;
@@ -93,6 +96,8 @@ export class ClarificationDialog {
 
         this.title = "Editar Aclaración";
         this.idCit = this.data.codigo;
+        console.log('==>',this.data);
+        
         break;
       case "viewCit":
         this.idCit = this.data.codigo;
@@ -118,6 +123,13 @@ export class ClarificationDialog {
             this.loading.emit(false);
           }
         );
+        break;
+        case "pdfClarification":
+          console.log(this.data);
+          // this.cantCit = this.data.idPersonale;
+          // this.pdf(this.data.codigo, this.cantCit);
+          this.pdf(this.data.codigo);
+          dialogRef.close();  
         break;
     }
   }
@@ -158,11 +170,8 @@ export class ClarificationDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          // this.RolInfo = data.data["getDataRole"];
+          // this.RolInfo = data.data["getDataRole"];          
 
-          this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
-          this.formCreate.get("cit_id").setValue(this.data.codigo);
-          this.formCreate.get("dis_id").setValue(this.data.dis_id);
           if (this.view == "updateAcla") {
             this.getDataUpdate();
           }
@@ -220,15 +229,13 @@ export class ClarificationDialog {
   onSubmi() {
     if (this.formCreate.valid) {
       this.loading.emit(true);
+      this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
+      this.formCreate.get("cit_id").setValue(this.data.codigo);
+      this.formCreate.get("dis_id").setValue(this.data.dis_id);
       let body = {
         listas: this.formCreate.value,
       };
-
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "insertAcla",
-        idvalist: this.idCit,
-        fechref: this.data.fechref,
-        forma: "" + JSON.stringify({ body }),
+      this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -248,21 +255,21 @@ export class ClarificationDialog {
           this.loading.emit(false);
         }
       );
+      
     } else {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);
     }
   }
+  
+  
   onSubmitUpdate() {
     if (this.formCreate.valid) {
       let body = {
         listas: this.formCreate.value,
       };
       this.loading.emit(true);
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "updateAcla",
-        idCit: this.idCit,
-        forma: "" + JSON.stringify({ body }),
+      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -285,5 +292,40 @@ export class ClarificationDialog {
     } else {
       this.handler.showError("Complete la información necesaria");
     }
+  }
+  pdf(id) {
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        //console.log(data);
+        if (data.success == true) {
+          const link = document.createElement("a");
+          link.href = data.data.url;
+          link.download = data.data.file;
+          link.target = "_blank";
+          link.click();
+          this.handler.showSuccess(data.data.file);
+          this.loading.emit(false);
+      // this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+          // this.loading = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.handler.showError("Se produjo un error");
+          this.loading.emit(false);
+          // this.loading = false;
+      }
+    );
   }
 }

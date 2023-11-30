@@ -47,6 +47,7 @@ export class DefaultLayoutComponent {
   public icoNoti: string = "cui-bell";
   component = "/procesalud/absenteeisms";
   endpointAbs: string = "/validationAbs";
+  endaware: string = "/aware";
 
   hidden = true;
 
@@ -295,6 +296,7 @@ export class DefaultLayoutComponent {
   }
 
   RecarNotification() {
+    // this.aware(this.WebApiService);
     this.checkNotification(this.WebApiService);
     this.validationAbs(this.WebApiService);
     setTimeout(() => {
@@ -373,6 +375,39 @@ export class DefaultLayoutComponent {
       token: this.cuser.token,
       role: this.cuser.role,
       modulo: this.component,
+    }).subscribe(
+      (response) => {
+        if (response) {
+          // this.conteNotifi = response.data["cont"][0]["conteo"];
+          this.absNotification = response.data;
+
+          // if (this.conteNotifi > 0) {
+          //   this.hidden = false;
+          // } else {
+          //   this.hidden = true;
+          // }
+        } else {
+          this.isLogged = false;
+          // this.handler.handlerError(response.message);
+        }
+      },
+      (error) => {
+        this.isLogged = false;
+        // this.handler.handlerError("(E): " + error.message);
+      }
+    );
+  }
+  aware(WebApiService: WebApiService) {
+    // ejecutar consulta al servidor para verificar si el token es valido aun...
+    this.icoNoti = "cui-bell";
+    this.cuser = JSON.parse(localStorage.getItem("currentUser"));
+
+    WebApiService.getRequest(this.endaware, {
+      // action: "disciplinary",
+      iduser: this.cuser.iduser,
+      token: this.cuser.token,
+      role: this.cuser.role,
+      // modulo: this.component,
     }).subscribe(
       (response) => {
         if (response) {

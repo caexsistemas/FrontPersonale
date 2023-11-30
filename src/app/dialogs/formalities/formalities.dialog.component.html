@@ -142,7 +142,9 @@
                     <mat-form-field class="example-full-width">
                       <mat-label> Observaciones</mat-label>
                       <textarea maxlength="65" matInput formControlName="obs_guia"
-                        oninput="javascript:this.value=this.value.toLowerCase();"></textarea>
+                        oninput="javascript:this.value=this.value.toLowerCase();" 
+                        [readonly]="onRadioGroupClick(guia.controls.state.value)"
+                        ></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -171,7 +173,7 @@
                   <mat-radio-group aria-label="Select an option" formControlName="state">
                     <mat-radio-button *ngFor="let idet of afirm" [value]="idet.ls_codvalue" class="custom-radio"
                       (change)="onRadioChange( guia.controls.id_guide.value,formGuia.get('tecno'))"
-                      style="border-color: blue;">
+                      style="border-color: blue;" >
                       {{ idet.description }}
                     </mat-radio-button>
                   </mat-radio-group>
@@ -180,7 +182,8 @@
                       <mat-label> Observaciones</mat-label>
                       <textarea maxlength="65" matInput formControlName="obs_guia"
                         oninput="javascript:this.value=this.value.toLowerCase();"
-                        [required]="isObsRequired(guia.controls.state.value)"></textarea>
+                        [required]="isObsRequired(guia.controls.state.value)"
+                        [readonly]="checkRead"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -217,7 +220,8 @@
                       <mat-label> Observaciones</mat-label>
                       <textarea maxlength="65" matInput formControlName="obs_guia"
                         oninput="javascript:this.value=this.value.toLowerCase();"
-                        [required]="isObsRequired(guia.controls.state.value)"></textarea>
+                        [required]="isObsRequired(guia.controls.state.value)"
+                        [readonly]="checkRead"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -292,7 +296,8 @@
                       <mat-label> Observaciones</mat-label>
                       <textarea maxlength="65" matInput formControlName="obs_guia"
                         oninput="javascript:this.value=this.value.toLowerCase();"
-                        [required]="isObsRequired(guia.controls.state.value)"></textarea>
+                        [required]="isObsRequired(guia.controls.state.value)"
+                        [readonly]="checkRead"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -330,7 +335,8 @@
                       <mat-label> Observaciones</mat-label>
                       <textarea maxlength="65" matInput formControlName="obs_guia"
                         oninput="javascript:this.value=this.value.toLowerCase();"
-                        [required]="isObsRequired(guia.controls.state.value)"></textarea>
+                        [required]="isObsRequired(guia.controls.state.value)"
+                        [readonly]="checkRead"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
