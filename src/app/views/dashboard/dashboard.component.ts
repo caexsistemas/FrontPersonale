@@ -36,8 +36,6 @@ export class DashboardComponent implements AfterViewInit  {
   public dataSource: any = [];
   public displayedColumns: any = [];
 // variables para renderizado
-  public mensajeNc = 0; 
-  public colornC = 0;
   public TablAnalistac = 0;
   public TablAnalistacN = 0;
   public TablAnalistacus = 0;
@@ -129,21 +127,6 @@ export class DashboardComponent implements AfterViewInit  {
   }
   this.cdr.detectChanges();
 }
-
-// customer(){
-//   console.log('Monitores:', this.TablAnalista.dato.monitorCalCus);
-// }
-
-// getColorForNota(nota: number): string {
-//   if (nota >= 0 && nota <= 50) {
-//     return '#DB0E0E'; 
-//   } else if (nota > 50 && nota <= 100) {
-//     return '#FAE128'; 
-//   } else {
-//     return '#1674E3';
-//   }
-// }
-
 
     // graficos pára calidad 
 graCalid(){
@@ -256,8 +239,8 @@ sendRequest(): Promise<void> {
             this.GrafiTyt   = data.data['GrafiTYT']; 
             this.generateTable(data.data['TablAnalista']['dato']['monitorCalCus']);
             this.TablAnalista   = data.data['TablAnalista']['dato']['monitorCalCus']; 
-            console.log('==>',this.TablAnalista);
-            console.log('==>',this.GrafiTyt);
+            // console.log('==>',this.TablAnalista);
+            // console.log('==>',this.GrafiTyt);
             
           }else if(this.cuser.role == 31 || this.cuser.role == 2){
             this.GrafiSupe = data.data['GrafiSupe']; 
