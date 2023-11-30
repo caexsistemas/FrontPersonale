@@ -137,9 +137,9 @@ export class ApplicationUserComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe((result) => {
-          this.sendRequest();
+          /*this.sendRequest();
           console.log("The dialog was closed");
-          console.log(result);
+          console.log(result);*/
         });
         break;
       case "create":
