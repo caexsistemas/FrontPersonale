@@ -92,35 +92,11 @@ export class AbsenteeismComponent implements OnInit {
     this.matBottomSheet.open(ReportsAbsenteeismComponent)
   }
 
-<<<<<<< HEAD
   ngOnInit(): void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;
   }
 
-  sendRequest() {
-    this.loading = true;
-    this.WebApiService.getRequest(this.endpoint, {
-      action: 'getDatanovedadAll',
-      idUser: this.cuser.iduser,
-      role: this.cuser.role,
-      matrizarp: this.cuser.matrizarp,
-      token: this.cuser.token,
-      modulo: this.component
-    })
-      .subscribe(
-
-        data => {
-
-          if (data.success == true) {
-            this.permissions = this.handler.getPermissions(this.component);
-            this.generateTable(data.data['getContData']);
-            this.contenTable = data.data['getContData'];
-            this.loading = false;
-
-          } else {
-            this.handler.handlerError(data);
-=======
     sendRequest(){
       this.loading = true;
       this.WebApiService.getRequest(this.endpoint, {
@@ -150,15 +126,9 @@ export class AbsenteeismComponent implements OnInit {
             let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
             //let msjErr = mistake.error.message;
             this.handler.showError(msjErr);
->>>>>>> dd72237516f603f4e2d10e53594bba1ccaa9ccde
             this.loading = false;
-          }
-        },
-        error => {
-          console.log(error);
-          this.handler.showError('Se produjo un error');
-          this.loading = false;
-        }
+          },
+       
       );
   }
 
@@ -309,15 +279,9 @@ export class AbsenteeismComponent implements OnInit {
 
   deleInfo() {
 
-<<<<<<< HEAD
-    if (this.dataDelte.length > 0) {
-      if (this.contDele == 0) {
-        this.handler.showError('Si está seguro de borrar los registros, por favor de Click de nuevo en eliminar. Total a eliminar: ' + this.dataDelte.length);
-=======
     if(this.dataDelte.length > 0){
       if( this.contDele == 0 ){
         this.handler.shoWarning('¿Esta Seguro?', 'De estar seguro, por favor de Click de nuevo en eliminar. Total a eliminar: '+this.dataDelte.length);
->>>>>>> dd72237516f603f4e2d10e53594bba1ccaa9ccde
         this.contDele++;
         this.stadValue = true;
       } else {
@@ -332,11 +296,7 @@ export class AbsenteeismComponent implements OnInit {
           .subscribe(
 
             data => {
-<<<<<<< HEAD
-              if (data.success == true) {
-                //DataInfo
-                this.handler.showSuccess('Registros eliminados exitosamente.');
-=======
+             
                 if (data.success == true) {
                     //DataInfo
                     this.handler.showSuccess('Registros eliminados exitosamente.');
@@ -351,30 +311,20 @@ export class AbsenteeismComponent implements OnInit {
             },
             error => {
                 this.handler.showError('Se produjo un error al eliminar los registros');
->>>>>>> dd72237516f603f4e2d10e53594bba1ccaa9ccde
                 this.loading = false;
                 this.stadValue = false;
                 this.sendRequest();
-              } else {
-                this.handler.handlerError(data);
-                this.loading = false;
-                this.stadValue = false;
-              }
-            },
-            error => {
-              this.handler.showError('Se produjo un error');
-              this.loading = false;
-              this.stadValue = false;
-            }
+              } 
+            
           );
         this.contDele = 0;
       }
     } else {
       this.handler.showError('Por favor seleccionar algún registro.');
     }
-
-
   }
+
+  
 
   validatAjust(fechaing) {
 
