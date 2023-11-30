@@ -41,7 +41,8 @@ export interface PeriodicElement {
   styleUrls: ["./postponement.dialog.component.css"],
 })
 export class PostponementDialog {
-  endpoint: string = "/reception";
+  // endpoint: string = "/reception";
+  endpoint: string = "/postponement";
   component = "/process/reception";
   maskDNI = global.maskDNI;
   view: string = null;
@@ -119,16 +120,19 @@ export class PostponementDialog {
           }
         );
         break;
+        case "pdfPostponement":
+          console.log(this.data);
+          // this.cantCit = this.data.idPersonale;
+          // this.pdf(this.data.codigo, this.cantCit);
+          this.pdf(this.data.codigo);
+          dialogRef.close();  
+        break;
     }
   }
   initFormsRole() {
-    this.getDataUpdate();
-    // this.citaTable = this.data.codigo[0];
+    this.getDataIniAplaz();
     this.formCreate = new FormGroup({
-      // idPersonale: new FormControl(this.citaTable.idPersonale),
       idPersonale: new FormControl(""),
-      // dis_id: new FormControl(this.citaTable.cit_id),
-      dis_id: new FormControl(""),
       cit_id: new FormControl(""),
       pos_fec_ela: new FormControl(""),
       pos_apl: new FormControl(""),
@@ -145,39 +149,37 @@ export class PostponementDialog {
   }
   sendRequest() {}
 
-  // getDataInitCit() {
-  //   this.idCit = this.data.codigo;
-  //   this.loading.emit(false);
-  //   this.WebApiService.getRequest(this.endpoint, {
-  //     action: "getParamsViewAplazam",
-  //     idCit: this.idCit,
-  //     token: this.cuser.token,
-  //     idUser: this.cuser.iduser,
-  //     modulo: this.component,
-  //   }).subscribe(
-  //     (data) => {
-  //       if (data.success == true) {
-  //         //DataInfo
-  //         // this.RolInfo = data.data["getDataRole"];
+  getDataIniAplaz() {
+    this.idCit = this.data.codigo;
+    this.loading.emit(false);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getParamsViewAp",
+      idCit: this.idCit,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        if (data.success == true) {
+          //DataInfo
 
-  //         // this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
-  //         // this.formCreate.get("dis_id").setValue(this.data.dis_id);
-  //         // this.formCreate.get("cit_id").setValue(this.data.codigo);
-  //         if (this.view == "updateApla") {
-  //           this.getDataUpdate();
-  //         }
-  //         this.loading.emit(false);
-  //       } else {
-  //         this.handler.handlerError(data);
-  //         this.loading.emit(false);
-  //       }
-  //     },
-  //     (error) => {
-  //       this.handler.showError("Se produjo un error");
-  //       this.loading.emit(false);
-  //     }
-  //   );
-  // }
+          this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
+          this.formCreate.get("cit_id").setValue(this.data.codigo);
+          if (this.view == "updateApla") {
+            this.getDataUpdate();
+          }
+          this.loading.emit(false);
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+        }
+      },
+      (error) => {
+        this.handler.showError("Se produjo un error");
+        this.loading.emit(false);
+      }
+    );
+  }
 
   getDataUpdate() {
     this.idCit = this.data.codigo;
@@ -194,9 +196,7 @@ export class PostponementDialog {
           this.formCreate
             .get("idPersonale")
             .setValue(data.data["getSelecUpdat"][0].idPersonale);
-          this.formCreate
-            .get("dis_id")
-            .setValue(data.data["getSelecUpdat"][0].dis_id);
+         
           this.formCreate
             .get("pos_fec_ela")
             .setValue(data.data["getSelecUpdat"][0].pos_fec_ela);
@@ -216,19 +216,16 @@ export class PostponementDialog {
       }
     );
   }
-
+  
   onSubmi() {
     if (this.formCreate.valid) {
       this.loading.emit(true);
+      this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
+      this.formCreate.get("cit_id").setValue(this.data.codigo);
       let body = {
         listas: this.formCreate.value,
       };
-
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "insertPost",
-        idvalist: this.idCit,
-        fechref: this.data.fechref,
-        forma: "" + JSON.stringify({ body }),
+      this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -253,16 +250,14 @@ export class PostponementDialog {
       this.loading.emit(false);
     }
   }
+  
   onSubmitUpdate() {
     if (this.formCreate.valid) {
       let body = {
         listas: this.formCreate.value,
       };
       this.loading.emit(true);
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "updatePost",
-        idCit: this.idCit,
-        forma: "" + JSON.stringify({ body }),
+      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -285,5 +280,40 @@ export class PostponementDialog {
     } else {
       this.handler.showError("Complete la información necesaria");
     }
+  }
+  pdf(id) {
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        //console.log(data);
+        if (data.success == true) {
+          const link = document.createElement("a");
+          link.href = data.data.url;
+          link.download = data.data.file;
+          link.target = "_blank";
+          link.click();
+          this.handler.showSuccess(data.data.file);
+          this.loading.emit(false);
+      // this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+          // this.loading = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.handler.showError("Se produjo un error");
+          this.loading.emit(false);
+          // this.loading = false;
+      }
+    );
   }
 }

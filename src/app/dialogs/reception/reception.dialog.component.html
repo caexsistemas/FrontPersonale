@@ -111,15 +111,18 @@
                     <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
 
                       <p>Tipo de Falta: {{ getSelectedReasonName() }}</p>
-                      <p>Descripción de Falta: {{ formCreate.get('dis_fal_des').value }}</p>
-                      <p>Elementos Relevantes: {{ formCreate.get('dis_des_rel').value }}</p>
-                      <p>Nivel de Falta: {{ getNivel()}} </p>
-                      <p>Documentos de soporte: {{ getSoporte()}} </p>
-                      <ul>
-                        <li *ngFor="let archivo of selection.file_sp; let i = index;">
-                          <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
-                        </li>
-                      </ul>
+                      <div *ngIf="checkMotiv">
+                        <p>Descripción de Falta: {{ formCreate.get('dis_fal_des').value }}</p>
+                        <p>Elementos Relevantes: {{ formCreate.get('dis_des_rel').value }}</p>
+                        <p>Nivel de Falta: {{ getNivel()}} </p>
+                        <p>Documentos de soporte: {{ getSoporte()}} </p>
+                        <ul>
+                          <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                            <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                          </li>
+                        </ul>
+                      </div>
+                     
                     </div>
                     <div>
                       <button mat-button matStepperPrevious>Atrás</button>
@@ -323,21 +326,6 @@
                   </div>
                   <div class="card-body">
                     <div class="toolbar-table" *ngIf="permissions != null">
-
-                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-                        <div class="btn-group" dropdown>
-
-                          <div let element></div>
-                          <button class="btn btn-primary" *ngIf="permissions.update"
-                            (click)="option('createCit',citTable.cit_id)" title="Crear">
-                            <i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div> -->
-                      <!-- <mat-form-field appearance="standard">
-                        <mat-label>Buscar...</mat-label>
-                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
-                      </mat-form-field> -->
                     </div>
                     <div class="mat-elevation-z8">
                       <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
@@ -354,7 +342,6 @@
 
                         <ng-container matColumnDef="cantidadTexto">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">citación</th>
-                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadTexto}}</td> -->
                           <td mat-cell *matCellDef="let row">
                             <div class="mt-1"
                               [ngStyle]="{'backgroundColor': colorState(row.cantidadTexto),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
@@ -389,11 +376,6 @@
                             {{(!row.cit_fec_elab)?getEstado(row.cit_estado,row.estado):row.cit_fec_elab}} </td>
                         </ng-container>
 
-                        <!-- <ng-container matColumnDef="cit_con">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre Completo </th>
-                          <td mat-cell *matCellDef="let row"> {{row.cit_con}} </td>
-                        </ng-container> -->
-
                         <ng-container matColumnDef="actions">
                           <th mat-header-cell *matHeaderCellDef> Acciones </th>
                           <td mat-cell *matCellDef="let row">
@@ -402,17 +384,20 @@
                               <i class="fa fa-edit fa-lg"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-success" *ngIf="permissions.update"
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aplazamiento' || getEstado(row.cit_estado,row.estado) == 'Aclaración' "
                               (click)="option('createApla',row.cit_id,row.idPersonale,row.dis_id)"
                               title="Crear Aplazamiento">
                               <i class="fa fa-plus-circle"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-warning" *ngIf="permissions.update"
+                            <button class="btn btn-ghost-warning" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aclaración'"
                               (click)="option('createAcla',row.cit_id,row.idPersonale,row.dis_id)"
                               title="Crear aclaracion">
                               <i class="fa fa-handshake-o"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfCitation',row.cit_id,row.cantidadTexto)" title="PDF" [disabled]="!row.cit_fec_elab">
+                              <i class="fa fa-file-pdf-o"></i>
                             </button>
                           </td>
                         </ng-container>
@@ -454,21 +439,6 @@
                   </div>
                   <div class="card-body">
                     <div class="toolbar-table" *ngIf="permissions != null">
-
-                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-                        <div class="btn-group" dropdown>
-
-                          <div let element></div>
-                          <button class="btn btn-primary" *ngIf="permissions.update"
-                            (click)="option('createCit',citTable.cit_id)" title="Crear">
-                            <i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div> -->
-                      <!-- <mat-form-field appearance="standard">
-                        <mat-label>Buscar...</mat-label>
-                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
-                      </mat-form-field> -->
                     </div>
                     <div class="mat-elevation-z8">
                       <table mat-table [dataSource]="dataSourcePost" matSort class="table-large table-responsive-lg"
@@ -485,7 +455,6 @@
 
                         <ng-container matColumnDef="cantidadAcla">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aclaraciones</th>
-                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadAcla}}</td> -->
                           <td mat-cell *matCellDef="let row">
                             <div class="mt-1"
                               [ngStyle]="{'backgroundColor': colorState(row.cantidadAcla),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'90%','height':'5','font-weight':'500','color':'white'}">
@@ -525,13 +494,18 @@
                             <button class="btn btn-ghost-primary" *ngIf="permissions.update"
                               (click)="option('updateApla',row.pos_id)" title="update">
                               <i class="fa fa-edit fa-lg"></i>
-                              <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="row.pos_apl == null || row.check_post == '1'"
+                            (click)="option('createCit',row.cit_id)" title="crear nueva citación">
+                            <i class="fa fa-plus-circle"></i>
+                          </button>
+                          <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfPostponement',row.pos_id)" title="PDF" [disabled]="!row.pos_apl">
+                            <i class="fa fa-file-pdf-o"></i>
+                          </button>
                           </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsPost"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsPost;"></tr>
-                        <!-- Row shown when there is no matching data. -->
                         <tr class="mat-row" *matNoDataRow>
                           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                         </tr>
@@ -544,99 +518,6 @@
                 </div>
               </mat-dialog-content>
 
-              <!-- <div class="row-12" style="min-width: 1000px;">
-                <mat-vertical-stepper [linear]="true" #stepper>
-
-
-                  <mat-step>
-                    <ng-template matStepLabel>Fecha Elaboración Aplazamiento</ng-template>
-                    <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
-                      <div class="row mt-2">
-
-                        <div class="col-md-4">
-                          <mat-form-field appearance="fill">
-                            <mat-label>Fecha</mat-label>
-                            <input matInput formControlName="cas_fec_recep" value="cas_fec_recep" type="date" required>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary"
-                          [disabled]="!formCreate.get('cas_fec_recep').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Fecha y hora de Aplazamiento</ng-template>
-                    <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
-                      <div class="row mt-2">
-
-                        <div class="col-md-4">
-                          <mat-form-field appearance="fill">
-                            <mat-label>Fecha</mat-label>
-                            <input matInput formControlName="cas_fec_recep" value="cas_fec_recep" type="date" required>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary"
-                          [disabled]="!formCreate.get('cas_fec_recep').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Conclusión Aplazamiento</ng-template>
-                    <form (ngSubmit)="nextStepConclu(2)" [formGroup]="formCreate">
-                      <div class="row">
-
-                        <div class="col-md-4">
-                          <mat-form-field class="example-full-width ">
-                            <mat-label></mat-label>
-                            <mat-select formControlName="cas_con_fin" (ngModelChange)="onRadioChange($event)" required>
-                              <mat-option *ngFor="let idet of conclu_fin" [value]="idet.ls_codvalue">
-                                {{idet.description}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary"
-                          [disabled]="!formCreate.get('cas_con_fin').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Fecha de conclusion Aplazamiento</ng-template>
-                    <form (ngSubmit)="nextStep(3)" [formGroup]="formCreate">
-                      <div class="row mt-2">
-
-                        <div class="col-md-4">
-                          <mat-form-field appearance="fill">
-                            <mat-label>Fecha</mat-label>
-                            <input matInput formControlName="cas_fec_recep" value="cas_fec_recep" type="date" required>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button matStepperPrevious>Atrás</button>
-                        <button mat-button color="primary"
-                          [disabled]="!formCreate.get('cas_fec_recep').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Resumen</ng-template>
-                    <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
-                     
-                    </div>
-                    
-                  </mat-step>
-                </mat-vertical-stepper>
-              </div> -->
               <mat-action-row>
                 <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button>
                 <button mat-button class="btn btn-dark" (click)="nextStep1()">Next</button>
@@ -662,20 +543,6 @@
                   <div class="card-body">
                     <div class="toolbar-table" *ngIf="permissions != null">
 
-                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-                        <div class="btn-group" dropdown>
-
-                          <div let element></div>
-                          <button class="btn btn-primary" *ngIf="permissions.update"
-                            (click)="option('createCit',citTable.cit_id)" title="Crear">
-                            <i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div> -->
-                      <!-- <mat-form-field appearance="standard">
-                        <mat-label>Buscar...</mat-label>
-                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
-                      </mat-form-field> -->
                     </div>
                     <div class="mat-elevation-z8">
                       <table mat-table [dataSource]="dataSourceCli" matSort class="table-large table-responsive-lg"
@@ -692,7 +559,6 @@
 
                         <ng-container matColumnDef="cantidadAcla">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aclaraciones</th>
-                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadAcla}}</td> -->
                           <td mat-cell *matCellDef="let row">
                             <div class="mt-1"
                               [ngStyle]="{'backgroundColor': colorState(row.cantidadAcla),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'90%','height':'5','font-weight':'500','color':'white'}">
@@ -738,18 +604,18 @@
                             <button class="btn btn-ghost-primary" *ngIf="permissions.update"
                               (click)="option('updateAcla',row.cla_id)" title="aclaracion">
                               <i class="fa fa-edit fa-lg"></i>
-                              <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-success" *ngIf="permissions.update"
-                              (click)="option('createCit',row.cit_id)" title="crear nueva citación">
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="row.cla_fec_pres == null || row.check_clarifi == '1'"
+                              (click)="option('createCit',row.cit_id, row.cla_id)" title="crear nueva citación" >
                               <i class="fa fa-plus-circle"></i>
-                              <!-- <i class="fa fa-edit fa-lg"></i> -->
+                            </button>
+                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfClarification',row.cla_id)" title="PDF" [disabled]="!row.cla_fec_pres">
+                              <i class="fa fa-file-pdf-o"></i>
                             </button>
                           </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsCla"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsCla;"></tr>
-                        <!-- Row shown when there is no matching data. -->
                         <tr class="mat-row" *matNoDataRow>
                           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                         </tr>
@@ -785,16 +651,6 @@
                   <div class="card-body">
                     <div class="toolbar-table" *ngIf="permissions != null">
 
-                      <!-- <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-                        <div class="btn-group" dropdown>
-  
-                          <div let element></div>
-                          <button class="btn btn-primary" *ngIf="permissions.update"
-                            (click)="option('createCit',citTable.cit_id)" title="Crear">
-                            <i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div> -->
                       <mat-form-field appearance="standard">
                         <mat-label>Buscar...</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
@@ -815,7 +671,6 @@
 
                         <ng-container matColumnDef="cantidadConc">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Aclaraciones</th>
-                          <!-- <td mat-cell *matCellDef="let row">{{row.cantidadConc}}</td> -->
                           <td mat-cell *matCellDef="let row">
                             <div class="mt-1"
                               [ngStyle]="{'backgroundColor': colorState(row.cantidadConc),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'90%','height':'5','font-weight':'500','color':'white'}">
@@ -823,14 +678,6 @@
                             </div>
                           </td>
                         </ng-container>
-
-                        <!-- <ng-container matColumnDef="con_fec_ela">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora a
-                            Referenciar
-
-                          </th>
-                          <td mat-cell *matCellDef="let row"> {{row.con_fec_ela}} </td>
-                        </ng-container> -->
 
                         <ng-container matColumnDef="idPersonale">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre y Apellidos
@@ -857,8 +704,8 @@
 
                         <ng-container matColumnDef="actions">
                           <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                          <td mat-cell *matCellDef="let row">
-                            <button class="btn btn-ghost-primary" *ngIf="permissions.update"
+                          <td mat-cell *matCellDef="let row; let i = index">
+                            <button class="btn btn-ghost-primary" *ngIf="permissions.update"  [disabled]="!updateButtonEnabled[i]"
                               (click)="option('updateConc',row.con_id)" title="conclusion final">
                               <i class="fa fa-edit fa-lg"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
@@ -867,7 +714,6 @@
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsConc"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsConc;"></tr>
-                        <!-- Row shown when there is no matching data. -->
                         <tr class="mat-row" *matNoDataRow>
                           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                         </tr>

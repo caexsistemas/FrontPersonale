@@ -41,7 +41,8 @@ export interface PeriodicElement {
   styleUrls: ["./citation.dialog.component.css"],
 })
 export class CitationDialog {
-  endpoint: string = "/reception";
+  // endpoint: string = "/reception";
+  endpoint: string = "/citation";
   component = "/process/reception";
   maskDNI = global.maskDNI;
   view: string = null;
@@ -58,6 +59,7 @@ export class CitationDialog {
   role: any = [];
   formCreate: FormGroup;
   citaTable: any = [];
+  cantCit: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -85,15 +87,15 @@ export class CitationDialog {
       case "createCit":
         this.initFormsRole();
         this.title = "Crear Nueva Citación";
-
         this.citaTable = this.data.codigo[0];
-
+        console.log(this.data);
+        
         break;
       case "updateCit":
         this.initFormsRole();
-
-        this.title = "Editar Rol";
+        this.title = "Actualizar Citación";
         this.idCit = this.data.codigo;
+        
         break;
       case "viewCit":
         this.idCit = this.data.codigo;
@@ -120,41 +122,24 @@ export class CitationDialog {
           }
         );
         break;
-      //creacion de aplazamiento
-      case "createApla":
-        this.initFormsAplaza();
-        this.title = "Crear Nueva Aplazamiento";
-        this.citaTable = this.data.codigo[0];
-
+        case "pdfCitation":
+          console.log(this.data);
+          this.cantCit = this.data.idPersonale;
+          this.pdf(this.data.codigo, this.cantCit);
+          dialogRef.close();  
         break;
     }
   }
   initFormsRole() {
     this.getDataInitCit();
-    // this.citaTable = this.data.codigo[0];
     this.formCreate = new FormGroup({
-      // idPersonale: new FormControl(this.citaTable.idPersonale),
       idPersonale: new FormControl(""),
       cas_id: new FormControl(""),
-      dis_id: new FormControl(""),
       cit_fec_hor: new FormControl(""),
       cit_fec_elab: new FormControl(""),
       cit_estado: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
-    });
-  }
-  initFormsAplaza() {
-    this.getDataIniAplaz();
-    // this.citaTable = this.data.codigo[0];
-    this.formCreate = new FormGroup({
-      // idPersonale: new FormControl(this.citaTable.idPersonale),
-      idPersonale: new FormControl(""),
-      // dis_id: new FormControl(this.citaTable.cit_id),
-      dis_id: new FormControl(""),
-      cit_id: new FormControl(""),
-      pos_fec_ela: new FormControl(""),
-      pos_apl: new FormControl(""),
-      create_User: new FormControl(this.cuser.iduser),
+      cla_id: new FormControl(""),
     });
   }
 
@@ -180,46 +165,11 @@ export class CitationDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          // this.RolInfo = data.data["getDataRole"];
-
           this.formCreate.get("idPersonale").setValue(data.data[0].idPersonale);
-          this.formCreate.get("dis_id").setValue(data.data[0].dis_id);
           this.formCreate.get("cas_id").setValue(data.data[0].cas_id);
-          if (this.view == "updateCit") {
-            this.getDataUpdate();
-          }
-          this.loading.emit(false);
-        } else {
-          this.handler.handlerError(data);
-          this.loading.emit(false);
-        }
-      },
-      (error) => {
-        this.handler.showError("Se produjo un error");
-        this.loading.emit(false);
-      }
-    );
-  }
-  //info de aplzamiento
-  getDataIniAplaz() {
-    this.idCit = this.data.codigo;
-    this.loading.emit(false);
-    this.WebApiService.getRequest(this.endpoint, {
-      action: "getParamsViewAp",
-      idCit: this.idCit,
-      token: this.cuser.token,
-      idUser: this.cuser.iduser,
-      modulo: this.component,
-    }).subscribe(
-      (data) => {
-        if (data.success == true) {
-          //DataInfo
-          // this.RolInfo = data.data["getDataRole"];
+          this.formCreate.get("cla_id").setValue(data.data[0].cla_id);
 
-          this.formCreate.get("idPersonale").setValue(this.data.idPersonale);
-          this.formCreate.get("dis_id").setValue(this.data.dis_id);
-          this.formCreate.get("cit_id").setValue(this.data.codigo);
-          if (this.view == "updateApla") {
+          if (this.view == "updateCit") {
             this.getDataUpdate();
           }
           this.loading.emit(false);
@@ -246,12 +196,10 @@ export class CitationDialog {
     }).subscribe(
       (data) => {
         if (data.success) {
+          
           this.formCreate
             .get("idPersonale")
             .setValue(data.data["getSelecUpdat"][0].idPersonale);
-          this.formCreate
-            .get("dis_id")
-            .setValue(data.data["getSelecUpdat"][0].dis_id);
           this.formCreate
             .get("cit_fec_hor")
             .setValue(data.data["getSelecUpdat"][0].cit_fec_hor);
@@ -271,19 +219,16 @@ export class CitationDialog {
       }
     );
   }
-
   onSubmi() {
     if (this.formCreate.valid) {
       this.loading.emit(true);
+
       let body = {
         listas: this.formCreate.value,
       };
-
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "insertCit",
-        idvalist: this.idCit,
-        fechref: this.data.fechref,
-        forma: "" + JSON.stringify({ body }),
+      console.log('form => ', body);
+      
+      this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -308,16 +253,14 @@ export class CitationDialog {
       this.loading.emit(false);
     }
   }
+  
   onSubmitUpdate() {
     if (this.formCreate.valid) {
       let body = {
         listas: this.formCreate.value,
       };
       this.loading.emit(true);
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "updateCit",
-        idCit: this.idCit,
-        forma: "" + JSON.stringify({ body }),
+      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -341,40 +284,40 @@ export class CitationDialog {
       this.handler.showError("Complete la información necesaria");
     }
   }
-  onSubmiAplaz() {
-    if (this.formCreate.valid) {
-      this.loading.emit(true);
-      let body = {
-        listas: this.formCreate.value,
-      };
-
-      this.WebApiService.getRequest(this.endpoint, {
-        action: "insertPost",
-        idvalist: this.idCit,
-        fechref: this.data.fechref,
-        forma: "" + JSON.stringify({ body }),
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component,
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
+  pdf(id, cantidad) {
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      cantidad: cantidad,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        //console.log(data);
+        if (data.success == true) {
+          const link = document.createElement("a");
+          link.href = data.data.url;
+          link.download = data.data.file;
+          link.target = "_blank";
+          link.click();
+          this.handler.showSuccess(data.data.file);
           this.loading.emit(false);
+      // this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+          // this.loading = false;
         }
-      );
-    } else {
-      this.handler.showError("Complete la informacion necesaria");
-      this.loading.emit(false);
-    }
+      },
+      (error) => {
+        console.log(error);
+        this.handler.showError("Se produjo un error");
+          this.loading.emit(false);
+          // this.loading = false;
+      }
+    );
   }
 }
