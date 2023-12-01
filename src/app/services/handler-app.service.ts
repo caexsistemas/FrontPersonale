@@ -267,8 +267,6 @@ export class HandlerAppService {
       if (result.isConfirmed) {
         // Aquí puedes redirigir al usuario a la página deseada
         window.location.href = urlEnt+'#/login';
-        window.location.reload();
-
       }
     });
 
