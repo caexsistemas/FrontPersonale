@@ -160,7 +160,7 @@ export class LoginComponent {
             this.loading = false;
             this._tools.isLogged = false;
             this.loginForm.get("fpass").setValue("");
-            this.handler.showError(data.message);
+            this.handler.shoWarning('¡Atención!', data.message);
           }
         },
         (error) => {

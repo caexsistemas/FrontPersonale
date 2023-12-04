@@ -252,8 +252,12 @@ export class HandlerAppService {
       urlEnt += location.hostname+'/360/';
     }
 
+    if(message == null || message == "" ){
+      message = 'Comunícate con nuestro equipo de soporte para obtener asistencia.';
+    }
+
     Swal.fire({
-      title: 'Error Inesperado',
+      title: '¡Ups! Ocurrió un contratiempo inesperado.',
       html: message,
       icon: 'error',
       showCancelButton: true,
@@ -262,7 +266,14 @@ export class HandlerAppService {
     }).then((result) => {
       if (result.isConfirmed) {
         // Aquí puedes redirigir al usuario a la página deseada
-        window.location.href = urlEnt+'#/login';
+        this.router.navigate(['/login'])
+        .catch(error => {
+          console.error('Error de navegación:', error);
+          // Puedes agregar lógica adicional aquí si es necesario
+          // Por ejemplo, redirigir a otra página o mostrar un mensaje al usuario
+          return Promise.resolve(); // Resuelve la promesa para que la ejecución continúe
+        });     
+
       }
     });
 
@@ -273,7 +284,7 @@ export class HandlerAppService {
     localStorage.removeItem('currentUser');
     // this.kaysen.isLogged = false;
     // this.kaysen.cuser = null;
-    window.location.href = '/'
+    this.router.navigate(["/"]);
   }
 
   validateAllFields(formGroup: FormGroup) {         

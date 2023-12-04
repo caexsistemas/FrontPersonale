@@ -61,7 +61,8 @@ export class UsersComponent implements OnInit {
       role: this.cuser.role,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
-      modulo: this.component
+      modulo: this.component,
+      action: "getDataUser"
     })
       .subscribe(
         response => {
@@ -70,15 +71,7 @@ export class UsersComponent implements OnInit {
             this.permissions = this.handler.getPermissions(this.component);
             this.generateTable(response.data['getDataUser']);
             this.datauser = response.data['getDataUser'];
-            // this.log = response.data['getDataUser'][0];
-            // console.log('==>',this.log.login)
-            // if(this.log == '1'){
-            //       this.sta = 'ON'
-            //   }else if(this.log == '0' || this.log == null){
-            //             this.sta = 'OFF'
-            //       }
 
-            //Boton de Sesion
             if( this.cuser.role == 1 || this.cuser.role == 28 || this.cuser.role == 34){
               this.permiLogout = true;
             }
