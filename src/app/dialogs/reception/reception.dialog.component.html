@@ -1,4 +1,5 @@
-<div class="card mt-6">
+
+<div class="card mt-6" style="width: 1200px;">
   <div *ngIf="view == 'create' || view == 'update'">
     <div class="card-header">
       <h5 class="modal-title button_header">
@@ -11,13 +12,13 @@
       </h5>
     </div>
     <div class="card-body">
-      <mat-dialog-content>
+      <mat-dialog-content style="min-width: 800px;">
         <mat-accordion class="example-headers-align">
           <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Solicitud &nbsp; &nbsp;
+                 <b>Solicitud &nbsp; &nbsp;</b> 
                 </mat-panel-title>
                 <mat-panel-description>
                   Información Detallada
@@ -96,12 +97,12 @@
             <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Descripción de la situación &nbsp; &nbsp;
+                 <b> Descripción de la situación &nbsp; &nbsp;</b>
                 </mat-panel-title>
                 <mat-panel-description>
 
                 </mat-panel-description>
-                <mat-icon>chrome_reader_mode</mat-icon>
+                <mat-icon>description</mat-icon>
               </mat-expansion-panel-header>
 
               <div class="row-12">
@@ -139,7 +140,7 @@
             <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Gestión de citación &nbsp; &nbsp;
+                 <b>Gestión de citación &nbsp; &nbsp;</b> 
                 </mat-panel-title>
                 <mat-panel-description>
 
@@ -149,35 +150,6 @@
 
               <div class="row-12" style="min-width: 1000px;">
                 <mat-vertical-stepper [linear]="true" #stepCase>
-                  <!-- <mat-step>
-                    <ng-template matStepLabel>Motivo</ng-template>
-                    <form (ngSubmit)="nextStepCase(0)" [formGroup]="formCase">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <mat-form-field class="example-full-width ">
-                            <mat-label>Motivo Inicial</mat-label>
-                            <mat-select formControlName="dis_fal" (ngModelChange)="onRadioChange($event)" required>
-                              <mat-option *ngFor="let idet of typeFalt" [value]="idet.ls_codvalue" disabled>
-                                {{idet.description}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="row mt-2" *ngIf="checkUs">
-                          <div class="col-md-12">
-                            <mat-form-field class="example-full-width">
-                              <mat-label>Escriba su respuesta:</mat-label>
-                              <textarea matInput formControlName="dis_oth_fal" [required]="checkUs"></textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <button mat-button color="primary"
-                          [disabled]="!formCase.get('dis_fal').valid">Siguiente</button>
-                      </div>
-                    </form>
-                  </mat-step> -->
                   <mat-step>
                     <ng-template matStepLabel>Motivo Citación</ng-template>
                     <form (ngSubmit)="nextStepCase(0)" [formGroup]="formCase">
@@ -291,6 +263,26 @@
                     </form>
                   </mat-step>
                   <mat-step>
+                    <ng-template matStepLabel>Fecha y hora Elaboración</ng-template>
+                    <form (ngSubmit)="nextStepCase(4)" [formGroup]="formCitation">
+                      <div class="row mt-2">
+
+                        <div class="col-md-4">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput formControlName="cit_fec_elab" value="cit_fec_elab" type="datetime-local"
+                              required>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <button mat-button matStepperPrevious>Atrás</button>
+                        <button mat-button color="primary"
+                          [disabled]="!formCitation.get('cit_fec_elab').valid">Siguiente</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step>
                     <ng-template matStepLabel>Resumen</ng-template>
                     <div style="font: 500 14px/20px Roboto, Helvetica Neue, sans-serif;">
 
@@ -299,6 +291,7 @@
                       <p>Conclusion: {{ getSelectedConclusion() }}</p>
                       <p>Modalidad: {{ getSelectedModalityName() }}</p>
                       <p>Fecha Citación: {{ formCitation.get('cit_fec_hor').value | date: 'medium'}} </p>
+                      <p>Fecha Elaboración Documento: {{ formCitation.get('cit_fec_elab').value | date: 'medium'}} </p>
                     </div>
                   </mat-step>
                 </mat-vertical-stepper>
@@ -311,17 +304,19 @@
             <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle *ngIf="checkCita">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Citación &nbsp; &nbsp;
+                  <b><h5>Citación</h5></b> &nbsp; &nbsp;
+
                 </mat-panel-title>
                 <mat-panel-description>
+                  <mat-icon> table_chart</mat-icon>
 
                 </mat-panel-description>
-                <mat-icon>chrome_reader_mode</mat-icon>
+                <mat-icon>file_copy</mat-icon>
               </mat-expansion-panel-header>
               <mat-dialog-content>
                 <div class="card border-secondary mt-4">
                   <div class="card-header" style="background-color: #c9c9c9;">
-                    Citación Procesos Disciplinarios
+                    <h4>Citación Procesos Disciplinarios</h4> 
 
                   </div>
                   <div class="card-body">
@@ -345,7 +340,7 @@
                           <td mat-cell *matCellDef="let row">
                             <div class="mt-1"
                               [ngStyle]="{'backgroundColor': colorState(row.cantidadTexto),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
-                              {{row.cantidadTexto}}
+                              {{!row.cit_estado ? row.cantidadTexto : row.estado}}
                             </div>
                           </td>
                         </ng-container>
@@ -369,7 +364,7 @@
                           <td mat-cell *matCellDef="let row"> {{row.description}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="cit_fec_elab">
+                        <ng-container matColumnDef="cit_fec_elab" >
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración
                           </th>
                           <td mat-cell *matCellDef="let row">
@@ -384,19 +379,19 @@
                               <i class="fa fa-edit fa-lg"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aplazamiento' || getEstado(row.cit_estado,row.estado) == 'Aclaración' "
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aplazado' || getEstado(row.cit_estado,row.estado) == 'Aclaración' "
                               (click)="option('createApla',row.cit_id,row.idPersonale,row.dis_id)"
                               title="Crear Aplazamiento">
                               <i class="fa fa-plus-circle"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-warning" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aclaración'"
+                            <button class="btn btn-ghost-warning" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aclaración' || getEstado(row.cit_estado, row.estado) == 'Aplazado'"
                               (click)="option('createAcla',row.cit_id,row.idPersonale,row.dis_id)"
                               title="Crear aclaracion">
                               <i class="fa fa-handshake-o"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfCitation',row.cit_id,row.cantidadTexto)" title="PDF" [disabled]="!row.cit_fec_elab">
+                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfCitation',row.cit_id)" title="PDF" [disabled]="!row.cit_fec_elab">
                               <i class="fa fa-file-pdf-o"></i>
                             </button>
                           </td>
@@ -424,17 +419,18 @@
             <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle *ngIf="checkAp">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Aplazamiento &nbsp; &nbsp;
+                 <b><h5>Aplazamiento &nbsp; &nbsp;</h5></b> 
                 </mat-panel-title>
                 <mat-panel-description>
+                  <mat-icon> table_chart</mat-icon>
 
                 </mat-panel-description>
-                <mat-icon>chrome_reader_mode</mat-icon>
+                <mat-icon>file_copy</mat-icon>
               </mat-expansion-panel-header>
               <mat-dialog-content>
                 <div class="card border-secondary mt-4">
                   <div class="card-header" style="background-color: #c9c9c9;">
-                    Aplazamiento
+                    <h4>Aplazamiento</h4>
 
                   </div>
                   <div class="card-body">
@@ -463,24 +459,24 @@
                           </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="pos_fec_ela">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora a
-                            Referenciar
+                        <ng-container matColumnDef="pos_apl">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha y Hora aplazamiento
+                            
 
                           </th>
-                          <td mat-cell *matCellDef="let row"> {{row.pos_fec_ela}} </td>
+                          <td mat-cell *matCellDef="let row"> {{row.pos_apl}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idPersonale">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Nombre y Apellidos
                           </th>
-                          <td mat-cell *matCellDef="let row"> {{row.name | titlecase}} </td>
+                          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="pos_apl">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración
+                        <ng-container matColumnDef="pos_fec_ela">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de elaboración documento
                           </th>
-                          <td mat-cell *matCellDef="let row"> {{row.pos_apl}} </td>
+                          <td mat-cell *matCellDef="let row"> {{row.pos_fec_ela | date}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="cla_description">
@@ -496,7 +492,7 @@
                               <i class="fa fa-edit fa-lg"></i>
                             </button>
                             <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="row.pos_apl == null || row.check_post == '1'"
-                            (click)="option('createCit',row.cit_id)" title="crear nueva citación">
+                            (click)="option('createCit',row.cit_id,'', row.pos_id)" title="crear nueva citación">
                             <i class="fa fa-plus-circle"></i>
                           </button>
                           <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfPostponement',row.pos_id)" title="PDF" [disabled]="!row.pos_apl">
@@ -526,18 +522,19 @@
             <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle *ngIf="checkAcla">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Aclaración &nbsp; &nbsp;
+                 <b><h5>Aclaración &nbsp; &nbsp;</h5></b> 
                 </mat-panel-title>
                 <mat-panel-description>
+                  <mat-icon> table_chart</mat-icon>
 
                 </mat-panel-description>
-                <mat-icon>chrome_reader_mode</mat-icon>
+                <mat-icon>file_copy</mat-icon>
               </mat-expansion-panel-header>
 
               <mat-dialog-content>
                 <div class="card border-secondary mt-4">
                   <div class="card-header" style="background-color: #c9c9c9;">
-                    Aclaración
+                    <h4>Aclaración</h4> 
 
                   </div>
                   <div class="card-body">
@@ -635,26 +632,27 @@
             <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle *ngIf="checkConc">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  Conclusiones &nbsp; &nbsp;
+                 <b><h5>Conclusiones &nbsp; &nbsp;</h5></b> 
                 </mat-panel-title>
                 <mat-panel-description>
+                  <mat-icon> table_chart</mat-icon>
 
                 </mat-panel-description>
-                <mat-icon>chrome_reader_mode</mat-icon>
+                <mat-icon>gavel</mat-icon>
               </mat-expansion-panel-header>
               <mat-dialog-content>
                 <div class="card border-secondary mt-4">
                   <div class="card-header" style="background-color: #c9c9c9;">
-                    Conclusiones
+                   <h5>Conclusiones</h5> 
 
                   </div>
                   <div class="card-body">
                     <div class="toolbar-table" *ngIf="permissions != null">
 
-                      <mat-form-field appearance="standard">
+                      <!-- <mat-form-field appearance="standard">
                         <mat-label>Buscar...</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
-                      </mat-form-field>
+                      </mat-form-field> -->
                     </div>
                     <div class="mat-elevation-z8">
                       <table mat-table [dataSource]="dataSourceConc" matSort class="table-large table-responsive-lg"
@@ -698,7 +696,7 @@
                         </ng-container>
 
                         <ng-container matColumnDef="con_final">
-                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Descripcion </th>
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Conclusión Final </th>
                           <td mat-cell *matCellDef="let row"> {{row.final}} </td>
                         </ng-container>
 

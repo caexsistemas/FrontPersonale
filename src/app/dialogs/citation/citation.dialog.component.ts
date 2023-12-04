@@ -140,6 +140,7 @@ export class CitationDialog {
       cit_estado: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
       cla_id: new FormControl(""),
+      pos_id: new FormControl(""),
     });
   }
 
@@ -168,6 +169,7 @@ export class CitationDialog {
           this.formCreate.get("idPersonale").setValue(data.data[0].idPersonale);
           this.formCreate.get("cas_id").setValue(data.data[0].cas_id);
           this.formCreate.get("cla_id").setValue(data.data[0].cla_id);
+          this.formCreate.get("pos_id").setValue(data.data[0].pos_id);
 
           if (this.view == "updateCit") {
             this.getDataUpdate();
