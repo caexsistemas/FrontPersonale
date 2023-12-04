@@ -222,11 +222,14 @@ export class UsersDialog {
         modulo: this.component,
       }).subscribe(
         (data) => {
-          if (data.success) {
+          if (data.success == true && data.info == false) {
             this.handler.showSuccess(data.message);
             this.reload.emit();
             this.closeDialog();
-          } else {
+          } else if(data.success == true && data.info == true){
+            this.handler.shoWarning(data.title, data.message);
+            this.loading.emit(false);
+          }else{
             this.handler.handlerError(data);
             this.loading.emit(false);
           }
