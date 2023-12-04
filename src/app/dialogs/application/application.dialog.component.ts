@@ -190,7 +190,8 @@ export class ApplicationDialog {
             this.rol_user == "23" ||
             this.rol_user == "14" ||
             this.rol_user == "21" ||
-            this.rol_user == "22"
+            this.rol_user == "22" || 
+            this.rol_user == "46"
           ) {
             this.typeSolit = data.data["typeSolit"].slice(0, 2);
             this.application = data.data["application"].slice(0, 7);

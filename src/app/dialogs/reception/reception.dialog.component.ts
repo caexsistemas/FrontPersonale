@@ -384,6 +384,7 @@ export class ReceptionDialogComponent {
           if (data.data[2].length > 0 && data.data[2][0].cit_fec_hor) {
             this.checkCita = true;
             this.formCitation.get("cit_fec_hor").setValue(data.data[2][0].cit_fec_hor);
+            this.formCitation.get("cit_fec_elab").setValue(data.data[2][0].cit_fec_elab);
           }
           //aclaracion
           if (data.data[4].length > 0) {
@@ -404,7 +405,7 @@ export class ReceptionDialogComponent {
           this.generateTableCitation(data.data[2]);
           this.tableClarification(data.data[4]);
           this.tablePostponement(data.data[3]);
-         
+         this.cantEstadoCit(data.data[2])
           // habilitar boton de conclusion
           this.updateButtonEnabled = data.data[5].map((row, index) => {
             if (data.data[5].slice(index + 1).every(subsequentRow => subsequentRow.con_fec_ela !== null) ) {
@@ -545,6 +546,31 @@ export class ReceptionDialogComponent {
       return estado;
     }
   }
+
+  estado_cant: any = [];
+  cantEstadoCit(citacion){
+    
+    let estado_cit = citacion.find((estado) => estado.cit_estado === '135/3');
+    let estado_acl = citacion.find((estado) => estado.cit_estado === '135/2');
+    
+    let countCI = 0;
+    let countAcl = 0;
+
+    if(estado_cit){
+      countCI++;
+     } 
+     if (estado_acl){
+       countAcl++;
+      }
+    const total = (countCI + countAcl);
+
+    if(total === 1){
+        this.estado_cant = "1ra Citación";
+    }else if(total === 2){
+        this.estado_cant = "2do Citación";
+    }
+  }
+
   tableClarification(data) {
     this.displayedColumnsCla = [
       "cantidadAcla",
@@ -567,9 +593,9 @@ export class ReceptionDialogComponent {
   tablePostponement(data) {
     this.displayedColumnsPost = [
       "cantidadAcla",
-      "pos_fec_ela",
-      "idPersonale",
       "pos_apl",
+      "idPersonale",
+      "pos_fec_ela",
       "actions",
     ];
     this.dataSourcePost = new MatTableDataSource(data);
@@ -1000,7 +1026,7 @@ export class ReceptionDialogComponent {
             data: {
               window: "pdfCitation",
               codigo,
-              idPersonale
+              idPersonale:this.estado_cant
             },
           });
         break;

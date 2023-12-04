@@ -144,8 +144,23 @@ table {
 }
 
 td, th {
-  width: 10%;
+  width: 8%;
  
 }
+/* Añade estos estilos para resaltar el panel cuando el usuario pasa el ratón sobre él */
+.mat-expansion-panel:hover {
+  background-color: #e3f2fd; 
+  cursor: pointer; /* Cambia el cursor para indicar que el panel es interactivo */
+}
 
+/* element.style {
+  max-width: 94vw;
+  pointer-events: auto;
+  position: static;
+}
+ */
+ /* Por ejemplo, si tu componente tiene una clase específica, utiliza algo como: */
+ /* .cdk-overlay-pane  .mat-expansion-panel {
+  max-width: 100vw;
+} */
 
