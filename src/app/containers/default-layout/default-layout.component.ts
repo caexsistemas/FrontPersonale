@@ -284,17 +284,6 @@ export class DefaultLayoutComponent {
     this.sidebarMinimized = e;
   }
 
-  prueba_cli() {
-    const hola = new DefaultLayoutComponent(
-      this._tools,
-      this._router,
-      this.WebApiService,
-      this.dialog,
-      this.handler
-    );
-    hola.checkNotification(this.WebApiService);
-  }
-
   RecarNotification() {
     // this.aware(this.WebApiService);
     this.checkNotification(this.WebApiService);
