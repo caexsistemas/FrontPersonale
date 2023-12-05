@@ -85,18 +85,14 @@ export class ClarificationDialog {
     switch (this.view) {
       case "createAcla":
         this.initFormsRole();
-        this.title = "Crear Nueva aclaracion";
-        console.log(this.data);
-        
+        this.title = "Crear Nueva aclaracion";        
         this.citaTable = this.data.codigo[0];
 
         break;
       case "updateAcla":
         this.initFormsRole();
-
         this.title = "Editar Aclaración";
         this.idCit = this.data.codigo;
-        console.log('==>',this.data);
         
         break;
       case "viewCit":
@@ -125,7 +121,6 @@ export class ClarificationDialog {
         );
         break;
         case "pdfClarification":
-          console.log(this.data);
           // this.cantCit = this.data.idPersonale;
           // this.pdf(this.data.codigo, this.cantCit);
           this.pdf(this.data.codigo);
@@ -304,7 +299,6 @@ export class ClarificationDialog {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        //console.log(data);
         if (data.success == true) {
           const link = document.createElement("a");
           link.href = data.data.url;

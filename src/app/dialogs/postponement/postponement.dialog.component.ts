@@ -121,7 +121,6 @@ export class PostponementDialog {
         );
         break;
         case "pdfPostponement":
-          console.log(this.data);
           // this.cantCit = this.data.idPersonale;
           // this.pdf(this.data.codigo, this.cantCit);
           this.pdf(this.data.codigo);
@@ -292,7 +291,6 @@ export class PostponementDialog {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        //console.log(data);
         if (data.success == true) {
           const link = document.createElement("a");
           link.href = data.data.url;

@@ -88,7 +88,6 @@ export class CitationDialog {
         this.initFormsRole();
         this.title = "Crear Nueva Citación";
         this.citaTable = this.data.codigo[0];
-        console.log(this.data);
         
         break;
       case "updateCit":
@@ -123,7 +122,6 @@ export class CitationDialog {
         );
         break;
         case "pdfCitation":
-          console.log(this.data);
           this.cantCit = this.data.idPersonale;
           this.pdf(this.data.codigo, this.cantCit);
           dialogRef.close();  
@@ -228,7 +226,6 @@ export class CitationDialog {
       let body = {
         listas: this.formCreate.value,
       };
-      console.log('form => ', body);
       
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
@@ -298,7 +295,6 @@ export class CitationDialog {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        //console.log(data);
         if (data.success == true) {
           const link = document.createElement("a");
           link.href = data.data.url;

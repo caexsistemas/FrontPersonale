@@ -12,7 +12,8 @@
       </h5>
     </div>
     <div class="card-body">
-      <mat-dialog-content style="min-width: 800px;">
+      <!-- <mat-dialog-content style="min-width: 800px;"> -->
+        <mat-dialog-content style="min-width: 1000px;">
         <mat-accordion class="example-headers-align">
           <form form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
             <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
@@ -340,7 +341,7 @@
                           <td mat-cell *matCellDef="let row">
                             <div class="mt-1"
                               [ngStyle]="{'backgroundColor': colorState(row.cantidadTexto),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
-                              {{!row.cit_estado ? row.cantidadTexto : row.estado}}
+                              {{!row.cit_estado ? row.cantidadTexto : row.estado}} {{!row.clasificacion || row.clasificacion == 1 ? ' ': row.clasificacion}}
                             </div>
                           </td>
                         </ng-container>
@@ -375,7 +376,7 @@
                           <th mat-header-cell *matHeaderCellDef> Acciones </th>
                           <td mat-cell *matCellDef="let row">
                             <button class="btn btn-ghost-primary" *ngIf="permissions.update"
-                              (click)="option('updateCit',row.cit_id)" title="Editar">
+                              (click)="option('updateCit',row.cit_id)" title="Editar Citación">
                               <i class="fa fa-edit fa-lg"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
@@ -387,11 +388,11 @@
                             </button>
                             <button class="btn btn-ghost-warning" *ngIf="permissions.update" [disabled]="getEstado(row.cit_estado,row.estado) == 'Aclaración' || getEstado(row.cit_estado, row.estado) == 'Aplazado'"
                               (click)="option('createAcla',row.cit_id,row.idPersonale,row.dis_id)"
-                              title="Crear aclaracion">
+                              title="Crear Aclaración">
                               <i class="fa fa-handshake-o"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfCitation',row.cit_id)" title="PDF" [disabled]="!row.cit_fec_elab">
+                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfCitation',row.cit_id,row.clasificacion)" title="PDF" [disabled]="!row.cit_fec_elab || row.cit_estado === '135/1'">
                               <i class="fa fa-file-pdf-o"></i>
                             </button>
                           </td>
@@ -488,11 +489,11 @@
                           <th mat-header-cell *matHeaderCellDef> Acciones </th>
                           <td mat-cell *matCellDef="let row">
                             <button class="btn btn-ghost-primary" *ngIf="permissions.update"
-                              (click)="option('updateApla',row.pos_id)" title="update">
+                              (click)="option('updateApla',row.pos_id)" title="Editar Aplazamiento">
                               <i class="fa fa-edit fa-lg"></i>
                             </button>
                             <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="row.pos_apl == null || row.check_post == '1'"
-                            (click)="option('createCit',row.cit_id,'', row.pos_id)" title="crear nueva citación">
+                            (click)="option('createCit',row.cit_id,'', row.pos_id)" title="Crear Nueva Citación">
                             <i class="fa fa-plus-circle"></i>
                           </button>
                           <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfPostponement',row.pos_id)" title="PDF" [disabled]="!row.pos_apl">
@@ -603,7 +604,7 @@
                               <i class="fa fa-edit fa-lg"></i>
                             </button>
                             <button class="btn btn-ghost-success" *ngIf="permissions.update" [disabled]="row.cla_fec_pres == null || row.check_clarifi == '1'"
-                              (click)="option('createCit',row.cit_id, row.cla_id)" title="crear nueva citación" >
+                              (click)="option('createCit',row.cit_id, row.cla_id)" title="Crear Nueva Citación">
                               <i class="fa fa-plus-circle"></i>
                             </button>
                             <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfClarification',row.cla_id)" title="PDF" [disabled]="!row.cla_fec_pres">

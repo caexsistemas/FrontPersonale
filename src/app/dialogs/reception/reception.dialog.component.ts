@@ -547,28 +547,29 @@ export class ReceptionDialogComponent {
     }
   }
 
-  estado_cant: any = [];
   cantEstadoCit(citacion){
     
-    let estado_cit = citacion.find((estado) => estado.cit_estado === '135/3');
-    let estado_acl = citacion.find((estado) => estado.cit_estado === '135/2');
+    const estados = ['135/2', '135/3'];
+
+    const citacionesFiltradas = citacion.filter(c => estados.includes(c.cit_estado));
     
-    let countCI = 0;
-    let countAcl = 0;
+    citacionesFiltradas.sort((a, b) => (a.cit_fec_hor < b.cit_fec_hor ? -1 : 1));
 
-    if(estado_cit){
-      countCI++;
-     } 
-     if (estado_acl){
-       countAcl++;
+      let contador = 1;
+      citacionesFiltradas[0].clasificacion = `${contador}`;
+
+      for (let i = 1; i < citacionesFiltradas.length; i++) {
+        
+        const fechaActual = new Date(citacionesFiltradas[i].cit_fec_hor);
+        const fechaAnterior = new Date(citacionesFiltradas[i - 1].cit_fec_hor);
+
+        if (fechaActual.toDateString() !== fechaAnterior.toDateString()) {
+            contador++;          
+           }
+
+        citacionesFiltradas[i].clasificacion = `${contador}`;
+        
       }
-    const total = (countCI + countAcl);
-
-    if(total === 1){
-        this.estado_cant = "1ra Citación";
-    }else if(total === 2){
-        this.estado_cant = "2do Citación";
-    }
   }
 
   tableClarification(data) {
@@ -1026,7 +1027,7 @@ export class ReceptionDialogComponent {
             data: {
               window: "pdfCitation",
               codigo,
-              idPersonale:this.estado_cant
+              idPersonale
             },
           });
         break;
