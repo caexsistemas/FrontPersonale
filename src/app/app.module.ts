@@ -161,6 +161,7 @@ import { PostponementDialog } from "./dialogs/postponement/postponement.dialog.c
 import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.component";
 import { MatMenuModule } from "@angular/material/menu";
 import { ReportsDisciplinaryComponent } from "./dialogs/reports/disciplinary/reports-disciplinary.component";
+import { ReportsUserComponent } from "./dialogs/reports/user/reports-user.component";
 
 
 const routes: Routes = [];
@@ -311,7 +312,8 @@ const routes: Routes = [];
     PostponementDialog,
     ConclusionDialog,
     cargueBaseDialog,
-    ReportsDisciplinaryComponent
+    ReportsDisciplinaryComponent,
+    ReportsUserComponent
   ],
   providers: [
     {

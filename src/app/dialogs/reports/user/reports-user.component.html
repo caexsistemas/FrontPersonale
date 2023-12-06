@@ -1,0 +1,46 @@
+<div class="card-body">
+  <mat-dialog-content>
+      <form [formGroup]="formDowPersonale" method="POST">
+
+          <div class="row">
+               <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select formControlName="status">
+                      <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+              <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Rol de usuario:</mat-label>
+                    <mat-select formControlName="rol">
+                      <mat-option *ngFor="let idet of typeRol" [value]="idet.idRole">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                  <mat-label>Tipo de matriz:</mat-label>
+                  <mat-select formControlName="matrizarp">
+                    <mat-option *ngFor="let idet of matrizarp" [value]="idet.ls_codvalue">
+                      {{idet.description}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+           
+          </div>
+      </form>
+
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+      <div class="text-center col-12">
+          <button mat-button class="btn btn-success" (click)="descargarArchivos()">Descargar</button>
+      </div>
+  </div>
+</div>
