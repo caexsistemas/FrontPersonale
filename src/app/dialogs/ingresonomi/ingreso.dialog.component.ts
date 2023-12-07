@@ -34,6 +34,7 @@ export class IngresoDialog{
     PersonaleInfo: any = [];
     ListArea:      any = [];
     selectedFile:  File = null;
+    ciyiWork: any = [];
     archivo = {
         nombre: null,
         nombreArchivo: null,
@@ -87,8 +88,7 @@ export class IngresoDialog{
                     .subscribe(
                         data => {
                             if (data.success == true) {
-                                console.log('ingreso');
-                                console.log(data);
+                               
                                 this.dataNovNi = data.data['getDataNom'][0];       
                                 this.generateTable(data.data['getDatHistory']);                  
                                 this.loading.emit(false);
@@ -151,10 +151,10 @@ export class IngresoDialog{
             data => {
                 if (data.success == true) {
                     //DataInfo
-                    console.log(data);
                     this.PersonaleInfo = data.data['getDataPersonale'];
                     this.ListArea      = data.data['getDatArea'];
                     this.ListTipoGes   = data.data['getDatTipoGes'];
+                    this.ciyiWork      = data.data['citys'];
 
                     if (this.view == 'update') {
                         this.getDataUpdate();

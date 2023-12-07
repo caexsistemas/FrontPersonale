@@ -46,6 +46,7 @@
                     </div>
 
                     <div class="row">
+                       
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Area de trabajo:</mat-label>
@@ -57,6 +58,16 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ciudad:</mat-label>
+                                <mat-select formControlName="city_nc">
+                                    <mat-option *ngFor="let idet of ciyiWork" [value]="idet.idCity">
+                                      {{idet.name}}
+                                    </mat-option>
+                                  </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Identificaci&oacute;n Jefe:</mat-label>
                                 <input matInput formControlName="directboss_nc_jf" type="number" (ngModelChange)="onSelectionJFChange($event)" required>
@@ -71,17 +82,12 @@
                                   </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Ciudad:</mat-label>
-                                <input matInput formControlName="city_nc" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
+                       
+                        <!-- <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Edad:</mat-label>
                                 <input matInput formControlName="edad_nc" type="number">
@@ -92,10 +98,10 @@
                                 <mat-label>Salario:</mat-label>
                                 <input matInput formControlName="salary_nc" type="number" step="any">
                             </mat-form-field>
-                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         
                         <div class="col-md-4">
                             <label>Documento de Soporte:</label>
@@ -117,7 +123,7 @@
                             <label>Documento de Soporte:</label>
                             <a href="{{archivo.nombre}}" target="_blank">Download</a>
                         </div>
-                    </div>
+                    </div> -->
 
                 </form>
 
@@ -159,7 +165,7 @@
             </div>
 
             <div class="col-md-3">
-                <dt>Fecha Ingreso:</dt>
+                <dt>Fecha {{dataNovNi.tipoges_nc}}:</dt>
                 <dd>{{dataNovNi.daying_nc}}</dd>
             </div>
 
@@ -171,7 +177,7 @@
         </div>
         <div class="row mt-2">
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <dt>Documento Jefe Directo:</dt>
                 <dd>{{dataNovNi.directboss_nc_jf}}</dd>
             </div>
@@ -179,21 +185,26 @@
             <div class="col-md-3">
                 <dt>Jefe Directo</dt>
                 <dd>{{dataNovNi.directboss_nc}}</dd>
+            </div> -->
+
+            <div class="col-md-3">
+                <dt>Ciudad de trabajo:</dt>
+                <dd>{{dataNovNi.city_work}}</dd>
             </div>
 
             <div class="col-md-3">
-                <dt>Ciudad:</dt>
-                <dd>{{dataNovNi.city_nc}}</dd>
+                <dt>Tipo Gestion:</dt>
+                <dd>{{dataNovNi.tipoges_nc}}</dd>
             </div>
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <dt>Edad:</dt>
                 <dd>{{dataNovNi.edad_nc}}</dd>
-            </div>
+            </div> -->
 
         </div>
 
-        <div class="row mt-2">
+        <!-- <div class="row mt-2">
 
             <div class="col-md-3">
                 <dt>Salario: </dt>
@@ -215,7 +226,7 @@
                 <dd></dd>
             </div>
 
-        </div>
+        </div> -->
 
         <div class="row mt-3">
             <div class="col-md-12">

@@ -1049,6 +1049,15 @@ export class ReceptionDialogComponent {
             },
           });
         break;
+        case "pdfConclusion":
+          dialogRef = this.dialog.open(ConclusionDialog, {
+            data: {
+              window: "pdfConclusion",
+              codigo,
+              idPersonale
+            },
+          });
+        break;
     }
   }
 
