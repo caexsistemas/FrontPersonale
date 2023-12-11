@@ -135,8 +135,7 @@ export class ReportsRqcalidadComponent implements OnInit {
         this.handler.showError('Complete la informacion necesaria');
         this.loading.emit(false);
     }
-}
-
+  }
 }
 
 

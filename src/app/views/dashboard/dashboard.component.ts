@@ -104,6 +104,7 @@ export class DashboardComponent implements AfterViewInit  {
   }
   ngAfterViewInit(): void {
     // console.log( this.cuser.role);
+    this.handler.navidad();
     if( this.cuser.role == 21 || this.cuser.role == 22 ){ 
     this.rolC = true;
     this.sendRequest()
@@ -490,5 +491,10 @@ grama_linea(infodata,divdata,cabecera,valores) {
     var chart = new google.visualization.ColumnChart(document.getElementById(divdata));
     chart.draw(data, google.charts.Bar.convertOptions(options));
   }
+
+
+
+  
+
  };
 

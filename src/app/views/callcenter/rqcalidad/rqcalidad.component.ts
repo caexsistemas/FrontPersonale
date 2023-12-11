@@ -40,6 +40,9 @@ export class RqcalidadComponent implements OnInit {
   dataSource: any = [];
   public detaNovSal = [];
   contaClick: number = 0;
+  public mailNotification: any;
+  // public isLogged: boolean;
+
   //Control Permiso
   component = "/callcenter/rqcalidad";
   //History
