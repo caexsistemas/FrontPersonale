@@ -351,7 +351,8 @@ export class AbsenteeismComponent implements OnInit {
     } else {
       this.tmajust = false;
     }
-    //Proceso  
+    //Proceso
+    console.log(hoy.getDay());  
     /*console.log('------------');
     console.log(fechaing);
     console.log(fechaFin);
