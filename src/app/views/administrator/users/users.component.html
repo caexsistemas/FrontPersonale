@@ -24,6 +24,11 @@
                             <mat-icon>group</mat-icon>
                             <span>Cerrar Sesiones</span>
                         </button>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Usuarios 360">
+                            <mat-icon>download</mat-icon>
+                            <span>Reportes Usuarios 360</span>
+                        </button>
                         
                     </mat-menu>       
                 </div>

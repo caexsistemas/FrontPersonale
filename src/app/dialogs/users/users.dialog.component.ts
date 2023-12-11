@@ -68,6 +68,9 @@ export class UsersDialog {
   value3 = "";
   act: any = [];
   sesion: number = null;
+  exitsPersonal: any = [];
+  check_mens: boolean;
+
   log: any = [];
   // sesion: any = [];
   // interface Food {
@@ -111,6 +114,8 @@ export class UsersDialog {
               } else if (this.act == "0" || this.act == null) {
                 this.log = "OFF";
               }
+
+              this.usuario.id_rol === 37 ? this.check_mens = true : this.check_mens = false;
               this.loading.emit(false);
             } else {
               this.handler.handlerError(data);
@@ -141,7 +146,6 @@ export class UsersDialog {
   initForms() {
     this.getDataInit();
     this.formUsuario = new FormGroup({
-      // name = new FormControl('', [Validators.required]);
       name: new FormControl(""),
       surname: new FormControl(""),
       username: new FormControl(""),
@@ -161,7 +165,8 @@ export class UsersDialog {
       us_red: new FormControl(""),
       supervisor: new FormControl(""),
       formador: new FormControl(""),
-      formador_tw: new FormControl("")
+      formador_tw: new FormControl(""),
+      num_mens: new FormControl("")
     });
   }
 
@@ -190,7 +195,6 @@ export class UsersDialog {
           this.person = data.data["personale"];
           this.superviso = data.data["superviso"];
           this.formadores = data.data["formadores"];
-          // console.log(this.person);
 
           let datos = data.data;
           this.loading.emit(false);
@@ -316,7 +320,8 @@ export class UsersDialog {
             .setValue(data.data["getDataUpda"][0].formador); 
           this.formUsuario
             .get("formador_tw")
-            .setValue(data.data["getDataUpda"][0].formador_tw);        
+            .setValue(data.data["getDataUpda"][0].formador_tw); 
+          this.formUsuario.get("num_mens").setValue(data.data["getDataUpda"][0].num_mens);       
 
           this.loading.emit(false);
         } else {
@@ -366,40 +371,37 @@ export class UsersDialog {
   closeDialog() {
     this.dialogRef.close();
   }
-  newUser: any = [];
-  newSurname: any = [];
-  exitsPersonal: any = [];
+
   onSelectionPerson(event) {
-    this.exitsPersonal = this.person.find(
-      (element) => element.document == event
-    );
+    this.exitsPersonal = this.person.find((element) => element.document == event);
 
     if (this.exitsPersonal) {
       const fullName = this.exitsPersonal.name.trim(); //quitar espacios en blanco adicionales
       const nameArray = fullName.split(" "); //dividir la cadena en un arreglo utilizando un espacio como separador
 
       if (nameArray.length <= 3) {
-        const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
-        const lastName = nameArray.slice(1).join(" "); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
 
-        this.formUsuario
-          .get("idPersonale")
-          .setValue(this.exitsPersonal.idPersonale);
-        this.formUsuario.get("name").setValue(firstName);
-        this.formUsuario.get("surname").setValue(lastName);
-      } else if (nameArray.length >= 3) {
-        const firstName = nameArray[0] + " " + nameArray[1];
-        const lastName = nameArray.slice(2).join(" ");
+          const firstName = nameArray[0]; //obtener el primer elemento del arreglo (nombre)
+          const lastName = nameArray.slice(1).join(" "); //obtener el resto del arreglo y unirlo con un espacio como separador (apellido)
 
-        this.formUsuario
-          .get("idPersonale")
-          .setValue(this.exitsPersonal.idPersonale);
-        this.formUsuario.get("name").setValue(firstName);
-        this.formUsuario.get("surname").setValue(lastName);
-      }
-    }
+          this.formUsuario.get("idPersonale").setValue(this.exitsPersonal.idPersonale);
+          this.formUsuario.get("name").setValue(firstName);
+          this.formUsuario.get("surname").setValue(lastName);
+
+        } else if (nameArray.length >= 3) {
+
+                    const firstName = nameArray[0] + " " + nameArray[1];
+                    const lastName = nameArray.slice(2).join(" ");
+
+                    this.formUsuario.get("idPersonale").setValue(this.exitsPersonal.idPersonale);
+                    this.formUsuario.get("name").setValue(firstName);
+                    this.formUsuario.get("surname").setValue(lastName);
+                  }
+     }
   }
-
+  onSelectionChange(event){
+    event === 37 ? this.check_mens = true : this.check_mens = false;
+  }
   // mayus(e) {
   //     e.value = e.value.toUpperCase();
   // }

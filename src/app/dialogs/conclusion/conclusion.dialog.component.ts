@@ -146,6 +146,12 @@ export class ConclusionDialog {
           }
         );
         break;
+        case "pdfConclusion":
+          // this.cantCit = this.data.idPersonale;
+          // this.pdf(this.data.codigo, this.cantCit);
+          this.pdf(this.data.codigo);
+          dialogRef.close();  
+        break;
     }
   }
   initFormsRole() {
@@ -255,7 +261,7 @@ export class ConclusionDialog {
           this.formCreate
             .get("con_fec_rei")
             .setValue(data.data["getSelecUpdat"][0].con_fec_rei);
-          this.formCreate.get("con_descrip");
+          this.formCreate.get("con_descrip").setValue(data.data["getSelecUpdat"][0].con_descrip);
           if (!data.data["getSelecUpdat"][0].file_sp) {
             this.soporte = false;
           } else {
@@ -427,5 +433,39 @@ export class ConclusionDialog {
     };
 
     leerArchivosSecuencialmente();
+  }
+  pdf(id) {
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "pdf",
+      id: id,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        this.permissions = this.handler.getPermissions(this.component);
+        if (data.success == true) {
+          const link = document.createElement("a");
+          link.href = data.data.url;
+          link.download = data.data.file;
+          link.target = "_blank";
+          link.click();
+          this.handler.showSuccess(data.data.file);
+          this.loading.emit(false);
+      // this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+          // this.loading = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.handler.showError("Se produjo un error");
+          this.loading.emit(false);
+          // this.loading = false;
+      }
+    );
   }
 }

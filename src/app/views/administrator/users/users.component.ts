@@ -9,6 +9,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { ReportsUserComponent } from '../../../dialogs/reports/user/reports-user.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+
 
 @Component({
   selector: 'app-users',
@@ -45,7 +48,9 @@ export class UsersComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
+    private matBottomSheet: MatBottomSheet,
     public dialog: MatDialog) { }
+
 
   @ViewChild('infoModal', { static: false }) public infoModal: ModalDirective;
 
@@ -237,6 +242,9 @@ export class UsersComponent implements OnInit {
           this.loading = false;
         }
     );
+  }
+  onTriggerSheetClick() {
+    this.matBottomSheet.open(ReportsUserComponent);
   }
 
 }
