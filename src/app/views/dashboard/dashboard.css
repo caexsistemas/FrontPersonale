@@ -79,7 +79,7 @@
   }
 
 .animated{
-  padding-bottom: 20px;
+  padding-bottom: 5px;
  }
 .carga {
   display: flex;
@@ -190,4 +190,13 @@ text-align: center;
 
 .btn {
   font-weight: 700 !important;
+}
+
+.imagenN{
+  width: 80% !important;
+   height: auto; 
+}
+
+.custom-popup-class {
+  background-size: cover !important;
 }

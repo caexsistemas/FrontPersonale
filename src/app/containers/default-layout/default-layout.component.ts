@@ -44,9 +44,11 @@ export class DefaultLayoutComponent {
   public checktoken: boolean;
   public conteNotifi: number;
   public absNotification: any;
+  public mailNotification: any;
   public icoNoti: string = "cui-bell";
   component = "/procesalud/absenteeisms";
   endpointAbs: string = "/validationAbs";
+  endpoinMail: string = "/notifimail";
   endaware: string = "/aware";
 
   hidden = true;
@@ -288,6 +290,7 @@ export class DefaultLayoutComponent {
     // this.aware(this.WebApiService);
     this.checkNotification(this.WebApiService);
     this.validationAbs(this.WebApiService);
+    this.notifimail(this.WebApiService);
     setTimeout(() => {
       // Recargar Notificaciones - 5 Seg cui-account-logout / icoNoti / cui-bell
       this.icoNoti = "fa fa-spinner fa-spin";
@@ -419,4 +422,42 @@ export class DefaultLayoutComponent {
       }
     );
   }
+
+notifimail(WebApiService: WebApiService)
+ {
+  this.icoNoti = "cui-bell";
+  this.cuser = JSON.parse(localStorage.getItem("currentUser"));
+
+  WebApiService.getRequest(this.endpoinMail, {
+    // action: "disciplinary",
+    iduser: this.cuser.iduser,
+    token: this.cuser.token,
+    role: this.cuser.role,
+    // modulo: this.component,
+  }).subscribe(
+    (response) => {
+      if (response) {
+        // this.conteNotifi = response.data["cont"][0]["conteo"];
+        this.absNotification = response.data;
+
+        // if (this.conteNotifi > 0) {
+        //   this.hidden = false;
+        // } else {
+        //   this.hidden = true;
+        // }
+      } else {
+        this.isLogged = false;
+        // this.handler.handlerError(response.message);
+      }
+    },
+    (error) => {
+      this.isLogged = false;
+      // this.handler.handlerError("(E): " + error.message);
+    }
+  );
+ }
+
 }
+
+
+
