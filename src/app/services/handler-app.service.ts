@@ -338,23 +338,24 @@ export class HandlerAppService {
     }
   }
 
-  navidad(){
-    Swal.fire({
-      title: "",
-      imageUrl: "assets/img/360.png",
-      imageWidth: 900,
-      width:680,
-      imageHeight: 750,
-      backdrop: `
-        rgba(0, 0, 123, 0.4)
-        url("https://usagif.com/wp-content/uploads/gif/snwflks-54.gif")
-        no-repeat
-        right center
-        / cover
-      `,
-      position: "center",
-      // showConfirmButton: false,
-    });
-  }
+// Alerta imagen de navidad 
+  // navidad(){
+  //   Swal.fire({
+  //     title: "",
+  //     imageUrl: "assets/img/360.png",
+  //     imageWidth: 900,
+  //     width:680,
+  //     imageHeight: 750,
+  //     backdrop: `
+  //       rgba(0, 0, 123, 0.4)
+  //       url("https://usagif.com/wp-content/uploads/gif/snwflks-54.gif")
+  //       no-repeat
+  //       right center
+  //       / cover
+  //     `,
+  //     position: "center",
+  //     // showConfirmButton: false,
+  //   });
+  // }
 
 }

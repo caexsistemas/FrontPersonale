@@ -45,6 +45,7 @@ export class IngresoDialog{
     //History
     historyMon: any = [];
     displayedColumns:any  = [];
+    condition: any = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
     component = "/nomi/ingreso";
@@ -155,6 +156,7 @@ export class IngresoDialog{
                     this.ListArea      = data.data['getDatArea'];
                     this.ListTipoGes   = data.data['getDatTipoGes'];
                     this.ciyiWork      = data.data['citys'];
+                    this.condition     = data.data['condition'];
 
                     if (this.view == 'update') {
                         this.getDataUpdate();

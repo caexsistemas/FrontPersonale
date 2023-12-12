@@ -709,7 +709,7 @@
                               <i class="fa fa-edit fa-lg"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfConclusion',row.con_id)" title="PDF">
+                            <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfConclusion',row.con_id,row.cantidadConc)" title="PDF">
                               <i class="fa fa-file-pdf-o"></i>
                             </button>
                           </td>
