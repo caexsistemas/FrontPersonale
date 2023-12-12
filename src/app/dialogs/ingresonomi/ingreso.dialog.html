@@ -67,6 +67,16 @@
                                   </mat-select>
                             </mat-form-field>
                         </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Estado de Registro:</mat-label>
+                                <mat-select formControlName="city_nc">
+                                    <mat-option *ngFor="let idet of condition" [value]="idet.ls_codvalue">
+                                      {{idet.description}}
+                                    </mat-option>
+                                  </mat-select>
+                            </mat-form-field>
+                        </div>
                         <!-- <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Identificaci&oacute;n Jefe:</mat-label>
@@ -195,6 +205,11 @@
             <div class="col-md-3">
                 <dt>Tipo Gestion:</dt>
                 <dd>{{dataNovNi.tipoges_nc}}</dd>
+            </div>
+            
+            <div class="col-md-3">
+                <dt>Estado:</dt>
+                <dd>{{dataNovNi.estado}}</dd>
             </div>
 
             <!-- <div class="col-md-3">

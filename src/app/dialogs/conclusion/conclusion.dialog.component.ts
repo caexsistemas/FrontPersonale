@@ -83,6 +83,7 @@ export class ConclusionDialog {
   soporte: boolean;
 
   selection: any = [];
+  cantCit: any = [];
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -147,9 +148,9 @@ export class ConclusionDialog {
         );
         break;
         case "pdfConclusion":
-          // this.cantCit = this.data.idPersonale;
-          // this.pdf(this.data.codigo, this.cantCit);
-          this.pdf(this.data.codigo);
+          this.cantCit = this.data.idPersonale;          
+          this.pdf(this.data.codigo, this.cantCit);
+          // this.pdf(this.data.codigo);
           dialogRef.close();  
         break;
     }
@@ -434,11 +435,12 @@ export class ConclusionDialog {
 
     leerArchivosSecuencialmente();
   }
-  pdf(id) {
+  pdf(id, cantidad) {
     this.loading.emit(true);
     this.WebApiService.getRequest(this.endpoint, {
       action: "pdf",
       id: id,
+      cantidad: cantidad,
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
