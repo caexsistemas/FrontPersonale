@@ -111,7 +111,7 @@ export class IngresoComponent implements OnInit {
       'idPersonale',
       'area_nc',
       'tipoges_nc',
-      // 'directboss_nc',
+      'state',
       'actions'
     ];
     this.dataSource           = new MatTableDataSource(data);
