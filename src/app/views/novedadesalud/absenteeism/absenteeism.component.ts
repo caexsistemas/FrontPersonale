@@ -38,6 +38,7 @@ export class AbsenteeismComponent implements OnInit {
   url = this.urlKaysenBackend + this.endpointup;
   personaleData: any = [];
   datapersonale: any = [];
+  getDaysFestiv: any = [];
   dataDelte: any = [];
   contDele: number = 0;
   stadValue: boolean = false;
@@ -114,7 +115,8 @@ export class AbsenteeismComponent implements OnInit {
               if (data.success == true) {
                   this.permissions = this.handler.getPermissions(this.component);
                   this.generateTable(data.data['getContData']);
-                  this.contenTable = data.data['getContData'];
+                  this.contenTable   = data.data['getContData'];
+                  this.getDaysFestiv = data.data['getFestivos'];
                   this.loading = false;
   
               } else {
@@ -324,38 +326,61 @@ export class AbsenteeismComponent implements OnInit {
     }
   }
 
-  
+  //Validacion Festivos 
+  getFestCalen(fechaing, horas){
+
+    var Extr = 0;
+    //Validar Festivos de Pormedio
+    var fecha = new Date(fechaing);
+    var fechaIni = fechaing.split(' ');
+    fecha.setHours(fecha.getHours() + horas);
+    var fechaLocal = new Date(fecha.getTime() - fecha.getTimezoneOffset() * 60000);
+    var fechaTxt = fechaLocal.toISOString();
+    //Formateo Fecha
+    var fecha_date = fechaTxt.split('T');
+    var fechaFin = fecha_date[0];
+    //Validar Festivos en Tabla Calendario
+    this.getDaysFestiv.forEach(element => {
+      if(element >= fechaIni[0] && element <= fechaFin){
+        Extr = Extr + 24;
+      }
+    });
+    //Validar Domingos 
+    return Extr;
+  }
 
   validatAjust(fechaing) {
-
-    var fecha = fechaing;
-    var horas = 43;
+    //Horas aumentar
+    var horas = 48;
     //Fecha De Radicacion
-    fecha = new Date(fecha);
+    var fecha = new Date(fechaing);
+    //Si los Ausentismo se cargan un sabado se aumentan un dia o domingo
+    horas = horas + this.getFestCalen(fechaing, horas);
+    //Conversion Hora Local
     fecha.setHours(fecha.getHours() + horas);
-    fecha = fecha.toISOString();
-    var fecha_date = fecha.split('T');
-    var fecha_time = fecha_date[1].split('.');
-    fecha_date = fecha_date[0];
-    var fechaFin = fecha_date + ' ' + fecha_time[0];
+    var fechaLocal = new Date(fecha.getTime() - fecha.getTimezoneOffset() * 60000);
+    var fechaTxt = fechaLocal.toISOString();
+    //Separacion Formato y fecha con 48 horas
+    var fecha_date = fechaTxt.split('T');
+    var fec_time = fecha_date[1].split('.');
+    var fec_date = fecha_date[0];
+    var fechaFin = fec_date + ' ' + fec_time[0];
     //Se Compara Fecha Actual 
     var hoy = new Date();
     var fechAct = hoy.getFullYear() + '-' + `0${hoy.getMonth() + 1}`.slice(-2) + '-' + `0${hoy.getDate()}`.slice(-2);
     var horAtc = `0${hoy.getHours()}`.slice(-2) + ':' + `0${hoy.getMinutes()}`.slice(-2) + ':' + `0${hoy.getSeconds()}`.slice(-2);
     var timeActu = fechAct + ' ' + horAtc;
-
-    //Validacion
+    //Validacion si el tiempo actual esta en las 48 horas pactadas (fechaing)
     if (timeActu >= fechaing && timeActu <= fechaFin) {
       this.tmajust = true;
-
     } else {
       this.tmajust = false;
     }
-    //Proceso  
+
     /*console.log('------------');
-    console.log(fechaing);
-    console.log(fechaFin);
-    console.log(timeActu);
+    console.log(fechaing + 'Ingreso');
+    console.log(fechaFin + 'Fin');
+    console.log(timeActu + 'Actual');
     console.log(this.tmajust);
     console.log('------------');*/
   }
