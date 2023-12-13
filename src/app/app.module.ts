@@ -162,7 +162,7 @@ import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.compone
 import { MatMenuModule } from "@angular/material/menu";
 import { ReportsDisciplinaryComponent } from "./dialogs/reports/disciplinary/reports-disciplinary.component";
 import { ReportsUserComponent } from "./dialogs/reports/user/reports-user.component";
-
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 const routes: Routes = [];
 @NgModule({
@@ -221,6 +221,7 @@ const routes: Routes = [];
     MatStepperModule,
     ClipboardModule,
     MatTooltipModule,
+    SignaturePadModule 
   ],
   declarations: [
     AppComponent,
@@ -313,13 +314,15 @@ const routes: Routes = [];
     ConclusionDialog,
     cargueBaseDialog,
     ReportsDisciplinaryComponent,
-    ReportsUserComponent
+    ReportsUserComponent,
+    
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
+    // SignatureService
   ],
   exports: [RouterModule],
   bootstrap: [AppComponent],

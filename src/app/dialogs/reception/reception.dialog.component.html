@@ -712,6 +712,9 @@
                             <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="option('pdfConclusion',row.con_id,row.cantidadConc)" title="PDF">
                               <i class="fa fa-file-pdf-o"></i>
                             </button>
+                            <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.update" (click)="option('firma_pdf',row.con_id)" title="Firma Pdf">
+                              <i class="fa fa-file-pdf-o"></i>
+                            </button> -->
                           </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsConc"></tr>

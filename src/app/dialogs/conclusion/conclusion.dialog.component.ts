@@ -10,6 +10,8 @@ import {
   EventEmitter,
   ViewChildren,
   QueryList,
+  ViewChild,
+  ElementRef,
 } from "@angular/core";
 import { WebApiService } from "../../services/web-api.service";
 import {
@@ -30,6 +32,9 @@ import { MatPaginator } from "@angular/material/paginator";
 
 import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
 import { calculateDays } from "../../services/holiday.service";
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+// import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
 
 export interface PeriodicElement {
   currentm_user: string;
@@ -92,11 +97,72 @@ export class ConclusionDialog {
   @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  @ViewChild(SignaturePad) signaturePad: SignaturePad;
+  @Output() firmaCompleta = new EventEmitter<string>();
+  firmaData: string = '';
+  @ViewChild('firmaImagen') firmaImagen: ElementRef;
 
   historyMon: any = [];
   displayedColumns: any = [];
 
   public clickedRows;
+
+   signaturePadOptions: any = { // passed through to szimek/signature_pad constructor
+    'minWidth': 5,
+    'canvasWidth': 400,
+    'canvasHeight': 200
+  };
+  firma: string = '';
+
+  ngAfterViewInit() {
+    // this.signaturePad is now available
+    // this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
+    console.log('firma');
+    
+    // this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+  }
+
+  drawComplete() {
+    // will be notified of szimek/signature_pad's onEnd event
+    // console.log(this.signaturePad.toDataURL());
+  }
+
+  drawStart() {
+    // will be notified of szimek/signature_pad's onBegin event
+    console.log('begin drawing');
+  }
+
+  onFirmaEnd(firmaData: string) {
+    this.firma = firmaData;
+    console.log('==>',this.firma);
+    
+  }
+  guardarFirma() {
+    // Puedes enviar this.firma a un servidor, guardarla localmente, etc.
+    console.log('Firma guardada:', this.firma);
+  }
+
+  guardarFirmaComoImagen() {
+    console.log('===>',this.firmaImagen);
+    
+    const elementToCapture: HTMLElement = this.firmaImagen.nativeElement;
+    console.log('==>',elementToCapture);
+    
+
+    html2canvas(elementToCapture).then(canvas => {
+      console.log('canvas',canvas);
+      
+      const dataUrl = canvas.toDataURL();
+      // const dataUrl = this.firmaImagen.nativeElement.toDataURL();
+      this.firmaImagen.nativeElement.src = dataUrl;
+      console.log('Firma convertida a imagen:', dataUrl);
+      console.log('imagen:',  this.firmaImagen.nativeElement.src);
+    }).catch(error => {
+      console.error('Error al convertir a imagen:', error);
+    });
+  
+  
+  }
 
   constructor(
     public dialogRef: MatDialogRef<ConclusionDialog>,
@@ -152,6 +218,10 @@ export class ConclusionDialog {
           this.pdf(this.data.codigo, this.cantCit);
           // this.pdf(this.data.codigo);
           dialogRef.close();  
+        break;
+        case "firma_pdf":
+          this.initFormsRole();
+          this.title = "Firmar PDF";
         break;
     }
   }
@@ -294,27 +364,29 @@ export class ConclusionDialog {
         incapacidades: this.formCreate.value,
         archivoRes: this.nuevoArchivo,
       };
+      console.log('==>',body);
+      
 
-      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component,
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
+      // this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
+      //   token: this.cuser.token,
+      //   idUser: this.cuser.iduser,
+      //   modulo: this.component,
+      // }).subscribe(
+      //   (data) => {
+      //     if (data.success) {
+      //       this.handler.showSuccess(data.message);
+      //       this.reload.emit();
+      //       this.closeDialog();
+      //     } else {
+      //       this.handler.handlerError(data);
+      //       this.loading.emit(false);
+      //     }
+      //   },
+      //   (error) => {
+      //     this.handler.showError();
+      //     this.loading.emit(false);
+      //   }
+      // );
       // }else {
       //     this.handler.showError('Por favor validar el rango de fechas');
       //     this.loading.emit(false);
@@ -406,6 +478,8 @@ export class ConclusionDialog {
     }
   }
   seleccionarArchivo(event) {
+    console.log(event);
+    
     var files = event.target.files;
     var archivos = [];
 
