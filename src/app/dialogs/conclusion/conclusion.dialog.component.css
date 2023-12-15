@@ -42,3 +42,28 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
     width: 100%;
     font: bold;
   }
+
+  #signature-pad {
+    width: 400px;
+    /* height: 150px; */
+    margin: 20px auto; /* Centra el contenedor horizontalmente */
+    font-family: Arial, sans-serif; /* Establece una fuente legible */
+  }
+  
+  .description {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .signature-pad--body {
+    /* border: 1px solid #000; */
+  }
+  
+  #canvas {
+    width: 100%;
+    height: 220px;
+    border-bottom: 1px solid #858585; 
+    box-sizing: border-box; 
+  }
+  

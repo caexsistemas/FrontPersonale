@@ -32,9 +32,8 @@ import { MatPaginator } from "@angular/material/paginator";
 
 import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
 import { calculateDays } from "../../services/holiday.service";
-import { SignaturePad } from 'angular2-signaturepad/signature-pad';
-// import domtoimage from 'dom-to-image';
-import html2canvas from 'html2canvas';
+import SignaturePad from 'signature_pad';
+
 
 export interface PeriodicElement {
   currentm_user: string;
@@ -48,6 +47,7 @@ export interface PeriodicElement {
 })
 export class ConclusionDialog {
   endpoint: string = "/conclusion";
+  endpointPdf: string = "/img";
   component = "/process/reception";
   maskDNI = global.maskDNI;
   view: string = null;
@@ -63,6 +63,7 @@ export class ConclusionDialog {
   formLista: FormGroup;
   role: any = [];
   formCreate: FormGroup;
+  formImga: FormGroup;
   citaTable: any = [];
   fecSus: any = [];
   daySus: any = [];
@@ -89,7 +90,7 @@ export class ConclusionDialog {
 
   selection: any = [];
   cantCit: any = [];
-
+  imagenUrl: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -97,72 +98,19 @@ export class ConclusionDialog {
   @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
-  @ViewChild(SignaturePad) signaturePad: SignaturePad;
+  // @ViewChild(SignaturePad) signaturePad: SignaturePad;
   @Output() firmaCompleta = new EventEmitter<string>();
   firmaData: string = '';
-  @ViewChild('firmaImagen') firmaImagen: ElementRef;
+  // @ViewChild('firmaImagen') firmaImagen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+
+  signaturePad: SignaturePad;
+  base64Image: string = '';
 
   historyMon: any = [];
   displayedColumns: any = [];
 
   public clickedRows;
-
-   signaturePadOptions: any = { // passed through to szimek/signature_pad constructor
-    'minWidth': 5,
-    'canvasWidth': 400,
-    'canvasHeight': 200
-  };
-  firma: string = '';
-
-  ngAfterViewInit() {
-    // this.signaturePad is now available
-    // this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
-    console.log('firma');
-    
-    // this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
-  }
-
-  drawComplete() {
-    // will be notified of szimek/signature_pad's onEnd event
-    // console.log(this.signaturePad.toDataURL());
-  }
-
-  drawStart() {
-    // will be notified of szimek/signature_pad's onBegin event
-    console.log('begin drawing');
-  }
-
-  onFirmaEnd(firmaData: string) {
-    this.firma = firmaData;
-    console.log('==>',this.firma);
-    
-  }
-  guardarFirma() {
-    // Puedes enviar this.firma a un servidor, guardarla localmente, etc.
-    console.log('Firma guardada:', this.firma);
-  }
-
-  guardarFirmaComoImagen() {
-    console.log('===>',this.firmaImagen);
-    
-    const elementToCapture: HTMLElement = this.firmaImagen.nativeElement;
-    console.log('==>',elementToCapture);
-    
-
-    html2canvas(elementToCapture).then(canvas => {
-      console.log('canvas',canvas);
-      
-      const dataUrl = canvas.toDataURL();
-      // const dataUrl = this.firmaImagen.nativeElement.toDataURL();
-      this.firmaImagen.nativeElement.src = dataUrl;
-      console.log('Firma convertida a imagen:', dataUrl);
-      console.log('imagen:',  this.firmaImagen.nativeElement.src);
-    }).catch(error => {
-      console.error('Error al convertir a imagen:', error);
-    });
-  
-  
-  }
 
   constructor(
     public dialogRef: MatDialogRef<ConclusionDialog>,
@@ -220,7 +168,7 @@ export class ConclusionDialog {
           dialogRef.close();  
         break;
         case "firma_pdf":
-          this.initFormsRole();
+          this.forImg();
           this.title = "Firmar PDF";
         break;
     }
@@ -239,6 +187,11 @@ export class ConclusionDialog {
       con_descrip: new FormControl(""),
       file_sp: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
+    });
+  }
+  forImg(){
+    this.formImga = new FormGroup({
+      firma_pdf: new FormControl(""),
     });
   }
 
@@ -364,33 +317,30 @@ export class ConclusionDialog {
         incapacidades: this.formCreate.value,
         archivoRes: this.nuevoArchivo,
       };
-      console.log('==>',body);
       
 
-      // this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
-      //   token: this.cuser.token,
-      //   idUser: this.cuser.iduser,
-      //   modulo: this.component,
-      // }).subscribe(
-      //   (data) => {
-      //     if (data.success) {
-      //       this.handler.showSuccess(data.message);
-      //       this.reload.emit();
-      //       this.closeDialog();
-      //     } else {
-      //       this.handler.handlerError(data);
-      //       this.loading.emit(false);
-      //     }
-      //   },
-      //   (error) => {
-      //     this.handler.showError();
-      //     this.loading.emit(false);
-      //   }
-      // );
-      // }else {
-      //     this.handler.showError('Por favor validar el rango de fechas');
-      //     this.loading.emit(false);
-      // }
+      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
+        action: "updaConclusion",
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
+      }).subscribe(
+        (data) => {
+          if (data.success) {
+            this.handler.showSuccess(data.message);
+            this.reload.emit();
+            this.closeDialog();
+          } else {
+            this.handler.handlerError(data);
+            this.loading.emit(false);
+          }
+        },
+        (error) => {
+          this.handler.showError();
+          this.loading.emit(false);
+        }
+      );
+      
     } else {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);
@@ -478,7 +428,7 @@ export class ConclusionDialog {
     }
   }
   seleccionarArchivo(event) {
-    console.log(event);
+    // console.log(event);
     
     var files = event.target.files;
     var archivos = [];
@@ -544,4 +494,84 @@ export class ConclusionDialog {
       }
     );
   }
+
+  ngAfterViewInit() {
+    this.initializeSignaturePad();
+  }
+  initializeSignaturePad() {
+
+    if (this.canvas && this.canvas.nativeElement) {
+      const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
+      
+      this.signaturePad = new SignaturePad(canvasElement);
+      this.resizeCanvas();
+      window.addEventListener('resize', () => this.resizeCanvas());
+    }
+  }
+  
+
+  resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
+
+    canvasElement.width = canvasElement.offsetWidth * ratio;
+    canvasElement.height = canvasElement.offsetHeight * ratio;
+    canvasElement.getContext("2d").scale(ratio, ratio);
+
+    this.signaturePad.clear();
+  }
+
+  guardarYFinalizar() {
+    const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
+    const image = canvasElement.toDataURL();
+    this.base64Image = image;
+
+    this.convertirBase64AImagen(this.base64Image);
+
+  }
+  convertirBase64AImagen(base64Data: string): void {
+    
+    const [header, encodedData] = base64Data.split(',');
+    
+    this.idCit = this.data.codigo;
+    const nombreArchivoConExtension = this.cuser.idPersonale + '.png';
+
+    var archivos = [];
+    var archivo = {
+      nombreArchivo: nombreArchivoConExtension,
+      base64textString: (encodedData.toString()),
+    };
+    archivos.push(archivo);
+
+    this.nuevoArchivo = archivos;
+    this.loading.emit(true);
+      let body = {
+        incapacidades: this.formImga.value,
+        archivoRes: this.nuevoArchivo,
+      };
+      
+      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
+        action: "imgFirma",
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
+      }).subscribe(
+        (data) => {
+          if (data.success) {
+            this.handler.showSuccess(data.message);
+            this.reload.emit();
+            this.closeDialog();
+          } else {
+            this.handler.handlerError(data);
+            this.loading.emit(false);
+          }
+        },
+        (error) => {
+          this.handler.showError();
+          this.loading.emit(false);
+        }
+      );
+      
+  }
+ 
 }

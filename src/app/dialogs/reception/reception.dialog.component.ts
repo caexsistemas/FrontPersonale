@@ -1066,6 +1066,14 @@ export class ReceptionDialogComponent {
               idPersonale
             },
           });
+           // LOADING
+          dialogRef.componentInstance.loading.subscribe((val) => {
+            this.loading = val;
+          });
+          // RELOAD
+          dialogRef.componentInstance.reload.subscribe((val) => {
+            this.getDataUpdate();
+          });
         break;
     }
   }

@@ -1,8 +1,8 @@
-<div *ngIf="view == 'createApla' || view == 'updateConc' || view == 'firma_pdf'">
+<div *ngIf="view == 'createApla' || view == 'updateConc'">
   <div class="card mt-6">
     <div class="card-header">
       <h5 class="modal-title">
-        <p class="title-modal" *ngIf="view == 'createApla' || view == 'updateConc' || view == 'firma_pdf'">{{title}}</p>
+        <p class="title-modal" *ngIf="view == 'createApla' || view == 'updateConc'">{{title}}</p>
         <!-- <p class="title-modal" *ngIf="view == 'updateConc'">{{title}}</p> -->
         <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
           style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
@@ -46,7 +46,7 @@
             <div class="col-md-4">
               <mat-form-field appearance="fill">
                 <mat-label>Conclusión Final</mat-label>
-                <mat-select formControlName="con_final" required (ngModelChange)="upload($event)" required>
+                <mat-select formControlName="con_final"  (ngModelChange)="upload($event)" required>
                   <mat-option *ngFor="let idet of conclu_fin" [value]="idet.ls_codvalue">
                     {{idet.description}}
                   </mat-option>
@@ -114,55 +114,10 @@
           </div>
         </form>
       </mat-dialog-content>
-      <mat-dialog-content>
-        <form *ngIf="view == 'firma_pdf' " [formGroup]="formCreate">
-          <!-- <div id="signature-pad" class="signature-pad" >
-            <div class="description">Firmar aqui</div>
-          <div class="signature-pad--body">
-            <canvas style="width: 640px; height: 420px; border: 1px black solid; " id="canvas"></canvas>
-          </div>
-        </div> -->
-        <!-- <div>
-          <h1>Angular Signature Pad</h1>
-          <ngx-signature-pad
-            [(ngModel)]="con_descrip"
-            [width]="500"
-            [height]="200"
-            backgroundColor="#f4f4f4"
-            borderColor="#333"
-            borderWidth="2"
-          ></ngx-signature-pad>
-          <div *ngIf="con_descrip">
-            <h2>Firma Guardada</h2>
-            <img [src]="con_descrip" alt="Firma" />
-          </div>
-        </div> -->
-        <mat-card>
-          <!-- <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad> -->
-          <!-- <signature-pad  type="file" [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="seleccionarArchivo($event)"></signature-pad> -->
-          <!-- <button (click)="guardarFirma()">Guardar Firma</button> -->
-          <!-- <signature-pad [options]="signaturePadOptions" (onEndEvent)="onFirmaCompleta($event)"></signature-pad>
-          <button (click)="guardarFirmaComoImagen()">Guardar Firma como Imagen</button>
-          <img #firmaImagen /> -->
-
-          <!-- <app-firma-pad (firmaCompleta)="onFirmaCompleta($event)"></app-firma-pad>
-          <button (click)="guardarFirmaComoImagen()">Guardar Firma como Imagen</button>
-          <img #firmaImagen /> -->
-          <signature-pad [options]="signaturePadOptions" (onEndEvent)="onFirmaEnd($event)"></signature-pad>
-          <button (click)="guardarFirmaComoImagen()">Guardar Firma como Imagen</button>
-          <!-- <div *ngIf="firmaImagen"> -->
-            <img #firmaImagen  />
-
-          <!-- </div> -->
-  
-         
-        </mat-card>
-          </form>
-          </mat-dialog-content>
+     
       <div mat-dialog-actions>
         <div class="text-center col-12 mt-2">
-          <button *ngIf="view == 'firma_pdf'" mat-button class="btn btn-success"
-            (click)="onSubmitUpdate()">Firmar</button>
+       
             <button *ngIf="view == 'updateConc'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
 
@@ -172,4 +127,48 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="view == 'firma_pdf'">
+  <div class="card mt-6">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf=" view == 'firma_pdf'">{{title}}</p>
+        <!-- <p class="title-modal" *ngIf="view == 'updateConc'">{{title}}</p> -->
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+
+<mat-dialog-content>
+  <form *ngIf="view == 'firma_pdf' " [formGroup]="formImga">
+   
+  <mat-card>
+
+    <div id="signature-pad" class="signature-pad">
+      <div class="description">Firmar aquí</div>
+      <div class="signature-pad--body">
+        <canvas #canvas id="canvas"></canvas>
+      </div>
+    </div>
+    
+  </mat-card>
+ 
+    </form>
+    </mat-dialog-content>
+
+    <div mat-dialog-actions>
+      <div class="text-center col-12 mt-2">
+     
+        <button *ngIf="view == 'firma_pdf'" mat-button class="btn btn-success"
+        (click)="guardarYFinalizar()">Firmar</button>
+
+
+        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+      </div>
+    </div>
+
+    </div>
 </div>
