@@ -411,7 +411,7 @@ export class AbsenteeismComponent implements OnInit {
   };
 
   colorState(state) {
-    return this.colorMap[state] || "#23c100"; // Devuelve el color correspondiente o cadena vacía si no coincide
+    return this.colorMap[state] || "#959595"; // Devuelve el color correspondiente o cadena vacía si no coincide
   }
 
   //Chequeo Sistema
@@ -449,14 +449,10 @@ export class AbsenteeismComponent implements OnInit {
         text += '<td>'+fechaFormateada+'</td>';
         text += '</tr>';
 
-        text += '<tr>';
-        text += '<td colspan="2">Se suman 24 horas en caso de que la fecha coincida con un domingo o un día festivo.</td>';
-        text += '</tr>';
-
         text += '</tbody>';
         text += '</table>';
         this.handler.showInfo(text, '¡Tiempo de Gestión!', '#/procesalud/absenteeisms');
-        console.log(fechaing);
+        //console.log(fechaing);
   }
 
 }
