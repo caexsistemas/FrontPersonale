@@ -249,8 +249,8 @@ export class CargueContactComponent implements OnInit {
               }
           );
     }else {
-      this.handler.closeShow();
-        this.handler.showError('Complete la informacion Necesaria');
+      this.handler.closeShow(); 
+        this.handler.shoWarning('¡Faltan Detalles!', 'Por favor, asegúrate de proporcionar todos los datos requeridos.');
         this.loading = false;
     }
   } 

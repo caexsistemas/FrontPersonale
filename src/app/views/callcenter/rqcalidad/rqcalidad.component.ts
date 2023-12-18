@@ -314,6 +314,5 @@ export class RqcalidadComponent implements OnInit {
     }
     return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
   }
-  hola(){console.log("hola")}
 
 }

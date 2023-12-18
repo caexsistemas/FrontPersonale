@@ -13,6 +13,7 @@ import { AbsenteeismDialog } from '../../../dialogs/absenteeism/absenteeism.dial
 import { ReportsAbsenteeismComponent } from '../../../dialogs/reports/absenteeism/reports-absenteeism.component';
 import { environment } from '../../../../environments/environment';
 import { Console } from 'console';
+import * as moment from 'moment';
 
 
 
@@ -41,6 +42,7 @@ export class AbsenteeismComponent implements OnInit {
   getDaysFestiv: any = [];
   dataDelte: any = [];
   contDele: number = 0;
+  hourSysm: number = 48;
   stadValue: boolean = false;
   tmajust: boolean = false;
   modal: 'successModal';
@@ -349,13 +351,32 @@ export class AbsenteeismComponent implements OnInit {
     return Extr;
   }
 
+  //Validar Dia Domingos
+  getDominCalen(fechaing, horas){
+
+    var fechaInicial = new Date(fechaing);
+    var fechaFinal = new Date(fechaInicial.getTime() + horas * 60 * 60 * 1000);
+    // Contador de domingos
+    var domingos = 0;
+    // Mientras la fecha sea menor o igual a la fecha final, verificamos si es un domingo y aumentamos el contador
+    while (fechaInicial <= fechaFinal) {
+      if (fechaInicial.getDay() === 0) {
+        domingos++;
+      }
+      fechaInicial.setTime(fechaInicial.getTime() + 24 * 60 * 60 * 1000); // Avanzar un día
+    }
+
+    return (24 * domingos);
+  }
+
   validatAjust(fechaing) {
     //Horas aumentar
-    var horas = 48;
+    var horas = this.hourSysm;
     //Fecha De Radicacion
     var fecha = new Date(fechaing);
     //Si los Ausentismo se cargan un sabado se aumentan un dia o domingo
     horas = horas + this.getFestCalen(fechaing, horas);
+    horas = horas + this.getDominCalen(fechaing, horas);
     //Conversion Hora Local
     fecha.setHours(fecha.getHours() + horas);
     var fechaLocal = new Date(fecha.getTime() - fecha.getTimezoneOffset() * 60000);
@@ -383,6 +404,59 @@ export class AbsenteeismComponent implements OnInit {
     console.log(timeActu + 'Actual');
     console.log(this.tmajust);
     console.log('------------');*/
+  }
+
+  colorMap = {
+    "60/9": "#f6c705"
+  };
+
+  colorState(state) {
+    return this.colorMap[state] || "#23c100"; // Devuelve el color correspondiente o cadena vacía si no coincide
+  }
+
+  //Chequeo Sistema
+  notCheckHour(fechaing, motivo){
+        //Horas aumentar
+        var horas = this.hourSysm;
+        //Fecha De Radicacion
+        var fecha = new Date(fechaing);
+        //Si los Ausentismo se cargan un sabado se aumentan un dia o domingo
+        horas = horas + this.getFestCalen(fechaing, horas);
+        horas = horas + this.getDominCalen(fechaing, horas);
+        //Conversion Hora Local
+        fecha.setHours(fecha.getHours() + horas);
+        var fechaLocal = new Date(fecha.getTime() - fecha.getTimezoneOffset() * 60000);
+        var fechaTxt = fechaLocal.toISOString();
+        //Separacion Formato y fecha con 48 horas
+        var fecha_date = fechaTxt.split('T');
+        var fec_time = fecha_date[1].split('.');
+        var fec_date = fecha_date[0];
+        var fechaFin = fec_date + 'T' + fec_time[0];
+        //Texto info
+        var text = '<table class="table">';
+        text += '<tbody>';
+
+        text += '<tr>';
+        text += '<td><b>Horas Habilitadas</b></td>';
+        text += '<td>'+this.hourSysm+'</td>';
+        text += '</tr>';
+
+        let fechaMoment = moment(fechaFin);
+        let fechaFormateada = fechaMoment.format('YYYY-MM-DD hh:mm:ss A');
+
+        text += '<tr>';
+        text += '<td><b>Finaliza</b></td>';
+        text += '<td>'+fechaFormateada+'</td>';
+        text += '</tr>';
+
+        text += '<tr>';
+        text += '<td colspan="2">Se suman 24 horas en caso de que la fecha coincida con un domingo o un día festivo.</td>';
+        text += '</tr>';
+
+        text += '</tbody>';
+        text += '</table>';
+        this.handler.showInfo(text, '¡Tiempo de Gestión!', '#/procesalud/absenteeisms');
+        console.log(fechaing);
   }
 
 }

@@ -179,4 +179,17 @@ export class IncapasinsopComponent implements OnInit {
     }    
     this.contaClick = this.contaClick + 1;
   }
+
+  colorMap = {
+    "30/1": "#f6c705",
+    "30/2": "#23c100",
+    "30/3": "#f23b34",
+    "30/4": "#959595",
+    "30/5": "#ff8d21"
+  };
+
+  colorState(state) {
+    return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
+  }
+  
 }

@@ -1,28 +1,3 @@
 table {
     width: 100%;
   }
-
-  .color-Pendiente{
-    background-color: #F7F9A7;
-    text-align: center;
-  }
-  
-  .color-Gestionado{
-    background-color: #81F767;
-    text-align: center;
-  }
-  
-  .color-Eliminado{
-    background-color: #D6D3D1;
-    text-align: center;
-  }
-
-  .color-Rechazado{
-    background-color: #FF9591;
-    text-align: center;
-  }
-
-  .color-Rechazado-2{
-    background-color: #FFB977;
-    text-align: center;
-  }
