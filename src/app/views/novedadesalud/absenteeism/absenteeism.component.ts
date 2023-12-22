@@ -449,6 +449,10 @@ export class AbsenteeismComponent implements OnInit {
         text += '<td>'+fechaFormateada+'</td>';
         text += '</tr>';
 
+        text += '<tr>';
+        text += '<td colspan="2">Se suma un día hábil en caso de que la fecha coincida con un domingo o un día festivo.</td>';
+        text += '</tr>';
+
         text += '</tbody>';
         text += '</table>';
         this.handler.showInfo(text, '¡Tiempo de Gestión!', '#/procesalud/absenteeisms');

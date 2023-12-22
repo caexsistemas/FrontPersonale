@@ -64,21 +64,6 @@ export class ReportsPersonaleComponent implements OnInit {
           this.rol = this.cuser.role;
 
           if (!(this.rol == 1)) {
-            this.job = data.data["job"].filter(
-              (cargo) =>
-                cargo.ls_codvalue == "16/1" ||
-                cargo.ls_codvalue == "16/3" ||
-                cargo.ls_codvalue == "16/5" ||
-                cargo.ls_codvalue == "16/12" ||
-                cargo.ls_codvalue == "16/14" ||
-                cargo.ls_codvalue == "16/15" ||
-                cargo.ls_codvalue == "16/17" ||
-                cargo.ls_codvalue == "16/23" ||
-                cargo.ls_codvalue == "16/24" ||
-                cargo.ls_codvalue == "16/26" ||
-                cargo.ls_codvalue == "16/27" ||
-                cargo.ls_codvalue == "16/29"
-            );
 
             this.immediateBoss = data.data["immediateBoss"].filter(
               (jefe) =>
