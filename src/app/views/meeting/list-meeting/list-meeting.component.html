@@ -1,0 +1,123 @@
+<div class="card">
+    <div class="card-header">
+      capacitaciones
+  
+    </div>
+    <!-- <mat-dialog-content> -->
+  
+    <!-- <div class="content-table"> -->
+  
+    <div class=" mat-elevation-z8">
+  
+      <div class="toolbar-table" *ngIf="permissions != null">
+  
+        <div class="m-2 text-right">        
+                            
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+              <span>Menu</span>
+          </button>
+            
+          <mat-menu #menu="matMenu">
+              <button mat-menu-item>Acciones Disponibles… </button>
+  
+              <button mat-menu-item *ngIf="permissions.create" (click)="option('create')" title="Crear">
+                  <mat-icon>add_circle</mat-icon>
+                  <span>Crear</span>
+              </button>
+  
+          </mat-menu>       
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Buscar..</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <div class="section-table first-action">
+        <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+          *ngIf="contenTable.length > 0">
+  
+  
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef> Ver </th>
+            <td mat-cell *matCellDef="let element">
+              <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.mee_id)"
+                title="Ver">
+                <i class="fa fa-eye fa-lg"></i>
+              </button>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="mee_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombre de la capacitación</th>
+            <td mat-cell *matCellDef="let element"> {{element.mee_name }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="idPersonale">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Persona Encargada</th>
+            <td mat-cell *matCellDef="let element"> {{element.idPersonale}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="mee_fec_fin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de vencimiento </th>
+            <td mat-cell *matCellDef="let element"> {{element.mee_fec_fin }} </td>
+          </ng-container>
+  
+          <!-- <ng-container matColumnDef="dis_pos">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo</th>
+            <td mat-cell *matCellDef="let element"> {{element.cargo_emp }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="dis_fal">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de falta</th>
+            <td mat-cell *matCellDef="let element"> {{element.falta }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="dis_idp_sol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Nombre del solicitante</th>
+            <td mat-cell *matCellDef="let element"> {{element.solicitante }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="dis_po_sol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Cargo del solicitante</th>
+            <td mat-cell *matCellDef="let element"> {{element.cargo_solicitante }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="dis_est">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Proceso</th>
+            <td mat-cell *matCellDef="let element"> {{element.estado }} </td>
+          </ng-container> -->
+  
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+              <div >
+                <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
+                  (click)="option('update',element.mee_id)" title="Editar">
+                  <i class="fa fa-edit fa-lg"></i>
+                </button>
+              </div>
+              <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create" (click)="pdf(element.fbid)"
+                            title="PDF">
+                            <i class="fa fa-file-pdf-o"></i>
+                        </button> -->
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+  
+      </div>
+      <div *ngIf="contenTable.length == 0">
+        <h4 class="no-records">No hay registros...</h4>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>

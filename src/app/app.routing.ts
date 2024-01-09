@@ -151,6 +151,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import("./views/process/process.module").then((m) => m.ProcessModule),
       },
+      {
+        path:"meeting",
+        loadChildren: () => 
+          import("./views/meeting/meeting.module").then((m) => m.MeetingModule),
+      }
     ],
   },
 ];
