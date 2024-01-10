@@ -1,3 +1,4 @@
+// import {HttpClientModule} from '@angular/common/http/http';
 import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -10,7 +11,7 @@ import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 
 import { FormArray, FormBuilder, FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http/http";
 import { OnlynumberDirective } from "./Tools/onlynumber.directive";
 
 import {
@@ -162,7 +163,9 @@ import { ConclusionDialog } from "./dialogs/conclusion/conclusion.dialog.compone
 import { MatMenuModule } from "@angular/material/menu";
 import { ReportsDisciplinaryComponent } from "./dialogs/reports/disciplinary/reports-disciplinary.component";
 import { ReportsUserComponent } from "./dialogs/reports/user/reports-user.component";
-import { SignaturePadModule } from 'angular2-signaturepad';
+import { MeetingDialog } from './dialogs/meeting/meeting.dialog.component';
+import { BypassSeguroPipe } from "./services/bypass-seguro.pipe";
+// import { SignaturePadModule } from 'angular2-signaturepad';
 
 const routes: Routes = [];
 @NgModule({
@@ -179,7 +182,7 @@ const routes: Routes = [];
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    HttpClientModule,
+    // HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
@@ -221,7 +224,11 @@ const routes: Routes = [];
     MatStepperModule,
     ClipboardModule,
     MatTooltipModule,
-    SignaturePadModule 
+    
+    
+    // NgxDocViewerModule
+    
+    // SignaturePadModule 
   ],
   declarations: [
     AppComponent,
@@ -315,7 +322,8 @@ const routes: Routes = [];
     cargueBaseDialog,
     ReportsDisciplinaryComponent,
     ReportsUserComponent,
-    
+    MeetingDialog,
+    BypassSeguroPipe
   ],
   providers: [
     {
