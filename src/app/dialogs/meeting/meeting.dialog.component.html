@@ -62,7 +62,7 @@
                             <mat-label>Area:</mat-label>
                             <mat-select formControlName="receiver2" (ngModelChange)="onSelectCargo($event)" multiple>
                                 <mat-option *ngFor="let idet of area" [value]="idet.idArea">
-                                  {{idet.area}}
+                                  {{idet.Areas}}
                                 </mat-option>
                               </mat-select>
                             </mat-form-field>
@@ -71,8 +71,8 @@
                             <mat-form-field class="example-full-width">
                             <mat-label>Cargo:</mat-label>
                             <mat-select formControlName="receiver3" (ngModelChange)="onSelectPerson($event)" multiple>
-                                <mat-option *ngFor="let idet of cargo" [value]="idet.ls_codvalue">
-                                  {{idet.description}}
+                                <mat-option *ngFor="let idet of cargo" [value]="idet.idPosition">
+                                  {{idet.cargos}}
                                 </mat-option>
                               </mat-select>
                             </mat-form-field>
@@ -106,6 +106,15 @@
                             </ul>
                           </dd>
                         </div>
+
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-md-12">
+                          <mat-form-field class="example-full-width">
+                            <mat-label> Descripción de capacitación </mat-label>
+                            <textarea matInput formControlName="mee_desc"></textarea>
+                          </mat-form-field>
+                        </div>
                       </div>
                 </form>
             </mat-dialog-content>
@@ -130,50 +139,62 @@
               <span aria-hidden="true">&times;</span>
           </button>
       </div>
-      <mat-dialog-content style="min-width: 1000px;">
+      <mat-dialog-content style="min-width: 1200px;">
           <div class="row mt-2">
             
-              <div class="col-md-4">
-                <dt>Documentos de Soporte:</dt>
+              <!-- <div class="col-md-12">
+                <dt class="textHeader">{{meeting.mee_name}}</dt>
                 <dd>
                   <ul>
                     <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
-                      <!-- <ng-container *ngIf="esImagen(archivo)">
+                      <ng-container *ngIf="esImagen(archivo)">
                         <li>
-                          <img [src]="archivo" alt="Imagen {{i+1}}" />
+                          <img [src]="archivo"  alt="Imagen{{i+1}}" />
                         </li>
-                      </ng-container> -->
-                      <ng-container *ngIf="esDocumentoWord(archivo)">
-                        <!-- Si es un documento Word -->
-                        <li>
-                          <!-- Mostrar el contenido del documento Word como HTML -->
-                          <!-- <div [innerHTML]="documentoHTML"></div> -->
-                          <!-- <p>{{document}}</p> -->
-                          <!-- <ngx-doc-viewer [src]="documentoHTML"></ngx-doc-viewer> -->
-                          <!-- Botón para iniciar la generación de vista previa -->
-                          <!-- <button (click)="iniciarGeneracionVistaPrevia('tuIdDeContenedor')">Generar Vista Previa</button> -->
-                        </li>
-                        <!-- <ngx-doc-viewer [url]="documentoHTML" viewer="google" style="width:100%;height:50vh;"></ngx-doc-viewer> -->
-                        <!-- <ngx-doc-viewer
-                        [url]="documentoHTML"
-                        viewer="google"
-                        style="width:100%;height:50vh;"
-                      ></ngx-doc-viewer> -->
-                      <iframe [src]="urlSafe" width="1000px" height="500px" frameborder="1"></iframe>
-                      <!-- <iframe src="https://docs.google.com/gview?url={{urlSafe}}&embedded=true" width="1000" height="500"></iframe> -->
-                      <!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src={{urlSafe}}' width='px' height='px' frameborder='0'> -->
-                      <!-- </iframe> -->
-
-                      <!-- <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=urlSafe' width='px' height='px' frameborder='0'></iframe> -->
-                      <!-- <iframe src="https://docs.google.com/gview?url={{urlSafe}}&embedded=true" width="1000" height="500"></iframe> -->
-                      <!-- <iframe [src]="urlSafe | bypassSeguro" width="1000px" height="500px" frameborder="0"></iframe> -->
-
-
                       </ng-container>
-                   
                     </ng-container>
+                    <ng-container>
+                      <dd class="textCenter mt-3">{{meeting.mee_desc}}</dd>
+                    </ng-container>
+                    <ng-container>
+                      <ul  class="textCenter">
+                        <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                          <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                        </li>
+                      </ul>
+                    </ng-container>
+                    
                   </ul>
                 </dd>
+              </div> -->
+              <div class="col-md-6">
+               
+                <dd>
+                  <ul>
+                    <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
+                      <ng-container *ngIf="esImagen(archivo)">
+                        <li>
+                          <img [src]="archivo"  alt="Imagen{{i+1}}" />
+                        </li>
+                      </ng-container>
+                    </ng-container>
+                   
+                    
+                  </ul>
+                </dd>
+              </div>
+              <div class="col-md-6">
+                <dt class="textHeader">{{meeting.mee_name}}</dt>
+                <ng-container>
+                  <dd class="textCenter mt-3">{{meeting.mee_desc}}</dd>
+                </ng-container>
+                <ng-container>
+                  <ul  class="textCenter">
+                    <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                      <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                    </li>
+                  </ul>
+                </ng-container>
               </div>
               
           </div>

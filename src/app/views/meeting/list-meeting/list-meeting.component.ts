@@ -96,7 +96,7 @@ export class ListMeetingComponent implements OnInit {
     this.displayedColumns = [
       "view",
       "mee_name",
-      "idPersonale",
+      "create_User",
       "mee_fec_fin",
       "actions",
     ];
