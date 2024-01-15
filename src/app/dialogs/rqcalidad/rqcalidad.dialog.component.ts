@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { FeedbackDialog } from '../../dialogs/feedback/feedback.dialog.component';
 
 export interface PeriodicElement {
   currentm_user: string,
@@ -27,8 +28,10 @@ export class RqcalidadDialog  {
   endpoint:      string = '/rqcalidad';
   maskDNI        = global.maskDNI;
   view:          string = null;
+  diag:          string = null;
   title:         string = null;
   formProces:    FormGroup;
+  formEscuch:    FormGroup;
   formProcesDialog:    FormGroup;
   dateMoni:      string;
   idPam:         number = null;
@@ -53,6 +56,7 @@ export class RqcalidadDialog  {
   ListTodoclaro:     any = [];
   supervisor:        any = [];
   formador :         any = [];
+  ListTipDiag:       any = [];
   numberOfDays: number = 0;
 
 
@@ -118,6 +122,7 @@ export class RqcalidadDialog  {
   //OUTPUTS
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
+  @Output() loadingtwo = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
@@ -127,31 +132,58 @@ export class RqcalidadDialog  {
         @Inject(MAT_DIALOG_DATA) public data,
         public dialog: MatDialog) { 
 
-          this.view = this.data.window;
+          this.view  = this.data.window;
           this.idPam = null;
+          this.diag  = this.data.dialogo;
   
           switch (this.view) {
             case 'create':
                 this.tipMatriz = this.data.tipoMat;
                 this.initForms();
-                if( this.tipMatriz  == '40/1' ){
-                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (MOVIL)";
-                }else if( this.tipMatriz  == '40/2' ){
-                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (HOGAR)";
+                //Calidad PQ Calidad
+                if(this.diag == '141/1'){
+                  this.view = "create";
+                  if( this.tipMatriz  == '40/1' ){
+                    this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (MOVIL)";
+                  }else if( this.tipMatriz  == '40/2' ){
+                    this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (HOGAR)";
+                  }else{
+                    this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (T&T)";
+                  }
                 }else{
-                  this.title = "MATRIZ DE CALIDAD CLARO CONVERGENCIA (T&T)";
+                  //Calidad Customer
+                  this.view = "createCus";
+                  if( this.tipMatriz  == '40/1' ){
+                    this.title = "MEDICION CUSTOMER CLARO CONVERGENCIA (MOVIL)";
+                  }else if( this.tipMatriz  == '40/2' ){
+                    this.title = "MEDICION CUSTOMER CLARO CONVERGENCIA (HOGAR)";
+                  }else{
+                    this.title = "MEDICION CUSTOMER CLARO CONVERGENCIA (T&T)";
+                  }
                 }
-                
-                
+
             break;
             case 'update':
                 this.tipMatriz = this.data.tipoMat;
-                this.initForms();
-                this.title = " EDITAR MATRIZ DE CALIDAD CLARO CONVERGENCIA";
                 this.idPam = this.data.codigo;
+                this.initForms();
+                //Calidad PQ Calidad
+                if(this.diag == '141/1'){
+                  this.view = "update";
+                  this.title = "EDITAR MATRIZ DE CALIDAD CLARO CONVERGENCIA";
+                }else{
+                  this.view = "updateCus";
+                  this.title = "EDITAR MEDICION CUSTOMER CLARO CONVERGENCIA";
+                }     
             break;
             case 'view':
                 this.idPam = this.data.codigo;
+                //Calidad PQ Calidad
+                if(this.diag == '141/1'){
+                  this.view = "view";
+                }else{
+                  this.view = "viewCus";
+                }     
                 this.loading.emit(true);
                 this.WebApiService.getRequest(this.endpoint + '/' + this.idPam, {
                   token: this.cuser.token,
@@ -249,16 +281,15 @@ export class RqcalidadDialog  {
       this.WebApiService.putRequest(this.endpoint+'/'+this.idPam,body,{
         token: this.cuser.token,
         idUser: this.cuser.iduser,
-        modulo: this.component
+        modulo: this.component,
+        role: this.cuser.role
       })
       .subscribe(
           data=>{
               if(data.success){
                   this.handler.showSuccess(data.message);
                   this.reload.emit();
-                  console.log("no recargo :(");
                   this.closeDialog();
-                  //this.retroDialog(this.idPam, '', 'view');
               }else{
                   this.handler.handlerError(data);
                   this.loading.emit(false);
@@ -275,14 +306,13 @@ export class RqcalidadDialog  {
     }
   }
 
-
-
-  initForms(){
+  initForms(){  
 
     this.getDataInit();
     this.formProces = new FormGroup({
       createUser: new FormControl(this.cuser.iduser),
       matrizarp: new FormControl(this.tipMatriz),
+      tip_dialog: new FormControl(this.diag),
       tipo_gestion: new FormControl(""),
       tipo_red: new FormControl(""),
       document: new FormControl(""),
@@ -420,7 +450,10 @@ export class RqcalidadDialog  {
       //campos supervisor y formadores 
       supervisor: new FormControl(""),
       formador: new FormControl(""),
-      formador_tw: new FormControl("")
+      formador_tw: new FormControl(""),
+      phone: new FormControl(""),
+      tip_solicitud: new FormControl(""),
+      obs_customer: new FormControl(""),
 
     });
 
@@ -482,12 +515,13 @@ export class RqcalidadDialog  {
                 this.personalData = data.data['getDataPersonal'];  //Data Personal
                 this.supervisor = data.data['getSupervisor'];//Data Supervisor 
                 this.formador = data.data['getFomacion']; //Data Formacion 
+                this.ListTipDiag = data.data['gessClar']; //gestion escucha
                 //Fecha
                 let date = new Date();
                 this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
                 this.formProces.get('monitoring_date').setValue(this.dateStrinMoni);
     
-              if (this.view == 'update') {
+              if (this.view == 'update' || this.view == 'updateCus') {
                 this.getDataUpdate();
               }
               this.loading.emit(false);
@@ -860,6 +894,10 @@ export class RqcalidadDialog  {
           this.formProces.get('id_venta').setValue(data.data['getDataUpda'][0].id_venta);
           this.formProces.get('mancorrven').setValue(data.data['getDataUpda'][0].mancorrven);
           this.formProces.get('postucall').setValue(data.data['getDataUpda'][0].postucall);
+          //Customer
+          this.formProces.get('phone').setValue(data.data['getDataUpda'][0].phone);
+          this.formProces.get('tip_solicitud').setValue(data.data['getDataUpda'][0].tip_solicitud);
+          this.formProces.get('obs_customer').setValue(data.data['getDataUpda'][0].obs_customer);
 
           //Malas practicas y Espectativas
           if( data.data['getDataUpda'][0].cri_fal_exp_mal_pra == "34/2" || data.data['getDataUpda'][0].cri_val_cor_cob == "34/2" ){
@@ -1029,5 +1067,29 @@ export class RqcalidadDialog  {
 
 //    }
 //  }
+
+selectRetrocall(event){
+  if( event == '17/1' && (this.view == 'create' || this.view == 'createCus') ){
+    this.optionOtr('createRetro');
+  }     
+}
+
+optionOtr(action, codigo=null){
+  var dialogRef;
+  this.loadingtwo.emit(true);
+  switch(action){
+      case 'createRetro':
+          dialogRef = this.dialog.open(FeedbackDialog,{
+            data: {
+              window: 'create',
+              codigo,
+              tipoMat: this.tipMatriz
+            }
+          });
+          dialogRef.disableClose = true;
+      break;
+  }
+  this.loadingtwo.emit(false);
+}
 
 }
