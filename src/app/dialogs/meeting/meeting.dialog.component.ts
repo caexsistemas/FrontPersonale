@@ -33,7 +33,12 @@ import { BypassSeguroPipe } from "../../services/bypass-seguro.pipe";
 // import * as mammoth from 'mammoth';
 // var mammoth = require("mammoth");
 import html2canvas from 'html2canvas';
+<<<<<<< HEAD
 
+=======
+import showdown from 'showdown';
+import Swal from "sweetalert2";
+>>>>>>> 72241e7ccf655b476a7c0f3abe397b0671d99f75
 // import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @Component({
@@ -74,7 +79,9 @@ export class MeetingDialog {
   personInfoLine: any = [];
   selectIdPer: any = [];
   selection: any = [];
+  areaLog: any = [];
   urlSafe: SafeResourceUrl;
+  positionLog: any = [];
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -155,6 +162,7 @@ export class MeetingDialog {
       receiver3: new FormControl(""),
       receiver4: new FormControl(""),
       receiver5: new FormControl(""),
+      mee_desc: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
   }
@@ -186,12 +194,16 @@ export class MeetingDialog {
           // console.log('todos los cargos',this.cargo);
           
           this.PersonaleInfo = data.data["getDataPersonale"];
-    // console.log('personal =>',this.PersonaleInfo);
+    // console.log('personal =>',this.PersonaleInfo);areaLog
 
           this.boss = data.data["getDataBoss"];
           this.area_posit = data.data["area_posit"];
           this.businessLine = data.data["businessLine"];
           this.idPositionLine = data.data["idPositionLine"];
+
+          this.areaLog = data.data["areaLog"];
+          this.positionLog = data.data["positionLog"];
+
 
         //  console.log(this.idPositionLine);
 
@@ -231,8 +243,8 @@ export class MeetingDialog {
 
           this.formCreate.get("mee_name").setValue(data.data["getParamUpdate"][0].mee_name);
           this.formCreate.get("receiver").setValue(data.data["getParamUpdate"][0].receiver.split(','));
-          this.formCreate.get("receiver2").setValue(data.data["getParamUpdate"][0].receiver2.split(','));
-          this.formCreate.get("receiver3").setValue(data.data["getParamUpdate"][0].receiver3.split(','));
+          // this.formCreate.get("receiver2").setValue(data.data["getParamUpdate"][0].receiver2.split(','));
+          // this.formCreate.get("receiver3").setValue(data.data["getParamUpdate"][0].receiver3.split(','));
           this.formCreate.get("receiver4").setValue(data.data["getParamUpdate"][0].receiver4);
           this.formCreate.get("mee_fec_ini").setValue(data.data["getParamUpdate"][0].mee_fec_ini);
           this.formCreate.get("mee_fec_fin").setValue(data.data["getParamUpdate"][0].mee_fec_fin);
@@ -241,11 +253,13 @@ export class MeetingDialog {
 
           if(data.data["getParamUpdate"][0].receiver2){
             this.checkArea = true;
+          this.formCreate.get("receiver2").setValue(data.data["getParamUpdate"][0].receiver2.split(','));
             this.onSelectCargo(data.data["getParamUpdate"][0].receiver2.split(','));
 
           }
           if(data.data["getParamUpdate"][0].receiver3){
             this.checkCargo = true;
+            this.formCreate.get("receiver3").setValue(data.data["getParamUpdate"][0].receiver3.split(','));
             this.onSelectPerson(data.data["getParamUpdate"][0].receiver3.split(','));
 
           }
@@ -322,39 +336,104 @@ export class MeetingDialog {
     }
   }
 
-
+saveCase: any = [];
   onSubmi() {
     if (this.formCreate.valid) {
-      // this.loading.emit(true);
-      let body = {
-        listas: this.formCreate.value,
-        archivoRes: this.nuevoArchivo
-      };
-      console.log('form =>',body);
+      this.loading.emit(true);
+        let body = {
+          listas: this.formCreate.value,
+          archivoRes: this.nuevoArchivo
+        };
+      console.log('cantidad => ',this.formCreate.value['receiver'].length);
+      if(this.formCreate.value['receiver'].length > 0 && this.formCreate.value['receiver2'].length > 0 && this.formCreate.value['receiver3'].length > 0 && this.formCreate.value['receiver5'].length > 0 ){
+        this.saveCase = "params";
+
       
-      this.WebApiService.postRequest(this.endpoint, body, {
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component,
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
+        console.log('form1 =>',body);
+        this.onSave(this.saveCase, body)
+      }else if(this.formCreate.value['receiver'].length > 0 && this.formCreate.value['receiver2'].length > 0 && this.formCreate.value['receiver3'].length > 0 || this.formCreate.value['receiver'].length > 0 && this.formCreate.value['receiver2'].length > 0 || this.formCreate.value['receiver'].length > 0){
+        this.saveCase = "onSave";
+        console.log('form2 =>',body);
+
+        this.onSave(this.saveCase, body)
+      }
+     
+     
+      
+      // this.WebApiService.postRequest(this.endpoint, body, {
+      //   token: this.cuser.token,
+      //   idUser: this.cuser.iduser,
+      //   modulo: this.component,
+      // }).subscribe(
+      //   (data) => {
+      //     if (data.success) {
+      //       this.handler.showSuccess(data.message);
+      //       this.reload.emit();
+      //       this.closeDialog();
+      //     } else {
+      //       this.handler.handlerError(data);
+      //       this.loading.emit(false);
+      //     }
+      //   },
+      //   (error) => {
+      //     this.handler.showError();
+      //     this.loading.emit(false);
+      //   }
+      // );
     } else {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);
+    }
+  }
+  onSave(cas, body){
+
+    switch(cas){
+      case "params":
+        this.WebApiService.postRequest(this.endpoint, body, {
+            action: "params",
+            token: this.cuser.token,
+            idUser: this.cuser.iduser,
+            modulo: this.component,
+          }).subscribe(
+            (data) => {
+              if (data.success) {
+                this.handler.showSuccess(data.message);
+                this.reload.emit();
+                this.closeDialog();
+              } else {
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+              }
+            },
+            (error) => {
+              this.handler.showError();
+              this.loading.emit(false);
+            }
+          );
+          break;
+          case "onSave":
+            this.WebApiService.postRequest(this.endpoint, body, {
+              action: "onSave",
+              token: this.cuser.token,
+              idUser: this.cuser.iduser,
+              modulo: this.component,
+            }).subscribe(
+              (data) => {
+                if (data.success) {
+                  this.handler.showSuccess(data.message);
+                  this.reload.emit();
+                  this.closeDialog();
+                } else {
+                  this.handler.handlerError(data);
+                  this.loading.emit(false);
+                }
+              },
+              (error) => {
+                this.handler.showError();
+                this.loading.emit(false);
+              }
+            );
+          break;
     }
   }
   seleccionarArchivo(event) {
@@ -417,42 +496,84 @@ export class MeetingDialog {
     this.area = [];
 
     console.log('==>linea',event);
+    // event.forEach(element => {
+
+    //   if(element === '140/1'){
+    //     this.area = this.areaLog;
+    //   }
+    // });
+   
+    // console.log('==>consulta',this.area_posit);
     for(let element of event){
-      var lines = this.area_posit.filter((lin) => lin.businessLine === element)
+      var lines = this.areaLog.filter((lin) => lin.businessLine === element)
+      console.log('areas de linea => ', lines);
       
       for (let line of lines) {
         this.area.push(line);
       }
   
-    // Eliminar duplicados de la lista de cargos
-    this.area = Array.from(new Set(this.area));
+    // // Eliminar duplicados de la lista de cargos
+    // this.area = Array.from(new Set(this.area));
     this.checkArea = true;
     // console.log('prueba upd',this.formCreate.get('receiver2').value);
     
     // this.onSelectCargo(this.formCreate.get('receiver2').value);
+    // const ar =  Object.groupBy(this.ar)
+    console.log('===>', this.area);
+    
+  // array.forEach(element => {
+    
+  // });
+    
+   
     }
     
-    
   }
-  onSelectCargo(event){
-    console.log('cargos =>',event);
+  onSelectCargo(event) {
+    console.log('cargos =>', event);
     this.checkCargo = false;
     this.cargo = [];
-
-    for (let element of event){
-      var areas =this.idPositionLine.filter((area) => area.idArea === element);
+    console.log('22 =>', this.positionLog);
+  
+    for (let element of event) {
+      // Filtrar las áreas según el elemento actual
+      var areas = this.positionLog.filter((area) => area.idArea === element && area.idPosition != null);
+  
+      
       for (let area of areas) {
         this.cargo.push(area);
       }
+      // Agrupar las áreas por algún criterio, por ejemplo, el nombre del área
+    //   const groupedAreas = areas.reduce((acc, area) => {
+    //     // Utilizar el nombre del área como clave para agrupar
+    //     const key = area.nombreArea;
+  
+    //     // Si la clave aún no existe en el acumulador, crear un nuevo array para esa clave
+    //     if (!acc[key]) {
+    //       acc[key] = [];
+    //     }
+  
+    //     // Agregar el área actual al array correspondiente a la clave
+    //     acc[key].push(area);
+  
+    //     return acc;
+    //   }, {});
+  
+    //   // Convertir el objeto agrupado de nuevo a un array y concatenar con this.cargo
+    //   for (let key in groupedAreas) {
+    //     if (groupedAreas.hasOwnProperty(key)) {
+    //       this.cargo = this.cargo.concat(groupedAreas[key]);
+    //     }
+    //   }
+    }
   
     // Eliminar duplicados de la lista de cargos
     this.cargo = Array.from(new Set(this.cargo));
-    this.checkCargo = true;
-   
+    console.log('===>', this.cargo);
 
-    }
-    
+    this.checkCargo = true;
   }
+  
   onSelectPerson(event){
     console.log(event);
 
@@ -471,6 +592,16 @@ export class MeetingDialog {
   
     // Eliminar duplicados de la lista de cargos
     this.personInfoLine = Array.from(new Set(this.personInfoLine));
+    if(this.personInfoLine.length === 0){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No se encontraron personas activas",
+        
+      });
+    }
+    console.log('===personas>', this.personInfoLine.length);
+
     this.checkPerson = true;
 
   }
@@ -490,12 +621,12 @@ documentoHTML: string;
   
     const extension = url.split('.').pop()?.toLowerCase();
   if(extension === 'docx'){
-    // let urlDocumento = 'http://192.168.0.10/BackPersonale/public/imagenes/proceso_disciplinario/20240109123553_capacitacion.docx';
+    let urlDocumento = 'http://192.168.0.10/BackPersonale/public/imagenes/proceso_disciplinario/20240109131522_capacitacion.docx';
     // console.log(urlDocumento);
     
     // let urlDocumento = 'https://docs.google.com/document/d/e/2PACX-1vTNVSYHu-WptuADbb9VLTRnIv-JhP0R2dEsvI8xUFVqyQBawHyr0-JslHawZyOvhA/pub';
 
-    let urlDocumento = url;
+    // let urlDocumento = url;
 
     this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(urlDocumento);
     this.documentoHTML =  url;
@@ -505,78 +636,5 @@ documentoHTML: string;
 
     return extension === 'docx';
   }
-  // async obtenerContenidoDocumento(url: string): Promise<string | null> {
-  //   try {
-  //     const response = await fetch(url);
-  //     const buffer = await response.arrayBuffer();
-  //     const result = await mammoth.extractRawText({ arrayBuffer: buffer });
-  //     return result.value;
-  //   } catch (error) {
-  //     console.error('Error al obtener el contenido del documento:', error);
-  //     return null;
-  //   }
-  // }
-  // esDocumentoWord(archivo: string): boolean {
-  //   const extension = archivo.split('.').pop()?.toLowerCase();
-  //   return extension === 'doc' || extension === 'docx';
-  // }
-  // async esDocumentoWord(archivo: string): Promise<string | null> {
-  //   const extension = archivo.split('.').pop()?.toLowerCase();
-  //   if (extension === 'doc' || extension === 'docx') {
-  //     // Realiza la conversión del documento Word a HTML
-  //     const result = await mammoth.extractRawText({ path: archivo });
-  //     return result.value;
-  //   }
-  //   return null;
-  // }
   
-  // Función para determinar si el archivo es un documento Word
-  // private async convertirDocumentoAHTML(archivo: string): Promise<string> {
-  //   // Utiliza showdown para convertir Markdown a HTML
-  //   const markdownContent = await this.convertirDocumentoAMarkdown(archivo);
-  //   const converter = new showdown.Converter();
-  //   const htmlContent = converter.makeHtml(markdownContent);
-  //   return htmlContent;
-  // }
-
-  // // Función para convertir el documento Word a formato Markdown
-  // private async convertirDocumentoAMarkdown(archivo: string): Promise<string> {
-  //   // Aquí deberías implementar la lógica para convertir el documento Word a Markdown
-  //   // Puedes utilizar una biblioteca adicional o alguna lógica personalizada
-
-  //   // Ejemplo simple (esto debe ser sustituido por la lógica real de conversión):
-  //   const contenidoMarkdown = archivo;
-  //   return contenidoMarkdown;
-  // }
-
-  // // Función para determinar si el archivo es un documento Word
-  // async esDocumentoWord(archivo: string): Promise<string | null> {
-  //   const extension = archivo.split('.').pop()?.toLowerCase();
-  //   if (extension === 'doc' || extension === 'docx') {
-  //     // Realiza la conversión del documento Word a HTML y genera la vista previa
-  //     const contenidoHTML = await this.convertirDocumentoAHTML(archivo);
-  //     return contenidoHTML;
-  //   }
-  //   return null;
-  // }
-
-  // // Función para generar la vista previa usando html2canvas
-  // private generarVistaPrevia(idContenedor: string): void {
-  //   const contenedor = document.getElementById(idContenedor);
-
-  //   if (contenedor) {
-  //     html2canvas(contenedor).then(canvas => {
-  //       // `canvas` es la representación de la vista previa del contenido
-  //       // Puedes mostrarlo o realizar acciones adicionales según tus necesidades.
-  //       document.body.appendChild(canvas);
-  //     });
-  //   } else {
-  //     console.error('El contenedor con ID', idContenedor, 'no fue encontrado.');
-  //   }
-  // }
-
-  // // Método para iniciar la generación de vista previa
-  // iniciarGeneracionVistaPrevia(idContenedor: string): void {
-  //   this.generarVistaPrevia(idContenedor);
-  // }
 }

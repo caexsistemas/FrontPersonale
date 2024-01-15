@@ -1014,7 +1014,7 @@ export class RqcalidadDialog  {
   onKey(event: KeyboardEvent) {
     event.preventDefault();
     if (event.key === "Tab") {
-        console.log('ole... tab');
+       // console.log('ole... tab');
        
     }
 
@@ -1022,7 +1022,7 @@ export class RqcalidadDialog  {
 
   campaHogarDedi(event){
 
-    console.log(this.tipMatriz +" / "+ event);
+   // console.log(this.tipMatriz +" / "+ event);
     if( this.tipMatriz == '40/2' && event == '44/7' ){
 
       this.ListTipiConsHogar = this.ListipifiHogarDed;
