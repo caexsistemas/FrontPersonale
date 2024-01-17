@@ -63,27 +63,13 @@ export class ReportsPersonaleComponent implements OnInit {
         if (data.success == true) {
           this.rol = this.cuser.role;
 
-          if (!(this.rol == 1)) {
-
-            this.immediateBoss = data.data["immediateBoss"].filter(
-              (jefe) =>
-                jefe.jefe_id == 2146 ||
-                jefe.jefe_id == 1681 ||
-                jefe.jefe_id == 2751 ||
-                jefe.jefe_id == 2117 ||
-                jefe.jefe_id == 2845 ||
-                jefe.jefe_id == 2034 ||
-                jefe.jefe_id == 2173
-            );
-          } else {
             this.job = data.data["job"];
-            this.matrizarp = data.data["matrizarp"].slice(0, 3);
+            this.matrizarp = data.data["matrizarp"];
             this.immediateBoss = data.data["immediateBoss"].filter(
               (result) => result.jefe_id !== null && result.jefe_nombre !== null
             );
-          }
-          this.status = data.data["status"].slice(0, 2);
-
+          
+          this.status = data.data["status"];
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
