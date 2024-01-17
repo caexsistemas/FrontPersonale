@@ -33,12 +33,8 @@ import { BypassSeguroPipe } from "../../services/bypass-seguro.pipe";
 // import * as mammoth from 'mammoth';
 // var mammoth = require("mammoth");
 import html2canvas from 'html2canvas';
-<<<<<<< HEAD
-
-=======
-import showdown from 'showdown';
 import Swal from "sweetalert2";
->>>>>>> 72241e7ccf655b476a7c0f3abe397b0671d99f75
+
 // import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @Component({
