@@ -38,8 +38,8 @@ export class ListMeetingComponent implements OnInit {
   contaClick: number = 0;
   endpoint: string = "/meeting";
   contenTable: any = [];
-  // checkUpdate: boolean;
-  checkUpdate: any = [];
+  checkUpdate: boolean;
+  // checkUpdate: any = [];
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -72,9 +72,10 @@ export class ListMeetingComponent implements OnInit {
       (data) => {
         if (data.success) {
           this.permissions = this.handler.getPermissions(this.component);
-          this.checkUpdate = this.cuser.idPersonale;
-          this.generateTable(data.data["getSelectData"]);
-          this.contenTable = data.data["getSelectData"];
+          (data.data["getSelectData"][0].perm == 1) ? this.checkUpdate = true : this.checkUpdate = false;
+          
+          this.generateTable(data.data["getSelectData"]['result']);
+          this.contenTable = data.data["getSelectData"]['result'];
 
           this.loading = false;
         } else {
@@ -95,6 +96,7 @@ export class ListMeetingComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
+      "view_state",
       "mee_name",
       "create_User",
       "mee_fec_fin",
@@ -126,7 +128,7 @@ export class ListMeetingComponent implements OnInit {
       icon: "success",
     });
   }
-  option(action, codigo = null) {
+  option(action, codigo = null, check) {
     var dialogRef;
     switch (action) {
       case "view":
@@ -135,6 +137,7 @@ export class ListMeetingComponent implements OnInit {
           data: {
             window: "view",
             codigo,
+            check
           },
         });
         dialogRef.disableClose = true;
@@ -197,11 +200,11 @@ export class ListMeetingComponent implements OnInit {
     this.contaClick = this.contaClick + 1;
   }
   colorMap = {
-    "115/1": "#CE9E08",
-    "115/2": "#339CFF",
-    "115/3": "#FF6202",
-    "115/4": "#28C433",
-    "115/5": "#CA342B",
+    "142/1": "#CA342B",
+    "142/2": "#177E31",
+    "142/3": "#A79F22",
+    "142/4": "#9E253B",
+    "No Disponible": "#9E253B",
   };
 
   colorState(state) {

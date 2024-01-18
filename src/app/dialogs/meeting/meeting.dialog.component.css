@@ -38,7 +38,7 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   ul {
     list-style: none;
 }
-.textHeader{
+/* .textHeader{
   text-align: center;
   font-size: 22px;
 }
@@ -46,16 +46,68 @@ mat-icon.mat-icon.notranslate.Iconmanagement.material-icons.mat-icon-no-color {
   padding: 10%;
   text-align: center;
   font-size: 18px;
-}
+} */
 /* .imgCenter{
   justify-content: center;
 } */
 img {
   display: block;
   /* width: 60%; */
-  width: 120%;
-  margin: auto;
+  /* width: 120%; */
+  width: 900px;
+  margin:0px auto;
   filter: drop-shadow(2px 4px 6px black);
   border-radius: 40px
 
+}
+/* Agrega estos estilos en tu hoja de estilos CSS o en el componente donde se aplica el HTML */
+
+.textHeader {
+  font-size: 1.5em; /* Ajusta el tamaño de la fuente según sea necesario */
+  font-weight: bold; /* Puedes ajustar el peso de la fuente según tus preferencias */
+  margin-bottom: 10px; /* Añade espacio inferior para separar el encabezado del texto */
+}
+
+.textCenter {
+  text-align: justify; /* Centra el texto */
+}
+
+/* Si encuentras que el texto es demasiado largo, puedes agregar estilos de desbordamiento */
+.textOverflow {
+  overflow: hidden;
+  text-overflow: ellipsis; /* Agrega puntos suspensivos (...) cuando el texto es demasiado largo */
+  white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
+}
+
+/* Aplica estos estilos a la descripción (dd) si es necesario */
+.textCenter mt-3 {
+  margin-top: 3em; /* Ajusta el espacio superior según sea necesario */
+}
+.background-suave {
+  background-color: #dfe3e5; /* Puedes cambiar el color según tus preferencias */
+}
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.example-chip-list {
+  width: 100%;
+}
+.textCenter.shortText {
+  margin-bottom: 20px; /* Ajusta el margen según tus necesidades */
+  padding-left: 0%;
+}
+.conta{
+  padding-left: 10%;
+
+}
+table {
+  width: 100%;
+}
+.mat-icon{
+  padding-right: 40px;
 }

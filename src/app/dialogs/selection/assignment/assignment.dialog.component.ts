@@ -163,7 +163,7 @@ export class AssignmentDialog {
   //Tabla Contenido
   generateTable(data) {
     this.displayedColumns = [
-      // "view",
+      "view",
       "fec_sel",
       "tip_doc",
       "document",

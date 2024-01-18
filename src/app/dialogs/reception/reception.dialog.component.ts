@@ -1075,6 +1075,23 @@ export class ReceptionDialogComponent {
             this.getDataUpdate();
           });
         break;
+        case "firma_up":
+          dialogRef = this.dialog.open(ConclusionDialog, {
+            data: {
+              window: "firma_up",
+              codigo,
+              idPersonale
+            },
+          });
+           // LOADING
+          dialogRef.componentInstance.loading.subscribe((val) => {
+            this.loading = val;
+          });
+          // RELOAD
+          dialogRef.componentInstance.reload.subscribe((val) => {
+            this.getDataUpdate();
+          });
+        break;
     }
   }
 

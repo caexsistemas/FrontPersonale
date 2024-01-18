@@ -165,6 +165,7 @@ import { ReportsDisciplinaryComponent } from "./dialogs/reports/disciplinary/rep
 import { ReportsUserComponent } from "./dialogs/reports/user/reports-user.component";
 import { MeetingDialog } from './dialogs/meeting/meeting.dialog.component';
 import { BypassSeguroPipe } from "./services/bypass-seguro.pipe";
+import { MatChipsModule } from "@angular/material/chips";
 // import { SignaturePadModule } from 'angular2-signaturepad';
 
 const routes: Routes = [];
@@ -224,6 +225,7 @@ const routes: Routes = [];
     MatStepperModule,
     ClipboardModule,
     MatTooltipModule,
+    MatChipsModule
     
     
     // NgxDocViewerModule

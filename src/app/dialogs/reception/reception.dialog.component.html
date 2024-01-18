@@ -264,14 +264,14 @@
                     </form>
                   </mat-step>
                   <mat-step>
-                    <ng-template matStepLabel>Fecha y hora Elaboración</ng-template>
+                    <ng-template matStepLabel>Fecha Elaboración</ng-template>
                     <form (ngSubmit)="nextStepCase(4)" [formGroup]="formCitation">
                       <div class="row mt-2">
 
                         <div class="col-md-4">
                           <mat-form-field appearance="fill">
                             <mat-label>Fecha</mat-label>
-                            <input matInput formControlName="cit_fec_elab" value="cit_fec_elab" type="datetime-local"
+                            <input matInput formControlName="cit_fec_elab" value="cit_fec_elab" type="date"
                               required>
                           </mat-form-field>
                         </div>
@@ -709,9 +709,38 @@
                               <i class="fa fa-edit fa-lg"></i>
                               <!-- <i class="fa fa-edit fa-lg"></i> -->
                             </button>
-                            <button class="btn btn-ghost-primary" *ngIf="permissions.update" (click)="option('firma_pdf',row.con_id)" title="Firma Pdf">
-                              <i class="fa fa-pencil"></i>
-                            </button>
+                             <!-- <div class="btn-group" dropdown>
+                                  <button class="btn btn-success" *ngIf="permissions.update" 
+                                    title="Reporte Excel">
+                                    <i class="fa fa-file-excel-o"></i>
+                                  </button>
+
+                                  <button class="btn btn-ghost-primary" *ngIf="permissions.update" (click)="option('firma_pdf',row.con_id)" title="Firma Pdf">
+                                    <i class="fa fa-pencil"></i>
+                                  </button>
+                                </div> -->
+                                <!-- <div class="m-2 text-right">         -->
+                          
+                                  <button [matMenuTriggerFor]="menu" aria-label="Menu" class="btn btn-ghost-primary">
+                                    <i class="fa fa-pencil"></i>
+                                  </button>
+                                    
+                                  <mat-menu #menu="matMenu">
+                                      <button mat-menu-item>Acciones Disponibles… </button>
+                          
+                                      <button mat-menu-item *ngIf="permissions.update"  (click)="option('firma_pdf',row.con_id)" title="Firma pdf">
+                                          <mat-icon>add_circle</mat-icon>
+                                          <span>Firma Pdf</span>
+                                      </button>
+
+                                      <button mat-menu-item *ngIf="permissions.update"  (click)="option('firma_up',row.con_id)" title="Subir Imagen Firma">
+                                        <mat-icon>add_circle</mat-icon>
+                                        <span>subir firma</span>
+                                    </button>
+                          
+                                  </mat-menu>       
+                                <!-- </div> -->
+                              
                             <button class="btn btn-ghost-danger" *ngIf="permissions.create" [disabled]="row.user_firma == null" (click)="option('pdfConclusion',row.con_id,row.cantidadConc)" title="PDF">
                               <i class="fa fa-file-pdf-o"></i>
                             </button>
