@@ -115,7 +115,7 @@
                           Estado Gestion
                         </th>
                         <td mat-cell *matCellDef="let element">
-                          <button class="mt-1" (click)="option('updatesub',element.pqid,element.status_retro, element.retro_call, element.tip_dialog)" class="btn btn-light"
+                          <button class="mt-1" (click)="option('updatesub',element.pqid, element.matrizarp, element.retro_call, element.tip_dialog, element.status_retro)" class="btn btn-light"
                             [ngStyle]="{'backgroundColor': colorState(element.status_retro, element.retro_call),'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'70%','height':'5','font-weight':'500','color':'white'}">
                             {{element.retro_descr}}  
                         </button>
