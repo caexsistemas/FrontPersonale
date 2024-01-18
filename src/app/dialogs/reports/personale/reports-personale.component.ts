@@ -63,42 +63,13 @@ export class ReportsPersonaleComponent implements OnInit {
         if (data.success == true) {
           this.rol = this.cuser.role;
 
-          if (!(this.rol == 1)) {
-            this.job = data.data["job"].filter(
-              (cargo) =>
-                cargo.ls_codvalue == "16/1" ||
-                cargo.ls_codvalue == "16/3" ||
-                cargo.ls_codvalue == "16/5" ||
-                cargo.ls_codvalue == "16/12" ||
-                cargo.ls_codvalue == "16/14" ||
-                cargo.ls_codvalue == "16/15" ||
-                cargo.ls_codvalue == "16/17" ||
-                cargo.ls_codvalue == "16/23" ||
-                cargo.ls_codvalue == "16/24" ||
-                cargo.ls_codvalue == "16/26" ||
-                cargo.ls_codvalue == "16/27" ||
-                cargo.ls_codvalue == "16/29"
-            );
-
-            this.immediateBoss = data.data["immediateBoss"].filter(
-              (jefe) =>
-                jefe.jefe_id == 2146 ||
-                jefe.jefe_id == 1681 ||
-                jefe.jefe_id == 2751 ||
-                jefe.jefe_id == 2117 ||
-                jefe.jefe_id == 2845 ||
-                jefe.jefe_id == 2034 ||
-                jefe.jefe_id == 2173
-            );
-          } else {
             this.job = data.data["job"];
-            this.matrizarp = data.data["matrizarp"].slice(0, 3);
+            this.matrizarp = data.data["matrizarp"];
             this.immediateBoss = data.data["immediateBoss"].filter(
               (result) => result.jefe_id !== null && result.jefe_nombre !== null
             );
-          }
-          this.status = data.data["status"].slice(0, 2);
-
+          
+          this.status = data.data["status"];
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);

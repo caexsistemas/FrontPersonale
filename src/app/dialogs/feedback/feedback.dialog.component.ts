@@ -160,11 +160,16 @@ closeDialog() {
   this.dialogRef.close();
 }
   initForms() {
-    // const rememberLoginControl = new FormControl();   
+    //Condicion PQ Calidad
+    let matParm = this.cuser.matrizarp;
+    if(this.tipMatriz != "" && this.tipMatriz != null){
+      matParm = this.tipMatriz;
+    }  
+
     this.getDataInit();
     this.formNomi = new FormGroup({
         fecha: new FormControl(""),
-        matrizarp: new FormControl(this.cuser.matrizarp,[Validators.required]),
+        matrizarp: new FormControl(matParm,[Validators.required]),
         document: new FormControl("",[Validators.required]),
         idPersonale: new FormControl(""),
         supervisor: new FormControl(this.cuser.idPersonale),
@@ -194,10 +199,16 @@ generateTable(data){
 }
 getDataInit(){
 
+  //Condicion PQ Calidad
+  let matParm = this.cuser.matrizarp;
+  if(this.tipMatriz != "" && this.tipMatriz != null){
+    matParm = this.tipMatriz;
+  }
+
   this.loading.emit(false);
   this.WebApiService.getRequest(this.endpoint, {
       action: "getParamView",
-      matrizarp: this.cuser.matrizarp,
+      matrizarp: matParm,
       tipRole: this.cuser.role,
       token: this.cuser.token,
       idUser: this.cuser.iduser,

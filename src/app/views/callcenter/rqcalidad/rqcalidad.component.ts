@@ -103,6 +103,7 @@ export class RqcalidadComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
+      "pqid",
       "monitoring_date",
       "status_cal",
       "login",
@@ -111,6 +112,7 @@ export class RqcalidadComponent implements OnInit {
       "campana",
       "tipo_gestion",
       "final_note",
+      "tpdg_dialog",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -134,7 +136,8 @@ export class RqcalidadComponent implements OnInit {
     this.infoModal.show();
   }
 
-  option(action, codigo = null, tipoMat, retro = null) {
+  option(action, codigo = null, tipoMat, retro = null, diag = null) {
+
     var dialogRef;
     switch (action) {
       case "create":
@@ -143,7 +146,8 @@ export class RqcalidadComponent implements OnInit {
           data: {
             window: "create",
             codigo,
-            tipoMat: tipoMat
+            tipoMat: tipoMat,
+            dialogo: diag
           },
         });
         dialogRef.disableClose = true;
@@ -162,7 +166,8 @@ export class RqcalidadComponent implements OnInit {
           data: {
             window: "update",
             codigo,
-            tipoMat: tipoMat
+            tipoMat: tipoMat,
+            dialogo: diag
           },
         });
         dialogRef.disableClose = true;
@@ -181,6 +186,7 @@ export class RqcalidadComponent implements OnInit {
           data: {
             window: "view",
             codigo,
+            dialogo: diag
           },
         });
         dialogRef.disableClose = true;
@@ -209,48 +215,49 @@ export class RqcalidadComponent implements OnInit {
           break;
           
           case "updatesub":
-            if( ( (tipoMat == '136/2' || tipoMat == '136/3') 
-                  &&  (this.cuser.role == 1 || this.cuser.role == 21 || this.cuser.role == 22)
-                ) || ( (this.cuser.role == 31 && tipoMat == '136/3' && retro == '17/0') 
-                     || (this.cuser.role == 31 && tipoMat == '136/2')
-                )
-              ){
-              this.loading = true;
-              dialogRef = this.dialog.open(RqcalidadDialog, {
-                data: {
-                  window: "updatesub",
-                  codigo
-                },
-              });
-              dialogRef.disableClose = true;
-              // LOADING
-              dialogRef.componentInstance.loading.subscribe((val) => {
-                this.loading = val;
-              });
-              // RELOAD
-              dialogRef.componentInstance.reload.subscribe((val) => {
-                this.sendRequest();
-              });             
-            }else if(tipoMat == '136/4'){
-              this.loading = true;
-              dialogRef = this.dialog.open(RqcalidadDialog, {
-                data: {
-                  window: "viewsub",
-                  codigo
-                },
-              });
-              dialogRef.disableClose = true;
-              // LOADING
-              dialogRef.componentInstance.loading.subscribe((val) => {
-                this.loading = val;
-              });
-              // RELOAD
-              dialogRef.componentInstance.reload.subscribe((val) => {
-                this.sendRequest();
-              });
-            }
-          break;
 
+            if( ( (tipoMat == '136/2' || tipoMat == '136/3') 
+            &&  (this.cuser.role == 1 || this.cuser.role == 21 || this.cuser.role == 22)
+            ) || ( ( (this.cuser.role == 2 || this.cuser.role == 31) && tipoMat == '136/3' && retro == '17/0') 
+                || ( ( this.cuser.role == 2 || this.cuser.role == 31) && tipoMat == '136/2')
+            )
+            ){
+            this.loading = true;
+            dialogRef = this.dialog.open(RqcalidadDialog, {
+              data: {
+                window: "updatesub",
+                codigo
+              },
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe((val) => {
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe((val) => {
+              this.sendRequest();
+            });             
+          }else if(tipoMat == '136/4'){
+            this.loading = true;
+            dialogRef = this.dialog.open(RqcalidadDialog, {
+              data: {
+                window: "viewsub",
+                codigo
+              },
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe((val) => {
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe((val) => {
+              this.sendRequest();
+            });
+          }
+          
+          break;
     }
   }
 
