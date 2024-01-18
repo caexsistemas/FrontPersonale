@@ -212,12 +212,14 @@ export class RqcalidadDialog  {
             break;
             case 'updatesub':   
                 this.idPam = this.data.codigo;  
+                this.tipMatriz = this.data.tipoMat;
                 this.title = "Crear Retroalimentación: ";       
                 this.getdataIniRetro(this.idPam);
                 this.initFormsRetro();              
             break;
             case 'viewsub':   
                 this.idPam = this.data.codigo; 
+                this.tipMatriz = this.data.tipoMat;
                 this.title = "Detalle Retroalimentación";       
                 this.getdataIniRetro(this.idPam);                                           
             break;
@@ -1069,9 +1071,9 @@ export class RqcalidadDialog  {
 //  }
 
 selectRetrocall(event){
-  if( event == '17/1' && (this.view == 'create' || this.view == 'createCus') ){
+  //if( event == '17/1' && (this.view == 'create' || this.view == 'createCus') ){
     this.optionOtr('createRetro');
-  }     
+  //}     
 }
 
 optionOtr(action, codigo=null){

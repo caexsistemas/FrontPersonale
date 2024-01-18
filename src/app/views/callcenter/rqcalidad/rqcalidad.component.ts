@@ -136,7 +136,7 @@ export class RqcalidadComponent implements OnInit {
     this.infoModal.show();
   }
 
-  option(action, codigo = null, tipoMat, retro = null, diag = null) {
+  option(action, codigo = null, tipoMat, retro = null, diag = null, staRt = null) {
 
     var dialogRef;
     switch (action) {
@@ -216,17 +216,19 @@ export class RqcalidadComponent implements OnInit {
           
           case "updatesub":
 
-            if( ( (tipoMat == '136/2' || tipoMat == '136/3') 
+            if( ( (staRt == '136/2' || staRt == '136/3') 
             &&  (this.cuser.role == 1 || this.cuser.role == 21 || this.cuser.role == 22)
-            ) || ( ( (this.cuser.role == 2 || this.cuser.role == 31) && tipoMat == '136/3' && retro == '17/0') 
-                || ( ( this.cuser.role == 2 || this.cuser.role == 31) && tipoMat == '136/2')
+            ) || ( ( (this.cuser.role == 2 || this.cuser.role == 31) && staRt == '136/3' && retro == '17/0') 
+                || ( ( this.cuser.role == 2 || this.cuser.role == 31) && staRt == '136/2')
             )
             ){
             this.loading = true;
             dialogRef = this.dialog.open(RqcalidadDialog, {
               data: {
                 window: "updatesub",
-                codigo
+                codigo,
+                tipoMat: tipoMat,
+                dialogo: diag
               },
             });
             dialogRef.disableClose = true;
@@ -238,12 +240,14 @@ export class RqcalidadComponent implements OnInit {
             dialogRef.componentInstance.reload.subscribe((val) => {
               this.sendRequest();
             });             
-          }else if(tipoMat == '136/4'){
+          }else if(staRt == '136/4'){
             this.loading = true;
             dialogRef = this.dialog.open(RqcalidadDialog, {
               data: {
                 window: "viewsub",
-                codigo
+                codigo,
+                tipoMat: tipoMat,
+                dialogo: diag
               },
             });
             dialogRef.disableClose = true;

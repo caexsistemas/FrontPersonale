@@ -534,7 +534,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>¿Retroalimentaci&oacute;n?:</mat-label>
-                            <mat-select formControlName="retro_call" (ngModelChange)="selectRetrocall($event)" required>
+                            <mat-select formControlName="retro_call" required>
                                 <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -1041,17 +1041,24 @@
                         </div>
                     </div>
 
-					<div class="row">
+					<div class="row" *ngIf="diag == '141/1'">
                         <div class="col-md-12">
                             <dt>Observación/Oportunidades de Mejora:</dt>
                             <dd>{{dataCad.obs_obs}}</dd>
                         </div>
                     </div>
 					
-					<div class="row">
+					<div class="row" *ngIf="diag == '141/1'">
                         <div class="col-md-12">
                             <dt>Aspectos Positivos:</dt>
                             <dd>{{dataCad.obs_asp_pos}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="diag == '141/2'">
+                        <div class="col-md-12">
+                            <dt>Observaciones:</dt> 
+                            <dd>{{dataCad.obs_customer}}</dd>
                         </div>
                     </div>
 
@@ -1088,7 +1095,7 @@
 
 </div>
 
-<div class="card mt-6" *ngIf="view == 'updatesub'">
+<div class="card md-6" *ngIf="view == 'updatesub'">
 
     <div >
         <div class="card-header">
@@ -1147,17 +1154,24 @@
                         </div>
                     </div>
 
-					<div class="row">
+					<div class="row" *ngIf="diag == '141/1'">
                         <div class="col-md-12">
                             <dt>Observación/Oportunidades de Mejora:</dt>
                             <dd>{{dataCad.obs_obs}}</dd>
                         </div>
                     </div>
 					
-					<div class="row">
+					<div class="row" *ngIf="diag == '141/1'">
                         <div class="col-md-12">
                             <dt>Aspectos Positivos:</dt>
                             <dd>{{dataCad.obs_asp_pos}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="diag == '141/2'">
+                        <div class="col-md-12">
+                            <dt>Observaciones:</dt> 
+                            <dd>{{dataCad.obs_customer}}</dd>
                         </div>
                     </div>
 
@@ -1195,9 +1209,8 @@
             </mat-card>
             <div mat-dialog-actions align="center">
                 <div class="text-center col-12 mb-3"> 
-                    <button *ngIf="view == 'updatesub'" mat-button class="btn btn-success"
-                        (click)="onSubmitUpdateSub()">Guardar</button>
-    
+                    <button mat-button class="btn btn-info" (click)="selectRetrocall()">Retroalimentaci&oacute;n</button>
+                    <button *ngIf="view == 'updatesub'" mat-button class="btn btn-success" (click)="onSubmitUpdateSub()">Guardar</button>
                     <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                 </div>
               </div>
@@ -2229,7 +2242,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>¿Retroalimentaci&oacute;n?:</mat-label>
-                            <mat-select formControlName="retro_call" (ngModelChange)="selectRetrocall($event)" required>
+                            <mat-select formControlName="retro_call" required>
                                 <mat-option *ngFor="let idet of listSinomr" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
