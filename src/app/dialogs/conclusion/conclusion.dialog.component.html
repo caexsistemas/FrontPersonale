@@ -46,7 +46,7 @@
             <div class="col-md-4">
               <mat-form-field appearance="fill">
                 <mat-label>Conclusión Final</mat-label>
-                <mat-select formControlName="con_final"  (ngModelChange)="upload($event)" required>
+                <mat-select formControlName="con_final" (ngModelChange)="upload($event)" required>
                   <mat-option *ngFor="let idet of conclu_fin" [value]="idet.ls_codvalue">
                     {{idet.description}}
                   </mat-option>
@@ -114,11 +114,11 @@
           </div>
         </form>
       </mat-dialog-content>
-     
+
       <div mat-dialog-actions>
         <div class="text-center col-12 mt-2">
-       
-            <button *ngIf="view == 'updateConc'" mat-button class="btn btn-success"
+
+          <button *ngIf="view == 'updateConc'" mat-button class="btn btn-success"
             (click)="onSubmitUpdate()">Actualizar</button>
 
 
@@ -142,33 +142,92 @@
       </h5>
     </div>
 
-<mat-dialog-content>
-  <form *ngIf="view == 'firma_pdf' " [formGroup]="formImga">
-   
-  <mat-card>
+    <mat-dialog-content>
+      <form *ngIf="view == 'firma_pdf' " [formGroup]="formImga">
 
-    <div id="signature-pad" class="signature-pad">
-      <div class="description">Firmar aquí</div>
-      <div class="signature-pad--body">
-        <canvas #canvas id="canvas"></canvas>
-      </div>
-    </div>
-    
-  </mat-card>
- 
-    </form>
+        <mat-card>
+
+          <div id="signature-pad" class="signature-pad">
+            <div class="description">Firmar aquí</div>
+            <div class="signature-pad--body">
+              <canvas #canvas id="canvas"></canvas>
+            </div>
+          </div>
+
+        </mat-card>
+
+      </form>
     </mat-dialog-content>
 
     <div mat-dialog-actions>
       <div class="text-center col-12 mt-2">
-     
+
         <button *ngIf="view == 'firma_pdf'" mat-button class="btn btn-success"
-        (click)="guardarYFinalizar()">Firmar</button>
+          (click)="guardarYFinalizar()">Firmar</button>
 
 
         <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
       </div>
     </div>
 
+  </div>
+</div>
+
+
+<div *ngIf="view == 'firma_up'">
+  <!-- <div class="card mt-6">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf=" view == 'firma_up'">{{title}}</p>
+      
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
     </div>
+
+    <mat-dialog-content>
+      <form *ngIf="view == 'firma_up' " [formGroup]="formImga">
+        <mat-card>
+          <div class="description">Adjuntar Imagen de Firma</div>
+          <div class="col-md-12">
+            <input formControlName="firma_up" class="form-control" type="file" (change)="seleccionarArchivo($event)">
+          </div>
+        </mat-card>
+      </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+      <div class="text-center col-12 mt-2">
+        <button *ngIf="view == 'firma_up'" mat-button class="btn btn-success"
+          (click)="onSubmitUpdate()">Guardar</button>
+        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+      </div>
+    </div>
+  </div> -->
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{title}}</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form *ngIf="view == 'firma_up' " [formGroup]="formImga">
+        <mat-card>
+          <div class="description">Adjuntar Imagen de Firma</div>
+          <div class="col-md-12">
+            <input formControlName="firma_up" class="form-control" type="file" (change)="seleccionarArchivo($event)">
+          </div>
+        </mat-card>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <!-- <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button> -->
+      <div class="text-center col-12 mt-2">
+        <button *ngIf="view == 'firma_up'" mat-button class="btn btn-success"
+          (click)="onSubmitUpdate()">Guardar</button>
+        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
 </div>

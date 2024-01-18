@@ -19,38 +19,43 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombre de la capacitación</mat-label>
-                                <input matInput formControlName="mee_name">
+                                <input matInput formControlName="mee_name" [readonly]="view == 'update'" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha de inicio:</mat-label>
-                                <input matInput formControlName="mee_fec_ini" type="date">
+                                <input matInput formControlName="mee_fec_ini" type="date" [readonly]="view == 'update'" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Fin:</mat-label>
-                                <input matInput formControlName="mee_fec_fin" type="date">
+                                <input matInput formControlName="mee_fec_fin" type="date"  [readonly]="disabled">
                             </mat-form-field>
                         </div>
+                      
                     </div>
-                    <div class="row">
-                        <!-- <div class="col-md-4">
-                            <mat-form-field class="example-full-width">
-                            <mat-label>Grupos:</mat-label>
-                            <mat-select formControlName="receiver" (ngModelChange)="onSelectionChange($event)" multiple >
-                                <mat-option *ngFor="let idet of group" [value]="idet.ls_codvalue">
-                                  {{idet.description}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                        </div> -->
+                    <div class="row mt-2">
+                      <div class="col-md-4">
+                        <section class="example-section">
+                          <mat-checkbox color="primary" class="example-margin" formControlName="check_indf" (ngModelChange)="onReadonly($event)">Fecha Vigencia indefinida  </mat-checkbox>
+                        </section>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Link de evaluación</mat-label>
+                          <input matInput formControlName="mee_link" [readonly]="view == 'update'">
+                      </mat-form-field>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row mt-3">
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                             <mat-label>Linea de Negocio:</mat-label>
-                            <mat-select formControlName="receiver" (ngModelChange)="onSelectArea($event)" multiple>
-                                <mat-option *ngFor="let idet of businessLine" [value]="idet.ls_codvalue">
+                            <mat-select formControlName="receiver" (ngModelChange)="onSelectArea($event)" multiple required>
+                                <mat-option *ngFor="let idet of businessLine" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                                   {{idet.description}}
                                 </mat-option>
                               </mat-select>
@@ -60,8 +65,8 @@
                         <div class="col-md-4" *ngIf="checkArea">
                             <mat-form-field class="example-full-width">
                             <mat-label>Area:</mat-label>
-                            <mat-select formControlName="receiver2" (ngModelChange)="onSelectCargo($event)" multiple>
-                                <mat-option *ngFor="let idet of area" [value]="idet.idArea">
+                            <mat-select formControlName="receiver2" (ngModelChange)="onSelectCargo($event)" multiple >
+                                <mat-option *ngFor="let idet of area" [value]="idet.idArea" [disabled]="view == 'update'">
                                   {{idet.Areas}}
                                 </mat-option>
                               </mat-select>
@@ -70,8 +75,8 @@
                         <div class="col-md-4" *ngIf="checkCargo">
                             <mat-form-field class="example-full-width">
                             <mat-label>Cargo:</mat-label>
-                            <mat-select formControlName="receiver3" (ngModelChange)="onSelectPerson($event)" multiple>
-                                <mat-option *ngFor="let idet of cargo" [value]="idet.idPosition">
+                            <mat-select formControlName="receiver3" multiple (ngModelChange)="onSelectPerson($event)"  >
+                                <mat-option *ngFor="let idet of cargo" [value]="idet.idPosition" [disabled]="view == 'update'">
                                   {{idet.cargos}}
                                 </mat-option>
                               </mat-select>
@@ -79,22 +84,44 @@
                         </div>
                      
                           <div class="col-md-4" *ngIf="checkPerson">
-                            <mat-form-field class="example-full-width">
-                              <mat-label>Nombre completo del trabajador</mat-label>
-                              <mat-select formControlName="receiver5"  (ngModelChange)="onSelectUser($event)" multiple>
-                                <mat-option *ngFor="let idet of personInfoLine" [value]="idet.idPersonale" >
-                                  {{idet.name}}
+                           
+                            <mat-form-field class="example-chip-list">
+                              <mat-chip-list #chipList aria-label="Usuario selection">
+                                <mat-chip
+                                  *ngFor="let user of selectedUsers"
+                                  [selectable]="true"
+                                  [removable]="true"
+                                  (removed)="remove(user)">
+                                  {{user.name}}
+                                  <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                                <input
+                                  placeholder="Selecciona usuario..."
+                                  #userInput
+                                  [formControl]="userCtrl"
+                                  [matAutocomplete]="auto"
+                                  [matChipInputFor]="chipList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  (matChipInputTokenEnd)="add($event)">
+                              </mat-chip-list>
+                              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" >
+                                <mat-option *ngFor="let user of filteredUsers | async" [value]="user" [disabled]="view == 'update'">
+                                  {{user.name}}
                                 </mat-option>
-                              </mat-select>
+                              </mat-autocomplete>
                             </mat-form-field>
+                            
+
+
+                         
                           </div>
                          
                     </div>
-                    <div class="row mt-3">
+                    <div class="row mt-3" *ngIf="view == 'create'">
                         <div class="col-md-4">
                           <label>Adjuntar Documento de Soporte:</label>
                           <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)"
-                            multiple>
+                            multiple required>
                         </div>
                         <div class="col-md-4" *ngIf="view == 'update'">
                           <dt>Documentos de Soporte:</dt>
@@ -112,7 +139,7 @@
                         <div class="col-md-12">
                           <mat-form-field class="example-full-width">
                             <mat-label> Descripción de capacitación </mat-label>
-                            <textarea matInput formControlName="mee_desc"></textarea>
+                            <textarea matInput formControlName="mee_desc" [readonly]="view == 'update'" required></textarea>
                           </mat-form-field>
                         </div>
                       </div>
@@ -132,71 +159,119 @@
         </div>
     </div>
 
-    <div *ngIf="view == 'view'">
+    <div class="background-suave" *ngIf="view == 'view'">
       <div class="modal-header">
           <h5 class="modal-title">{{title}}</h5>
           <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
       </div>
+        
       <mat-dialog-content style="min-width: 1200px;">
-          <div class="row mt-2">
-            
-              <!-- <div class="col-md-12">
-                <dt class="textHeader">{{meeting.mee_name}}</dt>
-                <dd>
-                  <ul>
-                    <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
-                      <ng-container *ngIf="esImagen(archivo)">
-                        <li>
-                          <img [src]="archivo"  alt="Imagen{{i+1}}" />
-                        </li>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container>
-                      <dd class="textCenter mt-3">{{meeting.mee_desc}}</dd>
-                    </ng-container>
-                    <ng-container>
-                      <ul  class="textCenter">
-                        <li *ngFor="let archivo of selection.file_sp; let i = index;">
-                          <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
-                        </li>
-                      </ul>
-                    </ng-container>
-                    
-                  </ul>
-                </dd>
-              </div> -->
-              <div class="col-md-6">
-               
-                <dd>
-                  <ul>
-                    <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
-                      <ng-container *ngIf="esImagen(archivo)">
-                        <li>
-                          <img [src]="archivo"  alt="Imagen{{i+1}}" />
-                        </li>
-                      </ng-container>
-                    </ng-container>
-                   
-                    
-                  </ul>
-                </dd>
-              </div>
-              <div class="col-md-6">
-                <dt class="textHeader">{{meeting.mee_name}}</dt>
-                <ng-container>
-                  <dd class="textCenter mt-3">{{meeting.mee_desc}}</dd>
-                </ng-container>
-                <ng-container>
-                  <ul  class="textCenter">
-                    <li *ngFor="let archivo of selection.file_sp; let i = index;">
-                      <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+        <div class="row mt-2">
+
+          <div class="col-md-6">
+            <dd>
+              <ul>
+                <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
+                  <ng-container *ngIf="esImagen(archivo); else imagenNot">
+                    <li>
+                      <img [src]="archivo" alt="Imagen{{i+1}}" />
                     </li>
-                  </ul>
+                  </ng-container>
+                  <ng-template #imagenNot>
+                    <li>
+                      <img mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
+                    </li>
+                  </ng-template>
+                  
                 </ng-container>
-              </div>
-              
+              </ul>
+            </dd>
           </div>
+      
+            <div class="col-md-6" style="padding-left: 10%;" >
+            <div>
+              <dt class="textHeader">{{meeting.mee_name}}</dt>
+              <dd class="textCenter mt-3" [class.shortText]="text">{{meeting.mee_desc}}</dd>
+            </div>
+      
+            <mat-card-content>
+              <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
+              <ul class="textCenter">
+                <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                  <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
+                </li>
+              </ul>
+            </mat-card-content>
+
+            <mat-card-content>
+              <p class="textHeader mt-3">Link de evaluación</p>
+              <ul class="textCenter">
+                  <a href="{{meeting.mee_link}}" target="_blank"> Link evaluación</a>
+              </ul>
+            </mat-card-content>
+
+            <mat-card-content>
+              <div *ngIf="check_date">
+                <p class="textHeader mt-3">Fecha fin vigencia</p>
+                <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
+              </div>
+            </mat-card-content>
+            <div *ngIf="che_date == 0">
+
+            <mat-accordion class="example-headers-align" >
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Personal 
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Lista de personal actualización
+                  </mat-panel-description>
+                  <mat-icon>account_circle</mat-icon>
+                </mat-expansion-panel-header>
+            
+                <div class="section-table first-action">
+                  <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                    *ngIf="contenTable.length > 0">
+            
+                  <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento </th>
+                    <td mat-cell *matCellDef="let element"> {{element.document }} </td>
+                  </ng-container>
+          
+                    <ng-container matColumnDef="idPersonale">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">empleado</th>
+                      <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="view_state">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado</th>
+                      <td mat-cell *matCellDef="let element"> {{element.state_view}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date_view">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Visualización</th>
+                      <td mat-cell *matCellDef="let element"> {{element.date_view}} </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 100]" showFirstLastButtons></mat-paginator>
+            
+                </div>
+            
+               
+              </mat-expansion-panel>
+              
+            </mat-accordion>
+          </div>
+
+
+          </div>
+        </div>
       </mat-dialog-content>
+
   </div>

@@ -171,6 +171,10 @@ export class ConclusionDialog {
           this.forImg();
           this.title = "Firmar PDF";
         break;
+        case "firma_up":
+          this.forImg();
+          this.title = "Subir Imagen de Firma";
+        break;
     }
   }
   initFormsRole() {
@@ -192,6 +196,7 @@ export class ConclusionDialog {
   forImg(){
     this.formImga = new FormGroup({
       firma_pdf: new FormControl(""),
+      firma_up: new FormControl("")
     });
   }
 
@@ -573,5 +578,20 @@ export class ConclusionDialog {
       );
       
   }
- 
+  // seleccionarArchivo(event){
+  //       var files = event.target.files;
+  //       var file  = files[0];
+  //       this.archivo.nombreArchivo = file.name;
+
+  //       if(files && file){
+  //           var reader = new FileReader();
+  //           reader.onload = this._handleReaderLoaded.bind(this);
+  //           reader.readAsBinaryString(file);
+  //       }
+  //   }
+
+  //   _handleReaderLoaded(readerEvent){
+  //       var binaryString = readerEvent.target.result;
+  //       this.archivo.base64textString = btoa(binaryString);
+  //   }
 }
