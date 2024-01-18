@@ -639,12 +639,19 @@ removePerson(person: any) {
 onSelectUser(event){
   
 }
+hayImagenValida: boolean = false;
 esImagen(archivo: string): boolean {
   // Lógica para determinar si el archivo es una imagen, por ejemplo, verificar la extensión del archivo
   const extension = archivo.split('.').pop()?.toLowerCase();
   return extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'gif';
 }
-
+verificarImagenesValidas(): void {
+  if (this.selection.file_sp) {
+    this.hayImagenValida = this.selection.file_sp.some(archivo => this.esImagen(archivo));
+  } else {
+    this.hayImagenValida = false; // No hay imágenes si 'file_sp' es undefined
+  }
+}
   addUser(event: MatChipInputEvent): void {
     
     const input = event.input;

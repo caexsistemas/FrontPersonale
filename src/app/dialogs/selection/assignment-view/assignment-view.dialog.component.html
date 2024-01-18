@@ -1,0 +1,152 @@
+<div class="card mt-6">
+  <div *ngIf="view == 'view'">
+    <div class="card-header">
+      <h5 class="modal-title">
+        <p class="title-modal" *ngIf="view == 'view'">Información Detallada</p>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+          style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </h5>
+    </div>
+    <div class="card-body">
+      <mat-dialog-content>
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Gestión de Vacante&nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Ingreso de Datos
+              </mat-panel-description>
+              <mat-icon>account_circle</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Fecha de Selección</dt>
+                <dd>{{techno.fec_sel}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Tipo de Documento</dt>
+                <dd>{{techno.docu}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Numero Documento</dt>
+                <dd>{{techno.document}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+
+              <div class="col-md-4">
+                <dt>Nombre Completo</dt>
+                <dd>{{techno.nom_com}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Fecha Nacimiento</dt>
+                <dd>{{techno.birthDate}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Edad</dt>
+                <dd>{{techno.ages}}</dd>
+              </div>
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Grupo Etario</dt>
+                <dd>{{techno.gru}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <dt>Nacionalidad</dt>
+                <dd>{{techno.nac}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/1'">
+                <dt>Deapartamento Nacimiento</dt>
+                <dd>{{techno.department}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/1'">
+                <dt>Ciudad Nacimiento</dt>
+                <dd>{{techno.city}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/2'">
+                <dt> País</dt>
+                <dd>{{techno.pai_ext}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/2'">
+                <dt>Ciudad </dt>
+                <dd>{{techno.ciu_ext}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Area de Trabajo</dt>
+                <dd>{{techno.tra}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Cargo</dt>
+                <dd>{{techno.lab}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="typeCargo =='16/1'">
+                <dt>Tipo Matriz</dt>
+                <dd>{{techno.mat}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Genero</dt>
+                <dd>{{techno.gen}}</dd>
+              </div>
+              <!-- <div class="col-md-4">
+                <dt>EPS</dt>
+                <dd>{{techno.salud}}</dd>
+              </div> -->
+              <!-- <div class="col-md-4">
+                <dt>Pensión</dt>
+                <dd>{{techno.pens}}</dd>
+              </div> -->
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <dt>Observaciones</dt>
+                <dd>{{techno.obs_vac}}</dd>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <!-- <div class="row mt-3">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Histórico de Procesos:
+              </div>
+              <table mat-table [dataSource]="historyMon" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="currentm_user">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="type_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="date_move">
+                  <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                  <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+            </div>
+          </div>
+        </div> -->
+      </mat-dialog-content>
+    </div>
+  </div>

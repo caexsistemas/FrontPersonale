@@ -166,6 +166,8 @@ import { ReportsUserComponent } from "./dialogs/reports/user/reports-user.compon
 import { MeetingDialog } from './dialogs/meeting/meeting.dialog.component';
 import { BypassSeguroPipe } from "./services/bypass-seguro.pipe";
 import { MatChipsModule } from "@angular/material/chips";
+import { AssignmentViewDialog } from "./dialogs/selection/assignment-view/assignment-view.dialog.component";
+import { ReportsAssignmentTrainerComponent } from "./dialogs/reports/assignment-trainer/reports-assignment-trainer.component";
 // import { SignaturePadModule } from 'angular2-signaturepad';
 
 const routes: Routes = [];
@@ -325,7 +327,9 @@ const routes: Routes = [];
     ReportsDisciplinaryComponent,
     ReportsUserComponent,
     MeetingDialog,
-    BypassSeguroPipe
+    BypassSeguroPipe,
+    AssignmentViewDialog,
+    ReportsAssignmentTrainerComponent
   ],
   providers: [
     {

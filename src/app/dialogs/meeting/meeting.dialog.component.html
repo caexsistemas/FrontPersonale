@@ -45,7 +45,7 @@
                       <div class="col-md-6">
                         <mat-form-field class="example-full-width">
                           <mat-label>Link de evaluación</mat-label>
-                          <input matInput formControlName="mee_link" [readonly]="view == 'update'">
+                          <input matInput formControlName="mee_link" [readonly]="view == 'update'" required>
                       </mat-form-field>
                       </div>
                     </div>
@@ -218,6 +218,9 @@
                 <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
               </div>
             </mat-card-content>
+            <div>
+
+            </div>
             <div *ngIf="che_date == 0">
 
             <mat-accordion class="example-headers-align" >

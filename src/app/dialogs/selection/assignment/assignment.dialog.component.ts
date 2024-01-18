@@ -24,6 +24,8 @@ import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, Form
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/paginator";
 import { emit } from "process";
+import { AssignmentViewDialog } from "../assignment-view/assignment-view.dialog.component";
+import { ReportsAssignmentTrainerComponent } from "../../reports/assignment-trainer/reports-assignment-trainer.component";
 
 
 @Component({
@@ -71,12 +73,12 @@ export class AssignmentDialog {
   cargo: any = [];
   matriz: any = [];
   // historyMon: any = [];
-  // loading: boolean = false;
+  loading: boolean = false;
 
  // Informacion Usuario
  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
  //OUTPUTS
- @Output() loading = new EventEmitter();
+//  @Output() loading = new EventEmitter();
  @Output() reload = new EventEmitter();
  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -87,6 +89,8 @@ export class AssignmentDialog {
     private WebApiService: WebApiService,
    private handler: HandlerAppService,
    @Inject(MAT_DIALOG_DATA) public data,
+   private matBottomSheet: MatBottomSheet,
+
    public dialog: MatDialog) { 
      
       this.view = this.data.window;
@@ -100,6 +104,7 @@ export class AssignmentDialog {
            this.matriz = this.data.matriz;
            this.title = "Requisición"
            this.sendRequest();       
+           
        break;
        case 'view':
         this.idSel = this.data.codigo;
@@ -119,13 +124,13 @@ export class AssignmentDialog {
             } else {
               this.handler.handlerError(data);
               this.closeDialog();
-              this.loading.emit(false);
+              // this.loading.emit(false);
               // this.loading = false;
             }
           },
           (error) => {
             this.handler.showError("Se produjo un error");
-            this.loading.emit(false);
+            // this.loading.emit(false);
             // this.loading = false;
           }
         );
@@ -133,7 +138,7 @@ export class AssignmentDialog {
      }
    }
  sendRequest() {
-     this.loading.emit(true);
+    //  this.loading.emit(true);
      this.WebApiService.getRequest(this.endpoint, {
        action: "getVacant",
        idUser: this.cuser.iduser,
@@ -147,16 +152,20 @@ export class AssignmentDialog {
          if (data.success == true) {
            this.generateTable(data.data["getSelectData"]);
            this.contenTable = data.data["getSelectData"];
-           this.loading.emit(false);
+          //  this.loading.emit(false);
+            this.loading = false;
+
          } else {
            this.handler.handlerError(data);
-           this.loading.emit(false);
+          //  this.loading.emit(false);
          }
        },
        (error) => {
          console.log(error);
          this.handler.showError("Se produjo un error");
-         this.loading.emit(false);
+        //  this.loading.emit(false);
+            this.loading = false;
+
        }
      );
  }
@@ -200,6 +209,75 @@ openc(){
     this.sendRequest();
   }    
   this.contaClick = this.contaClick + 1;
+}
+option(action, codigo = null, check) {
+  var dialogRef;
+  switch (action) {
+    case "view":
+      // this.loading = true;
+      dialogRef = this.dialog.open(AssignmentViewDialog, {
+        data: {
+          window: "view",
+          codigo,
+          check
+        },
+      });
+      dialogRef.disableClose = true;
+      // LOADING
+      dialogRef.componentInstance.loading.subscribe((val) => {
+        this.loading = val;
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        this.sendRequest();
+        console.log("The dialog was closed");
+        console.log(result);
+      });
+      break;
+    case "create":
+      // this.loading = true;
+      dialogRef = this.dialog.open(AssignmentViewDialog, {
+        data: {
+          window: "create",
+          codigo,
+        },
+      });
+      dialogRef.disableClose = true;
+
+      // LOADING
+      dialogRef.componentInstance.loading.subscribe((val) => {
+        this.loading = val;
+      });
+      // RELOAD
+      dialogRef.componentInstance.reload.subscribe((val) => {
+        this.sendRequest();
+      });
+      break;
+    case "update":
+      // this.loading = true;
+      dialogRef = this.dialog.open(AssignmentViewDialog, {
+        data: {
+          window: "update",
+          codigo,
+        },
+      });
+      dialogRef.disableClose = true;
+      this.sendRequest();
+
+      // LOADING
+      dialogRef.componentInstance.loading.subscribe((val) => {
+        this.loading = val;
+      });
+      // RELOAD
+      dialogRef.componentInstance.reload.subscribe((val) => {
+        this.sendRequest();
+      });
+      break;
+  }
+}
+onTriggerSheetClick(idSel: any): void {
+  const bottomSheetRef = this.matBottomSheet.open(ReportsAssignmentTrainerComponent, {
+    data: { idSel: idSel }
+  });
 }
 
 }

@@ -25,6 +25,7 @@ import { VacantDialog } from "../../../dialogs/selection/vacant/vacant.dialog.co
 import { PendingDialog } from "../../../dialogs/selection/pending/pending.dialog.component";
 import { AssignmentDialog } from "../../../dialogs/selection/assignment/assignment.dialog.component";
 import { TrainerDataDialog } from "../../../dialogs/selection/assignment/trainer data/trainer.dialog.component";
+import { ReportsAssignmentTrainerComponent } from "../../../dialogs/reports/assignment-trainer/reports-assignment-trainer.component";
 
 
 @Component({
@@ -42,6 +43,7 @@ export class AssignmentComponent implements OnInit {
   dataSource: any = [];
   contaClick: number = 0;
   auxTH: any = [];
+  checkRol: boolean = false;
 
   
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -85,7 +87,10 @@ export class AssignmentComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]);
           this.contenTable = data.data["getSelectData"];
-          this.auxTH = this.cuser.role
+          
+          this.auxTH = this.cuser.role;
+          (this.auxTH == 5 || this.auxTH == 1 || this.auxTH == 20) ? this.checkRol = true : this.checkRol = false;
+
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -146,7 +151,7 @@ export class AssignmentComponent implements OnInit {
         });
         break;
         case "trainer":
-        this.loading = true;
+        // this.loading = true;
         dialogRef = this.dialog.open(AssignmentDialog, {
           data: {
             window: "trainer",
@@ -159,13 +164,13 @@ export class AssignmentComponent implements OnInit {
         });
         dialogRef.disableClose = true;
         // LOADING
-        dialogRef.componentInstance.loading.subscribe((val) => {
-          this.loading = val;
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
-        });
+        // dialogRef.componentInstance.loading.subscribe((val) => {
+        //   this.loading = val;
+        // });
+        // dialogRef.afterClosed().subscribe((result) => {
+        //   console.log("The dialog was closed");
+        //   console.log(result);
+        // });
         break;
       }
     }
@@ -179,8 +184,10 @@ openc(){
 applyFilter(search) {
   this.dataSource.filter = search.trim().toLowerCase();
 }
-onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsTechnologyComponent)
+onTriggerSheetClick(idSel: any): void {
+  const bottomSheetRef = this.matBottomSheet.open(ReportsAssignmentTrainerComponent, {
+    data: { idSel: idSel }
+  });
 }
 
 }
