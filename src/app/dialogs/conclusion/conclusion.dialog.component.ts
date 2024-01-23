@@ -91,6 +91,7 @@ export class ConclusionDialog {
   selection: any = [];
   cantCit: any = [];
   imagenUrl: any = [];
+  // archivo: any = [];
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -196,7 +197,7 @@ export class ConclusionDialog {
   forImg(){
     this.formImga = new FormGroup({
       firma_pdf: new FormControl(""),
-      firma_up: new FormControl("")
+      // firma_up: new FormControl("")
     });
   }
 
@@ -433,7 +434,6 @@ export class ConclusionDialog {
     }
   }
   seleccionarArchivo(event) {
-    // console.log(event);
     
     var files = event.target.files;
     var archivos = [];
@@ -578,20 +578,42 @@ export class ConclusionDialog {
       );
       
   }
-  // seleccionarArchivo(event){
-  //       var files = event.target.files;
-  //       var file  = files[0];
-  //       this.archivo.nombreArchivo = file.name;
+  
+  onSubmitUpdateImgFirma() {
+    this.idCit = this.data.codigo;
+    if (this.formImga.valid) {
+      // if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
+      this.loading.emit(true);
+      let body = {
+        lista: this.formImga.value,
+        archivoRes: this.nuevoArchivo,
+      };      
 
-  //       if(files && file){
-  //           var reader = new FileReader();
-  //           reader.onload = this._handleReaderLoaded.bind(this);
-  //           reader.readAsBinaryString(file);
-  //       }
-  //   }
-
-  //   _handleReaderLoaded(readerEvent){
-  //       var binaryString = readerEvent.target.result;
-  //       this.archivo.base64textString = btoa(binaryString);
-  //   }
+      this.WebApiService.putRequest(this.endpoint + "/" + this.idCit, body, {
+        action: "uploadImg",
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
+      }).subscribe(
+        (data) => {
+          if (data.success) {
+            this.handler.showSuccess(data.message);
+            this.reload.emit();
+            this.closeDialog();
+          } else {
+            this.handler.handlerError(data);
+            this.loading.emit(false);
+          }
+        },
+        (error) => {
+          this.handler.showError();
+          this.loading.emit(false);
+        }
+      );
+      
+    } else {
+      this.handler.showError("Complete la informacion necesaria");
+      this.loading.emit(false);
+    }
+  }
 }

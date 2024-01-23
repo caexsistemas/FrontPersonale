@@ -279,7 +279,6 @@ onSelectionChange(event){
         
        
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
-  console.log(exitsPersonal);
 
   if( exitsPersonal ){
     
@@ -320,7 +319,8 @@ getDataUpdate(){
           this.formNomi.get('fecha').setValue(data.data['getDataUpda'][0].fecha);
           this.formNomi.get('des_crip').setValue(data.data['getDataUpda'][0].des_crip);
           this.formNomi.get('com_tra').setValue(data.data['getDataUpda'][0].com_tra);
-          this.exit = data.data['getDataUpda'][0].com_tra
+          // this.exit = data.data['getDataUpda'][0].com_tra
+          (this.cuser.role  == 23) ? this.disabled = true : this.disabled = false;
           
           this.formNomi.get('rec_com').setValue(data.data['getDataUpda'][0].rec_com);
           this.formNomi.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
@@ -337,7 +337,6 @@ getDataUpdate(){
             this.block = false
 
           }
-          console.log(this.stateSign)
              
       },
       error => {
@@ -425,13 +424,11 @@ getWeekNr(event){
 }
 
 SendDataonChange(event: any) {
-  console.log(event.target.value);
   } 
   
   openSnackBar(e){
     this.formNomi.value.sign = e; 
 
-    console.log(this.formNomi.value.sign)
   }
   getInterInvalid(){
     return this.formNomi.get('tipo_intervencion').invalid && this.formNomi.get('tipo_intervencion').touched;
