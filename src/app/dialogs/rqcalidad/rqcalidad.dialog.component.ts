@@ -57,6 +57,7 @@ export class RqcalidadDialog  {
   supervisor:        any = [];
   formador :         any = [];
   ListTipDiag:       any = [];
+  LisTipContrato:    any = [];
   numberOfDays: number = 0;
 
 
@@ -456,6 +457,7 @@ export class RqcalidadDialog  {
       phone: new FormControl(""),
       tip_solicitud: new FormControl(""),
       obs_customer: new FormControl(""),
+      tip_contrato: new FormControl("")
 
     });
 
@@ -518,6 +520,7 @@ export class RqcalidadDialog  {
                 this.supervisor = data.data['getSupervisor'];//Data Supervisor 
                 this.formador = data.data['getFomacion']; //Data Formacion 
                 this.ListTipDiag = data.data['gessClar']; //gestion escucha
+                this.LisTipContrato = data.data['tipcontrato']; //Tipo Contrato
                 //Fecha
                 let date = new Date();
                 this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
@@ -900,6 +903,7 @@ export class RqcalidadDialog  {
           this.formProces.get('phone').setValue(data.data['getDataUpda'][0].phone);
           this.formProces.get('tip_solicitud').setValue(data.data['getDataUpda'][0].tip_solicitud);
           this.formProces.get('obs_customer').setValue(data.data['getDataUpda'][0].obs_customer);
+          this.formProces.get('tip_contrato').setValue(data.data['getDataUpda'][0].tip_contrato);         
 
           //Malas practicas y Espectativas
           if( data.data['getDataUpda'][0].cri_fal_exp_mal_pra == "34/2" || data.data['getDataUpda'][0].cri_val_cor_cob == "34/2" ){
