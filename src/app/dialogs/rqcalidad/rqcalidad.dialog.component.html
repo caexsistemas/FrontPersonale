@@ -122,9 +122,12 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <dt>Tipo Solicitud:</dt>
-                            <dd> {{dataCad.supervisor}}</dd>
+                            <dd> {{dataCad.tip_solicitud}}</dd>
                         </div>
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <dt>¿Asesor realiza contrato digital?:</dt>
+                            <dd> {{dataCad.tip_contrato}}</dd>
+                        </div>
                         <div class="col-sm-4"></div>
                     </div>
 
@@ -599,7 +602,16 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>¿Asesor realiza contrato digital?:</mat-label>
+                            <mat-select formControlName="tip_contrato" required>
+                              <mat-option *ngFor="let idet of LisTipContrato" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                     <div class="col-sm-4"></div>
 
                   </div>
@@ -1376,18 +1388,27 @@
                             <dd>{{dataCad.retro_call}}</dd>
                         </div>
                         <div class="col-sm-4">
-                            <dt>Supervisor</dt>
+                            <dt>Supervisor:</dt>
                             <dd> {{dataCad.supervisor}}</dd>
                         </div>
                         <div class="col-sm-4" >
-                            <dt>Formador</dt>
+                            <dt>Formador:</dt>
                             <dd> {{dataCad.formador}}</dd>
                         </div>
                         <div class="col-sm-4" *ngIf="tipMatriz != '40/3' ">
-                            <dt>Formador2</dt>
+                            <dt>Formador2:</dt>
                             <dd>{{dataCad.formador_tw}}</dd>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dt>¿Asesor realiza contrato digital?:</dt>
+                            <dd>{{dataCad.tip_contrato}}</dd>
+                        </div>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4"></div>
+                      </div>
 
                   <!--**--> 
                   
@@ -2282,6 +2303,21 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>¿Asesor realiza contrato digital?:</mat-label>
+                            <mat-select formControlName="tip_contrato" required>
+                              <mat-option *ngFor="let idet of LisTipContrato" [value]="idet.ls_codvalue">
+                                {{idet.description}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4"></div>
                   </div>
 
                   <mat-action-row>
