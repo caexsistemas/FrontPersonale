@@ -113,11 +113,12 @@ export class MeetingDialog {
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
-  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('userInput') userInput: ElementRef<HTMLInputElement>;
+  @ViewChildren(MatPaginator) paginator!: QueryList<MatPaginator>;
 
   historyMon: any = [];
   displayedColumns: any = [];
@@ -177,6 +178,9 @@ export class MeetingDialog {
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
               }
+              this.paginator.changes.subscribe((paginator: QueryList<MatPaginator>) => {
+                this.dataSource.paginator = paginator.first;
+              });
               
               this.selection = data.data["getSelectData"][0];
               this.selectionImg = data.data["getSelectData"][0];
@@ -231,6 +235,14 @@ export class MeetingDialog {
       search.value = "";
     }
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   colorState(ev) {
     return ev || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
@@ -250,6 +262,7 @@ export class MeetingDialog {
     this.getDataInit();
     this.formCreate = new FormGroup({
       mee_name: new FormControl(""),
+      idPersonale: new FormControl(""),
       file_sp: new FormControl(""),
       file_sp_doc:new FormControl(""),
       mee_fec_ini: new FormControl(""),
