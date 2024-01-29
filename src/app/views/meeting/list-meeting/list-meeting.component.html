@@ -44,7 +44,7 @@
           <ng-container matColumnDef="view">
             <th mat-header-cell *matHeaderCellDef> Ver </th>
             <td mat-cell *matCellDef="let element">
-              <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.mee_id,checkUpdate)"
+              <button class="btn  btn-ghost-secondary" *ngIf="permissions.view" (click)="option('view',element.mee_id,element.date_view)"
                 title="Ver">
                 <i class="fa fa-eye fa-lg"></i>
               </button>
@@ -58,10 +58,14 @@
               Estado solicitud
             </th>
             <td mat-cell *matCellDef="let element">
+              <!-- <div class="mt-1" 
+                [ngStyle]="{'backgroundColor': (checkUpdate == false) ? colorState(element.view_state) : colorState('No Disponible') ,'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'77%','height':'5','font-weight':'500','color':'white'}">
+                {{ (checkUpdate == false) ? element.state_view : "No Disponible" }}
+              </div> -->
               <div class="mt-1" 
-                [ngStyle]="{'backgroundColor': (checkUpdate == true) ? colorState(element.view_state) : colorState('No Disponible') ,'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'77%','height':'5','font-weight':'500','color':'white'}">
-                {{ (checkUpdate == true) ? element.state_view : "No Disponible" }}
-              </div>
+              [ngStyle]="{'backgroundColor':(!colorState(element.view_state) ? colorState('No Disponible') :colorState(element.view_state)  ) ,'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'77%','height':'5','font-weight':'500','color':'white'}">
+              {{(!element.state_view) ? "No disponible" : element.state_view  }}
+            </div>
             </td>
           </ng-container>
         <!-- </div> -->
@@ -71,14 +75,19 @@
             <td mat-cell *matCellDef="let element"> {{element.mee_name }} </td>
           </ng-container>
   
-          <ng-container matColumnDef="create_User">
+          <ng-container matColumnDef="meeting_person_id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Persona Encargada</th>
-            <td mat-cell *matCellDef="let element"> {{element.nombre_ape}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.person_name}} </td>
           </ng-container>
   
+          <ng-container matColumnDef="mee_fec_ini">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Inicio Vigencia</th>
+            <td mat-cell *matCellDef="let element"> {{ formatearFecha(element.mee_fec_ini) }} </td>
+          </ng-container>
+
           <ng-container matColumnDef="mee_fec_fin">
             <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de vencimiento </th>
-            <td mat-cell *matCellDef="let element"> {{(!element.mee_fec_fin) ? "Fecha no establecida" : element.mee_fec_fin }} </td>
+            <td mat-cell *matCellDef="let element"> {{(!element.mee_fec_fin) ? "Fecha Vigencia Indefinida" : formatearFecha(element.mee_fec_fin) }} </td>
           </ng-container>
   
           <!-- <ng-container matColumnDef="dis_pos">

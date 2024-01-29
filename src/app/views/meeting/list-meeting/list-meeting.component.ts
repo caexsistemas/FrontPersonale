@@ -19,6 +19,13 @@ import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import Swal from "sweetalert2";
 import { MeetingDialog } from "../../../dialogs/meeting/meeting.dialog.component";
+import { formatDate } from "@angular/common";
+
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+// Registra el idioma español
+registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-list-meeting',
@@ -76,6 +83,8 @@ export class ListMeetingComponent implements OnInit {
           
           this.generateTable(data.data["getSelectData"]['result']);
           this.contenTable = data.data["getSelectData"]['result'];
+          // console.log(this.contenTable);
+          
 
           this.loading = false;
         } else {
@@ -98,7 +107,8 @@ export class ListMeetingComponent implements OnInit {
       "view",
       "view_state",
       "mee_name",
-      "create_User",
+      "meeting_person_id",
+      "mee_fec_ini",
       "mee_fec_fin",
       "actions",
     ];
@@ -219,5 +229,9 @@ export class ListMeetingComponent implements OnInit {
   // applyFilter(search) {
   //   this.dataSource.filter = search.trim().toLowerCase();
   // }
-
+  formatearFecha(fecha: Date): string {
+    let formattedDate = formatDate(fecha, 'MMM d, y', 'es');
+    formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    return formattedDate;
+  }
 }
