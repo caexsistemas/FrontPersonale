@@ -108,6 +108,25 @@ img {
 table {
   width: 100%;
 }
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 10%;
+ 
+}
+
 .mat-icon{
   padding-right: 40px;
+}
+
+.contenedor-flexible {
+  display: flex;
+  flex-direction: column; /* O ajusta según tus necesidades de diseño */
+}
+
+.tu-imagen {
+  width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor */
 }

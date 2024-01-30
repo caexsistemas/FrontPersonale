@@ -63,6 +63,7 @@ export class MeetingDialog {
   RolInfo: any[];
   formLista: FormGroup;
   nuevoArchivo: any = [];
+  nuevoImg: any = [];
   meeting: any = [];
   formRole: FormGroup;
   formCreate: FormGroup;
@@ -82,6 +83,7 @@ export class MeetingDialog {
   personInfoLine: any = [];
   selectIdPer: any = [];
   selection: any = [];
+  selectionImg: any = [];
   areaLog: any = [];
   urlSafe: SafeResourceUrl;
   positionLog: any = [];
@@ -111,11 +113,12 @@ export class MeetingDialog {
   @Output() loading = new EventEmitter();
   @Output() reload = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
-  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  // @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('userInput') userInput: ElementRef<HTMLInputElement>;
+  @ViewChildren(MatPaginator) paginator!: QueryList<MatPaginator>;
 
   historyMon: any = [];
   displayedColumns: any = [];
@@ -125,6 +128,7 @@ export class MeetingDialog {
   panelOpenState = false;
   meeting_view: any = [];
   che_date: any = [];
+  viewDataActua: boolean = false;
   public clickedRows;
 
   constructor(
@@ -165,15 +169,26 @@ export class MeetingDialog {
             if (data.success == true) {
               this.meeting = data.data['getSelectData'][0];
               this.meeting_view = data.data['getSelectAllMeeting'];
-              if(this.che_date == 0){
+              // if(this.che_date == 0){
+              
+              // }
+
+              if( this.meeting.idPersonale === this.cuser.idPersonale){
+                this.viewDataActua = true;
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
               }
+              this.paginator.changes.subscribe((paginator: QueryList<MatPaginator>) => {
+                this.dataSource.paginator = paginator.first;
+              });
               
-              console.log('==> view',this.meeting);
               this.selection = data.data["getSelectData"][0];
+              this.selectionImg = data.data["getSelectData"][0];
               this.panelOpenState = false;
-              this.selection.file_sp = JSON.parse(this.selection.file_sp);
+              if(this.selectionImg.file_sp){
+                this.selectionImg.file_sp = JSON.parse(this.selection.file_sp);
+              }
+              this.selection.file_sp_doc = JSON.parse(this.selection.file_sp_doc);
             
               if(this.meeting.mee_fec_fin){
                 this.check_date = true;
@@ -220,6 +235,14 @@ export class MeetingDialog {
       search.value = "";
     }
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   colorState(ev) {
     return ev || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
@@ -239,7 +262,9 @@ export class MeetingDialog {
     this.getDataInit();
     this.formCreate = new FormGroup({
       mee_name: new FormControl(""),
+      idPersonale: new FormControl(""),
       file_sp: new FormControl(""),
+      file_sp_doc:new FormControl(""),
       mee_fec_ini: new FormControl(""),
       mee_fec_fin: new FormControl(""),
       receiver: new FormControl(""),
@@ -281,7 +306,7 @@ export class MeetingDialog {
           this.PersonaleInfo = data.data["getDataPersonale"];
           this.boss = data.data["getDataBoss"];
           this.area_posit = data.data["area_posit"];
-          this.businessLine = data.data["businessLine"];
+          this.businessLine = data.data["businessLine"].slice(0,3);
           this.idPositionLine = data.data["idPositionLine"];
           this.areaLog = data.data["areaLog"];
           this.positionLog = data.data["positionLog"];
@@ -321,7 +346,12 @@ export class MeetingDialog {
           this.formCreate.get("mee_fec_ini").setValue(data.data["getParamUpdate"][0].mee_fec_ini);
           this.formCreate.get("mee_fec_fin").setValue(data.data["getParamUpdate"][0].mee_fec_fin);
           this.formCreate.get("mee_desc").setValue(data.data["getParamUpdate"][0].mee_desc);
-          this.selection.file_sp = JSON.parse(data.data["getParamUpdate"][0].file_sp );
+          this.formCreate.get("mee_link").setValue(data.data["getParamUpdate"][0].mee_link);
+          this.formCreate.get("check_indf").setValue(data.data["getParamUpdate"][0].check_indf);
+
+          if(data.data["getParamUpdate"][0].file_sp){
+            this.selection.file_sp = JSON.parse(data.data["getParamUpdate"][0].file_sp );
+          }
 
           if(data.data["getParamUpdate"][0].receiver2){
             this.checkArea = true;
@@ -433,7 +463,8 @@ saveCase: any = [];
       this.loading.emit(true);
         let body = {
           listas: this.formCreate.value,
-          archivoRes: this.nuevoArchivo
+          archivoRes: this.nuevoArchivo,
+          img: this.nuevoImg
         };
       if(this.formCreate.value['receiver'].length > 0 && this.formCreate.value['receiver2'].length > 0 && this.formCreate.value['receiver3'].length > 0 && this.formCreate.value['receiver5'].length > 0 ){
         this.saveCase = "params";
@@ -530,6 +561,37 @@ saveCase: any = [];
       }
       this.nuevoArchivo = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
       console.log(this.nuevoArchivo); // Aquí puedes hacer lo que necesites con el arreglo de archivos
+    };
+
+    leerArchivosSecuencialmente();
+  }
+  seleccionarImg(event) {
+    var files = event.target.files;
+    var archivos = [];
+
+    // Función para leer archivos de manera secuencial con Promesas
+    const leerArchivo = (file) => {
+      return new Promise<void>((resolve) => {
+        var reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          var archivo = {
+            nombreArchivo: file.name,
+            base64textString: btoa(readerEvent.target.result.toString()),
+          };
+          archivos.push(archivo);
+          resolve();
+        };
+        reader.readAsBinaryString(file);
+      });
+    };
+
+    // Utilizar async/await para leer archivos secuencialmente
+    const leerArchivosSecuencialmente = async () => {
+      for (var i = 0; i < files.length; i++) {
+        await leerArchivo(files[i]);
+      }
+      this.nuevoImg = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
+      console.log(this.nuevoImg); // Aquí puedes hacer lo que necesites con el arreglo de archivos
     };
 
     leerArchivosSecuencialmente();

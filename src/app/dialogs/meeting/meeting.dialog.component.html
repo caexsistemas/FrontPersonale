@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Nombre de la capacitación</mat-label>
+                                <mat-label>Nombre de la Actualización </mat-label>
                                 <input matInput formControlName="mee_name" [readonly]="view == 'update'" required>
                             </mat-form-field>
                         </div>
@@ -117,24 +117,32 @@
                           </div>
                          
                     </div>
-                    <div class="row mt-3" *ngIf="view == 'create'">
+                    <!-- <div class="row mt-3" *ngIf="view == 'create'">
+                       
+
+                      </div> -->
+                      <div class="row mt-3" *ngIf="view == 'create'">
                         <div class="col-md-4">
+                          <label>Adjuntar Portada (Imagen):</label>
+                          <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarImg($event)" accept="image/*" required>
+                        </div>
+                        <div class="col-md-6">
                           <label>Adjuntar Documento de Soporte:</label>
-                          <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)"
+                          <input formControlName="file_sp_doc" class="form-control" type="file" (change)="seleccionarArchivo($event)"
                             multiple required>
                         </div>
-                        <div class="col-md-4" *ngIf="view == 'update'">
+                        <div class="col-md-6" *ngIf="view == 'update'">
                           <dt>Documentos de Soporte:</dt>
                           <dd>
                             <ul>
-                              <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                              <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
                                 <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
                               </li>
                             </ul>
                           </dd>
                         </div>
-
                       </div>
+                      
                       <div class="row mt-3">
                         <div class="col-md-12">
                           <mat-form-field class="example-full-width">
@@ -142,6 +150,7 @@
                             <textarea matInput formControlName="mee_desc" [readonly]="view == 'update'" required></textarea>
                           </mat-form-field>
                         </div>
+                       
                       </div>
                 </form>
             </mat-dialog-content>
@@ -173,7 +182,7 @@
           <div class="col-md-6">
             <dd>
               <ul>
-                <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
+                <!-- <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
                   <ng-container *ngIf="esImagen(archivo); else imagenNot">
                     <li>
                       <img [src]="archivo" alt="Imagen{{i+1}}" />
@@ -182,6 +191,19 @@
                   <ng-template #imagenNot>
                     <li>
                       <img mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
+                    </li>
+                  </ng-template>
+                  
+                </ng-container> -->
+                <ng-container class="contenedor-flexible">
+                  <ng-container *ngIf="selectionImg.file_sp; else imagenNot">
+                    <li>
+                      <img class="tu-imagen" [src]="selectionImg.file_sp" alt="Imagen" />
+                    </li>
+                  </ng-container>
+                  <ng-template #imagenNot>
+                    <li>
+                      <img class="tu-imagen" mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
                     </li>
                   </ng-template>
                   
@@ -199,7 +221,7 @@
             <mat-card-content>
               <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
               <ul class="textCenter">
-                <li *ngFor="let archivo of selection.file_sp; let i = index;">
+                <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
                   <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
                 </li>
               </ul>
@@ -221,7 +243,7 @@
             <div>
 
             </div>
-            <div *ngIf="che_date == 0">
+            <div *ngIf="viewDataActua">
 
             <mat-accordion class="example-headers-align" >
               <mat-expansion-panel>
@@ -235,7 +257,7 @@
                   <mat-icon>account_circle</mat-icon>
                 </mat-expansion-panel-header>
             
-                <div class="section-table first-action">
+                <div class="mat-elevation-z8">
                   <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
                     *ngIf="contenTable.length > 0">
             
@@ -259,10 +281,10 @@
                       <td mat-cell *matCellDef="let element"> {{element.date_view}} </td>
                     </ng-container>
             
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
                   </table>
-                  <mat-paginator [pageSizeOptions]="[5, 10, 100]" showFirstLastButtons></mat-paginator>
+                  <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
             
                 </div>
             
