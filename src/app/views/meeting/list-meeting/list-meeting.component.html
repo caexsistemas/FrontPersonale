@@ -24,7 +24,12 @@
                   <mat-icon>add_circle</mat-icon>
                   <span>Crear</span>
               </button>
-  
+
+              <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Usuarios Actualizaciones">
+                <mat-icon>download</mat-icon>
+                <span>Reportes Usuarios Actualizaciones</span>
+            </button>
+
           </mat-menu>       
         </div>
   

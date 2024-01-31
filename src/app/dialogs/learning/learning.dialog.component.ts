@@ -43,22 +43,21 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from "@angular/material/chips/chip-input";
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 // import { MatChipInputEvent } from '@angular/material/chips';
-
 @Component({
-  selector: 'app-meeting.dialog',
-  templateUrl: './meeting.dialog.component.html',
-  styleUrls: ['./meeting.dialog.component.css']
+  selector: 'app-learning.dialog',
+  templateUrl: './learning.dialog.component.html',
+  styleUrls: ['./learning.dialog.component.css']
 })
-export class MeetingDialog {
+export class LearningDialog {
 
-  endpoint: string = "/meeting";
+  endpoint: string = "/learning";
   maskDNI = global.maskDNI;
   view: string = null;
   title: string = null;
   idMee: number = null;
   permissions: any = null;
   //loading: boolean = false;
-  component = "/meeting/list-meeting";
+  component = "/meeting/learning";
   dataSource: any = [];
   RolInfo: any[];
   formLista: FormGroup;
@@ -132,7 +131,7 @@ export class MeetingDialog {
   public clickedRows;
 
   constructor(
-    public dialogRef: MatDialogRef<MeetingDialog>,
+    public dialogRef: MatDialogRef<LearningDialog>,
     private WebApiService: WebApiService,
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -145,11 +144,11 @@ export class MeetingDialog {
     switch (this.view) {
       case "create":
         this.initFormsRole();
-        this.title = "Crear Nueva Actualización";
+        this.title = "Crear Nueva Capacitación";
         break;
       case "update":
         this.initFormsRole();
-        this.title = "Editar Actualización";
+        this.title = "Editar Capacitación";
         this.idMee = this.data.codigo;
         break;
       case "view":
@@ -173,7 +172,7 @@ export class MeetingDialog {
               
               // }
 
-              if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 4 || this.cuser.role == 1){
+              if( this.meeting.idPersonale === this.cuser.idPersonale){
                 this.viewDataActua = true;
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
@@ -261,20 +260,21 @@ export class MeetingDialog {
   initFormsRole() {
     this.getDataInit();
     this.formCreate = new FormGroup({
-      mee_name: new FormControl(""),
+      lear_name: new FormControl(""),
       idPersonale: new FormControl(""),
       file_sp: new FormControl(""),
       file_sp_doc:new FormControl(""),
-      mee_fec_ini: new FormControl(""),
-      mee_fec_fin: new FormControl(""),
+      lear_fec_eje: new FormControl(""),
       receiver: new FormControl(""),
       receiver2: new FormControl(""),
       receiver3: new FormControl(""),
       receiver4: new FormControl(""),
       receiver5: new FormControl(""),
-      mee_desc: new FormControl(""),
+      lear_desc: new FormControl(""),
       check_indf:new FormControl(""),
-      mee_link: new FormControl(""),
+      lear_link: new FormControl(""),
+      lear_link_que: new FormControl(""),
+      lear_state: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
   }
@@ -282,16 +282,13 @@ export class MeetingDialog {
   closeDialog() {
     this.dialogRef.close();
   }
-  closeDialogView() {
-    this.dialogRef.close();
-    this.onSubmitUpdateDate();
-  }
   ngOnInit(): void {
     this.permissions = this.handler.permissionsApp;
     this.sendRequest();
   }
   sendRequest() {}
 
+  idPositionAct: any = [];
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
@@ -304,15 +301,21 @@ export class MeetingDialog {
         if (data.success == true) {
           //DataInfo
           this.RolInfo = data.data["getDataRole"];
-          this.group =   data.data["group"];
-          this.area =   data.data["idArea"];
-          this.cargo =   data.data["idPosition"];          
+          this.businessLine = data.data["businessLine"].slice(0,3);
+
+          this.idPositionAct = data.data["idPositionActiv"];
+          this.areaLog = data.data["areaLog"];
+
+
+
+
+
+          // this.area =   data.data["idArea"];
+          // this.cargo =   data.data["idPosition"];          
           this.PersonaleInfo = data.data["getDataPersonale"];
           this.boss = data.data["getDataBoss"];
           this.area_posit = data.data["area_posit"];
-          this.businessLine = data.data["businessLine"].slice(0,3);
           this.idPositionLine = data.data["idPositionLine"];
-          this.areaLog = data.data["areaLog"];
           this.positionLog = data.data["positionLog"];
 
           if (this.view == "update") {
@@ -421,10 +424,9 @@ export class MeetingDialog {
       this.loading.emit(true);
       let body = {
         listas: this.formCreate.value,
-        // archivoRes: this.nuevoArchivo,
+        archivoRes: this.nuevoArchivo,
       };
       this.WebApiService.putRequest(this.endpoint + "/" + this.idMee, body, {
-        action: "formMeeting",
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -452,54 +454,6 @@ export class MeetingDialog {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);
     }
-  }
-  // date_fin: any [];
-  onSubmitUpdateDate() {
-    console.log('id assi =>',this.meeting.ass_id);
-    
-    // if (this.formCreate.valid) {
-      // if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
-      this.loading.emit(true);
-      // this.formCreate.get("date_view_fin").setValue(Date);
-      const date_fin = {
-        "date_view_fin": "",
-      }
-
-      let body = {
-        listas: date_fin
-
-      };
-      console.log(body);
-      
-      this.WebApiService.putRequest(this.endpoint + "/" + this.meeting.ass_id, body, {
-        action: "finDate",
-        token: this.cuser.token,
-        idUser: this.cuser.iduser,
-        modulo: this.component,
-      }).subscribe(
-        (data) => {
-          if (data.success) {
-            this.handler.showSuccess(data.message);
-            this.reload.emit();
-            this.closeDialog();
-          } else {
-            this.handler.handlerError(data);
-            this.loading.emit(false);
-          }
-        },
-        (error) => {
-          this.handler.showError();
-          this.loading.emit(false);
-        }
-      );
-      // }else {
-      //     this.handler.showError('Por favor validar el rango de fechas');
-      //     this.loading.emit(false);
-      // }
-    // } else {
-    //   this.handler.showError("Complete la informacion necesaria");
-    //   this.loading.emit(false);
-    // }
   }
 
 saveCase: any = [];
@@ -662,6 +616,8 @@ saveCase: any = [];
       for (let line of lines) {
         this.area.push(line);
       } 
+      console.log(this.area);
+      
        this.checkArea = true; 
     }
   }
@@ -686,6 +642,8 @@ saveCase: any = [];
     }
     // Eliminar duplicados de la lista de cargos
     this.cargo = Array.from(new Set(this.cargo));
+    console.log('cargos =>',this.cargo);
+    
     this.checkCargo = true;
 
   }else if (event.length == 0){
@@ -851,5 +809,5 @@ verificarImagenesValidas(): void {
     }
     
   }
-  
+
 }

@@ -23,19 +23,17 @@ import { formatDate } from "@angular/common";
 
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-import { ReportsMeetingComponent } from "../../../dialogs/reports/meeting/reports-meeting.component";
-import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { LearningDialog } from "../../../dialogs/learning/learning.dialog.component";
 
 // Registra el idioma español
 registerLocaleData(localeEs, 'es');
 
 @Component({
-  selector: 'app-list-meeting',
-  templateUrl: './list-meeting.component.html',
-  styleUrls: ['./list-meeting.component.css']
+  selector: 'app-learning',
+  templateUrl: './learning.component.html',
+  styleUrls: ['./learning.component.css']
 })
-export class ListMeetingComponent implements OnInit {
-  [x: string]: any;
+export class LearningComponent implements OnInit {
 
   dataSource: any = [];
   displayedColumns: any = [];
@@ -43,10 +41,10 @@ export class ListMeetingComponent implements OnInit {
   ValorRol: any = [];
   public detailRoles = [];
 
-  component = "/meeting/list-meeting";
+  component = "/meeting/learning";
   permissions: any = null;
   contaClick: number = 0;
-  endpoint: string = "/meeting";
+  endpoint: string = "/learning";
   contenTable: any = [];
   checkUpdate: boolean;
   // checkUpdate: any = [];
@@ -58,9 +56,7 @@ export class ListMeetingComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog,
-    private matBottomSheet: MatBottomSheet,
-
+    public dialog: MatDialog
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
@@ -84,17 +80,15 @@ export class ListMeetingComponent implements OnInit {
       (data) => {
         if (data.success) {
           this.permissions = this.handler.getPermissions(this.component);
-          (data.data["getSelectData"][0].perm == 1) ? this.checkUpdate = true : this.checkUpdate = false;
           
-          this.generateTable(data.data["getSelectData"]['result']);
-          this.contenTable = data.data["getSelectData"]['result'];
+          this.generateTable(data.data["getSelectData"]);
+          this.contenTable = data.data["getSelectData"];
           // console.log(this.contenTable);
           
 
           this.loading = false;
         } else {
           this.loading = false;
-          this.ValorRol = [];
           this.handler.handlerError(data);
         }
       },
@@ -111,10 +105,9 @@ export class ListMeetingComponent implements OnInit {
     this.displayedColumns = [
       "view",
       "view_state",
-      "mee_name",
-      "meeting_person_id",
-      "mee_fec_ini",
-      "mee_fec_fin",
+      "lear_name",
+      "learting_person_id",
+      "lear_fec_eje",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -135,20 +128,12 @@ export class ListMeetingComponent implements OnInit {
     this.infoModal.show();
   }
 
-  ShowDisciplinary() {
-    Swal.fire({
-      title: "",
-      html: `<p class="custom-swal" style="text-align:justify; font-weight: 610;">El presente formulario tiene como fin garantizar que los procesos disciplinarios solicitados por los jefes de las áreas se encuentren adecuadamente soportados, demostrando que se ha realizado un seguimiento adecuado y se cuenta con argumentos para demostrar que un trabajador ha procedido mal respecto a sus obligaciones y responsabilidades. En cualquier caso, es responsabilidad del solicitante la suficiencia y fuerza argumentativa y probatoria frente a la situación a plantear. En este sentido, este formulario solo pretende ser un apoyo en el planteamiento y elaboración de la solicitud.",
-      </p>`,
-      icon: "success",
-    });
-  }
   option(action, codigo = null, check) {
     var dialogRef;
     switch (action) {
       case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(MeetingDialog, {
+        dialogRef = this.dialog.open(LearningDialog, {
           data: {
             window: "view",
             codigo,
@@ -168,7 +153,7 @@ export class ListMeetingComponent implements OnInit {
         break;
       case "create":
         this.loading = true;
-        dialogRef = this.dialog.open(MeetingDialog, {
+        dialogRef = this.dialog.open(LearningDialog, {
           data: {
             window: "create",
             codigo,
@@ -187,7 +172,7 @@ export class ListMeetingComponent implements OnInit {
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(MeetingDialog, {
+        dialogRef = this.dialog.open(LearningDialog, {
           data: {
             window: "update",
             codigo,
@@ -238,9 +223,6 @@ export class ListMeetingComponent implements OnInit {
     let formattedDate = formatDate(fecha, 'MMM d, y', 'es');
     formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
     return formattedDate;
-  }
-  onTriggerSheetClick() {
-    this.matBottomSheet.open(ReportsMeetingComponent);
   }
 
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListMeetingComponent } from './list-meeting/list-meeting.component';
+import { LearningComponent } from './learning/learning.component';
 
 
 const routes: Routes = [
@@ -18,7 +19,14 @@ const routes: Routes = [
         path:"list-meeting",
         component:ListMeetingComponent,
         data:{
-          title:"Creacion de Capacitaciones"
+          title:"Actualizaciones"
+        }
+      },
+      {
+        path: "learning",
+        component: LearningComponent,
+        data:{
+          title: "Capacitaciones"
         }
       }
     ]
