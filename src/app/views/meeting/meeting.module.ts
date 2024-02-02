@@ -26,6 +26,7 @@ import { MeetingRoutingModule } from './meeting-routing.module';
 
 // Modal Component
 import { ListMeetingComponent } from './list-meeting/list-meeting.component';
+import { LearningComponent } from './learning/learning.component';
 // import { BypassSeguroPipe } from '../../services/bypass-seguro.pipe';
 
 const ngWizardConfig: NgWizardConfig = {
@@ -33,7 +34,7 @@ const ngWizardConfig: NgWizardConfig = {
 };
 
 @NgModule({
-  declarations: [ListMeetingComponent,  ],
+  declarations: [ListMeetingComponent,  LearningComponent],
   imports: [
     CommonModule,
     MeetingRoutingModule,

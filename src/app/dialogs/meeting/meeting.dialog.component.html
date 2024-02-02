@@ -19,7 +19,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombre de la Actualización </mat-label>
-                                <input matInput formControlName="mee_name" [readonly]="view == 'update'" required>
+                                <input matInput formControlName="mee_name" oninput="javascript:this.value=this.value.toUpperCase();" [readonly]="view == 'update'" required>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -171,132 +171,125 @@
     <div class="background-suave" *ngIf="view == 'view'">
       <div class="modal-header">
           <h5 class="modal-title">{{title}}</h5>
-          <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+          <button type="button" class="btn btn-primary btn-close" (click)="closeDialogView()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
       </div>
         
-      <mat-dialog-content style="min-width: 1200px;">
+      <mat-dialog-content >
         <div class="row mt-2">
-
+          <!-- Columna 1: Imagen -->
           <div class="col-md-6">
-            <dd>
-              <ul>
-                <!-- <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
-                  <ng-container *ngIf="esImagen(archivo); else imagenNot">
-                    <li>
-                      <img [src]="archivo" alt="Imagen{{i+1}}" />
-                    </li>
-                  </ng-container>
-                  <ng-template #imagenNot>
-                    <li>
-                      <img mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
-                    </li>
-                  </ng-template>
-                  
-                </ng-container> -->
-                <ng-container class="contenedor-flexible">
-                  <ng-container *ngIf="selectionImg.file_sp; else imagenNot">
-                    <li>
-                      <img class="tu-imagen" [src]="selectionImg.file_sp" alt="Imagen" />
-                    </li>
-                  </ng-container>
-                  <ng-template #imagenNot>
-                    <li>
-                      <img class="tu-imagen" mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
-                    </li>
-                  </ng-template>
-                  
+            <!-- <ul> -->
+              <ng-container class="contenedor-flexible">
+                <ng-container *ngIf="selectionImg.file_sp; else imagenNot">
+                  <!-- <li> -->
+                    <img class="tu-imagen" [src]="selectionImg.file_sp" alt="Imagen" />
+                  <!-- </li> -->
                 </ng-container>
-              </ul>
-            </dd>
+                <ng-template #imagenNot>
+                  <!-- <li> -->
+                    <img class="tu-imagen" mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
+                  <!-- </li> -->
+                </ng-template>
+              </ng-container>
+            <!-- </ul> -->
           </div>
-      
-            <div class="col-md-6" style="padding-left: 10%;" >
+        
+          <!-- Columna 2: Detalles -->
+          <div class="col-md-6" >
             <div>
-              <dt class="textHeader">{{meeting.mee_name}}</dt>
-              <dd class="textCenter mt-3" [class.shortText]="text">{{meeting.mee_desc}}</dd>
-            </div>
-      
-            <mat-card-content>
-              <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
-              <ul class="textCenter">
-                <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
-                  <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
-                </li>
-              </ul>
-            </mat-card-content>
-
-            <mat-card-content>
-              <p class="textHeader mt-3">Link de evaluación</p>
-              <ul class="textCenter">
+              <!-- <div>
+                <dt class="textHeader">{{meeting.mee_name}}</dt>
+                <dd class="textCenter mt-3" [class.shortText]="text">{{meeting.mee_desc}}</dd>
+              </div> -->
+              <mat-card-content>
+                <p class="textHeader">{{meeting.mee_name}}</p>
+                <p class="textCenter">{{meeting.mee_desc}}</p>
+              </mat-card-content>
+        
+              <mat-card-content>
+                <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
+                <ul class="textCenter">
+                  <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
+                    <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
+                  </li>
+                </ul>
+              </mat-card-content>
+        
+              <mat-card-content>
+                <p class="textHeader mt-3">Link de evaluación</p>
+                <ul class="textCenter">
                   <a href="{{meeting.mee_link}}" target="_blank"> Link evaluación</a>
-              </ul>
-            </mat-card-content>
-
-            <mat-card-content>
-              <div *ngIf="check_date">
-                <p class="textHeader mt-3">Fecha fin vigencia</p>
-                <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
-              </div>
-            </mat-card-content>
-            <div>
-
-            </div>
-            <div *ngIf="viewDataActua">
-
-            <mat-accordion class="example-headers-align" >
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Personal 
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    Lista de personal actualización
-                  </mat-panel-description>
-                  <mat-icon>account_circle</mat-icon>
-                </mat-expansion-panel-header>
-            
-                <div class="mat-elevation-z8">
-                  <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
-                    *ngIf="contenTable.length > 0">
-            
-                  <ng-container matColumnDef="document">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento </th>
-                    <td mat-cell *matCellDef="let element"> {{element.document }} </td>
-                  </ng-container>
-          
-                    <ng-container matColumnDef="idPersonale">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">empleado</th>
-                      <td mat-cell *matCellDef="let element"> {{element.name }} </td>
-                    </ng-container>
-            
-                    <ng-container matColumnDef="view_state">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado</th>
-                      <td mat-cell *matCellDef="let element"> {{element.state_view}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="date_view">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Visualización</th>
-                      <td mat-cell *matCellDef="let element"> {{element.date_view}} </td>
-                    </ng-container>
-            
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-                  </table>
-                  <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-            
+                </ul>
+              </mat-card-content>
+        
+              <mat-card-content>
+                <div *ngIf="check_date">
+                  <p class="textHeader mt-3">Fecha fin vigencia</p>
+                  <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
                 </div>
-            
-               
-              </mat-expansion-panel>
+              </mat-card-content>
+            </div>
+            <!-- <div class="col-md-6" style="padding-left: 5%;"> -->
+
+              <mat-accordion class="example-headers-align"  *ngIf="viewDataActua" >
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Personal 
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Lista de personal actualización
+                    </mat-panel-description>
+                    <mat-icon>account_circle</mat-icon>
+                  </mat-expansion-panel-header>
               
-            </mat-accordion>
+                  <div class="mat-elevation-z8" style="max-width: auto;">
+                    <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                      *ngIf="contenTable.length > 0">
+              
+                    <ng-container matColumnDef="document">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento </th>
+                      <td mat-cell *matCellDef="let element"> {{element.document }} </td>
+                    </ng-container>
+            
+                      <ng-container matColumnDef="idPersonale">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">empleado</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+                      </ng-container>
+              
+                      <ng-container matColumnDef="view_state">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado</th>
+                        <td mat-cell *matCellDef="let element"> {{element.state_view}} </td>
+                      </ng-container>
+  
+                      <ng-container matColumnDef="date_view">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Visualización</th>
+                        <td mat-cell *matCellDef="let element"> {{element.date_view}} </td>
+                      </ng-container>
+              
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              
+                  </div>
+              
+                 
+                </mat-expansion-panel>
+                
+              </mat-accordion>
+  
+  
+            </div>
           </div>
-
-
-          </div>
-        </div>
+          
+        <!-- </div> -->
+        
+           
+       
+        <!-- </div> -->
       </mat-dialog-content>
 
   </div>

@@ -165,7 +165,8 @@ export class ManagementComponent implements OnInit {
               this.cuser.role == 1 ||
               this.cuser.role == 5 ||
               this.cuser.role == 20 ||
-              this.cuser.role == 34
+              this.cuser.role == 34 ||
+              this.cuser.role == 41
             )
           ) {
             this.checkCreate = false;

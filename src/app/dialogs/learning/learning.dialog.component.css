@@ -69,7 +69,6 @@ img {
 }
 
 .textCenter {
-  width: 90%;
   text-align: justify; /* Centra el texto */
 }
 
@@ -125,32 +124,9 @@ td, th {
 
 .contenedor-flexible {
   display: flex;
-  flex-direction: center; /* O ajusta según tus necesidades de diseño */
+  flex-direction: column; /* O ajusta según tus necesidades de diseño */
 }
-/* 
-.tu-imagen {
-  width: 100%; 
-} */
 
 .tu-imagen {
-  max-width: 100%; /* Ajusta el ancho máximo de la imagen */
-  margin-right: 20px; /* Espacio entre la imagen y el texto */
-  padding-left: 3%;
-}
-
-.contenido {
-  flex: 1; /* El contenido toma el espacio restante */
-}
-
-/* Estilos para pantallas pequeñas */
-@media screen and (max-width: 700px) {
-  .contenedor-flexible {
-    flex-direction: column; /* Apila los elementos en pantallas pequeñas */
-  }
-
-  .tu-imagen {
-    max-width: 100%; /* La imagen ocupa todo el ancho en pantallas pequeñas */
-    margin-right: 0; /* Elimina el margen derecho en pantallas pequeñas */
-    margin-bottom: 10px; /* Espacio entre la imagen y el texto en pantallas pequeñas */
-  }
+  width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor */
 }
