@@ -542,6 +542,7 @@ saveCase: any = [];
       case "params":
         this.WebApiService.postRequest(this.endpoint, body, {
             action: "params",
+            idPersonale: this.cuser.idPersonale,
             token: this.cuser.token,
             idUser: this.cuser.iduser,
             modulo: this.component,
@@ -565,6 +566,7 @@ saveCase: any = [];
           case "onSave":
             this.WebApiService.postRequest(this.endpoint, body, {
               action: "onSave",
+              idPersonale: this.cuser.idPersonale,
               token: this.cuser.token,
               idUser: this.cuser.iduser,
               modulo: this.component,
@@ -733,23 +735,20 @@ saveCase: any = [];
             }
             this.checkPerson = true;
     }
+     //-- esta linea carga la lista de las personas filtradas en preseleccion----
+      this.selectedUsers = this.personInfoLine.slice();
+     // ---------------------------------------------------------
 
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
       map((userInput: string | null) => (userInput ? this._filterUsers(userInput) : this.personInfoLine.slice()))
     );
-
+      
     // this.formCreate.get('receiver5').valueChanges.subscribe((selectedPersons) => {
     //   this.selectedPersons = selectedPersons;
     // });
 }
-removePerson(person: any) {
-  const index = this.selectedPersons.indexOf(person);
-  if (index !== -1) {
-    this.selectedPersons.splice(index, 1);
-    this.formCreate.get('receiver5').setValue(this.selectedPersons);
-  }
-}
+
 
 onSelectUser(event){
   
@@ -767,32 +766,10 @@ verificarImagenesValidas(): void {
     this.hayImagenValida = false; // No hay imágenes si 'file_sp' es undefined
   }
 }
-  addUser(event: MatChipInputEvent): void {
-    
-    const input = event.input;
-    const value = event.value;
-
-    // Agrega el usuario si se ha proporcionado un valor
-    if ((value || '').trim()) {
-      this.selectedUsers.push({ name: value.trim() });
-    }
-
-    // Resetea el valor del input
-    if (input) {
-      input.value = '';
-    }
-
-    // Limpia el filtro del autocomplete
-    this.formCreate.get('receiver5').setValue('');
-
-    // Actualiza la lista filtrada para excluir los usuarios seleccionados
-    // this.updateFilteredPersonInfoLine();
-  }
-
  
-
      // Función para agregar usuarios a la lista de usuarios seleccionados
   add(event: MatChipInputEvent): void {
+    
     const input = event.input;
     const value = event.value;
 
@@ -812,28 +789,27 @@ verificarImagenesValidas(): void {
 
   // Función para eliminar un usuario de la lista
   remove(user: any): void {
-    console.log('remover', user);
     
     const index = this.selectedUsers.indexOf(user);
 
     if (index >= 0) {
       this.selectedUsers.splice(index, 1);
-    console.log('remover el if', this.selectedUsers);
-    this.formCreate.get('receiver5').setValue([this.selectedUsers]);
-
+      this.formCreate.get('receiver5').setValue([this.selectedUsers]);
     }
   }
 
   // Función para manejar la selección de una opción del autocompletado
   selected(event: MatAutocompleteSelectedEvent): void {
     
+    if(event.option){
     this.selectedUsers.push(event.option.value);
     this.userInput.nativeElement.value = '';
     this.userCtrl.setValue(null);
-
+    }
   }
   
   private _filterUsers(value: string): any[] {
+    
     const filterValue = (value || '').toString().toLowerCase();
     return this.personInfoLine.filter(user => {
       const userName = (user.name || '').toString().toLowerCase(); // Convertir a cadena y luego a minúsculas

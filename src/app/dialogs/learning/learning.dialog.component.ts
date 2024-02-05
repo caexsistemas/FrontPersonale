@@ -316,6 +316,7 @@ export class LearningDialog {
           this.boss = data.data["getDataBoss"];
           this.area_posit = data.data["area_posit"];
           this.idPositionLine = data.data["idPositionLine"];
+          
           this.positionLog = data.data["positionLog"];
 
           if (this.view == "update") {
@@ -634,15 +635,52 @@ saveCase: any = [];
   
     for (let element of event) {
       // Filtrar las áreas según el elemento actual
-      var areas = this.positionLog.filter((area) => area.idArea === element && area.idPosition != null);
+      // var areas = this.positionLog.filter((area) => area.idArea === element && area.idPosition != null);
+      console.log('event =>',event);
+      console.log('select de area =>',this.positionLog);
+      this.positionLog.forEach(position => {
+        // const idAreasArray = position.idAreas.split(','); // Convertimos las cadenas a números si es necesario
+        // console.log('===1 ===>',idAreasArray);
+
+        const arrayPos = {
+          "idArea": position.idAreas.split(','),
+          "idPosition": position.idCargo,
+          "cargo": position.cargo
+        }
+        console.log('===1 ===>',arrayPos);
+
+        
+        arrayPos.idArea.forEach(idArea => {
+            // const areas = arrayPos.idArea.filter(area => area.idArea === element);
+            // const areas = arrayPos.idArea.filter(area => area.idArea === element);
+            if(idArea === element){
+
+            console.log('==forescah=>',arrayPos);
+              this.cargo.push(arrayPos);
+
+          }
+            // Hacer algo con el array 'areas'
+            // console.log('===>',areas);
+            // var areas = this.positionLog.filter((area) => area.idAreas === element);
   
-      for (let area of areas) {
-        this.cargo.push(area);
-      }
+            // for (let area of areas) {
+            //   this.cargo.push(area);
+            // }
+            
+        });
+        this.cargo = Array.from(new Set(this.cargo));
+        console.log('cargos =>',this.cargo);
+    });
+      
+      // var areas = this.positionLog.filter((area) => area.idAreas === element);
+  
+      // for (let area of areas) {
+      //   this.cargo.push(area);
+      // }
     }
     // Eliminar duplicados de la lista de cargos
-    this.cargo = Array.from(new Set(this.cargo));
-    console.log('cargos =>',this.cargo);
+    // this.cargo = Array.from(new Set(this.cargo));
+    // console.log('cargos =>',this.cargo);
     
     this.checkCargo = true;
 
@@ -661,6 +699,8 @@ saveCase: any = [];
   areaCargoMapping: string[] = [];
   filteredUsers: Observable<any[]>;
   onSelectPerson(event) {
+console.log('escoger personas =>',event);
+console.log('escoger personas =>',this.PersonaleInfo);
 
     let contador = 0;
     this.reload.emit();
@@ -672,9 +712,12 @@ saveCase: any = [];
         this.checkPerson = false;
         
         event.forEach(idpos => {
+          console.log('+*****', this.cargo.idArea);
+          
           this.cargo.forEach(idarea => {
+            console.log('+***2**', idarea);
 
-            const filteredPeople = this.PersonaleInfo.filter(user => user.idPosition === idpos && user.idArea === idarea.idArea);
+            const filteredPeople = this.PersonaleInfo.filter(user => user.idPosition === idpos && user.idArea === idarea);
             this.personInfoLine = this.personInfoLine.concat(filteredPeople);
           });
           
@@ -691,6 +734,10 @@ saveCase: any = [];
             }
             this.checkPerson = true;
     }
+      //-- esta linea carga la lista de las personas filtradas en preseleccion----
+      this.selectedUsers = this.personInfoLine.slice();
+     // ---------------------------------------------------------
+
 
     this.filteredUsers = this.userCtrl.valueChanges.pipe(
       startWith(null),
