@@ -28,15 +28,24 @@
                               <input matInput formControlName="lear_fec_eje" type="date" [readonly]="view == 'update'" required>
                           </mat-form-field>
                       </div>
-                    
+                      <div class="col-md-4">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Link de evaluación</mat-label>
+                          <input matInput formControlName="lear_link" [readonly]="view == 'update'" required>
+                      </mat-form-field>
+                      </div>
                   </div>
                   <div class="row mt-2">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <mat-form-field class="example-full-width">
-                        <mat-label>Link de evaluación</mat-label>
-                        <input matInput formControlName="lear_link" [readonly]="view == 'update'" required>
-                    </mat-form-field>
-                    </div>
+                      <mat-label>Estado Capacitación:</mat-label>
+                      <mat-select formControlName="lear_state" required >
+                          <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
                   </div>
                   <hr>
                   <div class="row mt-3">
@@ -99,12 +108,7 @@
                               </mat-option>
                             </mat-autocomplete>
                           </mat-form-field>
-                          
-
-
-                       
                         </div>
-                       
                   </div>
                   <!-- <div class="row mt-3" *ngIf="view == 'create'">
                      

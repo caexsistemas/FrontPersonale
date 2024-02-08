@@ -97,7 +97,7 @@ export class LearningDialog {
   filteredFruits: Observable<string[]>;
   fruits: string[] = ['Lemon'];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
+  status: any = [];
   // readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedUsers: any[] = [];
   userCtrl = new FormControl(); 
@@ -172,7 +172,7 @@ export class LearningDialog {
               
               // }
 
-              if( this.meeting.idPersonale === this.cuser.idPersonale){
+              if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 4 || this.cuser.role == 1){
                 this.viewDataActua = true;
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
@@ -192,17 +192,7 @@ export class LearningDialog {
               if(this.meeting.mee_fec_fin){
                 this.check_date = true;
               }
-              if(this.meeting.mee_desc.length < 50){
-                this.text = true;
-                this.colorMap = {
-                   "padding-left": '30%'
-                };                
-                
-              }else{
-                this.colorMap = {
-                  "padding-left": "10%;"
-               };
-              }
+            
               this.loading.emit(false);
             } else {
               this.handler.handlerError(data);
@@ -300,24 +290,12 @@ export class LearningDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          this.RolInfo = data.data["getDataRole"];
           this.businessLine = data.data["businessLine"].slice(0,3);
-
-          this.idPositionAct = data.data["idPositionActiv"];
-          this.areaLog = data.data["areaLog"];
-
-
-
-
-
-          // this.area =   data.data["idArea"];
-          // this.cargo =   data.data["idPosition"];          
+          this.areaLog = data.data["areaLog"];         
           this.PersonaleInfo = data.data["getDataPersonale"];
           this.boss = data.data["getDataBoss"];
-          this.area_posit = data.data["area_posit"];
-          this.idPositionLine = data.data["idPositionLine"];
-          
           this.positionLog = data.data["positionLog"];
+          this.status = data.data["state"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -497,6 +475,7 @@ saveCase: any = [];
       case "params":
         this.WebApiService.postRequest(this.endpoint, body, {
             action: "params",
+            idPersonale: this.cuser.idPersonale,
             token: this.cuser.token,
             idUser: this.cuser.iduser,
             modulo: this.component,
@@ -520,6 +499,7 @@ saveCase: any = [];
           case "onSave":
             this.WebApiService.postRequest(this.endpoint, body, {
               action: "onSave",
+              idPersonale: this.cuser.idPersonale,
               token: this.cuser.token,
               idUser: this.cuser.iduser,
               modulo: this.component,
@@ -649,15 +629,20 @@ saveCase: any = [];
         }
         console.log('===1 ===>',arrayPos);
 
-        
+        const arrayPosFiltrado = {
+          "idArea": "",
+          "idPosition": position.idCargo,
+          "cargo": position.cargo
+        };
+
         arrayPos.idArea.forEach(idArea => {
             // const areas = arrayPos.idArea.filter(area => area.idArea === element);
             // const areas = arrayPos.idArea.filter(area => area.idArea === element);
             if(idArea === element){
 
             console.log('==forescah=>',arrayPos);
-              this.cargo.push(arrayPos);
-
+              // this.cargo.push(arrayPos);
+              arrayPosFiltrado.idArea = idArea;
           }
             // Hacer algo con el array 'areas'
             // console.log('===>',areas);
@@ -668,8 +653,13 @@ saveCase: any = [];
             // }
             
         });
-        this.cargo = Array.from(new Set(this.cargo));
-        console.log('cargos =>',this.cargo);
+        // this.cargo = Array.from(new Set(this.cargo));
+        // console.log('cargos =>',this.cargo);
+        // Verificas si al menos una de las áreas coincide
+        if (arrayPosFiltrado.idArea !== "") {
+          console.log('==forescah=>', arrayPosFiltrado);
+          this.cargo.push(arrayPosFiltrado);
+        }
     });
       
       // var areas = this.positionLog.filter((area) => area.idAreas === element);
@@ -712,12 +702,11 @@ console.log('escoger personas =>',this.PersonaleInfo);
         this.checkPerson = false;
         
         event.forEach(idpos => {
-          console.log('+*****', this.cargo.idArea);
           
           this.cargo.forEach(idarea => {
-            console.log('+***2**', idarea);
+            console.log('+***2**',  this.cargo);
 
-            const filteredPeople = this.PersonaleInfo.filter(user => user.idPosition === idpos && user.idArea === idarea);
+            const filteredPeople = this.PersonaleInfo.filter(user => user.idPosition === idpos && user.idArea === idarea.idArea );
             this.personInfoLine = this.personInfoLine.concat(filteredPeople);
           });
           

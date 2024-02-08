@@ -303,16 +303,22 @@ export class MeetingDialog {
       (data) => {
         if (data.success == true) {
           //DataInfo
-          this.RolInfo = data.data["getDataRole"];
-          this.group =   data.data["group"];
-          this.area =   data.data["idArea"];
-          this.cargo =   data.data["idPosition"];          
+          // this.RolInfo = data.data["getDataRole"];
+          // this.group =   data.data["group"];
+          // this.area =   data.data["idArea"];
+          // this.cargo =   data.data["idPosition"];          
+          // this.PersonaleInfo = data.data["getDataPersonale"];
+          // this.boss = data.data["getDataBoss"];
+          // this.area_posit = data.data["area_posit"];
+          // this.businessLine = data.data["businessLine"].slice(0,3);
+          // this.idPositionLine = data.data["idPositionLine"];
+          // this.areaLog = data.data["areaLog"];
+          // this.positionLog = data.data["positionLog"];
+
+          this.businessLine = data.data["businessLine"].slice(0,3);
+          this.areaLog = data.data["areaLog"];         
           this.PersonaleInfo = data.data["getDataPersonale"];
           this.boss = data.data["getDataBoss"];
-          this.area_posit = data.data["area_posit"];
-          this.businessLine = data.data["businessLine"].slice(0,3);
-          this.idPositionLine = data.data["idPositionLine"];
-          this.areaLog = data.data["areaLog"];
           this.positionLog = data.data["positionLog"];
 
           if (this.view == "update") {
@@ -453,23 +459,17 @@ export class MeetingDialog {
       this.loading.emit(false);
     }
   }
-  // date_fin: any [];
+  
   onSubmitUpdateDate() {
-    console.log('id assi =>',this.meeting.ass_id);
     
-    // if (this.formCreate.valid) {
-      // if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
       this.loading.emit(true);
-      // this.formCreate.get("date_view_fin").setValue(Date);
       const date_fin = {
         "date_view_fin": "",
       }
 
       let body = {
         listas: date_fin
-
       };
-      console.log(body);
       
       this.WebApiService.putRequest(this.endpoint + "/" + this.meeting.ass_id, body, {
         action: "finDate",
@@ -492,14 +492,6 @@ export class MeetingDialog {
           this.loading.emit(false);
         }
       );
-      // }else {
-      //     this.handler.showError('Por favor validar el rango de fechas');
-      //     this.loading.emit(false);
-      // }
-    // } else {
-    //   this.handler.showError("Complete la informacion necesaria");
-    //   this.loading.emit(false);
-    // }
   }
 
 saveCase: any = [];
@@ -668,6 +660,38 @@ saveCase: any = [];
     }
   }
 
+  // onSelectCargo(event) {
+  //   this.onSelectPerson([]);
+
+  //   if(event.length > 0){
+    
+  //      this.reload.emit();
+
+  //     this.checkCargo = false;
+  //     this.cargo = [];
+  
+  //   for (let element of event) {
+  //     // Filtrar las áreas según el elemento actual
+  //     var areas = this.positionLog.filter((area) => area.idArea === element && area.idPosition != null);
+  
+  //     for (let area of areas) {
+  //       this.cargo.push(area);
+  //     }
+  //   }
+  //   // Eliminar duplicados de la lista de cargos
+  //   this.cargo = Array.from(new Set(this.cargo));
+  //   this.checkCargo = true;
+
+  // }else if (event.length == 0){
+  //    this.reload.emit();
+
+  //   this.cargo = [];
+  //   this.checkCargo = false;
+  //   this.onSelectPerson([]);
+  //   this.formCreate.get("receiver3").setValue([]);
+  //   this.formCreate.get("receiver5").setValue([]);    
+  // }
+  // }
   onSelectCargo(event) {
     this.onSelectPerson([]);
 
@@ -679,15 +703,38 @@ saveCase: any = [];
       this.cargo = [];
   
     for (let element of event) {
-      // Filtrar las áreas según el elemento actual
-      var areas = this.positionLog.filter((area) => area.idArea === element && area.idPosition != null);
-  
-      for (let area of areas) {
-        this.cargo.push(area);
-      }
+      this.positionLog.forEach(position => {
+
+        const arrayPos = {
+          "idArea": position.idAreas.split(','),
+          "idPosition": position.idCargo,
+          "cargo": position.cargo
+        }
+
+        const arrayPosFiltrado = {
+          "idArea": "",
+          "idPosition": position.idCargo,
+          "cargo": position.cargo
+        };
+
+        arrayPos.idArea.forEach(idArea => {
+            if(idArea === element){
+
+              arrayPosFiltrado.idArea = idArea;
+          }
+            
+        });
+       
+        if (arrayPosFiltrado.idArea !== "") {
+          this.cargo.push(arrayPosFiltrado);
+        }
+    });
+      
     }
     // Eliminar duplicados de la lista de cargos
-    this.cargo = Array.from(new Set(this.cargo));
+    // this.cargo = Array.from(new Set(this.cargo));
+    // console.log('cargos =>',this.cargo);
+    
     this.checkCargo = true;
 
   }else if (event.length == 0){
