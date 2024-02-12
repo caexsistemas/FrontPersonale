@@ -219,7 +219,7 @@ export class ListMeetingComponent implements OnInit {
     "142/2": "#177E31",
     "142/3": "#A79F22",
     "142/4": "#9E253B",
-    "No Disponible": "#9E253B",
+    "Fuera del Grupo": "#9E253B",
   };
 
   colorState(state) {

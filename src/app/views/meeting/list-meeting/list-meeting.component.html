@@ -68,8 +68,8 @@
                 {{ (checkUpdate == false) ? element.state_view : "No Disponible" }}
               </div> -->
               <div class="mt-1" 
-              [ngStyle]="{'backgroundColor':(!colorState(element.view_state) ? colorState('No Disponible') :colorState(element.view_state)  ) ,'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'77%','height':'5','font-weight':'500','color':'white'}">
-              {{(!element.state_view) ? "No disponible" : element.state_view  }}
+              [ngStyle]="{'backgroundColor':(!colorState(element.view_state) ? colorState('Fuera del Grupo') :colorState(element.view_state)  ) ,'text-align':'center','margin':'2px','padding':'5px','border-radius':'50px','width':'77%','height':'5','font-weight':'500','color':'white'}">
+              {{(!element.state_view) ? "Fuera del Grupo" : element.state_view  }}
             </div>
             </td>
           </ng-container>
