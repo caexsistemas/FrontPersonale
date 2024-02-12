@@ -173,7 +173,7 @@ export class MeetingDialog {
               
               // }
 
-              if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 4 || this.cuser.role == 1){
+              if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 5 || this.cuser.role == 1){
                 this.viewDataActua = true;
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
