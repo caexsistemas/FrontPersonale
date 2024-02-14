@@ -106,12 +106,12 @@ export class ContactComponent implements OnInit {
   generateTable(data) {
     this.displayedColumns = [
       "view",
-      "user_wolk",
-      "user_canal",
-      "user_camp",
+      "user_usuario",
+      "user_nombre",
+      "user_ident",
       "user_rol",
-      "user_sup",
-      "user_nred",
+      "user_camp",
+      // "user_nred",
       "actions", 
     ];
     this.dataSource = new MatTableDataSource(data);

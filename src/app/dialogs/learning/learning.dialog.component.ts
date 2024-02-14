@@ -104,7 +104,7 @@ export class LearningDialog {
   text:boolean;
   contenTable: any = [];
   disabled = false;
-
+  checkPlace: boolean;
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -128,6 +128,8 @@ export class LearningDialog {
   meeting_view: any = [];
   che_date: any = [];
   viewDataActua: boolean = false;
+  checkViewLink:boolean = false;
+  place: any = [];
   public clickedRows;
 
   constructor(
@@ -172,15 +174,26 @@ export class LearningDialog {
               
               // }
 
-              if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 4 || this.cuser.role == 1){
+              if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 5 || this.cuser.role == 1){
                 this.viewDataActua = true;
+                // this.checkViewLink = true;
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
-              }
+              // }else if(this.meeting.lear_state === '144/2' && this.cuser.role == ){
+              //   this.checkViewLink = true;
+
+              }else
+              // if(!(this.cuser.role == 1) || !(this.cuser.role == 5) || this.meeting.idPersonale === this.cuser.idpersonale){
+              //   this.checkViewLink = false;
+
+             
               this.paginator.changes.subscribe((paginator: QueryList<MatPaginator>) => {
                 this.dataSource.paginator = paginator.first;
               });
-              
+
+              //validar si el estado de capacitacion es en curso
+              (this.meeting.lear_state === '144/2') ? this.checkViewLink = true : this.checkViewLink = false;
+
               this.selection = data.data["getSelectData"][0];
               this.selectionImg = data.data["getSelectData"][0];
               this.panelOpenState = false;
@@ -262,15 +275,21 @@ export class LearningDialog {
       receiver5: new FormControl(""),
       lear_desc: new FormControl(""),
       check_indf:new FormControl(""),
-      lear_link: new FormControl(""),
-      lear_link_que: new FormControl(""),
+      lear_link_quest: new FormControl(""),
+      lear_link_satis: new FormControl(""),
       lear_state: new FormControl(""),
+      lear_place: new FormControl(""),
+      lear_place_other: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
   }
 
   closeDialog() {
     this.dialogRef.close();
+  }
+  closeDialogView() {
+    this.dialogRef.close();
+    this.onSubmitUpdateDate();
   }
   ngOnInit(): void {
     this.permissions = this.handler.permissionsApp;
@@ -296,6 +315,7 @@ export class LearningDialog {
           this.boss = data.data["getDataBoss"];
           this.positionLog = data.data["positionLog"];
           this.status = data.data["state"];
+          this.place = data.data["place"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -326,14 +346,17 @@ export class LearningDialog {
         if (data.success) {
           this.area =   data.data["idArea"];
           this.cargo =   data.data["idPosition"];
-          this.formCreate.get("mee_name").setValue(data.data["getParamUpdate"][0].mee_name);
+          this.formCreate.get("lear_name").setValue(data.data["getParamUpdate"][0].lear_name);
           this.formCreate.get("receiver").setValue(data.data["getParamUpdate"][0].receiver.split(','));
           this.formCreate.get("receiver4").setValue(data.data["getParamUpdate"][0].receiver4);
-          this.formCreate.get("mee_fec_ini").setValue(data.data["getParamUpdate"][0].mee_fec_ini);
-          this.formCreate.get("mee_fec_fin").setValue(data.data["getParamUpdate"][0].mee_fec_fin);
-          this.formCreate.get("mee_desc").setValue(data.data["getParamUpdate"][0].mee_desc);
-          this.formCreate.get("mee_link").setValue(data.data["getParamUpdate"][0].mee_link);
-          this.formCreate.get("check_indf").setValue(data.data["getParamUpdate"][0].check_indf);
+          this.formCreate.get("lear_fec_eje").setValue(data.data["getParamUpdate"][0].lear_fec_eje);
+          // this.formCreate.get("mee_fec_fin").setValue(data.data["getParamUpdate"][0].mee_fec_fin);
+          this.formCreate.get("lear_desc").setValue(data.data["getParamUpdate"][0].lear_desc);
+          this.formCreate.get("lear_link_quest").setValue(data.data["getParamUpdate"][0].lear_link_quest);
+          this.formCreate.get("lear_link_satis").setValue(data.data["getParamUpdate"][0].lear_link_satis);
+          this.formCreate.get("lear_state").setValue(data.data["getParamUpdate"][0].lear_state);
+          this.formCreate.get("lear_place").setValue(data.data["getParamUpdate"][0].lear_place);
+          this.formCreate.get("lear_place_other").setValue(data.data["getParamUpdate"][0].lear_place_other);
 
           if(data.data["getParamUpdate"][0].file_sp){
             this.selection.file_sp = JSON.parse(data.data["getParamUpdate"][0].file_sp );
@@ -364,19 +387,14 @@ export class LearningDialog {
             );
 
             // data.data["getParamUpdate"].forEach(element => {
-            //   console.log('foreach del update =>',element); 
               
             // const fromAss =  element.idPersonale ;
             // arrayOfFromAss.push(fromAss);
-            // console.log('foreach del update ele =>',fromAss); 
             // // this.selected(arrayOfFromAss)
             
-            // console.log('foreach del update ele2 =>',arrayOfFromAss); 
 
               
             // this.formCreate.get("receiver5").setValue([arrayOfFromAss]);
-            // console.log('foreach del update 1=>',this.formCreate.get("receiver5").setValue([arrayOfFromAss])); 
-            // console.log('foreach del update 2=>',this.formCreate.get("receiver5").setValue(arrayOfFromAss)); 
 
               
             // });
@@ -406,6 +424,7 @@ export class LearningDialog {
         archivoRes: this.nuevoArchivo,
       };
       this.WebApiService.putRequest(this.endpoint + "/" + this.idMee, body, {
+        action:"formMeeting",
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component,
@@ -548,7 +567,6 @@ saveCase: any = [];
         await leerArchivo(files[i]);
       }
       this.nuevoArchivo = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
-      console.log(this.nuevoArchivo); // Aquí puedes hacer lo que necesites con el arreglo de archivos
     };
 
     leerArchivosSecuencialmente();
@@ -579,7 +597,6 @@ saveCase: any = [];
         await leerArchivo(files[i]);
       }
       this.nuevoImg = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
-      console.log(this.nuevoImg); // Aquí puedes hacer lo que necesites con el arreglo de archivos
     };
 
     leerArchivosSecuencialmente();
@@ -597,7 +614,6 @@ saveCase: any = [];
       for (let line of lines) {
         this.area.push(line);
       } 
-      console.log(this.area);
       
        this.checkArea = true; 
     }
@@ -615,19 +631,13 @@ saveCase: any = [];
   
     for (let element of event) {
       // Filtrar las áreas según el elemento actual
-      // var areas = this.positionLog.filter((area) => area.idArea === element && area.idPosition != null);
-      console.log('event =>',event);
-      console.log('select de area =>',this.positionLog);
       this.positionLog.forEach(position => {
-        // const idAreasArray = position.idAreas.split(','); // Convertimos las cadenas a números si es necesario
-        // console.log('===1 ===>',idAreasArray);
 
         const arrayPos = {
           "idArea": position.idAreas.split(','),
           "idPosition": position.idCargo,
           "cargo": position.cargo
         }
-        console.log('===1 ===>',arrayPos);
 
         const arrayPosFiltrado = {
           "idArea": "",
@@ -636,42 +646,18 @@ saveCase: any = [];
         };
 
         arrayPos.idArea.forEach(idArea => {
-            // const areas = arrayPos.idArea.filter(area => area.idArea === element);
-            // const areas = arrayPos.idArea.filter(area => area.idArea === element);
             if(idArea === element){
 
-            console.log('==forescah=>',arrayPos);
-              // this.cargo.push(arrayPos);
               arrayPosFiltrado.idArea = idArea;
           }
-            // Hacer algo con el array 'areas'
-            // console.log('===>',areas);
-            // var areas = this.positionLog.filter((area) => area.idAreas === element);
-  
-            // for (let area of areas) {
-            //   this.cargo.push(area);
-            // }
             
         });
-        // this.cargo = Array.from(new Set(this.cargo));
-        // console.log('cargos =>',this.cargo);
         // Verificas si al menos una de las áreas coincide
         if (arrayPosFiltrado.idArea !== "") {
-          console.log('==forescah=>', arrayPosFiltrado);
           this.cargo.push(arrayPosFiltrado);
         }
-    });
-      
-      // var areas = this.positionLog.filter((area) => area.idAreas === element);
-  
-      // for (let area of areas) {
-      //   this.cargo.push(area);
-      // }
+     });
     }
-    // Eliminar duplicados de la lista de cargos
-    // this.cargo = Array.from(new Set(this.cargo));
-    // console.log('cargos =>',this.cargo);
-    
     this.checkCargo = true;
 
   }else if (event.length == 0){
@@ -689,8 +675,6 @@ saveCase: any = [];
   areaCargoMapping: string[] = [];
   filteredUsers: Observable<any[]>;
   onSelectPerson(event) {
-console.log('escoger personas =>',event);
-console.log('escoger personas =>',this.PersonaleInfo);
 
     let contador = 0;
     this.reload.emit();
@@ -704,7 +688,6 @@ console.log('escoger personas =>',this.PersonaleInfo);
         event.forEach(idpos => {
           
           this.cargo.forEach(idarea => {
-            console.log('+***2**',  this.cargo);
 
             const filteredPeople = this.PersonaleInfo.filter(user => user.idPosition === idpos && user.idArea === idarea.idArea );
             this.personInfoLine = this.personInfoLine.concat(filteredPeople);
@@ -806,13 +789,11 @@ verificarImagenesValidas(): void {
 
   // Función para eliminar un usuario de la lista
   remove(user: any): void {
-    console.log('remover', user);
     
     const index = this.selectedUsers.indexOf(user);
 
     if (index >= 0) {
       this.selectedUsers.splice(index, 1);
-    console.log('remover el if', this.selectedUsers);
     this.formCreate.get('receiver5').setValue([this.selectedUsers]);
 
     }
@@ -845,5 +826,106 @@ verificarImagenesValidas(): void {
     }
     
   }
+  getAssist(event){
 
+    const idLearAssi = event;
+    // this.loading.emit(true);
+    const date_fin = {
+      "date_view": "",
+    }
+
+    let body = {
+      listas: date_fin
+    };
+    
+    this.WebApiService.putRequest(this.endpoint + "/" + idLearAssi, body, {
+      action: "finDateAssis",
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        if (data.success) {
+          this.handler.showSuccess(data.message);
+          this.reload.emit();
+          this.closeDialog();
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+        }
+      },
+      (error) => {
+        this.handler.showError();
+        this.loading.emit(false);
+      }
+    );
+  // }
+
+}
+ onSelectPlace(event){
+  if(event === '145/3'){
+    this.getNivel();
+    this.checkPlace = true;
+  }else{
+    this.getNivel();
+
+    this.checkPlace = false;
+  }
+
+}
+isRequired(state):boolean{
+
+  return state === true;
+
+}
+getNivel() {
+  const selectLevel = this.formCreate.get("lear_place");
+  const selectedValue = selectLevel.value;
+
+  // Verifica si el valor seleccionado es '145/3'
+  if (selectedValue === '145/3') {
+    // Establece el campo lear_place_other como requerido
+    this.formCreate.get('lear_place_other').setValidators([Validators.required]);
+  } else {
+    // Si no es '145/3', elimina las validaciones
+    this.formCreate.get('lear_place_other').clearValidators();
+  }
+
+  // Actualiza las validaciones del campo lear_place_other
+  this.formCreate.get('lear_place_other').updateValueAndValidity();
+}
+
+onSubmitUpdateDate() {
+    
+  this.loading.emit(true);
+  const date_fin = {
+    "date_view": "",
+  }
+
+  let body = {
+    listas: date_fin
+  };
+  
+  this.WebApiService.putRequest(this.endpoint + "/" + this.meeting.le_ass_id, body, {
+    action: "finDateView",
+    token: this.cuser.token,
+    idUser: this.cuser.iduser,
+    modulo: this.component,
+  }).subscribe(
+    (data) => {
+      if (data.success) {
+        this.handler.showSuccess(data.message);
+        this.reload.emit();
+        this.closeDialog();
+      } else {
+        this.handler.handlerError(data);
+        this.loading.emit(false);
+      }
+    },
+    (error) => {
+      this.handler.showError();
+      this.loading.emit(false);
+    }
+  );
+}
 }

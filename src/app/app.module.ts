@@ -170,6 +170,7 @@ import { AssignmentViewDialog } from "./dialogs/selection/assignment-view/assign
 import { ReportsAssignmentTrainerComponent } from "./dialogs/reports/assignment-trainer/reports-assignment-trainer.component";
 import { LearningDialog } from "./dialogs/learning/learning.dialog.component";
 import { ReportsMeetingComponent } from "./dialogs/reports/meeting/reports-meeting.component";
+import { ReportsLearningComponent } from "./dialogs/reports/learning/reports-learning.component";
 // import { SignaturePadModule } from 'angular2-signaturepad';
 
 const routes: Routes = [];
@@ -333,7 +334,8 @@ const routes: Routes = [];
     AssignmentViewDialog,
     ReportsAssignmentTrainerComponent,
     LearningDialog,
-    ReportsMeetingComponent
+    ReportsMeetingComponent,
+    ReportsLearningComponent
   ],
   providers: [
     {

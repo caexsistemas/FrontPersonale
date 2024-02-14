@@ -24,6 +24,8 @@ import { formatDate } from "@angular/common";
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { LearningDialog } from "../../../dialogs/learning/learning.dialog.component";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { ReportsLearningComponent } from "../../../dialogs/reports/learning/reports-learning.component";
 
 // Registra el idioma español
 registerLocaleData(localeEs, 'es');
@@ -56,7 +58,9 @@ export class LearningComponent implements OnInit {
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private matBottomSheet: MatBottomSheet,
+
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
@@ -108,6 +112,8 @@ export class LearningComponent implements OnInit {
       "lear_name",
       "learting_person_id",
       "lear_fec_eje",
+      "lear_place",
+      "lear_state",
       "actions",
     ];
     this.dataSource = new MatTableDataSource(data);
@@ -203,26 +209,23 @@ export class LearningComponent implements OnInit {
     "142/1": "#CA342B",
     "142/2": "#177E31",
     "142/3": "#A79F22",
-    "142/4": "#9E253B",
-    "No Disponible": "#9E253B",
+    "142/5": "#096621",
+    "Fuera del Grupo": "#9E253B",
   };
 
   colorState(state) {
     return this.colorMap[state] || "";
   }
-  // openc(){
-  //   if(this.contaClick == 0){
-  //     this.sendRequest();
-  //   }
-  //   this.contaClick = this.contaClick + 1;
-  // }
-  // applyFilter(search) {
-  //   this.dataSource.filter = search.trim().toLowerCase();
-  // }
+
   formatearFecha(fecha: Date): string {
     let formattedDate = formatDate(fecha, 'MMM d, y', 'es');
+    formattedDate += ', hora: ' + formatDate(fecha, 'h:mm a', 'es');
     formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
     return formattedDate;
-  }
+}
 
+
+  onTriggerSheetClick() {
+    this.matBottomSheet.open(ReportsLearningComponent);
+  }
 }

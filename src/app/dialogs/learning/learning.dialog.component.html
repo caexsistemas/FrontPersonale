@@ -24,23 +24,45 @@
                       </div>
                       <div class="col-md-4">
                           <mat-form-field class="example-full-width">
-                              <mat-label>Fecha de ejecución:</mat-label>
-                              <input matInput formControlName="lear_fec_eje" type="date" [readonly]="view == 'update'" required>
+                              <mat-label>Fecha y Hora de Ejecución:</mat-label>
+                              <input matInput formControlName="lear_fec_eje" type="datetime-local" [readonly]="view == 'update'" required>
                           </mat-form-field>
                       </div>
                       <div class="col-md-4">
                         <mat-form-field class="example-full-width">
-                          <mat-label>Link de evaluación</mat-label>
-                          <input matInput formControlName="lear_link" [readonly]="view == 'update'" required>
+                          <mat-label>Lugar de Capacitación</mat-label>
+                          <mat-select formControlName="lear_place"  (ngModelChange)="onSelectPlace($event)" required >
+                            <mat-option *ngFor="let idet of place" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
+                              {{idet.description}}
+                            </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      </div>
+                      <div class="col-md-4" *ngIf="checkPlace">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Escriba Lugar Capacitación </mat-label>
+                          <input matInput formControlName="lear_place_other" [readonly]="view == 'update'" >
                       </mat-form-field>
                       </div>
                   </div>
                   <div class="row mt-2">
                     <div class="col-md-4">
                       <mat-form-field class="example-full-width">
+                        <mat-label>Link de evaluación</mat-label>
+                        <input matInput formControlName="lear_link_quest" [readonly]="view == 'update'" required>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <mat-label>Link de Satisfacción</mat-label>
+                        <input matInput formControlName="lear_link_satis" [readonly]="view == 'update'" required>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
                       <mat-label>Estado Capacitación:</mat-label>
                       <mat-select formControlName="lear_state" required >
-                          <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
+                          <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue">
                             {{idet.description}}
                           </mat-option>
                         </mat-select>
@@ -139,7 +161,7 @@
                     <div class="row mt-3">
                       <div class="col-md-12">
                         <mat-form-field class="example-full-width">
-                          <mat-label> Descripción de capacitación </mat-label>
+                          <mat-label> Descripción de Capacitación </mat-label>
                           <textarea matInput formControlName="lear_desc" [readonly]="view == 'update'" required></textarea>
                         </mat-form-field>
                       </div>
@@ -164,132 +186,106 @@
   <div class="background-suave" *ngIf="view == 'view'">
     <div class="modal-header">
         <h5 class="modal-title">{{title}}</h5>
-        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialogView()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
       
-    <mat-dialog-content style="min-width: 1200px;">
+    <mat-dialog-content >
       <div class="row mt-2">
-
         <div class="col-md-6">
-          <dd>
-            <ul>
-              <!-- <ng-container *ngFor="let archivo of selection.file_sp; let i = index;">
-                <ng-container *ngIf="esImagen(archivo); else imagenNot">
-                  <li>
-                    <img [src]="archivo" alt="Imagen{{i+1}}" />
-                  </li>
-                </ng-container>
-                <ng-template #imagenNot>
-                  <li>
-                    <img mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
-                  </li>
-                </ng-template>
-                
-              </ng-container> -->
-              <ng-container class="contenedor-flexible">
-                <ng-container *ngIf="selectionImg.file_sp; else imagenNot">
-                  <li>
-                    <img class="tu-imagen" [src]="selectionImg.file_sp" alt="Imagen" />
-                  </li>
-                </ng-container>
-                <ng-template #imagenNot>
-                  <li>
-                    <img class="tu-imagen" mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
-                  </li>
-                </ng-template>
-                
+            <ng-container class="contenedor-flexible">
+              <ng-container *ngIf="selectionImg.file_sp; else imagenNot">
+                  <img class="tu-imagen" [src]="selectionImg.file_sp" alt="Imagen" />
               </ng-container>
-            </ul>
-          </dd>
+              <ng-template #imagenNot>
+                  <img class="tu-imagen" mat-card-image style="display: block; margin: 0px auto; opacity: 0.3;" src="assets/img/404.gif" alt="Photo of a Shiba Inu">
+              </ng-template>
+            </ng-container>
         </div>
-    
-          <div class="col-md-6" style="padding-left: 10%;" >
+      
+        <div class="col-md-6" >
           <div>
-            <dt class="textHeader">{{meeting.mee_name}}</dt>
-            <dd class="textCenter mt-3" [class.shortText]="text">{{meeting.mee_desc}}</dd>
-          </div>
-    
-          <mat-card-content>
-            <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
-            <ul class="textCenter">
-              <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
-                <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
-              </li>
-            </ul>
-          </mat-card-content>
-
-          <mat-card-content>
-            <p class="textHeader mt-3">Link de evaluación</p>
-            <ul class="textCenter">
-                <a href="{{meeting.mee_link}}" target="_blank"> Link evaluación</a>
-            </ul>
-          </mat-card-content>
-
-          <mat-card-content>
-            <div *ngIf="check_date">
-              <p class="textHeader mt-3">Fecha fin vigencia</p>
-              <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
-            </div>
-          </mat-card-content>
-          <div>
-
-          </div>
-          <div *ngIf="viewDataActua">
-
-          <mat-accordion class="example-headers-align" >
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Personal 
-                </mat-panel-title>
-                <mat-panel-description>
-                  Lista de personal actualización
-                </mat-panel-description>
-                <mat-icon>account_circle</mat-icon>
-              </mat-expansion-panel-header>
-          
-              <div class="mat-elevation-z8">
-                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
-                  *ngIf="contenTable.length > 0">
-          
-                <ng-container matColumnDef="document">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento </th>
-                  <td mat-cell *matCellDef="let element"> {{element.document }} </td>
-                </ng-container>
-        
-                  <ng-container matColumnDef="idPersonale">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">empleado</th>
-                    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
-                  </ng-container>
-          
-                  <ng-container matColumnDef="view_state">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado</th>
-                    <td mat-cell *matCellDef="let element"> {{element.state_view}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="date_view">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Visualización</th>
-                    <td mat-cell *matCellDef="let element"> {{element.date_view}} </td>
-                  </ng-container>
-          
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-                </table>
-                <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-          
-              </div>
-          
-             
-            </mat-expansion-panel>
             
-          </mat-accordion>
-        </div>
+            <mat-card-content>
+              <p class="textHeader">{{meeting.lear_name	}}</p>
+              <p class="textCenter">{{meeting.lear_desc	}}</p>
+            </mat-card-content>
+      
+            <mat-card-content>
+              <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
+              <ul class="textCenter">
+                <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
+                  <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
+                </li>
+              </ul>
+            </mat-card-content>
+      
+            <mat-card-content  *ngIf="checkViewLink">
+              <p class="textHeader mt-3">Link de Evaluación</p>
+              <ul class="textCenter">
+                <a href="{{meeting.lear_link_quest}}" target="_blank" (click)="getAssist(meeting.le_ass_id)"> Link Evaluación</a>
+              </ul>
+            </mat-card-content>
 
+            <mat-card-content *ngIf="checkViewLink">
+              <p class="textHeader mt-3">Link de Satisfacción</p>
+              <ul class="textCenter">
+                <a href="{{meeting.lear_link_satis}}" target="_blank" > Link Satisfacción</a>
+              </ul>
+            </mat-card-content>
+            <!-- <mat-card-content>
+              <div *ngIf="check_date">
+                <p class="textHeader mt-3">Fecha fin vigencia</p>
+                <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
+              </div>
+            </mat-card-content> -->
+          </div>
 
+            <mat-accordion class="example-headers-align"  *ngIf="viewDataActua" >
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Personal 
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Lista de personal actualización
+                  </mat-panel-description>
+                  <mat-icon>account_circle</mat-icon>
+                </mat-expansion-panel-header>
+            
+                <div class="mat-elevation-z8" style="max-width: auto;">
+                  <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                    *ngIf="contenTable.length > 0">
+            
+                  <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento </th>
+                    <td mat-cell *matCellDef="let element"> {{element.document }} </td>
+                  </ng-container>
+          
+                    <ng-container matColumnDef="idPersonale">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">empleado</th>
+                      <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="view_state">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado</th>
+                      <td mat-cell *matCellDef="let element"> {{element.state_view}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date_view">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha de Visualización</th>
+                      <td mat-cell *matCellDef="let element"> {{element.date_view}} </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
         </div>
-      </div>
     </mat-dialog-content>
-
 </div>
