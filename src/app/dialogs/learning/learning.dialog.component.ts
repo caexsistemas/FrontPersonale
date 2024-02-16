@@ -62,6 +62,7 @@ export class LearningDialog {
   RolInfo: any[];
   formLista: FormGroup;
   nuevoArchivo: any = [];
+  archivoSesion: any = [];
   nuevoImg: any = [];
   meeting: any = [];
   formRole: FormGroup;
@@ -83,6 +84,7 @@ export class LearningDialog {
   selectIdPer: any = [];
   selection: any = [];
   selectionImg: any = [];
+  selectionSesion: any = [];
   areaLog: any = [];
   urlSafe: SafeResourceUrl;
   positionLog: any = [];
@@ -129,7 +131,10 @@ export class LearningDialog {
   che_date: any = [];
   viewDataActua: boolean = false;
   checkViewLink:boolean = false;
+  checkViewDoc:boolean = false;
   place: any = [];
+  checkState: boolean = false;
+  checkSesion: boolean = false;
   public clickedRows;
 
   constructor(
@@ -170,33 +175,29 @@ export class LearningDialog {
             if (data.success == true) {
               this.meeting = data.data['getSelectData'][0];
               this.meeting_view = data.data['getSelectAllMeeting'];
-              // if(this.che_date == 0){
-              
-              // }
 
               if( this.meeting.idPersonale === this.cuser.idPersonale || this.cuser.role == 5 || this.cuser.role == 1){
                 this.viewDataActua = true;
-                // this.checkViewLink = true;
                 this.generateTable(data.data['getSelectAllMeeting']);
                 this.contenTable = data.data['getSelectAllMeeting'];
-              // }else if(this.meeting.lear_state === '144/2' && this.cuser.role == ){
-              //   this.checkViewLink = true;
+              }
 
-              }else
-              // if(!(this.cuser.role == 1) || !(this.cuser.role == 5) || this.meeting.idPersonale === this.cuser.idpersonale){
-              //   this.checkViewLink = false;
-
-             
               this.paginator.changes.subscribe((paginator: QueryList<MatPaginator>) => {
                 this.dataSource.paginator = paginator.first;
               });
 
               //validar si el estado de capacitacion es en curso
               (this.meeting.lear_state === '144/2') ? this.checkViewLink = true : this.checkViewLink = false;
+              (this.meeting.lear_state === '144/2' || this.meeting.lear_state === '144/3') ? this.checkViewDoc = true : this.checkViewDoc = false;
 
               this.selection = data.data["getSelectData"][0];
               this.selectionImg = data.data["getSelectData"][0];
+              this.selectionSesion = data.data["getSelectData"][0];
+              
               this.panelOpenState = false;
+              if(this.selectionSesion.file_sp_sesion){
+                this.selectionSesion.file_sp_sesion = JSON.parse(this.selectionSesion.file_sp_sesion);
+              }
               if(this.selectionImg.file_sp){
                 this.selectionImg.file_sp = JSON.parse(this.selection.file_sp);
               }
@@ -204,6 +205,9 @@ export class LearningDialog {
             
               if(this.meeting.mee_fec_fin){
                 this.check_date = true;
+              }
+              if( this.cuser.role == 5 || this.cuser.role == 1 || this.cuser.role == 27){
+                this.checkSesion = true;
               }
             
               this.loading.emit(false);
@@ -267,6 +271,7 @@ export class LearningDialog {
       idPersonale: new FormControl(""),
       file_sp: new FormControl(""),
       file_sp_doc:new FormControl(""),
+      file_sp_sesion:new FormControl(""),
       lear_fec_eje: new FormControl(""),
       receiver: new FormControl(""),
       receiver2: new FormControl(""),
@@ -274,7 +279,6 @@ export class LearningDialog {
       receiver4: new FormControl(""),
       receiver5: new FormControl(""),
       lear_desc: new FormControl(""),
-      check_indf:new FormControl(""),
       lear_link_quest: new FormControl(""),
       lear_link_satis: new FormControl(""),
       lear_state: new FormControl(""),
@@ -344,6 +348,7 @@ export class LearningDialog {
     }).subscribe(
       (data) => {
         if (data.success) {
+          
           this.area =   data.data["idArea"];
           this.cargo =   data.data["idPosition"];
           this.formCreate.get("lear_name").setValue(data.data["getParamUpdate"][0].lear_name);
@@ -385,20 +390,14 @@ export class LearningDialog {
               startWith(null),
               map((userInput: string | null) => (userInput ? this._filterUsers(userInput) : data.data["getParamUpdate"].slice()))
             );
-
-            // data.data["getParamUpdate"].forEach(element => {
-              
-            // const fromAss =  element.idPersonale ;
-            // arrayOfFromAss.push(fromAss);
-            // // this.selected(arrayOfFromAss)
-            
-
-              
-            // this.formCreate.get("receiver5").setValue([arrayOfFromAss]);
-
-              
-            // });
             this.checkPerson = true;
+          }          
+
+          if(data.data["getParamUpdate"][0].encargado == this.cuser.idPersonale){
+            this.checkState = true;
+          }else{
+            this.checkState = false;
+
           }
          
           this.loading.emit(false);
@@ -469,7 +468,8 @@ saveCase: any = [];
         let body = {
           listas: this.formCreate.value,
           archivoRes: this.nuevoArchivo,
-          img: this.nuevoImg
+          img: this.nuevoImg,
+          archiSesion: this.archivoSesion
         };
       if(this.formCreate.value['receiver'].length > 0 && this.formCreate.value['receiver2'].length > 0 && this.formCreate.value['receiver3'].length > 0 && this.formCreate.value['receiver5'].length > 0 ){
         this.saveCase = "params";
@@ -541,6 +541,7 @@ saveCase: any = [];
           break;
     }
   }
+  selectedFiles: File[] = [];
   seleccionarArchivo(event) {
     var files = event.target.files;
     var archivos = [];
@@ -570,7 +571,53 @@ saveCase: any = [];
     };
 
     leerArchivosSecuencialmente();
+    // para ver el nombre de los documentos adjuntos
+    this.selectedFiles = [];
+    const filess: FileList = event.target.files;
+    for (let i = 0; i < filess.length; i++) {
+      this.selectedFiles.push(filess[i]);
+    }
   }
+  selectedFilesSesion: File[] = [];
+  seleccionarSesion(event) {
+    var files = event.target.files;
+    var archivos = [];
+
+    // Función para leer archivos de manera secuencial con Promesas
+    const leerArchivo = (file) => {
+      return new Promise<void>((resolve) => {
+        var reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          var archivo = {
+            nombreArchivo: file.name,
+            base64textString: btoa(readerEvent.target.result.toString()),
+          };
+          archivos.push(archivo);
+          resolve();
+        };
+        reader.readAsBinaryString(file);
+      });
+    };
+
+    // Utilizar async/await para leer archivos secuencialmente
+    const leerArchivosSecuencialmente = async () => {
+      for (var i = 0; i < files.length; i++) {
+        await leerArchivo(files[i]);
+      }
+      this.archivoSesion = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
+    };
+
+    leerArchivosSecuencialmente();
+    // para ver el nombre de los documentos adjuntos
+    this.selectedFilesSesion = [];
+    const filess: FileList = event.target.files;
+    for (let i = 0; i < filess.length; i++) {
+      this.selectedFilesSesion.push(filess[i]);
+    }
+  }
+
+selectedFileName: string = '';
+
   seleccionarImg(event) {
     var files = event.target.files;
     var archivos = [];
@@ -600,6 +647,9 @@ saveCase: any = [];
     };
 
     leerArchivosSecuencialmente();
+    // para ver le nombre de las imagen
+    const file = event.target.files[0];
+    this.selectedFileName = file.name;
   }
 
   onSelectArea(event){
@@ -928,4 +978,6 @@ onSubmitUpdateDate() {
     }
   );
 }
+
+ 
 }

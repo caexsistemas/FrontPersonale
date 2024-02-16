@@ -58,11 +58,11 @@
                         <input matInput formControlName="lear_link_satis" [readonly]="view == 'update'" required>
                     </mat-form-field>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" *ngIf="checkState || view == 'create'">
                       <mat-form-field class="example-full-width">
                       <mat-label>Estado Capacitación:</mat-label>
-                      <mat-select formControlName="lear_state" required >
-                          <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue">
+                      <mat-select formControlName="lear_state" required  >
+                          <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue" >
                             {{idet.description}}
                           </mat-option>
                         </mat-select>
@@ -136,17 +136,35 @@
                      
 
                     </div> -->
-                    <div class="row mt-3" *ngIf="view == 'create'">
+                    <div class="row mt-4" *ngIf="view == 'create'">
                       <div class="col-md-4">
-                        <label>Adjuntar Portada (Imagen):</label>
-                        <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarImg($event)" accept="image/*" required>
+                        <label for="file-upload-1" class="custom-file-upload">
+                          <i class="fa fa-picture-o"></i> Subir Imagen Portada
+                        </label>
+                        <input formControlName="file_sp" id="file-upload-1" type="file" (change)="seleccionarImg($event)" accept="image/*" required/>
+                        <div>
+                          <span id="file-upload-1-name" class="file-name">{{ selectedFileName.slice(0,8) }}</span>
+                        </div>
                       </div>
-                      <div class="col-md-6">
-                        <label>Adjuntar Documento de Soporte:</label>
-                        <input formControlName="file_sp_doc" class="form-control" type="file" (change)="seleccionarArchivo($event)"
-                          multiple required>
+                      <div class="col-md-4">
+                        <label for="file-upload-2" class="custom-file-upload">
+                          <i class="fa fa-cloud-upload"></i> Cargar Documentos
+                        </label>
+                        <input formControlName="file_sp_doc" id="file-upload-2" type="file" (change)="seleccionarArchivo($event)" multiple required/>
+                        <div *ngFor="let file of selectedFiles">
+                          <span class="file-name">{{ file.name.slice(0,8)  }}</span>
+                        </div>
                       </div>
-                      <div class="col-md-6" *ngIf="view == 'update'">
+                      <div class="col-md-4">
+                        <label for="file-upload-3" class="custom-file-upload">
+                          <i class="fa fa-upload"></i> Planeador de Sesión
+                        </label>
+                        <input formControlName="file_sp_sesion" id="file-upload-3" type="file" (change)="seleccionarSesion($event)" multiple required/>
+                        <div *ngFor="let file of selectedFilesSesion">
+                          <span class="file-name">{{ file.name.slice(0,8)  }}</span>
+                        </div>
+                      </div>
+                      <!-- <div class="col-md-6">
                         <dt>Documentos de Soporte:</dt>
                         <dd>
                           <ul>
@@ -155,7 +173,20 @@
                             </li>
                           </ul>
                         </dd>
-                      </div>
+                      </div> -->
+                    </div>
+                    <div class="row mt-3" *ngIf="view == 'create'">
+                      
+                      <!-- <div class="col-md-6">
+                        <dt>Documentos de Soporte:</dt>
+                        <dd>
+                          <ul>
+                            <li *ngFor="let archivo of selection.file_sp_sesion; let i = index;">
+                              <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
+                            </li>
+                          </ul>
+                        </dd>
+                      </div> -->
                     </div>
                     
                     <div class="row mt-3">
@@ -212,7 +243,7 @@
               <p class="textCenter">{{meeting.lear_desc	}}</p>
             </mat-card-content>
       
-            <mat-card-content>
+            <mat-card-content *ngIf="checkViewDoc">
               <p class="textHeader mt-3">Consultar Documentos Adjuntos</p>
               <ul class="textCenter">
                 <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
@@ -240,6 +271,14 @@
                 <dt class="textHeader">{{meeting.mee_fec_fin}}</dt>
               </div>
             </mat-card-content> -->
+            <mat-card-content *ngIf="checkSesion">
+              <p class="textHeader mt-3">Planeador de Sesión</p>
+              <ul class="textCenter">
+                <li *ngFor="let archivo of selection.file_sp_sesion; let i = index;">
+                  <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
+                </li>
+              </ul>
+            </mat-card-content>
           </div>
 
             <mat-accordion class="example-headers-align"  *ngIf="viewDataActua" >
