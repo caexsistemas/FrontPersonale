@@ -107,7 +107,8 @@ export class LearningDialog {
   contenTable: any = [];
   disabled = false;
   checkPlace: boolean;
-
+  matriz: any = [];
+  duration: Date = new Date(0, 0, 0, 0, 0);
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   //OUTPUTS
@@ -135,6 +136,10 @@ export class LearningDialog {
   place: any = [];
   checkState: boolean = false;
   checkSesion: boolean = false;
+  selectedTime: string = ''; // Para ngx-timepicker-field
+  selectedHour: number = 0; // Para ngx-material-timepicker-dial y ngx-material-timepicker-face
+  selectedMinute: number = 0; // Para ngx-material-timepicker-dial y ngx-material-timepicker-face
+
   public clickedRows;
 
   constructor(
@@ -273,6 +278,7 @@ export class LearningDialog {
       file_sp_doc:new FormControl(""),
       file_sp_sesion:new FormControl(""),
       lear_fec_eje: new FormControl(""),
+      lear_time: new FormControl(""),
       receiver: new FormControl(""),
       receiver2: new FormControl(""),
       receiver3: new FormControl(""),
@@ -284,6 +290,7 @@ export class LearningDialog {
       lear_state: new FormControl(""),
       lear_place: new FormControl(""),
       lear_place_other: new FormControl(""),
+      matriz: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
   }
@@ -320,6 +327,7 @@ export class LearningDialog {
           this.positionLog = data.data["positionLog"];
           this.status = data.data["state"];
           this.place = data.data["place"];
+          this.matriz = data.data["matriz"];
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -355,13 +363,17 @@ export class LearningDialog {
           this.formCreate.get("receiver").setValue(data.data["getParamUpdate"][0].receiver.split(','));
           this.formCreate.get("receiver4").setValue(data.data["getParamUpdate"][0].receiver4);
           this.formCreate.get("lear_fec_eje").setValue(data.data["getParamUpdate"][0].lear_fec_eje);
-          // this.formCreate.get("mee_fec_fin").setValue(data.data["getParamUpdate"][0].mee_fec_fin);
+          this.formCreate.get("lear_time").setValue(data.data["getParamUpdate"][0].lear_time.slice(0,5));
+          this.formCreate.get('lear_time').disable();
+
           this.formCreate.get("lear_desc").setValue(data.data["getParamUpdate"][0].lear_desc);
           this.formCreate.get("lear_link_quest").setValue(data.data["getParamUpdate"][0].lear_link_quest);
           this.formCreate.get("lear_link_satis").setValue(data.data["getParamUpdate"][0].lear_link_satis);
           this.formCreate.get("lear_state").setValue(data.data["getParamUpdate"][0].lear_state);
           this.formCreate.get("lear_place").setValue(data.data["getParamUpdate"][0].lear_place);
           this.formCreate.get("lear_place_other").setValue(data.data["getParamUpdate"][0].lear_place_other);
+          this.formCreate.get("matriz").setValue(data.data["getParamUpdate"][0].matriz);
+
 
           if(data.data["getParamUpdate"][0].file_sp){
             this.selection.file_sp = JSON.parse(data.data["getParamUpdate"][0].file_sp );
@@ -979,5 +991,20 @@ onSubmitUpdateDate() {
   );
 }
 
- 
+onOpeningOrClosingTimeChanged(event){
+  let hour = event.slice(0, 2);
+  const minutes = event.slice(3, 5);
+
+  // Convertir la hora a '00' si es '24'
+  if (hour === '24') {
+    hour = '00';
+  }
+
+  // Unir la hora ajustada con los minutos
+  this.selectedTime = hour + ':' + minutes;
+console.log('hora ===',this.selectedTime);
+this.formCreate.get("lear_time").setValue(this.selectedTime);
+
+}
+
 }

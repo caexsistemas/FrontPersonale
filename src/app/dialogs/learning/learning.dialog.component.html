@@ -44,8 +44,13 @@
                           <input matInput formControlName="lear_place_other" [readonly]="view == 'update'" >
                       </mat-form-field>
                       </div>
+                    <!-- <div class="ngx-timepicker-field-example">
+                      <ngx-timepicker-field [format]="24" [defaultTime]="'23:11'"></ngx-timepicker-field>
+                  </div> -->
+                    
                   </div>
                   <div class="row mt-2">
+                   
                     <div class="col-md-4">
                       <mat-form-field class="example-full-width">
                         <mat-label>Link de evaluación</mat-label>
@@ -69,8 +74,32 @@
                       </mat-form-field>
                   </div>
                   </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                      <mat-label>Campaña:</mat-label>
+                      <mat-select formControlName="matriz" required  >
+                          <mat-option *ngFor="let idet of matriz" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
+                            {{idet.description}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                
+                <div class="col-md-4 hora" >
+                    <mat-label class="titleHora">Duración de Capacitación:</mat-label>
+                      <ngx-timepicker-field
+                        class="custom-ngx-timepicker-field"
+                        [format]="24"
+                        formControlName="lear_time"
+                        [controlOnly]="true"
+                        (timeChanged)="onOpeningOrClosingTimeChanged($event)"
+                        >
+                      </ngx-timepicker-field>
+              </div>
+            </div>
                   <hr>
-                  <div class="row mt-3">
+                  <div class="row mt-6">
                       <div class="col-md-4">
                           <mat-form-field class="example-full-width">
                           <mat-label>Linea de Negocio:</mat-label>
@@ -139,7 +168,7 @@
                     <div class="row mt-4" *ngIf="view == 'create'">
                       <div class="col-md-4">
                         <label for="file-upload-1" class="custom-file-upload">
-                          <i class="fa fa-picture-o"></i> Subir Imagen Portada
+                          <i class="fa fa-picture-o"></i> Imagen Portada
                         </label>
                         <input formControlName="file_sp" id="file-upload-1" type="file" (change)="seleccionarImg($event)" accept="image/*" required/>
                         <div>
@@ -278,6 +307,13 @@
                   <a href="{{archivo}}" target="_blank">{{ archivo.split('_').pop() }}</a>
                 </li>
               </ul>
+            </mat-card-content>
+            <mat-card-content>
+              <div>
+                <p class="textHeader mt-3">Duración de Capacitación</p>
+                <p class="textHeader">h/m/s</p>
+                <dt class="textHeader">{{meeting.lear_time}}</dt>
+              </div>
             </mat-card-content>
           </div>
 

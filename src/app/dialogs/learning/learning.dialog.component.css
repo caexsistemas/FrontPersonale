@@ -180,3 +180,12 @@ flex: 1; /* El contenido toma el espacio restante */
 .file-name{
   font-weight: bold ;
 }
+.hora{
+  padding-left: 4%;
+  width: 1%; /* Define el ancho del div según tus necesidades */
+  height: 1%;
+  margin-bottom: 20px; 
+}
+.titleHora{
+  font-size: 11px;
+}

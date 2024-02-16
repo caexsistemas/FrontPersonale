@@ -172,7 +172,7 @@ import { LearningDialog } from "./dialogs/learning/learning.dialog.component";
 import { ReportsMeetingComponent } from "./dialogs/reports/meeting/reports-meeting.component";
 import { ReportsLearningComponent } from "./dialogs/reports/learning/reports-learning.component";
 // import { SignaturePadModule } from 'angular2-signaturepad';
-
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 const routes: Routes = [];
 @NgModule({
   imports: [
@@ -230,7 +230,8 @@ const routes: Routes = [];
     MatStepperModule,
     ClipboardModule,
     MatTooltipModule,
-    MatChipsModule
+    MatChipsModule,
+    NgxMaterialTimepickerModule
     
     
     // NgxDocViewerModule
@@ -336,6 +337,7 @@ const routes: Routes = [];
     LearningDialog,
     ReportsMeetingComponent,
     ReportsLearningComponent
+    // ReportsLearningComponent
   ],
   providers: [
     {
