@@ -76,13 +76,39 @@
                   </div>
                   <div class="row">
                     <div class="col-md-4">
-                      <mat-form-field class="example-full-width">
+                      <!-- <mat-form-field class="example-full-width">
                       <mat-label>Campaña:</mat-label>
                       <mat-select formControlName="matriz" required  >
                           <mat-option *ngFor="let idet of matriz" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                             {{idet.description}}
                           </mat-option>
                         </mat-select>
+                      </mat-form-field> -->
+
+                      <mat-form-field class="example-chip-list">
+                        <mat-chip-list #chipList aria-label="Matriz selection">
+                          <mat-chip
+                            *ngFor="let user of selectedMatri"
+                            [selectable]="true"
+                            [removable]="true"
+                            (removed)="removeMatriz(user)">
+                            {{user.description}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Selecciona matriz..."
+                            #userInput
+                            [formControl]="userCtrl"
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="addM($event)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMatriz($event)" >
+                          <mat-option *ngFor="let user of filteredMatriz | async" [value]="user" [disabled]="view == 'update'">
+                            {{user.description}}
+                          </mat-option>
+                        </mat-autocomplete>
                       </mat-form-field>
                   </div>
                 

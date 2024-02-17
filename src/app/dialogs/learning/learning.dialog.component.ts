@@ -102,6 +102,7 @@ export class LearningDialog {
   status: any = [];
   // readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedUsers: any[] = [];
+  selectedMatri: any[] = [];
   userCtrl = new FormControl(); 
   text:boolean;
   contenTable: any = [];
@@ -139,6 +140,7 @@ export class LearningDialog {
   selectedTime: string = ''; // Para ngx-timepicker-field
   selectedHour: number = 0; // Para ngx-material-timepicker-dial y ngx-material-timepicker-face
   selectedMinute: number = 0; // Para ngx-material-timepicker-dial y ngx-material-timepicker-face
+  filteredMatriz: Observable<any[]>;
 
   public clickedRows;
 
@@ -329,6 +331,12 @@ export class LearningDialog {
           this.place = data.data["place"];
           this.matriz = data.data["matriz"];
 
+          
+          this.filteredMatriz = this.userCtrl.valueChanges.pipe(
+            startWith(null),
+            map((userInput: string | null) => (userInput ? this._filterMatriz(userInput) : this.matriz.slice()))
+          );
+
           if (this.view == "update") {
             this.getDataUpdate();
           }
@@ -372,7 +380,8 @@ export class LearningDialog {
           this.formCreate.get("lear_state").setValue(data.data["getParamUpdate"][0].lear_state);
           this.formCreate.get("lear_place").setValue(data.data["getParamUpdate"][0].lear_place);
           this.formCreate.get("lear_place_other").setValue(data.data["getParamUpdate"][0].lear_place_other);
-          this.formCreate.get("matriz").setValue(data.data["getParamUpdate"][0].matriz);
+          // this.formCreate.get("matriz").setValue(data.data["getParamUpdate"][0].matriz);
+          this.formCreate.get("matriz").setValue(data.data["getParamUpdate"][0].matriz.split(','));
 
 
           if(data.data["getParamUpdate"][0].file_sp){
@@ -395,6 +404,7 @@ export class LearningDialog {
             this.checkPerson = true;
           }
           if(data.data["getParamUpdate"]){
+            // console.log(data.data["getParamUpdate"].matriz);
             
             const arrayOfFromAss: any = [];
 
@@ -402,8 +412,13 @@ export class LearningDialog {
               startWith(null),
               map((userInput: string | null) => (userInput ? this._filterUsers(userInput) : data.data["getParamUpdate"].slice()))
             );
+            // this.filteredMatriz = this.userCtrl.valueChanges.pipe(
+            //   startWith(null),
+            //   map((userInput: string | null) => (userInput ? this._filterMatriz(userInput) : data.data["getParamUpdate"][0].matriz.split(',').slice()))
+            // );
             this.checkPerson = true;
-          }          
+          }       
+             
 
           if(data.data["getParamUpdate"][0].encargado == this.cuser.idPersonale){
             this.checkState = true;
@@ -474,6 +489,8 @@ saveCase: any = [];
     if(this.selectedUsers.length > 0){
       this.formCreate.get('receiver5').setValue([this.selectedUsers]);
       }
+
+      this.formCreate.get('matriz').setValue([this.selectedMatri]);
 
     if (this.formCreate.valid) {
       this.loading.emit(true);
@@ -869,6 +886,68 @@ verificarImagenesValidas(): void {
     this.userCtrl.setValue(null);
 
   }
+  addMatriz(event: MatChipInputEvent): void {
+    
+    const input = event.input;
+    const value = event.value;
+
+    // Agrega el usuario si se ha proporcionado un valor
+    if ((value || '').trim()) {
+      this.selectedMatri.push({ name: value.trim() });
+    }
+
+    // Resetea el valor del input
+    if (input) {
+      input.value = '';
+    }
+
+    // Limpia el filtro del autocomplete
+    this.formCreate.get('matriz').setValue('');
+
+    // Actualiza la lista filtrada para excluir los usuarios seleccionados
+    // this.updateFilteredPersonInfoLine();
+  }
+
+ 
+
+     // Función para agregar usuarios a la lista de usuarios seleccionados
+  addM(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    
+
+    // Agregar el usuario solo si es válido y no está duplicado
+    if ((value || '').trim() && !this.selectedMatri.find(user => user.description === value.trim())) {
+      this.selectedMatri.push({ name: value.trim() });
+    }
+
+    // Limpiar el campo de entrada después de agregar el usuario
+    if (input) {
+      input.value = '';
+    }
+
+    // Limpiar el FormControl asociado al campo de entrada
+    this.userCtrl.setValue(null);
+  }
+
+  // Función para eliminar un usuario de la lista
+  removeMatriz(user: any): void {
+    
+    const index = this.selectedMatri.indexOf(user);
+
+    if (index >= 0) {
+      this.selectedMatri.splice(index, 1);
+    this.formCreate.get('matriz').setValue([this.selectedMatri]);
+
+    }
+  }
+  selectedMatriz(event: MatAutocompleteSelectedEvent): void {
+    
+    this.selectedMatri.push(event.option.value);
+    this.userInput.nativeElement.value = '';
+    this.userCtrl.setValue(null);
+
+  }
   
   private _filterUsers(value: string): any[] {
     const filterValue = (value || '').toString().toLowerCase();
@@ -876,6 +955,15 @@ verificarImagenesValidas(): void {
       const userName = (user.name || '').toString().toLowerCase(); // Convertir a cadena y luego a minúsculas
       
       return userName.includes(filterValue);
+    });
+  }
+  private _filterMatriz(value: string): any[] {
+
+    const filterValueMatriz = (value || '').toString().toLowerCase();
+    return this.matriz.filter(user => {
+      const userName = (user.description || '').toString().toLowerCase(); // Convertir a cadena y luego a minúsculas
+      
+      return userName.includes(filterValueMatriz);
     });
   }
   onReadonly(event){
@@ -1002,7 +1090,6 @@ onOpeningOrClosingTimeChanged(event){
 
   // Unir la hora ajustada con los minutos
   this.selectedTime = hour + ':' + minutes;
-console.log('hora ===',this.selectedTime);
 this.formCreate.get("lear_time").setValue(this.selectedTime);
 
 }
