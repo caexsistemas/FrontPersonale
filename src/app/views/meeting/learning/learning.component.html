@@ -32,6 +32,11 @@
             <span>Reportes Usuarios Capacitaciones"</span>
           </button>
 
+          <button mat-menu-item *ngIf="permissions.create" (click)="successModal.show()" title="Importar Archivo de Notas">
+            <mat-icon>upload_file</mat-icon>
+            <span>Importar Archivo de Notas</span>
+        </button>
+
         </mat-menu>
       </div>
 
@@ -126,4 +131,31 @@
 
 <div *ngIf="loading" class="loading">
   <mat-spinner [diameter]="50"></mat-spinner>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-primary modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Importar información</h4>
+        <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <label class="col-form-label" for="file">Archivo excel</label>
+            <!-- <angular-file-uploader [config]="afuConfig" [resetUpload]=resetVar -->
+            <angular-file-uploader [config]="afuConfig" (ApiResponse)="getAllPersonal()">
+            </angular-file-uploader>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>

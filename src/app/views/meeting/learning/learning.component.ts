@@ -26,6 +26,7 @@ import localeEs from '@angular/common/locales/es';
 import { LearningDialog } from "../../../dialogs/learning/learning.dialog.component";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { ReportsLearningComponent } from "../../../dialogs/reports/learning/reports-learning.component";
+import { environment } from "../../../../environments/environment";
 
 // Registra el idioma español
 registerLocaleData(localeEs, 'es');
@@ -49,6 +50,40 @@ export class LearningComponent implements OnInit {
   endpoint: string = "/learning";
   contenTable: any = [];
   checkUpdate: boolean;
+  modal: "successModal";
+  endpointup: string = "/noteupload";
+  urlKaysenBackend = environment.url;
+  url = this.urlKaysenBackend + this.endpointup;
+  personaleData: any = [];
+  datapersonale: any = [];
+
+
+  public afuConfig = {
+    multiple: false,
+    formatsAllowed: ".xlsx,.xls",
+    maxSize: "20",
+    uploadAPI: {
+      url: this.url,
+      method: "POST",
+      headers: {
+        Authorization: this._tools.getToken(),
+      },
+    },
+    theme: "dragNDrop",
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    replaceTexts: {
+      selectFileBtn: "Seleccione Archivo",
+      resetBtn: "Limpiar",
+      uploadBtn: "Subir Archivo",
+      attachPinBtn: "Sube información usuarios",
+      hideProgressBar: false,
+      afterUploadMsg_success: "",
+      afterUploadMsg_error: "Fallo al momento de cargar el archivo!",
+      sizeLimit: "Límite de tamaño",
+    },
+  };
   // checkUpdate: any = [];
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -64,6 +99,8 @@ export class LearningComponent implements OnInit {
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+  @ViewChild("successModal", { static: false })
+  public successModal: ModalDirective;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   ngOnInit(): void {
@@ -227,5 +264,37 @@ export class LearningComponent implements OnInit {
 
   onTriggerSheetClick() {
     this.matBottomSheet.open(ReportsLearningComponent);
+  }
+  
+  getAllPersonal() {
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getMeeting",
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component,
+      role: this.cuser.role,
+      idPersonale: this.cuser.idPersonale,
+    }).subscribe(
+      (response) => {
+        this.permissions = this.handler.getPermissions(this.component);
+
+        if (response.success) {
+          this.handler.showSuccess("El archivo se cargo exitosamente");
+          this.personaleData = response.data;
+          this.loading = false;
+          this.successModal.hide();
+          this.sendRequest();
+        } else {
+          this.datapersonale = [];
+          this.handler.handlerError(response);
+        }
+      },
+      (mistake) => {
+        let msjErr = "Se presento problema al descargar el archivo";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
+        this.loading = false;
+      }
+    );
   }
 }

@@ -27,6 +27,7 @@ import { MeetingRoutingModule } from './meeting-routing.module';
 // Modal Component
 import { ListMeetingComponent } from './list-meeting/list-meeting.component';
 import { LearningComponent } from './learning/learning.component';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 // import { BypassSeguroPipe } from '../../services/bypass-seguro.pipe';
 
 const ngWizardConfig: NgWizardConfig = {
@@ -59,7 +60,8 @@ const ngWizardConfig: NgWizardConfig = {
     // selfManagementRoutingModule,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    AngularFileUploaderModule
   ]
 })
 export class MeetingModule { }
