@@ -25,6 +25,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { ReportsMeetingComponent } from "../../../dialogs/reports/meeting/reports-meeting.component";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { environment } from "../../../../environments/environment";
 
 // Registra el idioma español
 registerLocaleData(localeEs, 'es');
@@ -50,6 +51,39 @@ export class ListMeetingComponent implements OnInit {
   contenTable: any = [];
   checkUpdate: boolean;
   // checkUpdate: any = [];
+  modal: "successModal";
+  endpointup: string = "/noteActupload";
+  urlKaysenBackend = environment.url;
+  url = this.urlKaysenBackend + this.endpointup;
+  personaleData: any = [];
+  datapersonale: any = [];
+  
+  public afuConfig = {
+    multiple: false,
+    formatsAllowed: ".xlsx,.xls",
+    maxSize: "20",
+    uploadAPI: {
+      url: this.url,
+      method: "POST",
+      headers: {
+        Authorization: this._tools.getToken(),
+      },
+    },
+    theme: "dragNDrop",
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    replaceTexts: {
+      selectFileBtn: "Seleccione Archivo",
+      resetBtn: "Limpiar",
+      uploadBtn: "Subir Archivo",
+      attachPinBtn: "Sube información usuarios",
+      hideProgressBar: false,
+      afterUploadMsg_success: "",
+      afterUploadMsg_error: "Fallo al momento de cargar el archivo!",
+      sizeLimit: "Límite de tamaño",
+    },
+  };
 
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -242,5 +276,35 @@ export class ListMeetingComponent implements OnInit {
   onTriggerSheetClick() {
     this.matBottomSheet.open(ReportsMeetingComponent);
   }
+  getAllPersonal() {
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getMeeting",
+      idUser: this.cuser.iduser,
+      token: this.cuser.token,
+      modulo: this.component,
+      role: this.cuser.role,
+      idPersonale: this.cuser.idPersonale,
+    }).subscribe(
+      (response) => {
+        this.permissions = this.handler.getPermissions(this.component);
 
+        if (response.success) {
+          this.handler.showSuccess("El archivo se cargo exitosamente");
+          this.personaleData = response.data;
+          this.loading = false;
+          this.successModal.hide();
+          this.sendRequest();
+        } else {
+          this.datapersonale = [];
+          this.handler.handlerError(response);
+        }
+      },
+      (mistake) => {
+        let msjErr = "Se presento problema al descargar el archivo";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
+        this.loading = false;
+      }
+    );
+  }
 }

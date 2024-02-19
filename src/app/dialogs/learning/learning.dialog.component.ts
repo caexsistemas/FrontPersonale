@@ -213,7 +213,7 @@ export class LearningDialog {
               if(this.meeting.mee_fec_fin){
                 this.check_date = true;
               }
-              if( this.cuser.role == 5 || this.cuser.role == 1 || this.cuser.role == 27){
+              if( this.cuser.role == 5 || this.cuser.role == 1 || this.meeting.idPersonale === this.cuser.idPersonale){
                 this.checkSesion = true;
               }
             
