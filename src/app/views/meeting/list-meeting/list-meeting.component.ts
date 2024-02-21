@@ -98,6 +98,9 @@ export class ListMeetingComponent implements OnInit {
   ) {}
 
   @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+  @ViewChild("successModal", { static: false })
+  public successModal: ModalDirective;
+
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   ngOnInit(): void {
