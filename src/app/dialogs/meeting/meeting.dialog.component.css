@@ -154,3 +154,38 @@ td, th {
     margin-bottom: 10px; /* Espacio entre la imagen y el texto en pantallas pequeñas */
   }
 }
+
+/* Estilo para ocultar solo el primer input de tipo file */
+#file-upload-1[type="file"] {
+  display: none;
+}
+
+/* Estilo para ocultar solo el segundo input de tipo file */
+#file-upload-2[type="file"] {
+  display: none;
+}
+
+/* Estilo para ocultar solo el tercer input de tipo file */
+#file-upload-3[type="file"] {
+  display: none;
+}
+
+/* Estilos comunes para la clase custom-file-upload */
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.file-name{
+  font-weight: bold ;
+}
+.hora{
+  padding-left: 4%;
+  width: 1%; /* Define el ancho del div según tus necesidades */
+  height: 1%;
+  margin-bottom: 20px; 
+}
+.titleHora{
+  font-size: 11px;
+}

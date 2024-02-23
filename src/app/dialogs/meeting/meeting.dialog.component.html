@@ -42,7 +42,34 @@
                           <mat-checkbox color="primary" class="example-margin" formControlName="check_indf" (ngModelChange)="onReadonly($event)">Fecha Vigencia indefinida  </mat-checkbox>
                         </section>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
+                        <mat-form-field class="example-chip-list">
+                          <mat-chip-list #chipList aria-label="Matriz selection">
+                            <mat-chip
+                              *ngFor="let user of selectedMatri"
+                              [selectable]="true"
+                              [removable]="true"
+                              (removed)="removeMatriz(user)">
+                              {{user.description}}
+                              <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input
+                              placeholder="Selecciona matriz..."
+                              #userInput
+                              [formControl]="userCtrl"
+                              [matAutocomplete]="auto"
+                              [matChipInputFor]="chipList"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                              (matChipInputTokenEnd)="addM($event)">
+                          </mat-chip-list>
+                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMatriz($event)" >
+                            <mat-option *ngFor="let user of filteredMatriz | async" [value]="user" [disabled]="view == 'update'">
+                              {{user.description}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                      <div class="col-md-4">
                         <mat-form-field class="example-full-width">
                           <mat-label>Link de evaluación</mat-label>
                           <input matInput formControlName="mee_link" [readonly]="view == 'update'" required>
@@ -114,16 +141,34 @@
                     </div>                       
 
                       <div class="row mt-3" *ngIf="view == 'create'">
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                           <label>Adjuntar Portada (Imagen):</label>
                           <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarImg($event)" accept="image/*" required>
+                        </div> -->
+                        <div class="col-md-4">
+                          <label for="file-upload-1" class="custom-file-upload">
+                            <i class="fa fa-picture-o"></i> Imagen Portada
+                          </label>
+                          <input formControlName="file_sp" id="file-upload-1" type="file" (change)="seleccionarImg($event)" accept="image/*" required/>
+                          <div>
+                            <span id="file-upload-1-name" class="file-name">{{ selectedFileName.slice(0,8) }}</span>
+                          </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                           <label>Adjuntar Documento de Soporte:</label>
                           <input formControlName="file_sp_doc" class="form-control" type="file" (change)="seleccionarArchivo($event)"
                             multiple required>
+                        </div> -->
+                        <div class="col-md-4">
+                          <label for="file-upload-2" class="custom-file-upload">
+                            <i class="fa fa-cloud-upload"></i> Cargar Documentos
+                          </label>
+                          <input formControlName="file_sp_doc" id="file-upload-2" type="file" (change)="seleccionarArchivo($event)" multiple required/>
+                          <div *ngFor="let file of selectedFiles">
+                            <span class="file-name">{{ file.name.slice(0,8)  }}</span>
+                          </div>
                         </div>
-                        <div class="col-md-6" *ngIf="view == 'update'">
+                        <!-- <div class="col-md-6" *ngIf="view == 'update'">
                           <dt>Documentos de Soporte:</dt>
                           <dd>
                             <ul>
@@ -132,7 +177,7 @@
                               </li>
                             </ul>
                           </dd>
-                        </div>
+                        </div> -->
                       </div>
                       
                       <div class="row mt-3">

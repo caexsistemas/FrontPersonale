@@ -90,6 +90,7 @@ export class MeetingDialog {
   filteredOptions: Observable<string[]>;
   filteredPersonInfoLine: Observable<any[]>;
   selectedPersons: any[] = [];
+  selectedMatri: any[] = [];
   visible = true;
   selectable = true;
   removable = true;
@@ -105,6 +106,8 @@ export class MeetingDialog {
   text:boolean;
   contenTable: any = [];
   disabled = false;
+  matriz: any = [];
+  filteredMatriz: Observable<any[]>;
 
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -275,6 +278,7 @@ export class MeetingDialog {
       mee_desc: new FormControl(""),
       check_indf:new FormControl(""),
       mee_link: new FormControl(""),
+      matriz: new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
   }
@@ -320,6 +324,12 @@ export class MeetingDialog {
           this.PersonaleInfo = data.data["getDataPersonale"];
           this.boss = data.data["getDataBoss"];
           this.positionLog = data.data["positionLog"];
+          this.matriz = data.data["matriz"];
+
+          this.filteredMatriz = this.userCtrl.valueChanges.pipe(
+            startWith(null),
+            map((userInput: string | null) => (userInput ? this._filterMatriz(userInput) : this.matriz.slice()))
+          );
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -358,6 +368,11 @@ export class MeetingDialog {
           this.formCreate.get("mee_desc").setValue(data.data["getParamUpdate"][0].mee_desc);
           this.formCreate.get("mee_link").setValue(data.data["getParamUpdate"][0].mee_link);
           this.formCreate.get("check_indf").setValue(data.data["getParamUpdate"][0].check_indf);
+          this.formCreate.get("matriz").setValue(this.selectedMatri);
+          // console.log(data.data["getParamUpdate"][0].matriz.split(','));
+          // console.log(this.selectedMatri);
+          
+
 
           if(data.data["getParamUpdate"][0].file_sp){
             this.selection.file_sp = JSON.parse(data.data["getParamUpdate"][0].file_sp );
@@ -386,7 +401,11 @@ export class MeetingDialog {
               startWith(null),
               map((userInput: string | null) => (userInput ? this._filterUsers(userInput) : data.data["getParamUpdate"].slice()))
             );
-
+              // let mat = this.matriz.filter()
+            this.filteredMatriz = this.userCtrl.valueChanges.pipe(
+              startWith(null),
+              map((userInput: string | null) => (userInput ? this._filterMatriz(userInput) : this.matriz.slice()))
+            );
             // data.data["getParamUpdate"].forEach(element => {
             //   console.log('foreach del update =>',element); 
               
@@ -503,6 +522,8 @@ saveCase: any = [];
     if(this.selectedUsers.length > 0){
       this.formCreate.get('receiver5').setValue([this.selectedUsers]);
       }
+      this.formCreate.get('matriz').setValue([this.selectedMatri]);
+
 
     if (this.formCreate.valid) {
       this.loading.emit(true);
@@ -581,6 +602,8 @@ saveCase: any = [];
           break;
     }
   }
+
+  selectedFiles: File[] = [];
   seleccionarArchivo(event) {
     var files = event.target.files;
     var archivos = [];
@@ -611,7 +634,16 @@ saveCase: any = [];
     };
 
     leerArchivosSecuencialmente();
+     // para ver el nombre de los documentos adjuntos
+     this.selectedFiles = [];
+     const filess: FileList = event.target.files;
+     for (let i = 0; i < filess.length; i++) {
+       this.selectedFiles.push(filess[i]);
+     }
   }
+
+selectedFileName: string = '';
+
   seleccionarImg(event) {
     var files = event.target.files;
     var archivos = [];
@@ -642,6 +674,9 @@ saveCase: any = [];
     };
 
     leerArchivosSecuencialmente();
+     // para ver le nombre de las imagen
+     const file = event.target.files[0];
+     this.selectedFileName = file.name;
   }
 
   onSelectArea(event){
@@ -855,6 +890,69 @@ verificarImagenesValidas(): void {
     }
   }
   
+  addMatriz(event: MatChipInputEvent): void {
+    
+    const input = event.input;
+    const value = event.value;
+
+    // Agrega el usuario si se ha proporcionado un valor
+    if ((value || '').trim()) {
+      this.selectedMatri.push({ name: value.trim() });
+    }
+
+    // Resetea el valor del input
+    if (input) {
+      input.value = '';
+    }
+
+    // Limpia el filtro del autocomplete
+    this.formCreate.get('matriz').setValue('');
+
+    // Actualiza la lista filtrada para excluir los usuarios seleccionados
+    // this.updateFilteredPersonInfoLine();
+  }
+
+ 
+
+     // Función para agregar usuarios a la lista de usuarios seleccionados
+  addM(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    
+
+    // Agregar el usuario solo si es válido y no está duplicado
+    if ((value || '').trim() && !this.selectedMatri.find(user => user.description === value.trim())) {
+      this.selectedMatri.push({ name: value.trim() });
+    }
+
+    // Limpiar el campo de entrada después de agregar el usuario
+    if (input) {
+      input.value = '';
+    }
+
+    // Limpiar el FormControl asociado al campo de entrada
+    this.userCtrl.setValue(null);
+  }
+
+  // Función para eliminar un usuario de la lista
+  removeMatriz(user: any): void {
+    
+    const index = this.selectedMatri.indexOf(user);
+
+    if (index >= 0) {
+      this.selectedMatri.splice(index, 1);
+    this.formCreate.get('matriz').setValue([this.selectedMatri]);
+
+    }
+  }
+  selectedMatriz(event: MatAutocompleteSelectedEvent): void {
+    
+    this.selectedMatri.push(event.option.value);
+    this.userInput.nativeElement.value = '';
+    this.userCtrl.setValue(null);
+
+  }
+
   private _filterUsers(value: string): any[] {
     
     const filterValue = (value || '').toString().toLowerCase();
@@ -862,6 +960,15 @@ verificarImagenesValidas(): void {
       const userName = (user.name || '').toString().toLowerCase(); // Convertir a cadena y luego a minúsculas
       
       return userName.includes(filterValue);
+    });
+  }
+  private _filterMatriz(value: string): any[] {
+
+    const filterValueMatriz = (value || '').toString().toLowerCase();
+    return this.matriz.filter(user => {
+      const userName = (user.description || '').toString().toLowerCase(); // Convertir a cadena y luego a minúsculas
+      
+      return userName.includes(filterValueMatriz);
     });
   }
   onReadonly(event){
