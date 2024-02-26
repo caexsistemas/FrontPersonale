@@ -228,85 +228,83 @@ export class AdvanceComponent implements OnInit {
      
   }
 
-  calculateDays(fecha,dom) {
-   
-    let date11 = new Date(fecha);
-
-    date11.setHours(0, 0, 0, 0);
-    let dia11 = date11.getDate().toString().padStart(2, '0');
-    let mes11 = (date11.getMonth() + 1).toString().padStart(2, '0');
-    let anio11 = date11.getFullYear();
-    let horas11 = date11.getHours().toString().padStart(2, '0');
-    let minutos11 = date11.getMinutes().toString().padStart(2, '0');
-    let segundos11 = date11.getSeconds().toString().padStart(2, '0');
-    let fechaYHoraActualEnFormatoTexto11 = `${anio11}-${mes11}-${dia11} ${horas11}:${minutos11}:${segundos11}`;
-    
-    let date22 = new Date();
-    // let fechaActual = new Date();
-   
-    // let fechaActual = new Date();
-  date22.setHours(24, 0, 0, 0);
-  let dia = date22.getDate().toString().padStart(2, '0');
-  let mes = (date22.getMonth() + 1).toString().padStart(2, '0');
-  let anio = date22.getFullYear();
-  let horas = date22.getHours().toString().padStart(2, '0');
-  let minutos = date22.getMinutes().toString().padStart(2, '0');
-  let segundos = date22.getSeconds().toString().padStart(2, '0');
-  let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
-
-    
-    let diff = moment(fechaYHoraActualEnFormatoTexto).diff(moment(fechaYHoraActualEnFormatoTexto11));
-    let duration = moment.duration(diff);
-
-    let months = duration.asMonths();
-     this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
-      this.day2 = ((this.daysPro)/30);
-     
-    //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
-    if(dom){
-      this.daysDom = (this.daysPro - dom);
-
-    // if(dom >= 1){
-    //   this.sundayTot = (dom/360*15);
-      
-    //   // this.days2 = (this.sundayTot/360*15);
-    // }else{
-
-    // this.sundayTot = (this.days/360*15);
-
-    // }
-    // this.days2 = (this.daysDom/360*15);
-    }else{
-      this.daysDom = 0
-    }
-     
-   
-  }
   // calculateDays(fecha,dom) {
    
-  //   let date1 = moment(fecha, 'YYYY-MM-DD');
-  // let date2 = moment();
-  // let diffDays = date2.diff(date1, 'days');
-  // let years = date2.diff(date1, 'years');
-  // let leapYears = 0;
-  // for (let i = 1; i <= years; i++) {
-  //   let year = date1.year() + i;
-  //   if (moment([year]).isLeapYear()) {
-  //     leapYears++;
-  //   }
-  // }
-  // let totalDays = diffDays - leapYears;
-  // this.daysPro = totalDays.toFixed(2);
+  //   let date11 = new Date(fecha);
+
+  //   date11.setHours(0, 0, 0, 0);
+  //   let dia11 = date11.getDate().toString().padStart(2, '0');
+  //   let mes11 = (date11.getMonth() + 1).toString().padStart(2, '0');
+  //   let anio11 = date11.getFullYear();
+  //   let horas11 = date11.getHours().toString().padStart(2, '0');
+  //   let minutos11 = date11.getMinutes().toString().padStart(2, '0');
+  //   let segundos11 = date11.getSeconds().toString().padStart(2, '0');
+  //   let fechaYHoraActualEnFormatoTexto11 = `${anio11}-${mes11}-${dia11} ${horas11}:${minutos11}:${segundos11}`;
+    
+  //   let date22 = new Date();
+  //   // let fechaActual = new Date();
+   
+  //   // let fechaActual = new Date();
+  // date22.setHours(24, 0, 0, 0);
+  // let dia = date22.getDate().toString().padStart(2, '0');
+  // let mes = (date22.getMonth() + 1).toString().padStart(2, '0');
+  // let anio = date22.getFullYear();
+  // let horas = date22.getHours().toString().padStart(2, '0');
+  // let minutos = date22.getMinutes().toString().padStart(2, '0');
+  // let segundos = date22.getSeconds().toString().padStart(2, '0');
+  // let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+    
+  //   let diff = moment(fechaYHoraActualEnFormatoTexto).diff(moment(fechaYHoraActualEnFormatoTexto11));
+  //   let duration = moment.duration(diff);
+
+  //   let months = duration.asMonths();
+  //    this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
+  //     this.day2 = ((this.daysPro)/30);
+     
   //   //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
   //   if(dom){
   //     this.daysDom = (this.daysPro - dom);
-  //     // this.days2 = (this.daysDom/360*15);
+
+  //   // if(dom >= 1){
+  //   //   this.sundayTot = (dom/360*15);
+      
+  //   //   // this.days2 = (this.sundayTot/360*15);
+  //   // }else{
+
+  //   // this.sundayTot = (this.days/360*15);
+
+  //   // }
+  //   // this.days2 = (this.daysDom/360*15);
   //   }else{
   //     this.daysDom = 0
   //   }
      
    
   // }
+  calculateDays(fecha,dom) {
+   
+  let fechaIngresoMoment = moment(fecha, 'YYYY-MM-DD');
+
+    // Fecha actual
+    let fechaActualMoment = moment();
+
+    // Truncar la hora de la fecha actual
+    fechaActualMoment.startOf('day');
+
+    // Calcular la diferencia en días utilizando un enfoque similar a DIAS360
+    let diasLaborados: number = 0;
+    diasLaborados += (fechaActualMoment.year() - fechaIngresoMoment.year()) * 360;
+    diasLaborados += (fechaActualMoment.month() - fechaIngresoMoment.month()) * 30;
+    diasLaborados += fechaActualMoment.date() - fechaIngresoMoment.date();
+
+    this.daysPro= diasLaborados + 1; 
+    if(dom){
+          this.daysDom = (this.daysPro - dom);
+    }else{
+          this.daysDom = 0
+        }
+  }
   calculateDaysRest(tt1,tt2,tt3) {
     // console.log('suspensiopn',totDays);
     // console.log('anticipo',adv);

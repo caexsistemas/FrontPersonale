@@ -23,6 +23,10 @@
                         <mat-icon>download</mat-icon>
                         <span>Reporte Liquidación</span>
                     </button>
+                    <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClickGeneral()" title="Reporte General vacaciones">
+                        <mat-icon>download</mat-icon>
+                        <span>Reporte General</span>
+                    </button>
 
                 </mat-menu>       
             </div>

@@ -27,6 +27,7 @@ import { AcceptanceDialog } from "../../../dialogs/holiday/acceptance/acceptance
 import { LiquidationDialog } from "../../../dialogs/holiday/liquidation/liquidation.dialog.component";
 import { ReportsLiquidationComponent } from "../../../dialogs/reports/liquidation/reports-liquidation.component";
 import * as moment from "moment";
+import { ReportsLiquidationgeneralComponent } from "../../../dialogs/reports/liquidationgeneral/reports-liquidationgeneral.component";
 
 @Component({
   selector: 'app-liquidation',
@@ -226,6 +227,10 @@ export class LiquidationComponent implements OnInit {
   }
   onTriggerSheetClick(){
     this.matBottomSheet.open(ReportsLiquidationComponent)
+  }
+  onTriggerSheetClickGeneral(){
+    this.matBottomSheet.open(ReportsLiquidationgeneralComponent)
+
   }
 }
 
