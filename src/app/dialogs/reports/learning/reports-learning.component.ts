@@ -21,6 +21,8 @@ export class ReportsLearningComponent implements OnInit {
   //History
   historyMon: any = [];
   displayedColumns:any  = [];
+  matrizarp: any = [];
+  formador:any = [];
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
   component = "/meeting/learning";
@@ -36,13 +38,42 @@ export class ReportsLearningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.dataIni();
     this.formDownoadIngreso = new FormGroup({
       fi: new FormControl(''),
       ff: new FormControl(''),
       mee_name: new FormControl(''),
-      iduser: new FormControl(this.cuser.iduser)
+      iduser: new FormControl(this.cuser.iduser),
+      idPersonale: new FormControl(''),
+      matriz: new FormControl('')
+
     });
+  }
+  dataIni() {
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.ndpoint, {
+      action: "getParamView",
+      role: this.cuser.role,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        if (data.success == true) {
+          this.matrizarp = data.data["matriz"];
+          this.formador = data.data["formador"];
+
+          this.loading.emit(false);
+        } else {
+          this.handler.handlerError(data);
+          this.loading.emit(false);
+        }
+      },
+      (error) => {
+        this.handler.showError("Se produjo un error");
+        this.loading.emit(false);
+      }
+    );
   }
 
     descargarArchivos(){

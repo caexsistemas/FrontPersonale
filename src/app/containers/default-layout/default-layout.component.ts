@@ -114,6 +114,7 @@ export class DefaultLayoutComponent {
       (response) => {
         // this.permissions = this.handler.getPermissions(this.component);
         if (response.success) {
+          
           this.item = response.data[0];
           this.subitem = response.data[1];
           this.navItems = this.checkMenu(this.item, this.subitem);

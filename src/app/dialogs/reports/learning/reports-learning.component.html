@@ -21,6 +21,28 @@
                 </mat-form-field>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Tipo de matriz:</mat-label>
+                    <mat-select formControlName="matriz">
+                      <mat-option *ngFor="let idet of matrizarp" [value]="idet.ls_codvalue">
+                        {{idet.description}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Formador:</mat-label>
+                    <mat-select formControlName="idPersonale">
+                      <mat-option *ngFor="let idet of formador" [value]="idet.idPersonale">
+                        {{idet.name}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+          </div>
       </form>
 
   </mat-dialog-content>
