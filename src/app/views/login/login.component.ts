@@ -57,7 +57,7 @@ export class LoginComponent {
     this.checkSession();
     this.initForm(this.view);
 
-    if (environment.isProd) {
+    if (environment.url.length <= 25) {
       this.backgroundImageUrl = '/assets/img/brand/sistema.JPG';
     } else {
       this.backgroundImageUrl = '/360/assets/img/brand/sistema.JPG';
