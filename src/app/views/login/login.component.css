@@ -13,3 +13,114 @@
     color: #303030;
     line-height: 1.35 !important;
 }
+div.card-group.login{
+    background-color: rgb(255 255 / 50%);
+
+    border: 1px solid #c8ced3;
+    /* border-top-left-radius: 20px;
+    border-bottom-left-radius:20px */
+    width: 50%;
+
+}
+div.card.login_container{
+    border-radius: 20px;
+
+}
+div.card.imagen{
+    /* border: 1px solid #c8ced3; */
+    border-top-right-radius: 20px;
+    border-bottom-right-radius:20px
+}
+.imagen_login {
+    display: block;
+    margin:0px auto;
+    filter: drop-shadow(2px 4px 6px black);
+    border-radius: 20%;
+    /* border-top-right-radius: 20px;
+    border-bottom-right-radius:20px   */
+  }
+  .img_portada{
+    /* display: block; */
+    /* margin:0px auto; */
+    width: 60%;
+    /* border-bottom: 1px solid black; */
+
+    /* filter: drop-shadow(2px 4px 6px rgb(80, 79, 79)); */
+  }
+  /* input {
+    border: 1px solid #ced4da;
+    border-radius: 15px;
+    padding: 8px 12px;
+    font-size: 16px;
+    width: 20%;
+  }
+  input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  } */
+  .example-card {
+    padding: 1px;
+    max-width: 600px;
+    border-radius: 10px;
+    /* width: auto important;
+    height: auto; */
+    background-color: rgb(255 255 255 / 50%)
+  }
+  .container {
+    /* background-image: url('); */
+    display: flex;
+    padding: 20px;
+    width: 26%;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100vh; /* Ajusta la altura al 100% del viewport */
+  }
+  .img_borde{
+    /* border: 1px solid; */
+  }
+  .contenido{
+    padding: 20px;
+    border-top: 1px groove;
+  }
+  .header-contenido{
+    justify-content: center;
+  }
+  .input-group{
+    /* border-radius: 8px; */
+    border-radius: 9px;
+    width: 500px;
+    height: 45px;
+}
+input {
+    border: 1px solid #ced4da;
+    border-radius: 9px;
+    /* padding: 8px 12px; */
+    font-size: 16px;
+    width: 100%;
+    height: 45px;
+
+  }
+ 
+  .input-group-text{
+    width: 100%;
+    background-color:  #606060;
+    color: white;
+    font-size: 20px;
+    border-radius: 9px;
+  }
+  .boton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:  #606060;
+    padding: 15px;
+    border-radius: 9px;
+    width: 100%;
+    height: 40px;
+    color: white;
+}
+.app-body {
+    background-image: url('/assets/img/brand/sistema.JPG');
+    background-size: cover; /* Ajusta el tamaño de la imagen de fondo para que cubra todo el elemento */
+    background-position: center; /* Centra la imagen de fondo */
+}
