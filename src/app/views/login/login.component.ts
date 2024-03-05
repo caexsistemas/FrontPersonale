@@ -16,7 +16,7 @@ import { from } from "rxjs";
 import Swal from "sweetalert2";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { HandlerAppService } from "../../services/handler-app.service";
-
+import { environment } from "../../../environments/environment";
 @Component({
   selector: "app-dashboard",
   templateUrl: "login.component.html",
@@ -39,6 +39,7 @@ export class LoginComponent {
   view: string = "login";
 
   loginForm: FormGroup;
+  backgroundImageUrl: string;
 
   constructor(
     private _loginService: LoginServices,
@@ -55,6 +56,12 @@ export class LoginComponent {
   ngOnInit(): void {
     this.checkSession();
     this.initForm(this.view);
+
+    if (environment.isProd) {
+      this.backgroundImageUrl = '/assets/img/brand/sistema.JPG';
+    } else {
+      this.backgroundImageUrl = '/360/assets/img/brand/sistema.JPG';
+    }
   }
 
   checkSession() {

@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  isProd:true,
 
   url: "http://127.0.0.1:8000/api",
   baseUrl: "http://localhost:4200",
