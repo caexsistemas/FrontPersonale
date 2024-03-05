@@ -75,9 +75,9 @@ div.card.imagen{
     align-items: center; /* Centra verticalmente */
     height: 100vh; /* Ajusta la altura al 100% del viewport */
   }
-  .img_borde{
-    /* border: 1px solid; */
-  }
+  /* .img_borde{
+    border: 1px solid;
+  } */
   .contenido{
     padding: 20px;
     border-top: 1px groove;
