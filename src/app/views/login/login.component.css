@@ -120,7 +120,8 @@ input {
     color: white;
 }
 .app-body {
-    background-image: url('/assets/img/brand/sistema.JPG');
+    /* background-image: url('/assets/img/brand/sistema.JPG'); */
+    background-image: url('/360/assets/img/brand/sistema.JPG');
     background-size: cover; /* Ajusta el tamaño de la imagen de fondo para que cubra todo el elemento */
     background-position: center; /* Centra la imagen de fondo */
 }
