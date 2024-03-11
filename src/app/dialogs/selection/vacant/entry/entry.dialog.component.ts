@@ -151,6 +151,11 @@ export class EntryDialog {
           }
         );
         break;
+        case "upload":
+          this.idTec = this.data.codigo;
+          this.initForms();
+          this.title = "Importar datos";
+          break;
     }
   }
   initForms() {

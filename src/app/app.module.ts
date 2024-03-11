@@ -174,6 +174,8 @@ import { ReportsLearningComponent } from "./dialogs/reports/learning/reports-lea
 // import { SignaturePadModule } from 'angular2-signaturepad';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { ReportsLiquidationgeneralComponent } from "./dialogs/reports/liquidationgeneral/reports-liquidationgeneral.component";
+import { Tools } from "./Tools/tools.page";
+import { UploadDialog } from "./dialogs/selection/upload/upload.dialog.component";
 const routes: Routes = [];
 @NgModule({
   imports: [
@@ -338,7 +340,8 @@ const routes: Routes = [];
     LearningDialog,
     ReportsMeetingComponent,
     ReportsLearningComponent,
-    ReportsLiquidationgeneralComponent
+    ReportsLiquidationgeneralComponent,
+    UploadDialog
     // ReportsLearningComponent
   ],
   providers: [
@@ -346,6 +349,7 @@ const routes: Routes = [];
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
+    Tools
     // SignatureService
   ],
   exports: [RouterModule],

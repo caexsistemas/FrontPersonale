@@ -29,6 +29,8 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { EntryDialog } from "./entry/entry.dialog.component";
 import { emit, exit } from "process";
 import { DOCUMENT } from '@angular/common';
+import { environment } from '../../../../environments/environment';
+import { UploadDialog } from '../upload/upload.dialog.component';
 
 
 @Component({
@@ -87,22 +89,29 @@ export class VacantDialog {
  public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
  //OUTPUTS
  mensaje: string;
+ 
 
   @Output() loading = new EventEmitter();
  @Output() reload = new EventEmitter();
  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
+ @ViewChild("infoModal", { static: false }) public infoModal: ModalDirective;
+ @ViewChild("successModal", { static: false })
+ public successModal: ModalDirective;
 
  constructor(public dialogRef: MatDialogRef<VacantDialog>,
  @Inject(DOCUMENT) private _document: Document,
-
+    private _tools: Tools,
     private fb:FormBuilder,
     private formInsp:FormBuilder,
     private WebApiService: WebApiService,
    private handler: HandlerAppService,
    @Inject(MAT_DIALOG_DATA) public data,
-   public dialog: MatDialog) { 
+   public dialog: MatDialog)
+   
+   
+   { 
      
     //  option(action,codigo=null, id){
       this.view = this.data.window;
@@ -479,7 +488,21 @@ closeDialog() {
   this.dialogRef.close();
 }
 
+openDialog(idSel): void {
+  const dialogRef = this.dialog.open(UploadDialog, {
+    width: '500px', // Especifica el ancho del diálogo
+    data: {idSel,
+           cargo:this.cargo,
+           matriz:this.matriz}, // Puedes pasar datos al diálogo si es necesario
+    // cargo: {this.cargo}
+  });
 
+  // Puedes suscribirte a eventos del diálogo si lo necesitas
+  dialogRef.afterClosed().subscribe(result => {
+    this.sendRequest();
+    console.log('El diálogo ha sido cerrado', result);
+  });
+}
 
 
 }

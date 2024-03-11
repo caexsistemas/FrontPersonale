@@ -369,3 +369,31 @@
         </div>
       </mat-dialog-content>
     </div>
+
+    <div class="card mt-6">
+      <div *ngIf="view == 'upload'">
+        <div class="card-header">
+          <h5 class="modal-title">
+            <p class="title-modal" *ngIf="view == 'upload'">Información Detallada</p>
+            <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+              style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </h5>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Subir Archivo Excel</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-form-field>
+                <mat-label>Seleccionar archivo Excel</mat-label>
+                <input matInput type="file" (change)="onFileSelected($event)">
+              </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="uploadFile()">Subir Archivo</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
