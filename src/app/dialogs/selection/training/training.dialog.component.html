@@ -72,15 +72,31 @@
     </div> 
       <div class="toolbar-table" *ngIf="permissions != null">
 
-      <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
-
-        <!-- <div class="btn-group" dropdown>
-            <button class="btn btn-success" *ngIf="permissions.create" (click)="onTriggerSheetClick()"
-                title="Reporte Excel">
-                <i class="fa fa-feed"></i>
-            </button>
-        </div> -->
-    </div>
+        <div class="m-2 text-right">        
+                            
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+              <span>Menu</span>
+          </button>
+            
+          <mat-menu #menu="matMenu">
+              <button mat-menu-item>Acciones Disponibles… </button>
+  
+              <!-- <button mat-menu-item *ngIf="permissions.create" (click)="option('create')" title="Crear">
+                  <mat-icon>add_circle</mat-icon>
+                  <span>Crear</span>
+              </button> -->
+  
+              <!-- <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Usuarios Actualizaciones">
+                <mat-icon>download</mat-icon>
+                <span>Reportes Usuarios Actualizaciones</span>
+            </button> -->
+            <button mat-menu-item  (click)="openDialog(idSel)" title="Importar Datos">
+              <mat-icon>upload_file</mat-icon>
+              <span>Importar Archivo Asistencias</span>
+          </button>
+  
+          </mat-menu>       
+        </div>
       <mat-form-field appearance="standard">
         <mat-label>Buscar...</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input>

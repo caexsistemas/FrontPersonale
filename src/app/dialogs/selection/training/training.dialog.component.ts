@@ -27,6 +27,7 @@ import { MatPaginator, MatPaginatorDefaultOptions } from "@angular/material/pagi
 import { emit } from "process";
 import { EntryDialog } from "../vacant/entry/entry.dialog.component";
 import { InspectionDialog } from "./inspection/inspection.dialog.component";
+import { UploadTrainingDialog } from "../upload-training/upload-training.dialog.component";
 
 @Component({
   selector: 'app-training',
@@ -109,7 +110,8 @@ export class TrainingDialog {
            this.cargo = this.data.id;
            this.matriz = this.data.matriz;
            this.num = this.data.num;
-           this.auxth = this.data.auxTH
+           this.auxth = this.data.auxTH;
+           this.title = 'Requisición'
 
             this.loading.emit(true);
             this.WebApiService.getRequest(this.endpoint + "/"+ this.idSel, {
@@ -266,6 +268,21 @@ openc(){
   }    
   this.contaClick = this.contaClick + 1;
 }
+
+openDialog(idSel): void {
+  const dialogRef = this.dialog.open(UploadTrainingDialog, {
+    width: '500px', // Especifica el ancho del diálogo
+    data: {idSel}, // Puedes pasar datos al diálogo si es necesario
+    // cargo: {this.cargo}
+  });
+
+  // Puedes suscribirte a eventos del diálogo si lo necesitas
+  dialogRef.afterClosed().subscribe(result => {
+    this.sendRequest();
+    console.log('El diálogo ha sido cerrado', result);
+  });
+}
+
 }
 
 

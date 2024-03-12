@@ -176,6 +176,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { ReportsLiquidationgeneralComponent } from "./dialogs/reports/liquidationgeneral/reports-liquidationgeneral.component";
 import { Tools } from "./Tools/tools.page";
 import { UploadDialog } from "./dialogs/selection/upload/upload.dialog.component";
+import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
+// import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
   imports: [
@@ -341,7 +343,8 @@ const routes: Routes = [];
     ReportsMeetingComponent,
     ReportsLearningComponent,
     ReportsLiquidationgeneralComponent,
-    UploadDialog
+    UploadDialog,
+    UploadTrainingDialog
     // ReportsLearningComponent
   ],
   providers: [

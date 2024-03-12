@@ -127,3 +127,7 @@ input {
     background-size: cover;
     background-position: center; 
 } */
+.background-image {
+  background-size: cover; /* La imagen de fondo se expandirá para cubrir todo el contenedor */
+  background-position: center; /* La imagen de fondo se centrará horizontalmente y verticalmente */
+}
