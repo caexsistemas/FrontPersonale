@@ -32,26 +32,19 @@ export class UploadTrainingDialog{
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
      this.selectedFiles.push(this.selectedFile);
-
-
   }
+  
   uploadFile(){
     if (!this.selectedFile) {
-      console.error('No se ha seleccionado ningún archivo.');
+      this.handler.showError('No se ha seleccionado ningún archivo.');
       return;
     }
-    // const formData = new FormData();
-    // let body = {
-    //   listas: formData,
-    // };
-    // formData.append('file', this.selectedFile);
          
       this.WebApiService.uploadRequest(this.endpointup, this.selectedFile, {
         idRequisition:this.data.idSel,
-        cargo: this.data.cargo,
-        matriz: this.data.matriz,
         idUser: this.cuser.iduser,
-
+        // cargo: this.data.cargo,
+        // matriz: this.data.matriz,
         // token: this.cuser.token,
         // modulo: this.component
       }).subscribe(
@@ -63,22 +56,14 @@ export class UploadTrainingDialog{
           } else {
             this.handler.handlerError(data);
             this.loading.emit(false);
-            // this.loading = false;
           }
         },
         (error) => {
           this.handler.showError();
           this.loading.emit(false);
-          // this.loading = false;
         }
       
       );
-  //   } else {
-  //     this.handler.showError("Complete la informacion necesaria");
-  //     // this.loading.emit(false);
-  //     this.loading1 = false;
-  //   // }
-  // }
   }
   closeDialog() {
     this.dialogRef.close();

@@ -141,7 +141,7 @@ export class TrainingDialog {
    }   
  sendRequest() {
 
-     this.loading.emit(true);
+    //  this.loading.emit(true);
     //  this.loading = true;
      this.WebApiService.getRequest(this.endpoint, {
        action: "getVacant",
@@ -157,16 +157,16 @@ export class TrainingDialog {
           
            this.generateTable(data.data["getSelectData"]);
            this.contenTable = data.data["getSelectData"];
-           this.loading.emit(false);
+          //  this.loading.emit(false);
          } else {
            this.handler.handlerError(data);
-           this.loading.emit(false);
+          //  this.loading.emit(false);
          }
        },
        (error) => {
          console.log(error);
          this.handler.showError("Se produjo un error");
-         this.loading.emit(false);
+        //  this.loading.emit(false);
        }
      );
  }

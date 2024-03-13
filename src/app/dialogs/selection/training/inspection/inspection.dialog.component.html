@@ -297,6 +297,115 @@
           <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
+                Gestión de Vacante&nbsp; &nbsp;
+              </mat-panel-title>
+              <mat-panel-description>
+                Ingreso de Datos
+              </mat-panel-description>
+              <mat-icon>account_circle</mat-icon>
+            </mat-expansion-panel-header>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Fecha de Selección</dt>
+                <dd>{{vacant.fec_sel}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Tipo de Documento</dt>
+                <dd>{{vacant.docu}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Numero Documento</dt>
+                <dd>{{vacant.document}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+
+              <div class="col-md-4">
+                <dt>Nombre Completo</dt>
+                <dd>{{vacant.nom_com}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Fecha Nacimiento</dt>
+                <dd>{{vacant.birthDate}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Edad</dt>
+                <dd>{{vacant.ages}}</dd>
+              </div>
+
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Grupo Etario</dt>
+                <dd>{{vacant.grupo_et}}</dd>
+              </div>
+            </div>
+            <hr>
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <dt>Nacionalidad</dt>
+                <dd>{{vacant.nacionalidad}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/1'">
+                <dt>Deapartamento Nacimiento</dt>
+                <dd>{{vacant.department}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/1'">
+                <dt>Ciudad Nacimiento</dt>
+                <dd>{{vacant.city}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/2'">
+                <dt> País</dt>
+                <dd>{{vacant.pai_ext}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="country == '71/2'">
+                <dt>Ciudad </dt>
+                <dd>{{vacant.ciu_ext}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Area de Trabajo</dt>
+                <dd>{{vacant.tra}}</dd>
+              </div>
+              <div class="col-md-4">
+                <dt>Cargo</dt>
+                <dd>{{vacant.lab}}</dd>
+              </div>
+              <div class="col-md-4" *ngIf="typeCargo =='16/1'">
+                <dt>Tipo Matriz</dt>
+                <dd>{{vacant.mat}}</dd>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-4">
+                <dt>Genero</dt>
+                <dd>{{vacant.genero}}</dd>
+              </div>
+              <!-- <div class="col-md-4">
+                <dt>EPS</dt>
+                <dd>{{vacant.salud}}</dd>
+              </div> -->
+              <!-- <div class="col-md-4">
+                <dt>Pensión</dt>
+                <dd>{{vacant.pens}}</dd>
+              </div> -->
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <dt>Observaciones</dt>
+                <dd>{{vacant.obs_vac}}</dd>
+              </div>
+            </div>
+            <mat-action-row>
+              <!-- <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Previous</button> -->
+              <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
                 Asistencias&nbsp; &nbsp;
               </mat-panel-title>
               <mat-panel-description>
@@ -399,7 +508,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()" *ngIf="idUser != '255'">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle [disabled]="nomi">
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="nomi">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Evaluación/Certificación &nbsp; &nbsp;
@@ -485,7 +594,7 @@
               <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle [disabled]="nomi">
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle [disabled]="nomi">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Concepto Final &nbsp; &nbsp;

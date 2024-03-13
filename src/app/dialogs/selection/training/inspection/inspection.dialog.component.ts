@@ -116,6 +116,7 @@ export class InspectionDialog {
   tto = 0;
   ex = 0;
   idIns: number = null;
+  country:any = [];
   // ---------------------
 
   public clickedRows;
@@ -204,9 +205,12 @@ export class InspectionDialog {
               this.selection = data.data[0][0];
               this.asiste = data.data[0][0];
               this.vacant = data.data['getSelectData'][0];
+              this.country = this.vacant.pais_nac
+              
+
               this.vacant.con_fin == '70/1'? this.concept = true: this.concept = false;
               this.vacant.con_fin == '70/2'? this.conceptNo = true: this.conceptNo = false;
-              this.typeCargo = this.selection.car_sol
+              this.typeCargo = this.vacant.car_sol
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
             } else {
