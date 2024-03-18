@@ -177,6 +177,7 @@ import { ReportsLiquidationgeneralComponent } from "./dialogs/reports/liquidatio
 import { Tools } from "./Tools/tools.page";
 import { UploadDialog } from "./dialogs/selection/upload/upload.dialog.component";
 import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
+import { TrainingReportsComponent } from "./dialogs/reports/training/training-reports.component";
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -344,7 +345,8 @@ const routes: Routes = [];
     ReportsLearningComponent,
     ReportsLiquidationgeneralComponent,
     UploadDialog,
-    UploadTrainingDialog
+    UploadTrainingDialog,
+    TrainingReportsComponent
     // ReportsLearningComponent
   ],
   providers: [

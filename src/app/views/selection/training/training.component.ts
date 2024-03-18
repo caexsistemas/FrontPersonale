@@ -27,6 +27,7 @@ import { AssignmentDialog } from "../../../dialogs/selection/assignment/assignme
 import { InspectionDialog } from "../../../dialogs/selection/training/inspection/inspection.dialog.component";
 import { StateDialog } from "../../../dialogs/state/state.dialog.component";
 import { FormationDialog } from "../../../dialogs/selection/training/inspection/formation/formation.dialog.component";
+import { TrainingReportsComponent } from "../../../dialogs/reports/training/training-reports.component";
 
 
 @Component({
@@ -228,7 +229,7 @@ applyFilter(search) {
   this.dataSource.filter = search.trim().toLowerCase();
 }
 onTriggerSheetClick(){
-  this.matBottomSheet.open(ReportsTechnologyComponent)
+  this.matBottomSheet.open(TrainingReportsComponent)
 }
 
 }

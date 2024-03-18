@@ -251,6 +251,18 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <mat-form-field appearance="fill">
+                                    <mat-label>Login Wolkvox</mat-label>
+                                    <input matInput formControlName="usu_wolk" type="number">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Numero Canal</mat-label>
+                                    <input matInput formControlName="canal" type="number">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="fill">
                                     <mat-label>Supervisor de Agente:</mat-label>
                                     <mat-select formControlName="supervisor" [errorStateMatcher]="matcher">
                                         <mat-option *ngFor="let usert of superviso" [value]="usert.idPersonale">
@@ -259,6 +271,9 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
+                        </div>
+                        <div class="row">
+                            
                             <div class="col-md-4">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Formador de Agente 1:</mat-label>
