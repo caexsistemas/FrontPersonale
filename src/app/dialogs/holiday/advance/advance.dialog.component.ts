@@ -100,6 +100,7 @@ export class AdvanceDialog  {
   CheckTrue:boolean = true;
   arrDayHol: any = [];
   arrholiday: any = [];
+  getHoliday:any = [];
   // document = new FormControl('', [Validators.required]);
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -230,6 +231,8 @@ export class AdvanceDialog  {
           //DataInfo
           this.PersonaleInfo = data.data['getDataPersonale'];        
           this.position        = data.data["getPosition"];
+          this.getHoliday = data.data["getHoliday"];
+
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -379,13 +382,23 @@ export class AdvanceDialog  {
   }
   
   calculate1(event){
-    if (event){
+    
+    this.prue = event;
+    const fec = this.prue.split('-');
+    const authFech = moment(this.prue);
+    const validFecha = this.getHoliday.filter(month => month.month == authFech.month() +1 && month.day_hol == fec[2])
+
+    if(authFech.day() == 0 || validFecha.length > 0){
+        this.handler.shoWarning('Atención','Fecha Inicio Vacaciones No Puede Ser DOMINGO O DIA FESTIVO');
+        this.CheckTrue = true;
+        this.formSelec.get('day_adv').setValue('');
+
+    }else{
       this.CheckTrue = false;
-        this.prue = event;
-        // this.calculateDays(this.prue,this.prue2);
-        this.holiday.holiday(this.prue,this.prue2);
+      this.holiday.holiday(this.prue,this.prue2 );
+
     }
-    }
+}
    
    calculate(event){  
     if(event){

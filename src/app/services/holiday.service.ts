@@ -19,6 +19,7 @@ export class calculateDays {
   getHoliday: any = [];
   day_sun: any = [];
   date_fin:any = [];
+    valid_fec: boolean = false;
   // sundaySus: any = [];
     constructor(
     private WebApiService: WebApiService,
@@ -30,9 +31,7 @@ export class calculateDays {
       this.loading = true;
       this.WebApiService.getRequest(this.endpoint,{
         action: "getHoliday",
-        // idUser: this.cuser.iduser,
-        // token: this.cuser.token,
-        // modulo: this.component,
+
       }).subscribe(data =>{
         this.permissions = this.handler.getPermissions(this.component);
         
@@ -47,6 +46,8 @@ export class calculateDays {
           this.handler.showError("Se produce un error");
           this.loading = false;
       });
+
+      
    
       if(f1 && f2 && this.getHoliday){
        
@@ -58,8 +59,11 @@ export class calculateDays {
           
             var ini2 = (f1);
             var diff = f2;
+            
+
             // --------------------------------------
             var prueba = new Date(ini2)
+            
             this.date_fin = this.calculateEndDate(prueba,f2,arrFor)
             // ------------------------------------------------
             var arrFecha = ini2.split('-');
@@ -186,11 +190,6 @@ export class calculateDays {
       return sundays;
     }
     
-    
-    
-    
-    
-  
   }
 
 

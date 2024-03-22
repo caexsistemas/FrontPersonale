@@ -105,6 +105,7 @@ export class HolidayDialog  {
   daysRest: any = [];
   blockDaysRest: boolean;
   holidayAll:any = [];
+  getHoliday: any = [];
 
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -269,6 +270,8 @@ export class HolidayDialog  {
          this.name = this.exitsPersonal.jef_idPersonale;
          this.formSelec.get('day_adv').setValue(0);
           this.position        = data.data["getPosition"];
+          this.getHoliday = data.data["getHoliday"];
+          
 
           if (this.view == "update") {
             this.getDataUpdate();
@@ -412,11 +415,21 @@ export class HolidayDialog  {
   }
   
   calculate1(event){
-      if(event){
-          this.CheckTrue = false;
-          this.prue = event;
-          // this.calculateDays(this.prue,this.prue2);
-          this.holiday.holiday(this.prue,this.prue2 );
+    
+      this.prue = event;
+      const fec = this.prue.split('-');
+      const authFech = moment(this.prue);
+      const validFecha = this.getHoliday.filter(month => month.month == authFech.month() +1 && month.day_hol == fec[2])
+
+      if(authFech.day() == 0 || validFecha.length > 0){
+          this.handler.shoWarning('Atención','Fecha Inicio Vacaciones No Puede Ser DOMINGO O DIA FESTIVO');
+          this.CheckTrue = true;
+          this.formSelec.get('day_vac').setValue('');
+ 
+      }else{
+        this.CheckTrue = false;
+        this.holiday.holiday(this.prue,this.prue2 );
+
       }
   }
    calculate(event){  
