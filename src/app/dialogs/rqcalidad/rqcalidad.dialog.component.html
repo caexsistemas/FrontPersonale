@@ -128,7 +128,10 @@
                             <dt>¿Asesor realiza contrato digital?:</dt>
                             <dd> {{dataCad.tip_contrato}}</dd>
                         </div>
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4" *ngIf="customer">
+                            <dt>Voz del cliente</dt>
+                            <dd>{{dataCad.voz_cliente}}</dd>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -444,7 +447,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Gesti&oacute;n:</mat-label>
-                            <mat-select formControlName="tipo_gestion" required>
+                            <mat-select formControlName="tipo_gestion" required  (ngModelChange)="getCustomer($event)">
                                 <mat-option *ngFor="let idet of lisTipogesCla" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -465,7 +468,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Login:</mat-label>
-                            <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                            <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -503,7 +506,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Oferta:</mat-label>
-                            <input matInput formControlName="offer" type="text" >
+                            <input matInput formControlName="offer" type="text" required>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -612,7 +615,12 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4 customer" *ngIf="customer">
+                        <mat-form-field  >
+                            <mat-label>Voz del Cliente:</mat-label>
+                            <textarea matInput formControlName="voz_cliente"  placeholder="" [required]="customer"></textarea>
+                        </mat-form-field>
+                    </div>
 
                   </div>
 
@@ -620,7 +628,7 @@
                     <div class="col-md-12">
                         <mat-form-field class="example-full-width" >
                             <mat-label>Observaciones:</mat-label>
-                            <textarea matInput formControlName="obs_customer"  placeholder="" ></textarea>
+                            <textarea matInput formControlName="obs_customer"  placeholder="" required></textarea>
                         </mat-form-field>
                     </div>
                   </div>
@@ -1406,7 +1414,10 @@
                             <dt>¿Asesor realiza contrato digital?:</dt>
                             <dd>{{dataCad.tip_contrato}}</dd>
                         </div>
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4" *ngIf="customer">
+                            <dt>Voz del cliente:</dt>
+                            <dd>{{dataCad.voz_cliente}}</dd>
+                        </div>
                         <div class="col-sm-4"></div>
                       </div>
 
@@ -2085,7 +2096,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Gesti&oacute;n:</mat-label>
-                            <mat-select formControlName="tipo_gestion" required>
+                            <mat-select formControlName="tipo_gestion" required (ngModelChange)="getCustomer($event)">
                                 <mat-option *ngFor="let idet of lisTipogesCla" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -2115,7 +2126,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Login:</mat-label>
-                            <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                            <input matInput formControlName="login" type="number" maxlength="100"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -2146,13 +2157,13 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>TMO:</mat-label>
-                            <input matInput formControlName="tmo" type="text" > 
+                            <input matInput formControlName="tmo" type="text" required> 
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>ID llamada:</mat-label>
-                            <input matInput formControlName="call_id" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                            <input matInput formControlName="call_id" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         </mat-form-field>
                     </div>
  
@@ -2163,7 +2174,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>N&uacute;mero MIN/Cuenta Hogar:</mat-label>
-                            <input matInput formControlName="min_bill" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                            <input matInput formControlName="min_bill" type="number" maxlength="20"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -2186,7 +2197,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>Oferta:</mat-label>
-                            <input matInput formControlName="offer" type="text" >
+                            <input matInput formControlName="offer" type="text" required>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-4">
@@ -2233,7 +2244,7 @@
                     <div class="col-sm-4">
                         <mat-form-field>
                             <mat-label>ID Venta:</mat-label>
-                            <input matInput formControlName="id_venta" type="text">
+                            <input matInput formControlName="id_venta" type="text" required>
                         </mat-form-field>
                     </div>
                 
@@ -2316,7 +2327,12 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4 customer" *ngIf="customer">
+                        <mat-form-field  >
+                            <mat-label>Voz del Cliente:</mat-label>
+                            <textarea matInput formControlName="voz_cliente"  placeholder="" [required]="customer"></textarea>
+                        </mat-form-field>
+                    </div>
                     <div class="col-sm-4"></div>
                   </div>
 
@@ -2830,7 +2846,7 @@
                         <div class="col-md-8">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
-                                <textarea matInput formControlName="moti_afect"  placeholder="" ></textarea>
+                                <textarea matInput formControlName="moti_afect"  placeholder="" required></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -2999,7 +3015,7 @@
                         <div class="col-md-8">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
-                                <textarea matInput formControlName="moti_afect"  placeholder="" ></textarea>
+                                <textarea matInput formControlName="moti_afect"  placeholder="" required></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -3085,7 +3101,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
-                                <textarea matInput formControlName="moti_afect"  placeholder="" ></textarea>
+                                <textarea matInput formControlName="moti_afect"  placeholder="" required></textarea>
                             </mat-form-field>
                         </div>
                        
@@ -3219,7 +3235,7 @@
                         <div class="col-md-12">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Observación/Oportunidades de Mejora:</mat-label>
-                                <textarea matInput formControlName="obs_obs" placeholder="" ></textarea>
+                                <textarea matInput formControlName="obs_obs" placeholder="" required></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -3257,7 +3273,7 @@
                         <div class="col-md-12">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Aspectos Positivos:</mat-label>
-                                <textarea matInput formControlName="obs_asp_pos"  placeholder="" ></textarea>
+                                <textarea matInput formControlName="obs_asp_pos"  placeholder="" required></textarea>
                             </mat-form-field>
                         </div>
                     </div>

@@ -113,6 +113,7 @@ export class RqcalidadDialog  {
   component = "/callcenter/rqcalidad";
   oculcap: String = "conhidden";
   oculori: String = "";
+  customer:boolean = false;
 
   archivo = {
     nombre: null,
@@ -196,6 +197,7 @@ export class RqcalidadDialog  {
                         data => {
                             if (data.success == true) {
                                 this.dataCad = data.data['getDatPer'][0];
+                                (this.dataCad.tipo_gestion === 'No Venta') ? this.customer = true : this.customer = false;
                                 this.tipMatriz = this.dataCad.matrizarp_cod;
                                 this.generateTable(data.data['getDatHistory']);   
                                 this.loading.emit(false);
@@ -457,7 +459,8 @@ export class RqcalidadDialog  {
       phone: new FormControl(""),
       tip_solicitud: new FormControl(""),
       obs_customer: new FormControl(""),
-      tip_contrato: new FormControl("")
+      tip_contrato: new FormControl(""),
+      voz_cliente:new FormControl("")
 
     });
 
@@ -904,6 +907,7 @@ export class RqcalidadDialog  {
           this.formProces.get('tip_solicitud').setValue(data.data['getDataUpda'][0].tip_solicitud);
           this.formProces.get('obs_customer').setValue(data.data['getDataUpda'][0].obs_customer);
           this.formProces.get('tip_contrato').setValue(data.data['getDataUpda'][0].tip_contrato);         
+          this.formProces.get('voz_cliente').setValue(data.data['getDataUpda'][0].voz_cliente);         
 
           //Malas practicas y Espectativas
           if( data.data['getDataUpda'][0].cri_fal_exp_mal_pra == "34/2" || data.data['getDataUpda'][0].cri_val_cor_cob == "34/2" ){
@@ -1098,4 +1102,7 @@ optionOtr(action, codigo=null){
   this.loadingtwo.emit(false);
 }
 
+getCustomer(event){
+  (event === '32/2') ? this.customer = true : this.customer = false;
+}
 }
