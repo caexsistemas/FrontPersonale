@@ -113,7 +113,7 @@ export class RqcalidadDialog  {
   component = "/callcenter/rqcalidad";
   oculcap: String = "conhidden";
   oculori: String = "";
-  customer:boolean = false;
+  customer:boolean;
 
   archivo = {
     nombre: null,
@@ -1103,6 +1103,17 @@ optionOtr(action, codigo=null){
 }
 
 getCustomer(event){
-  (event === '32/2') ? this.customer = true : this.customer = false;
+  
+  if(event === '32/2'){
+    this.customer = true;
+    this.formProces.get('voz_cliente').setValidators([Validators.required]);
+
+  }else if(event == '32/1'){
+    this.customer = false;
+    this.formProces.get('voz_cliente').clearValidators();
+
+  }
+  this.formProces.get('voz_cliente').updateValueAndValidity();
+
 }
 }
