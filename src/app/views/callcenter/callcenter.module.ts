@@ -49,6 +49,7 @@ import { CargueContactComponent } from "./cargue-contact/cargue-contact.componen
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { ReportClosingComponent } from "./report-closing/report-closing.component";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -89,6 +90,7 @@ const ngWizardConfig: NgWizardConfig = {
     CustomerComponent,
     DwlcontactComponent,
     CargueContactComponent,
+    ReportClosingComponent
   ],
 
 })

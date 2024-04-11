@@ -1,0 +1,54 @@
+<div class="content">
+  <div class="card">
+    <div class="card-header">
+      Cierre Masivo Aware
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formDownoadIngreso">
+        <!-- <mat-dialog-content> -->
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-3" >
+              <mat-form-field class="example-full-width" >
+                  <mat-label>Fecha Inicio:</mat-label>
+                  <input matInput formControlName="fi" type="date"  required>
+              </mat-form-field>
+            </div>  
+            <!-- <div class="col-4 col-sm-14 col-md-3 ">
+              <select class="custom-select formPQR" name="subcampana" id="subcampana">
+                <option value=""> Seleccionar </option>
+              </select>
+            </div> -->
+            <div class="col-md-3" >
+              <mat-form-field class="example-full-width" >
+                  <mat-label>Fecha Fin:</mat-label>
+                  <input matInput formControlName="ff" type="date"  required>
+              </mat-form-field>
+            </div>  
+
+            <!-- <div class="col-4 col-sm-14 col-md-3">
+              <select class="custom-select formPQR" name="base" id="base">
+                <option value=""> Seleccionar </option>
+              </select>
+            </div> -->
+          
+            <!-- <div mat-dialog-actions> -->
+            <div class="col-md-3 mt-1">
+              <button mat-button class="btn btn"
+                style="background-color: #0d95c5; margin:'7px';padding:1px;width: 60%; height: 55%;"
+                (click)="descargarArchivos()">Descargar</button>
+
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>

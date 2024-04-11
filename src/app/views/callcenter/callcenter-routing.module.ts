@@ -18,6 +18,7 @@ import { RqcalidadComponent } from './rqcalidad/rqcalidad.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CargueContactComponent } from './cargue-contact/cargue-contact.component';
 import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
+import { ReportClosingComponent } from './report-closing/report-closing.component';
 
 
 const routes: Routes = [
@@ -66,6 +67,13 @@ const routes: Routes = [
           title: "Cargue Base",
         },
       },
+      {
+        path: "report-closing",
+        component: ReportClosingComponent,
+        data: {
+          title: "Cierre Masivo Aware"
+        }
+      }
     ],
   },
 ];
