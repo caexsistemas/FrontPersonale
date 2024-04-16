@@ -713,7 +713,7 @@ export class ReceptionDialogComponent {
         incapacidades: this.formCreate.value,
         archivoRes: this.nuevoArchivo,
       };
-
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

@@ -302,7 +302,7 @@ if (this.formModule.valid) {
         let body = {
             listas: this.formModule.value,
         }
-        
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

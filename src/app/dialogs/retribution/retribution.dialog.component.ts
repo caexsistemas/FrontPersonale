@@ -203,6 +203,7 @@ export class RetributionDialog  {
         retribution: this.formSelec.value,
        
       };
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

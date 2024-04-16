@@ -521,6 +521,7 @@ saveCase: any = [];
 
     switch(cas){
       case "params":
+        this.handler.showLoadin("Guardando Registro", "Por favor espere...");
         this.WebApiService.postRequest(this.endpoint, body, {
             action: "params",
             idPersonale: this.cuser.idPersonale,
@@ -545,6 +546,7 @@ saveCase: any = [];
           );
           break;
           case "onSave":
+            this.handler.showLoadin("Guardando Registro", "Por favor espere...");
             this.WebApiService.postRequest(this.endpoint, body, {
               action: "onSave",
               idPersonale: this.cuser.idPersonale,

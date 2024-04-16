@@ -340,6 +340,7 @@ export class TechnologyDialog {
       let body = {
         listas: this.formNomi.value,
       };
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         idUser: this.cuser.iduser,
         token: this.cuser.token,

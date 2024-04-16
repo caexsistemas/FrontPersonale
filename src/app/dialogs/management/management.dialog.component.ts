@@ -523,6 +523,7 @@ export class ManagementDialog implements AfterContentChecked {
         children: this.formChildren.value,
         salary: this.formSalary.value,
       };
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

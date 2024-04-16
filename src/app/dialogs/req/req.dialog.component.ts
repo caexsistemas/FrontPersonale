@@ -353,6 +353,7 @@ export class ReqDialog {
         incapacidades: this.formCreate.value,
         archivoRes: this.archivo,
       };
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

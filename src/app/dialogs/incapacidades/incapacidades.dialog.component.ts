@@ -335,6 +335,7 @@ export class IncapacidadesDialog implements OnInit {
                     incapacidades: this.formIncapad.value,    
                     archivoRes: this.archivo    
                 }
+                this.handler.showLoadin("Guardando Registro", "Por favor espere...");
                 this.WebApiService.postRequest(this.endpoint, body, {
                     token: this.cuser.token,
                     idUser: this.cuser.iduser,

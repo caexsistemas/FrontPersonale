@@ -226,7 +226,7 @@ export class CitationDialog {
       let body = {
         listas: this.formCreate.value,
       };
-      
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

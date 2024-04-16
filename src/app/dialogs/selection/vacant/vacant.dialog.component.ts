@@ -235,8 +235,7 @@ export class VacantDialog {
       let body = {
         listas: this.form.value['contacts'],
       };
-      console.log('body=>',body);
-         
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,

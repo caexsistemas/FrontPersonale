@@ -202,12 +202,12 @@
                   <div class="row">
                     <!--Campo TYT-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
-                        <dt>Deja Expresar O Realizar Preguntas:</dt>
+                        <dt>SONDEO Y PERFILACIÓN:</dt>
                         <dd>{{dataCad.tyt_hab_com_int_con_nes_cli}}</dd>
                     </div>
 
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>Deja Expresar O Realizar Preguntas:</dt>
+                        <dt>SONDEO Y PERFILACIÓN:</dt>
                         <dd>{{dataCad.hab_dej_exp_rea_preg}}</dd>
                     </div>     
                   </div>
@@ -714,7 +714,7 @@
                       <!--Campo TYT-->
                       <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
+                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
                             <mat-select formControlName="tyt_hab_com_int_con_nes_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -724,7 +724,7 @@
                     </div>
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
+                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
                             <mat-select formControlName="hab_dej_exp_rea_preg" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -1482,12 +1482,12 @@
                   <div class="row">
                     <!--Campo TYT-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
-                        <dt>Deja Expresar O Realizar Preguntas:</dt>
+                        <dt>SONDEO Y PERFILACIÓN:</dt>
                         <dd>{{dataCad.tyt_hab_com_int_con_nes_cli}}</dd>
                     </div>
 
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>Deja Expresar O Realizar Preguntas:</dt>
+                        <dt>SONDEO Y PERFILACIÓN:</dt>
                         <dd>{{dataCad.hab_dej_exp_rea_preg}}</dd>
                     </div>     
                   </div>
@@ -2417,7 +2417,7 @@
                       <!--Campo TYT-->
                       <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
+                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
                             <mat-select formControlName="tyt_hab_com_int_con_nes_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -2427,7 +2427,7 @@
                     </div>
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>Deja Expresar O Realizar Preguntas:</mat-label>
+                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
                             <mat-select formControlName="hab_dej_exp_rea_preg" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}

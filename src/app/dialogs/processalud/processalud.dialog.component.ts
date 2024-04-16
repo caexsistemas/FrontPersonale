@@ -288,6 +288,7 @@ export class ProcessaludDialog{
                     salud: this.formProces.value, 
                     archivoRes: this.archivo       
                 }
+                this.handler.showLoadin("Guardando Registro", "Por favor espere...");
                 this.WebApiService.postRequest(this.endpoint, body, {
                     idUser: this.cuser.iduser,
                     role: this.cuser.role,

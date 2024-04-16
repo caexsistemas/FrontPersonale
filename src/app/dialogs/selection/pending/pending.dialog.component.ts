@@ -252,6 +252,7 @@ export class PendingDialog  {
       let body = {
         listas: this.formSelec.value,
       };
+      this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         idUser: this.cuser.iduser,
         token: this.cuser.token,

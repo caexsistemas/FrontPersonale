@@ -5,9 +5,7 @@
     </div>
     <div class="card-body">
       <form [formGroup]="dwlForm">
-        <!-- <mat-dialog-content> -->
         <div class="container">
-
           <div class="row">
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
@@ -19,11 +17,6 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <!-- <div class="col-4 col-sm-14 col-md-3 ">
-              <select class="custom-select formPQR" name="subcampana" id="subcampana">
-                <option value=""> Seleccionar </option>
-              </select>
-            </div> -->
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
                 <mat-label>Seleccionar:</mat-label>
@@ -34,12 +27,6 @@
                 </mat-select>
               </mat-form-field>
             </div>
-
-            <!-- <div class="col-4 col-sm-14 col-md-3">
-              <select class="custom-select formPQR" name="base" id="base">
-                <option value=""> Seleccionar </option>
-              </select>
-            </div> -->
             <div class="col-md-3">
               <mat-form-field class="example-full-width">
                 <mat-label>Seleccionar:</mat-label>
@@ -50,17 +37,14 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <!-- <div mat-dialog-actions> -->
             <div class="col-md-3 mt-1">
               <button mat-button class="btn btn"
-                style="background-color: #0d95c5; margin:'7px';padding:1px;width: 60%; height: 55%;"
+                style="background-color: #0d95c5; margin:'7px';padding:1px;width: 60%; height: 75%;font-size: 15px;
+                color: white;"
                 (click)="descargarArchivos()">Descargar Base</button>
-
             </div>
           </div>
-
         </div>
-
       </form>
     </div>
   </div>

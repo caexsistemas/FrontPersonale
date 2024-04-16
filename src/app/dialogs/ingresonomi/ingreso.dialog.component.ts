@@ -260,6 +260,7 @@ export class IngresoDialog{
                 novedades: this.formNomi.value, 
                 archivoRes: this.archivo       
             }
+            this.handler.showLoadin("Guardando Registro", "Por favor espere...");
             this.WebApiService.postRequest(this.endpoint, body, {
                 token: this.cuser.token,
                 idUser: this.cuser.iduser,
