@@ -202,12 +202,12 @@
                   <div class="row">
                     <!--Campo TYT-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
-                        <dt>SONDEO Y PERFILACIÓN:</dt>
+                        <dt>Sondeo y Perfilación:</dt>
                         <dd>{{dataCad.tyt_hab_com_int_con_nes_cli}}</dd>
                     </div>
 
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>SONDEO Y PERFILACIÓN:</dt>
+                        <dt>Sondeo y Perfilación:</dt>
                         <dd>{{dataCad.hab_dej_exp_rea_preg}}</dd>
                     </div>     
                   </div>
@@ -714,7 +714,7 @@
                       <!--Campo TYT-->
                       <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
                         <mat-form-field class="example-full-width">
-                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
+                            <mat-label>Sondeo y Perfilación:</mat-label>
                             <mat-select formControlName="tyt_hab_com_int_con_nes_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -724,7 +724,7 @@
                     </div>
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
+                            <mat-label>Sondeo y Perfilación:</mat-label>
                             <mat-select formControlName="hab_dej_exp_rea_preg" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -1482,12 +1482,12 @@
                   <div class="row">
                     <!--Campo TYT-->
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
-                        <dt>SONDEO Y PERFILACIÓN:</dt>
+                        <dt>Sondeo y Perfilación:</dt>
                         <dd>{{dataCad.tyt_hab_com_int_con_nes_cli}}</dd>
                     </div>
 
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
-                        <dt>SONDEO Y PERFILACIÓN:</dt>
+                        <dt>Sondeo y Perfilación:</dt>
                         <dd>{{dataCad.hab_dej_exp_rea_preg}}</dd>
                     </div>     
                   </div>
@@ -1661,10 +1661,10 @@
                     </mat-expansion-panel-header>
                 
                     <div class="row">
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <dt>Prepago</dt>
                             <dd>{{dataCad.ns_pre}}</dd>
-                        </div>
+                        </div> -->
                         <div class="col-sm-4">
                             <dt>Todo Claro:</dt>
                             <dd>{{dataCad.ns_tod_cla}}</dd>
@@ -1673,21 +1673,34 @@
                             <dt>Power:</dt>
                             <dd>{{dataCad.ns_pow}}</dd>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-sm-4">
                             <dt>Sim Adquirida:</dt>
                             <dd>{{dataCad.ns_sim_adq}}</dd>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        
                         <div class="col-sm-4">
                             <dt>Afinidad Todo Claro:</dt>
                             <dd>{{dataCad.ns_afi_tod_cla}}</dd>
                         </div>
                         <div class="col-sm-4">
+                            <dt>Lectura De Contrato:</dt>
+                            <dd>{{dataCad.ns_lec_con}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>¿Es Reincidente?:</dt>
+                            <dd>{{dataCad.reciente}}</dd>
+                        </div>
+                        <div class="col-sm-4">
+                            <dt>Motivo de la afectación:</dt>
+                            <dd>{{dataCad.moti_afect}}</dd>
+                        </div>
+                        <!-- <div class="col-sm-4">
                             <dt>Validacion Identidad:</dt>
                             <dd>{{dataCad.ns_val_ide}}</dd>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!--<div class="row">
@@ -1706,29 +1719,19 @@
                     </div>-->
 
                     <div class="row">
-                        <div class="col-sm-4">
-                            <dt>Lectura De Contrato:</dt>
-                            <dd>{{dataCad.ns_lec_con}}</dd>
-                        </div>
-                        <div class="col-sm-4">
+                       
+                        <!-- <div class="col-sm-4">
                             <dt>Clausula De Permanencia:</dt>
                             <dd>{{dataCad.ns_cla_per}}</dd>
-                        </div>
-                        <div class="col-sm-4">
+                        </div> -->
+                        <!-- <div class="col-sm-4">
                             <dt>Ofrecimiento Escalonado:</dt>
                             <dd>{{dataCad.ns_ofr_esc}}</dd>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4">
-                            <dt>¿Es Reincidente?:</dt>
-                            <dd>{{dataCad.reciente}}</dd>
-                        </div>
-                        <div class="col-sm-4">
-                            <dt>Motivo de la afectación:</dt>
-                            <dd>{{dataCad.moti_afect}}</dd>
-                        </div>
+                       
                     </div>
                 
                     <mat-action-row>
@@ -1844,21 +1847,22 @@
                             <dt> Venta tecnologia:</dt>
                             <dd>{{dataCad.tyt_ven_tec}}</dd>
                         </div>
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <dt> Validacion de Identidad:</dt>
                             <dd>{{dataCad.tyt_val_ide}}</dd>
-                        </div>
+                        </div> -->
                         <div class="col-sm-4">
                             <dt> CLARO  UP:</dt>
                             <dd>{{dataCad.tyt_cla_up}}</dd>
                         </div>
-                    </div>
-
-                    <div class="row">                     
                         <div class="col-sm-4">
                             <dt> Accesorios:</dt>
                             <dd>{{dataCad.tyt_ult_wif}}</dd>
                         </div>
+                    </div>
+
+                    <div class="row">                     
+                        
                         <div class="col-sm-4">
                             <dt>¿Es Reincidente?:</dt>
                             <dd>{{dataCad.reciente}}</dd>
@@ -2417,7 +2421,7 @@
                       <!--Campo TYT-->
                       <div class="col-sm-12" *ngIf=" tipMatriz == '40/3' ">
                         <mat-form-field class="example-full-width">
-                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
+                            <mat-label>Sondeo y Perfilación:</mat-label>
                             <mat-select formControlName="tyt_hab_com_int_con_nes_cli" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -2427,7 +2431,7 @@
                     </div>
                     <div class="col-sm-12" *ngIf=" tipMatriz == '40/1'|| tipMatriz == '40/2'">
                         <mat-form-field class="example-full-width">
-                            <mat-label>SONDEO Y PERFILACIÓN:</mat-label>
+                            <mat-label>Sondeo y Perfilación:</mat-label>
                             <mat-select formControlName="hab_dej_exp_rea_preg" required (ngModelChange)="validcheked()">
                                 <mat-option *ngFor="let idet of lisCalifica" [value]="idet.ls_codvalue">
                                     {{idet.description}}
@@ -2701,7 +2705,7 @@
                     </mat-expansion-panel-header>
                 
                     <div class="row">
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Prepago:</mat-label>
                                 <mat-select formControlName="ns_pre" required>
@@ -2710,7 +2714,7 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Todo Claro:</mat-label>
@@ -2731,9 +2735,6 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Sim Adquirida:</mat-label>
@@ -2744,6 +2745,10 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Afinidad Todo Claro:</mat-label>
@@ -2756,6 +2761,26 @@
                         </div>
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
+                                <mat-label>Lectura De Contrato:</mat-label>
+                                <mat-select formControlName="ns_lec_con" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>¿Es Reincidente?:</mat-label>
+                                <mat-select formControlName="reciente" required>
+                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
                                 <mat-label>Validacion Identidad:</mat-label>
                                 <mat-select formControlName="ns_val_ide" required>
                                     <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
@@ -2763,7 +2788,7 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!--<div class="row">
@@ -2800,17 +2825,8 @@
                     </div>-->
 
                     <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Lectura De Contrato:</mat-label>
-                                <mat-select formControlName="ns_lec_con" required>
-                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
+                       
+                        <!-- <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Clausula De Permanencia:</mat-label>
                                 <mat-select formControlName="ns_cla_per" required>
@@ -2819,8 +2835,8 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
-                        <div class="col-sm-4">
+                        </div> -->
+                        <!-- <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Ofrecimiento Escalonado:</mat-label>
                                 <mat-select formControlName="ns_ofr_esc" required>
@@ -2829,20 +2845,11 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>¿Es Reincidente?:</mat-label>
-                                <mat-select formControlName="reciente" required>
-                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                        
                         <div class="col-md-8">
                             <mat-form-field class="example-full-width" >
                                 <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
@@ -3051,7 +3058,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Validacion de Identidad:</mat-label>
                                 <mat-select formControlName="tyt_val_ide" required>
@@ -3060,7 +3067,7 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
@@ -3072,11 +3079,6 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
-                    </div>
-
-                    <div class="row">
-                       
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Accesorios:</mat-label>
@@ -3087,6 +3089,12 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                    </div>
+
+                    <div class="row">
+                       
+                       
                     
                         <div class="col-sm-4">
                             <mat-form-field class="example-full-width">
