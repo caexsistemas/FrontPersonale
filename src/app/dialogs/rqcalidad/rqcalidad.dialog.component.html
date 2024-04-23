@@ -2759,10 +2759,10 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" *ngIf="contrato_type">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Contrato:</mat-label>
-                                <mat-select formControlName="ns_lec_con" required>
+                                <mat-select formControlName="ns_lec_con" >
                                     <mat-option *ngFor="let idet of contrato" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>

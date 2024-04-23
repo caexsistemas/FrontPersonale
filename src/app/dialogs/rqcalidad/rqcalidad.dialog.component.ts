@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { FeedbackDialog } from '../../dialogs/feedback/feedback.dialog.component';
+import { startOfMonth, startOfWeek, addDays, differenceInCalendarWeeks } from 'date-fns';
 
 export interface PeriodicElement {
   currentm_user: string,
@@ -115,6 +116,7 @@ export class RqcalidadDialog  {
   oculori: String = "";
   customer:boolean;
   contrato: any = [];
+  weekNumber: number;
   
   archivo = {
     nombre: null,
@@ -994,8 +996,25 @@ export class RqcalidadDialog  {
   
   //Numero de semanas
   getWeekNr(event){
+
+    const currentDate = new Date(event); // Obtener la fecha actual
+    const startOfMonthDate = startOfMonth(currentDate); // Obtener el primer día del mes actual
+    const currentDay = currentDate.getDate(); // Obtener el día del mes actual
+
+    // Calcular el inicio de la semana y el fin del mes
+    const startWeekOfMonth = startOfWeek(startOfMonthDate); // Inicio de la primera semana del mes
+    const endOfMonthDate = new Date(startOfMonthDate.getFullYear(), startOfMonthDate.getMonth() + 1, 0); // Último día del mes actual
+
+    // Calcular la diferencia en semanas entre el inicio del mes y la fecha actual
+    const weeksDifference = differenceInCalendarWeeks(currentDate, startOfMonthDate);
+
+    // Calcular la semana del mes actual
+    this.weekNumber = weeksDifference + 1;
+      
         //var currentdate  = new Date(event);
         var now = new Date(event),i=0,f,sem=(new Date(now.getFullYear(), 0,1).getDay()>0)?1:0;
+        // console.log('2', now);
+        
         while( (f=new Date(now.getFullYear(), 0, ++i)) < now ){
           if(!f.getDay()){
             sem++;
@@ -1014,7 +1033,8 @@ export class RqcalidadDialog  {
         if (Compensation > 3) Compensation -= 4;
         else Compensation += 3;
         var NumberOfWeek =  Math.round((((now-then)/86400000)+Compensation)/7);*/
-        this.formProces.get('week').setValue("Semana: "+(sem-1));
+        // this.formProces.get('week').setValue("Semana: "+(sem-1));
+        this.formProces.get('week').setValue("Semana: "+(this.weekNumber));
   }
 
  takeYear(theDate){
@@ -1104,19 +1124,27 @@ optionOtr(action, codigo=null){
   }
   this.loadingtwo.emit(false);
 }
-
+contrato_type:boolean;
 getCustomer(event){
   
   if(event === '32/2'){
     this.customer = true;
+    this.contrato_type = false;
     this.formProces.get('voz_cliente').setValidators([Validators.required]);
+    this.formProces.get('ns_lec_con').clearValidators();
+
 
   }else if(event == '32/1'){
     this.customer = false;
+    this.contrato_type = true;
+
     this.formProces.get('voz_cliente').clearValidators();
+    this.formProces.get('ns_lec_con').setValidators([Validators.required]);
+
 
   }
   this.formProces.get('voz_cliente').updateValueAndValidity();
+  this.formProces.get('ns_lec_con').updateValueAndValidity();
 
 }
 }
