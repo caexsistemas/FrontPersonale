@@ -2763,7 +2763,7 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Contrato:</mat-label>
                                 <mat-select formControlName="ns_lec_con" required>
-                                    <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                    <mat-option *ngFor="let idet of contrato" [value]="idet.ls_codvalue">
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>

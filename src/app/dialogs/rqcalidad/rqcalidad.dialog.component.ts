@@ -114,7 +114,8 @@ export class RqcalidadDialog  {
   oculcap: String = "conhidden";
   oculori: String = "";
   customer:boolean;
-
+  contrato: any = [];
+  
   archivo = {
     nombre: null,
     nombreArchivo: null,
@@ -524,6 +525,7 @@ export class RqcalidadDialog  {
                 this.formador = data.data['getFomacion']; //Data Formacion 
                 this.ListTipDiag = data.data['gessClar']; //gestion escucha
                 this.LisTipContrato = data.data['tipcontrato']; //Tipo Contrato
+                this.contrato = data.data['contrato']; //Tipo Contrato
                 //Fecha
                 let date = new Date();
                 this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
