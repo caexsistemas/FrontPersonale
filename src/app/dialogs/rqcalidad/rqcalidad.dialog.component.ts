@@ -1126,25 +1126,42 @@ optionOtr(action, codigo=null){
 }
 contrato_type:boolean;
 getCustomer(event){
-  
-  if(event === '32/2'){
-    this.customer = true;
-    this.contrato_type = false;
-    this.formProces.get('voz_cliente').setValidators([Validators.required]);
-    this.formProces.get('ns_lec_con').clearValidators();
 
-
-  }else if(event == '32/1'){
-    this.customer = false;
-    this.contrato_type = true;
-
-    this.formProces.get('voz_cliente').clearValidators();
-    this.formProces.get('ns_lec_con').setValidators([Validators.required]);
-
-
+  if(this.tipMatriz == '40/1' || this.tipMatriz == '40/2'){
+      if(event === '32/2'){
+        this.customer = true;
+        this.contrato_type = false;
+        this.formProces.get('voz_cliente').setValidators([Validators.required]);
+        this.formProces.get('ns_lec_con').clearValidators();
+    
+    
+      }else if(event == '32/1'){
+        this.customer = false;
+        this.contrato_type = true;
+    
+        this.formProces.get('voz_cliente').clearValidators();
+        this.formProces.get('ns_lec_con').setValidators([Validators.required]);
+    
+    
+      }
+      this.formProces.get('voz_cliente').updateValueAndValidity();
+      this.formProces.get('ns_lec_con').updateValueAndValidity();
+    
+    }else if(this.tipMatriz == '40/3'){
+        if(event === '32/2'){
+          this.customer = true;
+          this.formProces.get('voz_cliente').setValidators([Validators.required]);
+      
+      
+        }else if(event == '32/1'){
+          this.customer = false;
+      
+          this.formProces.get('voz_cliente').clearValidators();
+      
+      
+        }
+        this.formProces.get('voz_cliente').updateValueAndValidity();
+    }
   }
-  this.formProces.get('voz_cliente').updateValueAndValidity();
-  this.formProces.get('ns_lec_con').updateValueAndValidity();
-
-}
+  
 }
