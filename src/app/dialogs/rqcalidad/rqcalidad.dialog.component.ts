@@ -1127,7 +1127,7 @@ optionOtr(action, codigo=null){
 contrato_type:boolean;
 getCustomer(event){
 
-  if(this.tipMatriz == '40/1'){
+  if(this.tipMatriz == '40/1'  || this.tipMatriz == '40/2'){
       if(event === '32/2'){
         this.customer = true;
         this.contrato_type = false;
@@ -1147,7 +1147,7 @@ getCustomer(event){
       this.formProces.get('voz_cliente').updateValueAndValidity();
       this.formProces.get('ns_lec_con').updateValueAndValidity();
     
-    }else if(this.tipMatriz == '40/3'  || this.tipMatriz == '40/2'){
+    }else if(this.tipMatriz == '40/3' ){
         if(event === '32/2'){
           this.customer = true;
           this.formProces.get('voz_cliente').setValidators([Validators.required]);
