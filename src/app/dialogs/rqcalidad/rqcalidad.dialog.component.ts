@@ -1127,7 +1127,7 @@ optionOtr(action, codigo=null){
 contrato_type:boolean;
 getCustomer(event){
 
-  if(this.tipMatriz == '40/1'  || this.tipMatriz == '40/2'){
+  if(this.view == 'create' && this.tipMatriz == '40/1'  || this.view == 'create' && this.tipMatriz == '40/2'){
       if(event === '32/2'){
         this.customer = true;
         this.contrato_type = false;
@@ -1161,7 +1161,19 @@ getCustomer(event){
       
         }
         this.formProces.get('voz_cliente').updateValueAndValidity();
+    }else if(this.view == 'createCus' && this.tipMatriz == '40/1'  || this.view == 'createCus' && this.tipMatriz == '40/2'){
+      if(event === '32/2'){
+        this.customer = true;
+        this.formProces.get('voz_cliente').setValidators([Validators.required]);
+
+      }else if(event == '32/1'){
+        this.customer = false;
+        this.formProces.get('voz_cliente').clearValidators();
+
+      }
     }
+    this.formProces.get('voz_cliente').updateValueAndValidity();
+
   }
   
 }
