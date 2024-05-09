@@ -85,7 +85,7 @@ export class RqcalidadComponent implements OnInit {
         if (data.success == true) {
           this.permissions = this.handler.getPermissions(this.component);
           this.generateTable(data.data["getContData"]);
-          (this.cuser.role == '31' || this.cuser.role == '22' || this.cuser.role == '1') ? this.checkRefut = true : this.checkRefut = false;
+          (this.cuser.role == '31' || this.cuser.role == '22' || this.cuser.role == '21' ||  this.cuser.role == '1') ? this.checkRefut = true : this.checkRefut = false;
           this.contenTable = data.data["getContData"];
           this.loading = false;
         } else {
