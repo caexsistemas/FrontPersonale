@@ -22,6 +22,8 @@ import { RqcalidadDialog } from "../../../dialogs/rqcalidad/rqcalidad.dialog.com
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ReportsRqcalidadComponent } from "../../../dialogs/reports/rqcalidad/reports-rqcalidad.component";
 import { RqcalidadvmrpComponent } from "../../../dialogs/reportview/rqcalidadvmrp/rqcalidadvmrp.component";
+import { RefuteDialog } from "../../../dialogs/refute/refute.dialog.component";
+import { CustomerDialog } from "../../../dialogs/customer/customer.dialog.component";
 
 
 @Component({
@@ -41,6 +43,7 @@ export class RqcalidadComponent implements OnInit {
   public detaNovSal = [];
   contaClick: number = 0;
   public mailNotification: any;
+  checkRefut:boolean = false
   // public isLogged: boolean;
 
   //Control Permiso
@@ -82,6 +85,7 @@ export class RqcalidadComponent implements OnInit {
         if (data.success == true) {
           this.permissions = this.handler.getPermissions(this.component);
           this.generateTable(data.data["getContData"]);
+          (this.cuser.role == '31' || this.cuser.role == '22' || this.cuser.role == '1') ? this.checkRefut = true : this.checkRefut = false;
           this.contenTable = data.data["getContData"];
           this.loading = false;
         } else {
@@ -261,6 +265,45 @@ export class RqcalidadComponent implements OnInit {
             });
           }
           
+          break;
+          case "refute":
+            // this.loading = true;
+            dialogRef = this.dialog.open(RefuteDialog, {
+              data: {
+                window: "refute",
+                codigo,
+                
+              },
+            });
+            dialogRef.disableClose = true;
+            // LOADING
+            dialogRef.componentInstance.loading.subscribe((val) => {
+              this.loading = val;
+            });
+            // RELOAD
+            dialogRef.componentInstance.reload.subscribe((val) => {
+              this.sendRequest();
+            });
+        break;
+        case "customer":
+          this.loading = true;
+          dialogRef = this.dialog.open(CustomerDialog, {
+            data: {
+              window: "customer",
+              codigo,
+              tipoMat: tipoMat,
+              dialogo: diag
+            },
+          });
+          dialogRef.disableClose = true;
+          // LOADING
+          dialogRef.componentInstance.loading.subscribe((val) => {
+            this.loading = val;
+          });
+          // RELOAD
+          dialogRef.componentInstance.reload.subscribe((val) => {
+            this.sendRequest();
+          });
           break;
     }
   }

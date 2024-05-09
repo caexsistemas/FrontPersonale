@@ -1,0 +1,33 @@
+<div >
+       
+  <div mat-dialog-title class="card-header"> 
+      <h1 mat-dialog-title> Nota Calidad</h1>
+          <div mat-dialog-content>
+            <form [formGroup]="formRefute"  method="post">
+              <div class="row mt-4" style="justify-content: center;">
+                <div class="col-md-8">
+                  <label for=""> Desea cuestionar la nota?</label>
+                  <mat-form-field>
+                    <mat-label>Seleccione opción</mat-label>
+                    <mat-select  formControlName="refute" required>
+                      <mat-option value="1">Si</mat-option>
+                      <mat-option value="0">No</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </form>
+          </div>
+          <div mat-dialog-actions style="margin: 2px;">
+            <div class="text-center col-12 mt-3">
+
+                <button *ngIf="view == 'refute'" mat-button class="btn btn-primary"
+                    (click)="onSubmitUpdate()">Guardar</button>
+
+                <button mat-button class="btn btn-secondary" (click)="closeDialog()">Cancelar</button>
+            </div>
+        </div>
+                           
+  </div>
+</div>

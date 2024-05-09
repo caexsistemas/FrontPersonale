@@ -122,6 +122,10 @@ export interface PeriodicElement {
                         }
                     );
             break;
+            case 'customer':
+              this.initForms();
+              this.title = "CREAR MEDICION CUSTOMER";
+          break;
             }
         }
 

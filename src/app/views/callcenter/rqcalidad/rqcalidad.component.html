@@ -25,6 +25,11 @@
                             <span>Crear Escucha</span>
                         </button>
 
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('customer')" title="Crear">
+                            <mat-icon>add_circle</mat-icon>
+                            <span>Customer</span>
+                        </button>
+
                         <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Detallado Calidad">
                             <mat-icon>download</mat-icon>
                             <span>Reportes Calidad</span>
@@ -173,7 +178,11 @@
                             <button class="btn btn-ghost-danger" *ngIf="permissions.view" (click)="pdf(element.pqid)"
                                 title="PDF">
                                 <i class="fa fa-file-pdf-o"></i>
-                            </button>       
+                            </button>    
+                        <button class="btn btn-ghost-success" *ngIf="permissions.update && checkRefut" (click)="option('refute',element.pqid)"
+                                title="Refutar Nota">
+                            <i class="fa fa-question"></i>
+                        </button>       
                         </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

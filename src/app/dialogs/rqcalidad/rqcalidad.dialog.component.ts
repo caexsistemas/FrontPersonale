@@ -229,6 +229,16 @@ export class RqcalidadDialog  {
                 this.title = "Detalle Retroalimentación";       
                 this.getdataIniRetro(this.idPam);                                           
             break;
+            case 'refutar':   
+                this.idPam = this.data.codigo; 
+                this.tipMatriz = this.data.tipoMat;
+                this.title = "Detalle Retroalimentación";    
+                this.loading.emit(false);
+        // this.dialogRef.close();
+
+
+                // this.getdataIniRetro(this.idPam);                                           
+            break;
           }
   }
   /*
@@ -248,7 +258,9 @@ export class RqcalidadDialog  {
       descri_pda: new FormControl(""),
       compr_ases: new FormControl(""),
       creatRetro: new FormControl(this.cuser.iduser),
-      fecha_pda: new FormControl(this.dateStrinMoni)
+      fecha_pda: new FormControl(this.dateStrinMoni),
+      retro_call: new FormControl(''),
+
     });
   }
 
@@ -463,7 +475,9 @@ export class RqcalidadDialog  {
       tip_solicitud: new FormControl(""),
       obs_customer: new FormControl(""),
       tip_contrato: new FormControl(""),
-      voz_cliente:new FormControl("")
+      voz_cliente:new FormControl(""),
+      refute: new FormControl(""),
+
 
     });
 
@@ -1126,8 +1140,10 @@ optionOtr(action, codigo=null){
 }
 contrato_type:boolean;
 getCustomer(event){
+console.log('===>',event);
 
-  if(this.view == 'create' && this.tipMatriz == '40/1'  || this.view == 'create' && this.tipMatriz == '40/2'){
+if ((this.view === 'create' || this.view === 'update') && (this.tipMatriz === '40/1' || this.tipMatriz === '40/2')) {
+  
       if(event === '32/2'){
         this.customer = true;
         this.contrato_type = false;
@@ -1161,7 +1177,8 @@ getCustomer(event){
       
         }
         this.formProces.get('voz_cliente').updateValueAndValidity();
-    }else if(this.view == 'createCus' && this.tipMatriz == '40/1'  || this.view == 'createCus' && this.tipMatriz == '40/2'){
+    // }else if(this.view == 'createCus' && this.tipMatriz == '40/1'  || this.view == 'createCus' && this.tipMatriz == '40/2'){
+    }else if((this.view === 'createCus' || this.view === 'updateCus') && (this.tipMatriz === '40/1' || this.tipMatriz === '40/2')){
       if(event === '32/2'){
         this.customer = true;
         this.formProces.get('voz_cliente').setValidators([Validators.required]);
