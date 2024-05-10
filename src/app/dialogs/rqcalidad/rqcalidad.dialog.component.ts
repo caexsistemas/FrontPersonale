@@ -260,6 +260,7 @@ export class RqcalidadDialog  {
       creatRetro: new FormControl(this.cuser.iduser),
       fecha_pda: new FormControl(this.dateStrinMoni),
       retro_call: new FormControl(''),
+      refute: new FormControl(''),
 
     });
   }
