@@ -234,7 +234,7 @@ export class HandlerAppService {
     Swal.fire({
       title: title,
       html: message,     
-      footer: '<a href="'+modulo+'">Ingersar al Modulo</a>',
+      footer: '<a href="'+modulo+'">Ingresar al Modulo</a>',
       icon: 'info',
       showCloseButton: true,
       showCancelButton: false,

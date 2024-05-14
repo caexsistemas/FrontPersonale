@@ -200,6 +200,7 @@ export class RqcalidadDialog  {
                         data => {
                             if (data.success == true) {
                                 this.dataCad = data.data['getDatPer'][0];
+                                
                                 (this.dataCad.tipo_gestion === 'No Venta') ? this.customer = true : this.customer = false;
                                 this.tipMatriz = this.dataCad.matrizarp_cod;
                                 this.generateTable(data.data['getDatHistory']);   
@@ -278,6 +279,7 @@ export class RqcalidadDialog  {
             data => {
                 if (data.success == true) {
                     this.dataCad = data.data['getDatPer'][0];
+
                     this.loading.emit(false);
                 } else {
                     this.handler.handlerError(data);
@@ -1141,7 +1143,6 @@ optionOtr(action, codigo=null){
 }
 contrato_type:boolean;
 getCustomer(event){
-console.log('===>',event);
 
 if ((this.view === 'create' || this.view === 'update') && (this.tipMatriz === '40/1' || this.tipMatriz === '40/2')) {
   
