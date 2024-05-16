@@ -280,7 +280,7 @@ export class LearningDialog {
       file_sp_doc:new FormControl(""),
       file_sp_sesion:new FormControl(""),
       lear_fec_eje: new FormControl(""),
-      lear_time: new FormControl(""),
+      lear_time: new FormControl("",[Validators.required]),
       receiver: new FormControl(""),
       receiver2: new FormControl(""),
       receiver3: new FormControl(""),
@@ -371,9 +371,13 @@ export class LearningDialog {
           this.formCreate.get("receiver").setValue(data.data["getParamUpdate"][0].receiver.split(','));
           this.formCreate.get("receiver4").setValue(data.data["getParamUpdate"][0].receiver4);
           this.formCreate.get("lear_fec_eje").setValue(data.data["getParamUpdate"][0].lear_fec_eje);
-          this.formCreate.get("lear_time").setValue(data.data["getParamUpdate"][0].lear_time.slice(0,5));
-          this.formCreate.get('lear_time').disable();
 
+          if(data.data["getParamUpdate"][0].lear_time == null){
+            this.formCreate.get("lear_time").setValue(data.data["getParamUpdate"][0].lear_time);
+          }else{
+            this.formCreate.get("lear_time").setValue(data.data["getParamUpdate"][0].lear_time.slice(0,5));
+            this.formCreate.get('lear_time').disable();
+          }
           this.formCreate.get("lear_desc").setValue(data.data["getParamUpdate"][0].lear_desc);
           this.formCreate.get("lear_link_quest").setValue(data.data["getParamUpdate"][0].lear_link_quest);
           this.formCreate.get("lear_link_satis").setValue(data.data["getParamUpdate"][0].lear_link_satis);
@@ -404,7 +408,6 @@ export class LearningDialog {
             this.checkPerson = true;
           }
           if(data.data["getParamUpdate"]){
-            // console.log(data.data["getParamUpdate"].matriz);
             
             const arrayOfFromAss: any = [];
 
@@ -443,7 +446,6 @@ export class LearningDialog {
 
   onSubmitUpdate() {
     if (this.formCreate.valid) {
-      // if( this.formIncapad.value.fechainicausen <= this.formIncapad.value.fechafinausen){
       this.loading.emit(true);
       let body = {
         listas: this.formCreate.value,
@@ -470,10 +472,7 @@ export class LearningDialog {
           this.loading.emit(false);
         }
       );
-      // }else {
-      //     this.handler.showError('Por favor validar el rango de fechas');
-      //     this.loading.emit(false);
-      // }
+      
     } else {
       this.handler.showError("Complete la informacion necesaria");
       this.loading.emit(false);

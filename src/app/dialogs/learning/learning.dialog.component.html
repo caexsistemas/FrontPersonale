@@ -19,19 +19,19 @@
                       <div class="col-md-4">
                           <mat-form-field class="example-full-width">
                               <mat-label>Nombre de la capacitación </mat-label>
-                              <input matInput formControlName="lear_name" [readonly]="view == 'update'" >
+                              <input matInput formControlName="lear_name" [readonly]="view == 'update'" required>
                           </mat-form-field>
                       </div>
                       <div class="col-md-4">
                           <mat-form-field class="example-full-width">
                               <mat-label>Fecha y Hora de Ejecución:</mat-label>
-                              <input matInput formControlName="lear_fec_eje" type="datetime-local" [readonly]="view == 'update'" >
+                              <input matInput formControlName="lear_fec_eje" type="datetime-local" [readonly]="view == 'update'" required>
                           </mat-form-field>
                       </div>
                       <div class="col-md-4">
                         <mat-form-field class="example-full-width">
                           <mat-label>Lugar de Capacitación</mat-label>
-                          <mat-select formControlName="lear_place"  (ngModelChange)="onSelectPlace($event)"  >
+                          <mat-select formControlName="lear_place"  (ngModelChange)="onSelectPlace($event)"  required>
                             <mat-option *ngFor="let idet of place" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                               {{idet.description}}
                             </mat-option>
@@ -44,29 +44,24 @@
                           <input matInput formControlName="lear_place_other" [readonly]="view == 'update'" >
                       </mat-form-field>
                       </div>
-                    <!-- <div class="ngx-timepicker-field-example">
-                      <ngx-timepicker-field [format]="24" [defaultTime]="'23:11'"></ngx-timepicker-field>
-                  </div> -->
-                    
                   </div>
                   <div class="row mt-2">
-                   
                     <div class="col-md-4">
                       <mat-form-field class="example-full-width">
                         <mat-label>Link de evaluación</mat-label>
-                        <input matInput formControlName="lear_link_quest" [readonly]="view == 'update'" >
+                        <input matInput formControlName="lear_link_quest" [readonly]="view == 'update'" required>
                     </mat-form-field>
                     </div>
                     <div class="col-md-4">
                       <mat-form-field class="example-full-width">
                         <mat-label>Link de Satisfacción</mat-label>
-                        <input matInput formControlName="lear_link_satis" [readonly]="view == 'update'" >
+                        <input matInput formControlName="lear_link_satis" [readonly]="view == 'update'" required>
                     </mat-form-field>
                     </div>
                     <div class="col-md-4" *ngIf="checkState || view == 'create'">
                       <mat-form-field class="example-full-width">
                       <mat-label>Estado Capacitación:</mat-label>
-                      <mat-select formControlName="lear_state"   >
+                      <mat-select formControlName="lear_state" required >
                           <mat-option *ngFor="let idet of status" [value]="idet.ls_codvalue" >
                             {{idet.description}}
                           </mat-option>
@@ -93,7 +88,8 @@
                             [matAutocomplete]="auto"
                             [matChipInputFor]="chipList"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (matChipInputTokenEnd)="addM($event)">
+                            (matChipInputTokenEnd)="addM($event)"
+                            >
                         </mat-chip-list>
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMatriz($event)" >
                           <mat-option *ngFor="let user of filteredMatriz | async" [value]="user" [disabled]="view == 'update'">
@@ -111,16 +107,20 @@
                         formControlName="lear_time"
                         [controlOnly]="true"
                         (timeChanged)="onOpeningOrClosingTimeChanged($event)"
-                        >
+                         >
                       </ngx-timepicker-field>
+                      <mat-error *ngIf="formCreate.get('learn_time')?.hasError('required')">
+                        La duración de la capacitación es requerida.
+                      </mat-error>
               </div>
+             
             </div>
                   <hr>
                   <div class="row mt-6">
                       <div class="col-md-4">
                           <mat-form-field class="example-full-width">
                           <mat-label>Linea de Negocio:</mat-label>
-                          <mat-select formControlName="receiver" (ngModelChange)="onSelectArea($event)" multiple >
+                          <mat-select formControlName="receiver" (ngModelChange)="onSelectArea($event)" multiple required>
                               <mat-option *ngFor="let idet of businessLine" [value]="idet.ls_codvalue" [disabled]="view == 'update'">
                                 {{idet.description}}
                               </mat-option>
@@ -178,16 +178,13 @@
                           </mat-form-field>
                         </div>
                   </div>
-                  <!-- <div class="row mt-3" *ngIf="view == 'create'">
-                     
-
-                    </div> -->
+                  
                     <div class="row mt-4" *ngIf="view == 'create'">
                       <div class="col-md-4">
                         <label for="file-upload-1" class="custom-file-upload">
                           <i class="fa fa-picture-o"></i> Imagen Portada
                         </label>
-                        <input formControlName="file_sp" id="file-upload-1" type="file" (change)="seleccionarImg($event)" accept="image/*" />
+                        <input formControlName="file_sp" id="file-upload-1" type="file" (change)="seleccionarImg($event)" accept="image/*" required/>
                         <div>
                           <span id="file-upload-1-name" class="file-name">{{ selectedFileName.slice(0,8) }}</span>
                         </div>
@@ -196,7 +193,7 @@
                         <label for="file-upload-2" class="custom-file-upload">
                           <i class="fa fa-cloud-upload"></i> Cargar Documentos
                         </label>
-                        <input formControlName="file_sp_doc" id="file-upload-2" type="file" (change)="seleccionarArchivo($event)" multiple />
+                        <input formControlName="file_sp_doc" id="file-upload-2" type="file" (change)="seleccionarArchivo($event)" multiple required/>
                         <div *ngFor="let file of selectedFiles">
                           <span class="file-name">{{ file.name.slice(0,8)  }}</span>
                         </div>
@@ -205,41 +202,18 @@
                         <label for="file-upload-3" class="custom-file-upload">
                           <i class="fa fa-upload"></i> Planeador de Sesión
                         </label>
-                        <input formControlName="file_sp_sesion" id="file-upload-3" type="file" (change)="seleccionarSesion($event)" multiple />
+                        <input formControlName="file_sp_sesion" id="file-upload-3" type="file" (change)="seleccionarSesion($event)" multiple required/>
                         <div *ngFor="let file of selectedFilesSesion">
                           <span class="file-name">{{ file.name.slice(0,8)  }}</span>
                         </div>
                       </div>
-                      <!-- <div class="col-md-6">
-                        <dt>Documentos de Soporte:</dt>
-                        <dd>
-                          <ul>
-                            <li *ngFor="let archivo of selection.file_sp_doc; let i = index;">
-                              <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
-                            </li>
-                          </ul>
-                        </dd>
-                      </div> -->
-                    </div>
-                    <div class="row mt-3" *ngIf="view == 'create'">
-                      
-                      <!-- <div class="col-md-6">
-                        <dt>Documentos de Soporte:</dt>
-                        <dd>
-                          <ul>
-                            <li *ngFor="let archivo of selection.file_sp_sesion; let i = index;">
-                              <a href="{{archivo}}" target="_blank">Download {{i+1}}</a>
-                            </li>
-                          </ul>
-                        </dd>
-                      </div> -->
                     </div>
                     
                     <div class="row mt-3">
                       <div class="col-md-12">
                         <mat-form-field class="example-full-width">
                           <mat-label> Descripción de Capacitación </mat-label>
-                          <textarea matInput formControlName="lear_desc" [readonly]="view == 'update'" ></textarea>
+                          <textarea matInput formControlName="lear_desc" [readonly]="view == 'update'" required></textarea>
                         </mat-form-field>
                       </div>
                      
