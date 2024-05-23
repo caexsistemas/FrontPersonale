@@ -11,13 +11,16 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { WebApiService } from "../../services/web-api.service";
 import { INavData } from "@coreui/angular";
 import { HandlerAppService } from "../../services/handler-app.service";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 import { NotificationDialog } from "../../dialogs/notification/notification.dialog.component";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { catchError, tap } from "rxjs/operators";
+import { WolkService } from "../../services/wolk.service";
 
 @Component({
   selector: "app-dashboard",
@@ -94,7 +97,9 @@ export class DefaultLayoutComponent {
     private _router: Router,
     private WebApiService: WebApiService,
     public dialog: MatDialog,
-    private handler: HandlerAppService
+    private handler: HandlerAppService,
+    private http: HttpClient,
+    private wolk: WolkService
   ) {
     this.identity = _tools.getIdentity();
     this.token = _tools.getToken();
@@ -291,6 +296,8 @@ export class DefaultLayoutComponent {
     // this.aware(this.WebApiService);
     this.checkNotification(this.WebApiService);
     this.validationAbs(this.WebApiService);
+    // this.fetchData()
+
     // this.notifimail(this.WebApiService);
     setTimeout(() => {
       // Recargar Notificaciones - 5 Seg cui-account-logout / icoNoti / cui-bell
@@ -390,39 +397,74 @@ export class DefaultLayoutComponent {
       }
     );
   }
-  aware(WebApiService: WebApiService) {
-    // ejecutar consulta al servidor para verificar si el token es valido aun...
-    this.icoNoti = "cui-bell";
-    this.cuser = JSON.parse(localStorage.getItem("currentUser"));
 
-    WebApiService.getRequest(this.endaware, {
-      // action: "disciplinary",
-      iduser: this.cuser.iduser,
-      token: this.cuser.token,
-      role: this.cuser.role,
-      // modulo: this.component,
-    }).subscribe(
-      (response) => {
-        if (response) {
-          // this.conteNotifi = response.data["cont"][0]["conteo"];
-          this.absNotification = response.data;
+    // fetchData(): void {
+  //   fetchData(): Observable<any> {
+  //   const wolkvoxServer = '34.73.136.144';
+  //   const apiKey = '7b69645f6469737472697d2d3230323130313034313631333537';
+  //   const dateIni = '20240508070000';
+  //   const dateEnd = '20240508180000';
 
-          // if (this.conteNotifi > 0) {
-          //   this.hidden = false;
-          // } else {
-          //   this.hidden = true;
-          // }
-        } else {
-          this.isLogged = false;
-          // this.handler.handlerError(response.message);
-        }
+  //   const url = `https://${wolkvoxServer}/api/v2/reports_manager.php?api=cdr_1&date_ini=${dateIni}&date_end=${dateEnd}`;
+
+  //   // const headers = {
+  //   //   'wolkvox-token': apiKey
+  //   // };
+
+  //   // this.http.get(url, { headers })
+  //   //   .subscribe(
+  //   //     (response) => {
+  //   //       console.log('api wolkvox =>',response);
+  //   //     },
+  //   //     (error) => {
+  //   //       console.error('Error fetching data:', error);
+  //   //     }
+  //   //   );
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'wolkvox-token': apiKey
+  //   });
+
+  //   return this.http.get(url, { headers, observe: 'response' }).pipe(
+
+  //     catchError((error: HttpErrorResponse) => {
+  //       console.error('Error fetching data:', error);
+  //       return throwError(error);
+  //     }),
+  //     tap(response => console.log('Response:', response))
+  //   );
+  // }
+  reportData: any;
+  fetchData(): void {
+    // this.wolk.fetchData().subscribe(
+    //   (response) => {
+    //     console.log('Response:', response);
+    //     // Aquí puedes manipular la respuesta según tus necesidades
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // );
+    const startTime = '20240508070000';
+    const endtime   = '20240508180000';
+
+    // = 'YOUR_ENDPOINT_URL';
+    const endpoint  = 'https://wv0016.wolkvox.com/api/v2/reports_manager.php?api=cdr_1&date_ini=' + startTime + '&date_end=' + endtime;
+
+    const token = 'YOUR_API_TOKEN';
+
+    this.wolk.getReport(endpoint, token).subscribe(
+      data => {
+        this.reportData = data;
+        console.log(this.reportData);
       },
-      (error) => {
-        this.isLogged = false;
-        // this.handler.handlerError("(E): " + error.message);
+      error => {
+        console.error('There was an error!', error);
       }
     );
   }
+  
+
 
 // notificacion campana correos calificaciones dia anterior 
 // notifimail(WebApiService: WebApiService)
