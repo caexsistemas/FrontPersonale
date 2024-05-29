@@ -81,6 +81,8 @@ descriptions: string[];
         if (data.success == true) {
           //DataInfo
           this.gana = data.data["gana"];
+          // console.log('=>',data.data["getDataUpda"][0].answer.length);
+          
           if(data.data["getDataUpda"].length > 0){
             
             this.checkUpdate = true;
@@ -101,6 +103,12 @@ descriptions: string[];
             this.descriptions = this.gana
               .filter(item => selectedItems.includes(item.ls_codvalue))
               .map(item => item.description);
+
+              if(data.data["getDataUpda"][0].answer.length > 0){
+                this.checkGana = false;
+              }else{
+                this.checkGana = true;
+              }
             
           }else{
                 this.formRefute.get('refute').setValidators([Validators.required]);
@@ -108,7 +116,7 @@ descriptions: string[];
                 this.formRefute.get('reason').setValidators([Validators.required]);
           }
           
-          (this.cuser.iduser == 262 || this.cuser.role == 1) ? this.checkGana = true : this.checkGana = false;
+          // (this.cuser.iduser == 262 || this.cuser.role == 1) ? this.checkGana = true : this.checkGana = false;
            this.formRefute.get('refute').updateValueAndValidity();
            this.formRefute.get('item').updateValueAndValidity();
            this.formRefute.get('reason').updateValueAndValidity();
