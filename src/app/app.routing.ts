@@ -155,6 +155,11 @@ export const routes: Routes = [
         path:"meeting",
         loadChildren: () => 
           import("./views/meeting/meeting.module").then((m) => m.MeetingModule),
+      },
+      {
+        path:"billing",
+        loadChildren: () =>
+          import("./views/billing/billing.module").then((m) => m.BillingModule)
       }
     ],
   },

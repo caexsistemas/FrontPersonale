@@ -104,7 +104,7 @@ descriptions: string[];
               .filter(item => selectedItems.includes(item.ls_codvalue))
               .map(item => item.description);
 
-              if(data.data["getDataUpda"][0].answer.length > 0){
+              if(data.data["getDataUpda"][0].answer != null){
                 this.checkGana = false;
               }else{
                 this.checkGana = true;

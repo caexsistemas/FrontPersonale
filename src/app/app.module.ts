@@ -179,6 +179,7 @@ import { UploadDialog } from "./dialogs/selection/upload/upload.dialog.component
 import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 import { TrainingReportsComponent } from "./dialogs/reports/training/training-reports.component";
 import { RefuteDialog } from "./dialogs/refute/refute.dialog.component";
+import { BillingComponent } from "./views/billing/billing.component";
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -348,7 +349,8 @@ const routes: Routes = [];
     UploadDialog,
     UploadTrainingDialog,
     TrainingReportsComponent,
-    RefuteDialog
+    RefuteDialog,
+    BillingComponent
     // ReportsLearningComponent
   ],
   providers: [
