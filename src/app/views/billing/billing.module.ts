@@ -28,6 +28,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { CampaignMobileComponent } from './campaign-mobile/campaign-mobile.component';
 import { BillingRoutingModule } from './billing-routing.module';
+import { AngularFileUploaderModule } from "angular-file-uploader";
+
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -58,7 +60,9 @@ const ngWizardConfig: NgWizardConfig = {
     MatBottomSheetModule,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    AngularFileUploaderModule,
+
   ],
   declarations: [
     CampaignMobileComponent

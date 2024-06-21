@@ -127,8 +127,8 @@
                 </mat-panel-description>
                 <mat-icon>thumbs_up_down</mat-icon>
               </mat-expansion-panel-header>
-              <hr *ngIf="idUser != '255'">
-              <div class="row" *ngIf="idUser != '255'">
+              <!-- <hr *ngIf="idUser != '255'"> -->
+              <!-- <div class="row" *ngIf="idUser != '255'"> -->
                 <!-- <div class="col-md-6">
                   <h6>maria</h6>
                     <mat-radio-group aria-label="Select an option" formControlName="aprobacion1" value="aprobacion1"
@@ -137,7 +137,7 @@
                       <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button>
                     </mat-radio-group>
                 </div> -->
-                <div class="col-md-12" *ngIf="requ == '62/3' || requ == '62/4'||requ == '62/5'">
+                <!-- <div class="col-md-12" *ngIf="requ == '62/3' || requ == '62/4'||requ == '62/5'">
                   <h6>Gerencia General</h6>
                   <p>Diego Fernado Lopez</p>
                   <mat-radio-group aria-label="Select an option" formControlName="aprobacion1" value="aprobacion1"
@@ -146,10 +146,9 @@
 
                     <mat-radio-button *ngFor="let idet of typeStateRq" [value]="idet.ls_codvalue">
                       {{idet.description}}</mat-radio-button>
-                    <!-- <mat-radio-button (click)="openDialogRe()" value="2">Rechazada</mat-radio-button> -->
                   </mat-radio-group>
-                </div>
-              </div>
+                </div> -->
+              <!-- </div> -->
               <hr *ngIf="idUser != '255'">
               <div class="row mt-3" *ngIf="idUser != '255'">
                 <!-- <div class="col-md-6">
@@ -355,10 +354,10 @@
             </mat-expansion-panel-header>
             <hr>
             <div class="row mt-2">
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                 <dt>Diego Fernado Lopez </dt>
                 <dd>{{selection.die}}</dd>
-              </div>
+              </div> -->
             </div>
             <div class="row mt-2">
               <div class="col-md-4">
@@ -366,7 +365,7 @@
                 <dd>{{selection.ma}}</dd>
               </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-2" *ngIf="check">
               <div class="col-md-4">
                 <dt>Juan Olaya </dt>
                 <dd>{{selection.ju}}</dd>

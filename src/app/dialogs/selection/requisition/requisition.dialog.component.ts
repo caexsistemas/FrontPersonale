@@ -111,7 +111,6 @@ export class RequisitionDialog {
       case "update":
         this.idSel = this.data.codigo;
         this.createUs = this.data.id;
-        // console.log('idsel=>',this.createUs);
         this.initForms();
         this.title = "Actualizar Requisición";
       break;
@@ -119,7 +118,6 @@ export class RequisitionDialog {
         this.idSel = this.data.codigo;
         this.title = "Cancelar Requisición";
         this.initForms();
-        // this.initFormsCancel();
       break;
       case "view":
         this.idSel = this.data.codigo;

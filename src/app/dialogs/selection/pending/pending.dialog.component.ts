@@ -88,13 +88,15 @@ export class PendingDialog  {
   };
   //History
   historyMon: any = [];
-  check: 0;
+  check: boolean;
   displayedColumns: any = [];
   checked = false;
   typeMatriz: any = [];
   matriz: boolean = false;
   typeCargo: any = [];
   create_user: any = [];
+  typeReq: any = [];
+
   public test: any = { limite_semana: 1 };
   public test2: any = { limite_semana: 0 };
   public clickedRows;
@@ -152,8 +154,9 @@ export class PendingDialog  {
         }).subscribe(
           (data) => {
             if (data.success == true) {
+
               this.selection = data.data["getSelectData"][0];
-              this.typeCargo = this.selection.car_sol
+              ( this.selection.tip_req == '62/4' ) ? this.check = false : this.check = true;
 
               this.generateTable(data.data["getDatHistory"]);
               this.loading.emit(false);
@@ -332,6 +335,8 @@ export class PendingDialog  {
   
   onSubmitUpdate(){
     if(this.formSelec.value['aprobacion1'] == '65/1' && this.formSelec.value['aprobacion2'] == '65/1' && this.formSelec.value['aprobacion3'] == '65/1'){
+      this.formSelec.value['state'] = '65/1';
+    }else if(this.formSelec.value['tip_req'] == '62/4' && this.formSelec.value['aprobacion2'] == '65/1'){
       this.formSelec.value['state'] = '65/1';
     }else if(this.formSelec.value['aprobacion1'] == '65/2' && this.formSelec.value['aprobacion2'] == '65/2' && this.formSelec.value['aprobacion3'] == '65/2'){
         this.formSelec.value['state'] = '65/2';
