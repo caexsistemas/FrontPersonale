@@ -1002,10 +1002,10 @@ export class RqcalidadDialog  {
           this.formProces.get('supervisor').setValue(exitsPersonal.supervisor);
           this.formProces.get('formador').setValue(exitsPersonal.formador);
           this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
-          if(this.tipMatriz != '40/3' ){
-          if(exitsPersonal.formador_tw == null ){ this.handler.showError("Falta Formador 2");return;}
-          this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
-          } 
+          // if(this.tipMatriz != '40/3' ){
+          // if(exitsPersonal.formador_tw == null ){ this.handler.showError("Falta Formador 2");return;}
+          // this.formProces.get('formador_tw').setValue(exitsPersonal.formador_tw); 
+          // } 
         } 
     }
  

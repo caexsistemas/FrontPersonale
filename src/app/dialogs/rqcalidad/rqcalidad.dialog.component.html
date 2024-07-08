@@ -583,7 +583,7 @@
                     <div class="col-sm-4" *ngIf="tipMatriz != '40/3'">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Formador2:</mat-label>
-                            <mat-select formControlName="formador_tw" required>
+                            <mat-select formControlName="formador_tw">
                               <mat-option *ngFor="let idet of formador" [value]="idet.idPersonale">
                                 {{idet.name}}
                               </mat-option>
@@ -2311,7 +2311,7 @@
                     <div class="col-sm-4" *ngIf="tipMatriz != '40/3'">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Formador2:</mat-label>
-                            <mat-select formControlName="formador_tw" required>
+                            <mat-select formControlName="formador_tw">
                               <mat-option *ngFor="let idet of formador" [value]="idet.idPersonale">
                                 {{idet.name}}
                               </mat-option>
