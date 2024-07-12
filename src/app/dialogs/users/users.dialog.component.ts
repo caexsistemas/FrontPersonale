@@ -70,7 +70,7 @@ export class UsersDialog {
   sesion: number = null;
   exitsPersonal: any = [];
   check_mens: boolean;
-
+  idMensaPerso: any = [];
   log: any = [];
   // sesion: any = [];
   // interface Food {
@@ -166,7 +166,8 @@ export class UsersDialog {
       supervisor: new FormControl(""),
       formador: new FormControl(""),
       formador_tw: new FormControl(""),
-      num_mens: new FormControl("")
+      id_mens_caex: new FormControl(""),
+      id_men_per: new FormControl("")
     });
   }
 
@@ -195,7 +196,9 @@ export class UsersDialog {
           this.person = data.data["personale"];
           this.superviso = data.data["superviso"];
           this.formadores = data.data["formadores"];
-
+          // this.idMensaPerso = data.data["id_mensajero_pers"];
+          // console.log('==>',this.idMensaPerso);
+          
           let datos = data.data;
           this.loading.emit(false);
 
@@ -322,7 +325,8 @@ export class UsersDialog {
           this.formUsuario
             .get("formador_tw")
             .setValue(data.data["getDataUpda"][0].formador_tw); 
-          this.formUsuario.get("num_mens").setValue(data.data["getDataUpda"][0].num_mens);       
+          this.formUsuario.get("id_mens_caex").setValue(data.data["getDataUpda"][0].id_mens_caex);       
+          this.formUsuario.get("id_men_per").setValue(data.data["getDataUpda"][0].id_men_per);       
 
           this.loading.emit(false);
         } else {
