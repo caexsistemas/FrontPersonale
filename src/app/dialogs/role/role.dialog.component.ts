@@ -58,6 +58,7 @@ export class RoleDialog {
   formLista: FormGroup;
 
   role: any = [];
+  modules: any[] = [];
   formRole: FormGroup;
   formCreate: FormGroup;
   formUpdate: FormGroup;
@@ -105,8 +106,15 @@ export class RoleDialog {
           modulo: this.component,
         }).subscribe(
           (data) => {
+            // console.log("Respuesta del servidor:", data);
             if (data.success == true) {
-              this.role = data.data[0];
+              // this.role = data.data[0];
+              this.role = data.data.result[0];
+              this.modules = data.data.result2;
+
+              // console.log("info rol:", this.role);
+              // console.log("Modulos:", this.modules);
+
               this.loading.emit(false);
             } else {
               this.handler.handlerError(data);
@@ -231,7 +239,7 @@ export class RoleDialog {
     }
   }
 
-  onSubmi() {
+  onSubmit() {
     if (this.formCreate.valid) {
       this.loading.emit(true);
       let body = {
