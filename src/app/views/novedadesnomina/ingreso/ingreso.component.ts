@@ -110,6 +110,7 @@ export class IngresoComponent implements OnInit {
       'daying_nc',
       'idPersonale',
       'area_nc',
+      'date_fin',
       'tipoges_nc',
       'state',
       'actions'
