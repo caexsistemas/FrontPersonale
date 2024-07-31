@@ -1,0 +1,9 @@
+/* En el archivo CSS del componente */
+.full-width-form-field {
+    width: 100%; /* Asegura que el mat-form-field ocupa todo el ancho disponible */
+}
+
+.full-width-textarea {
+    width: 100%; /* Asegura que el textarea ocupa todo el ancho disponible dentro del mat-form-field */
+    box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho total */
+}

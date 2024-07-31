@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
-    private _UserService: UserServices,
+    // private _UserService: UserServices,
     private _tools: Tools,
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
@@ -57,7 +57,6 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.sendRequest();
     this.permissions = this.handler.permissionsApp;    
-   
   }
 
   sendRequest() {

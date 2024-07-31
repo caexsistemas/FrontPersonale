@@ -400,7 +400,7 @@ export class AdvanceDialog  {
     }
 }
    
-   calculate(event){  
+  calculate(event){  
     if(event){
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
@@ -413,25 +413,26 @@ export class AdvanceDialog  {
         this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
         // this.formSelec.get('immediateBoss').setValue(this.jefe);
     }  
-
   }
+  
   totalDays(event){
     this.totalFin = event;
      // this.totalFii(this.totalFin,this.prue2);
-}
- getDocumentInvalid(){
-  return this.formSelec.get('document').invalid && this.formSelec.get('document').touched;
- }
- getFechInvalid(){
-  return this.formSelec.get('fec_ini').invalid && this.formSelec.get('fec_ini').touched;
- }
- getDayInvalid(){
-  return this.formSelec.get('day_adv').invalid && this.formSelec.get('day_adv').touched;
- }
- getObcerInvalid(){
-  return this.formSelec.get('obc_apr').invalid && this.formSelec.get('obc_apr').touched;
+  }
 
- }
+  getDocumentInvalid(){
+    return this.formSelec.get('document').invalid && this.formSelec.get('document').touched;
+  }
+  getFechInvalid(){
+    return this.formSelec.get('fec_ini').invalid && this.formSelec.get('fec_ini').touched;
+  }
+  getDayInvalid(){
+    return this.formSelec.get('day_adv').invalid && this.formSelec.get('day_adv').touched;
+  }
+  getObcerInvalid(){
+    return this.formSelec.get('obc_apr').invalid && this.formSelec.get('obc_apr').touched;
+
+  }
 }
 
   

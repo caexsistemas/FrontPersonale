@@ -28,7 +28,6 @@ export class RolesComponent implements OnInit {
   loading: boolean = false;
   ValorRol: any = [];
 
-   
   component = "/admin/roles";
   permissions: any = null;
   contaClick:  number = 0;

@@ -160,6 +160,11 @@ export const routes: Routes = [
         path:"billing",
         loadChildren: () =>
           import("./views/billing/billing.module").then((m) => m.BillingModule)
+      },
+      {
+        path:"prestacion-servicios",
+        loadChildren: () =>
+          import("./views/prestacionservicios/prestacion-servicios.module").then((m) => m.PrestacionServiciosModule)
       }
     ],
   },

@@ -19,6 +19,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { CargueContactComponent } from './cargue-contact/cargue-contact.component';
 import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
 import { ReportClosingComponent } from './report-closing/report-closing.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,13 @@ const routes: Routes = [
         component: ReportClosingComponent,
         data: {
           title: "Cierre Masivo Aware"
+        }
+      },
+      {
+        path: "reports",
+        component: ReportsComponent,
+        data: {
+          title: "Reportes Call Center"
         }
       }
     ],

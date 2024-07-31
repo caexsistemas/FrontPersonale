@@ -1,0 +1,388 @@
+<div class="card mt-6">
+    <div class="background-suave" *ngIf="view == 'create' || view == 'update'">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal" *ngIf="view == 'create'">{{title}}</p>
+                <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
+        <div class="card-body">
+            <mat-dialog-content>
+                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formCreate">
+                    <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombres</mat-label>
+                                <input matInput formControlName="nombres" oninput="javascript:this.value=this.value.toUpperCase();"  required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Apellidos</mat-label>
+                                <input matInput formControlName="apellidos" oninput="javascript:this.value=this.value.toUpperCase();"  required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Documento de identidad</mat-label>
+                                <input matInput formControlName="doc_ident" oninput="javascript:this.value=this.value.toUpperCase();"  required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha de Nacimiento</mat-label>
+                                <input matInput [matDatepicker]="fecha_nac" formControlName="fecha_nac" >
+                                <mat-datepicker-toggle matSuffix [for]="fecha_nac"></mat-datepicker-toggle>
+                                <mat-datepicker #fecha_nac></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Departamento de nacimiento</mat-label>
+                                <mat-select formControlName="depa_naci" required (selectionChange)="onStateChange($event)">
+                                    <mat-option *ngFor="let state of states" [value]="state.idState">
+                                        {{state.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Ciudad de nacimiento</mat-label>
+                                <mat-select formControlName="ciudad_naci" name="city">
+                                    <mat-option *ngFor="let city of filteredCities" [value]="city.idCity">
+                                        {{city.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha de Expedición Cédula</mat-label>
+                                <input matInput [matDatepicker]="fecha_exp" formControlName="fecha_exp" >
+                                <mat-datepicker-toggle matSuffix [for]="fecha_exp"></mat-datepicker-toggle>
+                                <mat-datepicker #fecha_exp></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Departamento de expedición</mat-label>
+                                <mat-select formControlName="depa_exp" required (selectionChange)="onExpStateChange($event)">
+                                    <mat-option *ngFor="let state of states" [value]="state.idState">
+                                        {{state.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Ciudad de expedición</mat-label>
+                                <mat-select formControlName="ciudad_exp" name="city">
+                                    <mat-option *ngFor="let city of filteredExpCities" [value]="city.idCity">
+                                        {{city.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Ciudad en que labora</mat-label>
+                                <mat-select formControlName="ciudad_trabajo" required>
+                                    <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad">
+                                        {{ ciudad }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-md-4" *ngIf="view == 'update'">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha de ingreso</mat-label>
+                                <input matInput [matDatepicker]="fec_ingreso" formControlName="fec_ingreso" >
+                                <mat-datepicker-toggle matSuffix [for]="fec_ingreso"></mat-datepicker-toggle>
+                                <mat-datepicker #fec_ingreso></mat-datepicker>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="col-md-4" *ngIf="view == 'update'">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Novedad estado</mat-label>
+                                <mat-select formControlName="novedad_estado">
+                                    <mat-option value="">Elegir opción</mat-option>
+                                    <mat-option value="NO ACTIVADO">NO ACTIVADO</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-4" *ngIf="showObservaciones">
+                        <div class="col-md-12">
+                            <mat-form-field class="full-width-form-field">
+                            <mat-label>Observaciones</mat-label>
+                            <textarea matInput formControlName="observaciones" class="full-width-textarea"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <hr>
+                    <div id="documentos" *ngIf="view==='create'">
+
+                        <h3><i class="fa fa-file-pdf-o"></i> Documentos del contratista</h3>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <label for="file-upload-cv" class="custom-file-upload">
+                                    <i class="fa fa-file-pdf-o"></i> Hoja de vida
+                                </label>
+                                <input formControlName="file_cv" id="file-upload-cv" type="file" (change)="seleccionarArchivo($event, 'file_cv')" accept="application/pdf"  (change)="onFileChange($event, 'file_cv')"/>
+                                <div>
+                                    <a *ngIf="selectedFileNames['file_cv']" [href]="selectedFileNames['file_cv']" target="_blank">Ver documento actual</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label for="file-upload-cert" class="custom-file-upload">
+                                    <i class="fa fa-file-pdf-o"></i> Certificado Bancario
+                                </label>
+                                <input formControlName="file_bancario" id="file-upload-cert" type="file" (change)="seleccionarArchivo($event, 'file_bancario')" accept="application/pdf"  (change)="onFileChange($event, 'file_bancario')"/>
+                                <div>
+                                    <a *ngIf="selectedFileNames['file_bancario']" [href]="selectedFileNames['file_bancario']" target="_blank">Ver documento actual</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label for="file-upload-id" class="custom-file-upload">
+                                    <i class="fa fa-file-pdf-o"></i> Fotocopia de la Cédula
+                                </label>
+                                <input formControlName="file_cc" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_cc')" accept="application/pdf"  (change)="onFileChange($event, 'file_cc')"/>
+                                <div>
+                                    <a *ngIf="selectedFileNames['file_cc']" [href]="selectedFileNames['file_cc']" target="_blank">Ver documento actual</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label for="file-upload-id" class="custom-file-upload">
+                                    <i class="fa fa-file-pdf-o"></i> Certificado de pensión
+                                </label>
+                                <input formControlName="file_pension" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_pension')" accept="application/pdf"  (change)="onFileChange($event, 'file_pension')"/>
+                                <div>
+                                    <a *ngIf="selectedFileNames['file_pension']" [href]="selectedFileNames['file_pension']" target="_blank">Ver documento actual</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label for="file-upload-id" class="custom-file-upload">
+                                    <i class="fa fa-file-pdf-o"></i> Certificado de EPS
+                                </label>
+                                <input formControlName="file_eps" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_eps')" accept="application/pdf"  (change)="onFileChange($event, 'file_eps')"/>
+                                <div>
+                                    <a *ngIf="selectedFileNames['file_eps']" [href]="selectedFileNames['file_eps']" target="_blank">Ver documento actual</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>             
+                </form>
+            </mat-dialog-content>
+            <div mat-dialog-actions>
+                <div class="text-center col-12">
+                    <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+                        (click)="onSubmitUpdate()">Actualizar</button>
+
+                    <button *ngIf="view == 'create'" mat-button class="btn btn-success"
+                        (click)="onSubmit()">Guardar</button>
+
+                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="background-suave" *ngIf="view == 'view'">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="modal-title">
+                    <p class="title-modal">{{title}}</p>
+                    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                        style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+            </div>
+            <div class="card-body">
+                <mat-dialog-content style="min-width: 700px;">
+                    <mat-card-content>
+                        <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <dt>Nombres</dt>
+                                <dd>{{contratista?.nombres}}</dd>
+                            </div>
+                            <div class="col-md-4">
+                                <dt>Apellidos</dt>
+                                <dd>{{contratista?.apellidos}}</dd>
+                            </div>
+                            <div class="col-md-4">
+                                <dt>Documento</dt>
+                                <dd>{{contratista?.doc_ident}}</dd>
+                            </div>
+                        </div>
+    
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <dt>Lugar de Nacimiento</dt>
+                                <dd>{{contratista?.depa_naci}} - {{contratista?.ciudad_naci}}</dd>
+                            </div>
+                            <div class="col-md-4">
+                                <dt>Fecha de nacimiento</dt>
+                                <dd>{{contratista?.fecha_nac}}</dd>
+                            </div>
+                            <div class="col-md-4">
+                                <dt>Ciudad en que labora</dt>
+                                <dd>{{contratista?.ciudad_trabajo}}</dd>
+                            </div>
+                            
+                        </div>
+    
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <dt>Lugar de Expedición</dt>
+                                <dd>{{contratista?.depa_exp}} - {{contratista?.ciudad_exp}}</dd>
+                            </div>
+                            <div class="col-md-4">
+                                <dt>Fecha de expedición</dt>
+                                <dd>{{contratista?.fecha_exp}}</dd>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <dt>Estado</dt>
+                                <dd>{{contratista?.estado}}</dd>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <dt>Fecha de ingreso</dt>
+                                <dd>{{contratista?.fec_ingreso}}</dd>
+                            </div>
+                            <div class="col-md-4">
+                                <dt>Fecha de retiro</dt>
+                                <dd>{{ contratista?.fec_retiro || 'NO APLICA' }}</dd>
+                            </div>
+                            
+                            <div class="col-md-4" *ngIf="contratista?.observaciones">
+                                <dt>Observaciones</dt>
+                                <dd>{{ contratista.observaciones }}</dd>
+                            </div>
+                            
+                            
+                        </div>
+                        <hr>
+                        <h3><i class="fa fa-file-pdf-o"></i> Documentos del contratista</h3>
+                        <div class="row mt-4">
+                            <div class="col-md-4" *ngIf="contratista?.file_cv">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a [href]="contratista?.file_cv" target="_blank">Ver Hoja de Vida</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="contratista?.file_cedula">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a [href]="contratista?.file_cedula" target="_blank">Ver Fotocopia cédula</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="contratista?.file_bancario">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a [href]="contratista?.file_bancario" target="_blank">Ver Certificado bancario</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="contratista?.file_eps">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a [href]="contratista?.file_eps" target="_blank">Ver Certificado EPS</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="contratista?.file_pension">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a [href]="contratista?.file_pension" target="_blank">Ver Certificado Pensión</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="contratista?.file_afi_eps">
+                            <hr>
+                            <h3><i class="fa fa-file-pdf-o"></i> Documentos de afiliación</h3>
+                            <div class="row mt-4">
+                                <div class="col-md-4" *ngIf="contratista?.file_afi_eps">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <a [href]="contratista?.file_afi_eps" target="_blank">Ver Afiliación a EPS</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" *ngIf="contratista?.file_arl">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <a [href]="contratista?.file_arl" target="_blank">Ver Afiliación a ARL</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" *ngIf="contratista?.file_contrato">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <a [href]="contratista?.file_contrato" target="_blank">Ver Contrato</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="contratista?.file_carta_termina">
+                            <hr>
+                            <h3><i class="fa fa-ban"></i> Finalización contrato</h3>
+                            <div class="row mt-4">
+                                <div class="col-md-4" >
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <a [href]="contratista?.file_carta_termina" target="_blank">Ver Carta de terminación contrato</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                    </mat-card-content>
+                </mat-dialog-content>
+                <div mat-dialog-actions>
+                    <div class="text-center col-12">
+                        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
