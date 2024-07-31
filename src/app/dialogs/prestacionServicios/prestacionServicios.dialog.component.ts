@@ -549,14 +549,14 @@ export class PrestacionServiciosDialog implements OnInit {
   }
   
   calculateIngresoDate(): moment.Moment {
-    // const now = moment('2024-10-29 15:00:00'); // Puedes ajustar esta fecha para pruebas
+    // const now = moment('2024-02-27 15:00:00'); // Puedes ajustar esta fecha para pruebas
     const now = moment(); 
     const cutOffTime = moment(now).set({ hour: 14, minute: 0, second: 0, millisecond: 0 }); // 2 PM en la misma fecha
     const cutOffTimeSaturday = moment(now).set({ hour: 10, minute: 0, second: 0, millisecond: 0 }); // 10 AM en la misma fecha
   
-    //console.log("now", now.format('YYYY-MM-DD HH:mm:ss'));
-    //console.log("cutOffTime", cutOffTime.format('YYYY-MM-DD HH:mm:ss'));
-    //console.log("cutOffTimeSaturday", cutOffTimeSaturday.format('YYYY-MM-DD HH:mm:ss'));
+    // console.log("now", now.format('YYYY-MM-DD HH:mm:ss'));
+    // console.log("cutOffTime", cutOffTime.format('YYYY-MM-DD HH:mm:ss'));
+    // console.log("cutOffTimeSaturday", cutOffTimeSaturday.format('YYYY-MM-DD HH:mm:ss'));
   
     let ingresoDate: moment.Moment;
   
@@ -565,29 +565,29 @@ export class PrestacionServiciosDialog implements OnInit {
       // Antes de las 10 AM en sábado: La fecha de ingreso es el siguiente día hábil
       if (now.isBefore(cutOffTimeSaturday)) {
         ingresoDate = this.getNextBusinessDay(now);
-        ////console.log("Ingreso antes de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
+        // console.log("Ingreso antes de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
       } else {
         // Después de las 10 AM en sábado: La fecha de ingreso es dentro de los siguientes 2 días hábiles
         ingresoDate = this.getNextBusinessDay(now);
         ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
-        //console.log("Ingreso después de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
+        // console.log("Ingreso después de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
       }
       // now es otro dia diferente a sábado
     } else if (now.isBefore(cutOffTime)) {
       // Antes de las 2 PM en días hábiles: La fecha de ingreso es el siguiente día hábil
       ingresoDate = this.getNextBusinessDay(now);
-      //console.log("Ingreso antes de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
+      // console.log("Ingreso antes de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
     } else {
       // Después de las 2 PM en días hábiles: La fecha de ingreso es dentro de los siguientes 2 días hábiles
       ingresoDate = this.getNextBusinessDay(now);
       ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
-      //console.log("Ingreso después de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
+      // console.log("Ingreso después de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
     }
   
-    // Verifica si la fecha de ingreso es el último día del mes
-    if (ingresoDate.isSame(ingresoDate.clone().endOf('month'), 'day')) {
+    // Verifica si la fecha de ingreso es el día 31 del mes
+    if (ingresoDate.date() === 31) {
       ingresoDate = this.getNextBusinessDay(ingresoDate); // Ajustar al siguiente día hábil
-      //console.log("Ingreso ajustado al siguiente día hábil:", ingresoDate.format('YYYY-MM-DD'));
+      // console.log("Ingreso ajustado al siguiente día hábil:", ingresoDate.format('YYYY-MM-DD'));
     }
   
     return ingresoDate;
