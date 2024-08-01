@@ -56,7 +56,7 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Ciudad de nacimiento</mat-label>
-                                <mat-select formControlName="ciudad_naci" name="city">
+                                <mat-select formControlName="ciudad_naci" >
                                     <mat-option *ngFor="let city of filteredCities" [value]="city.idCity">
                                         {{city.name}}
                                     </mat-option>
@@ -86,7 +86,7 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="fill">
                                 <mat-label>Ciudad de expedición</mat-label>
-                                <mat-select formControlName="ciudad_exp" name="city">
+                                <mat-select formControlName="ciudad_exp" >
                                     <mat-option *ngFor="let city of filteredExpCities" [value]="city.idCity">
                                         {{city.name}}
                                     </mat-option>
@@ -105,14 +105,27 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <!-- <div class="col-md-4" *ngIf="view == 'update'">
+                        <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha de ingreso</mat-label>
                                 <input matInput [matDatepicker]="fec_ingreso" formControlName="fec_ingreso" >
                                 <mat-datepicker-toggle matSuffix [for]="fec_ingreso"></mat-datepicker-toggle>
                                 <mat-datepicker #fec_ingreso></mat-datepicker>
+                                <mat-error *ngIf="formCreate.get('fec_ingreso').hasError('fechaIngresoAnterior')">
+                                    La fecha de ingreso no puede ser anterior al día de hoy.
+                                </mat-error>
+                                <mat-error *ngIf="formCreate.get('fec_ingreso').hasError('fechaIngresoInvalida')">
+                                    La fecha de ingreso no cumple con los criterios establecidos.
+                                </mat-error>
+                                <mat-error *ngIf="formCreate.get('fec_ingreso').hasError('fechaIngresoDomingoFestivo')">
+                                    La fecha de ingreso no puede ser Domingo o Festivo.
+                                </mat-error>
+                                <mat-error *ngIf="formCreate.get('fec_ingreso').hasError('fechaIngresoDia31')">
+                                    No se puede seleccionar el día 31 de ningún mes.
+                                </mat-error>
                             </mat-form-field>
-                        </div> -->
+                        </div>
+                        
                         <div class="col-md-4" *ngIf="view == 'update'">
                             <mat-form-field appearance="fill">
                                 <mat-label>Novedad estado</mat-label>
@@ -204,7 +217,9 @@
             <div mat-dialog-actions>
                 <div class="text-center col-12">
                     <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                        (click)="onSubmitUpdate()">Actualizar</button>
+                        (click)="onSubmitUpdate()"
+                        [disabled]="!isFormChanged()">Actualizar</button>
+
 
                     <button *ngIf="view == 'create'" mat-button class="btn btn-success"
                         (click)="onSubmit()">Guardar</button>

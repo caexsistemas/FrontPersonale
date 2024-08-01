@@ -37,6 +37,7 @@ export class PrestacionServiciosDialog implements OnInit {
   filteredExpCities: any[] = [];
   holidays: any[] = [];
   showObservaciones = false;
+  private initialFormValue: any;
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -56,6 +57,7 @@ export class PrestacionServiciosDialog implements OnInit {
     if (this.view === "create") {
       this.title = "Crear Nuevo Contratista";
       this.initForm();
+      this.getFestivosAndUpdateValidators();
       this.getCities();
     } else if(this.view === "update"){
       this.idContratista = this.data.codigo;
@@ -70,6 +72,23 @@ export class PrestacionServiciosDialog implements OnInit {
       }  
     }
 
+    ngOnInit(): void { }
+
+    private async getFestivosAndUpdateValidators(): Promise<void> {
+      try {
+        await this.getFestivos(); // Carga los festivos
+        this.updateValidators(); // Actualiza los validadores del formulario después de cargar los festivos
+      } catch (error) {
+        console.error('Error al cargar los días festivos:', error);
+      }
+    }
+    
+    private updateValidators(): void {
+      // Actualiza los validadores del formulario después de cargar los festivos
+      this.formCreate.get('fec_ingreso').setValidators([Validators.required, this.validarFecIngreso.bind(this)]);
+      this.formCreate.get('fec_ingreso').updateValueAndValidity();
+    }
+
   initForm() {
     this.formCreate = new FormGroup({
       nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
@@ -77,7 +96,8 @@ export class PrestacionServiciosDialog implements OnInit {
       doc_ident: new FormControl("", [Validators.required, Validators.pattern('^[0-9]+$')]), // Solo números
       fecha_nac: new FormControl("", [Validators.required, this.futureDateValidator]),
       fecha_exp: new FormControl("", [Validators.required, this.futureDateValidator]),
-      // fec_ingreso: new FormControl("", [Validators.required]),
+      // fec_ingreso: new FormControl("", [Validators.required, this.validarFecIngreso]),
+      fec_ingreso: new FormControl(""),
       depa_naci: new FormControl("", Validators.required), 
       ciudad_naci: new FormControl("", Validators.required), 
       depa_exp: new FormControl("", Validators.required), 
@@ -89,7 +109,9 @@ export class PrestacionServiciosDialog implements OnInit {
       file_eps: new FormControl("", [Validators.required, this.PDFValidator()]),
       file_pension: new FormControl("", [Validators.required, this.PDFValidator()]),
     });
-  } 
+  }
+  
+
   
   initFormUpdate() {
     this.formCreate = new FormGroup({
@@ -182,6 +204,8 @@ export class PrestacionServiciosDialog implements OnInit {
                 ciudad: this.contratista.ciudad,
             });
 
+            this.initialFormValue = this.formCreate.getRawValue();
+
             //console.log('Ciudad de expedición:', this.contratista.ciudad_exp);
             //console.log('Ciudad de expedición:', ciudadExpId);
 
@@ -221,6 +245,10 @@ export class PrestacionServiciosDialog implements OnInit {
       }
     );
   }
+
+  isFormChanged(): boolean {
+    return JSON.stringify(this.formCreate.getRawValue()) !== JSON.stringify(this.initialFormValue);
+  }
     
 
   selectedFiles: File[] = [];
@@ -241,9 +269,6 @@ export class PrestacionServiciosDialog implements OnInit {
     reader.readAsBinaryString(file);
   }
 
-  ngOnInit(): void { }
-
-
 
   onSubmit() {
     //console.log('entra')
@@ -253,7 +278,7 @@ export class PrestacionServiciosDialog implements OnInit {
     
 
         // Calcular la fecha de ingreso
-        const fechaIngreso = this.calculateIngresoDate().format('YYYY-MM-DD');
+        // const fechaIngreso = this.calculateIngresoDate().format('YYYY-MM-DD');
         const fec_creacion = moment().format('YYYY-MM-DD');
         // Prepara los datos del formulario
         const formData = {
@@ -263,7 +288,7 @@ export class PrestacionServiciosDialog implements OnInit {
             ciudad_trabajo: this.formCreate.get('ciudad_trabajo').value,
             fecha_nac: this.formCreate.get('fecha_nac').value.toISOString().split('T')[0],
             fecha_exp: this.formCreate.get('fecha_exp').value.toISOString().split('T')[0],
-            fec_ingreso: fechaIngreso,
+            fec_ingreso: this.formCreate.get('fec_ingreso').value.toISOString().split('T')[0],
             depa_naci: this.formCreate.get('depa_naci').value,
             ciudad_naci: this.formCreate.get('ciudad_naci').value,
             depa_exp: this.formCreate.get('depa_exp').value,
@@ -473,32 +498,42 @@ export class PrestacionServiciosDialog implements OnInit {
     input.value = '';
   }
   
-  onExpStateChange(event: MatSelectChange) {
+  onExpStateChange(event: MatSelectChange): void {
     const stateId = event.value;
-    this.updateFilteredExpCities(stateId);
-    this.formCreate.get('ciudad_exp')?.reset();
+    this.loading.emit(true); // Indicar que se está cargando
+  
+    setTimeout(() => {
+      this.updateFilteredExpCities(stateId);
+      this.formCreate.get('ciudad_exp')?.reset(); 
+      this.loading.emit(false); 
+    }, 0); 
+  
     //console.log('Departamento de expedición seleccionado:', stateId);
   }
   
-  
-  onStateChange(event: MatSelectChange) {
+  onStateChange(event: MatSelectChange): void {
     const stateId = event.value;
-    this.updateFilteredCities(stateId);
-    this.formCreate.get('ciudad_naci')?.reset();
+    this.loading.emit(true); // Indicar que se está cargando
+  
+    setTimeout(() => {
+      this.updateFilteredCities(stateId);
+      this.formCreate.get('ciudad_naci')?.reset(); 
+      this.loading.emit(false); 
+    }, 0); 
   }
-
-  updateFilteredCities(stateId: number) {
+  
+  updateFilteredCities(stateId: number): void {
     if (this.cities && this.cities.length > 0) {
       this.filteredCities = this.cities.filter(city => city.idState === stateId);
     }
   }
-
-  updateFilteredExpCities(stateId: number) {
+  
+  updateFilteredExpCities(stateId: number): void {
     if (this.cities && this.cities.length > 0) {
       this.filteredExpCities = this.cities.filter(city => city.idState === stateId);
     }
   }
-
+  
 
 
 //  CALCULOS PARA LA FECHA DE INGRESO
@@ -511,6 +546,111 @@ export class PrestacionServiciosDialog implements OnInit {
     });
   }
   
+ 
+  
+  calculateIngresoDate(): moment.Moment {
+    // const now = moment('2024-07-06 11:00:00'); // Puedes ajustar esta fecha para pruebas
+    const now = moment(); 
+    const cutOffTime = moment(now).set({ hour: 14, minute: 0, second: 0, millisecond: 0 }); // 2 PM en la misma fecha
+    const cutOffTimeSaturday = moment(now).set({ hour: 10, minute: 0, second: 0, millisecond: 0 }); // 10 AM en la misma fecha
+  
+    // console.log("now", now.format('YYYY-MM-DD HH:mm:ss'));
+    // console.log("cutOffTime", cutOffTime.format('YYYY-MM-DD HH:mm:ss'));
+    // console.log("cutOffTimeSaturday", cutOffTimeSaturday.format('YYYY-MM-DD HH:mm:ss'));
+  
+    let ingresoDate: moment.Moment;
+  
+    // Si `now` es un sábado
+    if (now.isoWeekday() === 6) {
+      // Antes de las 10 AM en sábado: La fecha de ingreso es el siguiente día hábil
+      if (now.isBefore(cutOffTimeSaturday)) {
+        ingresoDate = this.getNextBusinessDay(now);
+        console.log("Ingreso antes de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
+      } else {
+        // Después de las 10 AM en sábado: La fecha de ingreso es dentro de los siguientes 2 días hábiles
+        ingresoDate = this.getNextBusinessDay(now);
+        ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
+        console.log("Ingreso después de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
+      }
+      // now es otro dia diferente a sábado
+    } else if (now.isBefore(cutOffTime)) {
+      // Antes de las 2 PM en días hábiles: La fecha de ingreso es el siguiente día hábil
+      ingresoDate = this.getNextBusinessDay(now);
+      console.log("Ingreso antes de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
+    } else {
+      // Después de las 2 PM en días hábiles: La fecha de ingreso es dentro de los siguientes 2 días hábiles
+      ingresoDate = this.getNextBusinessDay(now);
+      ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
+      console.log("Ingreso después de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
+    }
+  
+    // Verifica si la fecha de ingreso es el día 31 del mes
+    if (ingresoDate.date() === 31) {
+      ingresoDate = this.getNextBusinessDay(ingresoDate); // Ajustar al siguiente día hábil
+      console.log("Ingreso ajustado al siguiente día hábil:", ingresoDate.format('YYYY-MM-DD'));
+    }
+  
+    return ingresoDate;
+  }
+  
+  validarFecIngreso(control: AbstractControl): ValidationErrors | null {
+    const now = moment(); 
+    const cutOffTime = moment(now).set({ hour: 14, minute: 0, second: 0, millisecond: 0 }); // 2 PM en la misma fecha
+    const cutOffTimeSaturday = moment(now).set({ hour: 10, minute: 0, second: 0, millisecond: 0 }); // 10 AM en la misma fecha
+    
+    // Verificar si el control tiene valor
+    if (!control.value) {
+        return null;
+    }
+
+    const selectedDate = moment(control.value);
+
+    // Calcular la fecha mínima permitida en función de la hora actual y el día de la semana
+    let ingresoDate: moment.Moment;
+    
+    // Si `now` es un sábado
+    if (now.isoWeekday() === 6) {
+        if (now.isBefore(cutOffTimeSaturday)) {
+            ingresoDate = this.getNextBusinessDay(now);
+        } else {
+            ingresoDate = this.getNextBusinessDay(now);
+            ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
+        }
+    } else {
+        if (now.isBefore(cutOffTime)) {
+            ingresoDate = this.getNextBusinessDay(now);
+        } else {
+            ingresoDate = this.getNextBusinessDay(now);
+            ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
+        }
+    }
+
+    // Ajustar si la fecha mínima permitida es el 31 del mes
+    if (ingresoDate.date() === 31) {
+        ingresoDate = this.getNextBusinessDay(ingresoDate); // Ajustar al siguiente día hábil
+    }
+
+    // Verificar si la fecha seleccionada es anterior a la fecha mínima permitida
+    if (selectedDate.isBefore(ingresoDate, 'day')) {
+        return { 'fechaIngresoInvalida': true };
+    }
+
+    // Verificar si la fecha seleccionada es domingo o festivo
+    if (selectedDate.isoWeekday() === 7 || this.holidays.includes(selectedDate.format('YYYY-MM-DD'))) {
+        return { 'fechaIngresoDomingoFestivo': true };
+    }
+
+    // Verificar si la fecha seleccionada es el día 31 del mes
+    if (selectedDate.date() === 31) {
+        return { 'fechaIngresoDia31': true };
+    }
+
+    return null;
+}
+
+
+  
+
   async getFestivos(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.WebApiService.getRequest(this.endpoint, {
@@ -522,11 +662,12 @@ export class PrestacionServiciosDialog implements OnInit {
       }).subscribe(
         (data) => {
           if (data.success) {
+            this.loading.emit(false);
             // Convierte los días festivos a formato YYYY-MM-DD
             this.holidays = data.data.holidays.map((hol) => {
               return moment().month(hol.month - 1).date(hol.day_hol).format('YYYY-MM-DD');
             });
-            //console.log(this.holidays);
+            console.log(this.holidays);
             resolve();
           } else {
             reject('No se pudieron obtener los días festivos.');
@@ -547,52 +688,6 @@ export class PrestacionServiciosDialog implements OnInit {
   
     return nextDay;
   }
-  
-  calculateIngresoDate(): moment.Moment {
-    // const now = moment('2024-02-27 15:00:00'); // Puedes ajustar esta fecha para pruebas
-    const now = moment(); 
-    const cutOffTime = moment(now).set({ hour: 14, minute: 0, second: 0, millisecond: 0 }); // 2 PM en la misma fecha
-    const cutOffTimeSaturday = moment(now).set({ hour: 10, minute: 0, second: 0, millisecond: 0 }); // 10 AM en la misma fecha
-  
-    // console.log("now", now.format('YYYY-MM-DD HH:mm:ss'));
-    // console.log("cutOffTime", cutOffTime.format('YYYY-MM-DD HH:mm:ss'));
-    // console.log("cutOffTimeSaturday", cutOffTimeSaturday.format('YYYY-MM-DD HH:mm:ss'));
-  
-    let ingresoDate: moment.Moment;
-  
-    // Si `now` es un sábado
-    if (now.isoWeekday() === 6) {
-      // Antes de las 10 AM en sábado: La fecha de ingreso es el siguiente día hábil
-      if (now.isBefore(cutOffTimeSaturday)) {
-        ingresoDate = this.getNextBusinessDay(now);
-        // console.log("Ingreso antes de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
-      } else {
-        // Después de las 10 AM en sábado: La fecha de ingreso es dentro de los siguientes 2 días hábiles
-        ingresoDate = this.getNextBusinessDay(now);
-        ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
-        // console.log("Ingreso después de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
-      }
-      // now es otro dia diferente a sábado
-    } else if (now.isBefore(cutOffTime)) {
-      // Antes de las 2 PM en días hábiles: La fecha de ingreso es el siguiente día hábil
-      ingresoDate = this.getNextBusinessDay(now);
-      // console.log("Ingreso antes de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
-    } else {
-      // Después de las 2 PM en días hábiles: La fecha de ingreso es dentro de los siguientes 2 días hábiles
-      ingresoDate = this.getNextBusinessDay(now);
-      ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
-      // console.log("Ingreso después de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
-    }
-  
-    // Verifica si la fecha de ingreso es el día 31 del mes
-    if (ingresoDate.date() === 31) {
-      ingresoDate = this.getNextBusinessDay(ingresoDate); // Ajustar al siguiente día hábil
-      // console.log("Ingreso ajustado al siguiente día hábil:", ingresoDate.format('YYYY-MM-DD'));
-    }
-  
-    return ingresoDate;
-  }
-  
 
   updateObservacionesValidators(estado: string) {
     const observacionesControl = this.formCreate.get('observaciones');
