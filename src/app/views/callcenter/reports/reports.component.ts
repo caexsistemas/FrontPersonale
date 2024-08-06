@@ -10,9 +10,16 @@ import { HandlerAppService } from '../../../services/handler-app.service';
 })
 export class ReportsComponent implements OnInit {
 
+  endpoint: string = '/callcenter/reports/';
+  component = "/callcenter/reports";
   loading: boolean = false;
   formTipoReporte: FormGroup;
   mostrarFechas: boolean = false;
+
+  contaClick:  number = 0;
+  permissions: any = null;
+
+  public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   constructor(
     private fb: FormBuilder, 
@@ -22,6 +29,7 @@ export class ReportsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.permissions = this.handler.permissionsApp;    
     this.formTipoReporte = this.fb.group({
       tipoReporte: [''],
       fi: ['', Validators.required],
@@ -31,8 +39,9 @@ export class ReportsComponent implements OnInit {
     this.formTipoReporte.valueChanges.subscribe(() => this.cdr.detectChanges());
   }
 
+
   onTipoReporteChange(event: any) {
-    this.mostrarFechas = event.value === 'validacionIdentidad';
+    this.mostrarFechas = event.value === 'validacionIdentidad' || event.value === 'report-closing';
     if (!this.mostrarFechas) {
       this.formTipoReporte.patchValue({
         fi: '',
@@ -41,6 +50,7 @@ export class ReportsComponent implements OnInit {
       this.formTipoReporte.updateValueAndValidity(); 
     }
   }
+  
 
   dateRangeValidator(form: FormGroup) {
     const start = form.get('fi')?.value;
@@ -54,10 +64,53 @@ export class ReportsComponent implements OnInit {
   }
 
   descargarArchivos() {
-    if (this.formTipoReporte.valid) {
-      console.log('Descargar archivos');
-    } else{
+    if (this.formTipoReporte.invalid) return;
+
+    const tipoReporte = this.formTipoReporte.get('tipoReporte')?.value;
+    const fechaInicio = this.formTipoReporte.get('fi')?.value;
+    const fechaFin = this.formTipoReporte.get('ff')?.value;
+
+    // console.log(tipoReporte)
+    // console.log(fechaInicio)
+    // console.log(fechaFin)
+
+    if (!tipoReporte || !fechaInicio || !fechaFin) {
+      this.handler.showError('Por favor, llene los datos para descargar el reporte.');
       return;
     }
+
+    this.handler.showLoadin("Generando Reporte", "Por favor espere...");
+
+    //El tipo de reporte que esta en el select, debe ser el mismo que en la ruta
+    this.WebApiService.getRequest(this.endpoint + tipoReporte, {
+      role: this.cuser.role,
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      modulo: this.component,
+      action: "downloadFiles",
+      fechaInicio: fechaInicio,
+      fechaFin: fechaFin
+    })
+    .subscribe(
+      response => {
+        if(response.success){
+          this.loading = false;
+
+          const link = document.createElement("a");
+          link.href = response.data.url;
+          link.download = response.data.file;
+          link.click();
+          this.handler.showSuccess('El archivo ha sido descargado con éxito. <br>' + response.data.file);
+        }else{
+          this.loading = false;
+          console.log('error')
+          this.handler.handlerError(response);
+        } 
+      },
+      (error) => {
+        this.handler.showError('Error al descargar el archivo.');
+        this.loading = false;
+      }
+    );
   }
 }
