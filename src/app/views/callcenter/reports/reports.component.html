@@ -1,0 +1,58 @@
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            Reportes de Call Center 
+        </div>
+        <div class="card-body">
+            <form [formGroup]="formTipoReporte">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo de Reporte</mat-label>
+                                <mat-select formControlName="tipoReporte" (selectionChange)="onTipoReporteChange($event)">
+                                    <mat-option value="">Seleccione un reporte</mat-option>
+                                    <mat-option value="validacionIdentidad">Validación de Identidad</mat-option>
+                                    <!-- <mat-option value="report-closing">Cierre Masivo</mat-option> -->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4" *ngIf="mostrarFechas">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha Inicio:</mat-label>
+                                <input matInput formControlName="fi" type="date">
+                                <mat-error *ngIf="formTipoReporte.get('fi')?.hasError('required')">
+                                    Fecha de inicio es requerida.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" *ngIf="mostrarFechas">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha Fin:</mat-label>
+                                <input matInput formControlName="ff" type="date">
+                                <mat-error *ngIf="formTipoReporte.get('ff')?.hasError('required')">
+                                    Fecha de fin es requerida.
+                                </mat-error>
+                                <mat-error *ngIf="formTipoReporte.errors?.dateRange">
+                                    La fecha de fin no puede ser anterior a la fecha de inicio.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" *ngIf="mostrarFechas" class="d-flex align-items-end">
+                            <button mat-button class="btn btn"
+                                [disabled]="formTipoReporte.invalid"
+                                style="background-color: #0d95c5; width: 100%; font-size: 15px; color: white;"
+                                (click)="descargarArchivos()">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>      
+    </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>

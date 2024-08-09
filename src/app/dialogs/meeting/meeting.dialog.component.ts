@@ -219,7 +219,7 @@ export class MeetingDialog {
             this.loading.emit(false);
           }
         );
-        break;
+      break;
     }
   }
   generateTable(data) {
@@ -425,7 +425,6 @@ export class MeetingDialog {
             // });
             this.checkPerson = true;
           }
-         
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -517,12 +516,13 @@ saveCase: any = [];
   onSubmi() {
     
     if(this.personInfoLine.length > 0){
-       this.formCreate.get('receiver5').setValue([this.personInfoLine]);
-      }
+      this.formCreate.get('receiver5').setValue([this.personInfoLine]);
+    }
     if(this.selectedUsers.length > 0){
       this.formCreate.get('receiver5').setValue([this.selectedUsers]);
-      }
-      this.formCreate.get('matriz').setValue([this.selectedMatri]);
+    }
+
+    this.formCreate.get('matriz').setValue([this.selectedMatri]);
 
 
     if (this.formCreate.valid) {

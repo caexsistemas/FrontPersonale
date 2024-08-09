@@ -180,6 +180,9 @@ import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload
 import { TrainingReportsComponent } from "./dialogs/reports/training/training-reports.component";
 import { RefuteDialog } from "./dialogs/refute/refute.dialog.component";
 import { BillingComponent } from "./views/billing/billing.component";
+import { PrestacionServiciosRoutingModule } from './views/prestacionservicios/prestacion-servicios-routing.module';
+import { PrestacionServiciosDialog } from "./dialogs/prestacionServicios/prestacionServicios.dialog.component";
+import { GestionContratistasDialog } from './dialogs/gestion-contratistas/gestion-contratistas.dialog.component';
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -239,7 +242,8 @@ const routes: Routes = [];
     ClipboardModule,
     MatTooltipModule,
     MatChipsModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    PrestacionServiciosRoutingModule
     
     
     // NgxDocViewerModule
@@ -350,7 +354,9 @@ const routes: Routes = [];
     UploadTrainingDialog,
     TrainingReportsComponent,
     RefuteDialog,
-    BillingComponent
+    BillingComponent,
+    PrestacionServiciosDialog,
+    GestionContratistasDialog,
     // ReportsLearningComponent
   ],
   providers: [

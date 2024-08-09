@@ -9,7 +9,7 @@ import { global } from './global';
 @Injectable()
 
 export class UserServices {
-       public url: string;
+    public url: string;
        
     constructor(public _http: HttpClient,private _tools:Tools) {
         this.url = global.url;
