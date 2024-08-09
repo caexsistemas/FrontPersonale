@@ -308,7 +308,7 @@
                 <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="view == 'update' && rolSig" [expanded]="step === 6" (opened)="setStep(6)"
+            <mat-expansion-panel *ngIf="view == 'update' && rolSig || rol == 3" [expanded]="step === 6" (opened)="setStep(6)"
               hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
