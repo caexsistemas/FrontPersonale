@@ -27,7 +27,7 @@ export class RetiroContratistasComponent implements OnInit {
   dataSource: any = [];
   loading: boolean = false;
   endpoint: string = '/prestacion-servicios';
-  component = "/prestacion-servicios/gestion";
+  component = "/prestacion-servicios/retiro";
 
 
 
@@ -97,8 +97,12 @@ export class RetiroContratistasComponent implements OnInit {
       // 'file_arl',
       // 'file_contrato',
       'estado',
-      'actions'
     ];
+
+    if (this.permissions.update) {
+      this.displayedColumns.push('actions');
+    }
+
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];

@@ -89,8 +89,12 @@ export class ContratistasComponent implements OnInit {
       'fec_ingreso',
       'fec_retiro',
       'estado',
-      'actions'
     ];
+
+    if (this.permissions.update) {
+      this.displayedColumns.push('actions');
+    }
+
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];

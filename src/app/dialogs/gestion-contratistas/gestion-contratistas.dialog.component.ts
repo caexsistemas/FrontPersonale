@@ -15,7 +15,7 @@ import * as moment from 'moment';
 export class GestionContratistasDialog implements OnInit {
   view: string = null;
   title: string = null;
-  component = "/prestacion-servicios/contratistas";
+  component = "/prestacion-servicios/gestion";
   endpoint: string = '/prestacion-servicios';
   selectedFileNames: any = {};
   formCreate: FormGroup;
@@ -25,17 +25,45 @@ export class GestionContratistasDialog implements OnInit {
     file_contrato: null,
     file_carta_termina: null
   };
-
+  historico: any[] = [];
+  planillas: any[] = [];
+  cuentas_cobro: any[] = [];
   doc_ident: number = null;
   fec_creacion: any = null;
   idContratista: number = null;
   contratista: any;
-  months: string[] = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  months = [
+    { name: 'Enero', value: 1 },
+    { name: 'Febrero', value: 2 },
+    { name: 'Marzo', value: 3 },
+    { name: 'Abril', value: 4 },
+    { name: 'Mayo', value: 5 },
+    { name: 'Junio', value: 6 },
+    { name: 'Julio', value: 7 },
+    { name: 'Agosto', value:8 },
+    { name: 'Septiembre', value:9 },
+    { name: 'Octubre', value:10 },
+    { name: 'Noviembre', value: 11 },
+    { name: 'Diciembre', value: 12 }
   ];
 
+  years
+    // Inicialización de variables
+  selectedPlanillaYear: number | null = null;
+  selectedPlanillaMonth: number | null = null;
+  selectedCobroYear: number | null = null;
+  selectedCobroMonth: number | null = null;
 
+  // Disponibilidad de años y meses para cada tipo de documento
+  availablePlanillaYears: number[] = [];
+  availablePlanillaMonths: { value: number, name: string }[] = [];
+  availableCobroYears: number[] = [];
+  availableCobroMonths: { value: number, name: string }[] = [];
+
+  // Filtrar planillas y cuentas de cobro por año y mes seleccionados
+  filteredPlanillas: any[] = [];
+  filteredCobros: any[] = [];
+  
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   @Output() loading = new EventEmitter<boolean>();
@@ -61,22 +89,29 @@ export class GestionContratistasDialog implements OnInit {
       this.title = "Información contratista"
       this.getDataContratista();
     } else if(this.view=== "retirar"){
+      this.component = "/prestacion-servicios/retiro";
       this.idContratista = this.data.codigo;
       this.title = "Retirar contratista"
       this.initFormRetiro();
       this.getDataContratista();
     } 
-    // else if(this.view=== "updateSocial"){
-    //   this.idContratista = this.data.codigo;
-    //   this.title = "Subir planilla social"
-    //   this.initFormPlanilla();
-    //   this.getDataContratista();
-    // }
+    else if(this.view=== "updateSocial"){
+      this.idContratista = this.data.codigo;
+      this.title = "Subir Planilla Seguridad Social"
+      this.initFormPlanilla();
+      this.getDataContratista();
+    }
+    else if(this.view=== "updateCobro"){
+      this.idContratista = this.data.codigo;
+      this.title = "Subir Cuenta de cobro"
+      this.initFormCobro();
+      this.getDataContratista();
+    }
   }
 
-
-  ngOnInit(): void {
-    
+  ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    this.years = [currentYear, currentYear - 1];
   }
 
   initForm(){
@@ -87,6 +122,8 @@ export class GestionContratistasDialog implements OnInit {
       file_contrato: new FormControl("", [Validators.required, this.PDFValidator()]),
     });
   }
+
+  displayedColumns: string[] = ['currentm_user', 'date_move', 'type_move'];
 
   getDataContratista(){
     this.loading.emit(true);
@@ -99,9 +136,19 @@ export class GestionContratistasDialog implements OnInit {
       (data) => {
         if (data.success) {
           this.contratista = data.data[0];
-
-          //console.log(this.contratista)
           this.fec_creacion = data.data[0].fec_creacion;
+
+          this.planillas = data.planillas.filter(p => p.file === 'planilla');
+          this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
+          this.historico = data.historico;
+          
+          // console.log(this.contratista)
+          // console.log('Planillas:', this.planillas);
+          // console.log('Cuentas de cobro:', this.cuentas_cobro);
+          // console.log('Historico de procesos:', this.historico);
+
+          this.extractYearsAndMonths();
+            
         }
         this.loading.emit(false);
       },
@@ -111,6 +158,97 @@ export class GestionContratistasDialog implements OnInit {
       }
     );
   }
+
+  extractYearsAndMonths() {
+    // Planillas
+    const planillaYears = new Set(this.planillas.map(p => p.year));
+    this.availablePlanillaYears = Array.from(planillaYears);
+    
+    if (this.selectedPlanillaYear) {
+      const planillaMonths = new Set(this.planillas
+        .filter(p => p.year === this.selectedPlanillaYear)
+        .map(p => p.month));
+
+      // Filtrar `months` para incluir solo los meses que están en `planillaMonths`
+      this.availablePlanillaMonths = this.months
+        .filter(month => planillaMonths.has(month.value))
+        .sort((a, b) => a.value - b.value);
+      // console.log('availablePlanillaMonths', this.availablePlanillaMonths)
+    }
+  
+    // Cuentas de cobro
+    const cobroYears = new Set(this.cuentas_cobro.map(p => p.year));
+    this.availableCobroYears = Array.from(cobroYears);
+  
+    if (this.selectedCobroYear) {
+      const cobroMonths = new Set(this.cuentas_cobro
+        .filter(p => p.year === this.selectedCobroYear)
+        .map(p => p.month));
+      this.availableCobroMonths = this.months
+        .filter(month => cobroMonths.has(month.value))
+        .sort((a, b) => a.value - b.value);
+      // console.log('availableCobroMonths ', this.availableCobroMonths )
+    }
+  
+    // Filtrar los documentos
+    this.filterPlanillas();
+    this.filterCobros();
+  }
+  
+  // Manejar cambios en el selector de año para planillas
+  onPlanillaYearChange(year: number) {
+    this.selectedPlanillaYear = year;
+    this.extractYearsAndMonths();
+  }
+  
+  // Manejar cambios en el selector de mes para planillas
+  onPlanillaMonthChange(month: number) {
+    this.selectedPlanillaMonth = month;
+    this.filterPlanillas();
+  }
+  
+  // Manejar cambios en el selector de año para cuentas de cobro
+  onCobroYearChange(year: number) {
+    this.selectedCobroYear = year;
+    this.extractYearsAndMonths();
+  }
+  
+  // Manejar cambios en el selector de mes para cuentas de cobro
+  onCobroMonthChange(month: number) {
+    this.selectedCobroMonth = month;
+    this.filterCobros();
+  }
+  
+  // Filtrar planillas según el año y mes seleccionados
+  filterPlanillas() {
+    if (this.selectedPlanillaYear && this.selectedPlanillaMonth) {
+      this.filteredPlanillas = this.planillas.filter(p =>
+        p.year === this.selectedPlanillaYear &&
+        p.month === this.selectedPlanillaMonth
+      );
+    } else {
+      this.filteredPlanillas = [];
+    }
+  }
+  
+  // Filtrar cuentas de cobro según el año y mes seleccionados
+  filterCobros() {
+    if (this.selectedCobroYear && this.selectedCobroMonth) {
+      this.filteredCobros = this.cuentas_cobro.filter(p =>
+        p.year === this.selectedCobroYear &&
+        p.month === this.selectedCobroMonth
+      );
+    } else {
+      this.filteredCobros = [];
+    }
+  }
+
+  // Función para obtener el nombre del mes
+  convertMonthName(value: number): string {
+    const month = this.months.find(m => m.value === value);
+    return month ? month.name : '';
+}
+
 
   getDocumentos(){
     this.loading.emit(true);
@@ -218,8 +356,8 @@ export class GestionContratistasDialog implements OnInit {
         // Verifica si la extensión es pdf
         const validMimeType = fileExtension === 'pdf';
   
-        // Verifica si el tamaño del archivo es menor a 2MB
-        const maxSizeInBytes = 2 * 1024 * 1024; // 2MB en bytes
+        // Verifica si el tamaño del archivo es menor a 5MB
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5MB en bytes
         const validFileSize = file.size <= maxSizeInBytes;
 
         if (!validMimeType) {
@@ -240,7 +378,7 @@ export class GestionContratistasDialog implements OnInit {
       const file = input.files[0];
       const fileName = file.name;
       const fileExtension = fileName.split('.').pop().toLowerCase();
-      const maxSizeInBytes = 2 * 1024 * 1024; // 2MB en bytes
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB en bytes
   
       // Verifica si la extensión es pdf
       if (fileExtension !== 'pdf') {
@@ -249,9 +387,9 @@ export class GestionContratistasDialog implements OnInit {
         return;
       }
   
-      // Verifica si el tamaño del archivo es menor a 2MB
+      // Verifica si el tamaño del archivo es menor a 5MB
       if (file.size > maxSizeInBytes) {
-        this.handler.showError('El archivo no debe superar los 2MB');
+        this.handler.showError('El archivo no debe superar los 5MB');
         this.clearFileInput(input, formControlName);
         return;
       }
@@ -292,12 +430,21 @@ export class GestionContratistasDialog implements OnInit {
   
   
   
-  // initFormPlanilla(){
-  //   this.formCreate = new FormGroup({
-  //     mes: new FormControl("", [Validators.required]),
-  //     file_planilla: new FormControl("", [Validators.required, this.PDFValidator()])
-  //   });
-  // }
+  initFormPlanilla(){
+    this.formCreate = new FormGroup({
+      mes: new FormControl("", [Validators.required]),
+      ano: new FormControl("", [Validators.required]),
+      file_planilla: new FormControl("", [Validators.required, this.PDFValidator()])
+    });
+  }
+  
+  initFormCobro(){
+    this.formCreate = new FormGroup({
+      mes: new FormControl("", [Validators.required]),
+      ano: new FormControl("", [Validators.required]),
+      file_cobro: new FormControl("", [Validators.required, this.PDFValidator()])
+    });
+  }
 
   onSubmitRetirar(){
     if (this.formCreate.valid) {
@@ -356,37 +503,43 @@ export class GestionContratistasDialog implements OnInit {
     }
   }
 
-  onSubmitPlanilla(){
+  onSubmitDoc(){
+
     if (this.formCreate.valid) {
 
       const formData = {
         mes: this.formCreate.get('mes').value,
+        ano: this.formCreate.get('ano').value,
         archivos: this.nuevoArchivo
       }
 
-      //console.log(formData);
-      //console.log(this.fec_creacion)
+      // console.log(formData);
+      // console.log(this.fec_creacion)
+
+      
 
       this.WebApiService.putRequest(this.endpoint + "/" + this.idContratista, formData, {
         action: "uploadPlanilla",
         doc_ident: this.contratista.doc_ident,
+        fec_creacion : this.fec_creacion,
         idPersonale: this.cuser.idPersonale,
         token: this.cuser.token,
         idUser: this.cuser.iduser,
-        modulo: this.component,          
-        fec_creacion: this.fec_creacion,
+        modulo: this.component        
 
       }).subscribe(
         response => {
-          //console.log('Respuesta del servidor:', response);
-          this.handler.showSuccess('Registro guardado con éxito');
+          // console.log('Respuesta del servidor:', response);
+          this.handler.showSuccess(response.success);
           this.loading.emit(false);
           this.closeDialog();
         },
         error => {
-          console.error('Error al guardar el registro:', error);
-          this.handler.showError('Error al guardar el registro');
+          // console.error('Error al guardar el registro:', error);
+          this.handler.showError(error.error.error);
           this.loading.emit(false);
+          this.closeDialog();
+
         }
       )
 
@@ -396,27 +549,35 @@ export class GestionContratistasDialog implements OnInit {
     }
   }
 
+
    //Creador de errores
   getFormErrors() {
     const errors = [];
     const formControls = this.formCreate.controls;
-
+  
     for (const name in formControls) {
       if (formControls[name].invalid) {
-          if (formControls[name].errors.required) {
-              errors.push(`El campo ${name} es obligatorio.`);
-          }            
-      }
+        const controlErrors = formControls[name].errors;
 
-      if (formControls[name].errors.maxDate) {
-        errors.push(`La fecha en ${name} no puede ser mayor a 10 días antes de la fecha actual`);
-      }
-      
-      if (formControls[name].errors.invalidFileType) {
-        errors.push(`Los archivos deben subirse en formato PDF`);
+        
+        if (controlErrors) {
+          if (controlErrors.required) {
+            errors.push(`El campo ${name} es obligatorio.`);
+          }
+          
+          if (controlErrors.maxDate) {
+            errors.push(`La fecha en ${name} no puede ser mayor a 10 días antes de la fecha actual`);
+          }
+          
+          if (controlErrors.invalidFileType) {
+            errors.push(`Los archivos deben subirse en formato PDF`);
+          }
+        }
       }
     }
+  
     return errors;
   }
+  
 
 }

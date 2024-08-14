@@ -1,347 +1,380 @@
-<div class="card mt-6">
-    <div class="background-suave" *ngIf="view == 'update'">
+<div class="background-suave" *ngIf="view == 'update'">
+    <div class="card-header">
+        <h5 class="modal-title">
+            <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+            <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </h5>
+    </div>
+    <div class="card-body">
+        <mat-dialog-content>
+            <form *ngIf="view == 'update'" [formGroup]="formCreate">
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <label  class="custom-file-upload">
+                            <i class="fa fa-file-pdf-o"></i> Afiliación EPS
+                        </label>
+                        <input formControlName="file_afi_eps"  type="file" (change)="seleccionarArchivo($event, 'file_afi_eps')" accept="application/pdf"  (change)="onFileChange($event, 'file_afi_eps')"/>
+                        <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('required')">
+                            El archivo es obligatorio.
+                        </mat-error>
+                        <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('invalidFileType')">
+                            Los archivos deben subirse en formato PDF.
+                        </mat-error>
+                        <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('invalidFileSize')">
+                            El archivo no debe pesar más de 5 MB.
+                        </mat-error>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <label for="file-upload-cert" class="custom-file-upload">
+                            <i class="fa fa-file-pdf-o"></i> Afiliación ARL
+                        </label>
+                        <input formControlName="file_arl" id="file-upload-cert" type="file" (change)="seleccionarArchivo($event, 'file_arl')" accept="application/pdf"  (change)="onFileChange($event, 'file_arl')"/>
+                        <mat-error *ngIf="formCreate.get('file_arl')?.hasError('required')">
+                            El archivo es obligatorio.
+                        </mat-error>
+                        <mat-error *ngIf="formCreate.get('file_arl')?.hasError('invalidFileType')">
+                            Los archivos deben subirse en formato PDF.
+                        </mat-error>
+                        <mat-error *ngIf="formCreate.get('file_arl')?.hasError('invalidFileSize')">
+                            El archivo no debe pesar más de 5 MB.
+                        </mat-error>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <label for="file-upload-id" class="custom-file-upload">
+                            <i class="fa fa-file-pdf-o"></i> Contrato
+                        </label>
+                        <input formControlName="file_contrato" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_contrato')" accept="application/pdf"  (change)="onFileChange($event, 'file_contrato')"/>
+                        <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('required')">
+                            El archivo es obligatorio.
+                        </mat-error>
+                        <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('invalidFileType')">
+                            Los archivos deben subirse en formato PDF.
+                        </mat-error>
+                        <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('invalidFileSize')">
+                            El archivo no debe pesar más de 5 MB.
+                        </mat-error>
+                    </div>
+                </div>
+            </form>
+        </mat-dialog-content>
+        <div mat-dialog-actions>
+            <div class="text-center col-12">
+                <button *ngIf="view == 'update'" mat-button class="btn btn-success"
+                    (click)="onSubmit()">Subir Documentos</button>
+
+                <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="background-suave" *ngIf="view == 'view'">
+    <div class="card">
         <div class="card-header">
             <h5 class="modal-title">
-                <p class="title-modal" *ngIf="view == 'update'">{{title}}</p>
+                <p class="title-modal">{{title}}</p>
                 <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                    style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                    style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
+        <div class="card-body">
+            <mat-dialog-content style="min-width: 700px;">
+                <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <dt>Nombres</dt>
+                        <dd>{{contratista?.nombres}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Apellidos</dt>
+                        <dd>{{contratista?.apellidos}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Documento</dt>
+                        <dd>{{contratista?.doc_ident}}</dd>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <dt>Lugar de Nacimiento</dt>
+                        <dd>{{contratista?.depa_naci}} - {{contratista?.ciudad_naci}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Fecha de nacimiento</dt>
+                        <dd>{{contratista?.fecha_nac}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Ciudad en que labora</dt>
+                        <dd>{{contratista?.ciudad_trabajo}}</dd>
+                    </div>
+                    
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <dt>Lugar de Expedición</dt>
+                        <dd>{{contratista?.depa_exp}} - {{contratista?.ciudad_exp}}</dd>
+                    </div>
+                        <div class="col-md-4">
+                        <dt>Fecha de expedición</dt>
+                        <dd>{{contratista?.fecha_exp}}</dd>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <dt>Estado</dt>
+                        <dd>{{contratista?.estado}}</dd>
+                    </div>
+                </div>
+                <div class="row mt-4" >
+                    <div class="col-md-4">
+                        <dt>Fecha de ingreso</dt>
+                        <dd>{{contratista?.fec_ingreso}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt *ngIf="contratista?.fec_retiro">Fecha de retiro</dt>
+                        <dd>{{contratista?.fec_retiro}}</dd>
+                    </div>
+                </div>
+                <hr>
+                <h3><i class="fa fa-file-pdf-o"></i> Documentos del contratista</h3>
+                <div class="row mt-4">
+                    <div class="col-md-4" *ngIf="contratista?.file_cv">
+                        <div class="card">
+                            <div class="card-body">
+                                <a [href]="contratista?.file_cv" target="_blank">Ver Hoja de Vida</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="contratista?.file_cedula">
+                        <div class="card">
+                            <div class="card-body">
+                                <a [href]="contratista?.file_cedula" target="_blank">Ver Fotocopia cédula</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="contratista?.file_bancario">
+                        <div class="card">
+                            <div class="card-body">
+                                <a [href]="contratista?.file_bancario" target="_blank">Ver Certificado bancario</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="contratista?.file_eps">
+                        <div class="card">
+                            <div class="card-body">
+                                <a [href]="contratista?.file_eps" target="_blank">Ver Certificado EPS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="contratista?.file_pension">
+                        <div class="card">
+                            <div class="card-body">
+                                <a [href]="contratista?.file_pension" target="_blank">Ver Certificado Pensión</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="contratista?.file_afi_eps">
+                    <hr>
+                    <h3><i class="fa fa-file-pdf-o"></i> Documentos de afiliación</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-4" *ngIf="contratista?.file_afi_eps">
+                            <div class="card">
+                                <div class="card-body">
+                                    <a [href]="contratista?.file_afi_eps" target="_blank">Ver Afiliación a EPS</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="contratista?.file_arl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <a [href]="contratista?.file_arl" target="_blank">Ver Afiliación a ARL</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="contratista?.file_contrato">
+                            <div class="card">
+                                <div class="card-body">
+                                    <a [href]="contratista?.file_contrato" target="_blank">Ver Contrato</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div *ngIf="contratista?.file_carta_termina">
+                    <hr>
+                    <h3><i class="fa fa-ban"></i> Finalización contrato</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-4" >
+                            <div class="card">
+                                <div class="card-body">
+                                    <a [href]="contratista?.file_carta_termina" target="_blank">Ver Carta de terminación contrato</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="planillas.length > 0">
+                    <hr>
+                    <h3><i class="fa fa-files-o" aria-hidden="true"></i> Planilla Seguridad Social</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                            <mat-label>Año</mat-label>
+                            <mat-select (selectionChange)="onPlanillaYearChange($event.value)" [(value)]="selectedPlanillaYear">
+                                <mat-option [value]="null">Elegir año...</mat-option>
+                                <mat-option *ngFor="let year of availablePlanillaYears" [value]="year">{{ year }}</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div *ngIf="selectedPlanillaYear" class="col-md-4">
+                            <mat-form-field appearance="fill">
+                            <mat-label>Mes</mat-label>
+                            <mat-select (selectionChange)="onPlanillaMonthChange($event.value)" [(value)]="selectedPlanillaMonth">
+                                <mat-option [value]="null">Elegir mes...</mat-option>
+                                <!-- <mat-option *ngFor="let month of availablePlanillaMonths" [value]="month">{{ month }}</mat-option> -->
+                                <mat-option *ngFor="let month of availablePlanillaMonths" [value]="month.value">
+                                    {{ month.name }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                    
+                        <!-- Mostrar Planillas Filtradas -->
+                        <div *ngIf="filteredPlanillas.length > 0" class="col-md-4">
+                            <div *ngFor="let doc of filteredPlanillas">
+                                <a mat-raised-button color="primary" [href]="doc.file_path" target="_blank" class="download-button">
+                                    Ver Planilla Seguridad Social
+                                </a>
+                            </div>
+                        </div>
+                    
+                        <div *ngIf="filteredPlanillas.length === 0 && selectedPlanillaYear && selectedPlanillaMonth">
+                            <p>No se encontraron documentos para el año {{ selectedPlanillaYear }} y el mes {{ convertMonthName(selectedPlanillaMonth) }}.</p>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div *ngIf="cuentas_cobro.length > 0">
+                    <hr>
+                    <h3><i class="fa fa-money" aria-hidden="true"></i> Cuentas de cobro</h3>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                            <mat-label>Año</mat-label>
+                            <mat-select (selectionChange)="onCobroYearChange($event.value)" [(value)]="selectedCobroYear">
+                                <mat-option [value]="null">Elegir año...</mat-option>
+                                <mat-option *ngFor="let year of availableCobroYears" [value]="year">{{ year }}</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div *ngIf="selectedCobroYear" class="col-md-4">
+                            <mat-form-field appearance="fill">
+                            <mat-label>Mes</mat-label>
+                            <mat-select (selectionChange)="onCobroMonthChange($event.value)" [(value)]="selectedCobroMonth">
+                                <mat-option [value]="null">Elegir mes...</mat-option>
+                                <!-- <mat-option *ngFor="let month of availableCobroMonths" [value]="month">{{ month }}</mat-option> -->
+                                <mat-option *ngFor="let month of availableCobroMonths" [value]="month.value">
+                                    {{ month.name }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- Mostrar Cuentas de Cobro Filtradas -->
+                        <div *ngIf="filteredCobros.length > 0" class="col-md-4">
+                            <div *ngFor="let doc of filteredCobros">
+                                <a mat-raised-button color="primary" [href]="doc.file_path" target="_blank" class="download-button">
+                                    Ver Cuenta de Cobro
+                                </a>
+                            </div>
+                        </div>
+                        <div *ngIf="filteredCobros.length === 0 && selectedCobroYear && selectedCobroMonth">
+                            <p>No se encontraron documentos para el año {{ selectedCobroYear }} y el mes {{ convertMonthName(selectedCobroMonth) }}.</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <mat-accordion>
+                        <mat-expansion-panel headerPosition="below">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Histórico de Procesos
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                        
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                    <div class="card-header">
+                                        Histórico de Procesos:
+                                    </div>
+                                    <table mat-table [dataSource]="historico" style="width: 100%;" class="mat-elevation-z8 demo-table">
+                                        <!-- Usuario Column -->
+                                        <ng-container matColumnDef="currentm_user">
+                                            <th mat-header-cell *matHeaderCellDef class="p-3">Usuario:</th>
+                                            <td mat-cell *matCellDef="let element" class="p-3">{{element.currentm_user}}</td>
+                                        </ng-container>
+                            
+                                        <!-- Fecha Column -->
+                                        <ng-container matColumnDef="date_move">
+                                            <th mat-header-cell *matHeaderCellDef class="p-3">Fecha:</th>
+                                            <td mat-cell *matCellDef="let element" class="p-3">{{element.date_move | date: 'medium'}}</td>
+                                        </ng-container>
+
+                                        <!-- Acción Column -->
+                                        <ng-container matColumnDef="type_move">
+                                            <th mat-header-cell *matHeaderCellDef class="p-3">Acción:</th>
+                                            <td mat-cell *matCellDef="let element" class="p-3">{{element.type_move}}</td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>                      
+                    
+                </div>
+            </mat-dialog-content>
+            <div mat-dialog-actions>
+                <div class="text-center col-12">
+                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="background-suave" *ngIf="view == 'retirar'">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal">{{title}}</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </h5>
         </div>
         <div class="card-body">
             <mat-dialog-content>
-                <form *ngIf="view == 'update'" [formGroup]="formCreate">
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <label  class="custom-file-upload">
-                                <i class="fa fa-file-pdf-o"></i> Afiliación EPS
-                            </label>
-                            <input formControlName="file_afi_eps"  type="file" (change)="seleccionarArchivo($event, 'file_afi_eps')" accept="application/pdf"  (change)="onFileChange($event, 'file_afi_eps')"/>
-                            <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('required')">
-                                El archivo es obligatorio.
-                            </mat-error>
-                            <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('invalidFileType')">
-                                Los archivos deben subirse en formato PDF.
-                            </mat-error>
-                            <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('invalidFileSize')">
-                                El archivo no debe pesar más de 2 MB.
-                            </mat-error>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <label for="file-upload-cert" class="custom-file-upload">
-                                <i class="fa fa-file-pdf-o"></i> Afiliación ARL
-                            </label>
-                            <input formControlName="file_arl" id="file-upload-cert" type="file" (change)="seleccionarArchivo($event, 'file_arl')" accept="application/pdf"  (change)="onFileChange($event, 'file_arl')"/>
-                            <mat-error *ngIf="formCreate.get('file_arl')?.hasError('required')">
-                                El archivo es obligatorio.
-                            </mat-error>
-                            <mat-error *ngIf="formCreate.get('file_arl')?.hasError('invalidFileType')">
-                                Los archivos deben subirse en formato PDF.
-                            </mat-error>
-                            <mat-error *ngIf="formCreate.get('file_arl')?.hasError('invalidFileSize')">
-                                El archivo no debe pesar más de 2 MB.
-                            </mat-error>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <label for="file-upload-id" class="custom-file-upload">
-                                <i class="fa fa-file-pdf-o"></i> Contrato
-                            </label>
-                            <input formControlName="file_contrato" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_contrato')" accept="application/pdf"  (change)="onFileChange($event, 'file_contrato')"/>
-                            <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('required')">
-                                El archivo es obligatorio.
-                            </mat-error>
-                            <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('invalidFileType')">
-                                Los archivos deben subirse en formato PDF.
-                            </mat-error>
-                            <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('invalidFileSize')">
-                                El archivo no debe pesar más de 2 MB.
-                            </mat-error>
-                        </div>
-                    </div>
-                </form>
-            </mat-dialog-content>
-            <div mat-dialog-actions>
-                <div class="text-center col-12">
-                    <button *ngIf="view == 'update'" mat-button class="btn btn-success"
-                        (click)="onSubmit()">Subir Documentos</button>
-
-                    <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="background-suave" *ngIf="view == 'view'">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="modal-title">
-                    <p class="title-modal">{{title}}</p>
-                    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                        style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </h5>
-            </div>
-            <div class="card-body">
-                <mat-dialog-content style="min-width: 700px;">
-                    <mat-card-content>
-                        <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <dt>Nombres</dt>
-                                <dd>{{contratista?.nombres}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Apellidos</dt>
-                                <dd>{{contratista?.apellidos}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Documento</dt>
-                                <dd>{{contratista?.doc_ident}}</dd>
-                            </div>
-                        </div>
-    
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <dt>Lugar de Nacimiento</dt>
-                                <dd>{{contratista?.depa_naci}} - {{contratista?.ciudad_naci}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Fecha de nacimiento</dt>
-                                <dd>{{contratista?.fecha_nac}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Ciudad en que labora</dt>
-                                <dd>{{contratista?.ciudad_trabajo}}</dd>
-                            </div>
-                           
-                        </div>
-    
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <dt>Lugar de Expedición</dt>
-                                <dd>{{contratista?.depa_exp}} - {{contratista?.ciudad_exp}}</dd>
-                            </div>
-                             <div class="col-md-4">
-                                <dt>Fecha de expedición</dt>
-                                <dd>{{contratista?.fecha_exp}}</dd>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <dt>Estado</dt>
-                                <dd>{{contratista?.estado}}</dd>
-                            </div>
-                        </div>
-                        <div class="row mt-4" >
-                            <div class="col-md-4">
-                                <dt>Fecha de ingreso</dt>
-                                <dd>{{contratista?.fec_ingreso}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt *ngIf="contratista?.fec_retiro">Fecha de retiro</dt>
-                                <dd>{{contratista?.fec_retiro}}</dd>
-                            </div>
-                        </div>
-                        <hr>
-                        <h3><i class="fa fa-file-pdf-o"></i> Documentos del contratista</h3>
-                        <div class="row mt-4">
-                            <div class="col-md-4" *ngIf="contratista?.file_cv">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a [href]="contratista?.file_cv" target="_blank">Ver Hoja de Vida</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4" *ngIf="contratista?.file_cedula">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a [href]="contratista?.file_cedula" target="_blank">Ver Fotocopia cédula</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4" *ngIf="contratista?.file_bancario">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a [href]="contratista?.file_bancario" target="_blank">Ver Certificado bancario</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4" *ngIf="contratista?.file_eps">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a [href]="contratista?.file_eps" target="_blank">Ver Certificado EPS</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4" *ngIf="contratista?.file_pension">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a [href]="contratista?.file_pension" target="_blank">Ver Certificado Pensión</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="contratista?.file_afi_eps">
-                            <hr>
-                            <h3><i class="fa fa-file-pdf-o"></i> Documentos de afiliación</h3>
-                            <div class="row mt-4">
-                                <div class="col-md-4" *ngIf="contratista?.file_afi_eps">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <a [href]="contratista?.file_afi_eps" target="_blank">Ver Afiliación a EPS</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4" *ngIf="contratista?.file_arl">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <a [href]="contratista?.file_arl" target="_blank">Ver Afiliación a ARL</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4" *ngIf="contratista?.file_contrato">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <a [href]="contratista?.file_contrato" target="_blank">Ver Contrato</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div *ngIf="contratista?.file_carta_termina">
-                            <hr>
-                            <h3><i class="fa fa-ban"></i> Finalización contrato</h3>
-                            <div class="row mt-4">
-                                <div class="col-md-4" >
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <a [href]="contratista?.file_carta_termina" target="_blank">Ver Carta de terminación contrato</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                    </mat-card-content>
-                </mat-dialog-content>
-                <div mat-dialog-actions>
-                    <div class="text-center col-12">
-                        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="background-suave" *ngIf="view == 'retirar'">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="modal-title">
-                    <p class="title-modal">{{title}}</p>
-                    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                        style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </h5>
-            </div>
-            <div class="card-body">
-                <mat-dialog-content>
-                    <mat-card-content>
-                        <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <dt>Nombres</dt>
-                                <dd>{{contratista?.nombres}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Apellidos</dt>
-                                <dd>{{contratista?.apellidos}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Documento</dt>
-                                <dd>{{contratista?.doc_ident}}</dd>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <dt>Fecha de ingreso</dt>
-                                <dd>{{contratista?.fec_ingreso}}</dd>
-                            </div>
-                            <div class="col-md-4">
-                                <dt>Ciudad en que labora</dt>
-                                <dd>{{contratista?.ciudad_trabajo}}<dd>
-                            </div>
-                        </div>
-                    </mat-card-content>
-                    <hr>
-                    <h3><i class="fa fa-address-card" aria-hidden="true"></i> Proceso de terminación</h3>
-                    <form *ngIf="view == 'retirar'" [formGroup]="formCreate">
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Fecha de retiro</mat-label>
-                                    <input matInput [matDatepicker]="fec_retiro" formControlName="fec_retiro"  >
-                                    <mat-datepicker-toggle matSuffix [for]="fec_retiro"></mat-datepicker-toggle>
-                                    <mat-datepicker #fec_retiro></mat-datepicker>
-                                    <mat-error *ngIf="formCreate.get('fec_retiro')?.hasError('required')">
-                                        Este campo es obligatorio.
-                                    </mat-error>
-                                    <mat-error *ngIf="formCreate.get('fec_retiro')?.hasError('maxDate')">
-                                        La fecha no puede ser anterior a 10 días antes de hoy.
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <label  class="custom-file-upload">
-                                    <i class="fa fa-file-pdf-o"></i> Carta de terminación de contrato
-                                </label>
-                                <input formControlName="file_carta_termina"  type="file" (change)="seleccionarArchivo($event, 'file_carta_termina')" accept="application/pdf"  (change)="onFileChange($event, 'file_carta_termina')"/>
-                                <mat-error *ngIf="formCreate.get('file_carta_termina')?.hasError('required')">
-                                    El archivo es obligatorio.
-                                </mat-error>
-                                <mat-error *ngIf="formCreate.get('file_carta_termina')?.hasError('invalidFileType')">
-                                    Los archivos deben subirse en formato PDF.
-                                </mat-error>
-                                <mat-error *ngIf="formCreate.get('file_carta_termina')?.hasError('invalidFileSize')">
-                                    El archivo no debe pesar más de 2 MB.
-                                </mat-error>
-                            </div>
-                        </div>
-                    </form>
-                </mat-dialog-content>
-                <div class="mt-4">
-                    <div mat-dialog-actions>
-                        <div class="text-center col-12">
-                            <button *ngIf="view == 'retirar'" mat-button class="btn btn-success"
-                                (click)="onSubmitRetirar()">Retirar contratista</button>
-                            <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- <div class="background-suave" *ngIf="view == 'updateSocial'">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="modal-title">
-                    <p class="title-modal">{{title}}</p>
-                    <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                        style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </h5>
-            </div>
-            <div class="card-body"style="min-width: 700px;">
                 <mat-card-content>
                     <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
                     <div class="row mt-4">
@@ -365,45 +398,177 @@
                         </div>
                         <div class="col-md-4">
                             <dt>Ciudad en que labora</dt>
-                            <dd>{{contratista?.ciudad_trabajo}}<dd>
+                            <dd>{{contratista?.ciudad_trabajo}}</dd>
                         </div>
                     </div>
                 </mat-card-content>
                 <hr>
-                <mat-dialog-content>
-                    <form *ngIf="view == 'updateSocial'" [formGroup]="formCreate">
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Mes</mat-label>
-                                    <mat-select formControlName="mes">
-                                        <mat-option *ngFor="let month of months" [value]="month">
-                                            {{ month }}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
+                <h3><i class="fa fa-address-card" aria-hidden="true"></i> Proceso de terminación</h3>
+                <form *ngIf="view == 'retirar'" [formGroup]="formCreate">
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha de retiro</mat-label>
+                                <input matInput [matDatepicker]="fec_retiro" formControlName="fec_retiro"  >
+                                <mat-datepicker-toggle matSuffix [for]="fec_retiro"></mat-datepicker-toggle>
+                                <mat-datepicker #fec_retiro></mat-datepicker>
+                                <mat-error *ngIf="formCreate.get('fec_retiro')?.hasError('required')">
+                                    Este campo es obligatorio.
+                                </mat-error>
+                                <mat-error *ngIf="formCreate.get('fec_retiro')?.hasError('maxDate')">
+                                    La fecha no puede ser anterior a 10 días antes de hoy.
+                                </mat-error>
+                            </mat-form-field>
                         </div>
-                        <div class="row mt-4">        
-                            <div class="col-md-4">
-                                <label  class="custom-file-upload">
-                                    <i class="fa fa-file-pdf-o"></i> Planilla social
-                                </label>
-                                <input formControlName="file_planilla"  type="file" (change)="seleccionarArchivo($event, 'file_planilla')" accept="application/pdf"  (change)="onFileChange($event, 'file_planilla')"/>
-                            </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <label  class="custom-file-upload">
+                                <i class="fa fa-file-pdf-o"></i> Carta de terminación de contrato
+                            </label>
+                            <input formControlName="file_carta_termina"  type="file" (change)="seleccionarArchivo($event, 'file_carta_termina')" accept="application/pdf"  (change)="onFileChange($event, 'file_carta_termina')"/>
+                            <mat-error *ngIf="formCreate.get('file_carta_termina')?.hasError('required')">
+                                El archivo es obligatorio.
+                            </mat-error>
+                            <mat-error *ngIf="formCreate.get('file_carta_termina')?.hasError('invalidFileType')">
+                                Los archivos deben subirse en formato PDF.
+                            </mat-error>
+                            <mat-error *ngIf="formCreate.get('file_carta_termina')?.hasError('invalidFileSize')">
+                                El archivo no debe pesar más de 5 MB.
+                            </mat-error>
                         </div>
-                    </form>
-                </mat-dialog-content>
-                <div class="mt-4">
-                    <div mat-dialog-actions>
-                        <div class="text-center col-12">
-                            <button *ngIf="view == 'updateSocial'" mat-button class="btn btn-success"
-                                (click)="onSubmitPlanilla()">Subir planilla</button>
-                            <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
-                        </div>
+                    </div>
+                </form>
+            </mat-dialog-content>
+            <div class="mt-4">
+                <div mat-dialog-actions>
+                    <div class="text-center col-12">
+                        <button *ngIf="view == 'retirar'" mat-button class="btn btn-success"
+                            (click)="onSubmitRetirar()">Retirar contratista</button>
+                        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
+</div>
+<div class="background-suave" *ngIf="view === 'updateSocial' || view === 'updateCobro'">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="modal-title">
+                <p class="title-modal">{{title}}</p>
+                <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                    style="position: absolute; right: 10px; top: 10px; font-size: 12px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </div>
+        <div class="card-body"style="min-width: 700px;">
+            <mat-card-content>
+                <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <dt>Nombres</dt>
+                        <dd>{{contratista?.nombres}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Apellidos</dt>
+                        <dd>{{contratista?.apellidos}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Documento</dt>
+                        <dd>{{contratista?.doc_ident}}</dd>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <dt>Fecha de ingreso</dt>
+                        <dd>{{contratista?.fec_ingreso}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Ciudad en que labora</dt>
+                        <dd>{{contratista?.ciudad_trabajo}}</dd>
+                    </div>
+                </div>
+            </mat-card-content>
+            <hr>
+            <h3><i class="fa fa-calendar-o" aria-hidden="true"></i> Seleccionar periodo</h3>
+            <mat-dialog-content>
+                <form *ngIf="view == 'updateSocial'" [formGroup]="formCreate">
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Año</mat-label>
+                                <mat-select formControlName="ano" >
+                                    <mat-option *ngFor="let year of years" [value]="year">
+                                        {{ year }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Mes</mat-label>
+                                <mat-select formControlName="mes">
+                                    <mat-option *ngFor="let month of months" [value]="month.value">
+                                        {{ month.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <h6 style="font-size: 0.875rem; color: #6c757d; margin-top: 0.5rem; margin-bottom: 0; padding-left: 10px;">
+                            * Nota: Seleccione el periodo de pensión a cargar.
+                        </h6>
+                    </div>
+                    <div class="row mt-4">        
+                        <div class="col-md-4">
+                                <h4><i class="fa fa-file-pdf-o"></i> Planilla Seguridad Social </h4>
+                            <input formControlName="file_planilla"  type="file" (change)="seleccionarArchivo($event, 'file_planilla')" accept="application/pdf"  (change)="onFileChange($event, 'file_planilla')"/>
+                        </div>
+                    </div>
+                </form>
+                <form *ngIf="view == 'updateCobro'" [formGroup]="formCreate">
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Año</mat-label>
+                                <mat-select formControlName="ano">
+                                    <mat-option *ngFor="let year of years" [value]="year">
+                                        {{ year }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Mes</mat-label>
+                                <mat-select formControlName="mes">
+                                    <mat-option *ngFor="let month of months" [value]="month.value">
+                                        {{ month.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row mt-4">        
+                        <div class="col-md-4">
+                            <h4><i class="fa fa-file-pdf-o"></i> Cuenta de cobro </h4>
+                            <input formControlName="file_cobro"  type="file" (change)="seleccionarArchivo($event, 'file_cobro')" accept="application/pdf"  (change)="onFileChange($event, 'file_cobro')"/>
+                        </div>
+                    </div>
+                </form>
+            </mat-dialog-content>
+            <div class="mt-4">
+                <div mat-dialog-actions>
+                    <div class="text-center col-12">
+                        <button *ngIf="view == 'updateSocial'" mat-button class="btn btn-success"
+                            (click)="onSubmitDoc()">Subir planilla</button>
+                            <button *ngIf="view == 'updateCobro'" mat-button class="btn btn-success"
+                            (click)="onSubmitDoc()">Subir Cuenta de cobro</button>
+                        <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

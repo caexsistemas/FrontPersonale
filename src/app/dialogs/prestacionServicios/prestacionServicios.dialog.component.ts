@@ -39,6 +39,27 @@ export class PrestacionServiciosDialog implements OnInit {
   showObservaciones = false;
   private initialFormValue: any;
 
+  years
+    // Inicialización de variables
+  selectedPlanillaYear: number | null = null;
+  selectedPlanillaMonth: number | null = null;
+  selectedCobroYear: number | null = null;
+  selectedCobroMonth: number | null = null;
+
+  // Disponibilidad de años y meses para cada tipo de documento
+  availablePlanillaYears: number[] = [];
+  availablePlanillaMonths: number[] = [];
+  availableCobroYears: number[] = [];
+  availableCobroMonths: number[] = [];
+
+  // Filtrar planillas y cuentas de cobro por año y mes seleccionados
+  filteredPlanillas: any[] = [];
+  filteredCobros: any[] = [];
+
+  historico: any[] = [];
+  planillas: any[] = [];
+  cuentas_cobro: any[] = [];
+
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
   @Output() loading = new EventEmitter<boolean>();
@@ -50,7 +71,6 @@ export class PrestacionServiciosDialog implements OnInit {
     private handler: HandlerAppService,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
   ) { 
     this.idContratista = null;
     this.view = this.data.window;
@@ -58,13 +78,10 @@ export class PrestacionServiciosDialog implements OnInit {
       this.title = "Crear Nuevo Contratista";
       this.initForm();
       this.getFestivosAndUpdateValidators();
-      this.getCities();
     } else if(this.view === "update"){
       this.idContratista = this.data.codigo;
       this.title = "Actualizar contratista"
       this.initFormUpdate();
-      this.getCities();
-      this.getDataContratista();
     } else if(this.view=== "view"){
       this.idContratista = this.data.codigo;
       this.title = "Información contratista"
@@ -72,12 +89,18 @@ export class PrestacionServiciosDialog implements OnInit {
       }  
     }
 
-    ngOnInit(): void { }
+    displayedColumns: string[] = ['currentm_user', 'date_move', 'type_move'];
+
+    ngOnInit(): void { 
+      this.getCities();
+      const currentYear = new Date().getFullYear();
+      this.years = [currentYear, currentYear - 1];
+    }
 
     private async getFestivosAndUpdateValidators(): Promise<void> {
       try {
-        await this.getFestivos(); // Carga los festivos
-        this.updateValidators(); // Actualiza los validadores del formulario después de cargar los festivos
+        await this.getFestivos();
+        this.updateValidators(); 
       } catch (error) {
         console.error('Error al cargar los días festivos:', error);
       }
@@ -114,6 +137,7 @@ export class PrestacionServiciosDialog implements OnInit {
 
   
   initFormUpdate() {
+    this.getDataContratista();
     this.formCreate = new FormGroup({
       nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
       apellidos: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
@@ -153,8 +177,8 @@ export class PrestacionServiciosDialog implements OnInit {
         if (data.success) {
           this.cities = data.data.cities;
           this.states = data.data.states;
-          //console.log(this.cities)
-          //console.log(this.states)
+          console.log(this.cities)
+          console.log(this.states)
 
           if (this.contratista) {
             this.updateFilteredCities(this.contratista.depa_naci);
@@ -167,20 +191,33 @@ export class PrestacionServiciosDialog implements OnInit {
 
   getDataContratista(){
     this.loading.emit(true);
-    this.WebApiService.getRequest(this.endpoint + "/" + this.idContratista, {
+
+    const params: any = {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
-      modulo: this.component,
-    }).subscribe(
+      modulo: this.component
+    };
+
+    if (this.view === 'update') {
+        params.action = 'update';
+    }
+
+    this.WebApiService.getRequest(this.endpoint + "/" + this.idContratista, params).subscribe(
       (data) => {
         if (data.success) {
           this.contratista = data.data[0];
           //console.log(this.contratista)
+          this.planillas = data.planillas.filter(p => p.file === 'planilla');
+          this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
+          this.historico = data.historico;
+
+          this.extractYearsAndMonths();
+
           if(this.view === 'update'){
-            const depaNaciId = this.states.find(state => state.name === this.contratista.depa_naci)?.idState;
-            const ciudadNaciId = this.cities.find(city => city.name === this.contratista.ciudad_naci && city.idState === depaNaciId)?.idCity;
-            const depaExpId = this.states.find(state => state.name === this.contratista.depa_exp)?.idState;
-            const ciudadExpId = this.cities.find(city => city.name === this.contratista.ciudad_exp && city.idState === depaExpId)?.idCity;
+            // const depaNaciId = this.states.find(state => state.name === this.contratista.depa_naci)?.idState;
+            // const ciudadNaciId = this.cities.find(city => city.name === this.contratista.ciudad_naci && city.idState === depaNaciId)?.idCity;
+            // const depaExpId = this.states.find(state => state.name === this.contratista.depa_exp)?.idState;
+            // const ciudadExpId = this.cities.find(city => city.name === this.contratista.ciudad_exp && city.idState === depaExpId)?.idCity;
 
             const adjustDate = (dateString: string) => {
               const date = new Date(dateString);
@@ -196,42 +233,41 @@ export class PrestacionServiciosDialog implements OnInit {
                 fecha_nac: adjustDate(this.contratista.fecha_nac),
                 fecha_exp: adjustDate(this.contratista.fecha_exp),
                 // fec_ingreso: adjustDate(this.contratista.fec_ingreso),
-                depa_naci: depaNaciId,
-                ciudad_naci: ciudadNaciId,
-                depa_exp: depaExpId,
-                ciudad_exp: ciudadExpId,
+                depa_naci: this.contratista.depa_naci,
+                ciudad_naci: this.contratista.ciudad_naci,
+                depa_exp: this.contratista.depa_exp,
+                ciudad_exp: this.contratista.ciudad_exp,
                 ciudad_trabajo: this.contratista.ciudad_trabajo,
-                ciudad: this.contratista.ciudad,
+                // ciudad: this.contratista.ciudad,
             });
 
             this.initialFormValue = this.formCreate.getRawValue();
 
-            //console.log('Ciudad de expedición:', this.contratista.ciudad_exp);
-            //console.log('Ciudad de expedición:', ciudadExpId);
+
 
             // this.selectedFileNames['file_cv'] = contratista.file_cv ? `${contratista.file_cv}` : '';
             // this.selectedFileNames['file_cert'] = contratista.file_bancario ? `${contratista.file_bancario}` : '';
             // this.selectedFileNames['file_cc'] = contratista.file_cedula ? `${contratista.file_cedula}` : '';
           
-            this.selectedFileNames['file_cv'] = this.contratista.file_cv;
-            this.selectedFileNames['file_bancario'] = this.contratista.file_bancario;
-            this.selectedFileNames['file_cc'] = this.contratista.file_cedula;
-            this.selectedFileNames['file_eps'] = this.contratista.file_cv;
-            this.selectedFileNames['file_pension'] = this.contratista.file_pension;
+            // this.selectedFileNames['file_cv'] = this.contratista.file_cv;
+            // this.selectedFileNames['file_bancario'] = this.contratista.file_bancario;
+            // this.selectedFileNames['file_cc'] = this.contratista.file_cedula;
+            // this.selectedFileNames['file_eps'] = this.contratista.file_cv;
+            // this.selectedFileNames['file_pension'] = this.contratista.file_pension;
 
-            // Ajusta la validación basada en la existencia de archivos
-            if (!this.selectedFileNames['file_cv']) {
-              this.formCreate.controls['file_cv'].setValidators(Validators.required);
-            }
-            if (!this.selectedFileNames['file_bancario']) {
-              this.formCreate.controls['file_bancario'].setValidators(Validators.required);
-            }
-            if (!this.selectedFileNames['file_cc']) {
-              this.formCreate.controls['file_cc'].setValidators(Validators.required);
-            }
+            // // Ajusta la validación basada en la existencia de archivos
+            // if (!this.selectedFileNames['file_cv']) {
+            //   this.formCreate.controls['file_cv'].setValidators(Validators.required);
+            // }
+            // if (!this.selectedFileNames['file_bancario']) {
+            //   this.formCreate.controls['file_bancario'].setValidators(Validators.required);
+            // }
+            // if (!this.selectedFileNames['file_cc']) {
+            //   this.formCreate.controls['file_cc'].setValidators(Validators.required);
+            // }
 
-            this.updateFilteredCities(depaNaciId);
-            this.updateFilteredExpCities(depaExpId)
+            this.updateFilteredCities(this.contratista.depa_naci);
+            this.updateFilteredExpCities(this.contratista.depa_exp)
           }
 
 
@@ -250,6 +286,81 @@ export class PrestacionServiciosDialog implements OnInit {
     return JSON.stringify(this.formCreate.getRawValue()) !== JSON.stringify(this.initialFormValue);
   }
     
+  extractYearsAndMonths() {
+    // Planillas
+    const planillaYears = new Set(this.planillas.map(p => p.year));
+    this.availablePlanillaYears = Array.from(planillaYears);
+    
+    if (this.selectedPlanillaYear) {
+      const planillaMonths = new Set(this.planillas
+        .filter(p => p.year === this.selectedPlanillaYear)
+        .map(p => p.month));
+      this.availablePlanillaMonths = Array.from(planillaMonths).sort((a, b) => a - b);
+    }
+  
+    // Cuentas de cobro
+    const cobroYears = new Set(this.cuentas_cobro.map(p => p.year));
+    this.availableCobroYears = Array.from(cobroYears);
+  
+    if (this.selectedCobroYear) {
+      const cobroMonths = new Set(this.cuentas_cobro
+        .filter(p => p.year === this.selectedCobroYear)
+        .map(p => p.month));
+      this.availableCobroMonths = Array.from(cobroMonths).sort((a, b) => a - b);
+    }
+  
+    // Filtrar los documentos
+    this.filterPlanillas();
+    this.filterCobros();
+  }
+  
+  // Manejar cambios en el selector de año para planillas
+  onPlanillaYearChange(year: number) {
+    this.selectedPlanillaYear = year;
+    this.extractYearsAndMonths();
+  }
+  
+  // Manejar cambios en el selector de mes para planillas
+  onPlanillaMonthChange(month: number) {
+    this.selectedPlanillaMonth = month;
+    this.filterPlanillas();
+  }
+  
+  // Manejar cambios en el selector de año para cuentas de cobro
+  onCobroYearChange(year: number) {
+    this.selectedCobroYear = year;
+    this.extractYearsAndMonths();
+  }
+  
+  // Manejar cambios en el selector de mes para cuentas de cobro
+  onCobroMonthChange(month: number) {
+    this.selectedCobroMonth = month;
+    this.filterCobros();
+  }
+  
+  // Filtrar planillas según el año y mes seleccionados
+  filterPlanillas() {
+    if (this.selectedPlanillaYear && this.selectedPlanillaMonth) {
+      this.filteredPlanillas = this.planillas.filter(p =>
+        p.year === this.selectedPlanillaYear &&
+        p.month === this.selectedPlanillaMonth
+      );
+    } else {
+      this.filteredPlanillas = [];
+    }
+  }
+  
+  // Filtrar cuentas de cobro según el año y mes seleccionados
+  filterCobros() {
+    if (this.selectedCobroYear && this.selectedCobroMonth) {
+      this.filteredCobros = this.cuentas_cobro.filter(p =>
+        p.year === this.selectedCobroYear &&
+        p.month === this.selectedCobroMonth
+      );
+    } else {
+      this.filteredCobros = [];
+    }
+  }
 
   selectedFiles: File[] = [];
   
@@ -417,7 +528,7 @@ export class PrestacionServiciosDialog implements OnInit {
                 errors.push(`Los campos de fecha no pueden ser una fecha futura.`);
             }
             if (formControls[name].errors.invalidFileType) {
-                errors.push(`Los archivos deben subirse en formato PDF y deben pesar menos de 2MB`);
+                errors.push(`Los archivos deben subirse en formato PDF y deben pesar menos de 5MB`);
             }
             
         }
@@ -450,8 +561,8 @@ export class PrestacionServiciosDialog implements OnInit {
         // Verifica si la extensión es pdf
         const validMimeType = fileExtension === 'pdf';
   
-        // Verifica si el tamaño del archivo es menor a 2MB
-        const maxSizeInBytes = 2 * 1024 * 1024; // 2MB en bytes
+        // Verifica si el tamaño del archivo es menor a 5MB
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5MB en bytes
         const validFileSize = file.size <= maxSizeInBytes;
 
         if (!validMimeType) {
@@ -472,7 +583,7 @@ export class PrestacionServiciosDialog implements OnInit {
       const file = input.files[0];
       const fileName = file.name;
       const fileExtension = fileName.split('.').pop().toLowerCase();
-      const maxSizeInBytes = 2 * 1024 * 1024; // 2MB en bytes
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB en bytes
   
       // Verifica si la extensión es pdf
       if (fileExtension !== 'pdf') {
@@ -481,9 +592,9 @@ export class PrestacionServiciosDialog implements OnInit {
         return;
       }
   
-      // Verifica si el tamaño del archivo es menor a 2MB
+      // Verifica si el tamaño del archivo es menor a 5MB
       if (file.size > maxSizeInBytes) {
-        this.handler.showError('El archivo no debe superar los 2MB');
+        this.handler.showError('El archivo no debe superar los 5MB');
         this.clearFileInput(input, formControlName);
         return;
       }
