@@ -176,6 +176,8 @@ export class RqcalidadDialog  {
                 if(this.diag == '141/1'){
                   this.view = "update";
                   this.title = "EDITAR MATRIZ DE CALIDAD CLARO CONVERGENCIA";
+                  // console.log("update")
+                  // console.log(this.diag)
                 }else{
                   this.view = "updateCus";
                   this.title = "EDITAR MEDICION CUSTOMER CLARO CONVERGENCIA";
@@ -988,12 +990,13 @@ export class RqcalidadDialog  {
   }
 
   onSelectionChange(event){
-
     if(event !== null && event !== ""){
       let pruse: string = event.toString();
       let exitsPersonal = this.personalData.find(element => element.document == pruse);
       let contDocu = pruse.length;
-  
+      // console.log('pruse', pruse)
+      // console.log('exists', exitsPersonal)
+      // console.log('contdocu', contDocu)
       if( exitsPersonal && contDocu >= 5 ){
           this.formProces.get('name').setValue(exitsPersonal.idPersonale);
           this.formProces.get('coordinator').setValue(exitsPersonal.jef_idPersonale);
@@ -1008,7 +1011,6 @@ export class RqcalidadDialog  {
           // } 
         } 
     }
- 
   }
   
   //Numero de semanas

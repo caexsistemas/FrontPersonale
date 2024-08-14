@@ -28,6 +28,11 @@ export class RefuteDialog {
   @Output() loadingtwo = new EventEmitter();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
+  checkUpdate: boolean = false;
+  refute:any = [];
+  refu:any = [];
+  descriptions: string[];
+  rol;
 
   constructor(public dialogRef: MatDialogRef<RefuteDialog>,
         private WebApiService: WebApiService,
@@ -44,6 +49,7 @@ export class RefuteDialog {
             this.loading.emit(false);
               this.initFormsRefute();              
               this.id_rq = this.data.codigo
+              this.rol = this.cuser.role;
               break;
           }
         }
@@ -64,10 +70,7 @@ export class RefuteDialog {
   closeDialog() {
     this.dialogRef.close();
   }
-checkUpdate: boolean = false;
-refute:any = [];
-refu:any = [];
-descriptions: string[];
+
   getDataInit() {
     this.loading.emit(false);
     this.WebApiService.getRequest(this.endpoint, {
@@ -83,12 +86,15 @@ descriptions: string[];
           this.gana = data.data["gana"];
           // console.log('=>',data.data["getDataUpda"][0].answer.length);
           
+          // console.log("gana", this.gana)
           if(data.data["getDataUpda"].length > 0){
             
             this.checkUpdate = true;
             this.formRefute.get('refute').clearValidators();
             this.formRefute.get('item').clearValidators();
             this.formRefute.get('reason').clearValidators();
+
+            // console.log("formulario", this.formRefute)
 
             this.refute =data.data["getDataUpda"][0];
             (this.refute.refute == '1') ? this.refute.refute = 'SI': this.refute.refute = 'NO';
@@ -227,6 +233,8 @@ item: any = [];
     
   } 
 
+
+
   onSubmitUpdateSub() {
 
     if( (this.formRefute.valid )){
@@ -234,6 +242,8 @@ item: any = [];
         let body = {
             valists:   this.formRefute.value,
         }
+
+        console.log(body)
 
         this.loading.emit(true);
 
@@ -269,4 +279,54 @@ item: any = [];
         this.handler.showError('Complete la información necesaria');
     }
 }
+
+  isEditing = false; 
+  editableAnswer: string;
+
+  startEditing() {
+    this.isEditing = true;
+    this.editableAnswer = this.refute.answer; 
+  }
+
+  onSubmitEdit() {
+    if (this.editableAnswer.trim() === '') {
+      this.handler.showError('La respuesta a la solicitud no puede estar vacía.');
+      return;
+    }
+  
+    if (this.editableAnswer !== this.refute.answer) {
+      this.loading.emit(true);
+      this.handler.showLoadin("Actualizando respuesta", "Por favor espere...");
+  
+      // Prepara los parámetros para la solicitud GET
+      const params = {
+        action: 'updateRefutacion',
+        idvalist: this.id_rq,
+        token: this.cuser.token,
+        idUser: this.cuser.iduser,
+        modulo: this.component,
+        answer: this.editableAnswer
+      };
+  
+      this.WebApiService.getRequest(this.endpoint, params)
+        .subscribe(
+          data => {
+            if (data.success) {
+              this.handler.showSuccess(data.success);
+              this.reload.emit();
+              this.closeDialog();
+            } else {
+              this.handler.handlerError(data);
+              this.loading.emit(false);
+            }
+          },
+          error => {
+            this.handler.showError('Se produjo un error al actualizar.');
+            this.loading.emit(false);
+          }
+        );
+    } else {
+      this.isEditing = false; // Si no hay cambios, solo regresa al modo de solo lectura
+    }
+  }
 }

@@ -491,7 +491,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-
+                    
                   </div>
 
                   
@@ -2137,24 +2137,24 @@
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Nombre Asesor:</mat-label>
                             <mat-select formControlName="name" required>
-                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
-                                {{idet.name}}
-                              </mat-option>
+                                <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                </mat-option>   
                             </mat-select>
                         </mat-form-field>
                     </div>
 
-                  </div>
+                </div>
 
-                  <div class="row">
+                <div class="row">
 
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Coordinador:</mat-label>
                             <mat-select formControlName="coordinator" required>
-                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
-                                {{idet.name}}
-                              </mat-option>
+                                <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
