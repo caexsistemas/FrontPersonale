@@ -207,8 +207,13 @@ export class PrestacionServiciosDialog implements OnInit {
         if (data.success) {
           this.contratista = data.data[0];
           //console.log(this.contratista)
-          this.planillas = data.planillas.filter(p => p.file === 'planilla');
-          this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
+          if (data.planillas && Array.isArray(data.planillas)) {
+            this.planillas = data.planillas.filter(p => p.file === 'planilla');
+            this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
+          } else {
+            this.planillas = [];
+            this.cuentas_cobro = [];
+          }
           this.historico = data.historico;
 
           this.extractYearsAndMonths();
@@ -242,29 +247,6 @@ export class PrestacionServiciosDialog implements OnInit {
             });
 
             this.initialFormValue = this.formCreate.getRawValue();
-
-
-
-            // this.selectedFileNames['file_cv'] = contratista.file_cv ? `${contratista.file_cv}` : '';
-            // this.selectedFileNames['file_cert'] = contratista.file_bancario ? `${contratista.file_bancario}` : '';
-            // this.selectedFileNames['file_cc'] = contratista.file_cedula ? `${contratista.file_cedula}` : '';
-          
-            // this.selectedFileNames['file_cv'] = this.contratista.file_cv;
-            // this.selectedFileNames['file_bancario'] = this.contratista.file_bancario;
-            // this.selectedFileNames['file_cc'] = this.contratista.file_cedula;
-            // this.selectedFileNames['file_eps'] = this.contratista.file_cv;
-            // this.selectedFileNames['file_pension'] = this.contratista.file_pension;
-
-            // // Ajusta la validación basada en la existencia de archivos
-            // if (!this.selectedFileNames['file_cv']) {
-            //   this.formCreate.controls['file_cv'].setValidators(Validators.required);
-            // }
-            // if (!this.selectedFileNames['file_bancario']) {
-            //   this.formCreate.controls['file_bancario'].setValidators(Validators.required);
-            // }
-            // if (!this.selectedFileNames['file_cc']) {
-            //   this.formCreate.controls['file_cc'].setValidators(Validators.required);
-            // }
 
             this.updateFilteredCities(this.contratista.depa_naci);
             this.updateFilteredExpCities(this.contratista.depa_exp)
