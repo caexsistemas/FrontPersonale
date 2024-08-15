@@ -13,7 +13,7 @@ export class UserServices {
        
     constructor(public _http: HttpClient,private _tools:Tools) {
         this.url = global.url;
-        console.log(this._tools.getToken());
+        // console.log(this._tools.getToken());
     }
    
 

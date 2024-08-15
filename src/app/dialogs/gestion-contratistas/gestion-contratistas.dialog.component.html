@@ -297,15 +297,14 @@
                         </div>
                         <!-- Mostrar Cuentas de Cobro Filtradas -->
                         <div *ngIf="filteredCobros.length > 0" class="col-md-4">
-                            <div *ngFor="let doc of filteredCobros">
+                            <div *ngFor="let doc of filteredCobros" class="m-3">
                                 <a mat-raised-button color="primary" [href]="doc.file_path" target="_blank" class="download-button">
-                                    Ver Cuenta de Cobro
+                                    Ver Cuenta de Cobro Q{{ doc.fortnight }}
                                 </a>
                             </div>
                         </div>
                         <div *ngIf="filteredCobros.length === 0 && selectedCobroYear && selectedCobroMonth">
                             <p>No se encontraron documentos para el año {{ selectedCobroYear }} y el mes {{ convertMonthName(selectedCobroMonth) }}.</p>
-
                         </div>
                     </div>
                 </div>
@@ -546,6 +545,16 @@
                                     <mat-option *ngFor="let month of months" [value]="month.value">
                                         {{ month.name }}
                                     </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Quincena</mat-label>
+                                <mat-select formControlName="quincena">
+                                    <mat-option value="">Elegir opción</mat-option>
+                                    <mat-option value="1">Q1</mat-option>
+                                    <mat-option value="2">Q2</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

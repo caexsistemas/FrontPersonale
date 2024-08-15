@@ -442,6 +442,7 @@ export class GestionContratistasDialog implements OnInit {
     this.formCreate = new FormGroup({
       mes: new FormControl("", [Validators.required]),
       ano: new FormControl("", [Validators.required]),
+      quincena: new FormControl("", [Validators.required]),
       file_cobro: new FormControl("", [Validators.required, this.PDFValidator()])
     });
   }
@@ -507,10 +508,15 @@ export class GestionContratistasDialog implements OnInit {
 
     if (this.formCreate.valid) {
 
-      const formData = {
+      const formData: { mes: any; ano: any; archivos: any; quincena?: any } = {
         mes: this.formCreate.get('mes').value,
         ano: this.formCreate.get('ano').value,
         archivos: this.nuevoArchivo
+      };
+      
+      // Agregar quincena solo si la vista es 'updateCobro'
+      if (this.view === 'updateCobro') {
+        (formData as any).quincena = this.formCreate.get('quincena').value;
       }
 
       // console.log(formData);
@@ -538,7 +544,6 @@ export class GestionContratistasDialog implements OnInit {
           // console.error('Error al guardar el registro:', error);
           this.handler.showError(error.error.error);
           this.loading.emit(false);
-          this.closeDialog();
 
         }
       )

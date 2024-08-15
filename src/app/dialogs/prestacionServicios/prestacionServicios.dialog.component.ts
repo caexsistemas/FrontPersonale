@@ -177,8 +177,8 @@ export class PrestacionServiciosDialog implements OnInit {
         if (data.success) {
           this.cities = data.data.cities;
           this.states = data.data.states;
-          console.log(this.cities)
-          console.log(this.states)
+          // console.log(this.cities)
+          // console.log(this.states)
 
           if (this.contratista) {
             this.updateFilteredCities(this.contratista.depa_naci);
@@ -658,29 +658,29 @@ export class PrestacionServiciosDialog implements OnInit {
       // Antes de las 10 AM en sábado: La fecha de ingreso es el siguiente día hábil
       if (now.isBefore(cutOffTimeSaturday)) {
         ingresoDate = this.getNextBusinessDay(now);
-        console.log("Ingreso antes de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
+        // console.log("Ingreso antes de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
       } else {
         // Después de las 10 AM en sábado: La fecha de ingreso es dentro de los siguientes 2 días hábiles
         ingresoDate = this.getNextBusinessDay(now);
         ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
-        console.log("Ingreso después de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
+        // console.log("Ingreso después de las 10 AM en sábado:", ingresoDate.format('YYYY-MM-DD'));
       }
       // now es otro dia diferente a sábado
     } else if (now.isBefore(cutOffTime)) {
       // Antes de las 2 PM en días hábiles: La fecha de ingreso es el siguiente día hábil
       ingresoDate = this.getNextBusinessDay(now);
-      console.log("Ingreso antes de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
+      // console.log("Ingreso antes de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
     } else {
       // Después de las 2 PM en días hábiles: La fecha de ingreso es dentro de los siguientes 2 días hábiles
       ingresoDate = this.getNextBusinessDay(now);
       ingresoDate = this.getNextBusinessDay(ingresoDate); // Sumar otro día hábil
-      console.log("Ingreso después de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
+      // console.log("Ingreso después de las 2 PM:", ingresoDate.format('YYYY-MM-DD'));
     }
   
     // Verifica si la fecha de ingreso es el día 31 del mes
     if (ingresoDate.date() === 31) {
       ingresoDate = this.getNextBusinessDay(ingresoDate); // Ajustar al siguiente día hábil
-      console.log("Ingreso ajustado al siguiente día hábil:", ingresoDate.format('YYYY-MM-DD'));
+      // console.log("Ingreso ajustado al siguiente día hábil:", ingresoDate.format('YYYY-MM-DD'));
     }
   
     return ingresoDate;
@@ -760,7 +760,7 @@ export class PrestacionServiciosDialog implements OnInit {
             this.holidays = data.data.holidays.map((hol) => {
               return moment().month(hol.month - 1).date(hol.day_hol).format('YYYY-MM-DD');
             });
-            console.log(this.holidays);
+            // console.log(this.holidays);
             resolve();
           } else {
             reject('No se pudieron obtener los días festivos.');
