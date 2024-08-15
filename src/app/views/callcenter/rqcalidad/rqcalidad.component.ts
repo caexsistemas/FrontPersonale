@@ -354,11 +354,11 @@ export class RqcalidadComponent implements OnInit {
   }
 
   colorMap = {
-    "136/0": "#E57300",
-    "136/1": "#A4A4A4",
-    "136/2": "#CBCD15",
-    "136/3": "#E42E15",
-    "136/4": "#4CBC04"
+    "136/0": "#E57300", //NARANJA
+    "136/1": "#A4A4A4", //GRIS
+    "136/2": "#CBCD15", //AMARILLO
+    "136/3": "#E42E15", //ROJO
+    "136/4": "#4CBC04"  //VERDE
   };
 
   colorState(state, retro) {
