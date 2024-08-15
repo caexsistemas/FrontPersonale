@@ -49,7 +49,6 @@ import { CargueContactComponent } from "./cargue-contact/cargue-contact.componen
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { ReportClosingComponent } from "./report-closing/report-closing.component";
 import { ReportsComponent } from './reports/reports.component';
 
 const ngWizardConfig: NgWizardConfig = {
@@ -91,7 +90,6 @@ const ngWizardConfig: NgWizardConfig = {
     CustomerComponent,
     DwlcontactComponent,
     CargueContactComponent,
-    ReportClosingComponent,
     ReportsComponent
   ],
 
