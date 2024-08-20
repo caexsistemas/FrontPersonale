@@ -140,7 +140,6 @@ export class RqcalidadDialog  {
           this.view  = this.data.window;
           this.idPam = null;
           this.diag  = this.data.dialogo;
-          console.log(this.view)
           switch (this.view) {
             case 'create':
                 this.tipMatriz = this.data.tipoMat;
@@ -158,7 +157,6 @@ export class RqcalidadDialog  {
                 }else{
                   //Calidad Customer
                   this.view = "createCus";
-                  console.log(this.view)
 
                   if( this.tipMatriz  == '40/1' ){
                     this.title = "MEDICION CUSTOMER CLARO CONVERGENCIA (MOVIL)";
