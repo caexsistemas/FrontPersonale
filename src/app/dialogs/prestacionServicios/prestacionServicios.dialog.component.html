@@ -446,15 +446,18 @@
                                     <mat-label>Mes</mat-label>
                                     <mat-select (selectionChange)="onCobroMonthChange($event.value)" [(value)]="selectedCobroMonth">
                                         <mat-option [value]="null">Elegir mes...</mat-option>
-                                        <mat-option *ngFor="let month of availableCobroMonths" [value]="month">{{ month }}</mat-option>
+                                        <!-- <mat-option *ngFor="let month of availableCobroMonths" [value]="month">{{ month }}</mat-option> -->
+                                        <mat-option *ngFor="let month of availableCobroMonths" [value]="month.value">
+                                            {{ month.name }}
+                                        </mat-option>
                                     </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <!-- Mostrar Cuentas de Cobro Filtradas -->
                                 <div *ngIf="filteredCobros.length > 0" class="col-md-4">
-                                    <div *ngFor="let doc of filteredCobros">
+                                    <div *ngFor="let doc of filteredCobros" class="m-3">
                                         <a mat-raised-button color="primary" [href]="doc.file_path" target="_blank" class="download-button">
-                                            Ver Cuenta de Cobro
+                                            Ver Cuenta de Cobro Q{{ doc.fortnight }}
                                         </a>
                                     </div>
                                 </div>

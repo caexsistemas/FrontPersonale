@@ -159,36 +159,31 @@ export class ManagementComponent implements OnInit {
       (response) => {
         if (response.success) {
           this.permissions = this.handler.getPermissions(this.component);
-          this.generateTable(response.data);
-          if (
-            !(
-              this.cuser.role == 1 ||
-              this.cuser.role == 5 ||
-              this.cuser.role == 20 ||
-              this.cuser.role == 34 ||
-              this.cuser.role == 41
-            )
-          ) {
-            this.checkCreate = false;
-          } else {
-            this.checkCreate = true;
-          }
-          this.personaleData = response.data;
+
+          // Alimentar la tabla con DataTable
+          this.generateTable(response.data.dataTable);
+
+          // Alimentar los diálogos con allData
+          this.personaleData = response.data.allData;
+
+          // Controlar la visibilidad del botón de creación
+          this.checkCreate = [1, 5, 20, 34, 41].includes(this.cuser.role);
+
           this.loading = false;
         } else {
-          this.datapersonale = [];
+          this.dataSource = new MatTableDataSource([]);
           this.handler.handlerError(response);
           this.loading = false;
         }
       },
-      (mistake) => {
+      (error) => {
         let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
-        //let msjErr = mistake.error.message;
         this.handler.showError(msjErr);
         this.loading = false;
       }
     );
   }
+
 
   generateTable(data) {
     this.displayedColumns = [
@@ -233,8 +228,8 @@ export class ManagementComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe((result) => {
-          console.log("The dialog was closed");
-          console.log(result);
+          // console.log("The dialog was closed");
+          // console.log(result);
         });
         break;
       case "create":

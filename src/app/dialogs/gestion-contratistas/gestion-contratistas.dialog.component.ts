@@ -524,8 +524,9 @@ export class GestionContratistasDialog implements OnInit {
 
       
 
-      this.WebApiService.putRequest(this.endpoint + "/" + this.idContratista, formData, {
+      this.WebApiService.postRequest(this.endpoint, formData, {
         action: "uploadPlanilla",
+        idContratista:  this.idContratista,
         doc_ident: this.contratista.doc_ident,
         fec_creacion : this.fec_creacion,
         idPersonale: this.cuser.idPersonale,

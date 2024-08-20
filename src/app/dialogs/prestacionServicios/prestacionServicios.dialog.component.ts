@@ -48,9 +48,9 @@ export class PrestacionServiciosDialog implements OnInit {
 
   // Disponibilidad de años y meses para cada tipo de documento
   availablePlanillaYears: number[] = [];
-  availablePlanillaMonths: number[] = [];
+  availablePlanillaMonths: { value: number, name: string }[] = [];
   availableCobroYears: number[] = [];
-  availableCobroMonths: number[] = [];
+  availableCobroMonths: { value: number, name: string }[] = [];
 
   // Filtrar planillas y cuentas de cobro por año y mes seleccionados
   filteredPlanillas: any[] = [];
@@ -59,6 +59,21 @@ export class PrestacionServiciosDialog implements OnInit {
   historico: any[] = [];
   planillas: any[] = [];
   cuentas_cobro: any[] = [];
+
+  months = [
+    { name: 'Enero', value: 1 },
+    { name: 'Febrero', value: 2 },
+    { name: 'Marzo', value: 3 },
+    { name: 'Abril', value: 4 },
+    { name: 'Mayo', value: 5 },
+    { name: 'Junio', value: 6 },
+    { name: 'Julio', value: 7 },
+    { name: 'Agosto', value:8 },
+    { name: 'Septiembre', value:9 },
+    { name: 'Octubre', value:10 },
+    { name: 'Noviembre', value: 11 },
+    { name: 'Diciembre', value: 12 }
+  ];
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -277,7 +292,12 @@ export class PrestacionServiciosDialog implements OnInit {
       const planillaMonths = new Set(this.planillas
         .filter(p => p.year === this.selectedPlanillaYear)
         .map(p => p.month));
-      this.availablePlanillaMonths = Array.from(planillaMonths).sort((a, b) => a - b);
+
+      // Filtrar `months` para incluir solo los meses que están en `planillaMonths`
+      this.availablePlanillaMonths = this.months
+        .filter(month => planillaMonths.has(month.value))
+        .sort((a, b) => a.value - b.value);
+      // console.log('availablePlanillaMonths', this.availablePlanillaMonths)
     }
   
     // Cuentas de cobro
@@ -288,7 +308,10 @@ export class PrestacionServiciosDialog implements OnInit {
       const cobroMonths = new Set(this.cuentas_cobro
         .filter(p => p.year === this.selectedCobroYear)
         .map(p => p.month));
-      this.availableCobroMonths = Array.from(cobroMonths).sort((a, b) => a - b);
+      this.availableCobroMonths = this.months
+        .filter(month => cobroMonths.has(month.value))
+        .sort((a, b) => a.value - b.value);
+      // console.log('availableCobroMonths ', this.availableCobroMonths )
     }
   
     // Filtrar los documentos
@@ -344,6 +367,12 @@ export class PrestacionServiciosDialog implements OnInit {
     }
   }
 
+  // Función para obtener el nombre del mes
+  convertMonthName(value: number): string {
+    const month = this.months.find(m => m.value === value);
+    return month ? month.name : '';
+  }
+
   selectedFiles: File[] = [];
   
   seleccionarArchivo(event, tipoArchivo) {
@@ -395,7 +424,8 @@ export class PrestacionServiciosDialog implements OnInit {
         this.handler.showLoadin("Guardando Registro", "Por favor espere...");
 
         this.WebApiService.postRequest(this.endpoint, formData, {
-          idPersonale: this.cuser.idPersonale,
+          action: "createContratista",
+          idPersonale: this.cuser.idPersonale,  
           token: this.cuser.token,
           idUser: this.cuser.iduser,
           modulo: this.component,
