@@ -104,6 +104,7 @@ export class AbsenteeismDialog {
           idPersJefe: new FormControl(""),
           matrizarp: new FormControl(""),
           motivo: new FormControl(""),
+          observacion: new FormControl(""),
           fecha_ausencia: new FormControl(""),
           fecha_finausen: new FormControl(""),
           createUser: new FormControl(this.cuser.iduser)
@@ -258,6 +259,7 @@ export class AbsenteeismDialog {
             this.formProces.get('motivo').setValue(data.data['getDataUpda'][0].motivo);
             this.formProces.get('fecha_ausencia').setValue(data.data['getDataUpda'][0].fecha_ausencia);
             this.formProces.get('fecha_finausen').setValue(data.data['getDataUpda'][0].fecha_finausen);
+            this.formProces.get('observacion').setValue(data.data['getDataUpda'][0].observacion);
     
         },
         error => {
@@ -294,11 +296,23 @@ export class AbsenteeismDialog {
     this.loadingtwo.emit(false);
   }
 
-  selectProcesald(event){
-    if( (event == '60/2' || event == '60/3') && this.view == 'create' ){
-        this.optionOtr('createIncapa');
-    }     
-  }
+    selectProcesald(event){
+        if( (event == '60/2' || event == '60/3') && this.view == 'create' ){
+            this.optionOtr('createIncapa');
+        }     
+
+        // Lógica para manejar la observación cuando el motivo cambia
+        const observacionControl = this.formProces.get('observacion');
+
+        if (event === 'permiso') {
+            observacionControl?.setValidators([Validators.required]);
+        } else {
+            observacionControl?.clearValidators();
+            observacionControl?.setValue(null); // Limpiar el valor de la observación
+        }
+
+        observacionControl?.updateValueAndValidity();
+    }
 
   //Validacion creacion de incapacidad
   valIncapaAusen(){
