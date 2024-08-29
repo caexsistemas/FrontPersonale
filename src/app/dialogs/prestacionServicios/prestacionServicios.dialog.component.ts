@@ -2,7 +2,6 @@ import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { WebApiService } from '../../services/web-api.service';
 import { HandlerAppService } from '../../services/handler-app.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import * as moment from "moment";
@@ -92,11 +91,13 @@ export class PrestacionServiciosDialog implements OnInit {
     if (this.view === "create") {
       this.title = "Crear Nuevo Contratista";
       this.initForm();
+      this.getCities();
       this.getFestivosAndUpdateValidators();
     } else if(this.view === "update"){
       this.idContratista = this.data.codigo;
       this.title = "Actualizar contratista"
       this.initFormUpdate();
+      this.getCities();
     } else if(this.view=== "view"){
       this.idContratista = this.data.codigo;
       this.title = "Información contratista"
@@ -107,7 +108,6 @@ export class PrestacionServiciosDialog implements OnInit {
     displayedColumns: string[] = ['currentm_user', 'date_move', 'type_move'];
 
     ngOnInit(): void { 
-      this.getCities();
       const currentYear = new Date().getFullYear();
       this.years = [currentYear, currentYear - 1];
     }
@@ -152,6 +152,7 @@ export class PrestacionServiciosDialog implements OnInit {
 
   
   initFormUpdate() {
+    console.log('entra')
     this.getDataContratista();
     this.formCreate = new FormGroup({
       nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
@@ -192,8 +193,8 @@ export class PrestacionServiciosDialog implements OnInit {
         if (data.success) {
           this.cities = data.data.cities;
           this.states = data.data.states;
-          // console.log(this.cities)
-          // console.log(this.states)
+          console.log(this.cities)
+          console.log(this.states)
 
           if (this.contratista) {
             this.updateFilteredCities(this.contratista.depa_naci);
@@ -234,17 +235,12 @@ export class PrestacionServiciosDialog implements OnInit {
           this.extractYearsAndMonths();
 
           if(this.view === 'update'){
-            // const depaNaciId = this.states.find(state => state.name === this.contratista.depa_naci)?.idState;
-            // const ciudadNaciId = this.cities.find(city => city.name === this.contratista.ciudad_naci && city.idState === depaNaciId)?.idCity;
-            // const depaExpId = this.states.find(state => state.name === this.contratista.depa_exp)?.idState;
-            // const ciudadExpId = this.cities.find(city => city.name === this.contratista.ciudad_exp && city.idState === depaExpId)?.idCity;
-
+            // Ajustar la fecha para la zona horaria local
             const adjustDate = (dateString: string) => {
               const date = new Date(dateString);
-              // Ajustar la fecha para la zona horaria local
               date.setUTCHours(date.getUTCHours() + date.getTimezoneOffset() / 60);
               return date;
-          };
+            };
 
             this.formCreate.patchValue({
                 nombres: this.contratista.nombres,

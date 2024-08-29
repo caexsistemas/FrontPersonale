@@ -44,6 +44,7 @@ export class RqcalidadComponent implements OnInit {
   contaClick: number = 0;
   public mailNotification: any;
   checkRefut:boolean = false
+  resRefutacion:boolean = null
   // public isLogged: boolean;
 
   //Control Permiso
@@ -87,6 +88,12 @@ export class RqcalidadComponent implements OnInit {
           this.generateTable(data.data["getContData"]);
           (this.cuser.role == '31' || this.cuser.role == '22' || this.cuser.role == '21' ||  this.cuser.role == '2'  ||  this.cuser.role == '1') ? this.checkRefut = true : this.checkRefut = false;
           this.contenTable = data.data["getContData"];
+
+          // si existe la respuesta de refutación
+          if(data.data["getContData"][0].resRefutacion){
+            this.resRefutacion = true;
+          }
+
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -367,6 +374,10 @@ export class RqcalidadComponent implements OnInit {
       state = "136/0";
     }
     return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
+  }
+
+  existeRefutacion(){
+    
   }
 
 }

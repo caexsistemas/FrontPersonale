@@ -56,7 +56,8 @@ export class RetiroContratistasComponent implements OnInit {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
-      action: "getAllRetiros"
+      action: "getAll",
+      view: 'retiro'
     })
       .subscribe(
         response => {

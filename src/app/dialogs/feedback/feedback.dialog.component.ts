@@ -150,15 +150,14 @@ export class FeedbackDialog
                 this.loading.emit(false);
               }
             );
-            break;
+            break;          
         }
-      
-  
- 
   }
-closeDialog() {
-  this.dialogRef.close();
-}
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   initForms() {
     //Condicion PQ Calidad
     let matParm = this.cuser.matrizarp;
@@ -334,6 +333,9 @@ getDataUpdate(){
           this.stateSign = data.data['getDataUpda'][0].sign
           if(this.stateSign == 1){
             this.block = true
+            if(this.cuser.role==23){
+              this.formNomi.get('com_tra')?.disable();
+            }
           }else if(this.stateSign == 0){
             this.block = false
 

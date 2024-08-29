@@ -78,7 +78,8 @@ export class RefuteDialog {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
-      id_call:this.data.codigo
+      id_call:this.data.codigo,
+      rol: this.cuser.role
     }).subscribe(
       (data) => {
         if (data.success == true) {
@@ -88,7 +89,7 @@ export class RefuteDialog {
           
           // console.log("gana", this.gana)
           if(data.data["getDataUpda"].length > 0){
-            
+              
             this.checkUpdate = true;
             this.formRefute.get('refute').clearValidators();
             this.formRefute.get('item').clearValidators();
@@ -115,7 +116,7 @@ export class RefuteDialog {
               }else{
                 this.checkGana = true;
               }
-            
+
           }else{
                 this.formRefute.get('refute').setValidators([Validators.required]);
                 this.formRefute.get('item').setValidators([Validators.required]);

@@ -90,7 +90,7 @@
           <div class="col-md-12">
             <dt>Respuesta de solicitud:</dt>
             <dd *ngIf="!isEditing">{{refute.answer}}</dd> 
-            <button *ngIf="!isEditing && rol==22 || 1 && refute.answer" mat-button class="btn btn-primary" (click)="startEditing()">
+            <button *ngIf="(!isEditing && (rol == 22 || rol == 1)) && refute.answer" mat-button class="btn btn-primary" (click)="startEditing()">
               <i class="fa fa-pencil" aria-hidden="true"></i> Editar refutación
             </button>
             

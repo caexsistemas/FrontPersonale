@@ -51,7 +51,8 @@ export class GestionContratistasComponent implements OnInit {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
-      action: "getAllGestion"
+      action: "getAll",
+      view: 'gestion'
     })
       .subscribe(
         response => {

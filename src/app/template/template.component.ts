@@ -30,6 +30,8 @@ export class TemplateComponent implements OnInit {
       fi: new FormControl('', [Validators.required]),
       ff: new FormControl('', Validators.required)
     });
+
+    console.log('prueba')
   }
 
   generateReport() {

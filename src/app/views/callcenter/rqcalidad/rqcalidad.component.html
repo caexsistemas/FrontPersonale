@@ -179,10 +179,14 @@
                                 title="PDF">
                                 <i class="fa fa-file-pdf-o"></i>
                             </button>    
-                        <button class="btn btn-ghost-success" *ngIf="permissions.update && checkRefut" (click)="option('refute',element.pqid)"
-                                title="Refutar Nota">
-                            <i class="fa fa-question"></i>
-                        </button>       
+                            <button class="btn btn-ghost-success" *ngIf="permissions.update && checkRefut" (click)="option('refute',element.pqid)"
+                                    title="Refutar Nota">
+                                <i class="fa fa-question"></i>
+                            </button>  
+                            <button class="btn btn-ghost-warning" *ngIf="permissions.view && this.cuser.role==23 && this.resRefutacion" (click)="option('refute',element.pqid)"
+                                    title="Ver respuesta a refutación">
+                                <i class="fa fa-question"></i>
+                            </button>  
                         </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
