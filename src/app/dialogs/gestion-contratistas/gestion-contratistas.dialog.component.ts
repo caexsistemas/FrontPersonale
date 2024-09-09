@@ -112,14 +112,29 @@ export class GestionContratistasDialog implements OnInit {
   ngOnInit() {
     const currentYear = new Date().getFullYear();
     this.years = [currentYear, currentYear - 1];
+
+    if(this.view === "update"){
+      this.formCreate.get('file_afi_eps').valueChanges.subscribe(() => {
+        this.checkFilesStatus();
+      });
+      
+      this.formCreate.get('file_arl').valueChanges.subscribe(() => {
+        this.checkFilesStatus();
+      });
+      
+      this.formCreate.get('file_contrato').valueChanges.subscribe(() => {
+        this.checkFilesStatus();
+      });
+    }
   }
 
   initForm(){
-
+    this.getDataContratista();
     this.formCreate = new FormGroup({
-      file_afi_eps: new FormControl("", [Validators.required, this.PDFValidator()]),
-      file_arl: new FormControl("", [Validators.required, this.PDFValidator()]),
-      file_contrato: new FormControl("", [Validators.required, this.PDFValidator()]),
+      file_afi_eps: new FormControl("", [this.PDFValidator()]),
+      file_arl: new FormControl("", [this.PDFValidator()]),
+      file_contrato: new FormControl("", [this.PDFValidator()]),
+      activarContratista: new FormControl({ value: false, disabled: true })
     });
   }
 
@@ -141,8 +156,14 @@ export class GestionContratistasDialog implements OnInit {
           this.planillas = data.planillas.filter(p => p.file === 'planilla');
           this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
           this.historico = data.historico;
-          
-          // console.log(this.contratista)
+          if(this.view === 'update'){
+            console.log(this.contratista)
+            this.selectedFileNames['file_afi_eps'] = this.contratista.file_afi_eps
+            this.selectedFileNames['file_arl'] = this.contratista.file_arl
+            this.selectedFileNames['file_contrato'] = this.contratista.file_contrato
+            this.checkFilesStatus(); 
+          }
+
           // console.log('Planillas:', this.planillas);
           // console.log('Cuentas de cobro:', this.cuentas_cobro);
           // console.log('Historico de procesos:', this.historico);
@@ -157,7 +178,39 @@ export class GestionContratistasDialog implements OnInit {
         this.loading.emit(false);
       }
     );
+  } 
+
+  checkFilesStatus() {
+    // Verificar si los archivos ya existen en la base de datos
+    const fileEpsInDb = !!this.selectedFileNames['file_afi_eps'];
+    const fileArlInDb = !!this.selectedFileNames['file_arl'];
+    const fileContratoInDb = !!this.selectedFileNames['file_contrato'];
+  
+    // Verificar si los archivos han sido seleccionados en el formulario
+    const fileEpsInForm = !!this.formCreate.get('file_afi_eps').value;
+    const fileArlInForm = !!this.formCreate.get('file_arl').value;
+    const fileContratoInForm = !!this.formCreate.get('file_contrato').value;
+  
+    // Validar si entre los archivos de la base de datos y los seleccionados suman los tres documentos
+    const hasAllFiles = (fileEpsInDb || fileEpsInForm) && (fileArlInDb || fileArlInForm) && (fileContratoInDb || fileContratoInForm);
+  
+    console.log('EPS:', fileEpsInDb || fileEpsInForm);
+    console.log('ARL:', fileArlInDb || fileArlInForm);
+    console.log('Contrato:', fileContratoInDb || fileContratoInForm);
+    console.log('Has all files:', hasAllFiles);
+    console.log('Archivos escogidos:', this.nuevoArchivo );
+  
+    // Habilitar o deshabilitar el checklist según si están presentes los tres archivos
+    if (hasAllFiles) {
+      this.formCreate.get('activarContratista').enable();  // Habilitar el checklist
+      console.log('Activar Contratista Habilitado');
+    } else {
+      this.formCreate.get('activarContratista').disable();  // Deshabilitar el checklist
+      console.log('Activar Contratista Deshabilitado');
+    }
   }
+  
+  
 
   extractYearsAndMonths() {
     // Planillas
@@ -286,7 +339,8 @@ export class GestionContratistasDialog implements OnInit {
         // const fec_registro = moment().format('YYYY-MM-DD');
 
         const formData = {
-            archivos: this.nuevoArchivo
+            archivos: this.nuevoArchivo,
+            activar: this.formCreate.get('activarContratista').value
           };
 
         //console.log(formData);
@@ -334,6 +388,7 @@ export class GestionContratistasDialog implements OnInit {
   
       // Actualizar el objeto nuevoArchivo directamente en lugar de usar filter y push
       this.nuevoArchivo[tipoArchivo] = archivo;
+
     };
     reader.readAsBinaryString(file);
   }

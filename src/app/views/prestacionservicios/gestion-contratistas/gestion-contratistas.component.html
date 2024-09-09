@@ -32,7 +32,7 @@
 
                     <ng-container matColumnDef="view">
                         <th mat-header-cell *matHeaderCellDef > Ver </th>
-                        <td mat-cell *matCellDef="let element" >
+                        <td mat-cell *matCellDef="let element">
                             <button class="btn  btn-ghost-secondary"  *ngIf="permissions.view" (click)="option('view',element.id)"
                                 title="Ver">
                                 <i class="fa fa-eye fa-lg"></i>
@@ -54,16 +54,20 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Documento Identidad</th>
                         <td mat-cell *matCellDef="let element"> {{element.doc_ident}}</td>
                     </ng-container> 
+                    <ng-container matColumnDef="ciudad_trabajo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Ciudad en que<br> labora</th>
+                        <td mat-cell *matCellDef="let element"> {{element.ciudad_trabajo}}</td>
+                    </ng-container> 
                     <ng-container matColumnDef="fec_ingreso">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha de ingreso</th>
                         <td mat-cell *matCellDef="let element"> {{element.fec_ingreso}}</td>
                     </ng-container> 
-                    <ng-container matColumnDef="fec_retiro">
+                    <!-- <ng-container matColumnDef="fec_retiro">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha de retiro</th>
                         <td mat-cell *matCellDef="let element">
                             {{ element.fec_retiro ? element.fec_retiro : 'NO APLICA' }}
                         </td>
-                    </ng-container>
+                    </ng-container> -->
 
                     <!-- <ng-container matColumnDef="file_cedula">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fotocopia de <br>Cédula</th>
@@ -73,31 +77,31 @@
                     </ng-container> 
                     <ng-container matColumnDef="file_cv">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Hoja de vida</th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element" >
                             <button mat-button (click)="downloadFile(element.file_cv)"><i class= "fa fa-download"></i></button>
                         </td>
                     </ng-container> 
                     <ng-container matColumnDef="file_bancario">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fotocopia de <br>cuenta bancaria</th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element" >
                             <button mat-button (click)="downloadFile(element.file_bancario)"><i class= "fa fa-download"></i></button>
                         </td>
                     </ng-container> 
                     <ng-container matColumnDef="file_eps">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>EPS</th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element" >
                             <button mat-button (click)="downloadFile(element.file_eps)"><i class= "fa fa-download"></i></button>
                         </td>
                     </ng-container> 
                     <ng-container matColumnDef="file_arl">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>ARL</th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element" >
                             <button mat-button (click)="downloadFile(element.file_arl)"><i class= "fa fa-download"></i></button>
                         </td>
                     </ng-container> 
                     <ng-container matColumnDef="file_contrato">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Contrato</th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let element" >
                             <button mat-button (click)="downloadFile(element.file_contrato)"><i class= "fa fa-download"></i></button>
                         </td>
                     </ng-container> -->
@@ -112,7 +116,7 @@
                     
 
                     <ng-container matColumnDef="upload">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Subir Documentos </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Subir<br> Documentos </th>
                         <td mat-cell *matCellDef="let element">
                             <ng-container *ngIf="element.estado === 'POR ACTIVAR'; else elseEstado">
                                 <button class="btn btn-ghost-secondary" *ngIf="permissions.update" 
@@ -126,14 +130,14 @@
                                     <p>No se pueden subir los documentos</p>
                                 </ng-container>
                                 <ng-template #elseSubio>
-                                    <p>Documentos cargados</p>
+                                    <p>Docs.<br>cargados</p>
                                 </ng-template>
                             </ng-template>
                         </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="uploadSocial">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Subir Seguridad social </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Subir<br> Seguridad social </th>
                         <td mat-cell *matCellDef="let element">
                             <ng-container *ngIf="permissions.create">
                                 <button class="btn btn-ghost-secondary" 
@@ -147,8 +151,8 @@
                     </ng-container>
                     
                     <ng-container matColumnDef="uploadCobro">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Subir Cuenta de Cobro </th>
-                        <td mat-cell *matCellDef="let element">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Subir <br>Cuenta de Cobro </th>
+                        <td mat-cell *matCellDef="let element" >
                             <ng-container *ngIf="permissions.create">
                                 <button class="btn btn-ghost-secondary" 
                                         *ngIf="element.estado === 'ACTIVO'" 

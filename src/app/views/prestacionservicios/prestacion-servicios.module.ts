@@ -22,6 +22,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { NoSeguridadComponent } from './no-seguridad/no-seguridad.component';
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -54,7 +55,8 @@ const ngWizardConfig: NgWizardConfig = {
   declarations: [
     RetiroContratistasComponent,
     GestionContratistasComponent,
-    ContratistasComponent
+    ContratistasComponent,
+    NoSeguridadComponent
   ],
 
 })

@@ -88,8 +88,8 @@ export class GestionContratistasComponent implements OnInit {
       'id',
       'full_name',
       'doc_ident',
+      'ciudad_trabajo',
       'fec_ingreso',
-      'fec_retiro',
       'estado',
       'upload'
     ];
@@ -196,7 +196,6 @@ export class GestionContratistasComponent implements OnInit {
         break;
       case "view":
         this.loading = true;
-        console.log("view")
         dialogRef = this.dialog.open(GestionContratistasDialog, {
           data: {
             window: "view",

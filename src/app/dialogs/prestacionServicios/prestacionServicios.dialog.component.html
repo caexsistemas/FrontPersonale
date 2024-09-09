@@ -19,28 +19,52 @@
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombres</mat-label>
                                 <input matInput formControlName="nombres" oninput="javascript:this.value=this.value.toUpperCase();"  required>
+                                <mat-error *ngIf="formCreate.get('nombres').hasError('pattern')">
+                                    El nombre solo debe contener letras
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Apellidos</mat-label>
                                 <input matInput formControlName="apellidos" oninput="javascript:this.value=this.value.toUpperCase();"  required>
+                                <mat-error *ngIf="formCreate.get('apellidos').hasError('pattern')">
+                                    El apellido solo debe contener letras
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Tipo documento</mat-label>
+                                <mat-select formControlName="tipo_doc" required>
+                                    <mat-option *ngFor="let tipoDoc of tipoDocs" [value]="tipoDoc.tipo_doc">
+                                        {{tipoDoc.description}}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Documento de identidad</mat-label>
                                 <input matInput formControlName="doc_ident" oninput="javascript:this.value=this.value.toUpperCase();"  required>
+                                <mat-error *ngIf="formCreate.get('doc_ident').hasError('pattern')">
+                                    El documento solo debe contener números
+                                </mat-error>
                             </mat-form-field>
                         </div>
+                        
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha de Nacimiento</mat-label>
-                                <input matInput [matDatepicker]="fecha_nac" formControlName="fecha_nac" >
-                                <mat-datepicker-toggle matSuffix [for]="fecha_nac"></mat-datepicker-toggle>
-                                <mat-datepicker #fecha_nac></mat-datepicker>
+                                <input matInput formControlName="fecha_nac" type="date" >
+                                <mat-error *ngIf="formCreate.get('fecha_nac').hasError('dateInFuture')">
+                                    La fecha de expedición no puede ser futura.
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -68,9 +92,10 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha de Expedición Cédula</mat-label>
-                                <input matInput [matDatepicker]="fecha_exp" formControlName="fecha_exp" >
-                                <mat-datepicker-toggle matSuffix [for]="fecha_exp"></mat-datepicker-toggle>
-                                <mat-datepicker #fecha_exp></mat-datepicker>
+                                <input matInput formControlName="fecha_exp" type="date" >
+                                <mat-error *ngIf="formCreate.get('fecha_exp').hasError('dateInFuture')">
+                                    La fecha de expedición no puede ser futura.
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -108,9 +133,8 @@
                         <div class="col-md-4" *ngIf="view == 'create'">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha de ingreso</mat-label>
-                                <input matInput [matDatepicker]="fec_ingreso" formControlName="fec_ingreso" >
-                                <mat-datepicker-toggle matSuffix [for]="fec_ingreso"></mat-datepicker-toggle>
-                                <mat-datepicker #fec_ingreso></mat-datepicker>
+                                <input matInput formControlName="fec_ingreso" type="date">
+                                
                                 <mat-error *ngIf="formCreate.get('fec_ingreso').hasError('fechaIngresoAnterior')">
                                     La fecha de ingreso no puede ser anterior al día de hoy.
                                 </mat-error>
@@ -135,6 +159,17 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                        <div class="col-md-4" *ngIf="view == 'create'">
+                            <mat-form-field appearance="fill">
+                                <mat-label>¿Vinculado Directamente?</mat-label>
+                                <mat-select formControlName="vinculado">
+                                    <mat-option value="">Elegir opción</mat-option>
+                                    <mat-option value="17/1">SI</mat-option>
+                                    <mat-option value="17/0">NO</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         
                     </div>
                     <div class="row mt-4" *ngIf="showObservaciones">
@@ -149,10 +184,27 @@
                     
                     
                     <hr>
+                    
+                    <!-- EN CASO DE SUBIR DOCUMENTO POR DOCUMENTO, DESCOMENTAR. ADEMÁS SE DEBEN DE QUITAR LOS DOCUMENTOS COMO REQUIRED -->
+                    <!-- <div id="documentos" *ngIf="view==='create' || view==='update'"> -->
+                        
                     <div id="documentos" *ngIf="view==='create'">
-
                         <h3><i class="fa fa-file-pdf-o"></i> Documentos del contratista</h3>
                         <div class="row mt-4">
+                            <div class="col-md-4">
+                                <label for="file-upload-id" class="custom-file-upload">
+                                    <i class="fa fa-file-pdf-o"></i> Fotocopia de la Cédula
+                                </label>
+                                <input formControlName="file_cc" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_cc')" accept="application/pdf"  (change)="onFileChange($event, 'file_cc')"/>
+                                <div>
+                                    <a *ngIf="selectedFileNames['file_cc']" [href]="selectedFileNames['file_cc']" target="_blank">Ver documento actual</a>
+                                </div>
+                                <mat-error *ngIf="formCreate.get('file_cc')?.hasError('required')">Este archivo es <b>requerido</b> </mat-error>
+                                <mat-error *ngIf="formCreate.get('file_cc')?.hasError('pdfInvalid')">El archivo debe ser un PDF válido</mat-error>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
                             <div class="col-md-4">
                                 <label for="file-upload-cv" class="custom-file-upload">
                                     <i class="fa fa-file-pdf-o"></i> Hoja de vida
@@ -161,6 +213,8 @@
                                 <div>
                                     <a *ngIf="selectedFileNames['file_cv']" [href]="selectedFileNames['file_cv']" target="_blank">Ver documento actual</a>
                                 </div>
+                                <mat-error *ngIf="formCreate.get('file_cv')?.hasError('required')">Este archivo es <b>requerido</b> </mat-error>
+                                <mat-error *ngIf="formCreate.get('file_cv')?.hasError('pdfInvalid')">El archivo debe ser un PDF válido</mat-error>
                             </div>
                         </div>
                         
@@ -173,18 +227,8 @@
                                 <div>
                                     <a *ngIf="selectedFileNames['file_bancario']" [href]="selectedFileNames['file_bancario']" target="_blank">Ver documento actual</a>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <label for="file-upload-id" class="custom-file-upload">
-                                    <i class="fa fa-file-pdf-o"></i> Fotocopia de la Cédula
-                                </label>
-                                <input formControlName="file_cc" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_cc')" accept="application/pdf"  (change)="onFileChange($event, 'file_cc')"/>
-                                <div>
-                                    <a *ngIf="selectedFileNames['file_cc']" [href]="selectedFileNames['file_cc']" target="_blank">Ver documento actual</a>
-                                </div>
+                                <mat-error *ngIf="formCreate.get('file_bancario')?.hasError('required')">Este archivo es <b>requerido</b> </mat-error>
+                                <mat-error *ngIf="formCreate.get('file_bancario')?.hasError('pdfInvalid')">El archivo debe ser un PDF válido</mat-error>
                             </div>
                         </div>
                         
@@ -197,11 +241,13 @@
                                 <div>
                                     <a *ngIf="selectedFileNames['file_pension']" [href]="selectedFileNames['file_pension']" target="_blank">Ver documento actual</a>
                                 </div>
+                                <mat-error *ngIf="formCreate.get('file_pension')?.hasError('required')">Este archivo es <b>requerido</b> </mat-error>
+                                <mat-error *ngIf="formCreate.get('file_pension')?.hasError('pdfInvalid')">El archivo debe ser un PDF válido</mat-error>
                             </div>
                         </div>
                         
-                        <div class="row mt-2">
-                            <div class="col-md-4">
+                        <div class="row mt-2 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <label for="file-upload-id" class="custom-file-upload">
                                     <i class="fa fa-file-pdf-o"></i> Certificado de EPS
                                 </label>
@@ -209,6 +255,8 @@
                                 <div>
                                     <a *ngIf="selectedFileNames['file_eps']" [href]="selectedFileNames['file_eps']" target="_blank">Ver documento actual</a>
                                 </div>
+                                <mat-error *ngIf="formCreate.get('file_eps')?.hasError('required')">Este archivo es <b>requerido</b> </mat-error>
+                                <mat-error *ngIf="formCreate.get('file_eps')?.hasError('pdfInvalid')">El archivo debe ser un PDF válido</mat-error>
                             </div>
                         </div>
                     </div>             
@@ -246,12 +294,12 @@
                         <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
                         <div class="row mt-4">
                             <div class="col-md-4">
-                                <dt>Nombres</dt>
-                                <dd>{{contratista?.nombres}}</dd>
+                                <dt>Nombre completo</dt>
+                                <dd>{{contratista?.nombres}} {{contratista?.apellidos}}</dd>
                             </div>
                             <div class="col-md-4">
-                                <dt>Apellidos</dt>
-                                <dd>{{contratista?.apellidos}}</dd>
+                                <dt>Tipo de documento</dt>
+                                <dd>{{contratista?.tipo_doc_description}}</dd>
                             </div>
                             <div class="col-md-4">
                                 <dt>Documento</dt>
@@ -262,11 +310,11 @@
                         <div class="row mt-4">
                             <div class="col-md-4">
                                 <dt>Lugar de Nacimiento</dt>
-                                <dd>{{contratista?.depa_naci}} - {{contratista?.ciudad_naci}}</dd>
+                                <dd>{{contratista?.depa_naci_name}} - {{contratista?.ciudad_naci_name}}</dd>
                             </div>
                             <div class="col-md-4">
                                 <dt>Fecha de nacimiento</dt>
-                                <dd>{{contratista?.fecha_nac}}</dd>
+                                <dd>{{contratista?.fecha_nac}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                             </div>
                             <div class="col-md-4">
                                 <dt>Ciudad en que labora</dt>
@@ -278,11 +326,11 @@
                         <div class="row mt-4">
                             <div class="col-md-4">
                                 <dt>Lugar de Expedición</dt>
-                                <dd>{{contratista?.depa_exp}} - {{contratista?.ciudad_exp}}</dd>
+                                <dd>{{contratista?.depa_exp_name}} - {{contratista?.ciudad_exp_name}}</dd>
                             </div>
                             <div class="col-md-4">
                                 <dt>Fecha de expedición</dt>
-                                <dd>{{contratista?.fecha_exp}}</dd>
+                                <dd>{{contratista?.fecha_exp}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                             </div>
                             
                             <div class="col-md-4">
@@ -294,19 +342,22 @@
                         <div class="row mt-4">
                             <div class="col-md-4">
                                 <dt>Fecha de ingreso</dt>
-                                <dd>{{contratista?.fec_ingreso}}</dd>
+                                <dd>{{contratista?.fec_ingreso}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                             </div>
                             <div class="col-md-4">
                                 <dt>Fecha de retiro</dt>
-                                <dd>{{ contratista?.fec_retiro || 'NO APLICA' }}</dd>
-                            </div>
-                            
+                                <dd>{{ contratista?.fec_retiro || 'NO APLICA' }} <small class="text-muted">(YYYY-MM-DD)</small></dd>
+                            </div>                            
+                            <div class="col-md-4">
+                                <dt>¿Vinculado Directamente?</dt>
+                                <dd>{{ contratista?.description || 'NO APLICA' }}</dd>
+                            </div>                            
+                        </div>
+                        <div class="row mt-4">
                             <div class="col-md-4" *ngIf="contratista?.observaciones">
                                 <dt>Observaciones</dt>
                                 <dd>{{ contratista.observaciones }}</dd>
                             </div>
-                            
-                            
                         </div>
                         <hr>
                         <h3><i class="fa fa-file-pdf-o"></i> Documentos del contratista</h3>

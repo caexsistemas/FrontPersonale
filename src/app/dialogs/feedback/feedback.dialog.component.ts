@@ -176,7 +176,7 @@ export class FeedbackDialog
         car_user: new FormControl(""),
         des_crip: new FormControl("", [Validators.required]),
         com_tra: new FormControl(""),
-        rec_com: new FormControl("", [Validators.required]),
+        rec_com: new FormControl(""),
         tipo_intervencion: new FormControl("", [Validators.required]),
         create_User: new FormControl(this.cuser.iduser),
         checked1: new FormControl(false),

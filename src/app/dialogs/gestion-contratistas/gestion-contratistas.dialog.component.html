@@ -17,9 +17,9 @@
                             <i class="fa fa-file-pdf-o"></i> Afiliación EPS
                         </label>
                         <input formControlName="file_afi_eps"  type="file" (change)="seleccionarArchivo($event, 'file_afi_eps')" accept="application/pdf"  (change)="onFileChange($event, 'file_afi_eps')"/>
-                        <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('required')">
-                            El archivo es obligatorio.
-                        </mat-error>
+                        <div>
+                            <a *ngIf="selectedFileNames['file_afi_eps']" [href]="selectedFileNames['file_afi_eps']" target="_blank">Ver documento actual</a>
+                        </div>
                         <mat-error *ngIf="formCreate.get('file_afi_eps')?.hasError('invalidFileType')">
                             Los archivos deben subirse en formato PDF.
                         </mat-error>
@@ -35,9 +35,9 @@
                             <i class="fa fa-file-pdf-o"></i> Afiliación ARL
                         </label>
                         <input formControlName="file_arl" id="file-upload-cert" type="file" (change)="seleccionarArchivo($event, 'file_arl')" accept="application/pdf"  (change)="onFileChange($event, 'file_arl')"/>
-                        <mat-error *ngIf="formCreate.get('file_arl')?.hasError('required')">
-                            El archivo es obligatorio.
-                        </mat-error>
+                        <div>
+                            <a *ngIf="selectedFileNames['file_arl']" [href]="selectedFileNames['file_arl']" target="_blank">Ver documento actual</a>
+                        </div>
                         <mat-error *ngIf="formCreate.get('file_arl')?.hasError('invalidFileType')">
                             Los archivos deben subirse en formato PDF.
                         </mat-error>
@@ -53,14 +53,24 @@
                             <i class="fa fa-file-pdf-o"></i> Contrato
                         </label>
                         <input formControlName="file_contrato" id="file-upload-id" type="file" (change)="seleccionarArchivo($event, 'file_contrato')" accept="application/pdf"  (change)="onFileChange($event, 'file_contrato')"/>
-                        <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('required')">
-                            El archivo es obligatorio.
-                        </mat-error>
+                        <div>
+                            <a *ngIf="selectedFileNames['file_contrato']" [href]="selectedFileNames['file_contrato']" target="_blank">Ver documento actual</a>
+                        </div>
                         <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('invalidFileType')">
                             Los archivos deben subirse en formato PDF.
                         </mat-error>
                         <mat-error *ngIf="formCreate.get('file_contrato')?.hasError('invalidFileSize')">
                             El archivo no debe pesar más de 5 MB.
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <label>
+                            <input type="checkbox" formControlName="activarContratista"> Activar Contratista
+                        </label>
+                        <mat-error *ngIf="!formCreate.get('activarContratista').enabled">
+                            Faltan documentos para activar.
                         </mat-error>
                     </div>
                 </div>
@@ -92,12 +102,12 @@
                 <h3><i class="fa fa-address-card" aria-hidden="true"></i> Información principal</h3>
                 <div class="row mt-4">
                     <div class="col-md-4">
-                        <dt>Nombres</dt>
-                        <dd>{{contratista?.nombres}}</dd>
+                        <dt>Nombre completo</dt>
+                        <dd>{{contratista?.nombres}} {{contratista?.apellidos}}</dd>
                     </div>
                     <div class="col-md-4">
-                        <dt>Apellidos</dt>
-                        <dd>{{contratista?.apellidos}}</dd>
+                        <dt>Tipo de documento</dt>
+                        <dd>{{contratista?.tipo_doc_description}}</dd>
                     </div>
                     <div class="col-md-4">
                         <dt>Documento</dt>
@@ -108,7 +118,7 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <dt>Lugar de Nacimiento</dt>
-                        <dd>{{contratista?.depa_naci}} - {{contratista?.ciudad_naci}}</dd>
+                        <dd>{{contratista?.depa_naci_name}} - {{contratista?.ciudad_naci_name}}</dd>
                     </div>
                     <div class="col-md-4">
                         <dt>Fecha de nacimiento</dt>
@@ -124,7 +134,7 @@
                 <div class="row mt-4">
                     <div class="col-md-4">
                         <dt>Lugar de Expedición</dt>
-                        <dd>{{contratista?.depa_exp}} - {{contratista?.ciudad_exp}}</dd>
+                        <dd>{{contratista?.depa_exp_name}} - {{contratista?.ciudad_exp_name}}</dd>
                     </div>
                         <div class="col-md-4">
                         <dt>Fecha de expedición</dt>
@@ -137,6 +147,10 @@
                     </div>
                 </div>
                 <div class="row mt-4" >
+                    <div class="col-md-4">
+                        <dt>¿Vinculado Directamente?</dt>
+                        <dd>{{ contratista?.description || 'NO APLICA' }}</dd>
+                    </div>  
                     <div class="col-md-4">
                         <dt>Fecha de ingreso</dt>
                         <dd>{{contratista?.fec_ingreso}}</dd>

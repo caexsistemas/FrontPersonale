@@ -546,19 +546,14 @@
 
 
                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>TMO:</mat-label>
+                            <input matInput formControlName="tmo" type="text" required> 
+                        </mat-form-field>
+                    </div>
 
-                    <div class="col-sm-4" class="{{this.oculori}}">
-                        <mat-form-field class="ContCamp">
-                            <mat-label>Nota Final:</mat-label>
-                            <input matInput formControlName="final_note" type="number" >
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-4" class="{{this.oculcap}}">
-                        <mat-form-field class="ContCamp">
-                            <mat-label>Nota Final:</mat-label>
-                            <input matInput  type="number"  value="0">
-                        </mat-form-field>
-                    </div>
+                    
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>¿Retroalimentaci&oacute;n?:</mat-label>
@@ -617,6 +612,18 @@
 
                 <div class="row">
 
+                    <div class="col-sm-4" class="{{this.oculori}}">
+                        <mat-form-field class="ContCamp">
+                            <mat-label>Nota Final:</mat-label>
+                            <input matInput formControlName="final_note" type="number" >
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4" class="{{this.oculcap}}">
+                        <mat-form-field class="ContCamp">
+                            <mat-label>Nota Final:</mat-label>
+                            <input matInput  type="number"  value="0">
+                        </mat-form-field>
+                    </div>
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Solicitud:</mat-label>

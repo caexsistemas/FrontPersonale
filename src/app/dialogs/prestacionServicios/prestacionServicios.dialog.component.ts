@@ -30,6 +30,7 @@ export class PrestacionServiciosDialog implements OnInit {
   };
   idContratista: number = null;
   contratista: any;
+  tipoDocs: any[] = [];
   states: any[] = [];
   cities: any[] = [];
   filteredCities: any[] = [];
@@ -92,11 +93,13 @@ export class PrestacionServiciosDialog implements OnInit {
       this.title = "Crear Nuevo Contratista";
       this.initForm();
       this.getCities();
+      this.getTipoDocs();
       this.getFestivosAndUpdateValidators();
     } else if(this.view === "update"){
       this.idContratista = this.data.codigo;
       this.title = "Actualizar contratista"
       this.initFormUpdate();
+      this.getTipoDocs();
       this.getCities();
     } else if(this.view=== "view"){
       this.idContratista = this.data.codigo;
@@ -129,9 +132,10 @@ export class PrestacionServiciosDialog implements OnInit {
 
   initForm() {
     this.formCreate = new FormGroup({
-      nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
-      apellidos: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
-      doc_ident: new FormControl("", [Validators.required, Validators.pattern('^[0-9]+$')]), // Solo números
+      nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-ZñÑ ]+$')]), 
+      apellidos: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-ZñÑ ]+$')]), 
+      tipo_doc: new FormControl("", [Validators.required]), 
+      doc_ident: new FormControl("", [Validators.required, Validators.pattern('^[0-9]+$')]), 
       fecha_nac: new FormControl("", [Validators.required, this.futureDateValidator]),
       fecha_exp: new FormControl("", [Validators.required, this.futureDateValidator]),
       // fec_ingreso: new FormControl("", [Validators.required, this.validarFecIngreso]),
@@ -146,18 +150,20 @@ export class PrestacionServiciosDialog implements OnInit {
       file_cc: new FormControl("", [Validators.required, this.PDFValidator()]),
       file_eps: new FormControl("", [Validators.required, this.PDFValidator()]),
       file_pension: new FormControl("", [Validators.required, this.PDFValidator()]),
+      vinculado: new FormControl("", [Validators.required])
     });
   }
   
 
   
   initFormUpdate() {
-    console.log('entra')
+    // console.log('entra')
     this.getDataContratista();
     this.formCreate = new FormGroup({
-      nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
-      apellidos: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]), // Solo letras y espacios
+      nombres: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-ZñÑ ]+$')]),
+      apellidos: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-ZñÑ ]+$')]), 
       doc_ident: new FormControl("", [Validators.required, Validators.pattern('^[0-9]+$')]), // Solo números
+      tipo_doc: new FormControl("", [Validators.required]), // Solo números
       fecha_nac: new FormControl("", [Validators.required, this.futureDateValidator]),
       fecha_exp: new FormControl("", [Validators.required, this.futureDateValidator]),
       // fec_ingreso: new FormControl("", [Validators.required]),
@@ -167,7 +173,12 @@ export class PrestacionServiciosDialog implements OnInit {
       ciudad_exp: new FormControl("", Validators.required), 
       ciudad_trabajo: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       novedad_estado: new FormControl(""),
-      observaciones: new FormControl("")
+      observaciones: new FormControl(""),
+      file_cv: new FormControl("", [this.PDFValidator()]),
+      file_bancario: new FormControl("", [this.PDFValidator()]),
+      file_cc: new FormControl("", [this.PDFValidator()]),
+      file_eps: new FormControl("", [this.PDFValidator()]),
+      file_pension: new FormControl("", [this.PDFValidator()]),
     });
 
     const estadoControl = this.formCreate.get('novedad_estado');
@@ -179,6 +190,24 @@ export class PrestacionServiciosDialog implements OnInit {
       console.error('El control "estado" no está definido en el formulario.');
     }
   } 
+
+  getTipoDocs(){
+    this.loading.emit(true);
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getTipoDocs",
+      token: this.cuser.token,
+      idUser: this.cuser.iduser,
+      idContratista : this.idContratista,
+      modulo: this.component,
+    }).subscribe(
+      (data) => {
+        if (data.success) {
+          this.tipoDocs = data.data.tipoDocs;
+          console.log(this.tipoDocs)
+        }
+      }
+    )
+  }
 
   getCities(){
     this.loading.emit(true);
@@ -193,8 +222,8 @@ export class PrestacionServiciosDialog implements OnInit {
         if (data.success) {
           this.cities = data.data.cities;
           this.states = data.data.states;
-          console.log(this.cities)
-          console.log(this.states)
+          // console.log(this.cities)
+          // console.log(this.states)
 
           if (this.contratista) {
             this.updateFilteredCities(this.contratista.depa_naci);
@@ -222,7 +251,7 @@ export class PrestacionServiciosDialog implements OnInit {
       (data) => {
         if (data.success) {
           this.contratista = data.data[0];
-          //console.log(this.contratista)
+          // console.log(this.contratista)
           if (data.planillas && Array.isArray(data.planillas)) {
             this.planillas = data.planillas.filter(p => p.file === 'planilla');
             this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
@@ -235,20 +264,15 @@ export class PrestacionServiciosDialog implements OnInit {
           this.extractYearsAndMonths();
 
           if(this.view === 'update'){
-            // Ajustar la fecha para la zona horaria local
-            const adjustDate = (dateString: string) => {
-              const date = new Date(dateString);
-              date.setUTCHours(date.getUTCHours() + date.getTimezoneOffset() / 60);
-              return date;
-            };
 
             this.formCreate.patchValue({
                 nombres: this.contratista.nombres,
                 apellidos: this.contratista.apellidos,
                 doc_ident: this.contratista.doc_ident,
-                fecha_nac: adjustDate(this.contratista.fecha_nac),
-                fecha_exp: adjustDate(this.contratista.fecha_exp),
-                // fec_ingreso: adjustDate(this.contratista.fec_ingreso),
+                tipo_doc: this.contratista.tipo_doc,
+                fecha_nac: this.contratista.fecha_nac,
+                fecha_exp: this.contratista.fecha_exp,
+                // fec_ingreso: this.contratista.fec_ingreso,
                 depa_naci: this.contratista.depa_naci,
                 ciudad_naci: this.contratista.ciudad_naci,
                 depa_exp: this.contratista.depa_exp,
@@ -256,6 +280,29 @@ export class PrestacionServiciosDialog implements OnInit {
                 ciudad_trabajo: this.contratista.ciudad_trabajo,
                 // ciudad: this.contratista.ciudad,
             });
+
+            this.selectedFileNames['file_cv'] = this.contratista.file_cv;
+            this.selectedFileNames['file_bancario'] = this.contratista.file_bancario;
+            this.selectedFileNames['file_cc'] = this.contratista.file_cedula;
+            this.selectedFileNames['file_eps'] = this.contratista.file_eps;
+            this.selectedFileNames['file_pension'] = this.contratista.file_pension;
+
+            // Ajusta la validación basada en la existencia de archivos
+            if (!this.selectedFileNames['file_cv']) {
+              this.formCreate.controls['file_cv'].setValidators(Validators.required);
+            }
+            if (!this.selectedFileNames['file_bancario']) {
+              this.formCreate.controls['file_bancario'].setValidators(Validators.required);
+            }
+            if (!this.selectedFileNames['file_cc']) {
+              this.formCreate.controls['file_cc'].setValidators(Validators.required);
+            }
+            if (!this.selectedFileNames['file_eps']) {
+              this.formCreate.controls['file_eps'].setValidators(Validators.required);
+            }
+            if (!this.selectedFileNames['file_pension']) {
+              this.formCreate.controls['file_pension'].setValidators(Validators.required);
+            }
 
             this.initialFormValue = this.formCreate.getRawValue();
 
@@ -402,16 +449,18 @@ export class PrestacionServiciosDialog implements OnInit {
         const formData = {
             nombres: this.formCreate.get('nombres').value,
             apellidos: this.formCreate.get('apellidos').value,
+            tipo_doc: this.formCreate.get('tipo_doc').value,
             doc_ident: this.formCreate.get('doc_ident').value,
             ciudad_trabajo: this.formCreate.get('ciudad_trabajo').value,
-            fecha_nac: this.formCreate.get('fecha_nac').value.toISOString().split('T')[0],
-            fecha_exp: this.formCreate.get('fecha_exp').value.toISOString().split('T')[0],
-            fec_ingreso: this.formCreate.get('fec_ingreso').value.toISOString().split('T')[0],
+            fecha_nac: this.formCreate.get('fecha_nac').value,
+            fecha_exp: this.formCreate.get('fecha_exp').value,
+            fec_ingreso: this.formCreate.get('fec_ingreso').value,
             depa_naci: this.formCreate.get('depa_naci').value,
             ciudad_naci: this.formCreate.get('ciudad_naci').value,
             depa_exp: this.formCreate.get('depa_exp').value,
             ciudad_exp: this.formCreate.get('ciudad_exp').value,
             fec_creacion: fec_creacion,
+            vinculado: this.formCreate.get('vinculado').value,
             archivos: this.nuevoArchivo
           };
 
@@ -451,21 +500,22 @@ export class PrestacionServiciosDialog implements OnInit {
         const formData = {
           nombres: this.formCreate.get('nombres').value,
           apellidos: this.formCreate.get('apellidos').value,
+          tipo_doc: this.formCreate.get('tipo_doc').value,
           doc_ident: this.formCreate.get('doc_ident').value,
           ciudad_trabajo: this.formCreate.get('ciudad_trabajo').value,
-          fecha_nac: this.formCreate.get('fecha_nac').value.toISOString().split('T')[0],
-          fecha_exp: this.formCreate.get('fecha_exp').value.toISOString().split('T')[0],
-          // fec_ingreso: this.formCreate.get('fec_ingreso').value.toISOString().split('T')[0],
+          fecha_nac: this.formCreate.get('fecha_nac').value,
+          fecha_exp: this.formCreate.get('fecha_exp').value,
+          // fec_ingreso: this.formCreate.get('fec_ingreso').value,
           depa_naci: this.formCreate.get('depa_naci').value,
           ciudad_naci: this.formCreate.get('ciudad_naci').value,  
           depa_exp: this.formCreate.get('depa_exp').value,
           ciudad_exp: this.formCreate.get('ciudad_exp').value,  
           novedad_estado: this.formCreate.get('novedad_estado').value,
-          observaciones: this.formCreate.get('observaciones').value
-          // archivos: this.nuevoArchivo
+          observaciones: this.formCreate.get('observaciones').value,
+          archivos: this.nuevoArchivo
           // archivos: {
           //   file_cv: this.nuevoArchivo['file_cv'] || null,
-          //   file_cert: this.nuevoArchivo['file_cert'] || null,
+          //   file_cert: this.nuevoArchivo['file_bancario'] || null,
           //   file_cc: this.nuevoArchivo['file_cc'] || null
           // }
           

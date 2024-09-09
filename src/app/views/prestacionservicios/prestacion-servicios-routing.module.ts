@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContratistasComponent } from './contratistas/contratistas.component';
 import { GestionContratistasComponent } from './gestion-contratistas/gestion-contratistas.component';
 import { RetiroContratistasComponent } from './retiro-contratistas/retiro-contratistas.component';
+import { NoSeguridadComponent } from './no-seguridad/no-seguridad.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,13 @@ const routes: Routes = [
         component: RetiroContratistasComponent,
         data: {
           title: "Retiro contratistas"
+        }
+      },    
+      {
+        path: "sin-seguridad",
+        component: NoSeguridadComponent,
+        data: {
+          title: "Contratistas sin seguridad social"
         }
       },    
     ],
