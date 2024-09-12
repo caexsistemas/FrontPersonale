@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-md-4">
                         <dt>Fecha de nacimiento</dt>
-                        <dd>{{contratista?.fecha_nac}}</dd>
+                        <dd>{{contratista?.fecha_nac}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                     </div>
                     <div class="col-md-4">
                         <dt>Ciudad en que labora</dt>
@@ -138,7 +138,7 @@
                     </div>
                         <div class="col-md-4">
                         <dt>Fecha de expedición</dt>
-                        <dd>{{contratista?.fecha_exp}}</dd>
+                        <dd>{{contratista?.fecha_exp}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                     </div>
                     
                     <div class="col-md-4">
@@ -153,11 +153,11 @@
                     </div>  
                     <div class="col-md-4">
                         <dt>Fecha de ingreso</dt>
-                        <dd>{{contratista?.fec_ingreso}}</dd>
+                        <dd>{{contratista?.fec_ingreso}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                     </div>
-                    <div class="col-md-4">
-                        <dt *ngIf="contratista?.fec_retiro">Fecha de retiro</dt>
-                        <dd>{{contratista?.fec_retiro}}</dd>
+                    <div  *ngIf="contratista?.fec_retiro" class="col-md-4">
+                        <dt>Fecha de retiro</dt>
+                        <dd>{{contratista?.fec_retiro}} <small class="text-muted">(YYYY-MM-DD)</small></dd>
                     </div>
                 </div>
                 <hr>
@@ -422,9 +422,7 @@
                         <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha de retiro</mat-label>
-                                <input matInput [matDatepicker]="fec_retiro" formControlName="fec_retiro"  >
-                                <mat-datepicker-toggle matSuffix [for]="fec_retiro"></mat-datepicker-toggle>
-                                <mat-datepicker #fec_retiro></mat-datepicker>
+                                <input matInput type="date" formControlName="fec_retiro">
                                 <mat-error *ngIf="formCreate.get('fec_retiro')?.hasError('required')">
                                     Este campo es obligatorio.
                                 </mat-error>

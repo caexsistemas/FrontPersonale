@@ -506,7 +506,7 @@ export class GestionContratistasDialog implements OnInit {
     if (this.formCreate.valid) {
 
       const formData = {
-        fec_retiro: this.formCreate.get('fec_retiro').value.toISOString().split('T')[0],
+        fec_retiro: this.formCreate.get('fec_retiro').value,
         archivos: this.nuevoArchivo
       }
 
