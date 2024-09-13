@@ -134,6 +134,28 @@
                         </div>
                     </div>
 
+                    <div class="row" *ngIf="dataCad.id_venta">
+                        <div class="col-sm-4">
+                            <dt>ID Venta:</dt>
+                            <dd>{{dataCad.id_venta}}</dd>
+                        </div>
+                        <div class="col-sm-4" *ngIf="dataCad.nom_base">
+                            <dt>Nombre de la Base:</dt>
+                            <dd>{{dataCad.nom_base}}</dd>
+                        </div>
+                        <div class="col-sm-4" *ngIf="dataCad.reciente">
+                            <dt>¿Es Reincidente?:</dt>
+                            <dd>{{dataCad.reciente}}</dd>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" *ngIf="dataCad.moti_afect">
+                            <dt>Motivo de la afectación:</dt>
+                            <dd>{{dataCad.moti_afect}}</dd>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <dt>Observaciones:</dt>
@@ -456,7 +478,7 @@
                     </div>
                     <div class="col-sm-4">
                         <mat-form-field>
-                            <mat-label>Cedula:</mat-label>
+                            <mat-label>Cédula:</mat-label>
                             <input matInput formControlName="document" type="number"  maxlength="20" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" (ngModelChange)="onSelectionChange($event)" required>
                         </mat-form-field>
                     </div>
@@ -491,7 +513,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-
+                    
                   </div>
 
                   
@@ -524,19 +546,14 @@
 
 
                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>TMO:</mat-label>
+                            <input matInput formControlName="tmo" type="text" required> 
+                        </mat-form-field>
+                    </div>
 
-                    <div class="col-sm-4" class="{{this.oculori}}">
-                        <mat-form-field class="ContCamp">
-                            <mat-label>Nota Final:</mat-label>
-                            <input matInput formControlName="final_note" type="number" >
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-4" class="{{this.oculcap}}">
-                        <mat-form-field class="ContCamp">
-                            <mat-label>Nota Final:</mat-label>
-                            <input matInput  type="number"  value="0">
-                        </mat-form-field>
-                    </div>
+                    
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>¿Retroalimentaci&oacute;n?:</mat-label>
@@ -593,8 +610,20 @@
 
                   </div>
 
-                  <div class="row">
+                <div class="row">
 
+                    <div class="col-sm-4" class="{{this.oculori}}">
+                        <mat-form-field class="ContCamp">
+                            <mat-label>Nota Final:</mat-label>
+                            <input matInput formControlName="final_note" type="number" >
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4" class="{{this.oculcap}}">
+                        <mat-form-field class="ContCamp">
+                            <mat-label>Nota Final:</mat-label>
+                            <input matInput  type="number"  value="0">
+                        </mat-form-field>
+                    </div>
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Solicitud:</mat-label>
@@ -609,9 +638,9 @@
                         <mat-form-field class="example-full-width" >
                             <mat-label>¿Asesor realiza contrato digital?:</mat-label>
                             <mat-select formControlName="tip_contrato" required>
-                              <mat-option *ngFor="let idet of LisTipContrato" [value]="idet.ls_codvalue">
-                                {{idet.description}}
-                              </mat-option>
+                                <mat-option *ngFor="let idet of LisTipContrato" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -622,16 +651,49 @@
                         </mat-form-field>
                     </div>
 
-                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>Nombre de la Base:</mat-label>
+                            <input matInput formControlName="nom_base" type="text" required>
+                        </mat-form-field>
+                    </div>
 
-                  <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-label>ID Venta:</mat-label>
+                            <input matInput formControlName="id_venta" type="text" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>¿Es Reincidente?:</mat-label>
+                            <mat-select formControlName="reciente" required>
+                                <mat-option *ngFor="let idet of istSinoclar" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>Motivo de la afectaci&oacute;n:</mat-label>
+                            <textarea matInput formControlName="moti_afect" required></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <mat-form-field class="example-full-width" >
                             <mat-label>Observaciones:</mat-label>
                             <textarea matInput formControlName="obs_customer"  placeholder="" required></textarea>
                         </mat-form-field>
                     </div>
-                  </div>
+                </div>
 
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>
@@ -2137,24 +2199,24 @@
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Nombre Asesor:</mat-label>
                             <mat-select formControlName="name" required>
-                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
-                                {{idet.name}}
-                              </mat-option>
+                                <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                </mat-option>   
                             </mat-select>
                         </mat-form-field>
                     </div>
 
-                  </div>
+                </div>
 
-                  <div class="row">
+                <div class="row">
 
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Coordinador:</mat-label>
                             <mat-select formControlName="coordinator" required>
-                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
-                                {{idet.name}}
-                              </mat-option>
+                                <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale">
+                                    {{idet.name}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

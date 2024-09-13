@@ -13,7 +13,7 @@
                                 <mat-select formControlName="tipoReporte" (selectionChange)="onTipoReporteChange($event)">
                                     <mat-option value="">Seleccione un reporte</mat-option>
                                     <mat-option value="validacionIdentidad">Validación de Identidad</mat-option>
-                                    <!-- <mat-option value="report-closing">Cierre Masivo</mat-option> -->
+                                    <mat-option value="report-closing">Cierre Masivo</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-4" *ngIf="mostrarFechas" class="d-flex align-items-end">
                             <button mat-button class="btn btn"
-                                [disabled]="formTipoReporte.invalid"
+                                [disabled]="!formTipoReporte.valid || !formTipoReporte.get('fi')?.value || !formTipoReporte.get('ff')?.value"
                                 style="background-color: #0d95c5; width: 100%; font-size: 15px; color: white;"
                                 (click)="descargarArchivos()">Descargar</button>
                         </div>

@@ -150,15 +150,14 @@ export class FeedbackDialog
                 this.loading.emit(false);
               }
             );
-            break;
+            break;          
         }
-      
-  
- 
   }
-closeDialog() {
-  this.dialogRef.close();
-}
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   initForms() {
     //Condicion PQ Calidad
     let matParm = this.cuser.matrizarp;
@@ -177,7 +176,7 @@ closeDialog() {
         car_user: new FormControl(""),
         des_crip: new FormControl("", [Validators.required]),
         com_tra: new FormControl(""),
-        rec_com: new FormControl("", [Validators.required]),
+        rec_com: new FormControl(""),
         tipo_intervencion: new FormControl("", [Validators.required]),
         create_User: new FormControl(this.cuser.iduser),
         checked1: new FormControl(false),
@@ -334,6 +333,9 @@ getDataUpdate(){
           this.stateSign = data.data['getDataUpda'][0].sign
           if(this.stateSign == 1){
             this.block = true
+            if(this.cuser.role==23){
+              this.formNomi.get('com_tra')?.disable();
+            }
           }else if(this.stateSign == 0){
             this.block = false
 

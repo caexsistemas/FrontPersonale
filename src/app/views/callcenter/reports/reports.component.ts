@@ -70,10 +70,6 @@ export class ReportsComponent implements OnInit {
     const fechaInicio = this.formTipoReporte.get('fi')?.value;
     const fechaFin = this.formTipoReporte.get('ff')?.value;
 
-    // console.log(tipoReporte)
-    // console.log(fechaInicio)
-    // console.log(fechaFin)
-
     if (!tipoReporte || !fechaInicio || !fechaFin) {
       this.handler.showError('Por favor, llene los datos para descargar el reporte.');
       return;

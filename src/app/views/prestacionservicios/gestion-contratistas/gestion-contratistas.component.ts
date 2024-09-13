@@ -26,6 +26,7 @@ export class GestionContratistasComponent implements OnInit {
 
   contaClick:  number = 0;
   permissions: any = null;
+  userRole;
   dataContratistas: any[] = [];
   displayedColumns: any[] = [];
   dataSource: any = [];
@@ -38,7 +39,8 @@ export class GestionContratistasComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.permissions = this.handler.permissionsApp;    
+    this.permissions = this.handler.permissionsApp;
+    this.userRole = this.cuser.role;
     this.sendRequest();
   }
 
@@ -49,7 +51,8 @@ export class GestionContratistasComponent implements OnInit {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
-      action: "getAllGestion"
+      action: "getAll",
+      view: 'gestion'
     })
       .subscribe(
         response => {
@@ -78,24 +81,35 @@ export class GestionContratistasComponent implements OnInit {
       );
   }
 
-  generateTable(data) {
+  generateTable(data: any[]) {
+    // Iniciar las columnas básicas
     this.displayedColumns = [
       'view',
       'id',
       'full_name',
       'doc_ident',
+      'ciudad_trabajo',
       'fec_ingreso',
-      'fec_retiro',
-      // 'file_eps',
-      // 'file_arl',
-      // 'file_contrato',
       'estado',
-      'upload',
-      // 'uploadSocial',
+      'upload'
     ];
+  
+    // Condicionalmente añadir la columna 'uploadSocial' según permisos y rol
+    if (this.permissions.create) {
+      if (this.userRole !== 39 && this.userRole !== 43) {
+        this.displayedColumns.push('uploadSocial');
+      }
+      if (this.userRole !== 7) {
+        this.displayedColumns.push('uploadCobro');
+      }
+    }
+  
+    // Inicializar el dataSource con los datos proporcionados
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort.toArray()[0];
     this.dataSource.paginator = this.paginator.toArray()[0];
+  
+    // Limpiar el campo de búsqueda si existe
     let search;
     if (document.contains(document.querySelector('search-input-table'))) {
       search = document.querySelector('.search-input-table');
@@ -157,9 +171,31 @@ export class GestionContratistasComponent implements OnInit {
           this.sendRequest();
         });
         break;
+      case "updateCobro":
+        this.loading = true;
+        dialogRef = this.dialog.open(GestionContratistasDialog, {
+          data: {
+            window: "updateCobro",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
+  
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+  
+        dialogRef.componentInstance.reload.subscribe(() => {
+          this.sendRequest();
+        });
+  
+        dialogRef.afterClosed().subscribe(() => {
+          this.loading = false; 
+          this.sendRequest();
+        });
+        break;
       case "view":
         this.loading = true;
-        console.log("view")
         dialogRef = this.dialog.open(GestionContratistasDialog, {
           data: {
             window: "view",

@@ -89,7 +89,14 @@
         <div class="row">
           <div class="col-md-12">
             <dt>Respuesta de solicitud:</dt>
-            <dd>{{refute.answer}}</dd>
+            <dd *ngIf="!isEditing">{{refute.answer}}</dd> 
+            <button *ngIf="(!isEditing && (rol == 22 || rol == 1)) && refute.answer" mat-button class="btn btn-primary" (click)="startEditing()">
+              <i class="fa fa-pencil" aria-hidden="true"></i> Editar refutación
+            </button>
+            
+            <mat-form-field *ngIf="isEditing" style="width: 100%;">
+              <textarea matInput [(ngModel)]="editableAnswer" style="width: 100%;"></textarea>
+            </mat-form-field>
           </div>
         </div>
       </mat-card-content>
@@ -102,9 +109,14 @@
           <button *ngIf="checkGana" mat-button class="btn btn-primary"
             (click)="onSubmitUpdateSub()">Guardar</button>
 
+          <button *ngIf="isEditing" mat-button class="btn btn-primary" (click)="onSubmitEdit()">
+            Actualizar refutación
+          </button>
+
           <button mat-button class="btn btn-secondary" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
 
     </div>
   </div>
+  

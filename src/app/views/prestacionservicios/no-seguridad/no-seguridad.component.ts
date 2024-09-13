@@ -2,54 +2,52 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { DomSanitizer } from '@angular/platform-browser';
 import { HandlerAppService } from '../../../services/handler-app.service';
 import { WebApiService } from '../../../services/web-api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { GestionContratistasDialog } from '../../../dialogs/gestion-contratistas/gestion-contratistas.dialog.component';
+import { PrestacionServiciosDialog } from '../../../dialogs/prestacionServicios/prestacionServicios.dialog.component';
 
 @Component({
-  selector: 'app-retiro-contratistas',
-  templateUrl: './retiro-contratistas.component.html',
-  styleUrls: ['./retiro-contratistas.component.css']
+  selector: 'app-no-seguridad',
+  templateUrl: './no-seguridad.component.html',
+  styleUrls: ['./no-seguridad.component.css']
 })
-export class RetiroContratistasComponent implements OnInit {
+export class NoSeguridadComponent implements OnInit {
 
+  
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
+  // Obtener los datos del usuario de sesión
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
+  // Recursos
+  loading: boolean = false;
   contaClick:  number = 0;
+  userRole;
   permissions: any = null;
+  dataSource: any = [];
   dataContratistas: any[] = [];
   displayedColumns: any[] = [];
-  dataSource: any = [];
-  loading: boolean = false;
+
+  // Endpoint y Component
   endpoint: string = '/prestacion-servicios';
-  component = "/prestacion-servicios/retiro";
-
-
-
-
-
-
+  component = "/prestacion-servicios/sin-seguridad";
 
   constructor(
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    // private matBottomSheet: MatBottomSheet,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) { }
 
-  
-  
   ngOnInit(): void {
+    this.userRole = this.cuser.role;
     this.permissions = this.handler.permissionsApp;    
     this.sendRequest();
   }
 
-  sendRequest() {
+  sendRequest(){
     this.loading = true;
     this.WebApiService.getRequest(this.endpoint, {
       role: this.cuser.role,
@@ -57,33 +55,29 @@ export class RetiroContratistasComponent implements OnInit {
       idUser: this.cuser.iduser,
       modulo: this.component,
       action: "getAll",
-      view: 'retiro'
-    })
-      .subscribe(
-        response => {
+      view: 'sinSeguridad'
+    }).subscribe(
+      response => {
+        if (response.success) {
+          this.permissions = this.handler.getPermissions(this.component);
+          this.dataContratistas = response.data['prestacionServicios'];
 
+          this.generateTable(response.data['prestacionServicios']);
 
-          if (response.success) {
-            this.permissions = this.handler.getPermissions(this.component);
-            this.dataContratistas = response.data['prestacionServicios'];
-
-            
-            this.generateTable(response.data['prestacionServicios']);
-
-            this.loading = false;
-          } else {
-            this.dataContratistas = [];
-            this.handler.handlerError(response);
-            this.loading = false;
-          }
-        },
-        (mistake) => {
-          let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
-          //let msjErr = mistake.error.message;
-          this.handler.showError(msjErr);
+          this.loading = false;
+        } else {
+          this.dataContratistas = [];
+          this.handler.handlerError(response);
           this.loading = false;
         }
-      );
+      },
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
+        this.loading = false;
+      }
+    );
   }
 
   generateTable(data) {
@@ -92,13 +86,14 @@ export class RetiroContratistasComponent implements OnInit {
       'id',
       'full_name',
       'doc_ident',
+      'ciudad_trabajo',
       'fec_ingreso',
-      'fec_retiro',
-      // 'file_eps',
-      // 'file_arl',
-      // 'file_contrato',
       'estado',
     ];
+
+    if (this.userRole !== 7) {
+      this.displayedColumns.push('uploadCobro');
+    }
 
     if (this.permissions.update) {
       this.displayedColumns.push('actions');
@@ -118,22 +113,15 @@ export class RetiroContratistasComponent implements OnInit {
     this.dataSource.filter = search.trim().toLowerCase();
   }
 
-  openc(){
-    if(this.contaClick == 0){
-      this.sendRequest();
-    }    
-    this.contaClick = this.contaClick + 1;
-  }
-
   option(action, codigo = null, check) {
     let dialogRef;
-  
+
     switch (action) {
-      case "retirar":
+      case "view":
         this.loading = true;
-        dialogRef = this.dialog.open(GestionContratistasDialog, {
+        dialogRef = this.dialog.open(PrestacionServiciosDialog, {
           data: {
-            window: "retirar",
+            window: "view",
             codigo,
           },
         });
@@ -152,30 +140,52 @@ export class RetiroContratistasComponent implements OnInit {
           this.sendRequest();
         });
         break;
-      case "view":
-          this.loading = true;
-          dialogRef = this.dialog.open(GestionContratistasDialog, {
-            data: {
-              window: "view",
-              codigo,
-            },
-          });
-          dialogRef.disableClose = true;
+      case "updateCobro":
+        this.loading = true;
+        dialogRef = this.dialog.open(GestionContratistasDialog, {
+          data: {
+            window: "updateCobro",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
   
-          dialogRef.componentInstance.loading.subscribe(val => {
-            this.loading = val;
-          });
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
   
-          dialogRef.componentInstance.reload.subscribe(() => {
-            this.sendRequest();
-          });
+        dialogRef.componentInstance.reload.subscribe(() => {
+          this.sendRequest();
+        });
   
-          dialogRef.afterClosed().subscribe(() => {
-            this.loading = false; 
-            this.sendRequest();
-          });
-          break;
+        dialogRef.afterClosed().subscribe(() => {
+          this.loading = false; 
+          this.sendRequest();
+        });
+        break;
+      case "update":
+        this.loading = true;
+        dialogRef = this.dialog.open(PrestacionServiciosDialog, {
+          data: {
+            window: "update",
+            codigo,
+          },
+        });
+        dialogRef.disableClose = true;
+  
+        dialogRef.componentInstance.loading.subscribe(val => {
+          this.loading = val;
+        });
+  
+        dialogRef.componentInstance.reload.subscribe(() => {
+          this.sendRequest();
+        });
+  
+        dialogRef.afterClosed().subscribe(() => {
+          this.loading = false; 
+          this.sendRequest();
+        });
+        break;
     }
   }
 }
-
