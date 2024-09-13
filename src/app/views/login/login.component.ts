@@ -129,6 +129,7 @@ export class LoginComponent {
       let body = {
         fuser: this.loginForm.get("fuser").value,
         fpass: this.Encrypt.encrypt(this.loginForm.get("fpass").value),
+        platform: 'web' 
       };
       //console.log('++++++++')
       //console.log(body);
