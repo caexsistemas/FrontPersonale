@@ -398,7 +398,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="contratista?.file_afi_eps">
+                        <div *ngIf="contratista?.file_afi_eps || contratista?.file_arl || contratista?.file_contrato">
                             <hr>
                             <h3><i class="fa fa-file-pdf-o"></i> Documentos de afiliación</h3>
                             <div class="row mt-4">

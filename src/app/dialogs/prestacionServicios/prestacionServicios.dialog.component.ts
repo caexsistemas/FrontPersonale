@@ -203,7 +203,7 @@ export class PrestacionServiciosDialog implements OnInit {
       (data) => {
         if (data.success) {
           this.tipoDocs = data.data.tipoDocs;
-          console.log(this.tipoDocs)
+          // console.log(this.tipoDocs)
         }
       }
     )
