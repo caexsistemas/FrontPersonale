@@ -46,6 +46,7 @@ export class IngresoDialog{
     historyMon: any = [];
     displayedColumns:any  = [];
     condition: any = [];
+    state: any = [];
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
     component = "/nomi/ingreso";
@@ -112,18 +113,11 @@ export class IngresoDialog{
     initForms() {
         this.getDataInit();
         this.formNomi = new FormGroup({
-            id_novedad_nc: new FormControl(""),
-            document_nc: new FormControl(""),
+            document: new FormControl(""),
             idPersonale: new FormControl(""),
-            area_nc: new FormControl(""),
-            directboss_nc: new FormControl(""),
-            directboss_nc_jf: new FormControl(""),
-            city_nc: new FormControl(""),
-            edad_nc: new FormControl(""),
-            salary_nc: new FormControl(""),
-            daying_nc: new FormControl(""),
-            files_nc: new FormControl(""),
-            tipoges_nc: new FormControl(""),
+            area: new FormControl(""),
+            date_nov: new FormControl(""),
+            state: new FormControl(""),
             createUser: new FormControl(this.cuser.iduser)
         });
     }
@@ -157,6 +151,7 @@ export class IngresoDialog{
                     this.ListTipoGes   = data.data['getDatTipoGes'];
                     this.ciyiWork      = data.data['citys'];
                     this.condition     = data.data['condition'];
+                    this.state     = data.data['state'];
 
                     if (this.view == 'update') {
                         this.getDataUpdate();
@@ -180,11 +175,7 @@ export class IngresoDialog{
         let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
         if( exitsPersonal ){
             this.formNomi.get('idPersonale').setValue(exitsPersonal.idPersonale);
-            this.formNomi.get('edad_nc').setValue(exitsPersonal.edad);
-            this.formNomi.get('area_nc').setValue(exitsPersonal.idArea);
-            this.formNomi.get('directboss_nc_jf').setValue(exitsPersonal.document_jf);     
-            this.formNomi.get('city_nc').setValue(exitsPersonal.city); 
-            this.formNomi.get('salary_nc').setValue(exitsPersonal.salary); 
+            this.formNomi.get('area').setValue(exitsPersonal.idArea);
         }        
     }
 
@@ -231,17 +222,11 @@ export class IngresoDialog{
         .subscribe(
             data => {
 
-                this.formNomi.get('area_nc').setValue(data.data['getDataUpda'][0].area_nc);
-                this.formNomi.get('city_nc').setValue(data.data['getDataUpda'][0].city_nc);
-                this.formNomi.get('daying_nc').setValue(data.data['getDataUpda'][0].daying_nc);
-                this.formNomi.get('directboss_nc').setValue(data.data['getDataUpda'][0].directboss_nc);
-                this.formNomi.get('directboss_nc_jf').setValue(data.data['getDataUpda'][0].directboss_nc_jf);
-                this.formNomi.get('document_nc').setValue(data.data['getDataUpda'][0].document_nc);
-                this.formNomi.get('edad_nc').setValue(data.data['getDataUpda'][0].edad_nc);
+                this.formNomi.get('area').setValue(data.data['getDataUpda'][0].area);
+                this.formNomi.get('date_nov').setValue(data.data['getDataUpda'][0].date_nov);
+                this.formNomi.get('document').setValue(data.data['getDataUpda'][0].document);
                 this.formNomi.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
-                this.formNomi.get('salary_nc').setValue(data.data['getDataUpda'][0].salary_nc);
-                this.formNomi.get('tipoges_nc').setValue(data.data['getDataUpda'][0].tipoges_nc);
-                this.archivo.nombre = data.data['getDataUpda'][0].files_nc;
+                this.formNomi.get('state').setValue(data.data['getDataUpda'][0].state);
               
             },
             error => {

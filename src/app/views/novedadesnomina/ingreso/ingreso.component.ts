@@ -105,14 +105,13 @@ export class IngresoComponent implements OnInit {
   generateTable(data){
     this.displayedColumns = [
       'view', 
-      'regis_date_nc',
-      'document_nc',
-      'daying_nc',
-      'idPersonale',
-      'area_nc',
-      'date_fin',
-      'tipoges_nc',
-      'state',
+      'created_at',
+      'document',
+      'name',
+      'area',
+      'cargo',
+      'date_nov',
+      'state_his',
       'actions'
     ];
     this.dataSource           = new MatTableDataSource(data);
