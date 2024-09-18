@@ -205,6 +205,11 @@ export class AbsenteeismDialog {
     let body = {
         absen: this.formProces.value,
     }
+    if (!this.formProces.valid) {
+        this.handler.showError('Por favor llenar todos los campos');
+        return
+    }
+    
     if( this.formProces.value.fecha_ausencia <= this.formProces.value.fecha_finausen){
         this.loading.emit(true);
         //Validados incapcidad
@@ -301,14 +306,13 @@ export class AbsenteeismDialog {
             this.optionOtr('createIncapa');
         }     
 
-        // Lógica para manejar la observación cuando el motivo cambia
         const observacionControl = this.formProces.get('observacion');
 
-        if (event === 'permiso') {
+        if (event === '60/6') {
             observacionControl?.setValidators([Validators.required]);
         } else {
             observacionControl?.clearValidators();
-            observacionControl?.setValue(null); // Limpiar el valor de la observación
+            observacionControl?.setValue(null); 
         }
 
         observacionControl?.updateValueAndValidity();
