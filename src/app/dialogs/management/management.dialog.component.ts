@@ -217,6 +217,7 @@ export class ManagementDialog implements AfterContentChecked {
               this.endowmentData = data.data[7][0];
               this.children = data.data[8];
               this.personaleData = data.data[9];
+              this.contractHistoryData = data.data[10];
               this.generateTable(this.personaleData);
 
               this.loading.emit(false);
@@ -893,4 +894,8 @@ export class ManagementDialog implements AfterContentChecked {
       }
     );
   }
+
+  contractHistoryColumns: string[] = ['cargo', 'fechaIngreso', 'fechaRetiro'];
+
+  contractHistoryData = [];
 }

@@ -479,7 +479,7 @@ export class PrestacionServiciosDialog implements OnInit {
             //console.log('Respuesta del servidor:', response);
             this.handler.showSuccess('Registro guardado con éxito');
             this.loading.emit(false);
-            this.closeDialog();
+            this.closeDialog('success');
           },
           error => {
             console.error('Error al guardar el registro:', error);
@@ -539,7 +539,7 @@ export class PrestacionServiciosDialog implements OnInit {
                   //console.log('Respuesta del servidor:', response);
                   this.handler.showSuccess('Registro actualizado con éxito');
                   this.loading.emit(false);
-                  this.closeDialog();
+                  this.closeDialog('success');
                 } else {
                     this.handler.showError('Error al actualizar el registro');
                 }
@@ -560,8 +560,8 @@ export class PrestacionServiciosDialog implements OnInit {
       }
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog(result: string = 'cancel') {
+    this.dialogRef.close(result);
   }
 
   // VALIDATORS

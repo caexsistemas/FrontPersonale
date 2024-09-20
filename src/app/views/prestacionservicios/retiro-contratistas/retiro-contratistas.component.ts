@@ -147,9 +147,11 @@ export class RetiroContratistasComponent implements OnInit {
           this.sendRequest();
         });
   
-        dialogRef.afterClosed().subscribe(() => {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
       case "view":
@@ -169,11 +171,7 @@ export class RetiroContratistasComponent implements OnInit {
           dialogRef.componentInstance.reload.subscribe(() => {
             this.sendRequest();
           });
-  
-          dialogRef.afterClosed().subscribe(() => {
-            this.loading = false; 
-            this.sendRequest();
-          });
+
           break;
     }
   }

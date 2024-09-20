@@ -157,7 +157,7 @@ export class GestionContratistasDialog implements OnInit {
           this.cuentas_cobro = data.planillas.filter(p => p.file === 'ccobro');
           this.historico = data.historico;
           if(this.view === 'update'){
-            console.log(this.contratista)
+            // console.log(this.contratista)
             this.selectedFileNames['file_afi_eps'] = this.contratista.file_afi_eps
             this.selectedFileNames['file_arl'] = this.contratista.file_arl
             this.selectedFileNames['file_contrato'] = this.contratista.file_contrato
@@ -194,19 +194,19 @@ export class GestionContratistasDialog implements OnInit {
     // Validar si entre los archivos de la base de datos y los seleccionados suman los tres documentos
     const hasAllFiles = (fileEpsInDb || fileEpsInForm) && (fileArlInDb || fileArlInForm) && (fileContratoInDb || fileContratoInForm);
   
-    console.log('EPS:', fileEpsInDb || fileEpsInForm);
-    console.log('ARL:', fileArlInDb || fileArlInForm);
-    console.log('Contrato:', fileContratoInDb || fileContratoInForm);
-    console.log('Has all files:', hasAllFiles);
-    console.log('Archivos escogidos:', this.nuevoArchivo );
+    // console.log('EPS:', fileEpsInDb || fileEpsInForm);
+    // console.log('ARL:', fileArlInDb || fileArlInForm);
+    // console.log('Contrato:', fileContratoInDb || fileContratoInForm);
+    // console.log('Has all files:', hasAllFiles);
+    // console.log('Archivos escogidos:', this.nuevoArchivo );
   
     // Habilitar o deshabilitar el checklist según si están presentes los tres archivos
     if (hasAllFiles) {
       this.formCreate.get('activarContratista').enable();  // Habilitar el checklist
-      console.log('Activar Contratista Habilitado');
+      // console.log('Activar Contratista Habilitado');
     } else {
       this.formCreate.get('activarContratista').disable();  // Deshabilitar el checklist
-      console.log('Activar Contratista Deshabilitado');
+      // console.log('Activar Contratista Deshabilitado');
     }
   }
   
@@ -331,19 +331,13 @@ export class GestionContratistasDialog implements OnInit {
   }
   
   onSubmit() {
-    //console.log('entra Subir')
     if (this.formCreate.valid) {
         this.loading.emit(true);
-        //console.log('Loading true emitted');
         
-        // const fec_registro = moment().format('YYYY-MM-DD');
-
         const formData = {
             archivos: this.nuevoArchivo,
             activar: this.formCreate.get('activarContratista').value
           };
-
-        //console.log(formData);
 
         this.handler.showLoadin("Subiendo Documentos", "Por favor espere...");
 
@@ -357,10 +351,9 @@ export class GestionContratistasDialog implements OnInit {
           modulo: this.component,
         }).subscribe(
           response => {
-            //console.log('Respuesta del servidor:', response);
             this.handler.showSuccess('Registro guardado con éxito');
             this.loading.emit(false);
-            this.closeDialog();
+            this.closeDialog('success');
           },
           error => {
             console.error('Error al guardar el registro:', error);
@@ -386,17 +379,15 @@ export class GestionContratistasDialog implements OnInit {
         base64textString: btoa(readerEvent.target.result.toString()),
       };
   
-      // Actualizar el objeto nuevoArchivo directamente en lugar de usar filter y push
       this.nuevoArchivo[tipoArchivo] = archivo;
 
     };
     reader.readAsBinaryString(file);
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog(result: string = 'cancel') {
+    this.dialogRef.close(result);
   }
-
 
   PDFValidator(): ValidatorFn {
     
@@ -543,7 +534,7 @@ export class GestionContratistasDialog implements OnInit {
               //console.log('Respuesta del servidor:', response);
               this.handler.showSuccess('Registro guardado con éxito');
               this.loading.emit(false);
-              this.closeDialog();
+              this.closeDialog('success');
             },
             error => {
               console.error('Error al guardar el registro:', error);
@@ -594,7 +585,7 @@ export class GestionContratistasDialog implements OnInit {
           // console.log('Respuesta del servidor:', response);
           this.handler.showSuccess(response.success);
           this.loading.emit(false);
-          this.closeDialog();
+          this.closeDialog('success');
         },
         error => {
           // console.error('Error al guardar el registro:', error);

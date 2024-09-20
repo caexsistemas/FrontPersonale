@@ -143,9 +143,11 @@ export class GestionContratistasComponent implements OnInit {
           this.sendRequest();
         });
   
-        dialogRef.afterClosed().subscribe(() => {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
       case "updateSocial":
@@ -166,9 +168,11 @@ export class GestionContratistasComponent implements OnInit {
           this.sendRequest();
         });
   
-        dialogRef.afterClosed().subscribe(() => {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
       case "updateCobro":
@@ -189,9 +193,11 @@ export class GestionContratistasComponent implements OnInit {
           this.sendRequest();
         });
   
-        dialogRef.afterClosed().subscribe(() => {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
       case "view":
@@ -212,10 +218,6 @@ export class GestionContratistasComponent implements OnInit {
           this.sendRequest();
         });
 
-        dialogRef.afterClosed().subscribe(() => {
-          this.loading = false; 
-          this.sendRequest();
-        });
         break;
         
     }

@@ -6,37 +6,46 @@
         </button>
     </div>
     <mat-dialog-content style="min-width: 500px;">
-        <div class="row mt-2">
-            <div class="col-md-4">
+        <div class="row m-2">
+            <div class="col-md-2">
                 <dt>ID</dt>
                 <dd>{{role.idRole}}</dd>
             </div>
-            <div class="col-md-4">
-                <dt>Name</dt>
+            <div class="col-md-6">
+                <dt>Nombre del Rol</dt>
                 <dd>{{role.name}}</dd>
             </div>
             <div class="col-md-4">
-                <dt>Description</dt>
+                <dt>Estado</dt>
                 <dd>{{role.description}}</dd>
             </div>
-            <div class="col-md-12"style="max-height: 150px; overflow-y: auto;" id="modulos">
-                <!-- <dt>Módulos y Permisos</dt> -->
-                <div class="table-container">
-                    <table class="table table-striped table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>#</th>
-                                <th>Módulos</th>
-                                <th>Permisos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let module of modules; let i=index">
-                                <td>{{i + 1}}</td>
-                                <td>{{module.modulo}}</td>
-                                <td>{{module.permisos}}</td>
-                            </tr>
-                        </tbody>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <strong>Permisos del rol</strong>
+            </div>
+            <div class="card-body" style="overflow-y: auto;">
+                <div class="table-container" style="max-height: 150px; margin-top: 15px;">
+                    <table mat-table [dataSource]="modules" class="mat-elevation-z8" style="width: 100%;">
+                        <!-- Número de índice -->
+                        <ng-container matColumnDef="index">
+                          <th mat-header-cell *matHeaderCellDef class="text-center p-3">#</th>
+                          <td mat-cell *matCellDef="let module; let i = index" class="text-center p-3"> {{ i + 1 }} </td>
+                        </ng-container>
+                        <!-- Módulos -->
+                        <ng-container matColumnDef="modulo">
+                          <th mat-header-cell *matHeaderCellDef class="text-center p-3">Módulos</th>
+                          <td mat-cell *matCellDef="let module" class="text-center p-3"> {{ module.modulo }} </td>
+                        </ng-container>
+                        <!-- Permisos -->
+                        <ng-container matColumnDef="permisos">
+                          <th mat-header-cell *matHeaderCellDef class="text-center p-3">Permisos</th>
+                          <td mat-cell *matCellDef="let module" class="text-center p-3"> {{ module.permisos }} </td>
+                        </ng-container>
+                        <!-- Encabezado de la tabla -->
+                        <tr mat-header-row *matHeaderRowDef="modulesColumns"></tr>
+                        <!-- Filas de datos -->
+                        <tr mat-row *matRowDef="let row; columns: modulesColumns;"></tr>
                     </table>
                 </div>
             </div>

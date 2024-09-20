@@ -74,6 +74,9 @@ export class RoleDialog {
   historyMon: any = [];
   displayedColumns: any = [];
 
+  modulesColumns: string[] = ['index', 'modulo', 'permisos'];
+
+
   public clickedRows;
 
   constructor(

@@ -43,7 +43,7 @@
                     
                     <ng-container matColumnDef="fec_ingreso">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Fecha Ingreso</th>
-                        <td mat-cell *matCellDef="let element"> {{element.fec_ingreso}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.fec_ingreso | date}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ciudad_trabajo">

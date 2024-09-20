@@ -131,10 +131,12 @@ export class ContratistasComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe(() => {
           this.sendRequest();
         });
-  
-        dialogRef.afterClosed().subscribe(() => {
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
       case "update":
@@ -154,11 +156,14 @@ export class ContratistasComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe(() => {
           this.sendRequest();
         });
-  
-        dialogRef.afterClosed().subscribe(() => {
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
+
         break;
       case "view":
         this.loading = true;
@@ -172,15 +177,6 @@ export class ContratistasComponent implements OnInit {
   
         dialogRef.componentInstance.loading.subscribe(val => {
           this.loading = val;
-        });
-  
-        dialogRef.componentInstance.reload.subscribe(() => {
-          this.sendRequest();
-        });
-  
-        dialogRef.afterClosed().subscribe(() => {
-          this.loading = false; 
-          this.sendRequest();
         });
         break;
     }

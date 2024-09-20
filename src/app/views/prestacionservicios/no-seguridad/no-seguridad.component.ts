@@ -134,11 +134,7 @@ export class NoSeguridadComponent implements OnInit {
         dialogRef.componentInstance.reload.subscribe(() => {
           this.sendRequest();
         });
-  
-        dialogRef.afterClosed().subscribe(() => {
-          this.loading = false; 
-          this.sendRequest();
-        });
+
         break;
       case "updateCobro":
         this.loading = true;
@@ -158,9 +154,11 @@ export class NoSeguridadComponent implements OnInit {
           this.sendRequest();
         });
   
-        dialogRef.afterClosed().subscribe(() => {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
       case "update":
@@ -181,9 +179,11 @@ export class NoSeguridadComponent implements OnInit {
           this.sendRequest();
         });
   
-        dialogRef.afterClosed().subscribe(() => {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'success') {
+            this.sendRequest();
+          }
           this.loading = false; 
-          this.sendRequest();
         });
         break;
     }

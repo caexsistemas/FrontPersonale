@@ -252,9 +252,9 @@
 
                     <!--{Quinta Seccion Foncep}-->
                     <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle *ngIf="checkCreate">
-                        <mat-expansion-panel-header>
+                        <mat-expansion-panel-header class="custom-expansion-header">
                             <mat-panel-title>
-                                Fondos (Prestación economica,cesantias,pensión)
+                                Fondos (Prestación economica, cesantias, pensión)
                             </mat-panel-title>
                             <mat-panel-description>
                                 <mat-icon class="Iconmanagement">business_center</mat-icon>
@@ -506,8 +506,7 @@
                     </mat-expansion-panel>
 
                     <!--{Octava Informacion Hijos}-->
-                    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle *ngIf="checkCreate"
-                        style="margin-bottom: 10px;">
+                    <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle *ngIf="checkCreate">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 Hijos a Cargo
@@ -533,36 +532,88 @@
                         </div>
                         <mat-action-row>
                             <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
-                            <button mat-button class="btn btn-dark" (click)="nextStep()">Fin</button>
+                            <button mat-button class="btn btn-dark" (click)="nextStep()">Siguiente</button>
                         </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <!--{Novena Informacion Contratos}-->
+                    <mat-expansion-panel [expanded]="step === 10" (opened)="setStep(10)" hideToggle *ngIf="checkCreate"
+                        style="margin-bottom: 10px;">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Contratos
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon class="Iconmanagement">description</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="card">
+                            <div class="card-header">
+                                Histórico de contratos
+                            </div>
+                            <div class="card-body">
+                                <table mat-table [dataSource]="contractHistoryData" class="mat-elevation-z8" style="width: 100%;">
+                                    
+                                    <!-- Cargo Column -->
+                                    <ng-container matColumnDef="cargo">
+                                    <th mat-header-cell *matHeaderCellDef> Cargo </th>
+                                    <td mat-cell *matCellDef="let contrato"> {{contrato.cargo}} </td>
+                                    </ng-container>
+                                    
+                                    <!-- Fecha Ingreso Column -->
+                                    <ng-container matColumnDef="fechaIngreso">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha Ingreso </th>
+                                    <td mat-cell *matCellDef="let contrato"> {{contrato.daying_nc | date}} </td>
+                                    </ng-container>
+                                    
+                                    <!-- Fecha Fin Column -->
+                                    <ng-container matColumnDef="fechaRetiro">
+                                    <th mat-header-cell *matHeaderCellDef> Fecha Retiro </th>
+                                    <td mat-cell *matCellDef="let contrato"> {{ contrato.date_fin ? (contrato.date_fin | date) : 'NO APLICA' }}</td>
+                                    </ng-container>
+                                    
+                                    <!-- Header row -->
+                                    <tr mat-header-row *matHeaderRowDef="contractHistoryColumns"></tr>
+                                    <!-- Data rows -->
+                                    <tr mat-row *matRowDef="let row; columns: contractHistoryColumns;"></tr>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <mat-action-row>
+                                    <button mat-button class="btn btn-warning mr-3" (click)="prevStep()">Anterior</button>
+                                    <button mat-button class="btn btn-dark" (click)="nextStep()">Fin</button>
+                                </mat-action-row>
+                            </div>
+                        </div>
                     </mat-expansion-panel>
 
 
                     <div class="card" *ngIf="checkCreate">
                         <div class="card-header">
-                            Historico personal
+                            Histórico personal
                         </div>
                         <div class="content-table">
                             <div class="toolbar-table">
+                                <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <!-- Barra de búsqueda a la izquierda -->
+                                    <mat-form-field appearance="standard" style="width: 300px;">
+                                        <mat-label>Buscar...</mat-label>
+                                        <input matInput (keyup)="applyFilter($event)" placeholder="Cali express" #input>
+                                    </mat-form-field>
 
-                                <div class="col-xs-6 col-sm-6 col-md-6 text-right float-right mt-3">
+                                    <!-- Botón de Exportar Historia a la derecha -->
                                     <div class="btn-group" dropdown>
                                         <button dropdownToggle type="button" class="btn btn-success">
                                             <i class="fa fa-feed"></i>
                                         </button>
                                         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li role="menuitem"><a class="dropdown-item" [routerLink]=""
-                                                    (click)="descarReporteempleado(personale.idPersonale)">Exportar
-                                                    Historia</a></li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item" (click)="descarReporteempleado(personale.idPersonale)">
+                                                    Exportar Historia
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
-                                </div>
-
-                                <div class="container">
-                                    <mat-form-field appearance="standard" style="width: 100%;">
-                                        <mat-label>Buscar..</mat-label>
-                                        <input matInput (keyup)="applyFilter($event)" placeholder="Cali express" #input>
-                                    </mat-form-field>
                                 </div>
                             </div>
 
