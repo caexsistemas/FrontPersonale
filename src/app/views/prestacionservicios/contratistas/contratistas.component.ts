@@ -179,7 +179,33 @@ export class ContratistasComponent implements OnInit {
           this.loading = val;
         });
         break;
-    }
+      case "download":
+        this.loading = true;
+        this.WebApiService.getRequest(this.endpoint + "/export-excel", {
+          role: this.cuser.role,
+          token: this.cuser.token,
+          idUser: this.cuser.iduser,
+          modulo: this.component,
+        })
+          .subscribe(
+            response => {
+              this.loading = false;
+
+              const link = document.createElement("a");
+              link.href = response.data.url;
+              link.download = response.data.file;
+              link.click();
+              this.handler.showSuccess('El archivo ha sido descargado con éxito. <br>' + response.data.file);
+
+            },
+            (mistake) => {
+              let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+              this.handler.showError(msjErr);
+              this.loading = false;
+            }
+          );
+        break;
+      } 
   }
   
   openc(){
