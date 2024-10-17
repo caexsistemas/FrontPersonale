@@ -110,8 +110,8 @@ export class AdvanceComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
+        // console.log(this.permissions);
+        // console.log(data.success);
 
         if (data.success == true) {
           this.contenTable = data.data["getSelectData"]["vac"];
@@ -386,8 +386,8 @@ this.totAll =(tt1-tt2-tt3);
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
+        // console.log(this.permissions);
+        // console.log(data.success);
 
         if (data.success == true) {
           this.generateTableVacation(data.data["getSelectData"][0]);

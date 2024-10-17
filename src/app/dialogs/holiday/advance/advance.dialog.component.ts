@@ -129,7 +129,7 @@ export class AdvanceDialog  {
         this.document;
         this.stateVac = this.data.state;
         this.ini = this.data.ini;
-        // (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
+        (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
         this.people = this.cuser.idPersonale;
         this.title = "Anticipo de Vacaciones";
 
@@ -374,11 +374,20 @@ export class AdvanceDialog  {
         this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
         this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
         // this.jefe =this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
-        this.laterFec = exitsPersonal.fec_rei;
+        // this.laterFec = exitsPersonal.fec_rei;
+
+        this.laterFec = new Date();
+        this.laterFec.setDate(this.laterFec.getDate() + 1); // Sumar un día
+        this.laterFec = this.laterFec.toISOString().split('T')[0]; // Formatear a 'yyyy-MM-dd'
+
         this.formSelec.get('day_vac').setValue(0);
         this.formSelec.get('day_com').setValue(0);
         // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);  
-    }        
+    }else{
+        this.formSelec.get('idPersonale').setValue('');
+        this.formSelec.get('immediateBoss').setValue('');  
+        (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
+    }
   }
   
   calculate1(event){
@@ -389,7 +398,7 @@ export class AdvanceDialog  {
     const validFecha = this.getHoliday.filter(month => month.month == authFech.month() +1 && month.day_hol == fec[2])
 
     if(authFech.day() == 0 || validFecha.length > 0){
-        this.handler.shoWarning('Atención','Fecha Inicio Vacaciones No Puede Ser DOMINGO O DIA FESTIVO');
+        this.handler.shoWarning('Atención','Fecha Inicio Vacaciones NO Puede Ser DOMINGO O DIA FESTIVO');
         this.CheckTrue = true;
         this.formSelec.get('day_adv').setValue('');
 
@@ -398,9 +407,20 @@ export class AdvanceDialog  {
       this.holiday.holiday(this.prue,this.prue2 );
 
     }
+
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1); // Incrementar un día
+    const tomorrowFormatted = tomorrow.toISOString().split('T')[0]; // Formatear a 'yyyy-MM-dd'
+    
+    if (this.prue < tomorrowFormatted) {
+      this.handler.shoWarning('Atención', 'La fecha de inicio NO puede ser anterior al siguiente día habil.');
+      this.formSelec.get('fec_ini').setValue(tomorrowFormatted); 
+      return; 
+    }
 }
-   
-  calculate(event){  
+
+calculate(event){  
     if(event){
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);

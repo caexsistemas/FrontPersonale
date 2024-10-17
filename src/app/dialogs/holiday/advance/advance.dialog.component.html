@@ -58,7 +58,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
-                <input matInput formControlName="fec_ini" value="fec_ini" type="date" (ngModelChange)="calculate1($event)" [min]="laterFec" [max]="fec_ini">
+                <input matInput formControlName="fec_ini" type="date" (ngModelChange)="calculate1($event)" [min]="laterFec" [max]="fec_ini">
                   <mat-error *ngIf="getFechInvalid()">
                     <strong>
                       Ingrese Fecha
@@ -69,7 +69,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias de anticipo</mat-label>
-                <input matInput formControlName="day_adv" value="day_adv" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
+                <input matInput formControlName="day_adv" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
                     <mat-error *ngIf="getDayInvalid()">
                       <strong>
                         Ingrese # dias.
