@@ -195,7 +195,7 @@ export class HolidayComponent implements OnInit {
           // this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
           this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365); // años de vacaciones (1000 * 60 * 60 * 24)
       this.days = (this.showAge * 15); // dias de vacaciones
-      console.log('dias vaca =>',this.showAge);
+      // console.log('dias vaca =>',this.showAge);
   }
 
 calculateDaysExa(fecha,dom) {
@@ -264,7 +264,7 @@ email() {
     (data) => {
       this.permissions = this.handler.getPermissions(this.component);
       if (data.success == true) {
-        console.log(data);
+        // console.log(data);
         
             
             // const link = document.createElement("a");

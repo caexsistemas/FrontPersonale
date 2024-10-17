@@ -149,7 +149,11 @@ export class HolidayDialog  {
         this.document;
         this.stateVac = this.data.state;
         this.ini = this.data.ini;
-        (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
+        
+        this.laterFec = new Date();
+        this.laterFec.setDate(this.laterFec.getDate() + 1); // Sumar un día
+        this.laterFec = this.laterFec.toISOString().split('T')[0]; // Formatear a 'yyyy-MM-dd'
+
         this.people = this.cuser.idPersonale;
         this.title = "Solicitud de Vacaciones";
 
@@ -432,8 +436,20 @@ export class HolidayDialog  {
         this.holiday.holiday(this.prue,this.prue2 );
 
       }
+
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1); // Incrementar un día
+    const tomorrowFormatted = tomorrow.toISOString().split('T')[0]; // Formatear a 'yyyy-MM-dd'
+    
+    if (this.prue < tomorrowFormatted) {
+      this.handler.shoWarning('Atención', 'La fecha de inicio NO puede ser anterior al siguiente día habil.');
+      this.formSelec.get('fec_ini').setValue(tomorrowFormatted); 
+      return; 
+    }
   }
-   calculate(event){  
+
+  calculate(event){  
     if(event){
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
