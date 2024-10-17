@@ -66,7 +66,7 @@ export class UsersComponent implements OnInit {
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component,
-      action: "getDataUser"
+      action: "getDataTable"
     })
       .subscribe(
         response => {
