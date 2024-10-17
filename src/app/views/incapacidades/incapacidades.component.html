@@ -7,11 +7,9 @@
             <div class="toolbar-table" *ngIf="permissions != null">
 
                 <div class="m-2 text-right">        
-                          
                     <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
                         <span>Menu</span>
                     </button>
-                      
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item>Acciones Disponibles… </button>
 
@@ -19,7 +17,6 @@
                             <mat-icon>download</mat-icon>
                             <span>Reporte Incapacidad</span>
                         </button>
-      
                     </mat-menu>       
                 </div>
 
@@ -96,8 +93,8 @@
                 <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
             </div>
             <div *ngIf="personaleData.length == 0">
-            <h4 class="no-records">No hay registros...</h4>
-          </div>
+                <h4 class="no-records">No hay registros...</h4>
+            </div>
         </div>
     </div>
 </div>

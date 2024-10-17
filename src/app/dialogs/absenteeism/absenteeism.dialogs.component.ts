@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ProcessaludDialog } from '../../dialogs/processalud/processalud.dialog.component';
+import { element } from 'protractor';
 
 export interface PeriodicElement {
     currentm_user: string,
@@ -47,6 +48,7 @@ export class AbsenteeismDialog {
   Listmotivo:    any = [];
   ListPersonale: any = [];
   dataAbs:     any = []; 
+  showTipoMatriz: boolean = false;
 
   constructor(        public dialogRef: MatDialogRef<AbsenteeismDialog>,
     private WebApiService: WebApiService,
@@ -117,7 +119,8 @@ export class AbsenteeismDialog {
           action: 'getParamView',
           token: this.cuser.token,
           idUser: this.cuser.iduser,
-          modulo: this.component
+          modulo: this.component,
+          role: this.cuser.role,
       })
       .subscribe(
          
@@ -150,7 +153,13 @@ export class AbsenteeismDialog {
     if( exitsPersonal ){
         this.formProces.get('idPersonale').setValue(exitsPersonal.idPersonale);
         this.formProces.get('idPersJefe').setValue(exitsPersonal.jef_idPersonale);    
-    }        
+        this.showTipoMatriz = exitsPersonal.isCampaign === 'si';
+    } else{
+        this.formProces.get('idPersonale').setValue('');
+        this.formProces.get('idPersJefe').setValue('');    
+        this.showTipoMatriz = false;
+    }
+    
   }
 
   closeDialog() {

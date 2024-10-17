@@ -95,7 +95,8 @@ import {
                 && this.formDowAsentis.value['fi'] != '' && this.formDowAsentis.value['ff'] != '' ){
     
                 let body = {
-                    valest: this.formDowAsentis.value,      
+                    valest: this.formDowAsentis.value,
+                    role: this.cuser.role      
                 }
                 this.loading.emit(true);
                 this.handler.showLoadin("Generando Reporte", "Por favor espere...");

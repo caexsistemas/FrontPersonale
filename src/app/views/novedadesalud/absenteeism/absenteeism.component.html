@@ -89,7 +89,7 @@
                     
                     <ng-container matColumnDef="matrizarp">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Tipo Campaña</th>
-                        <td mat-cell *matCellDef="let element"> {{element.matrizarp}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element?.matrizarp || 'No Aplica'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="motivo">
