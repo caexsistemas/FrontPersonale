@@ -35,6 +35,7 @@ import { element } from "protractor";
 import { exit } from "process";
 import { MatPaginator } from "@angular/material/paginator";
 import { calculateDays } from "../../services/holiday.service";
+import { Console } from "console";
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -151,7 +152,7 @@ export class HolidayDialog  {
         this.ini = this.data.ini;
         
         this.laterFec = new Date();
-        this.laterFec.setDate(this.laterFec.getDate() + 1); // Sumar un día
+        this.laterFec.setDate(this.laterFec.getDate() + 16); // Sumar un día
         this.laterFec = this.laterFec.toISOString().split('T')[0]; // Formatear a 'yyyy-MM-dd'
 
         this.people = this.cuser.idPersonale;
@@ -421,21 +422,17 @@ export class HolidayDialog  {
   
   calculate1(event){
     
-      this.prue = event;
-      const fec = this.prue.split('-');
-      const authFech = moment(this.prue);
-      const validFecha = this.getHoliday.filter(month => month.month == authFech.month() +1 && month.day_hol == fec[2])
+    this.prue = event;
+    const fec = this.prue.split('-');
+    const authFech = moment(this.prue);
+    const validFecha = this.getHoliday.filter(month => month.month == authFech.month() +1 && month.day_hol == fec[2])
 
-      if(authFech.day() == 0 || validFecha.length > 0){
-          this.handler.shoWarning('Atención','Fecha Inicio Vacaciones No Puede Ser DOMINGO O DIA FESTIVO');
-          this.CheckTrue = true;
-          this.formSelec.get('day_vac').setValue('');
- 
-      }else{
-        this.CheckTrue = false;
-        this.holiday.holiday(this.prue,this.prue2 );
-
-      }
+    if(authFech.day() == 0 || validFecha.length > 0){
+        this.handler.shoWarning('Atención','Fecha Inicio Vacaciones No Puede Ser DOMINGO O DIA FESTIVO');
+        this.CheckTrue = true;
+        this.formSelec.get('day_vac').setValue('');
+        return;
+    }
 
     const today = new Date();
     const tomorrow = new Date();
@@ -447,6 +444,20 @@ export class HolidayDialog  {
       this.formSelec.get('fec_ini').setValue(tomorrowFormatted); 
       return; 
     }
+    
+    const minDays = 16; // Número mínimo de días calendario
+    const minDate = new Date();
+    minDate.setDate(today.getDate() + minDays);
+    const minDateFormatted = minDate.toISOString().split('T')[0];
+
+    if(this.prue >= tomorrowFormatted && this.prue < minDateFormatted){
+      this.handler.shoWarning('Atención', 'Su solicitud incumple los parámetros de tiempo definidos por la empresa (15 días previos). Direccione su solicitud a su jefe inmediato.');
+      this.formSelec.get('fec_ini').setValue(minDateFormatted); 
+      return;
+    }
+
+    this.CheckTrue = false;
+    this.holiday.holiday(this.prue, this.prue2);
   }
 
   calculate(event){  
