@@ -141,7 +141,7 @@
                                 <div class="col-md-4 ContCamp">
                                     <mat-form-field appearance="fill">
                                         <mat-label>Verificación:</mat-label>
-                                        <mat-select formControlName="idPersonale" required [readonly]="isCoordLogistica">
+                                        <mat-select formControlName="idPersonale" required [disabled]="isCoordLogistica">
                                             <mat-option *ngFor="let idet of person" [value]="idet.idPersonale">
                                                 {{idet.name}}
                                             </mat-option>
@@ -151,7 +151,7 @@
                                 <div class="col-md-4">
                                     <mat-form-field appearance="fill">
                                         <mat-label>Rol:</mat-label>
-                                        <mat-select formControlName="role" [errorStateMatcher]="matcher" (ngModelChange)="onSelectionChange($event)" [readonly]="isCoordLogistica">
+                                        <mat-select formControlName="role" [errorStateMatcher]="matcher" (ngModelChange)="onSelectionChange($event)" [disabled]="isCoordLogistica">
                                             <mat-option *ngFor="let idet of typeRol" [value]="idet.idRole">
                                                 {{idet.name}}
                                             </mat-option>
@@ -186,7 +186,7 @@
                                 <div class="col-md-4">
                                     <mat-form-field appearance="fill">
                                         <mat-label>Status:</mat-label>
-                                        <mat-select formControlName="status" [errorStateMatcher]="matcher" [readonly]="isCoordLogistica">
+                                        <mat-select formControlName="status" [errorStateMatcher]="matcher" [disabled]="isCoordLogistica">
                                             <mat-option *ngFor="let idet of typeStatus" [value]="idet.ls_codvalue">
                                                 {{idet.description}}
                                             </mat-option>
