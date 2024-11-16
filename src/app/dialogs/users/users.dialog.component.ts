@@ -143,6 +143,11 @@ export class UsersDialog {
     }
   }
 
+  get isCoordLogistica(): boolean {
+    return this.view === 'update' && this.rol == 36;
+  }
+  
+
   initForms() {
     this.getDataInit();
     this.formUsuario = new FormGroup({
