@@ -109,43 +109,40 @@ export class calculateDays {
       }   
     }
 
-  calculateEndDate(startDate: Date, days: number,festivos:any): Date {
-
-    let esFestivo = false;
-    const endDate = new Date(startDate.getTime());
-    let remainingDays = days;
-    let daysToAdd = 0;
-    let daysFestivos = festivos;    
-
-    while (remainingDays > 0) {
-      endDate.setDate(endDate.getDate() + 1);
-      if (endDate.getDay() !== 0) { // No es domingo
-        remainingDays--;
-       
-      } 
-      const mes = endDate.getMonth() + 1; 
-      const dia = endDate.getDate();
-      festivos.forEach(festivo => {
-        const festivoDia = festivo[0];
-        const festivoMes = festivo[1];
-
-        if (festivoDia === dia && festivoMes === mes) {
-          esFestivo = true;
-          remainingDays++;
-          return; 
-        }
-      });
-      // else {
-      //   daysToAdd++;
-      //   console.log('daysToAdd',daysToAdd);
-        
-      // }
-    }
-    endDate.setDate(endDate.getDate() + daysToAdd);
-
-    return endDate;
-      
-    }
+    calculateEndDate(startDate: Date, days: number, festivos: any): Date {
+      let esFestivo = false;
+      const endDate = new Date(startDate.getTime());
+      let remainingDays = days;
+      let daysFestivos = festivos;
+  
+      while (remainingDays > 0) {
+          endDate.setDate(endDate.getDate() + 1);
+          esFestivo = false;
+  
+          const mes = endDate.getMonth() + 1;
+          const dia = endDate.getDate();
+  
+          // Verificar si la fecha actual es un día festivo
+          festivos.forEach(festivo => {
+              const festivoDia = festivo[0];
+              const festivoMes = festivo[1];
+              if (festivoDia === dia && festivoMes === mes) {
+                  esFestivo = true;
+              }
+          });
+  
+          // Si es domingo o festivo, no reducir `remainingDays`
+          if (endDate.getDay() === 0 || esFestivo) {
+              // Si es domingo y festivo a la vez, solo cuenta como un día adicional
+              continue;
+          }
+  
+          remainingDays--;
+      }
+  
+      return endDate;
+  }
+  
       
     getInterleavedSundays(startDate: Date, days: number): Date[] {
       const sundays: Date[] = [];

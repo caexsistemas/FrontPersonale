@@ -391,7 +391,6 @@ export class AdvanceDialog  {
   }
   
   calculate1(event){
-    
     this.prue = event;
     const fec = this.prue.split('-');
     const authFech = moment(this.prue);
