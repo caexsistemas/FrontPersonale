@@ -407,7 +407,11 @@ export class UsersDialog {
                     this.formUsuario.get("name").setValue(firstName);
                     this.formUsuario.get("surname").setValue(lastName);
                   }
-     }
+    } else{
+      this.formUsuario.get("idPersonale").setValue('');
+      this.formUsuario.get('name').setValue('');
+      this.formUsuario.get('surname').setValue('');  
+    }
   }
   onSelectionChange(event){
     event === 37 ? this.check_mens = true : this.check_mens = false;
