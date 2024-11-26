@@ -161,14 +161,16 @@ export interface PeriodicElement {
     }
 
     onSelectionChange(event){
-      let personale = this.ListPersonale;        
-      let exitsPersonal = personale.find(element => element.document == event);
-      if( exitsPersonal ){
-          this.formProces.get('idPersonale').setValue(exitsPersonal.idPersonale);
-          if( exitsPersonal.tipsalarywork == '81/2'){
-            this.tup_sala = true;
-          }
-      }        
+        let personale = this.ListPersonale;        
+        let exitsPersonal = personale.find(element => element.document == event);
+        if( exitsPersonal ){
+            this.formProces.get('idPersonale').setValue(exitsPersonal.idPersonale);
+            if( exitsPersonal.tipsalarywork == '81/2'){
+                this.tup_sala = true;
+            }
+        } else{
+            this.formProces.get('idPersonale').setValue('');
+        }     
     }
 
     onSelectioncomibonos(event){

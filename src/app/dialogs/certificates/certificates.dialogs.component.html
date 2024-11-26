@@ -34,9 +34,9 @@
                             <mat-form-field class="example-full-width readonly-wrapper" >
                                 <mat-label>Nombre(s) y Apellido(s):</mat-label>
                                 <mat-select formControlName="idPersonale" required>
-                                  <mat-option *ngFor="let idet of ListPersonale" [value]="idet.idPersonale">
-                                    {{idet.name}}
-                                  </mat-option>
+                                    <mat-option *ngFor="let idet of ListPersonale" [value]="idet.idPersonale" disabled>
+                                        {{idet.name}}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

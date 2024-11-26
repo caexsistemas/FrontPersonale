@@ -80,7 +80,7 @@
                         <mat-form-field class="example-full-width ContCamp" >
                             <mat-label>Nombre Asesor:</mat-label>
                             <mat-select formControlName="idPersonale" required>
-                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale" [readonly]="true">
+                              <mat-option *ngFor="let idet of personalData" [value]="idet.idPersonale" [readonly]="true" disabled>
                                 {{idet.name}}
                               </mat-option>
                             </mat-select>
