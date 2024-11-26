@@ -31,7 +31,7 @@
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Nombre(s) y Apellido(s):</mat-label>
                 <mat-select formControlName="idPersonale">
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
                     {{idet.name}}
                   </mat-option>
                 </mat-select>
@@ -65,7 +65,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Disfrutar</mat-label>
-                <input matInput formControlName="day_vac"  (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
+                <input matInput formControlName="day_vac"  (ngModelChange)="calculate($event)" type="number" name="numrango" min="0" max="15" step="1" [readonly]="CheckTrue">
                   <mat-error *ngIf="getDayInvalid()">
                     <strong>
                       Ingrese # dias.
@@ -114,7 +114,6 @@
           <div class="text-center col-12">
             <button *ngIf="view == 'update'" mat-button class="btn btn-success"
               (click)="onSubmitUpdate()">Actualizar</button>
-            
             <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" totalFin > 15 || primerPeri ">Guardar</button>
             <!-- <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]="primerPeri" >Guardar</button> -->
             <button *ngIf="view == 'create' && daysVac > 15" mat-button class="btn btn-success" (click)="onSubmit()"  [disabled] ="blockDaysRest ">Guardar</button>

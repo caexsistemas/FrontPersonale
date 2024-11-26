@@ -372,7 +372,7 @@ email() {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
+        // console.log(this.permissions);
 
         if (data.success == true) {
           this.generateTableVacation(data.data["getSelectData"][0]);

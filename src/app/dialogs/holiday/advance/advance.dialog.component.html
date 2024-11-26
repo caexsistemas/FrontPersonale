@@ -37,7 +37,7 @@
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Nombre(s) y Apellido(s):</mat-label>
                 <mat-select formControlName="idPersonale">
-                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                  <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
                     {{idet.name}}
                   </mat-option>
                 </mat-select>
@@ -47,7 +47,7 @@
               <mat-form-field class="example-full-width" >
                   <mat-label>Jefe Directo:</mat-label>
                   <mat-select formControlName="immediateBoss" >
-                    <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale">
+                    <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
                       {{idet.name}}
                     </mat-option>
                   </mat-select>
@@ -55,6 +55,16 @@
           </div>
           </div>
           <div class="row mt-2">
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width" >
+                  <mat-label>Tipo:</mat-label>
+                  <mat-select [(ngModel)]="vac_type"  [ngModelOptions]="{standalone: true}" (ngModelChange)="onVacTypeChange($event)">
+                    <mat-option value="asignacion">Asignación</mat-option>
+                    <mat-option value="anticipo">Anticipo</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
@@ -68,21 +78,14 @@
             </div>
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
-                <mat-label>Dias de anticipo</mat-label>
-                <input matInput formControlName="day_adv" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
+                <mat-label>Número dias</mat-label>
+                <input matInput [(ngModel)]="num_days" [ngModelOptions]="{standalone: true}" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
                     <mat-error *ngIf="getDayInvalid()">
-                      <strong>
-                        Ingrese # dias.
-                      </strong>
+                      <strong>No puede exceder los {{ remainingDays }} días restantes</strong>
                   </mat-error>
               </mat-form-field>
             </div>
-            <div class="col-sm-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Fecha Finalización</mat-label>
-                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date" readonly>
-              </mat-form-field>
-            </div>
+
             <!-- <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Compensar</mat-label>
@@ -91,6 +94,12 @@
             </div> -->
           </div>
           <div class="row mt-2">    
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha Finalización</mat-label>
+                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date" readonly>
+              </mat-form-field>
+            </div>
             <!-- <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha Finalización</mat-label>
@@ -108,7 +117,7 @@
           <div class="row mt-3">
             <div class="col-md-12">
               <mat-form-field class="example-full-width">
-                <mat-label>Observación de anticipo:</mat-label>
+                <mat-label>Observación:</mat-label>
                 <textarea matInput formControlName="obc_apr" placeholder=""></textarea>
                   <mat-error *ngIf="getObcerInvalid()">
                     <strong>
@@ -132,7 +141,7 @@
         </div>
         </div>
   </div>
-  </div>
+</div>
 
 <div *ngIf="view == 'view'">
   <div class="modal-header">

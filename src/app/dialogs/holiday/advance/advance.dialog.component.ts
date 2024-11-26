@@ -82,6 +82,10 @@ export class AdvanceDialog  {
   contenTable:   any = [];
   fec_in: any = [];
   days: any = [];
+  enabledDays: any = [];
+  showAge: any = [];
+  vac_type: string = '';
+  num_days: number = 0;
   totalFin: any= [];
   prue: any =[];
   prue2: any =[];
@@ -101,6 +105,12 @@ export class AdvanceDialog  {
   arrDayHol: any = [];
   arrholiday: any = [];
   getHoliday:any = [];
+
+  remainingDays: number = 0;
+  daysDom: any = [];
+  daysPro: any = [];
+  sundayTot: any = [];
+
   // document = new FormControl('', [Validators.required]);
   public clickedRows;
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
@@ -131,7 +141,7 @@ export class AdvanceDialog  {
         this.ini = this.data.ini;
         (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
         this.people = this.cuser.idPersonale;
-        this.title = "Anticipo de Vacaciones";
+        this.title = "Asignación de Vacaciones";
 
         this.loading.emit(true);
         this.WebApiService.getRequest(this.endpoint + "/" , {
@@ -208,14 +218,13 @@ export class AdvanceDialog  {
       day_com: new FormControl(""),
       tot_day: new FormControl(""),
       day_vac: new FormControl(""),
-      day_adv: new FormControl("",[Validators.required]),
+      day_adv: new FormControl(""),
       state: new FormControl(""),
       type_sol:new FormControl(""),
       obc_apr: new FormControl("", [Validators.required]),
       // obc_apr:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
     });
-   
   }
   getDataInit() {
     this.loading.emit(true);
@@ -234,9 +243,12 @@ export class AdvanceDialog  {
           this.getHoliday = data.data["getHoliday"];
 
 
+
+
           if (this.view == "update") {
             this.getDataUpdate();
           }
+
           this.loading.emit(false);
         } else {
           this.handler.handlerError(data);
@@ -249,14 +261,44 @@ export class AdvanceDialog  {
       }
     );
   }
+
   onSubmit() {
     if (this.formSelec.valid) {
-      this.formSelec.value.type_sol = '	79/4';
+
+      // ANTICIPO
+      if (this.vac_type === 'anticipo') {
+        this.formSelec.value.type_sol = '79/4'; 
+        this.formSelec.value.day_adv = this.num_days;
+        
+        // ASIGNACIÓN
+      } else if (this.vac_type === 'asignacion') {
+        this.formSelec.value.day_vac = this.num_days;
+        this.formSelec.value.day_adv = 0;
+      }
+
+      const remainingDaysRounded = Math.floor(this.remainingDays); // Redondear hacia abajo
+      const enabledDaysRounded = Math.floor(this.enabledDays); // Redondear hacia abajo
+
+      if (this.vac_type === 'anticipo' && this.num_days > remainingDaysRounded) {
+        this.getDayInvalid()
+        this.handler.showError("Error, no pueden ser más de " + remainingDaysRounded + " días restantes");
+        return false;
+      }
+
+      if (this.vac_type === 'asignacion' && this.num_days > enabledDaysRounded) {
+        this.getDayInvalid()
+        this.handler.showError("Error, no pueden ser más de " + enabledDaysRounded + " días a disfrutar");
+        return false;
+      }
+
       this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
         
       };
+
+      // console.log(body.listas)
+
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
@@ -282,6 +324,7 @@ export class AdvanceDialog  {
       this.loading.emit(false);
     }
   }
+
   getDataUpdate() {
     
     this.loading.emit(true);
@@ -382,6 +425,14 @@ export class AdvanceDialog  {
 
         this.formSelec.get('day_vac').setValue(0);
         this.formSelec.get('day_com').setValue(0);
+
+        this.calculateDaysWorked(exitsPersonal.admissionDate, exitsPersonal.diasSuspension)
+        let diasTomados = exitsPersonal.total_vac
+        this.calculateDiasProp(this.daysDom, this.daysPro)
+        this.calculateRemainingDays(this.sundayTot, diasTomados)
+        this.calculateEnabledDays(exitsPersonal.admissionDate, exitsPersonal.total_vac)
+        
+
         // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);  
     }else{
         this.formSelec.get('idPersonale').setValue('');
@@ -391,6 +442,10 @@ export class AdvanceDialog  {
   }
   
   calculate1(event){
+    if (!event) {
+      console.log('Fecha vacía, no se realiza cálculo');
+      return;
+    }
     this.prue = event;
     const fec = this.prue.split('-');
     const authFech = moment(this.prue);
@@ -421,6 +476,19 @@ export class AdvanceDialog  {
 
 calculate(event){  
     if(event){
+        const remainingDaysRounded = Math.floor(this.remainingDays); // Redondear hacia abajo
+        const enabledDaysRounded = Math.floor(this.enabledDays); // Redondear hacia abajo
+
+        if (this.vac_type === 'anticipo' && event > remainingDaysRounded) {
+            this.getDayInvalid()
+            this.handler.showError("Error, no pueden ser más de " + remainingDaysRounded + " días restantes");
+        }
+
+        if (this.vac_type === 'asignacion' && event > enabledDaysRounded) {
+            this.getDayInvalid()
+            this.handler.showError("Error, no pueden ser más de " + enabledDaysRounded + " días a disfrutar");
+        }
+
         this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
         this.holiday.holiday(this.prue,this.prue2);
@@ -452,7 +520,90 @@ calculate(event){
     return this.formSelec.get('obc_apr').invalid && this.formSelec.get('obc_apr').touched;
 
   }
+
+  calculateRemainingDays(sundayTot, diasTomados){
+    // console.log("dias tomados: ", diasTomados)
+    // console.log("dias proporcionales: ", sundayTot)
+
+    this.remainingDays = sundayTot - diasTomados
+  }
+
+  calculateDaysWorked(fecha, dom) {
+
+    // Convertir la fecha al formato correcto
+    let fechaIngresoMoment = moment(fecha, 'DD-MM-YYYY').startOf('day'); // Ajusta el formato aquí
+  
+    // Fecha actual
+    let fechaActualMoment = moment().startOf('day');
+  
+    // Validar si la fecha de ingreso es válida
+    if (!fechaIngresoMoment.isValid()) {
+      console.error('Fecha de ingreso inválida:', fecha);
+      return 0; // Retorna 0 en caso de error
+    }
+  
+    // Calcular días laborados usando el esquema de 360 días/año
+    let diasLaborados: number = 0;
+    diasLaborados += (fechaActualMoment.year() - fechaIngresoMoment.year()) * 360; // Diferencia en años
+    diasLaborados += (fechaActualMoment.month() - fechaIngresoMoment.month()) * 30; // Diferencia en meses
+    diasLaborados += fechaActualMoment.date() - fechaIngresoMoment.date(); // Diferencia en días
+  
+    // Ajustar por día adicional
+    this.daysPro = diasLaborados + 1;
+  
+    // Calcular días descontando domingos u otros valores
+    this.daysDom = dom ? this.daysPro - dom : 0;
+  }
+  
+  calculateDiasProp(daysPro,daysDom){
+    if(daysDom >= 1){
+      this.sundayTot = (daysDom/360*15);
+      
+      // this.days2 = (this.sundayTot/360*15);
+    }else{
+
+      this.sundayTot = (daysPro/360*15);
+
+    }
+  }
+
+  calculateEnabledDays(fecha: string, diasTomados) {
+    // Convertir la fecha al formato MM/DD/YYYY
+    const [day, month, year] = fecha.split('-');
+    const formattedDate = `${month}/${day}/${year}`;
+  
+    var convertAge = new Date(formattedDate);
+    if (isNaN(convertAge.getTime())) {
+      console.error('Fecha inválida');
+      return;
+    }
+  
+    var timeDiff = Math.abs(Date.now() - convertAge.getTime());
+    this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
+    this.enabledDays = this.showAge * 15;
+    
+    if(diasTomados){
+      this.enabledDays = this.enabledDays - diasTomados;
+    }
+  
+    // console.log('fecha ', fecha);
+    // console.log('fecha convertida', convertAge);
+    // console.log('timeDiff', timeDiff);
+    // console.log('showAge', this.showAge);
+    // console.log('enabledDays', this.enabledDays);
+  }
+  
+  onVacTypeChange(type: string): void {
+    if (type) {
+      this.formSelec.get('fec_ini')?.setValue(null); // Limpia la fecha de inicio
+      this.num_days = 0; // Limpia el campo de número de días
+    }
+  }
+  
+
 }
+
+
 
   
 

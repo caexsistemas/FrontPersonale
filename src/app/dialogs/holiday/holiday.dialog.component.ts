@@ -293,14 +293,23 @@ export class HolidayDialog  {
       }
     );
   }
+
   onSubmit() {
     if (this.formSelec.valid) {
+
       this.formSelec.value.immediateBoss = this.name
       this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
         
       };
+
+      if (!this.formSelec.get('day_vac').value || this.formSelec.get('day_vac').value === 0) {
+        const today = new Date().toISOString().split('T')[0];
+        this.formSelec.value.fec_ini = today
+        console.log('Formulario con day_vac 0 o vacío:', body.listas);
+      }
+
       this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
@@ -398,7 +407,8 @@ export class HolidayDialog  {
   closeDialog() {
     this.dialogRef.close();
   }
-  ngOnInit() {}
+  ngOnInit() {
+  }
   step = 0;
 
   setStep(index: number) {
@@ -461,10 +471,11 @@ export class HolidayDialog  {
   }
 
   calculate(event){  
+    this.prue2 = event;
+    this.totalDays(this.prue2,this.comp);
+
     if(event){
-        this.prue2 = event;
         // this.calculateDays(this.prue,this.prue2);
-        this.totalDays(this.prue2,this.comp);
         this.holiday.holiday(this.prue,this.prue2 );
     
         this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2 );  
@@ -472,28 +483,30 @@ export class HolidayDialog  {
         this.sumTotalMen = this.totaLfecHol[1];        
         this.formSelec.get('fec_fin').setValue(this.fec_fin);
         this.formSelec.get('fec_rei').setValue(this.sumTotalMen);  
-      this.loading.emit(false);
+        this.loading.emit(false);
             
         // this.formSelec.get('immediateBoss').setValue(this.jefe);
+    }  else {
+      // Limpia los campos si no hay un valor válido
+      this.formSelec.get('fec_fin').setValue(null);
+      this.formSelec.get('fec_rei').setValue(null);
     }
   }
-  daysCom(event){
 
+  daysCom(event){
     if(event >= 0){
       this.comp = event;
-      
       this.totalDays(this.prue2,this.comp);
     }
   }
+
   primerPeri:boolean = false;
   totalDays(d1,d2){
     // console.log(" dias solocitados =>",d1, "dias compensar =>",d2)
-      this.totalFin = (d1+d2);
-    // console.log("total dias solicitados =>",this.totalFin);
-    // if(this.totalFin >= 15 && this.daysVac < 15 ){
+    this.totalFin = (d1+d2);
     
       
-      if(this.totalFin > 15  && this.daysVac <= 15  ){
+    if(this.totalFin > 15  && this.daysVac <= 15  ){
           this.handler.showError("No puedes solicitar mas de 15 dias!");
           this.reload.emit();
           this.loading.emit(false);

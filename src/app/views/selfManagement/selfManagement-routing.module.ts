@@ -43,7 +43,7 @@ const routes: Routes = [
         path: "advance",
         component: AdvanceComponent,
         data: {
-          title: "Anticipo Vacaciones"
+          title: "Asignación Vacaciones"
 
         },
       }

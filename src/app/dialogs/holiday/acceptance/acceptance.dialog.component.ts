@@ -85,6 +85,7 @@ export class AcceptanceDialog  {
   stateVac:any = [];
   stateAnt:any = [];
   advance: any = [];
+  vacation: any = [];
   totalSol: any = [];
   checkAvd: boolean;
   checkSol: boolean;
@@ -295,9 +296,11 @@ export class AcceptanceDialog  {
         // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
         this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
         this.advance = (data.data["getSelecUpdat"][0].day_adv);
-        // console.log(this.advance);
-        (this.totalSol)? this.checkS = true: this.checkS = false;
-        (this.advance)? this.check = true: this.check = false;
+        this.vacation = (data.data["getSelecUpdat"][0].day_vac);
+        // console.log("advance ", this.advance);
+        // console.log("totalSol ", this.totalSol);
+        this.checkS = !!this.totalSol; // Verifica si totalSol tiene un valor válido
+        this.check = !!this.advance || !!this.vacation; // Es true si advance o vacation son válidos
       },
       (error) => {
         this.handler.showError();
