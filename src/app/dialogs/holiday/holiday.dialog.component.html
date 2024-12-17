@@ -48,21 +48,39 @@
                   </mat-select>
               </mat-form-field>
           </div> -->
-          <div class="col-sm-4">
-            <mat-form-field class="example-full-width">
-              <mat-label>Fecha de Inicio</mat-label>
-              <input matInput formControlName="fec_ini" type="date" (ngModelChange)="calculate1($event)" [min]="laterFec" [max]="fec_ini">
-                <mat-error *ngIf="getFechInvalid()">
-                  <strong>
-                    Ingrese Fecha
-                  </strong>
-                </mat-error>
+
+          <div class="col-md-4">
+            <mat-form-field class="example-full-width" >
+                <mat-label>Tipo de días:</mat-label>
+                <mat-select [(ngModel)]="vac_type"  [ngModelOptions]="{standalone: true}" (ngModelChange)="onVacTypeChange($event)">
+                  <mat-option value="disfrutar">A Disfrutar</mat-option>
+                  <mat-option value="compensar">A Compensar</mat-option>
+                </mat-select>
             </mat-form-field>
           </div>
           </div>
           <div class="row">
-           
             <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Fecha de Inicio</mat-label>
+                <input matInput formControlName="fec_ini" type="date" (ngModelChange)="onFecIniChange($event)" [min]="laterFec" [max]="fec_ini">
+                  <mat-error *ngIf="getFechInvalid()">
+                    <strong>
+                      Ingrese Fecha
+                    </strong>
+                  </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Número dias</mat-label>
+                <input matInput [(ngModel)]="num_days" [ngModelOptions]="{standalone: true}" (ngModelChange)="onNumDaysChange($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
+                    <mat-error *ngIf="getDayInvalid()">
+                      <strong>No puede exceder los {{ maximunDays }} días disponibles</strong>
+                  </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Disfrutar</mat-label>
                 <input matInput formControlName="day_vac"  (ngModelChange)="calculate($event)" type="number" name="numrango" min="0" max="15" step="1" [readonly]="CheckTrue">
@@ -72,11 +90,10 @@
                     </strong>
                   </mat-error>
               </mat-form-field>
-            </div>
-            <div class="col-sm-4">
+            </div> -->
+            <!-- <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Dias a Compensar</mat-label>
-                <!-- <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="daysCom($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice( this.maxLength);" [readonly]="CheckTrue"> -->
                 <input matInput formControlName="day_com" type="number" (ngModelChange)="daysCom($event)" [readonly]="CheckTrue">
                   <mat-error *ngIf="getCompInvalid()">
                     <strong>
@@ -84,22 +101,21 @@
                     </strong>
                   </mat-error>
               </mat-form-field>
-            </div>
-            <div class="col-sm-4">
+            </div> -->
+            <!-- <div class="col-sm-4">
               <mat-form-field class="example-full-width ContCamp">
                 <mat-label>Total Dias Solicitados</mat-label>
                 <input matInput formControlName="tot_day"  [value]="totalFin" type="number"readonly>
               </mat-form-field>
-            </div>
-           
-          </div>
-          <div class="row mt-2">
+            </div> -->
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha Finalización</mat-label>
                 <input matInput formControlName="fec_fin" [value]="fec_fin" type="date" readonly>
               </mat-form-field>
             </div>
+          </div>
+          <div class="row mt-2">
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Reintegro</mat-label>
@@ -116,7 +132,7 @@
               (click)="onSubmitUpdate()">Actualizar</button>
             <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]=" totalFin > 15 || primerPeri ">Guardar</button>
             <!-- <button *ngIf="view == 'create' && daysVac <= 15" mat-button class="btn btn-success" (click)="onSubmit()" [disabled]="primerPeri" >Guardar</button> -->
-            <button *ngIf="view == 'create' && daysVac > 15" mat-button class="btn btn-success" (click)="onSubmit()"  [disabled] ="blockDaysRest ">Guardar</button>
+            <button *ngIf="view == 'create' && daysVac > 15" mat-button class="btn btn-success" (click)="onSubmit()"  [disabled] ="blockremainingDays ">Guardar</button>
   
             <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
           </div>

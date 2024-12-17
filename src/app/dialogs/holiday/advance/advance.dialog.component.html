@@ -60,6 +60,7 @@
                   <mat-label>Tipo:</mat-label>
                   <mat-select [(ngModel)]="vac_type"  [ngModelOptions]="{standalone: true}" (ngModelChange)="onVacTypeChange($event)">
                     <mat-option value="asignacion">Asignación</mat-option>
+                    <mat-option value="compensacion">Compensación</mat-option>
                     <mat-option value="anticipo">Anticipo</mat-option>
                   </mat-select>
               </mat-form-field>
@@ -68,7 +69,7 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Inicio</mat-label>
-                <input matInput formControlName="fec_ini" type="date" (ngModelChange)="calculate1($event)" [min]="laterFec" [max]="fec_ini">
+                <input matInput formControlName="fec_ini" type="date" (ngModelChange)="onFecIniChange($event)" [min]="laterFec" [max]="fec_ini">
                   <mat-error *ngIf="getFechInvalid()">
                     <strong>
                       Ingrese Fecha
@@ -79,19 +80,12 @@
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Número dias</mat-label>
-                <input matInput [(ngModel)]="num_days" [ngModelOptions]="{standalone: true}" (ngModelChange)="calculate($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
+                <input matInput [(ngModel)]="num_days" [ngModelOptions]="{standalone: true}" (ngModelChange)="onNumDaysChange($event)" type="number" name="numrango" min="1" max="15" step="1" [readonly]="CheckTrue">
                     <mat-error *ngIf="getDayInvalid()">
                       <strong>No puede exceder los {{ remainingDays }} días restantes</strong>
                   </mat-error>
               </mat-form-field>
             </div>
-
-            <!-- <div class="col-sm-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Dias a Compensar</mat-label>
-                <input matInput formControlName="day_com" value="day_com" type="number" (ngModelChange)="totalDays($event)" maxlength="1" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"required>
-              </mat-form-field>
-            </div> -->
           </div>
           <div class="row mt-2">    
             <div class="col-sm-4">
@@ -100,12 +94,6 @@
                 <input matInput formControlName="fec_fin" [value]="fec_fin" type="date" readonly>
               </mat-form-field>
             </div>
-            <!-- <div class="col-sm-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>Fecha Finalización</mat-label>
-                <input matInput formControlName="fec_fin" [value]="fec_fin" type="date">
-              </mat-form-field>
-            </div> -->
             <div class="col-sm-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Fecha de Reintegro</mat-label>

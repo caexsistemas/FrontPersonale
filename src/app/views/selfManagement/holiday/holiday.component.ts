@@ -57,7 +57,7 @@ export class HolidayComponent implements OnInit {
   daysExt: any = [];
   days: any = [];
   totalDays: any = [];
-  fec_in: any = [];
+  admissionDate: any = [];
   daysTo: any = [];
   daysRe: any = [];
   daysFor: any = [];
@@ -76,6 +76,15 @@ export class HolidayComponent implements OnInit {
   daysPropor:any = [];
   daysDom: any = [];
   totAll:any = [];
+
+  suspendedDays : number = 0;
+  compensedDays : number = 0;
+  takenDays : number = 0;
+  enjoynedDays : number = 0;
+  advancedDays : number = 0;
+  availableCompensableDays : number = 0;
+  availableEnjoyableDays : number = 0;
+
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -95,7 +104,7 @@ export class HolidayComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendRequest();
-    this.sendRequestVacation();
+    // this.sendRequestVacation();
 
     this.permissions = this.handler.permissionsApp;
     
@@ -110,29 +119,42 @@ export class HolidayComponent implements OnInit {
       modulo: this.component,
       role: this.cuser.role,
       idPersonale: this.cuser.idPersonale,
+      // idPersonale: 2009,
     }).subscribe(
       (data) => {
-        this.permissions = this.handler.getPermissions(this.component);        
+          this.permissions = this.handler.getPermissions(this.component);        
 
           if (data.success == true) {
               this.contenTable = data.data["getSelectData"]["vac"];
-              this.fec_in = data.data["getSelectData"]["vac"];
+              
+              const summary = data.data["getSelectData"]["summary"]?.[0] || {};
+
+              this.admissionDate = data.data["getSelectData"]["vac"][0]["admissionDate"];
+              this.suspendedDays = parseInt(summary["suspendedDays"] || "0", 10);
+              this.compensedDays = parseInt(summary["compensedDays"] || "0", 10);
+              this.takenDays = parseInt(summary["takenDays"] || "0", 10);
+              this.enjoynedDays = parseInt(summary["enjoynedDays"] || "0", 10);
+              this.advancedDays = parseInt(summary["advancedDays"] || "0", 10);
+              
+              
+              // console.log({
+              //   __admissionDate: this.admissionDate,
+              //   __suspendedDays:this.suspendedDays,
+              //   __compensedDays:this.compensedDays,
+              //   __enjoynedDays:this.enjoynedDays,
+              //   __advancedDays:this.advancedDays,
+              // })
+
               this.role = this.cuser.role;
-           
-              this.generateTable(data.data["getSelectData"]["vac"]);
-          
-          
-       
-          this.content = data.data["getSelectData"]["vac"];
-          if(this.content){
-              this.content.forEach(element => {
+              this.generateTable(this.contenTable);
+              this.content = this.contenTable;
+              if(this.content){
+                  this.content.forEach(element => {
+                    element.Dias_suspension = element.Dias_suspension || 0;
+                  });
+              }
 
-                (element.Dias_suspension) ? element.Dias_suspension : element.Dias_suspension = 0;
-
-              });
-          }
-
-          this.daysFor = data.data["getSelectData"][0];
+              this.daysFor = data.data["getSelectData"]["history"];
 
           for (let i = 0; i < this.daysFor.length; i++) {
 
@@ -141,6 +163,9 @@ export class HolidayComponent implements OnInit {
 
             }
           }
+
+          this.calculateHolidayData(this.admissionDate, this.suspendedDays, this.compensedDays, this.enjoynedDays, this.takenDays)
+
           this.name = this.cuser.idPersonale;
           this.username = this.cuser.username;
           this.loading = false;
@@ -149,14 +174,12 @@ export class HolidayComponent implements OnInit {
           this.loading = false;
         }
       },
-      (mistake) => {
+    (mistake) => {
         let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
         //let msjErr = mistake.error.message;
         this.handler.showError(msjErr);
         this.loading = false;
-      }
-      
-    );
+    });
   }
   generateTable(data) {
 
@@ -316,9 +339,17 @@ email() {
             later:this.laterFec,
             state: this.stateVac,
             ini:this.ini,
-            days:this.days,
+            days:this.days, //Dias totales que he tenido derecho
             role:this.role,
-            daysRest:this.totAll
+            // daysRest:this.totAll, // Dias disponibles, se resta los dias totales con con los dias usados
+            
+            compensedDays :  this.compensedDays,
+            enjoynedDays :  this.enjoynedDays,
+            totalDays :  this.totalDays,
+            takenDays :  this.takenDays,
+            remainingDays :  this.totAll,
+            availableCompensableDays: this.availableCompensableDays,
+            availableEnjoyableDays: this.availableEnjoyableDays
             // tipoMat: tipoMat
           },
         });
@@ -330,7 +361,7 @@ email() {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          this.sendRequestVacation();
+          // this.sendRequestVacation();
 
         });
         break;
@@ -508,5 +539,41 @@ email() {
   onTriggerSheetClick() {
     // console.log(event.target['id']);    
     this.matBottomSheet.open(ReportsVacationComponent);
+  }
+
+  calculateHolidayData(admissionDate, suspendedDays, compensedDays, enjoynedDays, takenDays ){
+    // Cálculos
+    const effectiveStartDate = moment(admissionDate).add(suspendedDays, 'days');
+    const yearsInCompany = moment().diff(effectiveStartDate, 'years');
+    const totalDays = yearsInCompany * 15;
+    const remainingDays = totalDays - takenDays;
+    
+    const maxCompensablePerYear = 9;
+    const totalMaxCompensable = yearsInCompany * maxCompensablePerYear; // Máximo total compensable acumulado
+    this.availableCompensableDays = Math.min(
+      remainingDays, 
+      totalMaxCompensable - compensedDays
+    ); // Compensables según las restricciones y los días restantes
+    
+    // Disfrutables: Todo lo que no sea compensable puede disfrutarse
+    this.availableEnjoyableDays = remainingDays;
+    
+    // Verificación de límites
+    const canCompense = this.availableCompensableDays > 0;
+    const canEnjoy = this.availableEnjoyableDays > 0;
+    
+    // Resultados
+    // console.log({
+    //   effectiveStartDate: effectiveStartDate.format('YYYY-MM-DD'),
+    //   yearsInCompany,
+    //   totalDays,
+    //   takenDays,
+    //   remainingDays,
+    //   totalMaxCompensable,
+    //   availableCompensableDays: this.availableCompensableDays,
+    //   availableEnjoyableDays: this.availableEnjoyableDays,
+    //   canCompense,
+    //   canEnjoy,
+    // });
   }
 }
