@@ -92,7 +92,7 @@ export class AdvanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendRequest();
-    // this.sendRequestVacation();
+    this.sendRequestVacation();
 
     this.permissions = this.handler.permissionsApp;
   }
@@ -250,7 +250,7 @@ export class AdvanceComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          // this.sendRequestVacation();
+          this.sendRequestVacation();
         });
         break;
       case "update":
@@ -270,7 +270,7 @@ export class AdvanceComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          // this.sendRequestVacation();
+          this.sendRequestVacation();
         });
         break;
     }
@@ -291,8 +291,8 @@ export class AdvanceComponent implements OnInit {
         // console.log(data.success);
 
         if (data.success == true) {
-          this.generateTableVacation(data.data["getSelectData"][0]);
-          this.contenTableVacation = data.data["getSelectData"][0];
+          this.generateTableVacation(data.data["getSelectData"]["details"]);
+          this.contenTableVacation = data.data["getSelectData"]["details"];
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -334,7 +334,7 @@ export class AdvanceComponent implements OnInit {
   openc() {
     if (this.contaClick == 0) {
       this.sendRequest();
-      // this.sendRequestVacation();
+      this.sendRequestVacation();
     }
     this.contaClick = this.contaClick + 1;
   }
@@ -364,7 +364,7 @@ export class AdvanceComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          // this.sendRequestVacation();
+          this.sendRequestVacation();
         });
         break;
       case "update":
@@ -386,7 +386,7 @@ export class AdvanceComponent implements OnInit {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          // this.sendRequestVacation();
+          this.sendRequestVacation();
         });
         break;
 

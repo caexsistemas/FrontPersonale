@@ -1,7 +1,7 @@
 <!-- <div class="content"> -->
   <div class="card">
     <div class="card-header">
-      solicitud
+      Solicitud
   </div>
     <!-- <mat-dialog-content> -->
   
@@ -52,7 +52,7 @@
               <!--</div>-->
                
             <!--</div>-->
-  
+
             <div class="container">
                 <mat-form-field appearance="standard" style="width: 100%;">
                     <mat-label>Buscar..</mat-label>
@@ -200,7 +200,9 @@
             </div> -->
              
           </div>
-
+      <div class="card-header">
+          Histórico Vacaciones
+      </div>
           <div class="container">
               <mat-form-field appearance="standard" style="width: 100%;">
                   <mat-label>Buscar..</mat-label>
@@ -211,8 +213,7 @@
 
       <div class="section-table first-action">
           <table mat-table [dataSource]="dataSourceVacation" matSort class="table-large table-responsive-lg"
-              *ngIf="contenTable.length > 0">
-             
+              *ngIf="contenTableVacation.length > 0">
 
               <ng-container matColumnDef="view">
                 <th mat-header-cell *matHeaderCellDef> Ver </th>
@@ -289,7 +290,7 @@
             <td mat-cell *matCellDef="let rw"> {{rw.sta_liq}} </td>	
           </ng-container>
 
-              <ng-container matColumnDef="actions">
+              <!-- <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef> Acciones </th>
                   <td mat-cell *matCellDef="let element">
                     <div *ngIf="element.state == '79/1' ">
@@ -299,7 +300,7 @@
                       </button>
                         </div>
                   </td>
-              </ng-container>
+              </ng-container> -->
               <tr mat-header-row *matHeaderRowDef="displayedColumnsVacation; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumnsVacation;"></tr>
           </table>
@@ -307,8 +308,8 @@
           [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"  showFirstLastButtons></mat-paginator>
 
       </div>
-      <div *ngIf="contenTable.length == 0">
-          <h4 class="no-records">No hay registros...</h4>
+      <div *ngIf="contenTableVacation.length == 0">
+          <h4 class="no-records">Hey! Aún no has pedido vacaciones</h4>
       </div>
   </div>
   </div>

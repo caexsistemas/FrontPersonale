@@ -104,7 +104,7 @@ export class HolidayComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendRequest();
-    // this.sendRequestVacation();
+    this.sendRequestVacation();
 
     this.permissions = this.handler.permissionsApp;
     
@@ -125,6 +125,7 @@ export class HolidayComponent implements OnInit {
           this.permissions = this.handler.getPermissions(this.component);        
 
           if (data.success == true) {
+
               this.contenTable = data.data["getSelectData"]["vac"];
               
               const summary = data.data["getSelectData"]["summary"]?.[0] || {};
@@ -361,13 +362,13 @@ email() {
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          // this.sendRequestVacation();
+          this.sendRequestVacation();
 
         });
         break;
       case "update":
         this.loading = true;
-        dialogRef = this.dialog.open(RequisitionDialog, {
+        dialogRef = this.dialog.open(HolidayDialog, {
           data: {
             window: "update",
             codigo,
@@ -406,8 +407,8 @@ email() {
         // console.log(this.permissions);
 
         if (data.success == true) {
-          this.generateTableVacation(data.data["getSelectData"][0]);
-          this.contenTableVacation = data.data["getSelectData"][0];
+          this.generateTableVacation(data.data["getSelectData"]["history"]);
+          this.contenTableVacation = data.data["getSelectData"]["history"];
           this.contenTableVacation.forEach(element => {
 
             if(element.fec_rei == null){
@@ -459,7 +460,7 @@ email() {
 
   openc() {
     if (this.contaClick == 0) {
-      // this.sendRequest();
+      this.sendRequest();
       this.sendRequestVacation();
     }
     this.contaClick = this.contaClick + 1;
