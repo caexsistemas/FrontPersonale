@@ -357,7 +357,6 @@ const routes: Routes = [];
     BillingComponent,
     PrestacionServiciosDialog,
     GestionContratistasDialog,
-    // ReportsLearningComponent
   ],
   providers: [
     {

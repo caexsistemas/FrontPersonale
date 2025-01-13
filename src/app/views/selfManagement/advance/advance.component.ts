@@ -92,7 +92,7 @@ export class AdvanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendRequest();
-    this.sendRequestVacation();
+    // this.sendRequestVacation();
 
     this.permissions = this.handler.permissionsApp;
   }
@@ -105,13 +105,10 @@ export class AdvanceComponent implements OnInit {
       token: this.cuser.token,
       modulo: this.component,
       role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
       idPersonale: this.cuser.idPersonale,
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        // console.log(this.permissions);
-        // console.log(data.success);
 
         if (data.success == true) {
           this.contenTable = data.data["getSelectData"]["vac"];
@@ -126,7 +123,7 @@ export class AdvanceComponent implements OnInit {
 
           this.generateTable(data.data["getSelectData"]["vac"]);
 
-          this.content = data.data["getSelectData"][0];
+          this.content = data.data["getSelectData"]["details"];
           if (this.content) {
             this.content.forEach((element) => {
               this.line = element.state;
@@ -137,9 +134,7 @@ export class AdvanceComponent implements OnInit {
             });
           }
 
-          this.daysFor = data.data["getSelectData"][0];
-          // for()
-          // this.daysTo = data.data["getSelectData"][0][0].day_vac;
+          this.daysFor = data.data["getSelectData"]["details"];
 
           for (let i = 0; i < this.daysFor.length; i++) {
 
@@ -155,7 +150,6 @@ export class AdvanceComponent implements OnInit {
       },
       (mistake) => {
         let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
-        //let msjErr = mistake.error.message;
         this.handler.showError(msjErr);
         this.loading = false;
       }
@@ -192,99 +186,21 @@ export class AdvanceComponent implements OnInit {
   days2:any = [];
   vac2: any = [];
   sundayTot: any = [];
+
   calculateDaysAll(daysPro,daysDom) {
   
-    // let date11 = new Date(fecha);
-    
-    // let date22 = new Date();
-  
-    // let diff = moment(date22).diff(moment(date11));
-    // let duration = moment.duration(diff);
-
-    // let months = duration.asMonths();
-    // this.days = (months * 30).toFixed(2);
-    //   this.days2 = (this.days/360*15);
-      // console.log('sus-',dom);
-      
-
     if(daysDom >= 1){
       this.sundayTot = (daysDom/360*15);
-      
-      // this.days2 = (this.sundayTot/360*15);
     }else{
-
-    this.sundayTot = (daysPro/360*15);
-
+      this.sundayTot = (daysPro/360*15);
     }
-    // this.days = (months * 30).toFixed(2);
-    // this.days2 = (this.days/360*15);
-   
-    // (dom) ? (this.daysDom = (this.days - dom)):
-    // console.log(this.sumTot);
-    
-    // this.days2 = (this.days/360*15)-this.contenTable.susp - this.contenTable.dom;
 
     this.vac2 = (this.days/30);
-     
   }
 
-  // calculateDays(fecha,dom) {
-   
-  //   let date11 = new Date(fecha);
-
-  //   date11.setHours(0, 0, 0, 0);
-  //   let dia11 = date11.getDate().toString().padStart(2, '0');
-  //   let mes11 = (date11.getMonth() + 1).toString().padStart(2, '0');
-  //   let anio11 = date11.getFullYear();
-  //   let horas11 = date11.getHours().toString().padStart(2, '0');
-  //   let minutos11 = date11.getMinutes().toString().padStart(2, '0');
-  //   let segundos11 = date11.getSeconds().toString().padStart(2, '0');
-  //   let fechaYHoraActualEnFormatoTexto11 = `${anio11}-${mes11}-${dia11} ${horas11}:${minutos11}:${segundos11}`;
-    
-  //   let date22 = new Date();
-  //   // let fechaActual = new Date();
-   
-  //   // let fechaActual = new Date();
-  // date22.setHours(24, 0, 0, 0);
-  // let dia = date22.getDate().toString().padStart(2, '0');
-  // let mes = (date22.getMonth() + 1).toString().padStart(2, '0');
-  // let anio = date22.getFullYear();
-  // let horas = date22.getHours().toString().padStart(2, '0');
-  // let minutos = date22.getMinutes().toString().padStart(2, '0');
-  // let segundos = date22.getSeconds().toString().padStart(2, '0');
-  // let fechaYHoraActualEnFormatoTexto = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
-
-    
-  //   let diff = moment(fechaYHoraActualEnFormatoTexto).diff(moment(fechaYHoraActualEnFormatoTexto11));
-  //   let duration = moment.duration(diff);
-
-  //   let months = duration.asMonths();
-  //    this.daysPro = (months * 30 + 1.1 ).toFixed(2);   
-  //     this.day2 = ((this.daysPro)/30);
-     
-  //   //  (dom) ? this.daysDom = (this.daysPro - dom) : (this.daysDom = 0);  
-  //   if(dom){
-  //     this.daysDom = (this.daysPro - dom);
-
-  //   // if(dom >= 1){
-  //   //   this.sundayTot = (dom/360*15);
-      
-  //   //   // this.days2 = (this.sundayTot/360*15);
-  //   // }else{
-
-  //   // this.sundayTot = (this.days/360*15);
-
-  //   // }
-  //   // this.days2 = (this.daysDom/360*15);
-  //   }else{
-  //     this.daysDom = 0
-  //   }
-     
-   
-  // }
   calculateDays(fecha,dom) {
-   
-  let fechaIngresoMoment = moment(fecha, 'YYYY-MM-DD');
+  
+    let fechaIngresoMoment = moment(fecha, 'YYYY-MM-DD');
 
     // Fecha actual
     let fechaActualMoment = moment();
@@ -300,31 +216,16 @@ export class AdvanceComponent implements OnInit {
 
     this.daysPro= diasLaborados + 1; 
     if(dom){
-          this.daysDom = (this.daysPro - dom);
+      this.daysDom = (this.daysPro - dom);
     }else{
-          this.daysDom = 0
-        }
-  }
-  calculateDaysRest(tt1,tt2,tt3) {
-    // console.log('suspensiopn',totDays);
-    // console.log('anticipo',adv);
-    // console.log('tomados',tt);
-    // console.log('propor',this.sundayTot);
-
-this.totAll =(tt1-tt2-tt3);
-// console.log('===>',this.totAll);
-
-    
-
+      this.daysDom = 0
     }
-  //   // if(state == '79/2'){
-  //   //   console.log(totDays,"=>", state);
-  //   //   this.totalDays = ( this.days - totDays)
-  //   // }else{
-  //   //   this.totalDays = 0 ; // Dias restanstes
-  //   // }
-  //   // (tt) ? (this.totalDays = this.days2 - totDays ) : (this.totalDays = 0);
-  // }
+  }
+
+  calculateDaysRest(tt1,tt2,tt3) {
+    this.totAll =(tt1-tt2-tt3);
+    // console.log('===>',this.totAll);
+  }
 
   option(action, codigo = null, id, create_User) {
     var dialogRef;
@@ -349,7 +250,7 @@ this.totAll =(tt1-tt2-tt3);
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          this.sendRequestVacation();
+          // this.sendRequestVacation();
         });
         break;
       case "update":
@@ -369,7 +270,7 @@ this.totAll =(tt1-tt2-tt3);
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          this.sendRequestVacation();
+          // this.sendRequestVacation();
         });
         break;
     }
@@ -433,7 +334,7 @@ this.totAll =(tt1-tt2-tt3);
   openc() {
     if (this.contaClick == 0) {
       this.sendRequest();
-      this.sendRequestVacation();
+      // this.sendRequestVacation();
     }
     this.contaClick = this.contaClick + 1;
   }
@@ -463,7 +364,7 @@ this.totAll =(tt1-tt2-tt3);
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          this.sendRequestVacation();
+          // this.sendRequestVacation();
         });
         break;
       case "update":
@@ -485,7 +386,7 @@ this.totAll =(tt1-tt2-tt3);
         // RELOAD
         dialogRef.componentInstance.reload.subscribe((val) => {
           this.sendRequest();
-          this.sendRequestVacation();
+          // this.sendRequestVacation();
         });
         break;
 

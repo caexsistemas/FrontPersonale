@@ -36,6 +36,9 @@ import { exit } from "process";
 import { MatPaginator } from "@angular/material/paginator";
 import { calculateDays } from "../../../services/holiday.service";
 import { exists } from "fs";
+import { ChangeDetectorRef } from '@angular/core';
+import { Action } from "rxjs/internal/scheduler/Action";
+
 // import { element } from "protractor";
 interface Food {
   value: string;
@@ -82,13 +85,12 @@ export class AdvanceDialog  {
   contenTable:   any = [];
   fec_in: any = [];
   days: any = [];
-  enabledDays: any = [];
   showAge: any = [];
   vac_type: string = '';
   num_days: number = 0;
   totalFin: any= [];
-  prue: any =[];
-  prue2: any =[];
+  fechaInicio: any =[];
+  numVacationDays: any =[];
   laterFec:any = [];
   fe: any = [];
   totaLfecHol: any = [];
@@ -106,10 +108,23 @@ export class AdvanceDialog  {
   arrholiday: any = [];
   getHoliday:any = [];
 
-  remainingDays: number = 0;
-  daysDom: any = [];
-  daysPro: any = [];
-  sundayTot: any = [];
+  notWorkedDays: any = [];
+  workedDays: any = [];
+  proportionalVacationDays: any = [];
+
+  // CALCULADORA DE DIAS 
+  admissionDate: any = [];
+  suspendedDays : number = 0;
+  compensedDays : number = 0;
+  takenDays : number = 0;
+  enjoynedDays : number = 0;
+  advancedDays : number = 0;
+  availableCompensableDays : number = 0;
+  availableEnjoyableDays : number = 0;
+  availableAnticipateDays : number = 0;
+  maximunDays: number = 0;
+
+  employeeName: string = "";
 
   // document = new FormControl('', [Validators.required]);
   public clickedRows;
@@ -127,7 +142,8 @@ export class AdvanceDialog  {
     private holiday: calculateDays,
     @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
-    private uploadFileService: NovedadesnominaServices
+    private uploadFileService: NovedadesnominaServices,
+    private cdr: ChangeDetectorRef
   ) {
     this.view = this.data.window;
     this.idSel = null;
@@ -221,6 +237,7 @@ export class AdvanceDialog  {
       day_adv: new FormControl(""),
       state: new FormControl(""),
       type_sol:new FormControl(""),
+      total:new FormControl(""),
       obc_apr: new FormControl("", [Validators.required]),
       // obc_apr:new FormControl(""),
       create_User: new FormControl(this.cuser.iduser),
@@ -242,9 +259,6 @@ export class AdvanceDialog  {
           this.position        = data.data["getPosition"];
           this.getHoliday = data.data["getHoliday"];
 
-
-
-
           if (this.view == "update") {
             this.getDataUpdate();
           }
@@ -265,39 +279,40 @@ export class AdvanceDialog  {
   onSubmit() {
     if (this.formSelec.valid) {
 
-      // ANTICIPO
-      if (this.vac_type === 'anticipo') {
-        this.formSelec.value.type_sol = '79/4'; 
-        this.formSelec.value.day_adv = this.num_days;
-        
-        // ASIGNACIÓN
-      } else if (this.vac_type === 'asignacion') {
-        this.formSelec.value.day_vac = this.num_days;
-        this.formSelec.value.day_adv = 0;
-      }
-
-      const remainingDaysRounded = Math.floor(this.remainingDays); // Redondear hacia abajo
-      const enabledDaysRounded = Math.floor(this.enabledDays); // Redondear hacia abajo
-
-      if (this.vac_type === 'anticipo' && this.num_days > remainingDaysRounded) {
-        this.getDayInvalid()
-        this.handler.showError("Error, no pueden ser más de " + remainingDaysRounded + " días restantes");
+      if(this.num_days === 0){
+        this.handler.showError("Error, el número de dias no puede estar vacío");
         return false;
       }
 
-      if (this.vac_type === 'asignacion' && this.num_days > enabledDaysRounded) {
-        this.getDayInvalid()
-        this.handler.showError("Error, no pueden ser más de " + enabledDaysRounded + " días a disfrutar");
+      if(this.vac_type !== 'anticipo' && this.num_days > this.maximunDays){
+        this.handler.showError("Error, no pueden ser más de " + this.maximunDays + " días a disfrutar");
         return false;
       }
 
+      switch (this.vac_type) {
+        case 'anticipo':
+          this.formSelec.value.type_sol = '79/4';
+          this.formSelec.value.day_adv = this.num_days;
+          break;
+          
+          case 'asignacion':
+          this.formSelec.value.day_vac = this.num_days;
+          break;
+          
+          case 'compensacion':
+          this.formSelec.value.day_com = this.num_days;
+          break;
+        default:
+          console.log("Tipo de solicitud no existe: ", this.vac_type)  
+      }
+
+      this.formSelec.value.total = this.num_days;
+      this.formSelec.value.tot_day = this.num_days;
+      
       this.loading.emit(true);
       let body = {
         listas: this.formSelec.value,
-        
       };
-
-      // console.log(body.listas)
 
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
@@ -409,14 +424,16 @@ export class AdvanceDialog  {
   prevStep() {
     this.step--;
   }
+
   onSelectionChange(event){
-        
+
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
-    if( exitsPersonal ){    
+    if( exitsPersonal ){ 
         this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
         this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
         // this.jefe =this.formSelec.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
+        this.employeeName = exitsPersonal.name;
         // this.laterFec = exitsPersonal.fec_rei;
 
         this.laterFec = new Date();
@@ -426,85 +443,91 @@ export class AdvanceDialog  {
         this.formSelec.get('day_vac').setValue(0);
         this.formSelec.get('day_com').setValue(0);
 
-        this.calculateDaysWorked(exitsPersonal.admissionDate, exitsPersonal.diasSuspension)
-        let diasTomados = exitsPersonal.total_vac
-        this.calculateDiasProp(this.daysDom, this.daysPro)
-        this.calculateRemainingDays(this.sundayTot, diasTomados)
-        this.calculateEnabledDays(exitsPersonal.admissionDate, exitsPersonal.total_vac)
+        this.calculateDaysWorked(exitsPersonal.admissionDate, exitsPersonal.suspendedDays)
+        this.calculateProportionalDays(this.workedDays, this.notWorkedDays)
+
+        // Calcular todos los dias (restantes, compensados, a disfrutar) 
+        this.admissionDate = exitsPersonal.admissionDate; 
+        this.suspendedDays = parseInt(exitsPersonal.suspendedDays || "0", 10);
+        this.compensedDays = parseInt(exitsPersonal.compensedDays || "0", 10); 
+        this.takenDays = parseInt(exitsPersonal.takenDays || "0", 10);
+        this.enjoynedDays = parseInt(exitsPersonal.enjoyedDays || "0", 10);
+        this.advancedDays = parseInt(exitsPersonal.advancedDays || "0", 10); 
+
+        this.calculateHolidayData(this.admissionDate, this.suspendedDays, this.compensedDays, this.enjoynedDays, this.takenDays)
         
 
         // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);  
     }else{
         this.formSelec.get('idPersonale').setValue('');
         this.formSelec.get('immediateBoss').setValue('');  
+        this.admissionDate = 0; 
+        this.suspendedDays = 0;
+        this.compensedDays = 0; 
+        this.takenDays = 0;
+        this.enjoynedDays = 0;
+        this.advancedDays = 0; 
         (this.stateVac != '79/3')?this.laterFec = this.data.later: this.laterFec = this.ini;
     }
   }
   
-  calculate1(event){
+  onFecIniChange(event){
     if (!event) {
-      console.log('Fecha vacía, no se realiza cálculo');
       return;
     }
-    this.prue = event;
-    const fec = this.prue.split('-');
-    const authFech = moment(this.prue);
+    this.fechaInicio = event;
+    const fec = this.fechaInicio.split('-');
+    const authFech = moment(this.fechaInicio);
     const validFecha = this.getHoliday.filter(month => month.month == authFech.month() +1 && month.day_hol == fec[2])
 
     if(authFech.day() == 0 || validFecha.length > 0){
-        this.handler.shoWarning('Atención','Fecha Inicio Vacaciones NO Puede Ser DOMINGO O DIA FESTIVO');
-        this.CheckTrue = true;
-        this.formSelec.get('day_adv').setValue('');
-
+      this.handler.shoWarning('Atención','Fecha Inicio Vacaciones NO Puede Ser DOMINGO O DIA FESTIVO');
+      this.CheckTrue = true;
+      this.formSelec.get('day_adv').setValue('');
     }else{
       this.CheckTrue = false;
-      this.holiday.holiday(this.prue,this.prue2 );
-
+      this.holiday.holiday(this.fechaInicio, this.numVacationDays );
     }
 
     const today = new Date();
     const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1); // Incrementar un día
-    const tomorrowFormatted = tomorrow.toISOString().split('T')[0]; // Formatear a 'yyyy-MM-dd'
+    tomorrow.setDate(today.getDate() + 1);
+    const tomorrowFormatted = tomorrow.toISOString().split('T')[0]; 
     
-    if (this.prue < tomorrowFormatted) {
+    if (this.fechaInicio < tomorrowFormatted) {
       this.handler.shoWarning('Atención', 'La fecha de inicio NO puede ser anterior al siguiente día habil.');
       this.formSelec.get('fec_ini').setValue(tomorrowFormatted); 
       return; 
     }
 }
 
-calculate(event){  
+  onNumDaysChange(event){  
     if(event){
-        const remainingDaysRounded = Math.floor(this.remainingDays); // Redondear hacia abajo
-        const enabledDaysRounded = Math.floor(this.enabledDays); // Redondear hacia abajo
 
-        if (this.vac_type === 'anticipo' && event > remainingDaysRounded) {
-            this.getDayInvalid()
-            this.handler.showError("Error, no pueden ser más de " + remainingDaysRounded + " días restantes");
-        }
+      if(this.vac_type === ""){
+        this.handler.showError("Error, Debes escoger un tipo de Vacaciones")
+        return;
+      }
 
-        if (this.vac_type === 'asignacion' && event > enabledDaysRounded) {
-            this.getDayInvalid()
-            this.handler.showError("Error, no pueden ser más de " + enabledDaysRounded + " días a disfrutar");
-        }
+      if(this.vac_type === "anticipo" && event > this.maximunDays){
+        this.handler.showInfo("Hey!, " + this.employeeName + " tan solo tiene " + this.maximunDays + " días disponibles", "¡Advertencia!", " " );
+        return;
+      }
 
-        this.prue2 = event;
-        // this.calculateDays(this.prue,this.prue2);
-        this.holiday.holiday(this.prue,this.prue2);
-    
-        this.totaLfecHol = this.holiday.holiday(this.prue,this.prue2);
-        this.fec_fin = this.totaLfecHol[0];
-        this.sumTotalMen = this.totaLfecHol[1];
-        this.formSelec.get('fec_fin').setValue(this.fec_fin);
-        this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
-        // this.formSelec.get('immediateBoss').setValue(this.jefe);
-    }  
-  }
+      if(this.vac_type !== "anticipo" && event>this.maximunDays){
+        this.handler.showError("Error, No pueden ser más de " + this.maximunDays + " días para " + this.vac_type)
+        return;
+      }
+
+      this.numVacationDays = event;
+      this.holiday.holiday(this.fechaInicio,this.numVacationDays);
   
-  totalDays(event){
-    this.totalFin = event;
-     // this.totalFii(this.totalFin,this.prue2);
+      this.totaLfecHol = this.holiday.holiday(this.fechaInicio,this.numVacationDays);
+      this.fec_fin = this.totaLfecHol[0];
+      this.sumTotalMen = this.totaLfecHol[1];
+      this.formSelec.get('fec_fin').setValue(this.fec_fin);
+      this.formSelec.get('fec_rei').setValue(this.sumTotalMen);      
+    }  
   }
 
   getDocumentInvalid(){
@@ -521,25 +544,23 @@ calculate(event){
 
   }
 
-  calculateRemainingDays(sundayTot, diasTomados){
-    // console.log("dias tomados: ", diasTomados)
-    // console.log("dias proporcionales: ", sundayTot)
+  calculateDaysWorked(admissionDate, suspendedDays) {
 
-    this.remainingDays = sundayTot - diasTomados
-  }
+    let fechaIngresoMoment: moment.Moment;
 
-  calculateDaysWorked(fecha, dom) {
-
-    // Convertir la fecha al formato correcto
-    let fechaIngresoMoment = moment(fecha, 'DD-MM-YYYY').startOf('day'); // Ajusta el formato aquí
+    if (admissionDate.includes('-')) {
+      fechaIngresoMoment = moment(admissionDate, 'YYYY-MM-DD').startOf('day');
+    } else {
+      fechaIngresoMoment = moment(admissionDate, 'DD-MM-YYYY').startOf('day');
+    }
   
-    // Fecha actual
     let fechaActualMoment = moment().startOf('day');
   
-    // Validar si la fecha de ingreso es válida
     if (!fechaIngresoMoment.isValid()) {
-      console.error('Fecha de ingreso inválida:', fecha);
-      return 0; // Retorna 0 en caso de error
+      console.error('Fecha de ingreso inválida:', admissionDate);
+      this.workedDays = 0;
+      this.notWorkedDays = 0;
+      return;
     }
   
     // Calcular días laborados usando el esquema de 360 días/año
@@ -549,57 +570,82 @@ calculate(event){
     diasLaborados += fechaActualMoment.date() - fechaIngresoMoment.date(); // Diferencia en días
   
     // Ajustar por día adicional
-    this.daysPro = diasLaborados + 1;
+    this.workedDays = diasLaborados + 1;
   
     // Calcular días descontando domingos u otros valores
-    this.daysDom = dom ? this.daysPro - dom : 0;
+    this.notWorkedDays = suspendedDays ? this.workedDays - suspendedDays : 0;
   }
   
-  calculateDiasProp(daysPro,daysDom){
-    if(daysDom >= 1){
-      this.sundayTot = (daysDom/360*15);
-      
-      // this.days2 = (this.sundayTot/360*15);
-    }else{
-
-      this.sundayTot = (daysPro/360*15);
-
-    }
-  }
-
-  calculateEnabledDays(fecha: string, diasTomados) {
-    // Convertir la fecha al formato MM/DD/YYYY
-    const [day, month, year] = fecha.split('-');
-    const formattedDate = `${month}/${day}/${year}`;
-  
-    var convertAge = new Date(formattedDate);
-    if (isNaN(convertAge.getTime())) {
-      console.error('Fecha inválida');
-      return;
+  calculateProportionalDays(totalWorkedDays: number, suspendedDays: number): void {
+    if (suspendedDays >= 1) {
+      this.proportionalVacationDays = (totalWorkedDays - suspendedDays) / 360 * 15;
+    } else {
+      this.proportionalVacationDays = (totalWorkedDays / 360) * 15;
     }
   
-    var timeDiff = Math.abs(Date.now() - convertAge.getTime());
-    this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
-    this.enabledDays = this.showAge * 15;
-    
-    if(diasTomados){
-      this.enabledDays = this.enabledDays - diasTomados;
-    }
-  
-    // console.log('fecha ', fecha);
-    // console.log('fecha convertida', convertAge);
-    // console.log('timeDiff', timeDiff);
-    // console.log('showAge', this.showAge);
-    // console.log('enabledDays', this.enabledDays);
   }
   
+
+
   onVacTypeChange(type: string): void {
     if (type) {
-      this.formSelec.get('fec_ini')?.setValue(null); // Limpia la fecha de inicio
-      this.num_days = 0; // Limpia el campo de número de días
+      this.formSelec.get('fec_fin').setValue(null);
+      this.formSelec.get('fec_rei').setValue(null);
+      this.formSelec.get('fec_ini')?.setValue(null);
+      this.num_days = 0; 
+
+      if(type === "asignacion"){
+        this.maximunDays = this.availableEnjoyableDays;
+      } else if(type === "compensacion"){
+        this.maximunDays = this.availableCompensableDays;
+      } else if(type === "anticipo"){
+        this.maximunDays = Math.floor(this.availableAnticipateDays);
+      }
+
+      if (this.maximunDays === 0) {
+        this.handler.showError("No tiene días disponibles para " + type);
+      }
     }
   }
   
+  calculateHolidayData(admissionDate, suspendedDays, compensedDays, enjoynedDays, takenDays ){
+    // Cálculos
+    const effectiveStartDate = moment(admissionDate).add(suspendedDays, 'days');
+    const yearsInCompany = moment().diff(effectiveStartDate, 'years');
+    const totalDays = yearsInCompany * 15;
+    const remainingDays = totalDays - takenDays;
+    const remainingAnticipateDays = this.proportionalVacationDays - takenDays;
+
+    const maxCompensablePerYear = 9;
+    const totalMaxCompensable = yearsInCompany * maxCompensablePerYear; // Máximo total compensable acumulado
+    this.availableCompensableDays = Math.min(
+      remainingDays, 
+      totalMaxCompensable - compensedDays
+    ); 
+    
+    // Disfrutables: Todo lo que no sea compensable puede disfrutarse
+    this.availableEnjoyableDays = remainingDays;
+    this.availableAnticipateDays = remainingAnticipateDays;
+    
+    // Verificación de límites
+    const canCompense = this.availableCompensableDays > 0;
+    const canEnjoy = this.availableEnjoyableDays > 0;
+    
+    // Resultados
+    // console.log({
+    //   effectiveStartDate: effectiveStartDate.format('YYYY-MM-DD'),
+    //   yearsInCompany,
+    //   totalDays,
+    //   takenDays,
+    //   remainingDays,
+    //   totalMaxCompensable,
+    //   availableCompensableDays: this.availableCompensableDays,
+    //   availableEnjoyableDays: this.availableEnjoyableDays,
+    //   availableAnticipateDays: this.availableAnticipateDays,
+    //   canCompense,
+    //   canEnjoy,
+    // });
+  }
 
 }
 
