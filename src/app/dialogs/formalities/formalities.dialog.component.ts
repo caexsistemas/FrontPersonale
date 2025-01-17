@@ -410,7 +410,8 @@ export class FormalitiesDialog {
         this.user_sesion = this.cuser.idPersonale;
         this.processAct = data.data["getPersonGuia"][0].area;
         this.jef_inm = data.data["getPersonGuia"][0].immediateBoss;
-        this.user_sesion == this.jef_inm || this.rol == 1 || this.rol == 5
+        // SE DEBE QUITAR EL ROL 41 CUANDO LLEGUE EL NUEVO DIRECTOR DE TECNOLOGÍA
+        this.user_sesion == this.jef_inm || this.rol == 1 || this.rol == 5 || this.rol == 41
           ? (this.check_proc = true)
           : (this.check_proc = false);
 

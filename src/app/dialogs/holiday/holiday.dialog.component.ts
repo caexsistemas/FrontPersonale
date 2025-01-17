@@ -309,7 +309,7 @@ export class HolidayDialog  {
   onSubmit() {
     if (this.formSelec.valid) {
 
-      this.formSelec.value.immediateBoss = this.name
+      this.formSelec.get('immediateBoss').setValue(this.name);
 
       if(this.vac_type == 'disfrutar'){
         this.formSelec.get('day_vac').setValue(this.num_days)

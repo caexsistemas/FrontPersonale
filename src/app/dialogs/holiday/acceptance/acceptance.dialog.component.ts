@@ -169,8 +169,8 @@ export class AcceptanceDialog  {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
+        // console.log(this.permissions);
+        // console.log(data.success);
 
         if (data.success == true) {
 
@@ -297,9 +297,9 @@ export class AcceptanceDialog  {
         this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
         this.advance = (data.data["getSelecUpdat"][0].day_adv);
         this.vacation = (data.data["getSelecUpdat"][0].day_vac);
-        console.log("advance ", this.advance);
-        console.log("totalSol ", this.totalSol);
-        console.log("Vacation ", this.vacation);
+        // console.log("advance ", this.advance);
+        // console.log("totalSol ", this.totalSol);
+        // console.log("Vacation ", this.vacation);
         this.checkS = !!this.totalSol || !!this.vacation; // Verifica si totalSol tiene un valor válido
         this.check = !!this.advance; // Es true si advance o vacation son válidos
       },

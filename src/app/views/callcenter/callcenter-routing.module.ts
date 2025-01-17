@@ -19,6 +19,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { CargueContactComponent } from './cargue-contact/cargue-contact.component';
 import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
 import { ReportsComponent } from './reports/reports.component';
+import { InboundComponent } from './inbound/inbound.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,13 @@ const routes: Routes = [
         component: ReportsComponent,
         data: {
           title: "Reportes Call Center"
+        }
+      },
+      {
+        path: 'inbound',
+        component: InboundComponent,
+        data: {
+          title: "Base Inbound"
         }
       }
     ],
