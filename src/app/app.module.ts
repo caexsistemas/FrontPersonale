@@ -183,6 +183,7 @@ import { BillingComponent } from "./views/billing/billing.component";
 import { PrestacionServiciosRoutingModule } from './views/prestacionservicios/prestacion-servicios-routing.module';
 import { PrestacionServiciosDialog } from "./dialogs/prestacionServicios/prestacionServicios.dialog.component";
 import { GestionContratistasDialog } from './dialogs/gestion-contratistas/gestion-contratistas.dialog.component';
+import { ReportRetributionComponent } from './dialogs/reports/retribution/report-retribution/report-retribution.component';
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -357,6 +358,7 @@ const routes: Routes = [];
     BillingComponent,
     PrestacionServiciosDialog,
     GestionContratistasDialog,
+    ReportRetributionComponent,
   ],
   providers: [
     {

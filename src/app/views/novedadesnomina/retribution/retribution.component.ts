@@ -18,6 +18,7 @@ import { ReportsSuspendComponent } from '../../../dialogs/reports/suspend/report
 import { RetributionDialog } from '../../../dialogs/retribution/retribution.dialog.component';
 import * as moment from 'moment';
 import { CurrencyPipe } from '@angular/common';
+import { ReportRetributionComponent } from '../../../dialogs/reports/retribution/report-retribution/report-retribution.component';
 // import { CurrencyPipe } from '@angular/common';
 // import {
 //   MatDialog,
@@ -130,8 +131,8 @@ export class RetributionComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
+        // console.log(this.permissions);
+        // console.log(data.success);
 
         if (data.success == true) {
 
@@ -453,8 +454,8 @@ export class RetributionComponent implements OnInit {
   onTriggerSheetClick(){
     this.matBottomSheet.open(ReportsSuspendComponent)
   }
+  
   pdf(id) {
-
     this.WebApiService.getRequest(this.endpoint, {
       action: "pdf",
       id: id,
@@ -465,24 +466,27 @@ export class RetributionComponent implements OnInit {
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
         if (data.success == true) {
-              
-              const link = document.createElement("a");
-              link.href = data.data.url;
-              link.download = data.data.file;
-              link.target = "_blank";
-              link.click();
-              this.handler.showSuccess(data.data.file);
+          const link = document.createElement("a");
+          link.href = data.data.url;
+          link.download = data.data.file;
+          link.target = "_blank";
+          link.click();
+          this.handler.showSuccess(data.data.file);
               this.loading = false;
         } else {
-                this.handler.handlerError(data);
-                this.loading = false;
+          this.handler.handlerError(data);
+          this.loading = false;
         }
       },
       (error) => {
-              console.log(error);
-              this.handler.showError("Se produjo un error al descargar Pdf");
-              this.loading = false;
+        console.log(error);
+        this.handler.showError("Se produjo un error al descargar Pdf");
+        this.loading = false;
       }
-);
-}
+    );
+  }
+
+  onExportRetributionClick(){
+    this.matBottomSheet.open(ReportRetributionComponent)
+  }
 }

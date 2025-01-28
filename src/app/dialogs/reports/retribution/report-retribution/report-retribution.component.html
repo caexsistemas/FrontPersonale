@@ -1,0 +1,43 @@
+<div class="card-body">
+    <mat-dialog-content>
+        <form [formGroup]="filterForm" (ngSubmit)="downloadReport()">
+            <div class="row">
+                <!-- Select de periodos -->
+                <div class="col-md-6 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Seleccionar períodos</mat-label>
+                        <mat-select formControlName="periods" multiple (selectionChange)="onPeriodChange($event)">
+                            <mat-option *ngFor="let period of periods" [value]="period.id">
+                                {{ period.description }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <!-- Select de tipo de reporte -->
+                <div class="col-md-6 mb-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>Tipo de reporte</mat-label>
+                        <mat-select formControlName="reportType">
+                            <mat-option *ngFor="let type of reportTypes" [value]="type.value">
+                                {{ type.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <div class="text-center col-12">
+            <button 
+                mat-button 
+                color="primary" 
+                class="btn btn-success" 
+                [disabled]="!filterForm.valid" 
+                (click)="downloadReport()">
+                Descargar
+            </button>
+        </div>
+    </div>
+</div>

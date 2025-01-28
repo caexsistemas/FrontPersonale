@@ -23,7 +23,12 @@
               <button mat-menu-item *ngIf="permissions.create" (click)="successModal.show()" title="Importar Liquidación de Prima">
                 <mat-icon>upload_file</mat-icon>
                 <span>Importar Liquidación de Prima</span>
-            </button>
+              </button>
+              
+              <button mat-menu-item *ngIf="permissions.create" (click)="onExportRetributionClick()" title="Exportar Primas de servicio">
+                <mat-icon>download_file</mat-icon>
+                <span>Exportar Primas de servicio</span>
+              </button>
 
           </mat-menu>       
       </div>
