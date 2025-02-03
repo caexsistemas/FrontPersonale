@@ -20,6 +20,7 @@ import { CargueContactComponent } from './cargue-contact/cargue-contact.componen
 import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
 import { ReportsComponent } from './reports/reports.component';
 import { InboundComponent } from './inbound/inbound.component';
+import { MassTypingComponent } from './massTyping/massTyping.component';
 
 
 const routes: Routes = [
@@ -80,6 +81,13 @@ const routes: Routes = [
         component: InboundComponent,
         data: {
           title: "Base Inbound"
+        }
+      },
+      {
+        path: 'massTyping',
+        component: MassTypingComponent,
+        data: {
+          title: 'Tipificación Masiva'
         }
       }
     ],
