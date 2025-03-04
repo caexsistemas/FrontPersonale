@@ -29,6 +29,11 @@
                             <mat-icon>download</mat-icon>
                             <span>Reportes Usuarios 360</span>
                         </button>
+
+                        <button mat-menu-item *ngIf="permiNotification == true" (click)="createNotification()" title="Crear Notificación">
+                            <mat-icon>add_alert</mat-icon>
+                            <span>Crear Notificación</span>
+                        </button>
                         
                     </mat-menu>       
                 </div>

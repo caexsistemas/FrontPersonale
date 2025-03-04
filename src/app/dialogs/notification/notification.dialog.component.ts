@@ -45,6 +45,19 @@ export class NotificationDialog {
     personaleData: any = [];
     contaClick: number = 0;
 
+    // Creación de notificaciones manuales
+    notificationForm: FormGroup;
+
+    notificationTypes: any[] = [];
+    modules: any[] = [];
+    rolesList: any[] = [];
+    minStartDate: string;
+    maxEndDate: string;
+    startDateValue: string = '';
+
+    disableRoles: boolean = false;
+    disableModule: boolean = false;
+
     // // OUTPUTS
     @Output() loading = new EventEmitter();
     @Output() reload = new EventEmitter();
@@ -63,7 +76,11 @@ export class NotificationDialog {
     ) {
         this.view = this.data.window;
         this.id = this.data.codigo;
-        this.sendRequest();
+        if(this.view === 'view'){
+            this.sendRequest();
+        } else if(this.view === 'create'){
+            this.initNotificationForm();
+        }
     }
 
     applyFilter(event: Event) {
@@ -73,19 +90,19 @@ export class NotificationDialog {
 
     generateTable(data) {
         this.displayedColumns = [
-          'view',
-          'date_create',
-          'tipo_notifi',
-          'tipe_noti',
-          'date_peri'
+            'view',
+            'date_create',
+            'tipo_notifi',
+            'tipe_noti',
+            'date_peri'
         ];
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort.toArray()[0];
         this.dataSource.paginator = this.paginator.toArray()[0];
         let search;
         if (document.contains(document.querySelector('search-input-table'))) {
-          search = document.querySelector('.search-input-table');
-          search.value = "";
+            search = document.querySelector('.search-input-table');
+            search.value = "";
         }
     }
 
@@ -100,7 +117,7 @@ export class NotificationDialog {
             iduser: this.cuser.iduser,
             token: this.cuser.token,
             role:  this.cuser.role
-            }
+        }
     
             this.WebApiService.postRequest('/consultnotification', body, {})
                 .subscribe(
@@ -126,7 +143,7 @@ export class NotificationDialog {
 
     openc() {
         if (this.contaClick == 0) {
-          this.sendRequest();       
+            this.sendRequest();       
         }
         this.contaClick = this.contaClick + 1;
     }
@@ -166,7 +183,6 @@ export class NotificationDialog {
                     this.loading.emit(false);
                 }
             );
-          
         }else{
             this.handler.showError('Por favor Iniciar Sesion');
             this.loading.emit(false);
@@ -181,11 +197,186 @@ export class NotificationDialog {
         "109/4": "#CD1515",
         "109/5": "#1555CD",
         "109/7": "#f75349"
-      };
+    };
     
-      colorState(state) {
+    colorState(state) {
         //Color Critico 
         return this.colorMap[state] || ""; // Devuelve el color correspondiente o cadena vacía si no coincide
-      }
+    }
 
+    initNotificationForm(): void {
+        this.notificationForm = new FormGroup({
+            notificationType: new FormControl('', Validators.required),
+            startDate: new FormControl('', Validators.required),
+            endDate: new FormControl('', Validators.required),
+            roles: new FormControl(''),
+            selectAllRoles: new FormControl(false),
+            module: new FormControl(''),
+            detail: new FormControl('', Validators.required),
+            message: new FormControl('', [Validators.required, Validators.minLength(5)])
+        });
+    
+        // Cargar datos dinámicos desde API
+        this.loadNotificationForm();
+    }
+
+    loadNotificationForm(): void {
+        let params = {
+            iduser: this.cuser.iduser,
+            token: this.cuser.token,
+            role:  this.cuser.role
+        }
+        this.WebApiService.getRequest('/get-info-notification', params).subscribe(
+            (response: any) => {
+                if (response.success) {
+                    this.notificationTypes = response.data.notificationTypes;
+                    this.modules = response.data.modules;
+                    this.rolesList = response.data.roles;
+
+                    this.setMinStartDate();
+
+                } else {
+                    this.handler.showError('Error al cargar los datos');
+                }
+            },
+            (error) => {
+                console.error('Error en la API:', error);
+                this.handler.showError('Error en la carga de datos');
+            }
+        );
+    }
+    
+    setMinStartDate(): void {
+        const today = new Date();
+        this.minStartDate = today.toISOString().split('T')[0]; 
+    }
+    
+    updateEndDateLimit(): void {
+        const startDateControl = this.notificationForm.get('startDate');
+        if (!startDateControl) return;
+
+        const startDateValue = startDateControl.value;
+        if (startDateValue) {
+            const startDate = new Date(startDateValue);
+            this.startDateValue = startDate.toISOString().split('T')[0]; // Se usa en `[min]` de endDate
+
+            const maxDate = new Date(startDate);
+            maxDate.setDate(maxDate.getDate() + 7);
+            this.maxEndDate = maxDate.toISOString().split('T')[0];
+
+            // Resetea endDate si ya no es válida
+            const endDateControl = this.notificationForm.get('endDate');
+            if (endDateControl?.value && (endDateControl.value < this.startDateValue || endDateControl.value > this.maxEndDate)) {
+                endDateControl.setValue('');
+            }
+        }
+    }
+
+    validateEndDate(): void {
+        const endDateControl = this.notificationForm.get('endDate');
+        const startDateControl = this.notificationForm.get('startDate');
+    
+        if (!endDateControl || !startDateControl) return;
+    
+        const startDateValue = startDateControl.value;
+        const endDateValue = endDateControl.value;
+    
+        if (!startDateValue || !endDateValue) return;
+    
+        if (endDateValue < startDateValue || endDateValue > this.maxEndDate) {
+            endDateControl.setErrors({ invalidEndDate: true });
+        } else {
+            endDateControl.setErrors(null);
+        }
+    }
+
+    toggleAllRoles(isChecked: boolean): void {
+        if (isChecked) {
+            const allRoleIds = this.rolesList.map(role => role.idRole); 
+            this.notificationForm.get('roles')?.setValue(allRoleIds);
+        } else {
+            this.notificationForm.get('roles')?.setValue([]); 
+        }
+    }
+    
+    
+    preventManualEdit(event: KeyboardEvent): void {
+        event.preventDefault();
+    }
+    
+    submitNotification(): void {
+        if (this.notificationForm.invalid) {
+            this.handler.showError('Por favor, completa todos los campos requeridos.');
+            return;
+        }
+    
+        this.notificationForm.value.module = this.notificationForm.value.module.toString();
+
+        const notificationData = this.notificationForm.value;
+
+        let params = {
+            iduser: this.cuser.iduser,
+            token: this.cuser.token,
+            role:  this.cuser.role
+        }
+
+        this.WebApiService.postRequest('/create-notification', notificationData, params).subscribe(
+            (response: any) => {
+                if (response.success) {
+                    this.handler.showSuccess('Notificación creada exitosamente.');
+                    this.closeDialog(); // Cierra el modal
+                } else {
+                    this.handler.showError('Error al crear la notificación.');
+                }
+            },
+            (error) => {
+                console.error('Error en la API:', error);
+                this.handler.showError('Hubo un problema al enviar la notificación.');
+            }
+        );
+    }
+
+    setRolesByModule(moduleId: number): void {
+        if (!moduleId) {
+            this.disableRoles = false;
+            this.notificationForm.get('roles')?.setValue([]);
+            return;
+        }
+
+        this.disableRoles = true;
+        this.notificationForm.get('roles')?.setValue([]); 
+
+        let params = {
+            iduser: this.cuser.iduser,
+            token: this.cuser.token,
+            role: this.cuser.role,
+            moduleId: moduleId
+        };
+    
+        this.WebApiService.getRequest('/get-roles-module', params).subscribe(
+            (response: any) => {
+                if (response.success) {
+                    const roles = response.data.rolesByModule.map((role: any) => role.idRole);
+                    this.notificationForm.get('roles')?.setValue(roles);
+                } else {
+                    this.handler.showError('Error al cargar los datos');
+                }
+            },
+            (error) => {
+                console.error('Error en la API:', error);
+                this.handler.showError('Error en la carga de datos');
+            }
+        );
+    }
+    
+    onSelectRoles(): void {
+        const selectedRoles = this.notificationForm.get('roles')?.value || [];
+    
+        if (selectedRoles.length > 0) {
+            this.disableModule = true;
+            this.notificationForm.get('module')?.setValue(null); 
+        } else {
+            this.disableModule = false;
+        }
+    }
 }
