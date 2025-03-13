@@ -279,11 +279,11 @@ export class AdvanceDialog  {
   onSubmit() {
     if (this.formSelec.valid) {
 
-      if(this.num_days === 0){
-        this.handler.showError("Error, el número de dias no puede estar vacío");
+      if (!this.num_days || this.num_days === 0) {
+        this.handler.showError("Error, el número de días no puede estar vacío o ser igual a 0");
         return false;
       }
-
+      
       if(this.vac_type !== 'anticipo' && this.num_days > this.maximunDays){
         this.handler.showError("Error, no pueden ser más de " + this.maximunDays + " días a disfrutar");
         return false;
@@ -451,8 +451,16 @@ export class AdvanceDialog  {
         this.suspendedDays = parseInt(exitsPersonal.suspendedDays || "0", 10);
         this.compensedDays = parseInt(exitsPersonal.compensedDays || "0", 10); 
         this.takenDays = parseInt(exitsPersonal.takenDays || "0", 10);
-        this.enjoynedDays = parseInt(exitsPersonal.enjoyedDays || "0", 10);
+        this.enjoynedDays = parseInt(exitsPersonal.enjoynedDays || "0", 10);
         this.advancedDays = parseInt(exitsPersonal.advancedDays || "0", 10); 
+        
+        // console.log(
+        //   'admissionDate', this.admissionDate,
+        //   'suspendedDays', this.suspendedDays,
+        //   'compensedDays', this.compensedDays,
+        //   'enjoynedDays', this.enjoynedDays,
+        //   'takenDays', this.takenDays,
+        // )
 
         this.calculateHolidayData(this.admissionDate, this.suspendedDays, this.compensedDays, this.enjoynedDays, this.takenDays)
         
@@ -574,7 +582,7 @@ export class AdvanceDialog  {
   
     // Calcular días descontando domingos u otros valores
     this.notWorkedDays = suspendedDays ? this.workedDays - suspendedDays : 0;
-  }
+  }  
   
   calculateProportionalDays(totalWorkedDays: number, suspendedDays: number): void {
     if (suspendedDays >= 1) {
@@ -607,43 +615,68 @@ export class AdvanceDialog  {
       }
     }
   }
-  
-  calculateHolidayData(admissionDate, suspendedDays, compensedDays, enjoynedDays, takenDays ){
-    // Cálculos
-    const effectiveStartDate = moment(admissionDate).add(suspendedDays, 'days');
-    const yearsInCompany = moment().diff(effectiveStartDate, 'years');
-    const totalDays = yearsInCompany * 15;
-    const remainingDays = totalDays - takenDays;
-    const remainingAnticipateDays = this.proportionalVacationDays - takenDays;
 
+  calculateHolidayData(admissionDate, suspendedDays, compensedDays, enjoyedDays, takenDays) {
+    const yearsInCompany = moment().diff(moment(admissionDate).add(suspendedDays, 'days'), 'years');
+
+    // Días totales generados
+    const totalDays = yearsInCompany * 15;
+
+    // Días restantes después de los ya tomados
+    const remainingDays = totalDays - takenDays;
+
+    // Periodos completamente liquidados
+    const settledPeriods = Math.floor(takenDays / 15);
+    const currentPeriodDaysTaken = takenDays % 15;
+
+    // Máximo de días compensables por año
     const maxCompensablePerYear = 9;
-    const totalMaxCompensable = yearsInCompany * maxCompensablePerYear; // Máximo total compensable acumulado
-    this.availableCompensableDays = Math.min(
-      remainingDays, 
-      totalMaxCompensable - compensedDays
-    ); 
-    
-    // Disfrutables: Todo lo que no sea compensable puede disfrutarse
-    this.availableEnjoyableDays = remainingDays;
-    this.availableAnticipateDays = remainingAnticipateDays;
-    
-    // Verificación de límites
-    const canCompense = this.availableCompensableDays > 0;
-    const canEnjoy = this.availableEnjoyableDays > 0;
-    
-    // Resultados
+    const totalMaxCompensable = yearsInCompany * maxCompensablePerYear;
+
+    // Calcular cuántos días ya han sido compensados en periodos pasados
+    const maxCompensableSoFar = Math.min(settledPeriods * maxCompensablePerYear, compensedDays);
+
+    // Calcular cuántos días quedan para compensar en el periodo actual
+    let availableCompensableDays = 0;
+    let canCompense = true;
+
+    if (compensedDays >= totalMaxCompensable) {
+        // Si ya compensó el máximo permitido, no puede compensar más
+        availableCompensableDays = 0;
+        canCompense = false;
+    } else {
+        // Calcular los días compensables en el periodo actual
+        let alreadyCompensatedInCurrentPeriod = compensedDays - maxCompensableSoFar;
+        let remainingCompensableInCurrentPeriod = maxCompensablePerYear - alreadyCompensatedInCurrentPeriod;
+
+        // Asegurar que no se puedan compensar más de lo permitido en el periodo actual
+        availableCompensableDays = Math.max(0, remainingCompensableInCurrentPeriod);
+        availableCompensableDays = Math.min(availableCompensableDays, remainingDays);
+
+        // Si ya compensó los 9 días del periodo actual, bloquear compensación
+        if (alreadyCompensatedInCurrentPeriod >= maxCompensablePerYear) {
+            availableCompensableDays = 0;
+            canCompense = false;
+        }
+    }
+
+    // Días disfrutables
+    const availableEnjoyableDays = Math.max(0, remainingDays);
+    const canEnjoy = availableEnjoyableDays > 0;
+
+    this.availableCompensableDays = availableCompensableDays;
+    this.availableEnjoyableDays = availableEnjoyableDays;
+
     // console.log({
-    //   effectiveStartDate: effectiveStartDate.format('YYYY-MM-DD'),
-    //   yearsInCompany,
-    //   totalDays,
-    //   takenDays,
-    //   remainingDays,
-    //   totalMaxCompensable,
-    //   availableCompensableDays: this.availableCompensableDays,
-    //   availableEnjoyableDays: this.availableEnjoyableDays,
-    //   availableAnticipateDays: this.availableAnticipateDays,
-    //   canCompense,
-    //   canEnjoy,
+    //     yearsInCompany,
+    //     takenDays,
+    //     totalDays,
+    //     remainingDays,
+    //     totalMaxCompensable,
+    //     availableCompensableDays,
+    //     availableEnjoyableDays,
+    //     canCompense,
+    //     canEnjoy,
     // });
   }
 

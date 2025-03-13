@@ -7,13 +7,11 @@
  **/
 import { Component, ViewEncapsulation } from "@angular/core";
 import { LoginServices } from "../../services/login.service";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { User } from "../../models/users";
 import { Tools } from "../../Tools/tools.page";
 import { EncryptService } from "../../services/encrypt.service";
 import { WebApiService } from "../../services/web-api.service";
-import { from } from "rxjs";
-import Swal from "sweetalert2";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { HandlerAppService } from "../../services/handler-app.service";
 import { environment } from "../../../environments/environment";
@@ -24,6 +22,9 @@ import { environment } from "../../../environments/environment";
   providers: [LoginServices, Tools],
 })
 export class LoginComponent {
+
+  public hidePassword: boolean = true;
+
   public loginData: User;
   public status: string;
   public identity: any;
@@ -181,5 +182,9 @@ export class LoginComponent {
     } else {
       this.viewMessage = true;
     }
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
   }
 }

@@ -307,6 +307,12 @@ export class HolidayDialog  {
   }
 
   onSubmit() {
+
+    if (!this.num_days || this.num_days === 0) {
+      this.handler.showError("Error, el número de días no puede estar vacío o ser igual a 0");
+      return false;
+    }
+
     if (this.formSelec.valid) {
 
       this.formSelec.get('immediateBoss').setValue(this.name);
@@ -329,10 +335,10 @@ export class HolidayDialog  {
       if (!this.formSelec.get('day_vac').value || this.formSelec.get('day_vac').value === 0) {
         const today = new Date().toISOString().split('T')[0];
         this.formSelec.value.fec_ini = today
-        console.log('Se va a compensar:', body.listas);
+        // console.log('Se va a compensar:', body.listas);
       }
 
-      console.log("datos guardados: ",body.listas)
+      // console.log("datos guardados: ",body.listas)
 
       this.handler.showLoadin("Guardando Registro", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {

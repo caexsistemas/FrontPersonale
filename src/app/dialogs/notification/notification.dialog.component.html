@@ -72,3 +72,123 @@
     </mat-dialog-content>
 
 </div>
+
+<div *ngIf="view == 'create'">
+    <div class="modal-header">
+        <h5 class="modal-title">Crear Notificación</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <mat-dialog-content style="min-width: 800px;">
+        <form [formGroup]="notificationForm">
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <mat-form-field  class="full-width">
+                        <mat-label>Tipo de Notificación</mat-label>
+                        <mat-select formControlName="notificationType">
+                            <mat-option *ngFor="let type of notificationTypes" [value]="type.ls_codvalue">
+                                {{ type.description }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="notificationForm.get('notificationType')?.hasError('required')">
+                            El tipo de notificación es obligatorio.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field class="full-width">
+                        <mat-label>Fecha de Inicio</mat-label>
+                        <input matInput formControlName="startDate" type="date" [min]="minStartDate" 
+                            (change)="updateEndDateLimit()" (keydown)="preventManualEdit($event)">
+                        <mat-error *ngIf="notificationForm.get('startDate')?.hasError('required')">
+                            La fecha de inicio es obligatoria.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-md-4">
+                    <mat-form-field class="full-width">
+                        <mat-label>Fecha de Fin</mat-label>
+                        <input matInput formControlName="endDate" type="date" [min]="startDateValue" [max]="maxEndDate" 
+                            (change)="validateEndDate()" (keydown)="preventManualEdit($event)">
+                        <mat-error *ngIf="notificationForm.get('endDate')?.hasError('required')">
+                            La fecha de fin es obligatoria.
+                        </mat-error>
+                        <mat-error *ngIf="notificationForm.get('endDate')?.hasError('invalidEndDate')">
+                            La fecha de fin debe estar dentro de los 7 días posteriores a la fecha de inicio.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <mat-form-field  class="full-width">
+                        <mat-label>Módulo</mat-label>
+                        <mat-select formControlName="module" (selectionChange)="setRolesByModule($event.value)" [disabled]="disableModule">
+                            <mat-option [value]="null">Elegir opción</mat-option>
+                            <mat-option *ngFor="let mod of modules" [value]="mod.id">
+                                {{ mod.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="notificationForm.get('module')?.hasError('required')">
+                            El módulo es obligatorio.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Roles</mat-label>
+                        <mat-select formControlName="roles" multiple [disabled]="disableRoles" (selectionChange)="onSelectRoles()">
+                            <mat-option *ngFor="let role of rolesList" [value]="role.idRole">
+                                {{ role.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-checkbox formControlName="selectAllRoles" (change)="toggleAllRoles($event.checked)" [disabled]="disableRoles">
+                        Seleccionar Todos
+                    </mat-checkbox>
+                    <mat-error *ngIf="notificationForm.get('roles')?.hasError('required')">
+                        Debes seleccionar al menos un rol.
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <mat-form-field class="full-width">
+                        <mat-label>Detalle:</mat-label>
+                        <textarea matInput formControlName="detail"></textarea>
+                        <mat-error *ngIf="notificationForm.get('message')?.hasError('required')">
+                            El detalle es obligatorio.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field class="full-width">
+                        <mat-label>Mensaje:</mat-label>
+                        <textarea matInput formControlName="message"></textarea>
+                    </mat-form-field>
+                    <mat-error *ngIf="notificationForm.get('message')?.hasError('required')">
+                        El mensaje es obligatorio.
+                    </mat-error>
+                    <mat-error *ngIf="notificationForm.get('message')?.hasError('minlength')">
+                        El mensaje debe tener al menos 5 caracteres.
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12 text-center">
+                    <button mat-button color="primary" class="btn btn-success"
+                        [disabled]="!notificationForm.valid"
+                        (click)="submitNotification()">
+                        Crear Notificación
+                    </button>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+</div>

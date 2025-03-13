@@ -19,7 +19,7 @@
                             <span>Crear</span>
                         </button> 
 
-                        <button mat-menu-item (click)="option('download')" title="Exportar">
+                        <button mat-menu-item *ngIf="permissions.view" (click)="option('download')" title="Exportar">
                             <mat-icon>download</mat-icon>
                             <span>Exportar Archivo</span>
                         </button>                        

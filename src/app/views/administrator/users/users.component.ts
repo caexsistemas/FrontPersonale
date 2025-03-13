@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ReportsUserComponent } from '../../../dialogs/reports/user/reports-user.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { NotificationDialog } from '../../../dialogs/notification/notification.dialog.component';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class UsersComponent implements OnInit {
   component = "/admin/users";
   permissions: any = null;
   permiLogout: boolean = false;
+  permiNotification: boolean = false;
   contSesion: number = 0;
 
   endpoint: string = '/usuario';
@@ -78,6 +80,10 @@ export class UsersComponent implements OnInit {
 
             if( this.cuser.role == 1 || this.cuser.role == 28 || this.cuser.role == 34){
               this.permiLogout = true;
+            }
+
+            if( this.cuser.role == 1 || this.cuser.role == 28 || this.cuser.role == 5){
+              this.permiNotification = true;
             }
 
             this.loading = false;
@@ -246,4 +252,18 @@ export class UsersComponent implements OnInit {
     this.matBottomSheet.open(ReportsUserComponent);
   }
 
+  createNotification(){
+    if(this.permiNotification==false){
+      return;
+    }
+
+    var dialogRef;
+
+    dialogRef = this.dialog.open(NotificationDialog, {
+      data: {
+        window: "create",
+        iduser: this.cuser.iduser,
+      },
+    });
+  }
 }
