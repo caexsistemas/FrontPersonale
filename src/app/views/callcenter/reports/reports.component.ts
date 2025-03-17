@@ -41,7 +41,7 @@ export class ReportsComponent implements OnInit {
 
 
   onTipoReporteChange(event: any) {
-    this.mostrarFechas = event.value === 'validacionIdentidad' || event.value === 'report-closing';
+    this.mostrarFechas = event.value === 'validacionIdentidad' || event.value === 'report-closing' ||  event.value === 'report-range';
     if (!this.mostrarFechas) {
       this.formTipoReporte.patchValue({
         fi: '',

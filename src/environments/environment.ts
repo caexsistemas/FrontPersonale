@@ -14,7 +14,7 @@ export const environment = {
   
   // PRODUCCION {Descomentar la siguiente linea}
   // url: "http://190.71.89.228/BackPersonale/api",
-  // url: "https://gestion.caex.com.co/360/#/login",
+  // url: "https://gestion.caex.com.co/BackPersonale/api",
 
   // api contact
   apiContact:

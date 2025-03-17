@@ -4,6 +4,7 @@ import { ManagementComponent } from "./management.component";
 import { CertificatesComponent } from "./certificates/certificates.component";
 import { FormalitiesComponent } from "./formalities/formalities.component";
 import { LiquidationFormalitiesComponent } from "./liquidation/liquidationFormalities.component";
+import { CollaboratorsPermissionComponent } from "./collaboratorsPermission/collaboratorsPermission.component";
 
 const routes: Routes = [
   {
@@ -44,6 +45,13 @@ const routes: Routes = [
           title: "Liquidación de paz y salvos",
         },
       },
+      {
+        path: "collaborators-permission",
+        component: CollaboratorsPermissionComponent,
+        data: {
+          title: "Permisos Colaboradores"
+        }
+      }
     ],
   },
 ];

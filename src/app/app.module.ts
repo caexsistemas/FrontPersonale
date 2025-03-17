@@ -184,6 +184,8 @@ import { PrestacionServiciosRoutingModule } from './views/prestacionservicios/pr
 import { PrestacionServiciosDialog } from "./dialogs/prestacionServicios/prestacionServicios.dialog.component";
 import { GestionContratistasDialog } from './dialogs/gestion-contratistas/gestion-contratistas.dialog.component';
 import { ReportRetributionComponent } from './dialogs/reports/retribution/report-retribution/report-retribution.component';
+import { CollaboratorDialog } from "./dialogs/collaborator/collaborator.dialog.component";
+import { ReportsCollaboratorComponent } from "./dialogs/reports/collaborator/reports-collaborator.component";
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -359,6 +361,8 @@ const routes: Routes = [];
     PrestacionServiciosDialog,
     GestionContratistasDialog,
     ReportRetributionComponent,
+    CollaboratorDialog,
+    ReportsCollaboratorComponent
   ],
   providers: [
     {

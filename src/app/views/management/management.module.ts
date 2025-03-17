@@ -31,6 +31,7 @@ import { FormalitiesComponent } from "./formalities/formalities.component";
 import { LiquidationFormalitiesComponent } from "./liquidation/liquidationFormalities.component";
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
+import { CollaboratorsPermissionComponent } from "./collaboratorsPermission/collaboratorsPermission.component";
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -68,6 +69,7 @@ const ngWizardConfig: NgWizardConfig = {
     CertificatesComponent,
     FormalitiesComponent,
     LiquidationFormalitiesComponent,
+    CollaboratorsPermissionComponent
   ],
 })
 export class ManagementModule {}
