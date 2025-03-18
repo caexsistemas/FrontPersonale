@@ -78,6 +78,9 @@ export class CollaboratorDialog
     fec_ini: any = [];
     dayPer: any = [];
     final: any = [];
+    CheckTrue:boolean = true;
+    blockSuccess:  boolean = false;
+
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -137,10 +140,7 @@ export class CollaboratorDialog
               (data) => {
                 if (data.success == true) {
                  
-                  console.log('==>',data);
                   this.collaborator = data.data[0];
-                  // this.tipInter = this.feed.matrizarp_cod;
-                  // this.tipMatriz = this.feed.matrizarp_cod;
 
                   this.generateTable(data.data['getDatHistory']);   
                   this.loading.emit(false);
@@ -176,7 +176,7 @@ export class CollaboratorDialog
         email: new FormControl(""),
         fec_ini: new FormControl(""),
         fec_fin: new FormControl(""),
-        dayHour: new FormControl(""),
+        dayHour: new FormControl("", [Validators.required, Validators.min(1), Validators.max(15)]),
         timePermis: new FormControl(""),
         idPersonale: new FormControl(""),
         id_cargo: new FormControl(""),
@@ -429,15 +429,15 @@ SendDataonChange(event: any) {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
-  
   onSelectPermission(dayhour) {
+
    if(this.view === 'create'){
     const timePermis = this.formColl.get('timePermis')?.value; 
   
     if (timePermis === '153/1') {
-      const selectedDateTime = this.formColl.get('fec_ini')?.value; 
-      console.log('fecha',selectedDateTime);
-      
+      this.blockSuccess = false;
+
+      const selectedDateTime = this.formColl.get('fec_ini')?.value;       
 
       if (dayhour) {
 
@@ -447,10 +447,21 @@ SendDataonChange(event: any) {
       }
     } else if (timePermis === '153/2') {
       const dayHour = this.formColl.get('dayHour')?.value; 
-  
+
+        if (dayhour > 15) {
+          const errorMessage = `No puedes solicitar más de 15 días para permiso`;
+          this.handler.showError(errorMessage);
+          this.blockSuccess = true;
+          // this.formSelec.get('num_days')?.setValue(this.maximunDays); 
+          return;
+        }else if(dayhour < 15){
+          this.blockSuccess = false;
+        }
+
         if(dayHour && !isNaN(dayHour)){
 
           this.fec_ini = this.formColl.get('fec_ini')?.value.split('T')[0];
+
           this.dayPer = dayhour;
           this.final = this.holiday.holiday(this.fec_ini, this.dayPer)
 
@@ -491,22 +502,10 @@ skipSunday(date: Date): Date {
    
 
   }
-//   getInterInvalid(){
-//     return this.formColl.get('tipo_intervencion').invalid && this.formColl.get('tipo_intervencion').touched;
-// }
-  // getMatrizInvalid(){
-  // return this.formColl.get('matrizarp').invalid && this.formColl.get('matrizarp').touched;
-  // }
-  // getDocuInvalid(){
-  // return this.formColl.get('document').invalid && this.formColl.get('document').touched;
-  // }
-  // getVisibleInvalid(){
-  //   return this.formColl.get('visible').invalid && this.formColl.get('visible').touched;
-  // }
-  // getDescripInvalid(){
-  //   return this.formColl.get('des_crip').invalid && this.formColl.get('des_crip').touched;
-  // }
-  // getRecomInvalid(){
-  //   return this.formColl.get('rec_com').invalid && this.formColl.get('rec_com').touched;
-  // }
+  onFecIniChange(event){
+    (event) ? this.CheckTrue = false : this.CheckTrue = true;
+    this.formColl.get('dayHour').setValue("");
+
+  }
+
 }

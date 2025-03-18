@@ -163,13 +163,13 @@
                             <div class="col-md-4">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Fecha de Inicio:</mat-label>
-                                    <input matInput formControlName="fec_ini" type="datetime-local"  [min]="minDate" required>
+                                    <input matInput formControlName="fec_ini" type="datetime-local" (ngModelChange)="onFecIniChange($event)" [min]="minDate" required>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-4">
                               <mat-form-field appearance="fill">
                                   <mat-label>horas o dias:</mat-label>
-                                  <input matInput formControlName="dayHour" type="number" (ngModelChange)="onSelectPermission($event)" required>
+                                  <input matInput formControlName="dayHour" type="number" (ngModelChange)="onSelectPermission($event)" min="1" max="15" required [readonly]="CheckTrue">
                               </mat-form-field>
                           </div>
                             
@@ -257,7 +257,7 @@
                     <button *ngIf="view == 'update'" mat-button class="btn btn-success"
                         (click)="onSubmitUpdate()">Actualizar</button>
 
-                    <button *ngIf="view == 'create'" mat-button class="btn btn-success"
+                    <button *ngIf="view == 'create'" mat-button class="btn btn-success" [disabled]="blockSuccess"
                         (click)="onSubmit()">Guardar</button>
 
                     <button mat-button class="btn btn-danger" (click)="closeDialog()">Cancelar</button>
