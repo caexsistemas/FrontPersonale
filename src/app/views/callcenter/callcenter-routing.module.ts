@@ -21,6 +21,7 @@ import { DwlcontactComponent } from "./dwlcontact/dwlcontact.component";
 import { ReportsComponent } from './reports/reports.component';
 import { InboundComponent } from './inbound/inbound.component';
 import { MassTypingComponent } from './massTyping/massTyping.component';
+import { PqrCallcenterComponent } from './pqrCallcenter/pqrCallcenter.component';
 
 
 const routes: Routes = [
@@ -88,6 +89,13 @@ const routes: Routes = [
         component: MassTypingComponent,
         data: {
           title: 'Tipificación Masiva'
+        }
+      },
+      {
+        path: 'pqr',
+        component: PqrCallcenterComponent,
+        data: {
+          title: 'PQR'
         }
       }
     ],

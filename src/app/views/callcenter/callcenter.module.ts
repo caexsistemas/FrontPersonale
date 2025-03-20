@@ -52,6 +52,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { ReportsComponent } from './reports/reports.component';
 import { InboundComponent } from "./inbound/inbound.component";
 import { MassTypingComponent } from "./massTyping/massTyping.component";
+import { PqrCallcenterComponent } from "./pqrCallcenter/pqrCallcenter.component";
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows,
@@ -94,7 +95,8 @@ const ngWizardConfig: NgWizardConfig = {
     CargueContactComponent,
     ReportsComponent,
     InboundComponent,
-    MassTypingComponent
+    MassTypingComponent,
+    PqrCallcenterComponent
   ],
 
 })

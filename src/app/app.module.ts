@@ -186,6 +186,8 @@ import { GestionContratistasDialog } from './dialogs/gestion-contratistas/gestio
 import { ReportRetributionComponent } from './dialogs/reports/retribution/report-retribution/report-retribution.component';
 import { CollaboratorDialog } from "./dialogs/collaborator/collaborator.dialog.component";
 import { ReportsCollaboratorComponent } from "./dialogs/reports/collaborator/reports-collaborator.component";
+import { PqrCallCenterDialog } from "./dialogs/pqrCallCenter/pqrCallCenter.dialog.component";
+import { ReportsPqrCallCenterComponent } from "./dialogs/reports/pqrCallCenter/reports-pqrCallCenter.component";
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -362,7 +364,9 @@ const routes: Routes = [];
     GestionContratistasDialog,
     ReportRetributionComponent,
     CollaboratorDialog,
-    ReportsCollaboratorComponent
+    ReportsCollaboratorComponent,
+    PqrCallCenterDialog,
+    ReportsPqrCallCenterComponent
   ],
   providers: [
     {
