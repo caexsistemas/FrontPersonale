@@ -4,6 +4,7 @@ import { IngresoComponent } from './ingreso/ingreso.component';
 import { SuspendComponent } from './suspend/suspend.component';
 import { CommisionComponent } from './commision/commision.component';
 import { RetributionComponent } from './retribution/retribution.component';
+import { NominaMensajerosComponent } from './nomina-mensajeros/nomina-mensajeros.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,13 @@ const routes: Routes = [
           component: RetributionComponent,
           data: {
             title: 'Retribución'
+          }
+        },
+        {
+          path: 'mensajeros',
+          component: NominaMensajerosComponent,
+          data: {
+            title: 'Nómina Mensajeros'
           }
         }
       ]

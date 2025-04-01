@@ -17,7 +17,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOption, MatOptionModule } from '@angular/material/core';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
@@ -39,6 +39,10 @@ import { CommisionComponent } from './commision/commision.component';
 import { RetributionComponent } from './retribution/retribution.component';
 // import { AngularFileUploaderModule } from "angular-file-uploader";
 import {MatButtonModule} from '@angular/material/button';
+import { NominaMensajerosComponent } from './nomina-mensajeros/nomina-mensajeros.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ChartsModule } from 'ng2-charts';
+import { MatSelectModule } from '@angular/material/select';
 
 
 const ngWizardConfig: NgWizardConfig = {
@@ -74,13 +78,19 @@ const ngWizardConfig: NgWizardConfig = {
     MatCardModule,
     MatBottomSheetModule,
     AngularFileUploaderModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule,
+    MatOptionModule,
+    MatInputModule,
+    MatSelectModule,
+    ChartsModule,
   ],
   declarations: [
     IngresoComponent,
     SuspendComponent,
     CommisionComponent,
-    RetributionComponent
+    RetributionComponent,
+    NominaMensajerosComponent
 
     // AngularFileUploaderModule
   ],
