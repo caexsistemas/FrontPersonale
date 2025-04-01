@@ -80,6 +80,7 @@ export class CollaboratorDialog
     final: any = [];
     CheckTrue:boolean = true;
     blockSuccess:  boolean = false;
+    nuevoArchivo:any = [];
 
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
@@ -186,6 +187,7 @@ export class CollaboratorDialog
         jef_cargo: new FormControl(""),
         state_sol: new FormControl(""),
         emailBoss: new FormControl(""),
+        file_sp: new FormControl(""),
         create_User: new FormControl(this.cuser.iduser),
         
     });
@@ -248,6 +250,8 @@ onSubmit() {
       this.loading.emit(true);
       let body = {
           listas: this.formColl.value,
+          archivoRes:  this.nuevoArchivo
+
       }
       this.handler.showLoadin("Guardando Solicitud", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
@@ -507,5 +511,35 @@ skipSunday(date: Date): Date {
     this.formColl.get('dayHour').setValue("");
 
   }
-
+  seleccionarArchivo(event) {
+    var files = event.target.files;
+    var archivos = [];
+  
+    // Función para leer archivos de manera secuencial con Promesas
+    const leerArchivo = (file) => {
+      return new Promise<void>((resolve) => {
+        var reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          var archivo = {
+            nombreArchivo: file.name,
+            base64textString: btoa(readerEvent.target.result.toString())
+          };
+          archivos.push(archivo);
+          resolve();
+        };
+        reader.readAsBinaryString(file);
+      });
+    };
+  
+    // Utilizar async/await para leer archivos secuencialmente
+    const leerArchivosSecuencialmente = async () => {
+      for (var i = 0; i < files.length; i++) {
+        await leerArchivo(files[i]);
+      }
+      this.nuevoArchivo = archivos; // Actualizar el arreglo this.nuevoArchivo con los archivos leídos
+      console.log(this.nuevoArchivo); // Aquí puedes hacer lo que necesites con el arreglo de archivos
+    };
+  
+    leerArchivosSecuencialmente();
+  }
 }

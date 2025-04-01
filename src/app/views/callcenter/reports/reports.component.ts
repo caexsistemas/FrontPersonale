@@ -18,6 +18,7 @@ export class ReportsComponent implements OnInit {
 
   contaClick:  number = 0;
   permissions: any = null;
+  reports: any = [];
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -29,6 +30,7 @@ export class ReportsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sendRequest();
     this.permissions = this.handler.permissionsApp;    
     this.formTipoReporte = this.fb.group({
       tipoReporte: [''],
@@ -39,9 +41,38 @@ export class ReportsComponent implements OnInit {
     this.formTipoReporte.valueChanges.subscribe(() => this.cdr.detectChanges());
   }
 
-
-  onTipoReporteChange(event: any) {
-    this.mostrarFechas = event.value === 'validacionIdentidad' || event.value === 'report-closing' ||  event.value === 'report-range';
+  sendRequest() {
+    this.loading = true;
+    this.WebApiService.getRequest(this.endpoint, {
+      action: "getReports",
+      idUser: this.cuser.iduser,
+      role: this.cuser.role,
+      token: this.cuser.token,
+      modulo: this.component
+    }).subscribe(
+      (data) => {
+        
+        if (data.success == true) {
+          this.permissions = this.handler.getPermissions(this.component);
+          this.reports = data.data["reports"];
+          this.loading = false;
+        } else {
+          this.handler.handlerError(data);
+          this.loading = false;
+        }
+      },
+      (mistake) => {
+        let msjErr = "Tu sesión se ha cerrado o el Módulo presenta alguna Novedad";
+        //let msjErr = mistake.error.message;
+        this.handler.showError(msjErr);
+        this.loading = false;
+      }
+    );
+  }
+  onTipoReporteChange(event) {
+    console.log('report',event);
+    
+    this.mostrarFechas = event;
     if (!this.mostrarFechas) {
       this.formTipoReporte.patchValue({
         fi: '',

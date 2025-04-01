@@ -10,11 +10,10 @@
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipo de Reporte</mat-label>
-                                <mat-select formControlName="tipoReporte" (selectionChange)="onTipoReporteChange($event)">
-                                    <mat-option value="">Seleccione un reporte</mat-option>
-                                    <mat-option value="validacionIdentidad">Validación de Identidad</mat-option>
-                                    <mat-option value="report-closing">Cierre Masivo</mat-option>
-                                    <mat-option value="report-range">Rango Operador</mat-option>
+                                <mat-select formControlName="tipoReporte" (ngModelChange)="onTipoReporteChange($event)" required>
+                                    <mat-option *ngFor="let idet of reports" [value]="idet.complemento" >
+                                        {{idet.description}}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
