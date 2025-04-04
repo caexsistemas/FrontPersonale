@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-md-4" *ngIf="mostrarFechas">
+                        <div class="col-md-3" *ngIf="mostrarFechas">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Inicio:</mat-label>
                                 <input matInput formControlName="fi" type="date">
@@ -28,7 +28,7 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4" *ngIf="mostrarFechas">
+                        <div class="col-md-3" *ngIf="mostrarFechas">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Fin:</mat-label>
                                 <input matInput formControlName="ff" type="date">
@@ -40,12 +40,25 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4" *ngIf="mostrarFechas" class="d-flex align-items-end">
+                        <div class="col-md-3" *ngIf="checMatriz">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>matriz</mat-label>
+                                <mat-select formControlName="matriz">
+                                    <mat-option *ngFor="let idet of matriz" [value]="idet.ls_codvalue" >
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3" *ngIf="mostrarFechas" class="d-flex align-items-end">
                             <button mat-button class="btn btn"
                                 [disabled]="!formTipoReporte.valid || !formTipoReporte.get('fi')?.value || !formTipoReporte.get('ff')?.value"
                                 style="background-color: #0d95c5; width: 100%; font-size: 15px; color: white;"
                                 (click)="descargarArchivos()">Descargar</button>
                         </div>
+                    </div>
+                    <div class="row">
+                        
                     </div>
                 </div>
             </form>

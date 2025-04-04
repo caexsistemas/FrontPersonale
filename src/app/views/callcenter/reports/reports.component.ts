@@ -19,6 +19,7 @@ export class ReportsComponent implements OnInit {
   contaClick:  number = 0;
   permissions: any = null;
   reports: any = [];
+  matriz: any = [];
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -35,7 +36,8 @@ export class ReportsComponent implements OnInit {
     this.formTipoReporte = this.fb.group({
       tipoReporte: [''],
       fi: ['', Validators.required],
-      ff: ['', Validators.required]
+      ff: ['', Validators.required],
+      matriz: ''
     }, { validators: this.dateRangeValidator });
 
     this.formTipoReporte.valueChanges.subscribe(() => this.cdr.detectChanges());
@@ -55,6 +57,7 @@ export class ReportsComponent implements OnInit {
         if (data.success == true) {
           this.permissions = this.handler.getPermissions(this.component);
           this.reports = data.data["reports"];
+          this.matriz = data.data["matriz"];
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -69,14 +72,16 @@ export class ReportsComponent implements OnInit {
       }
     );
   }
+  checMatriz: boolean;
   onTipoReporteChange(event) {
-    console.log('report',event);
+    (event == 'report-records') ? this.checMatriz = true : this.checMatriz = false;
     
     this.mostrarFechas = event;
     if (!this.mostrarFechas) {
       this.formTipoReporte.patchValue({
         fi: '',
-        ff: ''
+        ff: '',
+        matriz: ''
       }, { emitEvent: false });
       this.formTipoReporte.updateValueAndValidity(); 
     }
@@ -100,6 +105,7 @@ export class ReportsComponent implements OnInit {
     const tipoReporte = this.formTipoReporte.get('tipoReporte')?.value;
     const fechaInicio = this.formTipoReporte.get('fi')?.value;
     const fechaFin = this.formTipoReporte.get('ff')?.value;
+    const matriz = this.formTipoReporte.get('matriz')?.value;
 
     if (!tipoReporte || !fechaInicio || !fechaFin) {
       this.handler.showError('Por favor, llene los datos para descargar el reporte.');
@@ -116,7 +122,8 @@ export class ReportsComponent implements OnInit {
       modulo: this.component,
       action: "downloadFiles",
       fechaInicio: fechaInicio,
-      fechaFin: fechaFin
+      fechaFin: fechaFin,
+      matriz: matriz
     })
     .subscribe(
       response => {
