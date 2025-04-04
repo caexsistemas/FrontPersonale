@@ -1,0 +1,85 @@
+.filter-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.stats-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.chart-container {
+    max-width: 600px;
+    max-height: 400px;
+    margin: 0 auto;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 400px;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.search-field {
+    flex: 1;
+}
+
+.report-button {
+    white-space: nowrap;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+}

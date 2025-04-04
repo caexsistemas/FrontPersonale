@@ -1,7 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { WebApiService } from '../../../services/web-api.service';
 import { HandlerAppService } from '../../../services/handler-app.service';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -21,7 +20,6 @@ export class ContratistasComponent implements OnInit {
   constructor(
     private WebApiService: WebApiService,
     public handler: HandlerAppService,
-    private matBottomSheet: MatBottomSheet,
     public dialog: MatDialog
   ) { }
 

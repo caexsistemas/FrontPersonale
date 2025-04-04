@@ -1,0 +1,316 @@
+<div class="content">
+    <div class="card">
+        <!-- Cabecera con el título y botón de filtro -->
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Datos de Agencias y Mensajeros</span>
+            <button mat-raised-button color="primary" (click)="toggleFilter()">
+                <mat-icon>{{ showFilter ? 'expand_less' : 'filter_list' }}</mat-icon> Filtrar
+            </button>
+        </div>
+
+        <!-- Contenido de la tarjeta -->
+        <div class="card-content">
+            <!-- Filtro de fechas -->
+            <div class="container mt-2">
+                <div *ngIf="showFilter" class="filter-container d-flex align-items-end gap-3">
+                    <!-- Campo Desde -->
+                    <div class="filter-item">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Desde</mat-label>
+                            <input type="date" matInput [(ngModel)]="fromDate">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Campo Hasta -->
+                    <div class="filter-item">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Hasta</mat-label>
+                            <input type="date" matInput [(ngModel)]="toDate">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="filter-item">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Seleccionar Tipo</mat-label>
+                            <mat-select [(ngModel)]="selectedType" name="filter-type" (selectionChange)="onTypeChange()">
+                                <mat-option value="massive">Masivo</mat-option>
+                                <mat-option value="ecommerce">E-commerce</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="filter-item" *ngIf="selectedType === 'massive'">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Seleccionar Agencias</mat-label>
+                            <mat-select [(ngModel)]="selectedAgencies" multiple name="filter-agencies">
+                                <mat-option *ngFor="let agency of agencies" [value]="agency.ageid">
+                                    {{ agency.agecod }} - {{ agency.agenomb }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="filter-item" *ngIf="selectedType === 'ecommerce'">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Seleccionar Agencias</mat-label>
+                            <mat-select [(ngModel)]="selectedAgenciesEcommerce" multiple name="filter-agenciesEcommerce">
+                                <mat-option *ngFor="let agency of agenciesEcommerce" [value]="agency.agenid">
+                                    {{ agency.agencod }} - {{ agency.agennom }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Botón Aplicar -->
+                    <div class="filter-item">
+                        <button mat-raised-button color="accent" (click)="applyFilter()">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grupo de pestañas -->
+            <mat-tab-group>
+                <!-- TAB AGENCIAS -->
+                <mat-tab label="Agencias">
+                    <div class="content-table">
+                        <div class="container">
+                            <mat-form-field appearance="standard" style="width: 100%;">
+                                <mat-label>Buscar Agencia...</mat-label>
+                                <input matInput (keyup)="applyAgenciesFilter($event.target.value)">
+                            </mat-form-field>
+                        </div>
+
+                        <table mat-table [dataSource]="agenciesDataSource" matSort #agenciesSort="matSort" class="table-large table-responsive-lg" style="width: 100%;">
+                            <ng-container matColumnDef="ageid">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                <td mat-cell *matCellDef="let element"> {{element.ageid}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="agecod">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Agencia </th>
+                                <td mat-cell *matCellDef="let element"> {{element.agecod}}||{{element.agenomb}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="movements">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Movimientos totales </th>
+                                <td mat-cell *matCellDef="let element"> {{element.movements}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="deliveries">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Entregas </th>
+                                <td mat-cell *matCellDef="let element"> {{element.deliveries}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="returns">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Devoluciones </th>
+                                <td mat-cell *matCellDef="let element"> {{element.returns}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="without_img">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Entregas sin imagen </th>
+                                <td mat-cell *matCellDef="let element"> {{element.without_img}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="agenciesDisplayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: agenciesDisplayedColumns;"></tr>
+                        </table>
+
+                        <mat-paginator #agenciesPaginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </mat-tab>
+
+                <!-- TAB MENSAJEROS -->
+                <mat-tab label="Mensajeros">
+                    <div class="content-table">
+                        <div class="container">
+                            <mat-form-field appearance="standard" style="width: 100%;">
+                                <mat-label>Buscar Mensajero...</mat-label>
+                                <input matInput (keyup)="applyMessengersFilter($event.target.value)">
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" class="report-button" (click)="onClickReport()">
+                                Reporte
+                            </button>
+                        </div>
+
+                        <table mat-table [dataSource]="messengersDataSource" matSort #messengersSort="matSort" class="table-large table-responsive-lg" style="width: 100%;">
+                            <ng-container matColumnDef="mncod">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                <td mat-cell *matCellDef="let element"> {{element.mncod}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fullname">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                                <td mat-cell *matCellDef="let element">{{ element.fullname | uppercase }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="agenomb">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Agencia </th>
+                                <td mat-cell *matCellDef="let element"> {{element.agecod}}||{{element.agenomb}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="tmedesc">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                                <td mat-cell *matCellDef="let element"> {{element.tmedesc}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="movements">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Movimientos totales </th>
+                                <td mat-cell *matCellDef="let element"> {{element.movements}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="deliveries">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Entregas </th>
+                                <td mat-cell *matCellDef="let element"> {{element.deliveries}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="returns">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Devoluciones </th>
+                                <td mat-cell *matCellDef="let element"> {{element.returns}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="without_img">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Entregas sin imagen </th>
+                                <td mat-cell *matCellDef="let element"> {{element.without_img}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="gains">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ganancias Totales </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.gains | currency:'COP ' : 'symbol':'1.0-0' }} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="messengersDisplayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: messengersDisplayedColumns;"></tr>
+                        </table>
+
+                        <mat-paginator #messengersPaginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Estadísticas">
+                    <div class="stats-container">
+                        <!-- 📊 Gráfico de Entregas por Agencia -->
+                        <mat-card class="stat-card">
+                            <mat-card-title>📊 Entregas por Agencia</mat-card-title>
+                            <p class="date-range">Rango de Fechas: <strong>{{ fromDate }} - {{ toDate }}</strong></p>
+                
+                            <div class="chart-container" *ngIf="deliveriesChartData">
+                                <canvas baseChart 
+                                    [datasets]="deliveriesChartData.datasets" 
+                                    [labels]="deliveriesChartData.labels"
+                                    [options]="deliveriesChartOptions"
+                                    [legend]="true"
+                                    chartType="bar">
+                                </canvas>
+                            </div>
+                
+                            <div class="pagination">
+                                <button mat-button (click)="changePage('prev', 'deliveries')" [disabled]="currentPage.deliveries === 0">◀ Anterior</button>
+                                <span>Página {{ currentPage.deliveries + 1 }} de {{ totalPages.deliveries }}</span>
+                                <button mat-button (click)="changePage('next', 'deliveries')" [disabled]="currentPage.deliveries === totalPages.deliveries - 1">Siguiente ▶</button>
+                            </div>
+                        </mat-card>
+                
+                        <!-- 📈 Gráfico de Tasa de Efectividad -->
+                        <mat-card class="stat-card">
+                            <mat-card-title>📈 Tasa de Efectividad</mat-card-title>
+                            <p class="description">Porcentaje de entregas efectivas por agencia.</p>
+                
+                            <div class="chart-container" *ngIf="effectivenessChartData?.datasets?.length > 0">
+                                <canvas baseChart 
+                                    [datasets]="effectivenessChartData.datasets" 
+                                    [labels]="effectivenessChartData.labels"
+                                    [options]="effectivenessChartOptions"
+                                    [legend]="true"
+                                    chartType="bar">
+                                </canvas>
+                            </div>
+                
+                            <div class="pagination">
+                                <button mat-button (click)="changePage('prev', 'effectiveness')" [disabled]="currentPage.effectiveness === 0">◀ Anterior</button>
+                                <span>Página {{ currentPage.effectiveness + 1 }} de {{ totalPages.effectiveness }}</span>
+                                <button mat-button (click)="changePage('next', 'effectiveness')" [disabled]="currentPage.effectiveness === totalPages.effectiveness - 1">Siguiente ▶</button>
+                            </div>
+                        </mat-card>
+
+                        <!-- 📊 Gráfico de Devoluciones por Agencia -->
+                        <mat-card class="stat-card">
+                            <mat-card-title>📊 Devoluciones por Agencia</mat-card-title>
+                            <p class="date-range">Rango de Fechas: <strong>{{ fromDate }} - {{ toDate }}</strong></p>
+                
+                            <div class="chart-container" *ngIf="returnsChartData">
+                                <canvas baseChart 
+                                    [datasets]="returnsChartData.datasets" 
+                                    [labels]="returnsChartData.labels"
+                                    [options]="returnsChartOptions"
+                                    [legend]="true"
+                                    chartType="bar">
+                                </canvas>
+                            </div>
+                
+                            <div class="pagination">
+                                <button mat-button (click)="changePage('prev', 'returns')" [disabled]="currentPage.returns === 0">◀ Anterior</button>
+                                <span>Página {{ currentPage.returns + 1 }} de {{ totalPages.returns }}</span>
+                                <button mat-button (click)="changePage('next', 'returns')" [disabled]="currentPage.returns === totalPages.returns - 1">Siguiente ▶</button>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div class="stats-container">
+                        <!-- 📊 Gráfico de Entregas por Mensajero -->
+                        <mat-card class="stat-card">
+                            <mat-card-title>📊 Entregas por Mensajero</mat-card-title>
+                            <p class="date-range">Rango de Fechas: <strong>{{ fromDate }} - {{ toDate }}</strong></p>
+                
+                            <div class="chart-container" *ngIf="deliveriesMessengerChartData">
+                                <canvas baseChart 
+                                    [datasets]="deliveriesMessengerChartData.datasets" 
+                                    [labels]="deliveriesMessengerChartData.labels"
+                                    [options]="deliveriesMessengerChartOptions"
+                                    [legend]="true"
+                                    chartType="bar">
+                                </canvas>
+                            </div>
+                
+                            <div class="pagination">
+                                <button mat-button (click)="changePage('prev', 'deliveriesMessenger')" [disabled]="currentPage.deliveriesMessenger === 0">◀ Anterior</button>
+                                <span>Página {{ currentPage.deliveriesMessenger + 1 }} de {{ totalPages.deliveriesMessenger }}</span>
+                                <button mat-button (click)="changePage('next', 'deliveriesMessenger')" [disabled]="currentPage.deliveriesMessenger === totalPages.deliveriesMessenger - 1">Siguiente ▶</button>
+                            </div>
+                        </mat-card>
+
+                        <!-- 📈 Gráfico de Tasa de Efectividad -->
+                        <mat-card class="stat-card">
+                            <mat-card-title>📈 Tasa de Efectividad</mat-card-title>
+                            <p class="description">Porcentaje de entregas efectivas por mensajero.</p>
+                
+                            <div class="chart-container" *ngIf="effectivenessMessengerChartData?.datasets?.length > 0">
+                                <canvas baseChart 
+                                    [datasets]="effectivenessMessengerChartData.datasets" 
+                                    [labels]="effectivenessMessengerChartData.labels"
+                                    [options]="effectivenessMessengerChartOptions"
+                                    [legend]="true"
+                                    chartType="bar">
+                                </canvas>
+                            </div>
+                
+                            <div class="pagination">
+                                <button mat-button (click)="changePage('prev', 'effectivenessMessenger')" [disabled]="currentPage.effectivenessMessenger === 0">◀ Anterior</button>
+                                <span>Página {{ currentPage.effectivenessMessenger + 1 }} de {{ totalPages.effectivenessMessenger }}</span>
+                                <button mat-button (click)="changePage('next', 'effectivenessMessenger')" [disabled]="currentPage.effectivenessMessenger === totalPages.effectivenessMessenger - 1">Siguiente ▶</button>
+                            </div>
+                        </mat-card>
+                        
+                        <!-- 📈 Gráfico de Ganancias por mensajero -->
+                        <mat-card class="stat-card">
+                            <mat-card-title>📈 Ganancias por Mensajero</mat-card-title>
+                            <p class="date-range">Ganancias en Rango de Fechas: <strong>{{ fromDate }} - {{ toDate }}</strong></p>
+                
+                            <div class="chart-container" *ngIf="gainsMessengerChartData?.datasets?.length > 0">
+                                <canvas baseChart 
+                                    [datasets]="gainsMessengerChartData.datasets" 
+                                    [labels]="gainsMessengerChartData.labels"
+                                    [options]="gainsMessengerChartOptions"
+                                    [legend]="true"
+                                    chartType="bar">
+                                </canvas>
+                            </div>
+                
+                            <div class="pagination">
+                                <button mat-button (click)="changePage('prev', 'gainsMessenger')" [disabled]="currentPage.gainsMessenger === 0">◀ Anterior</button>
+                                <span>Página {{ currentPage.gainsMessenger + 1 }} de {{ totalPages.gainsMessenger }}</span>
+                                <button mat-button (click)="changePage('next', 'gainsMessenger')" [disabled]="currentPage.gainsMessenger === totalPages.gainsMessenger - 1">Siguiente ▶</button>
+                            </div>
+                        </mat-card>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>
