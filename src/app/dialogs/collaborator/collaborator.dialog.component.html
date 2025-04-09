@@ -1,206 +1,217 @@
 <div *ngIf="view == 'view'">
-  <div class="modal-header">
-      <h5 class="modal-title">{{this.title}}</h5>
-      <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
-          <span>&times;</span>
-      </button>
-  </div>
+    <div class="modal-header">
+        <h5 class="modal-title">{{this.title}}</h5>
+        <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
 
-  <mat-dialog-content style="min-width: 500px;">
+    <mat-dialog-content style="min-width: 500px;">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Detalle Usuario
+                </mat-card-title>
+            </mat-card-header>
 
-      <mat-card>
-          <mat-card-header>
-              <mat-card-title>
-                  Detalle Usuario
-              </mat-card-title>
-          </mat-card-header>
-
-          <mat-card-content>
-              <div class="row">
-                  <div class="col-md-4">
-                      <dt>Fecha Radicacion</dt>
-                      <dd>{{collaborator.fec_radi}}</dd>
-                  </div>
-                  <div class="col-md-4">
-                    <dt>Documento</dt>
-                    <dd>{{collaborator.document}}</dd>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-md-4">
+                        <dt>Fecha Radicacion</dt>
+                        <dd>{{collaborator.fec_radi}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Documento</dt>
+                        <dd>{{collaborator.document}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Nombres</dt>
+                        <dd>{{collaborator.name}}</dd>
+                    </div>
                 </div>
-                  <div class="col-md-4">
-                      <dt>Nombres</dt>
-                      <dd>{{collaborator.name}}</dd>
-                  </div>
-                  
-              </div>
 
-              <div class="row">
-                <div class="col-md-4">
-                  <dt>Cargo</dt>
-                  <dd>{{collaborator.cargo}}</dd>
-              </div>
-                  <!-- <div class="col-md-4">
-                      <dt>Email</dt>
-                      <dd>{{!(collaborator.businessEmail) ? collaborator.email : collaborator.businessEmail}}</dd>
-                  </div> -->
-                  <div class="col-md-4">
-                      <dt>Tipo de Solicitud</dt>
-                      <dd>{{collaborator.type_soli}}</dd>
-                  </div>
-              </div>
-          </mat-card-content>
-      </mat-card>
+                <div class="row">
+                    <div class="col-md-4">
+                        <dt>Cargo</dt>
+                        <dd>{{collaborator.cargo}}</dd>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <dt>Email</dt>
+                        <dd>{{!(collaborator.businessEmail) ? collaborator.email : collaborator.businessEmail}}</dd>
+                    </div> -->
+                    <div class="col-md-4">
+                        <dt>Tipo de Solicitud</dt>
+                        <dd>{{collaborator.type_soli}}</dd>
+                    </div>
+                    <div *ngIf="soportes?.length > 0" class="col-md-4">
+                        <dt>Soportes adjuntos:</dt>
+                        <div *ngFor="let soporte of soportes; let i = index" style="margin-bottom: 10px;">
+                            <button mat-button color="primary" (click)="verSoporte(soporte)">
+                                <mat-icon>visibility</mat-icon> Ver soporte {{ i + 1 }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
 
-      <mat-card>
-          <mat-card-header>
-              <mat-card-title>
-                  Detalle Jefe Inmediato
-              </mat-card-title>
-          </mat-card-header>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Detalle Jefe Inmediato
+                </mat-card-title>
+            </mat-card-header>
 
-          <mat-card-content>
-              <div class="row">
-                  <div class="col-md-4">
-                      <dt>Nombre Jefe Inmediato</dt>
-                      <dd>{{collaborator.jefe}}</dd>
-                  </div>
-                  <div class="col-md-4">
-                      <dt>Cargo</dt>
-                      <dd>{{collaborator.jefe_cargo}}</dd>
-                  </div>
-                  <div class="col-md-4">
-                      <dt>Estado de Solicitud</dt>
-                      <dd>{{collaborator.state_soli}}</dd>
-                  </div>
-              </div>
-          </mat-card-content>
-      </mat-card>
-  </mat-dialog-content>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-md-4">
+                        <dt>Nombre Jefe Inmediato</dt>
+                        <dd>{{collaborator.jefe}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Cargo</dt>
+                        <dd>{{collaborator.jefe_cargo}}</dd>
+                    </div>
+                    <div class="col-md-4">
+                        <dt>Estado de Solicitud</dt>
+                        <dd>{{collaborator.state_soli}}</dd>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-dialog-content>
 </div>
 
 <div class="card mt-6">
-  <div *ngIf="view == 'create' || view == 'update'">
-      <div class="card-header">
-          <h5 class="modal-title">
-              <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
-              <p class="title-modal" *ngIf="view == 'update'">{{title}} {{user}} {{ape}}</p>
-              <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
-                  style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
-                  <span aria-hidden="true" >&times;</span>
-              </button>
-          </h5>
-      </div>
-      <div class="card-body">
-          <mat-dialog-content>
-              <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formColl">
-                  <mat-card>
-                      <mat-card-header>
-                          <mat-card-title>
-                              Detalle Usuario
-                          </mat-card-title>
-                      </mat-card-header>
+    <div *ngIf="view == 'create' || view == 'update'">
+        <div class="card-header">
+            <h5 class="modal-title">
+            <p class="title-modal" *ngIf="view == 'create' ">{{title}}</p>
+            <p class="title-modal" *ngIf="view == 'update'">{{title}} {{user}} {{ape}}</p>
+            <button type="button" class="btn btn-primary btn-close" (click)="closeDialog()" aria-label="Close"
+                style="position: absolute;left: 90%;top: 2%;font-size: 12px;">
+                <span aria-hidden="true" >&times;</span>
+            </button>
+            </h5>
+        </div>
+        <div class="card-body">
+            <mat-dialog-content>
+                <form *ngIf="view == 'create' || view == 'update'" [formGroup]="formColl">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>
+                                Detalle Usuario
+                            </mat-card-title>
+                        </mat-card-header>
 
-                      <mat-card-content>
-                          <div class="row">
-                              <div class="col-md-4">
-                                  <mat-form-field appearance="fill">
-                                      <mat-label>Numero Identificaci&oacute;n</mat-label>
-                                      <input matInput formControlName="document" type="number"
-                                          (ngModelChange)="onSelectionChange($event)" required [readonly]="view == 'update'">
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-md-4 ContCamp">
-                                  <mat-form-field appearance="fill">
-                                      <mat-label>Nombre Colaborador:</mat-label>
-                                      <mat-select formControlName="idPersonale" required >
-                                          <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
-                                              {{idet.name}}
-                                          </mat-option>
-                                      </mat-select>
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-md-4 ContCamp">
-                              <mat-form-field appearance="fill">
-                                <mat-label>Cargo:</mat-label>
-                                <mat-select formControlName="id_cargo" required >
-                                    <mat-option *ngFor="let idet of Position" [value]="idet.ls_codvalue" disabled>
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-4 ContCamp">
-                              <mat-form-field appearance="fill">
-                                  <mat-label>Email</mat-label>
-                                  <input matInput formControlName="email" type="email">
-                              </mat-form-field>
-                          </div>
-                          <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Tipo de Permiso:</mat-label>
-                                <mat-select formControlName="type_per"  [errorStateMatcher]="matcher" >
-                                    <mat-option *ngFor="let idet of typePermis" [value]="idet.ls_codvalue" [disabled]="isCoordLogistica">
-                                        {{idet.description}}
-                                    </mat-option>
-                                </mat-select>
-                              
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field appearance="fill">
-                              <mat-label>Tiempo Permiso:</mat-label>
-                              <mat-select formControlName="timePermis"  [errorStateMatcher]="matcher" (ngModelChange)="onHoliday($event)">
-                                  <mat-option *ngFor="let idet of timePermis" [value]="idet.ls_codvalue" [disabled]="isCoordLogistica">
-                                      {{idet.description}}
-                                  </mat-option>
-                              </mat-select>
-                          
-                          </mat-form-field>
-                      </div>
-                  
-                          </div>
-                          <div class="row">
-                            <div class="col-md-4">
+                        <mat-card-content>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Numero Identificaci&oacute;n</mat-label>
+                                        <input matInput formControlName="document" type="number"
+                                            (ngModelChange)="onSelectionChange($event)" required [readonly]="view == 'update'">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 ContCamp">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Nombre Colaborador:</mat-label>
+                                        <mat-select formControlName="idPersonale" required >
+                                            <mat-option *ngFor="let idet of PersonaleInfo" [value]="idet.idPersonale" disabled>
+                                                {{idet.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 ContCamp">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Cargo:</mat-label>
+                                        <mat-select formControlName="id_cargo" required >
+                                            <mat-option *ngFor="let idet of Position" [value]="idet.ls_codvalue" disabled>
+                                                {{idet.description}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 ContCamp">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Fecha de Inicio:</mat-label>
-                                    <input matInput formControlName="fec_ini" type="datetime-local" (ngModelChange)="onFecIniChange($event)" [min]="minDate" required>
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="email" type="email">
                                 </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Tipo de Permiso:</mat-label>
+                                        <mat-select formControlName="type_per"  [errorStateMatcher]="matcher" >
+                                            <mat-option *ngFor="let idet of typePermis" [value]="idet.ls_codvalue" [disabled]="isCoordLogistica">
+                                                {{idet.description}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Tiempo Permiso:</mat-label>
+                                        <mat-select formControlName="timePermis"  [errorStateMatcher]="matcher" (ngModelChange)="onHoliday($event)">
+                                            <mat-option *ngFor="let idet of timePermis" [value]="idet.ls_codvalue" [disabled]="isCoordLogistica">
+                                                {{idet.description}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                              <mat-form-field appearance="fill">
-                                  <mat-label>horas o dias:</mat-label>
-                                  <input matInput formControlName="dayHour" type="number" (ngModelChange)="onSelectPermission($event)" min="1" max="15" required [readonly]="CheckTrue">
-                              </mat-form-field>
-                          </div>
-                            
-                           
-                            <div class="col-md-4 ContCamp">
-                              <mat-form-field appearance="fill">
-                                  <mat-label>Fecha Final:</mat-label>
-                              <input matInput formControlName="fec_fin" type="datetime-local"  [min]="minDate" required>
-                              </mat-form-field>
-                          </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-6">
-                                <label>Adjuntar Documento de Soporte:</label>
-                                <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)" multiple>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Fecha de Inicio:</mat-label>
+                                        <input matInput formControlName="fec_ini" type="datetime-local" (ngModelChange)="onFecIniChange($event)" [min]="minDate" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>horas o dias:</mat-label>
+                                        <input matInput formControlName="dayHour" type="number" (ngModelChange)="onSelectPermission($event)" min="1" max="15" required [readonly]="CheckTrue">
+                                    </mat-form-field>
+                                    <div *ngIf="formColl.errors?.fechaAnticipada" class="text-danger">
+                                        {{ formColl.errors.fechaAnticipada }}
+                                    </div>
+                                    <div *ngIf="formColl.errors?.fechaHoy" class="text-danger">
+                                        {{ formColl.errors.fechaHoy }}
+                                    </div>
+                                    <div *ngIf="formColl.errors?.maxHoras" class="text-danger">
+                                        {{ formColl.errors.maxHoras }}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 ContCamp">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Fecha Final:</mat-label>
+                                        <input matInput formControlName="fec_fin" type="datetime-local"  [min]="minDate" required>
+                                    </mat-form-field>
+                                </div>
                             </div>
-                          </div>
-                          <hr>
-                          <div class="row mt-3">
-                            <div class="col-md-12">
-                              <mat-form-field class="example-full-width">
-                                <mat-label> Descripcion de la solicitud:</mat-label>
-                                <textarea matInput formControlName="description" [readonly]="view == 'update'" required></textarea>
-                                <!-- <mat-error *ngIf="getJustInvalid()">
-                                  <strong> Ingrese Justificación.</strong>
-                              </mat-error> -->
-                              </mat-form-field>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Adjuntar Documento de Soporte:</label>
+                                    <input formControlName="file_sp" class="form-control" type="file" (change)="seleccionarArchivo($event)" multiple>
+                                </div>
                             </div>
-                          </div>
-                      </mat-card-content>
-                  </mat-card>
+                            <hr>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label> Descripcion de la solicitud:</mat-label>
+                                        <textarea matInput formControlName="description" [readonly]="view == 'update'" required></textarea>
+                                        <!-- <mat-error *ngIf="getJustInvalid()">
+                                        <strong> Ingrese Justificación.</strong>
+                                    </mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
 
                   <mat-card >
                       <mat-card-header>
