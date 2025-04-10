@@ -20,6 +20,9 @@ export class ReportsComponent implements OnInit {
   permissions: any = null;
   reports: any = [];
   matriz: any = [];
+  mesCarga: any = [];
+  minDate: string = '';
+  maxDate: string = '';
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -37,9 +40,30 @@ export class ReportsComponent implements OnInit {
       tipoReporte: [''],
       fi: ['', Validators.required],
       ff: ['', Validators.required],
-      matriz: ''
+      matriz: '',
+      month: ''
     }, { validators: this.dateRangeValidator });
 
+    this.formTipoReporte.get('month')?.valueChanges.subscribe((event: string) => {
+      console.log('mes escogido => ', event);
+  
+      if (event) {
+        const partes = event.split('/');
+        const mes = Number(partes[1]);
+        const anio = 2025; // o puedes usar new Date().getFullYear();
+  
+        const fechaInicio = new Date(anio, mes - 1, 1);
+        const fechaFin = new Date(anio, mes, 0);
+  
+        this.minDate = this.formatDate(fechaInicio);
+        this.maxDate = this.formatDate(fechaFin);
+  
+        this.formTipoReporte.patchValue({
+          fi: '',
+          ff: ''
+        });
+      }
+    });
     this.formTipoReporte.valueChanges.subscribe(() => this.cdr.detectChanges());
   }
 
@@ -58,6 +82,7 @@ export class ReportsComponent implements OnInit {
           this.permissions = this.handler.getPermissions(this.component);
           this.reports = data.data["reports"];
           this.matriz = data.data["matriz"];
+          this.mesCarga = data.data["mesCarga"];
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -73,15 +98,40 @@ export class ReportsComponent implements OnInit {
     );
   }
   checMatriz: boolean;
+  checkBase: boolean;
+  
   onTipoReporteChange(event) {
-    (event == 'report-records') ? this.checMatriz = true : this.checMatriz = false;
+    console.log(event);
+    
+    if(event == 'report-records'){
+      this.formTipoReporte.get('month').setValue('');
+       this.checMatriz = true;
+       this.checkBase = false;
+      this.minDate = '';
+      this.maxDate = '' ;
+    }else if(event == 'report-management'){
+      this.checkBase = true;
+      this.checMatriz = true;
+
+    }else if(event == 'report-range' || event == 'report-closing' || event == 'validacionIdentidad'){
+      this.formTipoReporte.get('month').setValue('');
+      this.checkBase = false;
+      this.checMatriz = false;
+      this.minDate = '';
+      this.maxDate = '' ;
+    } else{
+      this.checMatriz = false;
+      // this.checkBase = false;
+
+    }
     
     this.mostrarFechas = event;
     if (!this.mostrarFechas) {
       this.formTipoReporte.patchValue({
         fi: '',
         ff: '',
-        matriz: ''
+        matriz: '',
+        month: ''
       }, { emitEvent: false });
       this.formTipoReporte.updateValueAndValidity(); 
     }
@@ -106,6 +156,7 @@ export class ReportsComponent implements OnInit {
     const fechaInicio = this.formTipoReporte.get('fi')?.value;
     const fechaFin = this.formTipoReporte.get('ff')?.value;
     const matriz = this.formTipoReporte.get('matriz')?.value;
+    const month = this.formTipoReporte.get('month')?.value;
 
     if (!tipoReporte || !fechaInicio || !fechaFin) {
       this.handler.showError('Por favor, llene los datos para descargar el reporte.');
@@ -123,7 +174,8 @@ export class ReportsComponent implements OnInit {
       action: "downloadFiles",
       fechaInicio: fechaInicio,
       fechaFin: fechaFin,
-      matriz: matriz
+      matriz: matriz,
+      month: month
     })
     .subscribe(
       response => {
@@ -147,4 +199,39 @@ export class ReportsComponent implements OnInit {
       }
     );
   }
+  onMonth(event){
+    // if(event){
+    this.formTipoReporte.get('month')?.valueChanges.subscribe((event: string) => {
+      console.log('mes escogido => ',event);;
+      
+      if (event) {
+        // Obtener el mes desde el valor "172/3"
+        const partes = event.split('/');
+        const mes = Number(partes[1]); // "3"
+        
+        const anio = 2025; // o puedes usar new Date().getFullYear();
+    
+        const fechaInicio = new Date(anio, mes - 1, 1);
+        const fechaFin = new Date(anio, mes, 0); // Último día del mes
+    
+        this.minDate = this.formatDate(fechaInicio);
+        this.maxDate = this.formatDate(fechaFin);
+    
+        // Limpiar los campos de fecha si ya tenían valores
+        this.formTipoReporte.patchValue({
+          fi: '',
+          ff: ''
+        });
+      }
+    });
+  // }
+
+  }
+  formatDate(date: Date): string {
+    const yyyy = date.getFullYear();
+    const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+    const dd = date.getDate().toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  
 }

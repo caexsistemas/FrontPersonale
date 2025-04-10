@@ -7,11 +7,21 @@
             <form [formGroup]="formTipoReporte">
                 <div class="container">
                     <div class="row mt-4">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Tipo de Reporte</mat-label>
                                 <mat-select formControlName="tipoReporte" (ngModelChange)="onTipoReporteChange($event)" required>
                                     <mat-option *ngFor="let idet of reports" [value]="idet.complemento" >
+                                        {{idet.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" *ngIf="checkBase">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Mes de Carga</mat-label>
+                                <mat-select formControlName="month">
+                                    <mat-option *ngFor="let idet of mesCarga" [value]="idet.ls_codvalue" >
                                         {{idet.description}}
                                     </mat-option>
                                 </mat-select>
@@ -22,7 +32,7 @@
                         <div class="col-md-3" *ngIf="mostrarFechas">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Inicio:</mat-label>
-                                <input matInput formControlName="fi" type="date">
+                                <input matInput formControlName="fi" type="date" [min]="minDate" [max]="maxDate">
                                 <mat-error *ngIf="formTipoReporte.get('fi')?.hasError('required')">
                                     Fecha de inicio es requerida.
                                 </mat-error>
@@ -31,7 +41,7 @@
                         <div class="col-md-3" *ngIf="mostrarFechas">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Fecha Fin:</mat-label>
-                                <input matInput formControlName="ff" type="date">
+                                <input matInput formControlName="ff" type="date" [min]="minDate" [max]="maxDate">
                                 <mat-error *ngIf="formTipoReporte.get('ff')?.hasError('required')">
                                     Fecha de fin es requerida.
                                 </mat-error>

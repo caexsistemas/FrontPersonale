@@ -173,29 +173,16 @@ export interface PeriodicElement {
           tip_solitud: new FormControl(""),
           obs_pqr: new FormControl(""),
           id_caex: new FormControl(""),
-
           class_pqr: new FormControl(""),
-          // acer_empati: new FormControl(""),
-          // acer_entona: new FormControl(""),
-          // acer_perfil: new FormControl(""),
-
-          // nego_descri: new FormControl(""),
-          // nego_destac: new FormControl(""),
-          // nego_ofrece: new FormControl(""),
-          // nego_identi: new FormControl(""),
-          // nego_utiliz: new FormControl(""),
-
           state_pqr: new FormControl(""),
-
           cie_reacie: new FormControl(""),
           cie_proven: new FormControl(""),
           cie_reares: new FormControl(""),
-
           date_call: new FormControl(""),
           phone_call: new FormControl(""),
           oferta: new FormControl(""),
           campana: new FormControl(""),
-          cum: new FormControl(""),
+          cun: new FormControl("", [Validators.required, Validators.pattern(/^[0-9]+$/)]),
           final_note: new FormControl("")
         });
     }
@@ -361,7 +348,7 @@ export interface PeriodicElement {
             this.formProces.get('date_call').setValue(data.data['getDataUpda'][0].date_call);
             this.formProces.get('phone_call').setValue(data.data['getDataUpda'][0].phone_call);
             this.formProces.get('oferta').setValue(data.data['getDataUpda'][0].oferta);
-            this.formProces.get('cum').setValue(data.data['getDataUpda'][0].cum);
+            this.formProces.get('cun').setValue(data.data['getDataUpda'][0].cun);
             this.formProces.get('matrizarp').setValue(data.data['getDataUpda'][0].matrizarp);
             this.formProces.get('campana').setValue(data.data['getDataUpda'][0].campana);
             this.formProces.get('idPersonale').setValue(data.data['getDataUpda'][0].idPersonale);
