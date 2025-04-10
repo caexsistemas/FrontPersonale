@@ -607,7 +607,6 @@ export class NominaMensajerosComponent implements OnInit {
   }
   
   applyFilter() {
-    this.loading = true;
   
     if (!this.fromDate || !this.toDate) {
       this.handler.showError("Debe seleccionar un rango de fechas válido.");
@@ -624,6 +623,23 @@ export class NominaMensajerosComponent implements OnInit {
     }
 
     if (this.selectedType === 'massive') {
+      if (!this.selectedAgencies || this.selectedAgencies.length === 0) {
+        this.handler.showError("Debe escoger al menos una agencia para el reporte masivo.");
+        return;
+      } else if(this.selectedAgencies.includes(1) && diferenciaDias > 32){
+        this.handler.showError("Debe seleccionar un rango de fechas máximo de 1 mes para la agencia 100||CALI.");
+        return;
+      }  
+    } else if (this.selectedType === 'ecommerce') {
+      if (!this.selectedAgenciesEcommerce || this.selectedAgenciesEcommerce.length === 0) {
+        this.handler.showError("Debe escoger al menos una agencia para el reporte de ecommerce.");
+        return;
+      }
+    }
+    
+    this.loading = true;
+
+    if (this.selectedType === 'massive') {
       this.loadData(); // Carga los datos desde la DB de Masivo
     } else if (this.selectedType === 'ecommerce') {
       this.loadDataEcommerce(); // Carga los datos desde la DB de E-commerce
@@ -636,9 +652,27 @@ export class NominaMensajerosComponent implements OnInit {
   }
 
   onClickReport() {
+
+    const fechaInicio = new Date(this.fromDate);
+    const fechaFin = new Date(this.toDate);
+    const diferenciaDias = (fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (diferenciaDias > 61) {
+      this.handler.showError("Debe seleccionar un rango de fechas máximo de 2 mes.");
+      return;
+    }
+
     if (this.selectedType === 'massive') {
+      if (!this.selectedAgencies || this.selectedAgencies.length === 0) {
+        this.handler.showError("Debe escoger al menos una agencia para el reporte masivo.");
+        return;
+      }
       this.downloadReport('massive', this.selectedAgencies, '/generate-paysheet');
     } else if (this.selectedType === 'ecommerce') {
+      if (!this.selectedAgenciesEcommerce || this.selectedAgenciesEcommerce.length === 0) {
+        this.handler.showError("Debe escoger al menos una agencia para el reporte de ecommerce.");
+        return;
+      }
       this.downloadReport('ecommerce', this.selectedAgenciesEcommerce, '/generate-paysheet-ecommerce');
     }
   }
@@ -690,8 +724,8 @@ export class NominaMensajerosComponent implements OnInit {
     const to = new Date(this.toDate);
     const differenceInDays = (to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24);
   
-    if (differenceInDays > 15) {
-      this.handler.showError("El rango de fechas no puede ser mayor a 15 días.");
+    if (differenceInDays > 31) {
+      this.handler.showError("El rango de fechas no puede ser mayor a 31 días.");
       return false;
     }
     return true;

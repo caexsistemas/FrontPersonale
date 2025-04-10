@@ -1,7 +1,7 @@
 import { MatDialog,MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, Inject, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
 import { WebApiService } from '../../services/web-api.service';
-import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { HandlerAppService } from '../../services/handler-app.service';
 import { environment } from '../../../environments/environment';
@@ -81,6 +81,8 @@ export class CollaboratorDialog
     CheckTrue:boolean = true;
     blockSuccess:  boolean = false;
     nuevoArchivo:any = [];
+    
+    soportes: string[] = [];
 
     public clickedRows;
     public cuser: any = JSON.parse(localStorage.getItem('currentUser'));
@@ -143,6 +145,8 @@ export class CollaboratorDialog
                  
                   this.collaborator = data.data[0];
 
+                  this.soportes = JSON.parse(this.collaborator.file_sp.replace(/\\/g, ""));
+
                   this.generateTable(data.data['getDatHistory']);   
                   this.loading.emit(false);
                 } else {
@@ -190,7 +194,7 @@ export class CollaboratorDialog
         file_sp: new FormControl(""),
         create_User: new FormControl(this.cuser.iduser),
         
-    });
+    }, { validators: this.validateDayHour() });
 }
 generateTable(data){
   this.displayedColumns = [
@@ -217,9 +221,7 @@ getDataInit(){
       token: this.cuser.token,
       idUser: this.cuser.iduser,
       modulo: this.component
-  })
-  .subscribe(
-     
+  }).subscribe(
       data => {
           if (data.success == true) {
               //DataInfo
@@ -247,55 +249,59 @@ getDataInit(){
 }
 onSubmit() {
   if (this.formColl.valid) {
+
+    
+
       this.loading.emit(true);
       let body = {
-          listas: this.formColl.value,
-          archivoRes:  this.nuevoArchivo
-
+        listas: this.formColl.value,
+        archivoRes:  this.nuevoArchivo
       }
       this.handler.showLoadin("Guardando Solicitud", "Por favor espere...");
       this.WebApiService.postRequest(this.endpoint, body, {
         token: this.cuser.token,
         idUser: this.cuser.iduser,
         modulo: this.component
-      })
-          .subscribe(
-              data => {
-                  if (data.success) {
-                     this.handler.showSuccess(data.message);
-                      this.reload.emit();
-                      this.closeDialog();
-                  } else {
-                      this.handler.handlerError(data);
-                      this.loading.emit(false);
-                  }
-              },
-              error => {
-                  this.handler.showError();
-                  this.loading.emit(false);
-              }
-          )
+      }).subscribe(
+        data => {
+            if (data.success) {
+                this.handler.showSuccess(data.message);
+                this.reload.emit();
+                this.closeDialog();
+            } else {
+                this.handler.handlerError(data);
+                this.loading.emit(false);
+            }
+        },
+        error => {
+            this.handler.showError();
+            this.loading.emit(false);
+        }
+      )
   } else {
-      this.handler.showError('Complete la informacion necesaria');
-      this.loading.emit(false);
+    this.handler.showError('Complete la informacion necesaria');
+    this.loading.emit(false);
   }
 }
 onSelectionChange(event){
-        
-       
+
   let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
- 
 
   if( exitsPersonal ){
-    
-      this.formColl.get('idPersonale').setValue(exitsPersonal.idPersonale);
-      this.formColl.get('id_cargo').setValue(exitsPersonal.idPosition);
-      this.formColl.get('email').setValue(exitsPersonal.businessEmail ?? exitsPersonal.email);
-      this.formColl.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
-      this.formColl.get('emailBoss').setValue(exitsPersonal.jef_businessEmail);
-      this.formColl.get('jef_cargo').setValue(exitsPersonal.jef_cargo);
-     
-  }        
+    this.formColl.get('idPersonale').setValue(exitsPersonal.idPersonale);
+    this.formColl.get('id_cargo').setValue(exitsPersonal.idPosition);
+    this.formColl.get('email').setValue(exitsPersonal.businessEmail ?? exitsPersonal.email);
+    this.formColl.get('immediateBoss').setValue(exitsPersonal.jef_idPersonale);
+    this.formColl.get('emailBoss').setValue(exitsPersonal.jef_businessEmail);
+    this.formColl.get('jef_cargo').setValue(exitsPersonal.jef_cargo);
+  } else{
+    this.formColl.get('idPersonale').setValue('');
+    this.formColl.get('immediateBoss').setValue('');  
+    this.formColl.get('email').setValue('');  
+    this.formColl.get('id_cargo').setValue('');  
+    this.formColl.get('emailBoss').setValue('');  
+    this.formColl.get('jef_cargo').setValue('');  
+  }   
 }
 
 getDataUpdate(){
@@ -542,4 +548,46 @@ skipSunday(date: Date): Date {
   
     leerArchivosSecuencialmente();
   }
+
+  validateDayHour(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const tipoTiempo = group.get('timePermis')?.value;
+      const fechaInicio = group.get('fec_ini')?.value;
+      const cantidad = group.get('dayHour')?.value;
+  
+      const errores: any = {};
+  
+      if (!tipoTiempo || !fechaInicio || cantidad == null) {
+        return null; // Faltan datos, no validar
+      }
+  
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const fechaIni = new Date(fechaInicio);
+      fechaIni.setHours(0, 0, 0, 0);
+  
+      // Validación si es "Por días" (153/2)
+      if (tipoTiempo === '153/2') {
+        const diferenciaDias = (fechaIni.getTime() - hoy.getTime()) / (1000 * 3600 * 24);
+        if (diferenciaDias < 2) {
+          errores.fechaAnticipada = 'Debe solicitar el permiso con al menos 2 días de antelación.';
+        }
+      }
+  
+      // Validación si es "Horas" (153/1)
+      if (tipoTiempo === '153/1') {
+  
+        if (cantidad > 4) {
+          errores.maxHoras = 'Los permisos por horas deben ser máximo de 4 horas.';
+        }
+      }
+  
+      return Object.keys(errores).length ? errores : null;
+    };
+  }
+
+  verSoporte(url: string) {
+    window.open(url, '_blank');
+  }
+  
 }
