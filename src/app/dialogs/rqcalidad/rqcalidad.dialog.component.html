@@ -128,9 +128,25 @@
                             <dt>¿Asesor realiza contrato digital?:</dt>
                             <dd> {{dataCad.tip_contrato}}</dd>
                         </div>
+
+                    </div>
+
+                    <div class="row">
                         <div class="col-sm-4" *ngIf="customer">
                             <dt>Voz del cliente</dt>
-                            <dd>{{dataCad.voz_cliente}}</dd>
+                            <dd>
+                                {{ dataCad.voz_cliente_id || dataCad.voz_cliente }}
+                            </dd>
+                        </div>
+                        
+                        <div class="col-sm-4" *ngIf="dataCad.subvoz_cliente">
+                            <dt>Sub Voz del cliente</dt>
+                            <dd>{{ dataCad.subvoz_cliente }}</dd>
+                        </div>
+                        
+                        <div class="col-sm-4" *ngIf="dataCad.operator">
+                            <dt>Operador</dt>
+                            <dd>{{ dataCad.operator }}</dd>
                         </div>
                     </div>
 
@@ -644,13 +660,40 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4 customer" *ngIf="customer">
-                        <mat-form-field  >
-                            <mat-label>Voz del Cliente:</mat-label>
-                            <textarea matInput formControlName="voz_cliente"  placeholder="" ></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field  class="example-full-width">
+                            <mat-label>Operador</mat-label>
+                            <mat-select formControlName="operator" required>
+                                <mat-option *ngFor="let operador of operadores" [value]="operador.ls_codvalue">
+                                    {{ operador.description }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
-
+                    <div class="col-sm-4" *ngIf="customer">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>Voz del Cliente</mat-label>
+                            <mat-select  formControlName="voz_cliente_id" (selectionChange)="onVozClienteChange($event.value)" required>
+                                <mat-option *ngFor="let item of vozCliente" [value]="item.ls_codvalue">
+                                    {{ item.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field *ngIf="customer">
+                            <mat-label>Sub Voz del Cliente</mat-label>
+                            <mat-select formControlName="subvoz_cliente" required>
+                                <ng-container *ngFor="let item of subVozCliente">
+                                    <mat-option *ngIf="item.list_id == selectedComplemento" [value]="item.ls_codvalue">
+                                    {{ item.description }}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
@@ -1469,19 +1512,29 @@
                             <dt>Formador2:</dt>
                             <dd>{{dataCad.formador_tw}}</dd>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-sm-4">
                             <dt>¿Asesor realiza contrato digital?:</dt>
                             <dd>{{dataCad.tip_contrato}}</dd>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-4" *ngIf="customer">
-                            <dt>Voz del cliente:</dt>
-                            <dd>{{dataCad.voz_cliente}}</dd>
+                            <dt>Voz del cliente</dt>
+                            <dd>
+                                {{ dataCad.voz_cliente_id || dataCad.voz_cliente }}
+                            </dd>
                         </div>
-                        <div class="col-sm-4"></div>
-                      </div>
+                        
+                        <div class="col-sm-4" *ngIf="dataCad.subvoz_cliente">
+                            <dt>Sub Voz del cliente</dt>
+                            <dd>{{ dataCad.subvoz_cliente }}</dd>
+                        </div>
+                        
+                        <div class="col-sm-4" *ngIf="dataCad.operator">
+                            <dt>Operador</dt>
+                            <dd>{{ dataCad.operator }}</dd>
+                        </div>
+                    </div>
 
                   <!--**--> 
                   
@@ -2387,20 +2440,45 @@
                         <mat-form-field class="example-full-width" >
                             <mat-label>¿Asesor realiza contrato digital?:</mat-label>
                             <mat-select formControlName="tip_contrato" required>
-                              <mat-option *ngFor="let idet of LisTipContrato" [value]="idet.ls_codvalue">
-                                {{idet.description}}
-                              </mat-option>
+                                <mat-option *ngFor="let idet of LisTipContrato" [value]="idet.ls_codvalue">
+                                    {{idet.description}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4 customer" *ngIf="customer">
-                        <mat-form-field  >
-                            <mat-label>Voz del Cliente:</mat-label>
-                            <textarea matInput formControlName="voz_cliente"  placeholder="" ></textarea>
+                    <div class="col-sm-4">
+                        <mat-form-field  class="example-full-width">
+                            <mat-label>Operador</mat-label>
+                            <mat-select formControlName="operator" required>
+                                <mat-option *ngFor="let operador of operadores" [value]="operador.ls_codvalue">
+                                    {{ operador.description }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
-                    <div class="col-sm-4"></div>
-                  </div>
+                    <div class="col-sm-4" *ngIf="customer">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>Voz del Cliente</mat-label>
+                            <mat-select  formControlName="voz_cliente_id" (selectionChange)="onVozClienteChange($event.value)" required>
+                                <mat-option *ngFor="let item of vozCliente" [value]="item.ls_codvalue">
+                                    {{ item.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field *ngIf="customer">
+                            <mat-label>Sub Voz del Cliente</mat-label>
+                            <mat-select formControlName="subvoz_cliente" required>
+                                <ng-container *ngFor="let item of subVozCliente">
+                                    <mat-option *ngIf="item.list_id == selectedComplemento" [value]="item.ls_codvalue">
+                                    {{ item.description }}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
 
                   <mat-action-row>
                     <button mat-button class="btn btn-dark" (click)="nextStep()">Next</button>

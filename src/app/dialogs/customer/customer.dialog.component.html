@@ -41,7 +41,7 @@
                     <div class="col-sm-4">
                         <mat-form-field class="example-full-width">
                             <mat-label>Tipo Gesti&oacute;n:</mat-label>
-                            <mat-select formControlName="tipo_gestion" required>
+                            <mat-select formControlName="tipo_gestion" required (ngModelChange)="onTipoGestionChange($event)">
                                 <mat-option *ngFor="let idet of LisTipogest" [value]="idet.ls_codvalue">
                                     {{idet.description}}
                                 </mat-option>
@@ -164,11 +164,46 @@
                         </mat-form-field>
                     </div>
 
-                  </div>
+                </div>
                    <!--{ROW //////////}-->
 
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field  class="example-full-width">
+                            <mat-label>Operador</mat-label>
+                            <mat-select formControlName="operator" required>
+                                <mat-option *ngFor="let operador of operadores" [value]="operador.ls_codvalue">
+                                    {{ operador.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4" *ngIf="noVenta">
+                        <mat-form-field class="example-full-width" >
+                            <mat-label>Voz del Cliente</mat-label>
+                            <mat-select  formControlName="voz_cliente_id" (selectionChange)="onVozClienteChange($event.value)" required>
+                                <mat-option *ngFor="let item of vozCliente" [value]="item.ls_codvalue">
+                                    {{ item.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field *ngIf="noVenta">
+                            <mat-label>Sub Voz del Cliente</mat-label>
+                            <mat-select formControlName="subvoz_cliente" required>
+                                <ng-container *ngFor="let item of subVozCliente">
+                                    <mat-option *ngIf="item.list_id == selectedComplemento" [value]="item.ls_codvalue">
+                                    {{ item.description }}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
                    <!--{ROW *********}-->
-                   <div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <mat-form-field class="example-full-width" >
                             <mat-label>Observaciones:</mat-label>
@@ -561,6 +596,24 @@
   
                     </div>
                      <!--{ROW //////////}-->
+
+                    <div class="row">
+                        <div class="col-sm-4" *ngIf="dataCad.subvoz_cliente">
+                            <dt>Sub Voz del cliente</dt>
+                            <dd>{{ dataCad.subvoz_cliente }}</dd>
+                        </div>
+                        <div class="col-sm-4" *ngIf="noVenta">
+                            <dt>Voz del cliente</dt>
+                            <dd>
+                                {{ dataCad.voz_cliente_id}}
+                            </dd>
+                        </div>
+                        
+                        <div class="col-sm-4" *ngIf="dataCad.subvoz_cliente">
+                            <dt>Sub Voz del cliente</dt>
+                            <dd>{{ dataCad.subvoz_cliente }}</dd>
+                        </div>
+                    </div>
 
                     <!--{ROW *********}-->
                     <div class="row">

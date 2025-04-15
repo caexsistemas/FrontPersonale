@@ -117,7 +117,13 @@ export class RqcalidadDialog  {
   customer:boolean;
   contrato: any = [];
   weekNumber: number;
+
+  vozCliente: any[] = [];
+  subVozCliente: any[] = [];
+  selectedComplemento: number = null;
   
+  operadores: any[] = [];
+
   archivo = {
     nombre: null,
     nombreArchivo: null,
@@ -338,7 +344,7 @@ export class RqcalidadDialog  {
       createUser: new FormControl(this.cuser.iduser),
       matrizarp: new FormControl(this.tipMatriz),
       tip_dialog: new FormControl(this.diag),
-      tipo_gestion: new FormControl(""),
+      tipo_gestion: new FormControl("", Validators.required),
       tipo_red: new FormControl(""),
       document: new FormControl(""),
       login: new FormControl(""), 
@@ -480,9 +486,11 @@ export class RqcalidadDialog  {
       tip_solicitud: new FormControl(""),
       obs_customer: new FormControl(""),
       tip_contrato: new FormControl(""),
-      voz_cliente:new FormControl(""),
+      // voz_cliente:new FormControl(""),
+      voz_cliente_id:new FormControl(""),
+      operator:new FormControl(""),
+      subvoz_cliente:new FormControl(""),
       refute: new FormControl(""),
-
 
     });
 
@@ -551,7 +559,12 @@ export class RqcalidadDialog  {
                 let date = new Date();
                 this.dateStrinMoni = date.getFullYear()+'-'+String(date.getMonth() + 1).padStart(2, '0')+'-'+String(date.getDate()).padStart(2, '0');
                 this.formProces.get('monitoring_date').setValue(this.dateStrinMoni);
-    
+
+                this.vozCliente = data.data['vozCliente'];
+                this.subVozCliente = data.data['subVozCliente'];
+
+                this.operadores = data.data['operadores'];
+
               if (this.view == 'update' || this.view == 'updateCus') {
                 this.getDataUpdate();
               }
@@ -931,7 +944,13 @@ export class RqcalidadDialog  {
           this.formProces.get('tip_solicitud').setValue(data.data['getDataUpda'][0].tip_solicitud);
           this.formProces.get('obs_customer').setValue(data.data['getDataUpda'][0].obs_customer);
           this.formProces.get('tip_contrato').setValue(data.data['getDataUpda'][0].tip_contrato);         
-          this.formProces.get('voz_cliente').setValue(data.data['getDataUpda'][0].voz_cliente);         
+          // this.formProces.get('voz_cliente_id').setValue(data.data['getDataUpda'][0].voz_cliente);         
+          
+          this.formProces.get('voz_cliente_id').setValue(data.data['getDataUpda'][0].voz_cliente_id);  
+          this.onVozClienteChange(data.data['getDataUpda'][0].voz_cliente_id);       
+          this.formProces.get('subvoz_cliente').setValue(data.data['getDataUpda'][0].subvoz_cliente); 
+          this.formProces.get('operator').setValue(data.data['getDataUpda'][0].operator);         
+
 
           //Malas practicas y Espectativas
           if( data.data['getDataUpda'][0].cri_fal_exp_mal_pra == "34/2" || data.data['getDataUpda'][0].cri_val_cor_cob == "34/2" ){
@@ -1151,7 +1170,7 @@ if ((this.view === 'create' || this.view === 'update') && (this.tipMatriz === '4
       if(event === '32/2'){
         this.customer = true;
         this.contrato_type = false;
-        this.formProces.get('voz_cliente').setValidators([Validators.required]);
+        this.formProces.get('voz_cliente_id').setValidators([Validators.required]);
         this.formProces.get('ns_lec_con').clearValidators();
     
     
@@ -1159,42 +1178,50 @@ if ((this.view === 'create' || this.view === 'update') && (this.tipMatriz === '4
         this.customer = false;
         this.contrato_type = true;
     
-        this.formProces.get('voz_cliente').clearValidators();
+        this.formProces.get('voz_cliente_id').clearValidators();
         this.formProces.get('ns_lec_con').setValidators([Validators.required]);
     
     
       }
-      this.formProces.get('voz_cliente').updateValueAndValidity();
+      this.formProces.get('voz_cliente_id').updateValueAndValidity();
       this.formProces.get('ns_lec_con').updateValueAndValidity();
     
     }else if(this.tipMatriz == '40/3' ){
         if(event === '32/2'){
           this.customer = true;
-          this.formProces.get('voz_cliente').setValidators([Validators.required]);
+          this.formProces.get('voz_cliente_id').setValidators([Validators.required]);
       
       
         }else if(event == '32/1'){
           this.customer = false;
       
-          this.formProces.get('voz_cliente').clearValidators();
+          this.formProces.get('voz_cliente_id').clearValidators();
       
       
         }
-        this.formProces.get('voz_cliente').updateValueAndValidity();
+        this.formProces.get('voz_cliente_id').updateValueAndValidity();
     // }else if(this.view == 'createCus' && this.tipMatriz == '40/1'  || this.view == 'createCus' && this.tipMatriz == '40/2'){
     }else if((this.view === 'createCus' || this.view === 'updateCus') && (this.tipMatriz === '40/1' || this.tipMatriz === '40/2')){
       if(event === '32/2'){
         this.customer = true;
-        this.formProces.get('voz_cliente').setValidators([Validators.required]);
+        this.formProces.get('voz_cliente_id').setValidators([Validators.required]);
 
       }else if(event == '32/1'){
         this.customer = false;
-        this.formProces.get('voz_cliente').clearValidators();
+        this.formProces.get('voz_cliente_id').clearValidators();
 
       }
     }
-    this.formProces.get('voz_cliente').updateValueAndValidity();
+    this.formProces.get('voz_cliente_id').updateValueAndValidity();
 
+  }
+
+  onVozClienteChange(selectedValue: string) {
+    const item = this.vozCliente.find(i => i.ls_codvalue === selectedValue);
+    if (item) {
+      const complemento = item.complemento;
+      this.selectedComplemento = complemento;
+    }
   }
   
 }
