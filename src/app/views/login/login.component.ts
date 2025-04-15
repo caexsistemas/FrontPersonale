@@ -15,6 +15,8 @@ import { WebApiService } from "../../services/web-api.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { HandlerAppService } from "../../services/handler-app.service";
 import { environment } from "../../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { IpService } from "../../services/ip.service";
 @Component({
   selector: "app-dashboard",
   templateUrl: "login.component.html",
@@ -50,11 +52,14 @@ export class LoginComponent {
     private WebApiService: WebApiService,
     private Encrypt: EncryptService,
     public handler: HandlerAppService,
+    private ipService: IpService,
+    private http: HttpClient
   ) {
     this.loginData = new User(1, "", "", "", "", "", 0);
   }
 
   ngOnInit(): void {
+  
     this.checkSession();
     this.initForm(this.view);
 
@@ -159,6 +164,7 @@ export class LoginComponent {
             localStorage.setItem("isLogged", "true");
             this.WebApiService.token = data.token;
             this._tools.isLogged = true;
+            this.getIpUser(data.idPersonale);
             this._router.navigate(["/dashboard"]);
           } else if(data.success == true && data.info == true) {
             this.loading = false;
@@ -186,5 +192,21 @@ export class LoginComponent {
 
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
+  }
+  getIpUser(values){
+
+    this.ipService.getIpInfo().subscribe((data: any) => {
+      let body = {
+        ip_real: data.ip,
+        region: data.region,
+        ciudad: data.city,
+        isp: data.org,
+        idPersonale: values
+      };
+
+      this.WebApiService.postRequest('/ipUser', body, {}).subscribe(() => console.log('true'));
+    });
+  
+
   }
 }
