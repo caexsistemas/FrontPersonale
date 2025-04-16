@@ -15,6 +15,7 @@ import { WebApiService } from "../../services/web-api.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { HandlerAppService } from "../../services/handler-app.service";
 import { environment } from "../../../environments/environment";
+import Swal from "sweetalert2";
 @Component({
   selector: "app-dashboard",
   templateUrl: "login.component.html",
@@ -187,4 +188,70 @@ export class LoginComponent {
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
   }
+
+  onClickForgetPassword() {
+    Swal.fire({
+      title: '¿Has olvidado tu contraseña?',
+      text: 'Ingrese su usuario para recibir el enlace en su correo corporativo',
+      input: 'number',
+      inputPlaceholder: 'Ingrese su Usuario',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Enviar correo',
+      inputValidator: (value) => {
+        if (!value) return 'Debe ingresar su Documento de Identidad';
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sendEmailForgetPassword(result.value);
+      }
+    });
+  }
+  
+  sendEmailForgetPassword(username: string) {
+    // Mostrar SweetAlert de carga
+    Swal.fire({
+      title: 'Enviando correo...',
+      text: 'Por favor espera un momento',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  
+    this.WebApiService.postRequest('/login/forget-password', { username }, {}).subscribe(
+      (response: any) => {
+        Swal.close(); // Cierra el loading
+  
+        if (response.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Correo enviado',
+            text: response.message,
+            confirmButtonText: 'Aceptar'
+          });
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: response.message || 'Hubo un problema al enviar el correo.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      },
+      (error) => {
+        Swal.close(); // Cierra el loading
+  
+        const errorMsg = error?.error?.message || 'Ocurrió un error inesperado. Intenta más tarde.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo enviar el correo. ' + errorMsg,
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
+  }
+  
 }

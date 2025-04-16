@@ -38,7 +38,17 @@
             </div>
 
             <!-- Botón de Ingresar -->
-            <button mat-button class="boton mt-4" (click)="signin()">Ingresar 360°</button>
+            <button mat-button class="boton mt-4" (click)="signin()" [disabled]="loading">
+              <span *ngIf="!loading">Ingresar 360°</span>
+              <span *ngIf="loading">
+                <mat-spinner diameter="20"></mat-spinner> Cargando...
+              </span>
+            </button>
+
+            <!-- Botón para solicitar el cierre de sesión -->
+            <button mat-button class="forget-password-button mt-4" (click)="onClickForgetPassword()">
+              ¿Has olvidado tu contraseña?
+            </button>
 
           </form>
         </mat-card-content>

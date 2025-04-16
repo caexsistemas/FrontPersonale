@@ -94,6 +94,9 @@ export class NominaMensajerosComponent implements OnInit {
   effectivenessMessengerChartOptions = { responsive: true };
   gainsMessengerChartOptions = { responsive: true };
 
+  selectAllMassive: boolean = false;
+  selectAllEcommerce: boolean = false;
+
   constructor(
     private webApiService: WebApiService,
     public handler: HandlerAppService,
@@ -731,17 +734,59 @@ export class NominaMensajerosComponent implements OnInit {
     return true;
   }
   
-  processResponseReport(response) {
-    if (response.success) {
-      const link = document.createElement("a");
-      link.href = response.data.url;
-      link.download = response.data.file;
-      link.click();
-      this.handler.showSuccess('El archivo ha sido descargado con éxito. <br>' + response.data.file);
+  async processResponseReport(response: any) {
+    if (response.success && Array.isArray(response.files)) {
+      for (const file of response.files) {
+        await this.delay(500); // Esperar 500ms entre cada descarga
+        this.downloadFile(file);
+      }
+  
+      this.handler.showSuccess("Todos los archivos han sido descargados.");
     } else {
-      console.error("Error en la API", response);
+      this.handler.showError("Error al procesar los archivos.");
     }
+  
     this.loading = false;
   }
   
+  downloadFile(file: any) {
+    const link = document.createElement("a");
+    link.href = file.url;
+    link.download = file.fileName || file.filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  
+  delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  toggleSelectAllAgencies() {
+    if (this.selectAllMassive) {
+      this.selectedAgencies = this.agencies
+        .filter(agency => agency.ageid !== 1) // Excluir CALI (id = 1)
+        .map(agency => agency.ageid);
+    } else {
+      this.selectedAgencies = [];
+    }
+  }
+  
+  checkAllSelectedMassive() {
+    // Verifica si todas (menos la de id 1) están seleccionadas
+    const filteredAgencies = this.agencies.filter(agency => agency.ageid !== 1);
+    this.selectAllMassive = filteredAgencies.every(a => this.selectedAgencies.includes(a.ageid));
+  }
+  
+  toggleSelectAllAgenciesEcommerce() {
+    if (this.selectAllEcommerce) {
+      this.selectedAgenciesEcommerce = this.agenciesEcommerce.map(a => a.agenid);
+    } else {
+      this.selectedAgenciesEcommerce = [];
+    }
+  } 
+  
+  checkAllSelectedEcommerce() {
+    this.selectAllEcommerce = this.selectedAgenciesEcommerce.length === this.agenciesEcommerce.length;
+  }
 }

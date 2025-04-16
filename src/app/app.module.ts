@@ -188,6 +188,7 @@ import { CollaboratorDialog } from "./dialogs/collaborator/collaborator.dialog.c
 import { ReportsCollaboratorComponent } from "./dialogs/reports/collaborator/reports-collaborator.component";
 import { PqrCallCenterDialog } from "./dialogs/pqrCallCenter/pqrCallCenter.dialog.component";
 import { ReportsPqrCallCenterComponent } from "./dialogs/reports/pqrCallCenter/reports-pqrCallCenter.component";
+import { ResetPasswordComponent } from './views/login/reset-password/reset-password.component';
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -366,7 +367,8 @@ const routes: Routes = [];
     CollaboratorDialog,
     ReportsCollaboratorComponent,
     PqrCallCenterDialog,
-    ReportsPqrCallCenterComponent
+    ReportsPqrCallCenterComponent,
+    ResetPasswordComponent
   ],
   providers: [
     {

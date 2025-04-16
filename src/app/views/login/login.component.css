@@ -131,3 +131,15 @@ input {
   background-size: cover; /* La imagen de fondo se expandirá para cubrir todo el contenedor */
   background-position: center; /* La imagen de fondo se centrará horizontalmente y verticalmente */
 }
+
+.forget-password-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:  #FF7918;
+  padding: 15px;
+  border-radius: 9px;
+  width: 100%;
+  height: 40px;
+  color: white;
+}
