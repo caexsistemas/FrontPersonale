@@ -41,17 +41,12 @@ export class ResetPasswordComponent implements OnInit {
       
       this.isForBoss = bossParam === '1' || bossParam.toLowerCase() === 'true';
 
-      console.log('Username:', this.username);
-      console.log('Token:', this.token);
-      console.log('isForBoss:', this.isForBoss);
-
-
       if (this.isForBoss) {
         this.authorizeResetPassword();
       }
     }
 
-    this.backgroundImageUrl = '/assets/img/brand/sistema.JPG';
+    this.backgroundImageUrl = '360/assets/img/brand/sistema.JPG';
     this.resetForm = this.fb.group({
       password: [
         '',
@@ -136,7 +131,6 @@ export class ResetPasswordComponent implements OnInit {
   
     this.WebApiService.postRequest('/authorize-reset-password', body, {}).subscribe({
       next: (response: any) => {
-        console.log('Autorización exitosa:', response);
         Swal.fire('Éxito', response.message, 'success');
       },
       error: (error) => {

@@ -80,8 +80,8 @@ export class AssignmentComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
+        // console.log(this.permissions);
+        // console.log(data.success);
 
         if (data.success == true) {
 

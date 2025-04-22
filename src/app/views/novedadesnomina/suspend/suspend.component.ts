@@ -124,8 +124,8 @@ export class SuspendComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data.success);
+        // console.log(this.permissions);
+        // console.log(data.success);
 
         if (data.success == true) {
 
@@ -241,8 +241,8 @@ export class SuspendComponent implements OnInit {
               this.loading = val;
             });
             dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
-              console.log(result);
+              // console.log('The dialog was closed');
+              // console.log(result);
             });
         break;
       }
@@ -259,7 +259,7 @@ export class SuspendComponent implements OnInit {
         response => {
           this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
-            console.log("repo: "+response);
+            // console.log("repo: "+response);
             this.handler.showSuccess('El archivo se cargo exitosamente');
             this.personaleData = response.data;
             this.loading = false;
@@ -430,7 +430,7 @@ export class SuspendComponent implements OnInit {
   upload(){
     this.loading = true;
     if(this.file){
-      console.log('****',this.file);
+      // console.log('****',this.file);
       // console.log(this.file);
       // console.log(this.cuser.iduser);
     let body = {
@@ -478,7 +478,7 @@ export class SuspendComponent implements OnInit {
 
   onSubmit() {
     if (this.data.length) {
-      console.log(this.data);
+      // console.log(this.data);
       
       this.loading = true;
     // this.loading.emit(true);

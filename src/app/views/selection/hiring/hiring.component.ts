@@ -82,8 +82,8 @@ export class HiringComponent implements OnInit {
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        console.log(this.permissions);
-        console.log(data);
+        // console.log(this.permissions);
+        // console.log(data);
 
         if (data.success == true) {
 

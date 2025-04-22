@@ -445,11 +445,13 @@ export interface PeriodicElement {
     onTipoGestionChange(event){
       if(event === '32/2'){
         this.noVenta = true;    
-        this.formProces.get('voz_cliente').setValidators([Validators.required]);
+        this.formProces.get('voz_cliente_id').setValidators([Validators.required]);
+        this.formProces.get('subvoz_cliente').setValidators([Validators.required]);
     
       }else if(event == '32/1'){
         this.noVenta = false;
-        this.formProces.get('voz_cliente').clearValidators();
+        this.formProces.get('voz_cliente_id').clearValidators();
+        this.formProces.get('subvoz_cliente').clearValidators();
 
       }
     }
