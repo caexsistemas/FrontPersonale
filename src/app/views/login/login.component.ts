@@ -46,6 +46,10 @@ export class LoginComponent {
   loginForm: FormGroup;
   backgroundImageUrl: string;
 
+  _username: string = '';
+  _token: string = '';
+  _isForBoss: boolean;
+
   constructor(
     private _loginService: LoginServices,
     private _router: Router,
@@ -70,6 +74,38 @@ export class LoginComponent {
     } else {
       this.backgroundImageUrl = '/360/assets/img/brand/sistema.JPG';
     }
+
+    this._route.queryParams.subscribe(params => {
+      const username = params['username'];
+      const token = params['token'];
+
+      if (username && token) {
+        this.closeSession(username, token);
+      }
+    });
+  }
+
+  closeSession(username, token): void {
+    const body = {
+      username: username,
+      token: token,
+    };
+  
+    this.WebApiService.postRequest('/authorize-close-session', body, {}).subscribe({
+      next: (response: any) => {
+        Swal.fire('Éxito', response.message, 'success');
+      },
+      error: (error) => {
+        console.error('Error al autorizar:', error);
+  
+        // Si el backend responde con un mensaje personalizado
+        const errorMessage = error?.error?.message || 'No se pudo autorizar el cambio.';
+        Swal.fire('Error', errorMessage, 'error');
+      }
+    });
+
+    this._router.navigate(['/login']);
+
   }
 
   checkSession() {
@@ -244,6 +280,71 @@ export class LoginComponent {
     });
   
     this.WebApiService.postRequest('/login/forget-password', { username }, {}).subscribe(
+      (response: any) => {
+        Swal.close(); // Cierra el loading
+  
+        if (response.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Correo enviado',
+            text: response.message,
+            confirmButtonText: 'Aceptar'
+          });
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: response.message || 'Hubo un problema al enviar el correo.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      },
+      (error) => {
+        Swal.close(); // Cierra el loading
+  
+        const errorMsg = error?.error?.message || 'Ocurrió un error inesperado. Intenta más tarde.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo enviar el correo. ' + errorMsg,
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
+  }
+  
+  onClickCloseSession() {
+    Swal.fire({
+      title: '¿Has dejado tu sesión iniciada?',
+      text: 'Ingrese su usuario para recibir el enlace de cierre de sesión en su correo corporativo',
+      input: 'number',
+      inputPlaceholder: 'Ingrese su Usuario',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Enviar correo',
+      inputValidator: (value) => {
+        if (!value) return 'Debe ingresar su Documento de Identidad';
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sendEmailCloseSession(result.value);
+      }
+    });
+  }
+  
+  sendEmailCloseSession(username: string) {
+    // Mostrar SweetAlert de carga
+    Swal.fire({
+      title: 'Enviando correo...',
+      text: 'Por favor espera un momento',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  
+    this.WebApiService.postRequest('/login/close-session', { username }, {}).subscribe(
       (response: any) => {
         Swal.close(); // Cierra el loading
   

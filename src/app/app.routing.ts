@@ -56,6 +56,10 @@ export const routes: Routes = [
     component: ResetPasswordComponent
   },
   {
+    path: 'close-session',
+    component: LoginComponent
+  },
+  {
     path: "",
     component: DefaultLayoutComponent,
     data: {

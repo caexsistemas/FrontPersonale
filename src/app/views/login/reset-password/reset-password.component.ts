@@ -46,7 +46,7 @@ export class ResetPasswordComponent implements OnInit {
       }
     }
 
-    this.backgroundImageUrl = '360/assets/img/brand/sistema.JPG';
+    this.backgroundImageUrl = '/assets/img/brand/sistema.JPG';
     this.resetForm = this.fb.group({
       password: [
         '',

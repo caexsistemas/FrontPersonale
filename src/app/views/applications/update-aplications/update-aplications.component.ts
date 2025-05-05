@@ -177,8 +177,8 @@ export class UpdateAplicationsComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((result) => {
           this.sendRequest();
-          console.log("The dialog was closed");
-          console.log(result);
+          // console.log("The dialog was closed");
+          // console.log(result);
         });
         break;
       case "create":
