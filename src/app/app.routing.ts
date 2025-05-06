@@ -8,6 +8,7 @@ import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { P403Component } from "./views/error/403.component";
 import { SelfManagementModule } from "./views/selfManagement/selfManagement.module";
+import { ResetPasswordComponent } from "./views/login/reset-password/reset-password.component";
 
 export const routes: Routes = [
   {
@@ -49,6 +50,14 @@ export const routes: Routes = [
     data: {
       title: "Login Page",
     },
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
+  },
+  {
+    path: 'close-session',
+    component: LoginComponent
   },
   {
     path: "",

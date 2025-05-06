@@ -270,8 +270,8 @@ export class RetributionComponent implements OnInit {
               this.loading = val;
             });
             dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
-              console.log(result);
+              // console.log('The dialog was closed');
+              // console.log(result);
             });
         break;
       }
@@ -288,7 +288,7 @@ export class RetributionComponent implements OnInit {
         response => {
           this.permissions = this.handler.getPermissions(this.component);
           if (response.success) {
-            console.log("repo: "+response);
+            // console.log("repo: "+response);
             this.handler.showSuccess('El archivo se cargo exitosamente');
             this.personaleData = response.data;
             this.loading = false;

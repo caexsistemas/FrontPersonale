@@ -232,8 +232,8 @@ export class AbsenteeismComponent implements OnInit {
           this.loading = val;
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-          console.log(result);
+          // console.log('The dialog was closed');
+          // console.log(result);
         });
         break;
     }

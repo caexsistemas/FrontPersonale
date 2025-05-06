@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { WebApiService } from '../../../services/web-api.service';
 import { HandlerAppService } from '../../../services/handler-app.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import { PrestacionServiciosDialog } from '../../../dialogs/prestacionServicios/
 })
 export class ContratistasComponent implements OnInit {
 
-  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
+  @ViewChild(MatSort) sort!: MatSort;
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
 
   constructor(
@@ -94,8 +94,10 @@ export class ContratistasComponent implements OnInit {
     }
 
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort.toArray()[0];
-    this.dataSource.paginator = this.paginator.toArray()[0];
+    setTimeout(() => {
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator.toArray()[0];
+    });
     let search;
     if (document.contains(document.querySelector('search-input-table'))) {
       search = document.querySelector('.search-input-table');
@@ -204,13 +206,6 @@ export class ContratistasComponent implements OnInit {
           );
         break;
       } 
-  }
-  
-  openc(){
-    if(this.contaClick == 0){
-      this.sendRequest();
-    }    
-    this.contaClick = this.contaClick + 1;
   }
 
 }

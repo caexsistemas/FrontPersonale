@@ -80,7 +80,7 @@ export class IngresoComponent implements OnInit {
       .subscribe(
      
         data => {
-          console.log(this.permissions);
+          // console.log(this.permissions);
             if (data.success == true) {
                 this.permissions = this.handler.getPermissions(this.component);
                 this.generateTable(data.data['getContData']);
@@ -189,8 +189,8 @@ export class IngresoComponent implements OnInit {
             this.loading = val;
           });
           dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            console.log(result);
+            // console.log('The dialog was closed');
+            // console.log(result);
           });
         break;
     }

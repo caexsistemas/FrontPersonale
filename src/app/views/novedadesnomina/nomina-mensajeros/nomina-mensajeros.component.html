@@ -42,23 +42,27 @@
                     <div class="filter-item" *ngIf="selectedType === 'massive'">
                         <mat-form-field appearance="fill" class="full-width">
                             <mat-label>Seleccionar Agencias</mat-label>
-                            <mat-select [(ngModel)]="selectedAgencies" multiple name="filter-agencies">
+                            <mat-select [(ngModel)]="selectedAgencies" multiple name="filter-agencies" (ngModelChange)="checkAllSelectedMassive()">
                                 <mat-option *ngFor="let agency of agencies" [value]="agency.ageid">
                                     {{ agency.agecod }} - {{ agency.agenomb }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+
+                        <mat-checkbox [(ngModel)]="selectAllMassive" (change)="toggleSelectAllAgencies()">Todas</mat-checkbox>
                     </div>
                     
                     <div class="filter-item" *ngIf="selectedType === 'ecommerce'">
                         <mat-form-field appearance="fill" class="full-width">
                             <mat-label>Seleccionar Agencias</mat-label>
-                            <mat-select [(ngModel)]="selectedAgenciesEcommerce" multiple name="filter-agenciesEcommerce">
+                            <mat-select [(ngModel)]="selectedAgenciesEcommerce" multiple name="filter-agenciesEcommerce" (ngModelChange)="checkAllSelectedEcommerce()">
                                 <mat-option *ngFor="let agency of agenciesEcommerce" [value]="agency.agenid">
                                     {{ agency.agencod }} - {{ agency.agennom }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+
+                        <mat-checkbox [(ngModel)]="selectAllEcommerce" (change)="toggleSelectAllAgenciesEcommerce()">Todas</mat-checkbox>
                     </div>
 
                     <!-- Botón Aplicar -->

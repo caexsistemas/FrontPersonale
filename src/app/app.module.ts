@@ -190,6 +190,8 @@ import { PqrCallCenterDialog } from "./dialogs/pqrCallCenter/pqrCallCenter.dialo
 import { ReportsPqrCallCenterComponent } from "./dialogs/reports/pqrCallCenter/reports-pqrCallCenter.component";
 import { ProcedureDialog } from "./dialogs/procedure/procedure.dialog.component";
 import { EquipmentLoanDialog } from "./dialogs/equipment-loan/equipment-loan.dialog.component";
+
+import { ResetPasswordComponent } from './views/login/reset-password/reset-password.component';
 // import { UploadTrainingDialog } from "./dialogs/selection/upload-training/upload-training.dialog.component";
 const routes: Routes = [];
 @NgModule({
@@ -370,7 +372,8 @@ const routes: Routes = [];
     PqrCallCenterDialog,
     ReportsPqrCallCenterComponent,
     ProcedureDialog,
-    EquipmentLoanDialog
+    EquipmentLoanDialog,
+    ResetPasswordComponent
   ],
   providers: [
     {

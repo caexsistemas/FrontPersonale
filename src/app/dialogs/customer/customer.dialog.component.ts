@@ -75,6 +75,13 @@ export interface PeriodicElement {
     upd_document:     number = 0; 
     dataCad:          any = [];
 
+    noVenta: boolean = false;
+    vozCliente: any[] = [];
+    subVozCliente: any[] = [];
+    selectedComplemento: number = null;
+    
+    operadores: any[] = [];
+  
     constructor(
         public dialogRef: MatDialogRef<CustomerDialog>,
         private WebApiService: WebApiService,
@@ -108,6 +115,7 @@ export interface PeriodicElement {
                         data => {
                             if (data.success == true) {
                                 this.dataCad = data.data['getDatPer'][0];
+                                (this.dataCad.tipo_gestion === 'No Venta') ? this.noVenta = true : this.noVenta = false;
                                 this.generateTable(data.data['getDatHistory']);   
                                 this.loading.emit(false);
                             } else {
@@ -192,7 +200,11 @@ export interface PeriodicElement {
           oferta: new FormControl(""),
           campana: new FormControl(""),
           login_agent: new FormControl(""),
-          final_note: new FormControl("")
+          final_note: new FormControl(""),
+
+          voz_cliente_id:new FormControl(""),
+          subvoz_cliente:new FormControl(""),
+          operator:new FormControl(""),
         });
     }
 
@@ -216,6 +228,10 @@ export interface PeriodicElement {
                   this.ListCumnocum   = data.data['cumnocum'];
                   this.personalData   = data.data['getDataPersonal'];  //Data Personal
                   this.ListgessClar   = data.data['gessClar'];
+
+                  this.vozCliente = data.data['vozCliente'];
+                  this.subVozCliente = data.data['subVozCliente'];
+                  this.operadores = data.data['operadores'];
   
                   if (this.view == 'update') {
                       this.getDataUpdate();
@@ -378,6 +394,11 @@ export interface PeriodicElement {
             this.formProces.get('cie_reacie').setValue(data.data['getDataUpda'][0].cie_reacie);
             this.formProces.get('cie_proven').setValue(data.data['getDataUpda'][0].cie_proven);
             this.formProces.get('cie_reares').setValue(data.data['getDataUpda'][0].cie_reares);
+
+            this.formProces.get('voz_cliente_id').setValue(data.data['getDataUpda'][0].voz_cliente_id);  
+            this.onVozClienteChange(data.data['getDataUpda'][0].voz_cliente_id);       
+            this.formProces.get('subvoz_cliente').setValue(data.data['getDataUpda'][0].subvoz_cliente); 
+            this.formProces.get('operator').setValue(data.data['getDataUpda'][0].operator);   
           },
           error => {
               this.handler.showError();
@@ -421,4 +442,25 @@ export interface PeriodicElement {
       }
     }
 
+    onTipoGestionChange(event){
+      if(event === '32/2'){
+        this.noVenta = true;    
+        this.formProces.get('voz_cliente_id').setValidators([Validators.required]);
+        this.formProces.get('subvoz_cliente').setValidators([Validators.required]);
+    
+      }else if(event == '32/1'){
+        this.noVenta = false;
+        this.formProces.get('voz_cliente_id').clearValidators();
+        this.formProces.get('subvoz_cliente').clearValidators();
+
+      }
+    }
+
+    onVozClienteChange(selectedValue: string) {
+      const item = this.vozCliente.find(i => i.ls_codvalue === selectedValue);
+      if (item) {
+        const complemento = item.complemento;
+        this.selectedComplemento = complemento;
+      }
+    }
   }
