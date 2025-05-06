@@ -33,11 +33,14 @@ import { OwnerDialog } from "../../../dialogs/technology/owner/owner.dialog.comp
 
 export class TechnologyComponent implements OnInit {
   contenTable: any = [];
+  contenTableUser: any = [];
   loading: boolean = false;
   endpoint: string = "/technology";
   permissions: any = null;
   displayedColumns: any = [];
+  displayedColumnsUser: any = [];
   dataSource: any = [];
+  dataSourceUser: any = [];
   contaClick: number = 0;
   name: any = [];
   exitsPersonal: any = [];
@@ -45,6 +48,7 @@ export class TechnologyComponent implements OnInit {
   clickedRows : any = [];
   group:any = [];
   stadValue:     boolean = false;
+  userTeam:any = [];
 
   public cuser: any = JSON.parse(localStorage.getItem("currentUser"));
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -70,26 +74,20 @@ export class TechnologyComponent implements OnInit {
     this.WebApiService.getRequest(this.endpoint, {
       action: "getTechnologyAll",
       idUser: this.cuser.iduser,
-      // role: this.cuser.role,
-      // matrizarp: this.cuser.matrizarp,
       idPersonale:this.cuser.idPersonale,
       token: this.cuser.token,
       modulo: this.component
     }).subscribe(
       (data) => {
         this.permissions = this.handler.getPermissions(this.component);
-        // console.log(data);
         if (data.success == true) {
           this.generateTable(data.data["getContData"]);
+          this.generateTableUserTeam(data.data["userTeam"]);
           this.name = data.data['getPersonale'];
          this.exitsPersonal = this.name.find(element => element.idPersonale == this.cuser.idPersonale);
-        //  console.log('na=>',this.exitsPersonal.idPosition);
-
-        //  this.area = this.name.find(element => element.idPersonale == this.cuser.idPersonale);
-
-
           
           this.contenTable = data.data["getContData"];
+          this.contenTableUser = data.data["userTeam"];
           this.loading = false;
         } else {
           this.handler.handlerError(data);
@@ -104,6 +102,8 @@ export class TechnologyComponent implements OnInit {
       }
     );
   }
+
+  
   generateTable(data) {
     this.displayedColumns = [
       'check',
@@ -127,6 +127,26 @@ export class TechnologyComponent implements OnInit {
       search.value = "";
     }
   }
+  generateTableUserTeam(data) {
+  
+    this.displayedColumnsUser = [
+      "view",
+      "document",
+      "user",
+      "cargo",
+      "cantidad"
+      // "actions",
+    ];
+    this.dataSourceUser = new MatTableDataSource(data);
+    this.dataSourceUser.sort = this.sort.toArray()[0];
+    this.dataSourceUser.paginator = this.paginator.toArray()[0];
+    let search;
+    if (document.contains(document.querySelector("search-input-table"))) {
+      search = document.querySelector(".search-input-table");
+      search.value = "";
+    }
+  }
+
 
   option(action, codigo = null, id) {
     var dialogRef;
@@ -194,7 +214,6 @@ export class TechnologyComponent implements OnInit {
             window: "user",
             codigo,
             id: id,
-            // tipoMat: tipoMat
           },
         });
         dialogRef.disableClose = true;
@@ -219,8 +238,10 @@ export class TechnologyComponent implements OnInit {
   applyFilter(search) {
     this.dataSource.filter = search.trim().toLowerCase();
   }
+  applyFilterAsi(search) {
+    this.dataSourceUser.filter = search.trim().toLowerCase();
+  }
   onTriggerSheetClick(event: MouseEvent) {
-    // console.log(event.target['id']);    
     this.matBottomSheet.open(ReportsTechnologyComponent);
   }
 
@@ -300,7 +321,6 @@ export class TechnologyComponent implements OnInit {
        this.group.splice( i, 1 );
       }
    
-       console.log(this.group);
      }
      
      pdfAll(id) {

@@ -91,16 +91,15 @@ export class OwnerDialog {
    @Inject(MAT_DIALOG_DATA) public data,
    public dialog: MatDialog) { 
      
-    //  option(action,codigo=null, id){
       this.view = this.data.window;
       this.idTec = null;
 
      switch (this.view) {
       
-       case 'user':
+       case 'user':        
         this.idTec = this.data.codigo;
           this.initForms();
-          this.title = "ID"; 
+          this.title = `Equipos Asignados ${this.data.id}`; 
        break;
        case "create":
         this.initForms();
@@ -113,8 +112,6 @@ export class OwnerDialog {
         break;
        case 'view':
         this.idTec = this.data.codigo;
-        // this.loading.emit(true);
-        // this.loading = true;
         this.WebApiService.getRequest(this.endpoint + "/"+ this.idTec, {
           token: this.cuser.token,
           idUser: this.cuser.iduser,
@@ -200,7 +197,7 @@ export class OwnerDialog {
       token: this.cuser.token,
       modulo: this.component,
       id: this.idTec,
-      cc:this.data.id
+      cc:this.data.codigo
     
      }).subscribe(
        (data) => {
@@ -230,15 +227,10 @@ export class OwnerDialog {
   //Tabla Contenido
   generateTable(data) {
     this.displayedColumns = [
-      "view",
       "fec_ent",
       "listSub",
       "sub_pla_act_fij",
       "sub_serial",
-      // "car_sol",
-      // "matrizarp",
-      // "con_fin",
-      "actions"
       
     ];
     this.dataSource = new MatTableDataSource(data);

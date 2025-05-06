@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+  }
+::ng-deep .mat-tab-label {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 24px;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .mat-tab-label.mat-tab-label-active {
+  font-weight: 600;
+  color: #1976d2;
+  border-bottom: 3px solid #1976d2;
+}
+
+::ng-deep .mat-tab-label:hover {
+  color: #1565c0;
+}
+

@@ -1,0 +1,237 @@
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            Tramite de Activos
+        </div>
+        <div class="content-table">
+            <div class="toolbar-table" *ngIf="permissions != null">
+
+                <div class="m-2 text-right">
+
+                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu"
+                        class="custom-menu-button">
+                        <span>Menu</span>
+                    </button>
+
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>Acciones Disponibles… </button>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('create')" title="Crear">
+                            <mat-icon>add_circle</mat-icon>
+                            <span>Solicitud Asignación de equipos</span>
+                        </button>
+
+                        <button mat-menu-item *ngIf="permissions.create" (click)="option('loan')" title="Crear">
+                            <mat-icon>desktop_mac</mat-icon>
+                            <span>Solicitud Prestamo Activos</span>
+                        </button>
+
+                    </mat-menu>
+                </div>
+            </div>
+
+            <mat-tab-group mat-align-tabs="center">
+                <mat-tab label="Asignación de Activos">
+                    <div class="container">
+                        <mat-form-field appearance="standard" style="width: 100%;">
+                            <mat-label>Buscar..</mat-label>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express"
+                                #input>
+                        </mat-form-field>
+                    </div>
+                    <!-- </div> -->
+
+                    <div class="section-table first-action">
+                        <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                            *ngIf="contenTable.length > 0">
+
+
+                            <ng-container matColumnDef="view">
+                                <th mat-header-cell *matHeaderCellDef> Ver </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                        (click)="option('view',element.pro_id)" title="Ver">
+                                        <i class="fa fa-eye fa-lg"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="fec_radi">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Radicacion
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fec_radi | date}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="idPersonale">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Usuario</th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="sede">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Sede</th>
+                                <td mat-cell *matCellDef="let element"> {{element.sede }} </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="ubicacion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Ubicacion</th>
+                                <td mat-cell *matCellDef="let element"> {{element.ubicacion}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="tipo_solicitud">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de
+                                    solicitud</th>
+                                <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="estado">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado Solicitud
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{(element.idPersonale_tec) ? 'Finalizado' :
+                                    'Pendiente'}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary"
+                                        *ngIf="permissions.update && element.idPersonale_tec == null"
+                                        (click)="option('update',element.pro_id)" title="Editar">
+                                        <i class="fa fa-edit fa-lg"></i>
+                                    </button>
+                                    <div
+                                        *ngIf="element.state == '65/3' && rol == '5'  || element.state == '65/5' && rol == '5' || element.state == '65/1' && rol == '5' || element.state == '30/1' && rol == '5'">
+                                        <button class="btn btn-ghost-danger" *ngIf="permissions.update"
+                                            (click)="option('cancel',element.idsel)" title="Cancelar">
+                                            <i class="fa fa-trash fa-lg"></i>
+                                        </button>
+                                    </div>
+
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+                    </div>
+                    <div *ngIf="contenTable.length == 0">
+                        <h4 class="no-records">No hay registros...</h4>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Prestamo Equipos">
+                    <div class="container mt-6">
+                        <mat-form-field appearance="standard" style="width: 100%;">
+                            <mat-label>Buscar..</mat-label>
+                            <input matInput (keyup)="applyFilterEq($event.target.value)" placeholder="Cali express"
+                                #input>
+                        </mat-form-field>
+                    </div>
+                    <div class="section-table first-action">
+                        <table mat-table [dataSource]="dataSourceEquip" matSort class="table-large table-responsive-lg"
+                            *ngIf="getEquipment.length > 0">
+
+
+                            <ng-container matColumnDef="view">
+                                <th mat-header-cell *matHeaderCellDef> Ver </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                        (click)="option('view_loan',element.equ_id)" title="Ver">
+                                        <i class="fa fa-eye fa-lg"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="fec_radi">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Fecha Radicacion
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fec_radi }} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="idPersonale">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Usuario</th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="activo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Equipo
+                                    Solicitado</th>
+                                <td mat-cell *matCellDef="let element"> {{element.equipo}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="gestion_tec">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Estado Solicitud
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.gestion != null ? element.gestion : 'Pendiente' }}
+                                </td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary"
+                                        *ngIf="permissions.update && element.responsable_tec == null"
+                                        (click)="option('update_loan',element.equ_id)" title="Editar">
+                                        <i class="fa fa-edit fa-lg"></i>
+                                    </button>
+                                    <button class="btn btn-ghost-success ml-2" *ngIf="permissions.update"
+                                        (click)="option('accept_equipment', element.equ_id)" title="Aceptar equipo"
+                                        [disabled]="element.gestion === NULL">
+                                        <i class="fa fa-check-circle fa-lg"></i>
+                                    </button>
+
+                                    <button class="btn btn-ghost-danger ml-2" *ngIf="permissions.update"
+                                        (click)="option('return_loan',element.equ_id)" title="Devolver equipo"
+                                        [disabled]="element.autoriza === null ">
+                                        <i class="fa fa-undo fa-lg"></i>
+                                    </button>
+
+                                </td>
+                            </ng-container> -->
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                                <td mat-cell *matCellDef="let element">
+                                  <!-- Botón Editar (visible solo sin responsable) -->
+                                  <button class="btn btn-ghost-secondary"
+                                          *ngIf="permissions.update && element.responsable_tec == null"
+                                          (click)="option('update_loan', element.equ_id)" 
+                                          title="Editar">
+                                    <i class="fa fa-edit fa-lg"></i>
+                                  </button>
+                              
+                                  <!-- Botón Aceptar (habilitado con responsable pero sin gestión) -->
+                                  <button class="btn btn-ghost-success ml-2" 
+                                          *ngIf="permissions.update"
+                                          (click)="option('accept_equipment', element.equ_id)" 
+                                          title="Aceptar equipo"
+                                          [disabled]="!element.responsable_tec || !element.gestion || element.autoriza == 1">
+                                    <i class="fa fa-check-circle fa-lg"></i>
+                                  </button>
+                              
+                                  <!-- Botón Devolver (habilitado solo con gestión aprobada) -->
+                                  <button class="btn btn-ghost-danger ml-2" 
+                                          *ngIf="permissions.update"
+                                          (click)="option('return_loan', element.equ_id)" 
+                                          title="Devolver equipo"
+                                          [disabled]="element.autoriza != 1 || element.gestion_tec === '174/2'">
+                                    <i class="fa fa-undo fa-lg"></i>
+                                  </button>
+                                </td>
+                              </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsEquip; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsEquip;"></tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+                    </div>
+                    <div *ngIf="getEquipment.length == 0">
+                        <h4 class="no-records">No hay registros...</h4>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>

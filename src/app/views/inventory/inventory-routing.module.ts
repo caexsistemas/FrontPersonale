@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { from } from 'rxjs';
 import { InventoryComponent } from "./InventoryComponent";
 import { TechnologyComponent } from './technology/technology.component';
+import { ProcedureComponent } from './procedure/procedure.component';
 
 const routes: Routes = [
     {
@@ -21,6 +22,14 @@ const routes: Routes = [
             data: {
                 title: 'Technology'
             }
+        },
+        {
+          path: 'procedure',
+          component: ProcedureComponent,
+          data: {
+            title: 'Tramites de Activos'
+          }
+          
         }
     ]
   }

@@ -45,7 +45,7 @@ export class ReportsComponent implements OnInit {
     }, { validators: this.dateRangeValidator });
 
     this.formTipoReporte.get('month')?.valueChanges.subscribe((event: string) => {
-      console.log('mes escogido => ', event);
+      // console.log('mes escogido => ', event);
   
       if (event) {
         const partes = event.split('/');
@@ -101,15 +101,10 @@ export class ReportsComponent implements OnInit {
   checkBase: boolean;
   
   onTipoReporteChange(event) {
-    console.log(event);
+    // console.log(event);
     
-    if(event == 'report-records'){
-      this.formTipoReporte.get('month').setValue('');
-       this.checMatriz = true;
-       this.checkBase = false;
-      this.minDate = '';
-      this.maxDate = '' ;
-    }else if(event == 'report-management'){
+   
+    if(event == 'report-management' || event == 'report-records'){
       this.checkBase = true;
       this.checMatriz = true;
 
@@ -202,7 +197,7 @@ export class ReportsComponent implements OnInit {
   onMonth(event){
     // if(event){
     this.formTipoReporte.get('month')?.valueChanges.subscribe((event: string) => {
-      console.log('mes escogido => ',event);;
+      // console.log('mes escogido => ',event);;
       
       if (event) {
         // Obtener el mes desde el valor "172/3"

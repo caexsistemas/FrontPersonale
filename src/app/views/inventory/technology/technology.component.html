@@ -6,21 +6,23 @@
         <div class="content-table">
             <div class="toolbar-table" *ngIf="permissions != null">
 
-                <div class="m-2 text-right">        
-                          
-                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu" class="custom-menu-button">
+                <div class="m-2 text-right">
+
+                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" aria-label="Menu"
+                        class="custom-menu-button">
                         <span>Menu</span>
                     </button>
-                      
+
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item>Acciones Disponibles… </button>
-      
+
                         <button mat-menu-item *ngIf="permissions.create" (click)="option('create')" title="Crear">
                             <mat-icon>add_circle</mat-icon>
                             <span>Crear</span>
                         </button>
 
-                        <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()" title="Reporte Inventario">
+                        <button mat-menu-item *ngIf="permissions.create" (click)="onTriggerSheetClick()"
+                            title="Reporte Inventario">
                             <mat-icon>download</mat-icon>
                             <span>Reporte Inventario</span>
                         </button>
@@ -30,128 +32,177 @@
                             <span>(Pdf) Acta Entrega</span>
                         </button>
 
-                        <button mat-menu-item *ngIf="permissions.create" (click)="pdfReposicion()" title="Acta Reposición Equipo">
+                        <button mat-menu-item *ngIf="permissions.create" (click)="pdfReposicion()"
+                            title="Acta Reposición Equipo">
                             <mat-icon>description</mat-icon>
                             <span>(Pdf) Acta Reposición Equipo</span>
                         </button>
-      
-                    </mat-menu>       
+
+                    </mat-menu>
                 </div>
 
-                <div class="container">
-                    <mat-form-field appearance="standard" style="width: 100%;">
-                        <mat-label>Buscar..</mat-label>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express" #input>
-                    </mat-form-field>
-                </div>
+
+                <mat-tab-group mat-align-tabs="center">
+                    <mat-tab label="Equipos">
+                        <div class="container mt-3">
+                            <mat-form-field appearance="standard" style="width: 100%;">
+                                <mat-label>Buscar..</mat-label>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cali express"
+                                    #input>
+                            </mat-form-field>
+                        </div>
+
+                        <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
+                            *ngIf="contenTable.length > 0">
+
+                            <ng-container matColumnDef="check">
+                                <th mat-header-cell *matHeaderCellDef> * </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-checkbox *ngIf="permissions.update" [color]="'primary'" [disabled]="stadValue"
+                                        (change)="onSelectionAct(element.tcid, $event)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="view">
+                                <th mat-header-cell *matHeaderCellDef> Ver </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                        (click)="option('view',element.tcid)" title="Ver">
+                                        <i class="fa fa-eye fa-lg"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="sub_pla_act_fij">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"># Placa
+                                    Activo</th>
+                                <td mat-cell *matCellDef="let element"> {{element.sub_pla_act_fij}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="listActivo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de
+                                    Activo</th>
+                                <td mat-cell *matCellDef="let element"> {{element.listActivo}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="listSub">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">SubTipo de
+                                    Activo</th>
+                                <td mat-cell *matCellDef="let element"> {{element.listSub}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="idPersonale" *ngIf="permissions.update">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Responsable
+                                </th>
+                                <td mat-cell *matCellDef="let element"
+                                    (click)="option('user',element.tcid, element.document)"> {{element.idPersonale}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="sub_sede">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Ubicacion
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.sub_sede}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="sta_equ">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado
+                                    Equipo
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.rep}} </td>
+                            </ng-container>
+
+                            <tr matCellDef (click)="clickedRows.add(row)"
+                                [class.demo-row-is-clicked]="clickedRows.has(row)"
+                                *matColumnDef="let element columns: displayedColumns;"></tr>
+
+
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
+                                        (click)="option('update',element.tcid)" title="Editar">
+                                        <i class="fa fa-edit fa-lg"></i>
+                                    </button>
+
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            
+                          
+                        </table>
+                        <div class="section-table first-action">
+
+
+                            <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+                        </div>
+                        <div *ngIf="contenTable.length == 0">
+                            <h4 class="no-records">No hay registros...</h4>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Asignación">
+
+                        <div class="container mt-3">
+                            <mat-form-field appearance="standard" style="width: 100%;">
+                                <mat-label>Buscar..</mat-label>
+                                <input matInput (keyup)="applyFilterAsi($event.target.value)" placeholder="Cali express"
+                                    #input>
+                            </mat-form-field>
+                        </div>
+                        <table mat-table [dataSource]="dataSourceUser" matSort class="table-large table-responsive-lg"
+                            *ngIf="contenTableUser.length > 0">
+
+
+                            <ng-container matColumnDef="view">
+                                <th mat-header-cell *matHeaderCellDef> Ver </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
+                                        (click)="option('user',element.idPersonale, element.user)" title="Ver">
+                                        <i class="fa fa-eye fa-lg"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="document">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Documento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.document}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="user">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Usuario</th>
+                                <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cargo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cargo</th>
+                                <td mat-cell *matCellDef="let element"> {{element.cargo}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="cantidad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Cantidad de
+                                    Equipos Asignados</th>
+                                <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsUser; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsUser;"></tr>
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[40, 100, 500]" showFirstLastButtons></mat-paginator>
+                        <div *ngIf="contenTableUser.length == 0">
+                            <h4 class="no-records">No hay registros...</h4>
+                        </div>
+                    </mat-tab>
+                    <!-- <mat-tab label="Third">Content 3</mat-tab> -->
+                </mat-tab-group>
+
+
             </div>
 
-            <div class="section-table first-action">
-                <table mat-table [dataSource]="dataSource" matSort class="table-large table-responsive-lg"
-                    *ngIf="contenTable.length > 0">
 
-                    <ng-container matColumnDef="check" >
-                        <th mat-header-cell *matHeaderCellDef > * </th>
-                        <td mat-cell *matCellDef="let element">
-                            <mat-checkbox *ngIf="permissions.update"  [color]="'primary'" [disabled]="stadValue" (change)="onSelectionAct(element.tcid, $event)"> </mat-checkbox>
-                        </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="view">
-                        <th mat-header-cell *matHeaderCellDef> Ver </th>
-                        <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.view"
-                                (click)="option('view',element.tcid)" title="Ver">
-                                <i class="fa fa-eye fa-lg"></i>
-                            </button>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="sub_pla_act_fij">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"># Placa Activo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.sub_pla_act_fij}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="listActivo">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">Tipo de Activo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.listActivo}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="listSub">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()">SubTipo de Activo</th>
-                        <td mat-cell *matCellDef="let element"> {{element.listSub}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="idPersonale" *ngIf="permissions.update">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Responsable
-                        </th>
-                        <td mat-cell *matCellDef="let element" (click)="option('user',element.tcid, element.document)"> {{element.idPersonale}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="sub_sede">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Ubicacion
-                        </th>
-                        <td mat-cell *matCellDef="let element"> {{element.sub_sede}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="sta_equ">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Estado Equipo
-                        </th>
-                        <td mat-cell *matCellDef="let element"> {{element.rep}} </td>
-                    </ng-container>
-
-                    <tr matCellDef (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
-                        *matColumnDef="let element columns: displayedColumns;"></tr>
-
-                    <!---- <ng-container matColumnDef="name">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Empleado </th>
-                      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                  </ng-container>
-
-                  
-                  <ng-container matColumnDef="supervisor">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="openc()"> Enviado Por </th>
-                      <td mat-cell *matCellDef="let element"> {{element.supervisor}} </td> (click)="pdf(element.tcid)"
-                  </ng-container> -->
-
-
-                    <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                        <td mat-cell *matCellDef="let element">
-                            <button class="btn  btn-ghost-secondary" *ngIf="permissions.update"
-                                (click)="option('update',element.tcid)" title="Editar">
-                                <i class="fa fa-edit fa-lg"></i>
-                            </button>
-                            <!-- <div class="btn-group" *ngIf="permissions.create" dropdown title="Pdf">
-                                <button dropdownToggle type="button" class="btn btn-ghost-danger">
-                                    <i class="fa fa-file-pdf-o"></i>
-                                </button>
-                                <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer" role="pdf">
-                                    <li role="pdfitem"><a class="dropdown-item" (click)="pdf(element.tcid)">Acta
-                                            Entrega</a></li>
-                                    <li role="pdfitem"><a class="dropdown-item"
-                                            (click)="pdfReposicion(element.tcid)">Acta Reposición Equipo</a></li>
-                                </ul>
-                            </div> -->
-
-                            <!-- <button class="btn btn-ghost-danger" *ngIf="permissions.create"dropdown title="PDF">
-                              <i class="fa fa-file-pdf-o"></i>
-                          </button>
-                          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right pointer" role="menu">
-                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/1')">Acta Entrega</a></li> 
-                            <li role="menuitem"><a class="dropdown-item" (click)="option('create', '', '40/2')">Acta Reposición Equipo</a></li>
-                        </ul> -->
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-                <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
-            </div>
-            <div *ngIf="contenTable.length == 0">
-                <h4 class="no-records">No hay registros...</h4>
-            </div>
         </div>
     </div>
 </div>

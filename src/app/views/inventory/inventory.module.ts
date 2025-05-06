@@ -29,7 +29,8 @@ import { TechnologyComponent } from './technology/technology.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { ProcedureComponent } from './procedure/procedure.component';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.arrows
@@ -59,10 +60,12 @@ const ngWizardConfig: NgWizardConfig = {
     MatBottomSheetModule,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule
   ],
   declarations: [
-    TechnologyComponent
+    TechnologyComponent,
+    ProcedureComponent
 
  ]
 })
