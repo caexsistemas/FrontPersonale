@@ -121,7 +121,6 @@ export class AdvanceDialog  {
   advancedDays : number = 0;
   availableCompensableDays : number = 0;
   availableEnjoyableDays : number = 0;
-  availableAnticipateDays : number = 0;
   maximunDays: number = 0;
 
   employeeName: string = "";
@@ -296,6 +295,7 @@ export class AdvanceDialog  {
           break;
           
           case 'asignacion':
+          this.formSelec.value.type_sol = '79/1';
           this.formSelec.value.day_vac = this.num_days;
           break;
           
@@ -607,7 +607,7 @@ export class AdvanceDialog  {
       } else if(type === "compensacion"){
         this.maximunDays = this.availableCompensableDays;
       } else if(type === "anticipo"){
-        this.maximunDays = Math.floor(this.availableAnticipateDays);
+        this.maximunDays = Math.floor(this.proportionalVacationDays);
       }
 
       if (this.maximunDays === 0) {
@@ -667,6 +667,7 @@ export class AdvanceDialog  {
     this.availableCompensableDays = availableCompensableDays;
     this.availableEnjoyableDays = availableEnjoyableDays;
 
+
     // console.log({
     //     yearsInCompany,
     //     takenDays,
@@ -676,7 +677,7 @@ export class AdvanceDialog  {
     //     availableCompensableDays,
     //     availableEnjoyableDays,
     //     canCompense,
-    //     canEnjoy,
+    //     canEnjoy
     // });
   }
 
