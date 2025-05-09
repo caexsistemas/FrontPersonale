@@ -76,11 +76,12 @@
           </div>
           <hr>
           <div class="row mt-3">
+          <!-- SI ES VACACIONES NORMAL -->
             <div class="col-sm-4" *ngIf="checkS">
               <h6>Dirección o Jefe Area</h6>
               <mat-form-field class="example-full-width">
                 <mat-label>state:</mat-label>
-                <mat-select formControlName="state">
+                <mat-select formControlName="state" (selectionChange)="onStateVacationChange($event)">
                   <mat-option *ngFor="let idet of stateVac" [value]="idet.ls_codvalue">
                     {{idet.description}}
                   </mat-option>
@@ -93,12 +94,13 @@
               </mat-form-field>
             </div>
           </div>
+          <!-- SI ES VACACIONES DE ANTICIPO -->
           <div class="row mt-3">
             <div class="col-sm-4" *ngIf="check">
               <h6>Dirección o Jefe Area</h6>
               <mat-form-field class="example-full-width">
                 <mat-label>state:</mat-label>
-                <mat-select formControlName="state">
+                <mat-select formControlName="state"  >
                   <mat-option *ngFor="let idet of stateAnt" [value]="idet.ls_codvalue">
                     {{idet.description}}
                   </mat-option>

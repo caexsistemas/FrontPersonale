@@ -85,8 +85,10 @@ export class AcceptanceDialog  {
   stateVac:any = [];
   stateAnt:any = [];
   advance: any = [];
+  compensed: any = [];
   vacation: any = [];
   totalSol: any = [];
+  type_sol: string;
   checkAvd: boolean;
   checkSol: boolean;
   public clickedRows;
@@ -225,6 +227,9 @@ export class AcceptanceDialog  {
           this.stateVac = data.data["getStateVac"].slice(0,3);
           this.stateAnt = data.data["getStateVac"].slice(2,4);
 
+          // console.log(this.stateAnt)
+          // console.log(this.stateVac)
+
           if (this.view == "update") {
             this.getDataUpdate();
           }
@@ -294,14 +299,25 @@ export class AcceptanceDialog  {
         this.formSelec.get("tot_day").setValue(data.data["getSelecUpdat"][0].tot_day);
         this.formSelec.get("total_adv").setValue(data.data["getSelecUpdat"][0].total_adv);
         // this.formSelec.get("state").setValue(data.data["getSelecUpdat"][0].state);
-        this.totalSol =(data.data["getSelecUpdat"][0].tot_day);
+        this.type_sol = (data.data["getSelecUpdat"][0].type_sol);
+        this.totalSol = (data.data["getSelecUpdat"][0].tot_day);
         this.advance = (data.data["getSelecUpdat"][0].day_adv);
         this.vacation = (data.data["getSelecUpdat"][0].day_vac);
+        this.compensed = (data.data["getSelecUpdat"][0].day_com);
+        
         // console.log("advance ", this.advance);
         // console.log("totalSol ", this.totalSol);
-        // console.log("Vacation ", this.vacation);
-        this.checkS = !!this.totalSol || !!this.vacation; // Verifica si totalSol tiene un valor válido
-        this.check = !!this.advance; // Es true si advance o vacation son válidos
+        // console.log("compensed ", this.compensed);
+        if (!!this.advance) {
+          this.check = true;
+          this.checkS = false;
+        } else if (!!this.totalSol || !!this.vacation) {
+          this.checkS = true;
+          this.check = false;
+        } else {
+          this.check = false;
+          this.checkS = false;
+        }
       },
       (error) => {
         this.handler.showError();
@@ -368,14 +384,14 @@ export class AcceptanceDialog  {
   }
   onSelectionChange(event){
         
-       
+      
     let exitsPersonal = this.PersonaleInfo.find(element => element.document == event);
   
     if( exitsPersonal ){
       
         this.formSelec.get('idPersonale').setValue(exitsPersonal.idPersonale);
         // this.formSelec.get('car_user').setValue(exitsPersonal.idArea);
-       
+      
     }        
   }
   getStateInvalid(){
@@ -383,10 +399,27 @@ export class AcceptanceDialog  {
   }
   getObcerInvalid(){
     return this.formSelec.get('obc_apr').invalid && this.formSelec.get('obc_apr').touched;
-   }
-}
+  }
 
+  onStateVacationChange(event: any) {
+    const selectedValue = event.value;
+
+    if (this.checkS && selectedValue === '79/2' && !this.compensed && !this.type_sol) {
+      const initDate = new Date(this.formSelec.get("fec_ini").value);
+      const today = new Date();
   
+      today.setHours(0, 0, 0, 0);
+      initDate.setHours(0, 0, 0, 0);
+  
+      const diferenciaDias = (initDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+  
+      if (diferenciaDias < 10) {
+        this.handler.showError("No se puede aprobar. Las vacaciones deben aprobarse al menos 10 días antes de la fecha de inicio. Por favor comunicarse con Talento Humano");
+        
+        // Revertimos el valor seleccionado
+        this.formSelec.get("state").setValue(null);
+      }
+    }
+  }
 
-
-
+}
