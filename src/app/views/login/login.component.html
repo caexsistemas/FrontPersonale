@@ -15,7 +15,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-user"></i></span>
                 </div>
-                <input type="number" class="form-control" formControlName="fuser" placeholder="Usuario">
+                <input type="number" class="form-control" formControlName="fuser" placeholder="Usuario" autocomplete="off">
               </div>
               <small id="emailHelp" class="form-text text-muted">
                 Tu usuario es tu número de identificación
@@ -28,7 +28,9 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-lock"></i></span>
                 </div>
-                <input [type]="hidePassword ? 'password' : 'text'" class="form-control" formControlName="fpass" placeholder="Contraseña">
+                <input [type]="hidePassword ? 'password' : 'text'" class="form-control" formControlName="fpass" placeholder="Contraseña" autocomplete="new-password" >
+                <input type="password" style="display: none;" name="fake_password">
+
                 <div class="input-group-append">
                   <button class="btn btn-secondary" type="button" (click)="togglePasswordVisibility()">
                     <i class="fa" [ngClass]="hidePassword ? 'fa-eye' : 'fa-eye-slash'"></i>

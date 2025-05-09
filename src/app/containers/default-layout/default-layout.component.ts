@@ -222,6 +222,7 @@ export class DefaultLayoutComponent {
             this.cuser = null;
             localStorage.removeItem("isLogged");
             localStorage.removeItem("currentUser");
+            sessionStorage.clear();
             this._router.navigate(["/"]);
             this.handler.handlerError(response.message);
           }
@@ -231,6 +232,7 @@ export class DefaultLayoutComponent {
           this.cuser = null;
           localStorage.removeItem("isLogged");
           localStorage.removeItem("currentUser");
+          sessionStorage.clear();
           this._router.navigate(["/"]);
           this.handler.handlerError("(E): " + error.message);
         }
@@ -283,6 +285,7 @@ export class DefaultLayoutComponent {
 
     localStorage.removeItem("isLogged");
     localStorage.removeItem("currentUser");
+    sessionStorage.clear();
     this._router.navigate(["/"]);
   }
 

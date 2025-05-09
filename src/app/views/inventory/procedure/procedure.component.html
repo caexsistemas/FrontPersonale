@@ -191,7 +191,6 @@
                             <ng-container matColumnDef="actions">
                                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                                 <td mat-cell *matCellDef="let element">
-                                  <!-- Botón Editar (visible solo sin responsable) -->
                                   <button class="btn btn-ghost-secondary"
                                           *ngIf="permissions.update && element.responsable_tec == null"
                                           (click)="option('update_loan', element.equ_id)" 
@@ -199,21 +198,19 @@
                                     <i class="fa fa-edit fa-lg"></i>
                                   </button>
                               
-                                  <!-- Botón Aceptar (habilitado con responsable pero sin gestión) -->
                                   <button class="btn btn-ghost-success ml-2" 
                                           *ngIf="permissions.update"
                                           (click)="option('accept_equipment', element.equ_id)" 
                                           title="Aceptar equipo"
-                                          [disabled]="!element.responsable_tec || !element.gestion || element.autoriza == 1">
+                                          [disabled]="!element.responsable_tec || !element.gestion || element.autoriza == 1 || element.gestion_tec === '174/6'">
                                     <i class="fa fa-check-circle fa-lg"></i>
                                   </button>
                               
-                                  <!-- Botón Devolver (habilitado solo con gestión aprobada) -->
                                   <button class="btn btn-ghost-danger ml-2" 
                                           *ngIf="permissions.update"
                                           (click)="option('return_loan', element.equ_id)" 
                                           title="Devolver equipo"
-                                          [disabled]="element.autoriza != 1 || element.gestion_tec === '174/2'">
+                                          [disabled]="element.autoriza != 1 || element.gestion_tec === '174/2' || element.gestion_tec === '174/5'">
                                     <i class="fa fa-undo fa-lg"></i>
                                   </button>
                                 </td>
